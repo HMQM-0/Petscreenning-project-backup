@@ -1,0 +1,10 @@
+schema: https://api-foo.nauticalcommerce.com/graphql/
+documents: "./**/*.tsx"
+generates:
+  graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
