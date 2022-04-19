@@ -3,7 +3,7 @@ import { useAlert } from "react-alert";
 import styled from "styled-components";
 
 import { SEO } from "@components/atoms";
-import { BrandingDocument, BrandingQuery } from "graphql/generated";
+import { BrandingDocument, BrandingQuery } from "@generated";
 
 import client from "../apollo-client";
 
