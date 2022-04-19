@@ -1,2 +1,1 @@
-export * from "./PWA";
-export * from "./Social";
+export * from "./SEO";

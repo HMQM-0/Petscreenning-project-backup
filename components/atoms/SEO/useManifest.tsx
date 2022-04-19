@@ -1,29 +1,31 @@
 import { useEffect } from "react";
 
-export default function useManifest(data: unknown) {
+import { BrandingType } from "graphql/generated";
+
+export default function useManifest(branding: BrandingType) {
   useEffect(() => {
-    if (data) {
+    if (branding) {
       const manifestElement = document.getElementById("manifest");
       const manifestString = JSON.stringify({
-        name: "Nautical Commerce",
-        short_name: "Nautical",
+        name: "PWA",
+        short_name: "PWA",
         description: "A description of Nautical Commerce",
         icons: [
           {
-            src: "https://lunaoceans.app/icons/android-chrome-192x192.png",
+            src: branding.icon?.url,
             sizes: "192x192",
             type: "image/png",
             purpose: "any maskable",
           },
           {
-            src: "https://lunaoceans.app/icons/android-chrome-512x512.png",
+            src: branding.icon?.url,
             sizes: "512x512",
             type: "image/png",
           },
         ],
         theme_color: "#f2f2f2",
         background_color: "#121212",
-        start_url: "http://localhost:3000/",
+        start_url: "http://localhost:3000",
         display: "standalone",
         orientation: "portrait",
       });
@@ -33,5 +35,5 @@ export default function useManifest(data: unknown) {
           encodeURIComponent(manifestString)
       );
     }
-  }, [data]);
+  }, [branding]);
 }

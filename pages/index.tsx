@@ -1,19 +1,26 @@
-import type { NextPage } from "next";
+import type { NextPage, InferGetStaticPropsType } from "next";
 import { useAlert } from "react-alert";
 import styled from "styled-components";
-import { PWA, Social } from "@components/atoms";
+
+import { SEO } from "@components/atoms";
+import { BrandingDocument, BrandingQuery } from "graphql/generated";
+
+import client from "../apollo-client";
 
 const StyledP = styled.div`
   background-color: ${({ theme }) => theme.colors.dark};
 `;
 
-const Home: NextPage = () => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  branding,
+}) => {
   const alert = useAlert();
+
+  const title = `${branding.id} | Home`;
 
   return (
     <>
-      <PWA />
-      <Social />
+      <SEO title={title} branding={branding} />
       <div>UOUOUO</div>
       <button
         onClick={() =>
@@ -32,5 +39,23 @@ const Home: NextPage = () => {
     </>
   );
 };
+
+export async function getStaticProps() {
+  const { data } = await client.query<BrandingQuery>({
+    query: BrandingDocument,
+  });
+
+  const fallbackBranding: typeof data.branding = {
+    id: "",
+    jsonContent: {},
+    footerText: "",
+  };
+
+  return {
+    props: {
+      branding: data?.branding ?? fallbackBranding,
+    },
+  };
+}
 
 export default Home;

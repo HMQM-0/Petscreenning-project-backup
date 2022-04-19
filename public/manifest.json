@@ -1,0 +1,11 @@
+{
+  "name": "PWA",
+  "short_name": "PWA",
+  "description": "Nautical commerce",
+  "icons": [],
+  "theme_color": "#f2f2f2",
+  "background_color": "#121212",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -1,7 +1,8 @@
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
-import { defaultTheme, GlobalStyle } from "@styles";
 import { positions, Provider as AlertProvider } from "react-alert";
+
+import { defaultTheme, GlobalStyle } from "@styles";
 import { NotificationTemplate } from "@components/atoms";
 
 const notificationOptions = {
