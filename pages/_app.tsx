@@ -11,15 +11,17 @@ const notificationOptions = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <AlertProvider
-        template={NotificationTemplate as any}
-        {...notificationOptions}
-      >
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </AlertProvider>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={defaultTheme}>
+        <AlertProvider
+          template={NotificationTemplate as any}
+          {...notificationOptions}
+        >
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </AlertProvider>
+      </ThemeProvider>
+    </>
   );
 }
 

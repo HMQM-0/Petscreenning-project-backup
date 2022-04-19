@@ -1,12 +1,10 @@
 import type { NextPage } from "next";
 import { useAlert } from "react-alert";
 import styled from "styled-components";
+import { PWA, Social } from "@components/atoms";
 
 const StyledP = styled.div`
-  background-color: ${({ theme }) => {
-    console.log("theme", theme);
-    return theme.colors.dark;
-  }};
+  background-color: ${({ theme }) => theme.colors.dark};
 `;
 
 const Home: NextPage = () => {
@@ -14,11 +12,14 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <PWA />
+      <Social />
       <div>UOUOUO</div>
       <button
         onClick={() =>
           alert.show(
             {
+              // @ts-ignore
               title: "Added 1x pp",
             },
             { type: "success" }
