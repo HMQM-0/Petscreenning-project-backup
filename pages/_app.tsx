@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 import { positions, Provider as AlertProvider } from "react-alert";
+import { NextQueryParamProvider } from "next-query-params";
 
 import { defaultTheme, GlobalStyle } from "@styles";
 import { NotificationTemplate } from "@components";
@@ -20,8 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           {...notificationOptions}
         >
           <LocaleProvider>
-            <GlobalStyle />
-            <Component {...pageProps} />
+            <NextQueryParamProvider>
+              <GlobalStyle />
+              <Component {...pageProps} />
+            </NextQueryParamProvider>
           </LocaleProvider>
         </AlertProvider>
       </ThemeProvider>
