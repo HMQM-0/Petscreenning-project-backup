@@ -3,7 +3,8 @@ import { ThemeProvider } from "styled-components";
 import { positions, Provider as AlertProvider } from "react-alert";
 
 import { defaultTheme, GlobalStyle } from "@styles";
-import { NotificationTemplate } from "@components/atoms";
+import { NotificationTemplate } from "@components";
+import { LocaleProvider } from "@providers";
 
 const notificationOptions = {
   position: positions.BOTTOM_RIGHT,
@@ -18,8 +19,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           template={NotificationTemplate as any}
           {...notificationOptions}
         >
-          <GlobalStyle />
-          <Component {...pageProps} />
+          <LocaleProvider>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </LocaleProvider>
         </AlertProvider>
       </ThemeProvider>
     </>

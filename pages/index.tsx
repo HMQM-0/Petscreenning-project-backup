@@ -2,8 +2,8 @@ import type { NextPage, InferGetStaticPropsType } from "next";
 import { useAlert } from "react-alert";
 import styled from "styled-components";
 
-import { SEO } from "@components/atoms";
-import { BrandingDocument, BrandingQuery } from "@generated";
+import { SEO } from "@components";
+import { BrandingDocument, BrandingQuery, useBrandingQuery } from "@generated";
 
 import client from "../apollo-client";
 

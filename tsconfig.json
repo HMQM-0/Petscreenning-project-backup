@@ -17,9 +17,12 @@
     "incremental": true,
     "paths": {
       "@styles": ["./styles/index.ts"],
-      "@components/*": ["./components/*"],
+      "@components": ["./components/index.ts"],
       "@apollo-client": ["apollo-client.ts"],
-      "@generated": ["./graphql/generated.ts"]
+      "@generated": ["./graphql/generated.ts"],
+      "@locale-json/*": ["./config/locale/*"],
+      "@locale": ["./components/providers/Locale/index.ts"],
+      "@providers": ["./components/providers/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

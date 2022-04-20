@@ -19,6 +19,7 @@
     "react": "18.0.0",
     "react-alert": "^7.0.3",
     "react-dom": "18.0.0",
+    "react-intl": "^5.25.0",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
