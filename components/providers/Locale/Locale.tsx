@@ -1,50 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IntlProvider } from "react-intl";
-
-import locale_AR from "@locale-json/ar.json";
-import locale_AZ from "@locale-json/az.json";
-import locale_BG from "@locale-json/bg.json";
-import locale_BN from "@locale-json/bn.json";
-import locale_CA from "@locale-json/ca.json";
-import locale_CS from "@locale-json/cs.json";
-import locale_DA from "@locale-json/da.json";
-import locale_DE from "@locale-json/de.json";
-import locale_EL from "@locale-json/el.json";
-import locale_EN from "@locale-json/en.json";
-import locale_ES from "@locale-json/es.json";
-import locale_ES_CO from "@locale-json/es_CO.json";
-import locale_ET from "@locale-json/et.json";
-import locale_FA from "@locale-json/fa.json";
-import locale_FI from "@locale-json/fi.json";
-import locale_FR from "@locale-json/fr.json";
-import locale_HI from "@locale-json/hi.json";
-import locale_HU from "@locale-json/hu.json";
-import locale_HY from "@locale-json/hy.json";
-import locale_ID from "@locale-json/id.json";
-import locale_IS from "@locale-json/is.json";
-import locale_IT from "@locale-json/it.json";
-import locale_JA from "@locale-json/ja.json";
-import locale_KO from "@locale-json/ko.json";
-import locale_LT from "@locale-json/lt.json";
-import locale_MN from "@locale-json/mn.json";
-import locale_NB from "@locale-json/nb.json";
-import locale_NL from "@locale-json/nl.json";
-import locale_PL from "@locale-json/pl.json";
-import locale_PT from "@locale-json/pt.json";
-import locale_PT_BR from "@locale-json/pt_BR.json";
-import locale_RO from "@locale-json/ro.json";
-import locale_RU from "@locale-json/ru.json";
-import locale_SK from "@locale-json/sk.json";
-import locale_SL from "@locale-json/sl.json";
-import locale_SQ from "@locale-json/sq.json";
-import locale_SR from "@locale-json/sr.json";
-import locale_SV from "@locale-json/sv.json";
-import locale_TH from "@locale-json/th.json";
-import locale_TR from "@locale-json/tr.json";
-import locale_UK from "@locale-json/uk.json";
-import locale_VI from "@locale-json/vi.json";
-import locale_ZH_HANS from "@locale-json/zh-Hans.json";
-import locale_ZH_HANT from "@locale-json/zh-Hant.json";
 
 export enum Locale {
   EN = "en",
@@ -98,53 +53,6 @@ interface StructuredMessage {
   string: string;
 }
 type LocaleMessages = Record<string, StructuredMessage>;
-const localeData: Record<Locale, LocaleMessages> = {
-  // Default language
-  [Locale.EN]: locale_EN,
-  [Locale.PL]: locale_PL,
-  [Locale.AR]: locale_AR,
-  [Locale.AZ]: locale_AZ,
-  [Locale.BG]: locale_BG,
-  [Locale.BN]: locale_BN,
-  [Locale.CA]: locale_CA,
-  [Locale.CS]: locale_CS,
-  [Locale.DA]: locale_DA,
-  [Locale.DE]: locale_DE,
-  [Locale.EL]: locale_EL,
-  [Locale.ES]: locale_ES,
-  [Locale.ES_CO]: locale_ES_CO,
-  [Locale.ET]: locale_ET,
-  [Locale.FA]: locale_FA,
-  [Locale.FI]: locale_FI,
-  [Locale.FR]: locale_FR,
-  [Locale.HI]: locale_HI,
-  [Locale.HU]: locale_HU,
-  [Locale.HY]: locale_HY,
-  [Locale.ID]: locale_ID,
-  [Locale.IS]: locale_IS,
-  [Locale.IT]: locale_IT,
-  [Locale.JA]: locale_JA,
-  [Locale.KO]: locale_KO,
-  [Locale.LT]: locale_LT,
-  [Locale.MN]: locale_MN,
-  [Locale.NB]: locale_NB,
-  [Locale.NL]: locale_NL,
-  [Locale.PT]: locale_PT,
-  [Locale.PT_BR]: locale_PT_BR,
-  [Locale.RO]: locale_RO,
-  [Locale.RU]: locale_RU,
-  [Locale.SK]: locale_SK,
-  [Locale.SL]: locale_SL,
-  [Locale.SQ]: locale_SQ,
-  [Locale.SR]: locale_SR,
-  [Locale.SV]: locale_SV,
-  [Locale.TH]: locale_TH,
-  [Locale.TR]: locale_TR,
-  [Locale.UK]: locale_UK,
-  [Locale.VI]: locale_VI,
-  [Locale.ZH_HANS]: locale_ZH_HANS,
-  [Locale.ZH_HANT]: locale_ZH_HANT,
-};
 
 export const localeNames: Record<Locale, string> = {
   [Locale.AR]: "العربيّة",
@@ -196,7 +104,15 @@ export const localeNames: Record<Locale, string> = {
 const dotSeparator = "_dot_";
 const sepRegExp = new RegExp(dotSeparator, "g");
 
-function getKeyValueJson(messages: LocaleMessages): Record<string, string> {
+async function getKeyValueJson(
+  locale: Locale
+): Promise<Record<string, string>> {
+  let messages: LocaleMessages = {};
+  try {
+    messages = await import(`../../../config/locale/${locale}.json`);
+  } catch {
+    console.error(`Unable to find locale data for ${locale}.`);
+  }
   const keyValueMessages: Record<string, string> = {};
   return Object.entries(messages).reduce((acc, [id, msg]) => {
     acc[id.replace(sepRegExp, ".")] = msg.string;
@@ -211,20 +127,26 @@ interface LocaleProviderProps {
   changeLocale?(lang: Locale): void;
 }
 
-const LocaleProvider: React.FC<LocaleProviderProps> = (props) => {
-  // For now locale can be set here
-  // @ts-ignore
-  const { changeLocale, children } = props;
+const LocaleProvider: React.FC<LocaleProviderProps> = ({
+  children,
+  changeLocale,
+}) => {
   const [locale] = React.useState<Locale>(Locale.EN);
+  const [messages, setMessages] = React.useState({});
 
-  // console.info(locale);
-  // console.info(localeData);
+  useEffect(() => {
+    const getMessages = async () => {
+      const newMessages = await getKeyValueJson(locale);
+      setMessages(newMessages);
+    };
+    getMessages();
+  }, [locale]);
 
   return (
     <IntlProvider
       defaultLocale={defaultLocale}
       locale={locale}
-      messages={getKeyValueJson(localeData[locale])}
+      messages={messages}
       key={locale}
     >
       {children}
@@ -233,3 +155,4 @@ const LocaleProvider: React.FC<LocaleProviderProps> = (props) => {
 };
 
 export { LocaleProvider };
+export default LocaleProvider;

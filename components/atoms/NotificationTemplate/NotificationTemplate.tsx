@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { IProps } from "./types";
 
-export const NotificationTemplate: React.FC<IProps> = ({
+const NotificationTemplate: React.FC<IProps> = ({
   message,
   options,
   close,
@@ -29,3 +29,5 @@ export const NotificationTemplate: React.FC<IProps> = ({
     </>
   );
 };
+
+export default NotificationTemplate;
