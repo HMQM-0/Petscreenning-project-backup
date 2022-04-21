@@ -3,8 +3,10 @@ import { ThemeProvider } from "styled-components";
 import { positions, Provider as AlertProvider } from "react-alert";
 import { NextQueryParamProvider } from "next-query-params";
 import dynamic from "next/dynamic";
+import { ApolloProvider } from "@apollo/client";
 
 import { defaultTheme, GlobalStyle } from "@styles";
+import client from "@apollo-client";
 
 const NotificationTemplate = dynamic(
   () => import("components/atoms/NotificationTemplate/NotificationTemplate")
@@ -29,8 +31,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <LocaleProvider>
             <NextQueryParamProvider>
-              <GlobalStyle />
-              <Component {...pageProps} />
+              <ApolloProvider client={client}>
+                <GlobalStyle />
+                <Component {...pageProps} />
+              </ApolloProvider>
             </NextQueryParamProvider>
           </LocaleProvider>
         </AlertProvider>

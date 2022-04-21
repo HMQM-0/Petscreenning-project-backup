@@ -1,7 +1,6 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
-import { userFragment } from "../fragments/auth";
-import { accountErrorFragment } from "../fragments/errors";
+import { userFragment, accountErrorFragment } from "@fragments";
 
 export const changeUserPassword = gql`
   ${accountErrorFragment}

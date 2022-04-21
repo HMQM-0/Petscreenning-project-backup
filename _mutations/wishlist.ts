@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
-import { wishlistItemFragment } from "../fragments/wishlist";
+import { wishlistItemFragment } from "@fragments";
 
 export const addWishlistProduct = gql`
   ${wishlistItemFragment}
