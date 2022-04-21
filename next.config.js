@@ -14,4 +14,30 @@ module.exports = withPWA({
   compiler: {
     styledComponents: true,
   },
+  webpack: (config, options) => {
+    // if (
+    //   process.env.NODE_ENV === "production" &&
+    //   config.optimization.splitChunks
+    // ) {
+    //   config.optimization.splitChunks.cacheGroups.shared.enforce = true;
+    //   config.optimization.splitChunks.cacheGroups.commons.enforce = true;
+    // }
+
+    if (process.env.ANALYZE === "true") {
+      try {
+        const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+        config.plugins.push(
+          new BundleAnalyzerPlugin({
+            analyzerMode: "static",
+            reportFilename: options.isServer
+              ? "../analyze/server.html"
+              : "./analyze/client.html",
+          })
+        );
+      } catch (e) {
+        console.log("bundling error", e);
+      }
+    }
+    return config;
+  },
 });
