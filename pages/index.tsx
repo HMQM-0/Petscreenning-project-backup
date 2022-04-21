@@ -1,28 +1,17 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
 import { useAlert } from "react-alert";
-import styled from "styled-components";
 import dynamic from "next/dynamic";
 
 import { SEO } from "@components";
-import {
-  BrandingDocument,
-  BrandingQuery,
-  useBrandingQuery,
-  useProductListQuery,
-} from "@generated";
+import { BrandingDocument, BrandingQuery } from "@generated";
 
 const Test = dynamic(() => import("components/atoms/Test"), { ssr: false });
 
 import client from "../apollo-client";
 
-const StyledP = styled.div`
-  background-color: ${({ theme }) => theme.colors.dark};
-`;
-
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   branding,
 }) => {
-  const { data } = useProductListQuery({ variables: { first: 20 } });
   const alert = useAlert();
 
   const title = `${branding.id} | Home`;
@@ -44,11 +33,8 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       >
         CLICK
       </button>
-      <StyledP>Hello World</StyledP>
+
       <Test />
-      {data?.products?.edges.map((product) => (
-        <div key={product.node.id}>{product.node.name}</div>
-      ))}
     </>
   );
 };
