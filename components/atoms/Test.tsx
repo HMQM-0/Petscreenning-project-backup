@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { StringParam, useQueryParams } from "next-query-params";
 
 import { useProductListQuery } from "@generated";
+import { WishlistContext } from "components/providers/Wishlist/context";
 
 const Test: FunctionComponent = () => {
   const [q, set] = useQueryParams({
@@ -9,6 +10,9 @@ const Test: FunctionComponent = () => {
     token: StringParam,
   });
   const { data } = useProductListQuery({ variables: { first: 20 } });
+  const { wishlist } = React.useContext(WishlistContext);
+
+  console.log("wishlist", wishlist);
   return (
     <>
       email: {q.email}
@@ -19,11 +23,11 @@ const Test: FunctionComponent = () => {
       {data?.products?.edges.map(({ node }) => {
         const src = node.thumbnail2x?.url;
         return (
-          <>
-            <div key={node.id}>{node.name}</div>
+          <React.Fragment key={node.id}>
+            <div>{node.name}</div>
             {/* {src && <Image src={src} alt={node.name} layout="fill" />} */}
             <img src={src} alt="" />
-          </>
+          </React.Fragment>
         );
       })}
     </>

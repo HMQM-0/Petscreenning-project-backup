@@ -12,6 +12,9 @@ const NotificationTemplate = dynamic(
 const NauticalProvider = dynamic(
   () => import("components/providers/Nautical/NauticalProvider")
 );
+const WishlistProvider = dynamic(
+  () => import("components/providers/Wishlist/WishlistProvider")
+);
 const LocaleProvider = dynamic(
   () => import("components/providers/Locale/Locale"),
   { ssr: false }
@@ -33,8 +36,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           <LocaleProvider>
             <NextQueryParamProvider>
               <NauticalProvider>
-                <GlobalStyle />
-                <Component {...pageProps} />
+                <WishlistProvider>
+                  <GlobalStyle />
+                  <Component {...pageProps} />
+                </WishlistProvider>
               </NauticalProvider>
             </NextQueryParamProvider>
           </LocaleProvider>
