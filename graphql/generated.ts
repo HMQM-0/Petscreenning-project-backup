@@ -19902,6 +19902,13 @@ export type GetCollectionsQueryVariables = Exact<{
 
 export type GetCollectionsQuery = { __typename?: 'Query', collections?: { __typename?: 'CollectionCountableConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean }, edges: Array<{ __typename?: 'CollectionCountableEdge', node: { __typename?: 'Collection', id: string, name: string } }> } | null };
 
+export type ThemeFontQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type ThemeFontQuery = { __typename?: 'Query', designerdata?: { __typename?: 'DesignerDataType', name: string, jsonContent: any } | null };
+
 export type UserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -23339,6 +23346,42 @@ export function useGetCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetCollectionsQueryHookResult = ReturnType<typeof useGetCollectionsQuery>;
 export type GetCollectionsLazyQueryHookResult = ReturnType<typeof useGetCollectionsLazyQuery>;
 export type GetCollectionsQueryResult = Apollo.QueryResult<GetCollectionsQuery, GetCollectionsQueryVariables>;
+export const ThemeFontDocument = gql`
+    query ThemeFont($name: String!) {
+  designerdata(name: $name) {
+    name
+    jsonContent
+  }
+}
+    `;
+
+/**
+ * __useThemeFontQuery__
+ *
+ * To run a query within a React component, call `useThemeFontQuery` and pass it any options that fit your needs.
+ * When your component renders, `useThemeFontQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useThemeFontQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useThemeFontQuery(baseOptions: Apollo.QueryHookOptions<ThemeFontQuery, ThemeFontQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ThemeFontQuery, ThemeFontQueryVariables>(ThemeFontDocument, options);
+      }
+export function useThemeFontLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ThemeFontQuery, ThemeFontQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ThemeFontQuery, ThemeFontQueryVariables>(ThemeFontDocument, options);
+        }
+export type ThemeFontQueryHookResult = ReturnType<typeof useThemeFontQuery>;
+export type ThemeFontLazyQueryHookResult = ReturnType<typeof useThemeFontLazyQuery>;
+export type ThemeFontQueryResult = Apollo.QueryResult<ThemeFontQuery, ThemeFontQueryVariables>;
 export const UserDetailsDocument = gql`
     query UserDetails {
   me {
