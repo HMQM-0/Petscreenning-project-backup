@@ -1,6 +1,5 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
 import { useAlert } from "react-alert";
-import dynamic from "next/dynamic";
 import { useEffect } from "react";
 
 import { BrandingDocument, BrandingQuery } from "@generated";
@@ -8,8 +7,6 @@ import { Layout } from "@layout";
 import { useSetSEO } from "@providers";
 
 import client from "../apollo-client";
-
-const Test = dynamic(() => import("components/atoms/Test"), { ssr: false });
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   branding,
@@ -37,8 +34,6 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       >
         CLICK
       </button>
-
-      <Test />
     </Layout>
   );
 };

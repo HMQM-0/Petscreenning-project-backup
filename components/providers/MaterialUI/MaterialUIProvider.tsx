@@ -1,33 +1,25 @@
-import React, { FunctionComponent } from "react";
-import {
-  Button,
-  createTheme,
-  CircularProgress,
-  ThemeProvider,
-  ThemeOptions,
-  useScrollTrigger,
-  Skeleton,
-} from "@mui/material";
+import React from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { BrandingType, useBrandingQuery } from "@generated";
+import { BrandingType } from "@generated";
 
 type MaterialUIProviderProps = {
   children: React.ReactNode;
-  branding: BrandingType;
+  branding?: BrandingType;
 };
 
 const MaterialUIProvider = ({
   children,
   branding,
 }: MaterialUIProviderProps) => {
-  const jsonContent = JSON.parse(branding?.jsonContent);
+  const jsonContent = JSON.parse(branding?.jsonContent ?? "{}");
   const brandingActive = jsonContent.active;
   const primaryColor = brandingActive ? jsonContent.primaryColor : "#003563";
   const secondaryColor = brandingActive
     ? jsonContent.secondaryColor
     : "#B00631";
 
-  const theme: ThemeOptions = {
+  const theme = {
     palette: {
       action: { active: "#703412" },
       primary: { main: primaryColor },

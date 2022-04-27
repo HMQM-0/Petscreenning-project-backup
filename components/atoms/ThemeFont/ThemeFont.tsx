@@ -21,7 +21,7 @@ export const ThemeFont: React.FC<IThemeFontProps> = ({ fontName }) => {
 
   function getNameFromQuery(value: typeof data): string {
     const json = value?.designerdata?.jsonContent ?? "";
-    return JSON.parse(json).name;
+    return json ? JSON.parse(json).name : "";
   }
 
   const fontNameFromQuery = getNameFromQuery(data);
