@@ -12,7 +12,6 @@ const Test: FunctionComponent = () => {
   const { data } = useProductListQuery({ variables: { first: 20 } });
   const { wishlist } = React.useContext(WishlistContext);
 
-  console.log("wishlist", wishlist);
   return (
     <>
       email: {q.email}

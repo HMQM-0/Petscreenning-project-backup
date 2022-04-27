@@ -1,24 +1,28 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
 import { useAlert } from "react-alert";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 
-import { SEO } from "@components";
 import { BrandingDocument, BrandingQuery } from "@generated";
-
-const Test = dynamic(() => import("components/atoms/Test"), { ssr: false });
+import { Layout } from "@layout";
+import { useSetSEO } from "@providers";
 
 import client from "../apollo-client";
+
+const Test = dynamic(() => import("components/atoms/Test"), { ssr: false });
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   branding,
 }) => {
   const alert = useAlert();
+  const setSeo = useSetSEO();
 
-  const title = `${branding.id} | Home`;
+  useEffect(() => {
+    setSeo((seo) => ({ ...seo, title: "Home" }));
+  }, [setSeo]);
 
   return (
-    <>
-      <SEO title={title} branding={branding} />
+    <Layout branding={branding}>
       <div>UOUOUO</div>
       <button
         onClick={() =>
@@ -35,7 +39,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </button>
 
       <Test />
-    </>
+    </Layout>
   );
 };
 

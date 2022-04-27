@@ -5,6 +5,7 @@ import { NextQueryParamProvider } from "next-query-params";
 import dynamic from "next/dynamic";
 
 import { defaultTheme, GlobalStyle } from "@styles";
+import { SEOProvider } from "@providers";
 
 const NotificationTemplate = dynamic(
   () => import("components/atoms/NotificationTemplate/NotificationTemplate")
@@ -37,8 +38,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             <NextQueryParamProvider>
               <NauticalProvider>
                 <WishlistProvider>
-                  <GlobalStyle />
-                  <Component {...pageProps} />
+                  <SEOProvider>
+                    <GlobalStyle />
+                    <Component {...pageProps} />
+                  </SEOProvider>
                 </WishlistProvider>
               </NauticalProvider>
             </NextQueryParamProvider>

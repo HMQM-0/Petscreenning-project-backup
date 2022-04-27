@@ -26,7 +26,8 @@
       "@utils/*": ["./utils/*"],
       "@fragments": ["./_fragments/index.ts"],
       "@queries": ["./_queries/index.ts"],
-      "@mutations": ["./_mutations/index.ts"]
+      "@mutations": ["./_mutations/index.ts"],
+      "@layout": ["./components/layout"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
