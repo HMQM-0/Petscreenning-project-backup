@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import clsx from "clsx";
 import { filter, find } from "lodash";

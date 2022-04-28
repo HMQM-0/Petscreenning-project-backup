@@ -12,7 +12,7 @@ import fbIcon from "deprecated/images/fb-icon.svg";
 import igIcon from "deprecated/images/ig-icon.svg";
 import ttIcon from "deprecated/images/tt-icon.svg";
 import ytIcon from "deprecated/images/yt-icon.svg";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { ReactSVG } from "react-svg";
 import { makeStyles } from "@mui/styles";
 import { maybe } from "@utils/misc";

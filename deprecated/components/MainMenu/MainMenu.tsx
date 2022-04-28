@@ -37,7 +37,7 @@ import {
   mediumScreen,
   smallScreen,
 } from "../../globalStyles/scss/variables.scss";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 // import { MenuSVG } from "./MenuSvg";
 

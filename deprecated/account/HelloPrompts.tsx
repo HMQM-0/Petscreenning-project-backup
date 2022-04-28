@@ -1,4 +1,4 @@
-import "./scss/helloPrompts.scss";
+import "./scss/index.module.scss";
 
 import * as React from "react";
 

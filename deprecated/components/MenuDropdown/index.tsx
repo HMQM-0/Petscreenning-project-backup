@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import * as React from "react";
 import { Box } from "@mui/material";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 class MenuDropdown extends React.Component<
   {

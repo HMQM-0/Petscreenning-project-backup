@@ -1,6 +1,6 @@
 import React from "react";
 import { useIntl } from "react-intl";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import { AddressFormModal, AddressGrid } from "@components/organisms";
 import { checkoutMessages, commonMessages } from "deprecated/intl";

@@ -1,25 +1,27 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 // import { useCart } from "@nautical/sdk";
-import { useAuth, useCart } from "@nautical/react";
 import { isEmpty } from "lodash";
 import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 // import { RouteComponentProps, useLocation } from "react-router";
 import { useLocation, useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-import { Loader } from "@components/atoms";
 import { Box } from "@mui/material";
+
+import { Loader } from "@components/atoms";
+import { useAuth, useCart } from "@nautical/react";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import {
-  MetaWrapper,
-  NotFound,
-  OfflinePlaceholder,
-  OverlayContext,
-  OverlayTheme,
-  OverlayType,
-} from "../../components";
-import NetworkStatus from "../../components/NetworkStatus";
-import { getGraphqlIdFromDBId, isMicrosite, maybe } from "../../core/utils";
+  useProductVariantsAttributes,
+  useProductVariantsAttributesValuesSelection,
+} from "@hooks";
+import { IProductVariantsAttributesSelectedValues } from "@types";
+import {
+  canAddToCart,
+  getAvailableQuantity,
+} from "@components/organisms/AddToCartSection/stockHelpers";
+
 import {
   ProductDetails_product,
   ProductDetails_product_variants,
@@ -30,21 +32,22 @@ import {
   TypedProductDetailsQuery,
 } from "./queries";
 import { IProps } from "./types";
+import { BuilderProductDetails_product } from "./gqlTypes/BuilderProductDetails";
+
 import { TypedMicrositeQuery } from "../Microsites/queries";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
 import StorePage from "../Builder/StorePage";
+import { getGraphqlIdFromDBId, isMicrosite, maybe } from "../../core/utils";
+import NetworkStatus from "../../components/NetworkStatus";
 import {
-  useProductVariantsAttributes,
-  useProductVariantsAttributesValuesSelection,
-} from "@hooks";
-import { IProductVariantsAttributesSelectedValues } from "@types";
-import {
-  canAddToCart,
-  getAvailableQuantity,
-} from "@components/organisms/AddToCartSection/stockHelpers";
-import { BuilderProductDetails_product } from "./gqlTypes/BuilderProductDetails";
+  MetaWrapper,
+  NotFound,
+  OfflinePlaceholder,
+  OverlayContext,
+  OverlayTheme,
+  OverlayType,
+} from "../../components";
 
 const canDisplay = (
   product: ProductDetails_product | BuilderProductDetails_product

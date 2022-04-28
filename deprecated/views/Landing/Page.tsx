@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 // import clsx from "clsx";
 import * as React from "react";
@@ -24,13 +24,24 @@ import {
   Typography,
 } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import { ProductsFeatured } from "../../components";
-import {
-  // generateCategoryUrl,
-  generateProductsUrl,
-  maybe,
-} from "../../core/utils";
 
+// import { StringParam, useQueryParam } from 'use-query-params';
+// import noPhotoImg from "../../images/no-photo.svg";
+import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import SearchIcon from "@mui/icons-material/Search";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+
+import CategoryBlock from "deprecated/_nautical/components/CategoryBlock";
+import logoImg from "deprecated/images/cooee-logo.svg";
+import DrawerCart from "deprecated/components/MainMenu/DrawerCart";
+import DrawerLogin from "deprecated/components/MainMenu/DrawerLogin";
+import DrawerMenu from "deprecated/components/MainMenu/DrawerMenu";
+
+import { homeCollectionData } from "./functions/homeCollectionData";
 import {
   ProductsList_categories,
   // ProductsList_collections,
@@ -39,22 +50,12 @@ import {
 } from "./gqlTypes/ProductsList";
 
 import { structuredData } from "../../core/SEO/Homepage/structuredData";
-
-// import { StringParam, useQueryParam } from 'use-query-params';
-// import noPhotoImg from "../../images/no-photo.svg";
-import { homeCollectionData } from "./functions/homeCollectionData";
-import CategoryBlock from "deprecated/_nautical/components/CategoryBlock";
-import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import SearchIcon from "@mui/icons-material/Search";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import logoImg from "deprecated/images/cooee-logo.svg";
-import DrawerCart from "deprecated/components/MainMenu/DrawerCart";
-import DrawerLogin from "deprecated/components/MainMenu/DrawerLogin";
-import DrawerMenu from "deprecated/components/MainMenu/DrawerMenu";
+import {
+  // generateCategoryUrl,
+  generateProductsUrl,
+  maybe,
+} from "../../core/utils";
+import { ProductsFeatured } from "../../components";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -1,13 +1,16 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import * as React from "react";
 import { Box } from "@mui/material";
-import { MetaWrapper } from "../../components";
+import { useQuery } from "@apollo/client";
+
+import { ShopContext } from "deprecated/components/ShopProvider/context";
+
 import Page from "./Page";
 import { builderHomePageQuery, TypedHomePageQuery } from "./queries";
+
+import { MetaWrapper } from "../../components";
 import StorePage from "../Builder/StorePage";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
-import { useQuery } from "@apollo/client";
 
 const View: React.FC = () => {
   const { builderKey } = React.useContext(ShopContext);

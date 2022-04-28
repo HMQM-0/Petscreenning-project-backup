@@ -7,7 +7,7 @@ import { generateProductUrl, maybe } from "../../core/utils";
 import { ShopContext } from "../ShopProvider/context";
 import { TypedFeaturedProductsQuery } from "./queries";
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { FormattedMessage } from "react-intl";
 
 interface ProductsFeaturedProps {

@@ -1,4 +1,4 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import isEqual from "lodash/isEqual";
 import * as React from "react";
@@ -294,7 +294,7 @@ export default ProductListItem;
 
 
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import isEqual from "lodash/isEqual";
 import * as React from "react";

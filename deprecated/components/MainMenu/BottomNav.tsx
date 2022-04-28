@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 // import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 interface IBottomNavProps {}
 

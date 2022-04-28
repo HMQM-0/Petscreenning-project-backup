@@ -26,7 +26,7 @@ import {
 } from "../../app/routes";
 import { Breadcrumbs, Loader } from "../../components";
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import {
   generateMicrositeUrl,
   getMicrositeId,

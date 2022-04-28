@@ -1,6 +1,6 @@
 // import { ContactIcon, ContactIconShape } from "deprecated/_nautical/blocks";
 import * as React from "react";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 // import { SocialMediaIcon } from "..";
 import { SOCIAL_MEDIA } from "../../core/config";

@@ -1,21 +1,23 @@
-import "../Category/scss/index.scss";
+import "../Category/scss/index.module.scss";
 
 import * as React from "react";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
+
 import { commonMessages } from "deprecated/intl";
 import { IFilterAttributes, IFilters } from "@types";
+import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
+import ProductListBanner from "deprecated/_nautical/components/ProductListBanner/ProductListBanner";
+
+import { Collection_collection } from "./gqlTypes/Collection";
+import { CollectionProducts_collection_products } from "./gqlTypes/CollectionProducts";
+
 import { ProductListHeader } from "../../@next/components/molecules";
 import { ProductList } from "../../@next/components/organisms";
 import { Breadcrumbs, ProductsFeatured } from "../../components";
 import { getDBIdFromGraphqlId, maybe } from "../../core/utils";
-
-import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
 import { Menu } from "../Products/gqlTypes/Products";
-import { Collection_collection } from "./gqlTypes/Collection";
-import { CollectionProducts_collection_products } from "./gqlTypes/CollectionProducts";
-import ProductListBanner from "deprecated/_nautical/components/ProductListBanner/ProductListBanner";
 
 interface SortItem {
   label: string;

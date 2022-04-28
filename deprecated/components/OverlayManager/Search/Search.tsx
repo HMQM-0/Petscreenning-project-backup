@@ -1,4 +1,4 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import clsx from "clsx";
 import { stringify } from "query-string";

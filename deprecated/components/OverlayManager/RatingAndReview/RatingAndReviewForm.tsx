@@ -1,4 +1,4 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import * as React from "react";
 import { AlertManager, useAlert } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";

@@ -1,19 +1,18 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import * as React from "react";
 import { Box } from "@mui/material";
+
 import { IFilterAttributes, IFilters } from "@types";
+import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
+
+import { Menu, Products_products } from "./gqlTypes/Products";
 
 import { Breadcrumbs } from "../../components";
-
 import { ProductListHeader } from "../../@next/components/molecules";
 import { ProductList } from "../../@next/components/organisms";
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
-
 import { maybe } from "../../core/utils";
-
-import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
-import { Menu, Products_products } from "./gqlTypes/Products";
 
 interface SortItem {
   label: string;

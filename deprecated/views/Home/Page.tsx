@@ -1,16 +1,12 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 // import clsx from "clsx";
 import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
-import { ProductsFeatured } from "../../components";
-import {
-  // generateCategoryUrl,
-  generateProductsUrl,
-  maybe,
-} from "../../core/utils";
+
+import CategoryBlock from "deprecated/_nautical/components/CategoryBlock";
 
 import {
   ProductsList_categories,
@@ -18,13 +14,18 @@ import {
   ProductsList_shop,
   ProductsList_shop_homepageCollection_backgroundImage,
 } from "./gqlTypes/ProductsList";
+import { homeCollectionData } from "./functions/homeCollectionData";
 
+import { ProductsFeatured } from "../../components";
+import {
+  // generateCategoryUrl,
+  generateProductsUrl,
+  maybe,
+} from "../../core/utils";
 import { structuredData } from "../../core/SEO/Homepage/structuredData";
 
 // import { StringParam, useQueryParam } from 'use-query-params';
 // import noPhotoImg from "../../images/no-photo.svg";
-import { homeCollectionData } from "./functions/homeCollectionData";
-import CategoryBlock from "deprecated/_nautical/components/CategoryBlock";
 
 const Page: React.FC<{
   loading: boolean;

@@ -13,7 +13,7 @@ import { MainMenu_shop_navigation_main_items } from "./gqlTypes/MainMenu";
 import { MenuStyle } from "./gqlTypes/MenuStyle";
 import NavItem from "./NavItem";
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 class NavDropdown extends React.PureComponent<
   MainMenu_shop_navigation_main_items & {

@@ -9,7 +9,7 @@ import { baseUrl } from "../../app/routes";
 import { getDBIdFromGraphqlId, slugify } from "../../core/utils";
 import { Category_category } from "../../views/Category/gqlTypes/Category";
 import { smallScreen } from "../../globalStyles/scss/variables.scss";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 export interface Breadcrumb {
   value: string;

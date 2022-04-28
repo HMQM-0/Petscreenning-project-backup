@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { getDBIdFromGraphqlId, slugify } from "../../core/utils";
 import { Category_category } from "../../views/Category/gqlTypes/Category";
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 export interface Breadcrumb {
   value: string;

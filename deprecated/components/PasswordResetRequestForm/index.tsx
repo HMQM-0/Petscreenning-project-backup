@@ -1,4 +1,4 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";

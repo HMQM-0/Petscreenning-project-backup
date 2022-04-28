@@ -1,4 +1,4 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import * as React from "react";
 import { Box } from "@mui/material";

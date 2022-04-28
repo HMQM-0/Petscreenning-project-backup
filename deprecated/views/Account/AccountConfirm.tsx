@@ -5,11 +5,11 @@ import { Box } from "@mui/material";
 import { StringParam, useQueryParams } from "use-query-params";
 
 // import { RouteComponentProps } from "react-router";
-import { BASE_URL } from "../../core/config";
-
 import { TypedAccountConfirmMutation } from "./queries";
 
-import "./scss/index.scss";
+import { BASE_URL } from "../../core/config";
+
+import "./scss/index.module.scss";
 
 // const AccountConfirm: React.FC<RouteComponentProps> = ({ history }) => {
 const AccountConfirm: React.FC<any> = () => {

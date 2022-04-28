@@ -2,7 +2,7 @@ import nauticalProp from "deprecated/images/nautical-prop.svg";
 import * as React from "react";
 import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 const Loader: React.FC<{ full?: boolean }> = ({ full }) => {
   const getHeight = () => {

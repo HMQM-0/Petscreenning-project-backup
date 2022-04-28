@@ -1,26 +1,26 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import * as React from "react";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
+
 import { commonMessages } from "deprecated/intl";
 import { IFilterAttributes, IFilters } from "@types";
+import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
+
+import { Category_category } from "./gqlTypes/Category";
+import { CategoryProducts_products } from "./gqlTypes/CategoryProducts";
+
 import {
   Breadcrumbs,
   extractBreadcrumbs,
   ProductsFeatured,
 } from "../../components";
-
 import { ProductListHeader } from "../../@next/components/molecules";
 import { ProductList } from "../../@next/components/organisms";
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
-
 import { maybe } from "../../core/utils";
-
-import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
 import { Menu } from "../Products/gqlTypes/Products";
-import { Category_category } from "./gqlTypes/Category";
-import { CategoryProducts_products } from "./gqlTypes/CategoryProducts";
 
 interface SortItem {
   label: string;

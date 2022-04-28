@@ -1,7 +1,7 @@
 import NukaCarousel, { CarouselProps } from "nuka-carousel";
 import * as React from "react";
 import Media from "react-media";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { IconButton, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";

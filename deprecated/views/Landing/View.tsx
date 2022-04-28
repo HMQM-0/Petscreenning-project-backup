@@ -1,10 +1,12 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import * as React from "react";
 import { Box } from "@mui/material";
-import { MetaWrapper } from "../../components";
+
 import Page from "./Page";
 import { TypedHomePageQuery } from "./queries";
+
+import { MetaWrapper } from "../../components";
 // import StorePage from "../Builder/StorePage";
 
 const View: React.FC = () => (

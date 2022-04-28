@@ -1,4 +1,4 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import clsx from "clsx";
 import * as React from "react";
