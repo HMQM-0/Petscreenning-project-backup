@@ -7,7 +7,7 @@ import {
   persistCache as apolloPersistCache,
   PersistentStorage,
 } from "apollo3-cache-persist";
-import { PersistedData } from "apollo3-cache-persist/lib/types";
+import { PersistedData } from "apollo3-cache-persist/types";
 
 interface NauticalCacheConfig {
   /**
