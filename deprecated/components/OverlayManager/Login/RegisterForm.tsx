@@ -1,29 +1,32 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 import * as React from "react";
-import { Box } from "@mui/material";
-import { AlertManager, useAlert } from "react-alert";
+import { Box, TextField } from "@mui/material";
+import { useAlert, AlertContainer } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
+
 import { commonMessages } from "@temp/intl";
-import { accountConfirmUrl } from "../../../app/routes";
-import { TextField } from "@mui/material";
-import { Button, Form } from "../..";
-import { maybe } from "../../../core/utils";
+import Button from "deprecated/components/Button";
+import Form from "deprecated/components/Form";
+
 import { RegisterAccount } from "./gqlTypes/RegisterAccount";
 import { TypedAccountRegisterMutation } from "./queries";
+
+import { accountConfirmUrl } from "../../../app/routes";
 
 const showSuccessNotification = (
   data: RegisterAccount,
   hide: () => void,
-  alert: AlertManager,
+  alert: AlertContainer,
   intl: IntlShape
 ) => {
-  const successful = maybe(() => !data.accountRegister.errors.length);
+  const successful = !data.accountRegister?.errors.length;
 
   if (successful) {
     hide();
     alert.show(
       {
+        // @ts-ignore
         title: data.accountRegister.requiresConfirmation
           ? intl.formatMessage({
               defaultMessage:
@@ -52,7 +55,7 @@ const RegisterForm: React.FC<{ hide: () => void }> = ({ hide }) => {
       {(registerCustomer, { loading, data }) => {
         return (
           <Form
-            errors={maybe(() => data.accountRegister.errors, [])}
+            errors={data?.accountRegister?.errors ?? []}
             onSubmit={(event, { email, password, companyName }) => {
               event.preventDefault();
               const redirectUrl = `${window.location.origin}${accountConfirmUrl}`;
