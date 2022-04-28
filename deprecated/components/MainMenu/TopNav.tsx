@@ -34,7 +34,7 @@ import {
   useUserDetailsQuery,
 } from "@generated";
 
-// import DrawerMenu from "./DrawerMenu";
+import DrawerMenu from "./DrawerMenu";
 // import DrawerLogin from "./DrawerLogin";
 // import DrawerCart from "./DrawerCart";
 
@@ -353,14 +353,15 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
           </Box>
         </Toolbar>
       </AppBar>
-      {/* <DrawerMenu
+      <DrawerMenu
         logo={logoImage}
         anchor="left"
+        // @ts-ignore
         items={menuItems}
         open={menuOpen}
         close={handleMenuClose}
       />
-      <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
+      {/* <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
       <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} /> */}
     </>
   );
