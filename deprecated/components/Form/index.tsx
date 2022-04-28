@@ -1,6 +1,7 @@
 import * as React from "react";
 import NumberFormat from "react-number-format";
 import { Box } from "@mui/material";
+
 import { Select, SelectField, TextField } from "..";
 
 export const NON_FIELD_ERROR = "nonFieldError";
@@ -17,7 +18,7 @@ interface FormProps<Values> {
   errors?: FormError[];
   data?: Values;
   formRef?: React.RefObject<HTMLFormElement>;
-  onSubmit?(event: React.FormEvent<any>, data: Values);
+  onSubmit?: (event: React.FormEvent<any>, data: Values) => void;
 }
 
 interface FormState<Values> {
