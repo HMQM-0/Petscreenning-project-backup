@@ -1,9 +1,9 @@
-import { Divider, Theme } from "@mui/material";
+import { Divider, Theme, Box } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
-import { FormattedText, TextAlign } from "deprecated/_nautical/types";
 import * as React from "react";
-import "./scss/index.scss";
-import { Box } from "@mui/material";
+
+import { FormattedText, TextAlign } from "deprecated/_nautical/types";
+import "./scss/index.module.scss";
 export interface SectionDividerProps {
   textAlign?: TextAlign;
   divider?: boolean;

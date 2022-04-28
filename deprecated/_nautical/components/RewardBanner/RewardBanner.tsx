@@ -3,7 +3,7 @@ import * as React from "react";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import PublicIcon from "@mui/icons-material/Public";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 interface IRewardBannerProps {}
 

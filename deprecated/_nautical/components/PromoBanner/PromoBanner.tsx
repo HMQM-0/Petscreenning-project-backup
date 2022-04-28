@@ -1,10 +1,12 @@
 import { AppBar } from "@mui/material";
 import * as React from "react";
-import { MessageProp, NotificationBar } from "../NotificationBar";
+
 import { TypedPromoBannerQuery } from "./queries";
+
+import { MessageProp, NotificationBar } from "../NotificationBar";
 // import { DesignerData } from "../ThemeFont/types";
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 interface PromoBannerPromotionsData {
   display: string;

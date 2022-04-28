@@ -4,7 +4,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import * as React from "react";
 import Slider from "react-slick";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 interface PromoSliderProps {
   sliderSettings?: SliderSettings;

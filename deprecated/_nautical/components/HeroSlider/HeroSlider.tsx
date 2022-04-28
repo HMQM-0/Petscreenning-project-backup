@@ -1,10 +1,9 @@
 import * as React from "react";
 import Slider from "react-slick";
-import { Box } from "@mui/material";
-import { Theme } from "@mui/material";
+import { Box, Theme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 // import "slick-carousel/slick/slick-theme.scss";
 // import "slick-carousel/slick/slick.scss";

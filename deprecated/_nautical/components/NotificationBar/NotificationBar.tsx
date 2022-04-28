@@ -1,10 +1,9 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton, Theme } from "@mui/material";
+import { IconButton, Theme, Box } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import React, { useState } from "react";
 import Slider from "react-slick";
-import { Box } from "@mui/material";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 export interface NotificationSliderProps {
   arrows: boolean;

@@ -1,11 +1,12 @@
 // import { Theme } from "@mui/material";
 // import { createStyles, makeStyles } from "@mui/styles"';
+import { Box } from "@mui/material";
+import React from "react";
+
 import { ValueAction } from "deprecated/_nautical/blocks";
 import { ValueActionProps } from "deprecated/_nautical/blocks/ValueAction";
 import { BlockAlign } from "deprecated/_nautical/types";
-import { Box } from "@mui/material";
-import React from "react";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 export interface SlideValueActionButtonProps {
   blockAlign?: BlockAlign;

@@ -1,17 +1,19 @@
 import { Grid } from "@mui/material";
+import * as React from "react";
+
 import {
   BlockAlign,
   TextAlign,
   VerticalAlign,
 } from "deprecated/_nautical/types";
-import * as React from "react";
+
 import { MosaicTile } from "./components/MosaicTile";
 
 import rect1 from "../HeroSlider/storyimages/example_01_1024.jpg";
 import rect2 from "../HeroSlider/storyimages/example_02_1024.jpg";
 // import square2 from "../PromoSlider/storyimages/example_01_690.jpg";
 import square1 from "../PromoSlider/storyimages/example_06_690.jpg";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 interface MosaicSectionProps {
   align?: string;

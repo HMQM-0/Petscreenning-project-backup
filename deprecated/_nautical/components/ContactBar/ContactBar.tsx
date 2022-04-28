@@ -1,8 +1,9 @@
 import CloseIcon from "@mui/icons-material/Close";
-
 import React from "react";
+
 import { ContactBlock, TextSliderBlock } from "../../blocks";
-import "./scss/index.scss";
+
+import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 interface OfferBarProps {
   backgroundColor: string;

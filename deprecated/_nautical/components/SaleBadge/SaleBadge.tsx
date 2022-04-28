@@ -1,13 +1,13 @@
-import "./scss/index.scss";
+import "./scss/index.module.scss";
+
+import * as React from "react";
+import { ReactSVG } from "react-svg";
 
 import badge from "images/sale_badge_red.svg";
 import banner from "images/sale_banner_red.svg";
 import corner from "images/sale_corner_red.svg";
 import diamond from "images/sale_diamond_red.svg";
 import hexagon from "images/sale_hexagon_red.svg";
-
-import * as React from "react";
-import { ReactSVG } from "react-svg";
 
 interface SaleBadgeProps {
   color?: string;

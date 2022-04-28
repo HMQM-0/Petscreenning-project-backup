@@ -1,7 +1,7 @@
 import { ValueAction } from "deprecated/_nautical/blocks";
 import { ValueActionProps } from "deprecated/_nautical/blocks/ValueAction";
 import React from "react";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 export interface PromoCardProps {
   imageUrl?: string;
