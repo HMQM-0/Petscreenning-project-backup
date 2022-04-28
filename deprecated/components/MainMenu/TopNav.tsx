@@ -7,7 +7,6 @@ import {
   InputBase,
   IconButton,
   Paper,
-  Theme,
   Toolbar,
   Menu,
   MenuItem,
@@ -16,7 +15,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useAlert } from "react-alert";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonIcon from "@mui/icons-material/Person";
@@ -33,11 +32,11 @@ import Link from "next/link";
 
 import { maybe } from "@utils/misc";
 import { useAuth, useCart } from "@nautical/react";
+import { MainMenuDocument } from "@generated";
 
 import DrawerMenu from "./DrawerMenu";
 import DrawerLogin from "./DrawerLogin";
 import DrawerCart from "./DrawerCart";
-import { mainMenu } from "./queries";
 import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 
 interface ITopNavProps {
@@ -140,7 +139,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
   }
 
   const logoImage = logo ? logo : <Skeleton />; // <img src={logoImg} width={188} height={"auto"} style={{ marginTop: "4px", marginBottom: "4px" }} onClick={() => navigate('/')} alt="Logo" />;
-  const { data } = useQuery(mainMenu);
+  const { data } = useQuery(MainMenuDocument);
   const menuItems = maybe(() => data.shop.navigation.main.items, []);
   return (
     <>

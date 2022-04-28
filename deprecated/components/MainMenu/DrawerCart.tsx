@@ -1,13 +1,12 @@
-import { Button, Drawer } from "@mui/material";
-import { useAuth, useCart, useCheckout } from "@nautical/react";
-import { Box } from "@mui/material";
+import { Button, Drawer, Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { generatePath, Link } from "react-router-dom";
-import { Loader, Offline, OfflinePlaceholder, Online } from "..";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import CloseIcon from "@mui/icons-material/Close";
-import ProductList from "../OverlayManager/Cart/ProductList";
+import Link from "next/link";
+import { generatePath } from "react-router-dom";
+
+import { useAuth, useCart, useCheckout } from "@nautical/react";
 import { commonMessages } from "@temp/intl";
 import { TaxedMoney } from "@components/containers";
 import {
@@ -23,6 +22,9 @@ import {
   checkoutUrl,
   micrositeCartUrl,
 } from "@temp/app/routes";
+
+import ProductList from "../OverlayManager/Cart/ProductList";
+import { Loader, Offline, OfflinePlaceholder, Online } from "..";
 import Empty from "../OverlayManager/Cart/Empty";
 
 interface IDrawerCartProps {
@@ -57,11 +59,18 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
   };
 
   const missingVariants = () => {
-    return items.find((item) => !item.variant || !item.totalPrice);
+    return items?.find((item) => !item.variant || !item.totalPrice);
   };
 
   const itemsQuantity =
     items?.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0) || 0;
+
+  const generatedPath = generatePath(micrositeCartUrl, {
+    micrositeId: String(getDBIdFromGraphqlId(getMicrositeId(), "Microsite")),
+    micrositeSlug: getMicrositeSlug(),
+  });
+
+  console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", generatedPath);
 
   return (
     <Drawer anchor={anchor} open={open} ModalProps={{ onBackdropClick: close }}>
@@ -151,37 +160,22 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                     </Box>
 
                     <Box className="cart__footer__button">
-                      <Link
-                        to={
-                          !!isMicrosite()
-                            ? generatePath(micrositeCartUrl, {
-                                micrositeId: String(
-                                  getDBIdFromGraphqlId(
-                                    getMicrositeId(),
-                                    "Microsite"
-                                  )
-                                ),
-                                micrositeSlug: getMicrositeSlug(),
-                                token: null,
-                              })
-                            : generatePath(cartUrl, {
-                                token: null,
-                              })
-                        }
-                      >
-                        <Button
-                          className="drawer-button"
-                          variant="outlined"
-                          color="secondary"
-                          onClick={close}
-                        >
-                          <FormattedMessage defaultMessage="Go to my cart" />
-                        </Button>
+                      <Link href={!!isMicrosite() ? generatedPath : cartUrl}>
+                        <a>
+                          <Button
+                            className="drawer-button"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={close}
+                          >
+                            <FormattedMessage defaultMessage="Go to my cart" />
+                          </Button>
+                        </a>
                       </Link>
                     </Box>
                     <Box className="cart__footer__button">
                       <Link
-                        to={
+                        href={
                           !!isMicrosite()
                             ? user
                               ? `${generateMicrositeUrl(
@@ -197,14 +191,16 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                             : checkoutLoginUrl
                         }
                       >
-                        <Button
-                          className="drawer-button"
-                          variant="contained"
-                          color="secondary"
-                          onClick={close}
-                        >
-                          <FormattedMessage {...commonMessages.checkout} />
-                        </Button>
+                        <a>
+                          <Button
+                            className="drawer-button"
+                            variant="contained"
+                            color="secondary"
+                            onClick={close}
+                          >
+                            <FormattedMessage {...commonMessages.checkout} />
+                          </Button>
+                        </a>
                       </Link>
                     </Box>
                   </Box>

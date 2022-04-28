@@ -1,7 +1,7 @@
-import { Drawer } from "@mui/material";
+import { Drawer, Box } from "@mui/material";
 import * as React from "react";
+
 import { INavItem, MobileNavList } from "..";
-import { Box } from "@mui/material";
 interface IDrawerMenuProps {
   anchor: "left" | "top" | "right" | "bottom";
   items: INavItem[];

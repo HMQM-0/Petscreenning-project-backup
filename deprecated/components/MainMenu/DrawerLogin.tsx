@@ -1,6 +1,8 @@
-import { Drawer, IconButton, Tab, Tabs } from "@mui/material";
+import { Drawer, IconButton, Tab, Tabs, Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
+import CloseIcon from "@mui/icons-material/Close";
+
 import {
   Online,
   LoginForm,
@@ -10,8 +12,6 @@ import {
 } from "..";
 import ForgottenPassword from "../OverlayManager/Login/ForgottenPassword";
 import RegisterForm from "../OverlayManager/Login/RegisterForm";
-import CloseIcon from "@mui/icons-material/Close";
-import { Box } from "@mui/material";
 interface IDrawerLoginProps {
   anchor: "left" | "top" | "right" | "bottom";
   open: boolean;
@@ -23,7 +23,11 @@ const DrawerLogin: React.FunctionComponent<IDrawerLoginProps> = (props) => {
   const [value, setValue] = React.useState("login");
   const [isPassword, setPassword] = React.useState(false);
 
-  const handleChange = (event, newValue) => {
+  type onChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: any
+  ) => void;
+  const handleChange: onChange = (event, newValue) => {
     setValue(newValue);
   };
 
