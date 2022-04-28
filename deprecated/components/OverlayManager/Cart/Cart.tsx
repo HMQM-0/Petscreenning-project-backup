@@ -2,13 +2,18 @@ import "./scss/index.scss";
 
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { generatePath, Link } from "react-router-dom";
+import { generatePath } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";
+import Link from "next/link";
+
 import { TaxedMoney } from "@components/containers";
 import { commonMessages } from "@temp/intl";
 // import { useAuth, useCart, useCheckout } from "@nautical/sdk";
 import { useAuth, useCart, useCheckout } from "@nautical/react";
+
+import Empty from "./Empty";
+import ProductList from "./ProductList";
 
 import {
   Button,
@@ -25,9 +30,6 @@ import {
   micrositeCartUrl,
 } from "../../../app/routes";
 import Loader from "../../Loader";
-import Empty from "./Empty";
-import ProductList from "./ProductList";
-
 import cartImg from "../../../images/cart.svg";
 import closeImg from "../../../images/x.svg";
 import {
@@ -68,6 +70,14 @@ const Cart: React.FC<{ overlay: OverlayContextInterface }> = ({ overlay }) => {
 
   const itemsQuantity =
     items?.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0) || 0;
+
+  const micrositeURL = generatePath(micrositeCartUrl, {
+    micrositeId: String(getDBIdFromGraphqlId(getMicrositeId(), "Microsite")),
+    micrositeSlug: getMicrositeSlug(),
+  });
+  const cartURL = generatePath(cartUrl, {});
+  console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", micrositeURL);
+  console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", cartURL);
 
   return (
     <Overlay testingContext="cartOverlay" context={overlay}>
@@ -155,32 +165,17 @@ const Cart: React.FC<{ overlay: OverlayContextInterface }> = ({ overlay }) => {
                     </Box>
 
                     <Box className="cart__footer__button">
-                      <Link
-                        to={
-                          !!isMicrosite()
-                            ? generatePath(micrositeCartUrl, {
-                                micrositeId: String(
-                                  getDBIdFromGraphqlId(
-                                    getMicrositeId(),
-                                    "Microsite"
-                                  )
-                                ),
-                                micrositeSlug: getMicrositeSlug(),
-                                token: null,
-                              })
-                            : generatePath(cartUrl, {
-                                token: null,
-                              })
-                        }
-                      >
-                        <Button testingContext="gotoBagViewButton" secondary>
-                          <FormattedMessage defaultMessage="Go to my cart" />
-                        </Button>
+                      <Link href={!!isMicrosite() ? micrositeURL : cartURL}>
+                        <a>
+                          <Button testingContext="gotoBagViewButton" secondary>
+                            <FormattedMessage defaultMessage="Go to my cart" />
+                          </Button>
+                        </a>
                       </Link>
                     </Box>
                     <Box className="cart__footer__button">
                       <Link
-                        to={
+                        href={
                           !!isMicrosite()
                             ? user
                               ? `${generateMicrositeUrl(
@@ -196,9 +191,11 @@ const Cart: React.FC<{ overlay: OverlayContextInterface }> = ({ overlay }) => {
                             : checkoutLoginUrl
                         }
                       >
-                        <Button testingContext="gotoCheckoutButton">
-                          <FormattedMessage {...commonMessages.checkout} />
-                        </Button>
+                        <a>
+                          <Button testingContext="gotoCheckoutButton">
+                            <FormattedMessage {...commonMessages.checkout} />
+                          </Button>
+                        </a>
                       </Link>
                     </Box>
                   </Box>
