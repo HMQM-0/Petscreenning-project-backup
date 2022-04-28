@@ -1,33 +1,16 @@
 import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Box, Button } from "@mui/material";
 
 import { commonMessages } from "@temp/intl";
-// import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
 import { ICheckoutModelLine } from "@nautical/helpers";
-/* import {
-  ProductDetails_product_pricing,
-  ProductDetails_product_variants,
-  ProductDetails_product_variants_pricing,
-} from "@nautical/sdk/lib/queries/gqlTypes/ProductDetails"; */
 import {
   ProductDetails_product_pricing,
   ProductDetails_product_variants,
   ProductDetails_product_variants_pricing,
 } from "@nautical/queries/gqlTypes/ProductDetails";
-
 import { IProductVariantsAttributesSelectedValues } from "@types";
-import QuantityInput from "../../molecules/QuantityInput";
-// import AddToCartButton from "../../molecules/AddToCartButton";
-import ProductVariantPicker from "../ProductVariantPicker";
-import * as S from "./styles";
-import {
-  getAvailableQuantity,
-  getProductPrice,
-  canAddToCart,
-} from "./stockHelpers";
-
-import RatingStars from "@temp/_nautical/components/RatingStars";
-import { AddToWishlist } from "../AddToWishlist";
+import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "@components/molecules/ViewSizeGuideButton/ViewSizeGuideButton";
 import { ShopContext } from "@temp/components/ShopProvider/context";
 import { useAuth } from "@nautical/react";
@@ -36,7 +19,25 @@ import {
   OverlayTheme,
   OverlayType,
 } from "@temp/components/Overlay";
-import { Box, Button } from "@mui/material";
+
+import {
+  getAvailableQuantity,
+  getProductPrice,
+  canAddToCart,
+} from "./stockHelpers";
+import * as S from "./styles";
+
+import { AddToWishlist } from "../AddToWishlist";
+import ProductVariantPicker from "../ProductVariantPicker";
+import { QuantityInput } from "../../molecules/QuantityInput";
+
+// import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
+/* import {
+  ProductDetails_product_pricing,
+  ProductDetails_product_variants,
+  ProductDetails_product_variants_pricing,
+} from "@nautical/sdk/lib/queries/gqlTypes/ProductDetails"; */
+// import AddToCartButton from "../../molecules/AddToCartButton";
 
 const LOW_STOCK_QUANTITY: number = 5;
 
