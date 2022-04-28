@@ -1,10 +1,10 @@
-@import "../../../globalStyles/scss/variables.scss";
+@import "deprecated/globalStyles/scss/variables.scss";
 
 .carousel {
   &:focus {
     outline: none !important;
   }
-  
+
   &__control {
     padding: $carousel-control-padding;
     background-color: $primary;
@@ -59,7 +59,7 @@
   }
 
   .slider:focus {
-      outline: none;
+    outline: none;
   }
 
   .slider-frame:focus {
@@ -69,7 +69,7 @@
   .slider-list:focus {
     outline: none;
   }
-  
+
   .slider-slide:focus {
     outline: none;
   }

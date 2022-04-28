@@ -1,5 +1,5 @@
-@import "../../../globalStyles/scss/variables";
-@import "../../../globalStyles/scss/animations";
+@import "deprecated/globalStyles/scss/variables";
+@import "deprecated/globalStyles/scss/animations";
 
 .overlay {
   background-color: rgba(199, 207, 207, 0.8);
@@ -14,7 +14,6 @@
   &--search,
   &--main-menu-nav {
     top: 104px;
-    
   }
 
   &--search {

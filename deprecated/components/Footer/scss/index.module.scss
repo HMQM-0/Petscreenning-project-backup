@@ -1,4 +1,4 @@
-@import "../../../globalStyles/scss/variables.scss";
+@import "deprecated/globalStyles/scss/variables.scss";
 
 .footer {
   &__favicons {
@@ -46,7 +46,6 @@
   }
 
   &-nav {
-
     .social-icons {
       align-items: center;
       display: flex;
@@ -54,7 +53,6 @@
       justify-content: center;
       margin-bottom: $spacer * 2;
     }
-
 
     border-top: 1px solid #ccc;
     // background-color: $blue-dark;
@@ -94,19 +92,19 @@
         text-align: right;
         width: 50%;
         @media (max-width: $small-screen) {
-          width: 100%
+          width: 100%;
         }
       }
 
       &-header {
         margin-bottom: $spacer;
-        & a, span {
+        & a,
+        span {
           color: $white;
           font-weight: $bold-font-weight;
           font-size: $small-font-size;
           text-decoration: underline;
         }
-
       }
 
       &-caption {

@@ -1,7 +1,6 @@
-@import "../../../globalStyles/scss/variables.scss";
+@import "deprecated/globalStyles/scss/variables.scss";
 
 .big-product-list {
-
   &-color-flex {
     display: flex;
     align-items: center;
@@ -19,7 +18,7 @@
   }
 
   &-item {
-    background: #fff;  
+    background: #fff;
     // border: 1px solid #ebebeb;
     display: flex;
     flex-direction: column;
@@ -32,7 +31,7 @@
   }
 
   &-item-wide {
-    background: #fff;  
+    background: #fff;
     // border: 1px solid #ebebeb;
     display: flex;
     flex-direction: column;
@@ -82,7 +81,7 @@
   }
 
   &-title {
-    font-size: 1.0rem;
+    font-size: 1rem;
     text-align: left;
   }
 
@@ -184,7 +183,7 @@
       display: flex;
       flex-direction: column-reverse;
       column-gap: inherit;
-      height: auto; 
+      height: auto;
     }
   }
 
@@ -197,7 +196,6 @@
     }
   }
 }
-
 
 .product-list-old {
   text-align: center;

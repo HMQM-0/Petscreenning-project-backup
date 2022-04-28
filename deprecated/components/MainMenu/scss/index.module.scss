@@ -1,6 +1,4 @@
-@import "../../../globalStyles/scss/variables.scss";
-
-
+@import "deprecated/globalStyles/scss/variables.scss";
 
 .drawer-button {
   border-radius: 25px !important;
@@ -34,7 +32,7 @@
 }
 
 .main-menu {
-  align-items: center; 
+  align-items: center;
   background-color: $white;
   border-bottom: 1px solid $gray-light;
   display: flex;
@@ -225,7 +223,6 @@
   }
 
   &__search {
-    
     padding: $spacer;
     cursor: pointer;
     line-height: 24px;
@@ -245,9 +242,9 @@
         fill: $secondary;
       }
     }
-    
+
     span {
-      color: '#703412' !important;
+      color: "#703412" !important;
       text-transform: uppercase;
       font-weight: $bold-font-weight;
       margin-right: $spacer;
