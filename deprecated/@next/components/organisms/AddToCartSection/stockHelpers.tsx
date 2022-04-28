@@ -1,5 +1,8 @@
 import * as React from "react";
+
 // import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
+import { isEqual } from "lodash";
+
 import { ICheckoutModelLine } from "@nautical/helpers";
 /* import {
   ProductDetails_product_variants_pricing,
@@ -9,10 +12,10 @@ import {
   ProductDetails_product_variants_pricing,
   ProductDetails_product_pricing,
 } from "@nautical/queries/gqlTypes/ProductDetails";
-import { isEqual } from "lodash";
-import { TaxedMoney } from "../../containers";
 
 import * as S from "./styles";
+
+import { TaxedMoney } from "../../containers";
 
 /**
  * Renders formatted price for chosen variant or product.
