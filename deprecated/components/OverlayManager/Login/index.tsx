@@ -1,8 +1,11 @@
-import "./scss/index.scss";
-import { Box } from "@mui/material";
+import "./scss/index.module.scss";
+import { Box, Tab, Tabs } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { ReactSVG } from "react-svg";
+
+import RegisterForm from "./RegisterForm";
+import ForgottenPassword from "./ForgottenPassword";
 
 import {
   LoginForm,
@@ -14,15 +17,11 @@ import {
   OverlayTheme,
   OverlayType,
 } from "../..";
-import RegisterForm from "./RegisterForm";
-
 import closeImg from "../../../images/x.svg";
-import ForgottenPassword from "./ForgottenPassword";
-import { Tab, Tabs } from "@mui/material";
 
 class Login extends React.Component<
   { overlay: OverlayContextInterface; active?: "login" | "register" },
-  { active: "login" | "register" }
+  { active: "login" | "register"; value: number }
 > {
   static defaultProps = {
     active: "login",
@@ -32,6 +31,7 @@ class Login extends React.Component<
     super(props);
     this.state = {
       active: props.active,
+      value: 0,
     };
   }
 
@@ -42,10 +42,13 @@ class Login extends React.Component<
   render() {
     const { overlay } = this.props;
     const { show, hide } = overlay;
-    const [value, setValue] = React.useState(0);
+    // const [value, setValue] = React.useState(0);
 
-    const handleTabChange = (event, newValue) => {
-      setValue(newValue);
+    const handleTabChange: (
+      event: React.SyntheticEvent<Element, Event>,
+      value: any
+    ) => void = (event, newValue) => {
+      this.setState({ value: newValue });
     };
 
     return (
@@ -62,7 +65,11 @@ class Login extends React.Component<
                 className="overlay__header__close-icon"
               />
             </Box>
-            <Tabs value={value} onChange={handleTabChange} textColor="primary">
+            <Tabs
+              value={this.state.value}
+              onChange={handleTabChange}
+              textColor="primary"
+            >
               <Tab
                 label={<FormattedMessage defaultMessage="Sign in to account" />}
               />
