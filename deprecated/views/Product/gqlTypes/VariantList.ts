@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CountryCode } from "./../../../../gqlTypes/globalTypes";
+import { CountryCode } from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL query operation: VariantList

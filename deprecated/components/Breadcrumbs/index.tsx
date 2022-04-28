@@ -3,12 +3,14 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import Media from "react-media";
 import { Link } from "react-router-dom";
-import { commonMessages } from "deprecated/intl";
 import { Box } from "@mui/material";
+
+import { commonMessages } from "deprecated/intl";
+
 import { baseUrl } from "../../app/routes";
 import { getDBIdFromGraphqlId, slugify } from "../../core/utils";
 import { Category_category } from "../../views/Category/gqlTypes/Category";
-import { smallScreen } from "../../globalStyles/scss/variables.scss";
+// import { smallScreen } from "../../globalStyles/scss/variables.scss";
 import "./scss/index.module.scss";
 
 export interface Breadcrumb {
@@ -45,7 +47,7 @@ const Breadcrumbs: React.FC<{
 }> = ({ breadcrumbs }) => (
   <Media
     query={{
-      minWidth: smallScreen,
+      minWidth: "540px",
     }}
   >
     {(matches) =>

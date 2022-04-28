@@ -6,7 +6,7 @@
 import {
   CollectionSortingInput,
   CollectionFilterInput,
-} from "./../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL query operation: CollectionList

@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { PaymentErrorCode } from "./../../gqlTypes/globalTypes";
+import { PaymentErrorCode } from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL fragment: PaymentError

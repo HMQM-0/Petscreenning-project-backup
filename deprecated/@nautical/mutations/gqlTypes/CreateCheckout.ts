@@ -6,7 +6,7 @@
 import {
   CheckoutCreateInput,
   CheckoutErrorCode,
-} from "./../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 import {
   IMultiSellerAvailableShippingMethods_mapping,
   IMultiSellerShippingMethods,

@@ -6,7 +6,7 @@
 import {
   AddressTypeEnum,
   AccountErrorCode,
-} from "./../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: SetCustomerDefaultAddress

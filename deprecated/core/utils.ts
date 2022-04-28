@@ -9,9 +9,14 @@ import {
 } from "query-string";
 import { FetchResult } from "@apollo/client";
 
-import { OrderDirection, ProductOrderField } from "../../gqlTypes/globalTypes";
-import { IFilterAttributes } from "../@next/types";
+import {
+  OrderDirection,
+  ProductOrderField,
+} from "deprecated/@nautical/gqlTypes/globalTypes";
+
 import { FormError } from "./types";
+
+import { IFilterAttributes } from "../@next/types";
 
 export const slugify = (text: string | number): string =>
   text

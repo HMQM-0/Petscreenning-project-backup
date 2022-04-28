@@ -6,7 +6,7 @@
 import {
   PaymentChargeStatusEnum,
   OrderStatus,
-} from "./../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL query operation: OrderByToken

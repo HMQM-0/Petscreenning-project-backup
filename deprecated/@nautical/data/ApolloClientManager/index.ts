@@ -1,5 +1,7 @@
 import { ApolloClient } from "@apollo/client";
 
+import { CountryCode } from "deprecated/@nautical/gqlTypes/globalTypes";
+
 import {
   CreatePaymentInput,
   CompleteCheckoutInput,
@@ -10,7 +12,6 @@ import {
 import { Checkout } from "../../fragments/gqlTypes/Checkout";
 import { Payment } from "../../fragments/gqlTypes/Payment";
 import { User } from "../../fragments/gqlTypes/User";
-import { CountryCode } from "../../gqlTypes/globalTypes";
 import {
   ICheckoutAddress,
   ICheckoutModel,

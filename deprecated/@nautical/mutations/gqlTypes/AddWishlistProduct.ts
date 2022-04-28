@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { WishlistErrorCode } from "../../gqlTypes/globalTypes";
+import { WishlistErrorCode } from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: AddWishlistProduct

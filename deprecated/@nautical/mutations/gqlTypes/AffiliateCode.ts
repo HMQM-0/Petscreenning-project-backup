@@ -1,4 +1,5 @@
-import { AffiliateErrorCode } from "./../../gqlTypes/globalTypes";
+import { AffiliateErrorCode } from "deprecated/@nautical/gqlTypes/globalTypes";
+
 import { AccountUpdate_accountUpdate_user } from "./AccountUpdate";
 
 export interface AffiliateCode_errors {

@@ -4,7 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 import { ProductVariant } from "deprecated/@nautical/fragments/gqlTypes/ProductVariant";
-import { ProductOrder, ProductFilterInput } from "./../../gqlTypes/globalTypes";
+import {
+  ProductOrder,
+  ProductFilterInput,
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL query operation: ProductList

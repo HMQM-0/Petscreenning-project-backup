@@ -7,7 +7,7 @@ import {
   CheckoutErrorCode,
   PaymentChargeStatusEnum,
   OrderStatus,
-} from "./../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 import { IMultiSellerVolumeDiscount } from "../../api/Checkout/types";
 
 // ====================================================

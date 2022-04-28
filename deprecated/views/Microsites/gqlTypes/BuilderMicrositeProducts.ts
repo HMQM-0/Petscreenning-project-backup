@@ -5,7 +5,7 @@
 import {
   AttributeInput,
   ProductOrder,
-} from "./../../../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 import { MicrositeProducts_microsite_products_edges_node } from "./MicrositeProducts";
 
 // ====================================================

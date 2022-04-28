@@ -14,7 +14,6 @@ import GalleryCarousel from "./GalleryCarousel";
 import OtherProducts from "./Other";
 import { IProps } from "./types";
 
-import { smallScreen } from "../../globalStyles/scss/variables.scss";
 import {
   Breadcrumbs,
   // OverlayContext,
@@ -174,7 +173,7 @@ const Page: React.FC<
           <script className="structured-data-list" type="application/ld+json">
             {structuredData(product)}
           </script>
-          <Media query={{ maxWidth: smallScreen }}>
+          <Media query={{ maxWidth: "540px" }}>
             {(matches) =>
               matches ? (
                 <>

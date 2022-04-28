@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CountryCode } from "./../../../../gqlTypes/globalTypes";
+import { CountryCode } from "deprecated/@nautical/gqlTypes/globalTypes";
 import { Seller } from "deprecated/@next/components/organisms/CheckoutShipping/gqlTypes/MultiSellerCheckout";
 import {
   ProductDetails_product_attributes,

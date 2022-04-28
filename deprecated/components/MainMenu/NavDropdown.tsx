@@ -3,15 +3,16 @@
 import classNames from "clsx";
 import * as React from "react";
 
+import { MainMenu_shop_navigation_main_items } from "./gqlTypes/MainMenu";
+import { MenuStyle } from "./gqlTypes/MenuStyle";
+import NavItem from "./NavItem";
+
 import {
   NavLink,
   OverlayContextInterface,
   OverlayTheme,
   OverlayType,
 } from "..";
-import { MainMenu_shop_navigation_main_items } from "./gqlTypes/MainMenu";
-import { MenuStyle } from "./gqlTypes/MenuStyle";
-import NavItem from "./NavItem";
 
 import "./scss/index.module.scss";
 

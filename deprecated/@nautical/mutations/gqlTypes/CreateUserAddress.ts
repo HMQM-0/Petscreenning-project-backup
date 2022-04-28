@@ -3,7 +3,10 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { AddressInput, AccountErrorCode } from "./../../gqlTypes/globalTypes";
+import {
+  AddressInput,
+  AccountErrorCode,
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: CreateUserAddress

@@ -5,7 +5,7 @@
 import {
   AttributeInput,
   ProductOrder,
-} from "./../../../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL query operation: SearchProducts

@@ -5,7 +5,7 @@
 import {
   AttributeInput,
   ProductOrder,
-} from "./../../../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 import {
   CollectionProducts_collection_products_edges_node,
   CollectionProducts_collection_products_pageInfo,

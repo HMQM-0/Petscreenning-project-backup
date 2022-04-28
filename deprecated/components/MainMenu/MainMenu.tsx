@@ -1,11 +1,20 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { commonMessages } from "deprecated/intl";
-// import { useAuth, useCart } from "@nautical/sdk";
-import { useAuth, useCart } from "@nautical/react";
 import { Box } from "@mui/material";
 import Media from "react-media";
 import { Link } from "react-router-dom";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+
+import { commonMessages } from "deprecated/intl";
+// import { useAuth, useCart } from "@nautical/sdk";
+import { useAuth, useCart } from "@nautical/react";
+import { Loader } from "@components/atoms";
+
+import NavDropdown from "./NavDropdown";
+import { TypedMainMenuQuery } from "./queries";
 
 import {
   MenuDropdown,
@@ -23,8 +32,6 @@ import {
   generateMicrositeUrl,
   getMicrositeSlug,
 } from "../../core/utils";
-import NavDropdown from "./NavDropdown";
-import { TypedMainMenuQuery } from "./queries";
 
 // import heartImg from "../../images/heart.svg"
 // import cartImg from "../../images/cart.svg";
@@ -33,22 +40,14 @@ import { TypedMainMenuQuery } from "./queries";
 import logoImg from "../../images/logo.svg";
 // import searchImg from "../../images/search.svg";
 // import userImg from "../../images/user.svg";
-import {
-  mediumScreen,
-  smallScreen,
-} from "../../globalStyles/scss/variables.scss";
+
 import "./scss/index.module.scss";
 import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 // import { MenuSVG } from "./MenuSvg";
 
 import { TypedMicrositeQuery } from "../../views/Microsites/queries";
-import { Loader } from "@components/atoms";
 
 // Material Icons
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 
 const MainMenu: React.FC = () => {
   const { user, signOut } = useAuth();
@@ -80,13 +79,18 @@ const MainMenu: React.FC = () => {
     return json;
   }
 
+  const smallScreen = "540px";
+  const mediumScreen = "992px";
+
   return (
     <OverlayContext.Consumer>
       {(overlayContext) => (
         <TypedMainMenuQuery renderOnError displayLoader={false}>
           {({ data }) => {
-            const items = maybe(() => data.shop.navigation.main.items, []);
-            const menuStyle = defaultStyle(data.designerdata);
+            const items = maybe(() => data?.shop.navigation?.main?.items, []);
+            const menuStyle = defaultStyle(
+              data?.designerdata ?? { name: "", jsonContent: null }
+            );
             const mainMenuCss = {
               backgroundColor: menuStyle.barColor,
               borderColor: menuStyle.borderColor,
@@ -133,7 +137,7 @@ const MainMenu: React.FC = () => {
                           <li
                             data-test="mainMenuItem"
                             className="main-menu__item"
-                            key={item.id}
+                            key={item?.id}
                           >
                             <NavDropdown
                               menuStyle={menuStyle}

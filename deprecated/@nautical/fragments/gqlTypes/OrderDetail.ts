@@ -7,7 +7,7 @@ import {
   PaymentChargeStatusEnum,
   OrderStatus,
   JobStatusEnum,
-} from "./../../gqlTypes/globalTypes";
+} from "deprecated/@nautical/gqlTypes/globalTypes";
 
 // ====================================================
 // GraphQL fragment: OrderDetail
