@@ -4,7 +4,7 @@ import { Skeleton, useScrollTrigger } from "@mui/material";
 import { MaterialUIProvider, OverlayProvider } from "@providers";
 import { BrandingType } from "@generated";
 import { SEO, ThemeFont } from "components/atoms";
-import TopNav from "deprecated/components/MainMenu/TopNav";
+// import TopNav from "deprecated/components/MainMenu/TopNav";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -44,7 +44,7 @@ const Layout = ({ children, branding }: LayoutProps) => {
         <ThemeFont />
         <header style={trigger ? stickyStyle : emptyStyle}>
           {/* <PromoBanner content="FREE SHIPPING over $50" /> */}
-          <TopNav logo={logo} />
+          {/* <TopNav logo={logo} /> */}
         </header>
         <div style={fillerStyle} />
         {children}

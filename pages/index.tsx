@@ -3,8 +3,8 @@ import { useAlert } from "react-alert";
 import { useEffect } from "react";
 
 import { BrandingDocument, BrandingQuery } from "@generated";
-import { Layout } from "@layout";
 import { useSetSEO } from "@providers";
+import { Layout } from "@layout";
 
 import client from "../apollo-client";
 
