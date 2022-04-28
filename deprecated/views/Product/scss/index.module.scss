@@ -1,16 +1,16 @@
 @import "../../../globalStyles/scss/variables.scss";
 
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+// input::-webkit-outer-spin-button,
+// input::-webkit-inner-spin-button {
+//   -webkit-appearance: none;
+//   margin: 0;
+// }
 
 /* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+// input[type="number"] {
+//   -moz-appearance: textfield;
+// }
 
 .product-page {
   background-color: $white;
@@ -34,7 +34,7 @@ input[type=number] {
     &__description {
       width: 100%;
       min-height: $spacer * 10;
-      margin-bottom: $spacer * 9; 
+      margin-bottom: $spacer * 9;
     }
 
     &__info {
