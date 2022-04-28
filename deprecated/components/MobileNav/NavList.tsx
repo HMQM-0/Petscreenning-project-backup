@@ -1,6 +1,11 @@
 import "./scss/index.module.scss";
 
 import * as React from "react";
+import { Box, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
+import NavItem, { INavItem } from "./NavItem";
 // import { FormattedMessage } from "react-intl";
 // import { Link } from "react-router-dom";
 // import { ReactSVG } from "react-svg";
@@ -9,11 +14,6 @@ import * as React from "react";
 // import { baseUrl } from "../../app/routes";
 
 // import backImg from "../../images/arrow-back.svg";
-import { Box, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-
-import NavItem, { INavItem } from "./NavItem";
 // import logoImg from "../../images/logo.png";
 interface NavListProps {
   items: INavItem[];
