@@ -1,5 +1,7 @@
 import { round } from "lodash";
 
+import { INauticalStateSummeryPrices, StateItems } from "./types";
+
 import { ApolloClientManager } from "../data/ApolloClientManager";
 import { PaymentGateway } from "../fragments/gqlTypes/PaymentGateway";
 import { User } from "../fragments/gqlTypes/User";
@@ -13,7 +15,6 @@ import {
 } from "../helpers/LocalStorageHandler";
 import { JobsManager } from "../jobs";
 import { Config } from "../types";
-import { INauticalStateSummeryPrices, StateItems } from "./types";
 import { AuthJobsEvents } from "../jobs/Auth";
 import { BROWSER_NO_CREDENTIAL_API_MESSAGE } from "../api/Auth";
 
@@ -237,14 +238,15 @@ export class NauticalState extends NamedObservable<StateItems> {
     const sellerShippingMethods = checkout?.sellerShippingMethods;
 
     const sellerMethods = sellerShippingMethods
-      // @ts-ignore
-      ? JSON.parse(sellerShippingMethods)
+      ? // @ts-ignore
+        JSON.parse(sellerShippingMethods)
       : null;
     let totalShippingPrice = 0.0;
-    if (sellerMethods !== null) {
-      // @ts-ignore
+    if (sellerMethods) {
       totalShippingPrice = sellerMethods
+        // @ts-ignore
         .map((method) => method.shippingMethod.price)
+        // @ts-ignore
         .reduce((a, b) => parseFloat(a) + parseFloat(b), 0.0);
     }
 
