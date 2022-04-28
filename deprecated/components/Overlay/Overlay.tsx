@@ -3,6 +3,7 @@ import "./scss/index.scss";
 import clsx from "clsx";
 import * as React from "react";
 import { Box } from "@mui/material";
+
 import { OverlayContextInterface } from "./context";
 
 interface OverlayProps {
@@ -12,18 +13,19 @@ interface OverlayProps {
    * Unique name used as selector for writing e2e tests in Cypress	   * Unique name used as selector for writing e2e tests in Cypress
    */
   testingContext: string;
+  children: React.ReactNode;
 }
 
-const Overlay: React.FC<OverlayProps> = ({
+const Overlay = ({
   children,
   className,
   context: { type, theme, hide },
   testingContext,
-}) => (
+}: OverlayProps) => (
   <Box
     className={clsx("overlay", {
       [`overlay--${type}`]: !!type,
-      [className]: !!className,
+      [className ?? ""]: !!className,
     })}
     data-test={testingContext}
     onClick={hide}
