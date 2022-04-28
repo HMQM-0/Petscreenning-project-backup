@@ -2,8 +2,11 @@ import * as React from "react";
 
 import { NetworkStatus } from ".";
 
-const Online: React.FC = ({ children }) => (
-  // @ts-ignore
+type OnlineProps = {
+  children: React.ReactNode;
+};
+
+const Online = ({ children }: OnlineProps) => (
   <NetworkStatus>{(online) => (online ? children : null)}</NetworkStatus>
 );
 
