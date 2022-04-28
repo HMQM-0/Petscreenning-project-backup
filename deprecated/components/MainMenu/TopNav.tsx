@@ -7,6 +7,7 @@ import {
   InputBase,
   IconButton,
   Paper,
+  Theme,
   Toolbar,
   Menu,
   MenuItem,
@@ -15,47 +16,29 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useAlert } from "react-alert";
-import "./scss/index.module.scss";
+import "./scss/index.scss";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+// import logoImg from "@temp/images/crushon.png";
 import { Logout, ImportContacts } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import {
-  useMainMenuQuery,
-  useUserCheckoutDetailsQuery,
-  useUserDetailsQuery,
-} from "@generated";
+import { maybe } from "@utils/misc";
+import { useAuth, useCart } from "@nautical/react";
 
 import DrawerMenu from "./DrawerMenu";
-// import DrawerLogin from "./DrawerLogin";
-// import DrawerCart from "./DrawerCart";
-
-// const getStyles = makeStyles((theme: Theme) => {
-//   console.log("theme", theme);
-//   return createStyles({
-//     menu: {
-//       "& .MuiPaper-root": {
-//         border: `1px solid ${theme.palette.divider}`,
-//       },
-//     },
-// search: {
-//   padding: "2px 4px",
-//   display: "flex",
-//   alignItems: "center",
-//   width: 400,
-//   border: `1px solid ${theme.palette.divider}`,
-//   borderRadius: 25,
-// },
-//   });
-// });
+import DrawerLogin from "./DrawerLogin";
+import DrawerCart from "./DrawerCart";
+import { mainMenu } from "./queries";
+import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
@@ -64,21 +47,16 @@ interface ITopNavProps {
 const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
   const { logo } = props;
 
-  const { data: userDetailsData } = useUserDetailsQuery();
-  const user = userDetailsData?.me;
-  const { data: mainMenuData } = useMainMenuQuery();
-  const { data: checkoutData } = useUserCheckoutDetailsQuery();
-  const checkoutLines = checkoutData?.me?.checkout?.lines ?? null;
-
-  // const { items } = useCart();
-  const { push } = useRouter();
+  const { user, signOut } = useAuth();
+  const { items } = useCart();
+  const router = useRouter();
   const handleSignOut = async () => {
-    // await signOut();
+    await signOut();
   };
   const alert = useAlert();
   const [term, setTerm] = React.useState<string>("");
   const [anchorEl, setAnchorEl] = React.useState<
-    (EventTarget & HTMLDivElement) | (EventTarget & HTMLButtonElement) | null
+    (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
   >(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -115,7 +93,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
 
   const handleSearch = () => {
     if (term.length > 2) {
-      push(`/search?q=${term}`);
+      router.push("/search?q=" + term);
     } else {
       alert.show(
         {
@@ -139,11 +117,31 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
   };
 
   const cartItemsQuantity =
-    checkoutLines?.reduce((acc, line) => acc + (line?.quantity ?? 0), 0) ?? 0;
+    (items &&
+      items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) ||
+    0;
+
+  // @ts-ignore
+  function defaultStyle(data: DesignerData): MenuStyle {
+    let json: MenuStyle = {
+      active: true,
+      barColor: "#FFF",
+      borderColor: "#999",
+      hoverColor: "#26b2e3",
+      textColor: "#000",
+    };
+
+    if (data !== null || data !== undefined) {
+      const parsed: MenuStyle = JSON.parse(data.jsonContent);
+      json = parsed;
+    }
+
+    return json;
+  }
 
   const logoImage = logo ? logo : <Skeleton />; // <img src={logoImg} width={188} height={"auto"} style={{ marginTop: "4px", marginBottom: "4px" }} onClick={() => navigate('/')} alt="Logo" />;
-
-  const menuItems = mainMenuData?.shop.navigation?.main?.items ?? [];
+  const { data } = useQuery(mainMenu);
+  const menuItems = maybe(() => data.shop.navigation.main.items, []);
   return (
     <>
       <AppBar
@@ -356,13 +354,12 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
       <DrawerMenu
         logo={logoImage}
         anchor="left"
-        // @ts-ignore
         items={menuItems}
         open={menuOpen}
         close={handleMenuClose}
       />
-      {/* <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
-      <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} /> */}
+      <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
+      <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} />
     </>
   );
 };

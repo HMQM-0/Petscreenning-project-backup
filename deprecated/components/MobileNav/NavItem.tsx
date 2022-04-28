@@ -4,12 +4,11 @@ import * as React from "react";
 import { IconButton, useTheme } from "@mui/material";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-import { MainMenuSubItemFragment } from "@generated";
-
-import { NavLink } from "../NavLink";
+import { NavLink } from "..";
+import { MainMenuSubItem } from "../MainMenu/gqlTypes/MainMenuSubItem";
 // import subcategoriesImg from "../../images/subcategories.svg";
 
-export interface INavItem extends MainMenuSubItemFragment {
+export interface INavItem extends MainMenuSubItem {
   children?: INavItem[];
 }
 

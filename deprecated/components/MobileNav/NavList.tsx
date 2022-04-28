@@ -1,11 +1,6 @@
 import "./scss/index.module.scss";
 
 import * as React from "react";
-import { Box, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-
-import NavItem, { INavItem } from "./NavItem";
 // import { FormattedMessage } from "react-intl";
 // import { Link } from "react-router-dom";
 // import { ReactSVG } from "react-svg";
@@ -14,16 +9,21 @@ import NavItem, { INavItem } from "./NavItem";
 // import { baseUrl } from "../../app/routes";
 
 // import backImg from "../../images/arrow-back.svg";
+import { Box, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
+import NavItem, { INavItem } from "./NavItem";
 // import logoImg from "../../images/logo.png";
 interface NavListProps {
-  items: INavItem[] | null;
+  items: INavItem[];
   logo?: React.ReactNode;
   hideOverlay(): void;
 }
 
 interface NavListState {
   parent: INavItem | null;
-  displayedItems: INavItem[] | null;
+  displayedItems?: INavItem[];
 }
 
 class NavList extends React.PureComponent<NavListProps, NavListState> {
@@ -33,25 +33,25 @@ class NavList extends React.PureComponent<NavListProps, NavListState> {
   };
 
   handleShowSubItems = (item: INavItem) => {
-    this.setState({ parent: item, displayedItems: item.children || null });
+    this.setState({ parent: item, displayedItems: item.children });
   };
 
   handleGoBack = () => {
-    const grandparent = this.state.parent?.parent;
+    const grandparent = this.state.parent?.parent ?? null;
 
     if (!grandparent) {
       this.setState({ parent: null, displayedItems: this.props.items });
     } else {
       const newParent = this.findItemById(grandparent.id);
       this.setState({
-        displayedItems: newParent?.children ?? null,
-        parent: newParent || null,
+        displayedItems: newParent?.children,
+        parent: newParent,
       });
     }
   };
 
-  findItemById(id: string): INavItem | undefined {
-    return this.props.items?.find((item) => item.id === id);
+  findItemById(id: string): INavItem | null {
+    return this.props.items.find((item) => item.id === id) || null;
   }
 
   render() {

@@ -1,3 +1,4 @@
+// import { css, jsx } from "@emotion/react";
 import * as React from "react";
 import { Box } from "@mui/material";
 import Link from "next/link";
@@ -6,13 +7,21 @@ import {
   generateCategoryUrl,
   generateCollectionUrl,
   generatePageUrl,
-} from "core/utils";
-import { MainMenuSubItemFragment } from "@generated";
-
-import { MenuStyle } from "../MainMenu";
+} from "../../core/utils";
+import {
+  SecondaryMenu_shop_navigation_secondary_items,
+  SecondaryMenu_shop_navigation_secondary_items_children,
+} from "../Footer/gqlTypes/SecondaryMenu";
+import { MainMenu_shop_navigation_main_items } from "../MainMenu/gqlTypes/MainMenu";
+import { MainMenuSubItem } from "../MainMenu/gqlTypes/MainMenuSubItem";
+import { MenuStyle } from "../MainMenu/gqlTypes/MenuStyle";
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  item: MainMenuSubItemFragment;
+  item:
+    | MainMenu_shop_navigation_main_items
+    | MainMenuSubItem
+    | SecondaryMenu_shop_navigation_secondary_items
+    | SecondaryMenu_shop_navigation_secondary_items_children;
   menuStyle?: MenuStyle;
 }
 

@@ -16,18 +16,44 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@styles": ["./styles/index.ts"],
-      "@components": ["./components/index.ts"],
-      "@apollo-client": ["apollo-client.ts"],
+      // "@components": ["./components/index.ts"],
       "@generated": ["./graphql/generated.ts"],
       "@locale-json/*": ["./config/locale/*"],
       "@locale": ["./components/providers/Locale/index.ts"],
       "@providers": ["./components/providers/index.ts"],
-      "@utils/*": ["./utils/*"],
+      // "@utils/*": ["./utils/*"],
       "@fragments": ["./_fragments/index.ts"],
       "@queries": ["./_queries/index.ts"],
       "@mutations": ["./_mutations/index.ts"],
-      "@layout": ["./components/layout"]
+      "@layout": ["./components/layout"],
+
+      // Deprecated
+      "@components/*": ["./deprecated/@next/components/*"],
+      "@components/atoms": ["./deprecated/@next/components/atoms/index.ts"],
+      "@components/molecules": [
+        "./deprecated/@next/components/molecules/index.ts"
+      ],
+      "@components/organisms": [
+        "./deprecated/@next/components/organisms/index.ts"
+      ],
+      "@components/templates": [
+        "./deprecated/@next/components/templates/index.ts"
+      ],
+      "@components/containers": [
+        "./deprecated/@next/components/containers/index.ts"
+      ],
+      "@pages": ["./deprecated/@next/pages/index.ts"],
+      "@styles": ["./deprecated/@next/globalStyles/index.ts"],
+      "@styles/*": ["./deprecated/@next/globalStyles/*"],
+      "images/*": ["./deprecated/images/*"],
+      "@utils/*": ["./deprecated/@next/utils/*"],
+      "@hooks": ["./deprecated/@next/hooks/index.ts"],
+      "@hooks/*": ["./deprecated/@next/hooks/*"],
+      "@types": ["./deprecated/@next/types/index.ts"],
+      "@types/*": ["./deprecated/@next/types/*"],
+      "@app/*": ["./deprecated/@next/*"],
+      "@temp/*": ["./deprecated/*"],
+      "@nautical/*": ["./deprecated/@nautical/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
