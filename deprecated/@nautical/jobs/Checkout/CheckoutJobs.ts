@@ -1,11 +1,4 @@
 import {
-  DataErrorCheckoutTypes,
-  FunctionErrorCheckoutTypes,
-} from "../../api/Checkout/types";
-import { ApolloClientManager } from "../../data/ApolloClientManager";
-import { LocalStorageHandler } from "../../helpers/LocalStorageHandler";
-import { JobRunResponse } from "../types";
-import {
   CompleteCheckoutJobInput,
   CreatePaymentJobInput,
   RemovePromoCodeJobInput,
@@ -18,6 +11,14 @@ import {
   SetBillingAddressWithEmailJobInput,
   SetSellerShippingMethodsJobInput,
 } from "./types";
+
+import {
+  DataErrorCheckoutTypes,
+  FunctionErrorCheckoutTypes,
+} from "../../api/Checkout/types";
+import { ApolloClientManager } from "../../data/ApolloClientManager";
+import { LocalStorageHandler } from "../../helpers/LocalStorageHandler";
+import { JobRunResponse } from "../types";
 import { JobsHandler } from "../JobsHandler";
 
 export type PromiseCheckoutJobRunResponse = Promise<
@@ -144,7 +145,7 @@ class CheckoutJobs extends JobsHandler<{}> {
     const checkout = LocalStorageHandler.getCheckout();
 
     const { data, error } = await this.apolloClientManager.setBillingAddress(
-      billingAddress,
+      billingAddress ?? {},
       checkoutId
     );
 

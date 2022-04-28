@@ -26,7 +26,7 @@ export interface SetShippingAddressJobInput {
 
 export interface SetBillingAddressJobInput {
   checkoutId: string;
-  billingAddress: ICheckoutAddress;
+  billingAddress?: ICheckoutAddress;
   billingAsShipping?: boolean;
   selectedBillingAddressId?: string;
 }

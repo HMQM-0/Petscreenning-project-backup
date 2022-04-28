@@ -1,15 +1,3 @@
-import { PaymentGateway } from "../../fragments/gqlTypes/PaymentGateway";
-import { ErrorListener } from "../../helpers";
-import {
-  ICheckoutModel,
-  ICheckoutModelPriceValue,
-  IPaymentModel,
-} from "../../helpers/LocalStorageHandler";
-import { JobsManager } from "../../jobs";
-import { NauticalState, NauticalStateLoaded } from "../../state";
-import { StateItems } from "../../state/types";
-
-import { PromiseRunResponse } from "../types";
 import {
   DataErrorCheckoutTypes,
   FunctionErrorCheckoutTypes,
@@ -23,6 +11,18 @@ import {
   CreatePaymentInput,
   CompleteCheckoutInput,
 } from "./types";
+
+import { PaymentGateway } from "../../fragments/gqlTypes/PaymentGateway";
+import { ErrorListener } from "../../helpers";
+import {
+  ICheckoutModel,
+  ICheckoutModelPriceValue,
+  IPaymentModel,
+} from "../../helpers/LocalStorageHandler";
+import { JobsManager } from "../../jobs";
+import { NauticalState, NauticalStateLoaded } from "../../state";
+import { StateItems } from "../../state/types";
+import { PromiseRunResponse } from "../types";
 
 type CheckoutResponse = PromiseRunResponse<
   DataErrorCheckoutTypes,
@@ -318,10 +318,11 @@ export class NauticalCheckoutAPI extends ErrorListener {
           "checkout",
           "setBillingAddress",
           {
-            billingAddress: this.checkout.billingAddress,
+            billingAddress: this.checkout?.billingAddress ?? undefined,
             billingAsShipping: false,
             checkoutId,
-            selectedBillingAddressId: this.checkout?.billingAddress.id,
+            selectedBillingAddressId:
+              this.checkout.billingAddress?.id ?? undefined,
           }
         );
 
