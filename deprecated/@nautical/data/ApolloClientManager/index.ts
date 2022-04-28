@@ -1,5 +1,12 @@
 import { ApolloClient } from "@apollo/client";
 
+import {
+  CreatePaymentInput,
+  CompleteCheckoutInput,
+  VerifySignInTokenInput,
+  RefreshSignInTokenInput,
+} from "./types";
+
 import { Checkout } from "../../fragments/gqlTypes/Checkout";
 import { Payment } from "../../fragments/gqlTypes/Payment";
 import { User } from "../../fragments/gqlTypes/User";
@@ -78,12 +85,6 @@ import { UserCheckoutDetails } from "../../queries/gqlTypes/UserCheckoutDetails"
 import { UserDetails } from "../../queries/gqlTypes/UserDetails";
 import * as UserQueries from "../../queries/user";
 import { filterNotEmptyArrayItems } from "../../utils";
-import {
-  CreatePaymentInput,
-  CompleteCheckoutInput,
-  VerifySignInTokenInput,
-  RefreshSignInTokenInput,
-} from "./types";
 // import { AffiliateCodeUseVariables, AffiliateCodeUse } from "src/mutations/gqlTypes/AffiliateCode";
 import {
   AffiliateCodeUse,
@@ -245,7 +246,7 @@ export class ApolloClientManager {
               if (errors?.length) {
                 reject(errors);
               } else {
-                resolve(data.me?.checkout);
+                resolve(data.me?.checkout ?? null);
               }
             },
             (error) => {
