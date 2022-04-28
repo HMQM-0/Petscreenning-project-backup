@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Box } from "@mui/material";
+
 const ForgottenPassword: React.FC<{
   onClick: () => void;
 }> = ({ onClick }) => (
