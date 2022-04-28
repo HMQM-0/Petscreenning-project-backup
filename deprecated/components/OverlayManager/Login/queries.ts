@@ -1,10 +1,11 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
-import { TypedMutation } from "../../../core/mutations";
 import {
   RegisterAccount,
   RegisterAccountVariables,
 } from "./gqlTypes/RegisterAccount";
+
+import { TypedMutation } from "../../../core/mutations";
 
 const accountRegisterMutation = gql`
   mutation RegisterAccount(
