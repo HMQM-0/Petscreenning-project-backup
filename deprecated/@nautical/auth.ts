@@ -38,10 +38,12 @@ export function setAuthToken(token: string) {
 }
 
 interface ResponseError extends ErrorResponse {
-  networkError?: Error & {
-    statusCode?: number;
-    bodyText?: string;
-  };
+  networkError?:
+    | (ErrorResponse["networkError"] & {
+        statusCode?: number;
+        bodyText?: string;
+      })
+    | null;
 }
 
 // possibly remove callback here and use event emitter
