@@ -1,11 +1,11 @@
+import { DataErrorAuthTypes } from "./types";
+
 import { User } from "../../fragments/gqlTypes/User";
 import { ErrorListener } from "../../helpers";
 import { JobsManager } from "../../jobs";
 import { NauticalState, NauticalStateLoaded } from "../../state";
 import { StateItems } from "../../state/types";
-
 import { PromiseRunResponse } from "../types";
-import { DataErrorAuthTypes } from "./types";
 import { Config } from "../../types";
 
 export const BROWSER_NO_CREDENTIAL_API_MESSAGE =
@@ -210,9 +210,12 @@ export class AuthAPI extends ErrorListener {
       console.warn(BROWSER_NO_CREDENTIAL_API_MESSAGE, credentialsError);
     }
 
+    // @ts-ignore
     if (credentials && "password" in credentials && credentials.password) {
       const { dataError } = await this.signIn(
+        // @ts-ignore
         credentials.id,
+        // @ts-ignore
         credentials.password,
         true
       );
