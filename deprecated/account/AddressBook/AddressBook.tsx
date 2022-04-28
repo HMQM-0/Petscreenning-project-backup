@@ -18,6 +18,7 @@ import {
 import { getUserDetailsQuery } from "@nautical/queries/user";
 // import { User } from "@nautical/sdk/lib/fragments/gqlTypes/User";
 import { User } from "@nautical/fragments/gqlTypes/User";
+
 import { ShopContext } from "../../components/ShopProvider/context";
 
 const AddressBook: React.FC<{
