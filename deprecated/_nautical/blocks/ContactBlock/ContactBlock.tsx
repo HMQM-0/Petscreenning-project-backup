@@ -1,5 +1,3 @@
-import facebookIcon from "deprecated/images/facebook-icon.svg";
-import mediumIcon from "deprecated/images/medium-icon.svg";
 import React from "react";
 import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";
@@ -7,7 +5,10 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import PhoneIcon from "@mui/icons-material/Phone";
-import "./scss/index.scss";
+
+import mediumIcon from "deprecated/images/medium-icon.svg";
+import facebookIcon from "deprecated/images/facebook-icon.svg";
+import "./scss/index.module.scss";
 
 interface ContactBlockProps {
   type: string;

@@ -7,7 +7,7 @@ import {
 } from "deprecated/_nautical/types";
 import { Box } from "@mui/material";
 import React from "react";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 export interface ValueActionProps {
   align?: TextAlign;

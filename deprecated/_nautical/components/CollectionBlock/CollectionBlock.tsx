@@ -1,10 +1,12 @@
 // import classNames from "clsx";
 import * as React from "react";
 import { Link } from "react-router-dom";
+
 import noPhotoImg from "deprecated/images/no-photo.svg";
 import { generateCollectionUrl } from "deprecated/core/utils";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 import { ProductsList_collections_edges_node } from "deprecated/views/Home/gqlTypes/ProductsList";
+
 import { Box } from "@mui/material";
 interface ICollectionBlockProps {
   collection: ProductsList_collections_edges_node;

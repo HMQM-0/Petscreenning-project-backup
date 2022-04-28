@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Theme } from "@mui/material";
 import { createStyles, makeStyles } from "@mui/styles";
 import React from "react";
-import "./scss/index.scss";
+import "./scss/index.module.scss";
 
 export enum ContactIconShape {
   circle = "circle",
