@@ -1,10 +1,10 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { useVisibility } from "@temp/_nautical/hooks";
+import { useVisibility } from "deprecated/_nautical/hooks";
 import { Link } from "react-router-dom";
 
 import { Loader } from "@components/atoms";
-import ProductListItem from "@temp/components/ProductListItem";
+import ProductListItem from "deprecated/components/ProductListItem";
 
 import {
   generateProductUrl,
@@ -16,7 +16,7 @@ import {
 
 import * as S from "./styles";
 import { IProps } from "./types";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useAuth } from "@nautical/react";
 import { Button } from "@mui/material";
 

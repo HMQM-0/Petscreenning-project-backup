@@ -5,7 +5,7 @@ import { RichTextContent } from "@components/atoms";
 import * as S from "./styles";
 import { IProps } from "./types";
 
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { RatingsAndReviews } from "./RatingsAndReviews";
 
 export const ProductDescription: React.FC<IProps> = ({

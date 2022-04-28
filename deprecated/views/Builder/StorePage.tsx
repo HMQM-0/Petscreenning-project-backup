@@ -5,24 +5,27 @@ import * as React from "react";
 // import appState from '@builder.io/app-context';
 import { BuilderComponent, Builder, builder } from "@builder.io/react";
 import { CircularProgress, useTheme } from "@mui/material";
-import { maybe } from "@utils/misc";
+import { useAlert } from "react-alert";
+import { StringParam, useQueryParam, useQueryParams } from "use-query-params";
+import { useNavigate } from "react-router";
+import { Base64 } from "js-base64";
+import queryString from "query-string";
+import { useQuery } from "@apollo/client";
+import { useIntl } from "react-intl";
+
+import { slugify } from "@utils/core";
 import {
   useAddWishlistProduct,
   useAuth,
   useCart,
   useRemoveWishlistProduct,
 } from "@nautical/react";
-import { useAlert } from "react-alert";
-import { StringParam, useQueryParam, useQueryParams } from "use-query-params";
-import { useNavigate } from "react-router";
-import { Base64 } from "js-base64";
-import { slugify } from "@utils/core";
-import queryString from "query-string";
-import { micrositesQuery } from "./queries";
-import { useQuery } from "@apollo/client";
-import { useIntl } from "react-intl";
-import { userWishlist } from "@temp/@nautical/queries/wishlist";
+import { maybe } from "@utils/misc";
+import { userWishlist } from "deprecated/@nautical/queries/wishlist";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
+
+import { micrositesQuery } from "./queries";
+
 import { FilterQuerySet } from "../Products/View";
 // import { useProductVariantsAttributes, useProductVariantsAttributesValuesSelection } from "@hooks";
 
@@ -49,7 +52,21 @@ const NoComponent: React.FunctionComponent = (props) => {
 };
 
 const StorePage: React.FunctionComponent<IStorePage> = (props) => {
-  const { category, collection, product, landing, products, loadMore, loadNextPage, loadPrevPage, search, wishlist, microsite, vendors, variantSelect } = props;
+  const {
+    category,
+    collection,
+    product,
+    landing,
+    products,
+    loadMore,
+    loadNextPage,
+    loadPrevPage,
+    search,
+    wishlist,
+    microsite,
+    vendors,
+    variantSelect,
+  } = props;
   // @ts-ignore
   const [searchParams, setSearchParams] = useQueryParams({
     q: StringParam,
@@ -321,9 +338,10 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       loadMore: () => loadMore(),
       loadNextPage: () => loadNextPage(),
       loadPrevPage: () => loadPrevPage(),
-      variantSelect: variantSelect
-    }), [props, builderMicrositesData]
-  )
+      variantSelect: variantSelect,
+    }),
+    [props, builderMicrositesData]
+  );
 
   // console.info("SANITIZED STATE DATA")
   // console.info(stateData)

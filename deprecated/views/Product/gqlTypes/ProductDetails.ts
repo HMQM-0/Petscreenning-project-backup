@@ -3,8 +3,8 @@
 // This file was automatically generated and should not be edited.
 
 import { CountryCode } from "./../../../../gqlTypes/globalTypes";
-import { Seller } from "@temp/@next/components/organisms/CheckoutShipping/gqlTypes/MultiSellerCheckout";
-import { Metadata } from "@temp/@nautical/queries/gqlTypes/ProductDetails";
+import { Seller } from "deprecated/@next/components/organisms/CheckoutShipping/gqlTypes/MultiSellerCheckout";
+import { Metadata } from "deprecated/@nautical/queries/gqlTypes/ProductDetails";
 
 // ====================================================
 // GraphQL query operation: ProductDetails

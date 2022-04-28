@@ -1,4 +1,4 @@
-import { CardError } from "@temp/core/payments/braintree";
+import { CardError } from "deprecated/core/payments/braintree";
 import { ICardData, IFormError, IPaymentGatewayConfig } from "@types";
 import { IFormikProps } from "../CreditCardForm/types";
 

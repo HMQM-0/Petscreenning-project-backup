@@ -1,14 +1,15 @@
 import gql from "graphql-tag";
 
+import {
+  Products,
+  ProductsVariables,
+} from "deprecated/views/Products/gqlTypes/Products";
+
 import { TypedQuery } from "../../core/queries";
 import {
   basicProductFragment,
   productPricingFragment,
 } from "../Product/queries";
-import {
-  Products,
-  ProductsVariables,
-} from "@temp/views/Products/gqlTypes/Products";
 
 export const productVariantSummaryFragment = gql`
   fragment ProductVariantSummaryFields on ProductVariant {

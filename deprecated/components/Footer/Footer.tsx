@@ -1,11 +1,11 @@
-// import { ContactIcon, ContactIconShape } from "@temp/_nautical/blocks";
+// import { ContactIcon, ContactIconShape } from "deprecated/_nautical/blocks";
 import * as React from "react";
 import "./scss/index.scss";
 import { Box } from "@mui/material";
 // import { SocialMediaIcon } from "..";
 import { SOCIAL_MEDIA } from "../../core/config";
 import Nav from "./Nav";
-import { isMicrosite } from "@temp/core/utils";
+import { isMicrosite } from "deprecated/core/utils";
 
 interface FooterProps {
   footerText?: string;

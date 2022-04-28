@@ -7,7 +7,7 @@ import * as S from "./styles";
 import { IProps } from "./types";
 
 import { DebouncedTextField } from "../../../../components/Debounce";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 export const AttributeValuesChecklist: React.FC<IProps> = ({
   title,

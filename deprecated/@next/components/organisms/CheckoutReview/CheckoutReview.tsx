@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 
 import { ErrorMessage } from "@components/atoms";
 import { AddressSummary } from "@components/molecules";
-import { checkoutMessages } from "@temp/intl";
+import { checkoutMessages } from "deprecated/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";

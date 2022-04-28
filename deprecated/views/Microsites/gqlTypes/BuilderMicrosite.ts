@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { Menu } from "@temp/views/Products/gqlTypes/Products";
+import { Menu } from "deprecated/views/Products/gqlTypes/Products";
 import {
   Microsite_attributes_edges_node,
   Microsite_microsite,

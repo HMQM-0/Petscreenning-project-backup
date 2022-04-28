@@ -5,7 +5,7 @@ import { Box, TextField } from "@mui/material";
 import { useAlert, AlertContainer } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
 
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import Button from "deprecated/components/Button";
 import Form from "deprecated/components/Form";
 

@@ -2,14 +2,17 @@ import * as React from "react";
 import { useIntl } from "react-intl";
 import Media from "react-media";
 import { Box } from "@mui/material";
+
 // import { RouteComponentProps, withRouter } from "react-router";
-import { commonMessages } from "@temp/intl";
+import { useLocation, useNavigate, useParams } from "react-router";
+
+import { commonMessages } from "deprecated/intl";
 // import { useAuth } from "@nautical/sdk";
 import { useAuth } from "@nautical/react";
-
 import { smallScreen } from "@styles/constants";
 import { AccountMenu, AccountMenuMobile } from "@components/molecules";
 import { AccountTab, OrdersHistory } from "@pages";
+
 import AddressBook from "../../account/AddressBook/AddressBook";
 import {
   accountUrl,
@@ -29,10 +32,9 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "@temp/core/utils";
-import NoHomeBreadcrumbs from "@temp/components/NoHomeBreadcrumbs";
-import { withRouter } from "@temp/components/Overlay/provider";
-import { useLocation, useNavigate, useParams } from "react-router";
+} from "deprecated/core/utils";
+import NoHomeBreadcrumbs from "deprecated/components/NoHomeBreadcrumbs";
+import { withRouter } from "deprecated/components/Overlay/provider";
 // import { Wishlist } from "@components/templates";
 
 const returnTab: any = (path: string, userDetails) => {

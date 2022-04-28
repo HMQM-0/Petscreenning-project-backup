@@ -7,10 +7,14 @@ import { Theme } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { FormattedMessage } from "react-intl";
 import { ReviewBars } from "./ReviewBars";
-import { OverlayContext, OverlayTheme, OverlayType } from "@temp/components";
-import RatingAndReviewForm from "@temp/components/OverlayManager/RatingAndReview/RatingAndReviewForm";
+import {
+  OverlayContext,
+  OverlayTheme,
+  OverlayType,
+} from "deprecated/components";
+import RatingAndReviewForm from "deprecated/components/OverlayManager/RatingAndReview/RatingAndReviewForm";
 import { decodeEntities, formatDate } from "./utils";
-import { useProductRatingsAndReviews } from "@temp/@nautical/react/queries";
+import { useProductRatingsAndReviews } from "deprecated/@nautical/react/queries";
 
 // STYLING
 const useStyles = makeStyles((theme: Theme) =>

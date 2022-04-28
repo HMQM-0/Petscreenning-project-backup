@@ -2,9 +2,23 @@ import * as React from "react";
 import { useIntl } from "react-intl";
 // import { RouteComponentProps } from "react-router";
 import { Box } from "@mui/material";
-import { prodListHeaderCommonMsg } from "@temp/intl";
-import { IFilters } from "@types";
 import { StringParam, useQueryParam } from "use-query-params";
+import { useParams } from "react-router";
+import { useQuery } from "@apollo/client";
+
+import { prodListHeaderCommonMsg } from "deprecated/intl";
+import { IFilters } from "@types";
+import { useAuth } from "@nautical/react";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
+import { Loader } from "@components/atoms";
+
+import Page from "./Page";
+import { builderSearchQuery, TypedSearchProductsQuery } from "./queries";
+import {
+  BuilderSearchProducts,
+  BuilderSearchProductsVariables,
+} from "./gqlTypes/BuilderSearchProducts";
+
 import {
   NotFound,
   OfflinePlaceholder,
@@ -22,17 +36,12 @@ import {
   isMicrosite,
   maybe,
 } from "../../core/utils";
-import Page from "./Page";
-import { builderSearchQuery, TypedSearchProductsQuery } from "./queries";
-import { useAuth } from "@nautical/react";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
-import { useParams } from "react-router";
+
 import StorePage from "../Builder/StorePage";
-import { BuilderSearchProducts, BuilderSearchProductsVariables } from "./gqlTypes/BuilderSearchProducts";
-import { useQuery } from "@apollo/client";
-import { Loader } from "@components/atoms";
+
 // import { useQuery } from "@apollo/client";
 
 // type ViewProps = RouteComponentProps<{
@@ -87,18 +96,10 @@ export const View: React.FC<any> = ({ logo }) => {
     sortBy: sort || null,
   };
 
-  const [afterFilters, setAfterFilters] = useQueryParam(
-    "after"
-  );
-  const [beforeFilters, setBeforeFilters] = useQueryParam(
-    "before"
-  );
-  const [firstFilters, setFirstFilters] = useQueryParam(
-    "first"
-  );
-  const [lastFilters, setLastFilters] = useQueryParam(
-    "last"
-  );
+  const [afterFilters, setAfterFilters] = useQueryParam("after");
+  const [beforeFilters, setBeforeFilters] = useQueryParam("before");
+  const [firstFilters, setFirstFilters] = useQueryParam("first");
+  const [lastFilters, setLastFilters] = useQueryParam("last");
 
   const variables = {
     ...filters,
@@ -107,7 +108,7 @@ export const View: React.FC<any> = ({ logo }) => {
       : {},
     after: afterFilters,
     before: beforeFilters,
-    first: (!lastFilters && !firstFilters) ? PRODUCTS_PER_PAGE : firstFilters,
+    first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
     id: getGraphqlIdFromDBId(params.id, "Category"),
     query: search || null,
@@ -180,10 +181,13 @@ export const View: React.FC<any> = ({ logo }) => {
     }
   };
 
-  const { data: builderSearchData } = useQuery<BuilderSearchProducts,BuilderSearchProductsVariables>(
+  const { data: builderSearchData } = useQuery<
+    BuilderSearchProducts,
+    BuilderSearchProductsVariables
+  >(
     builderSearchQuery,
     // @ts-ignore
-    {variables: variables}
+    { variables: variables }
   );
 
   const loadNextPage = () => {
@@ -191,14 +195,14 @@ export const View: React.FC<any> = ({ logo }) => {
     setLastFilters(null);
     setAfterFilters(builderSearchData.productList.pageInfo.endCursor);
     setFirstFilters(PRODUCTS_PER_PAGE);
-  }
+  };
 
   const loadPrevPage = () => {
     setAfterFilters(null);
     setFirstFilters(null);
     setBeforeFilters(builderSearchData.productList.pageInfo.startCursor);
     setLastFilters(PRODUCTS_PER_PAGE);
-  }
+  };
 
   return !user && loginForProducts ? (
     <>
@@ -245,71 +249,74 @@ export const View: React.FC<any> = ({ logo }) => {
         )}
       </OverlayContext.Consumer>
     </>
+  ) : // @ts-ignore
+  builderKey ? (
+    <NetworkStatus>
+      {(isOnline) => {
+        if (builderSearchData && builderSearchData.productList === null) {
+          return <NotFound />;
+        }
+
+        if (!isOnline) {
+          return <OfflinePlaceholder />;
+        }
+
+        const canDisplayFilters =
+          !!builderSearchData?.attributeList?.attributes &&
+          !!builderSearchData?.productList?.products;
+
+        if (canDisplayFilters) {
+          return (
+            <StorePage
+              search={builderSearchData}
+              loadNextPage={loadNextPage}
+              loadPrevPage={loadPrevPage}
+            />
+          );
+        } else {
+          return <Loader />;
+        }
+
+        // <TypedBuilderSearchProductsQuery
+        //   variables={variables}
+        //   errorPolicy="all"
+        //   loaderFull
+        // >
+        //   {({ loading, data, loadMore }) => {
+        //     const canDisplayFilters =
+        //       !!data?.attributeList?.attributes && !!data?.productList?.products;
+
+        //     if (canDisplayFilters) {
+        //       const handleLoadMore = () =>
+        //         loadMore(
+        //           (prev, next) => ({
+        //             ...prev,
+        //             productList: {
+        //               ...prev.productList,
+        //               products: [...prev.productList.products, ...next.productList.products],
+        //               pageInfo: next.productList.pageInfo,
+        //             },
+        //           }),
+        //           { after: data.productList.pageInfo.endCursor }
+        //         );
+
+        //       return (
+        //         <StorePage search={data} loadMore={handleLoadMore} />
+        //       );
+        //     }
+
+        //     if (data && data.productList === null) {
+        //       return <NotFound />;
+        //     }
+
+        //     if (!isOnline) {
+        //       return <OfflinePlaceholder />;
+        //     }
+        //   }}
+        // </TypedBuilderSearchProductsQuery>
+      }}
+    </NetworkStatus>
   ) : (
-    // @ts-ignore
-    builderKey ?
-      <NetworkStatus>
-        {(isOnline) => {
-
-          if (builderSearchData && builderSearchData.productList === null) {
-            return <NotFound />;
-          }
-
-          if (!isOnline) {
-            return <OfflinePlaceholder />;
-          }
-          
-          const canDisplayFilters =
-            !!builderSearchData?.attributeList?.attributes && !!builderSearchData?.productList?.products;
-
-          if (canDisplayFilters) {
-            return (
-              <StorePage search={builderSearchData} loadNextPage={loadNextPage} loadPrevPage={loadPrevPage} />
-            )
-          } else {
-            return <Loader />
-          }
-          
-          // <TypedBuilderSearchProductsQuery
-          //   variables={variables}
-          //   errorPolicy="all"
-          //   loaderFull
-          // >
-          //   {({ loading, data, loadMore }) => {
-          //     const canDisplayFilters =
-          //       !!data?.attributeList?.attributes && !!data?.productList?.products;
-
-          //     if (canDisplayFilters) {
-          //       const handleLoadMore = () =>
-          //         loadMore(
-          //           (prev, next) => ({
-          //             ...prev,
-          //             productList: {
-          //               ...prev.productList,
-          //               products: [...prev.productList.products, ...next.productList.products],
-          //               pageInfo: next.productList.pageInfo,
-          //             },
-          //           }),
-          //           { after: data.productList.pageInfo.endCursor }
-          //         );
-
-          //       return (
-          //         <StorePage search={data} loadMore={handleLoadMore} />
-          //       );
-          //     }
-
-          //     if (data && data.productList === null) {
-          //       return <NotFound />;
-          //     }
-
-          //     if (!isOnline) {
-          //       return <OfflinePlaceholder />;
-          //     }
-          //   }}
-          // </TypedBuilderSearchProductsQuery>
-        }}
-      </NetworkStatus>
-      :
     <NetworkStatus>
       {(isOnline) => (
         <TypedSearchProductsQuery

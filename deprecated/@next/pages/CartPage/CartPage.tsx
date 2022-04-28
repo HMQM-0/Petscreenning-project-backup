@@ -13,8 +13,8 @@ import { Cart, CartEmpty } from "@components/templates";
 import { IItems } from "@nautical/api/Cart/types";
 // import { UserDetails_me } from "@nautical/sdk/lib/queries/gqlTypes/UserDetails";
 import { UserDetails_me } from "@nautical/queries/gqlTypes/UserDetails";
-import { BASE_URL } from "@temp/core/config";
-import { checkoutMessages } from "@temp/intl";
+import { BASE_URL } from "deprecated/core/config";
+import { checkoutMessages } from "deprecated/intl";
 import { ITaxedMoney } from "@types";
 
 import {
@@ -22,7 +22,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "@temp/core/utils";
+} from "deprecated/core/utils";
 
 const title = (
   <h1 data-test="cartPageTitle">

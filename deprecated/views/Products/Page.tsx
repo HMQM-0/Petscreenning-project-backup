@@ -12,7 +12,7 @@ import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
 
 import { maybe } from "../../core/utils";
 
-import { ProductSideNavbar } from "@temp/_nautical/components/ProductSideNavbar/ProductSideNavbar";
+import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
 import { Menu, Products_products } from "./gqlTypes/Products";
 
 interface SortItem {

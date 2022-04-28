@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ProductVariant } from "@temp/@nautical/fragments/gqlTypes/ProductVariant";
+import { ProductVariant } from "deprecated/@nautical/fragments/gqlTypes/ProductVariant";
 import { ProductOrder, ProductFilterInput } from "./../../gqlTypes/globalTypes";
 
 // ====================================================

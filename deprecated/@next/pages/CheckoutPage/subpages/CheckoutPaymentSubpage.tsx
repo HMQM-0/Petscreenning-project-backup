@@ -11,7 +11,7 @@ import { useIntl } from "react-intl";
 import { CheckoutPayment } from "@components/organisms";
 // import { useCheckout } from "@nautical/sdk";
 import { useCheckout } from "@nautical/react";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { IFormError } from "@types";
 
 export interface ICheckoutPaymentSubpageHandles {

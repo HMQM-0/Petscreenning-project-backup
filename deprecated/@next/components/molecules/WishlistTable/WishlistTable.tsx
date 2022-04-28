@@ -16,7 +16,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "@temp/core/utils";
+} from "deprecated/core/utils";
 import { useNavigate } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -5,8 +5,8 @@ import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 // import { useAuth } from "@nautical/sdk";
 import { useAuth } from "@nautical/react";
-import { demoMode } from "@temp/constants";
-import { commonMessages } from "@temp/intl";
+import { demoMode } from "deprecated/constants";
+import { commonMessages } from "deprecated/intl";
 import { TextField } from "@mui/material";
 import { Button, Form } from "..";
 

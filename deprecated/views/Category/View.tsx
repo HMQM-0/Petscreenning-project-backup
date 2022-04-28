@@ -5,8 +5,8 @@ import { Box } from "@mui/material";
 // import { RouteComponentProps } from "react-router";
 
 // import { Grid } from "@mui/material";
-// import { ProductSideNavbarList } from "@temp/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
-import { ProductSideNavbarGrid } from "@temp/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
+// import { ProductSideNavbarList } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
+import { ProductSideNavbarGrid } from "deprecated/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
 import { IFilters } from "@types";
 import { StringParam, useQueryParam } from "use-query-params";
 import { Loader } from "@components/atoms";
@@ -34,10 +34,10 @@ import {
   // builderCategoryQuery,
   // builderCategoryDataQuery,
 } from "./queries";
-import { prodListHeaderCommonMsg } from "@temp/intl";
+import { prodListHeaderCommonMsg } from "deprecated/intl";
 import { useIntl } from "react-intl";
 import { useAuth } from "@nautical/react";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
 import { useParams } from "react-router";
@@ -117,18 +117,10 @@ export const View: React.FC<any> = ({ logo }) => {
     }
   };
 
-  const [afterFilters, setAfterFilters] = useQueryParam(
-    "after"
-  );
-  const [beforeFilters, setBeforeFilters] = useQueryParam(
-    "before"
-  );
-  const [firstFilters, setFirstFilters] = useQueryParam(
-    "first"
-  );
-  const [lastFilters, setLastFilters] = useQueryParam(
-    "last"
-  );
+  const [afterFilters, setAfterFilters] = useQueryParam("after");
+  const [beforeFilters, setBeforeFilters] = useQueryParam("before");
+  const [firstFilters, setFirstFilters] = useQueryParam("first");
+  const [lastFilters, setLastFilters] = useQueryParam("last");
 
   const filters: IFilters = {
     attributes: attributeFilters,
@@ -141,7 +133,7 @@ export const View: React.FC<any> = ({ logo }) => {
     ...filters,
     after: afterFilters,
     before: beforeFilters,
-    first: (!lastFilters && !firstFilters) ? PRODUCTS_PER_PAGE : firstFilters,
+    first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
     attributes: filters.attributes
       ? convertToAttributeScalar(filters.attributes)
@@ -261,61 +253,74 @@ export const View: React.FC<any> = ({ logo }) => {
               !!builderCategoryData.data?.attributeList?.attributes &&
               !!builderCategoryData.data?.category?.name;
 
-          return (
-            <TypedBuilderCategoryProductsQuery
-              // @ts-ignore
-              variables={variables}
-            >
-              {(builderCategoryProducts) => {
-                if (!canDisplayFilters && builderCategoryProducts.loading) {
-                  return <Loader />;
-                }
-
-                if (canDisplayFilters) {
-                  // const handleLoadMore = () =>
-                  //   builderCategoryProducts.loadMore(
-                  //     (prev, next) => ({
-                  //       ...prev,
-                  //       productList: {
-                  //         ...prev.productList,
-                  //         products: [
-                  //           ...prev.productList.products,
-                  //           ...next.productList.products,
-                  //         ],
-                  //         pageInfo: next.productList.pageInfo,
-                  //       },
-                  //     }),
-                  //     {
-                  //       after:
-                  //         builderCategoryProducts.data.productList.pageInfo.endCursor,
-                  //     }
-                  //   );
-                  const loadNextPage = () => {
-                    setBeforeFilters(null);
-                    setLastFilters(null);
-                    setAfterFilters(builderCategoryProducts.data.productList.pageInfo.endCursor);
-                    setFirstFilters(PRODUCTS_PER_PAGE);
-                  }
-                
-                  const loadPrevPage = () => {
-                    setAfterFilters(null);
-                    setFirstFilters(null);
-                    setBeforeFilters(builderCategoryProducts.data.productList.pageInfo.startCursor);
-                    setLastFilters(PRODUCTS_PER_PAGE);
+            return (
+              <TypedBuilderCategoryProductsQuery
+                // @ts-ignore
+                variables={variables}
+              >
+                {(builderCategoryProducts) => {
+                  if (!canDisplayFilters && builderCategoryProducts.loading) {
+                    return <Loader />;
                   }
 
-                  return (
-                    <MetaWrapper
-                      meta={{
-                        description:
-                          builderCategoryData.data.category.seoDescription,
-                        title: builderCategoryData.data.category.seoTitle,
-                        type: "product.category",
-                      }}
-                    >
-                      <Box style={{textAlign: 'center'}}>
-                        <StorePage category={{...builderCategoryData.data, ...builderCategoryProducts.data}} loadNextPage={loadNextPage} loadPrevPage={loadPrevPage} />
-                        {/* {builderCategoryData.data && builderCategoryProducts.data.productList?.pageInfo?.hasNextPage &&
+                  if (canDisplayFilters) {
+                    // const handleLoadMore = () =>
+                    //   builderCategoryProducts.loadMore(
+                    //     (prev, next) => ({
+                    //       ...prev,
+                    //       productList: {
+                    //         ...prev.productList,
+                    //         products: [
+                    //           ...prev.productList.products,
+                    //           ...next.productList.products,
+                    //         ],
+                    //         pageInfo: next.productList.pageInfo,
+                    //       },
+                    //     }),
+                    //     {
+                    //       after:
+                    //         builderCategoryProducts.data.productList.pageInfo.endCursor,
+                    //     }
+                    //   );
+                    const loadNextPage = () => {
+                      setBeforeFilters(null);
+                      setLastFilters(null);
+                      setAfterFilters(
+                        builderCategoryProducts.data.productList.pageInfo
+                          .endCursor
+                      );
+                      setFirstFilters(PRODUCTS_PER_PAGE);
+                    };
+
+                    const loadPrevPage = () => {
+                      setAfterFilters(null);
+                      setFirstFilters(null);
+                      setBeforeFilters(
+                        builderCategoryProducts.data.productList.pageInfo
+                          .startCursor
+                      );
+                      setLastFilters(PRODUCTS_PER_PAGE);
+                    };
+
+                    return (
+                      <MetaWrapper
+                        meta={{
+                          description:
+                            builderCategoryData.data.category.seoDescription,
+                          title: builderCategoryData.data.category.seoTitle,
+                          type: "product.category",
+                        }}
+                      >
+                        <Box style={{ textAlign: "center" }}>
+                          <StorePage
+                            category={{
+                              ...builderCategoryData.data,
+                              ...builderCategoryProducts.data,
+                            }}
+                            loadNextPage={loadNextPage}
+                            loadPrevPage={loadPrevPage}
+                          />
+                          {/* {builderCategoryData.data && builderCategoryProducts.data.productList?.pageInfo?.hasNextPage &&
                           <Box style={{ marginBottom: "20px", marginLeft: "auto", marginRight: "auto" }}>
                             <Button
                               variant="contained"

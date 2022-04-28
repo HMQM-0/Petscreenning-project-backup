@@ -1,4 +1,4 @@
-import nauticalProp from "@temp/images/nautical-prop.svg";
+import nauticalProp from "deprecated/images/nautical-prop.svg";
 import * as React from "react";
 import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";

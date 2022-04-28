@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Box, TextField } from "@mui/material";
 import { Icon, IconButton } from "@components/atoms";
 import { CachedImage } from "@components/molecules";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import {
   generateMicrositeProductUrl,

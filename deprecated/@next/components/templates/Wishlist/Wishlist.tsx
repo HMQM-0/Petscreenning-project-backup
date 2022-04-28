@@ -2,7 +2,7 @@ import React from "react";
 
 import * as S from "./styles";
 import { WishlistTable } from "@components/molecules/WishlistTable/WishlistTable";
-import { WishlistContext } from "@temp/@nautical/react/components/WishlistProvider/context";
+import { WishlistContext } from "deprecated/@nautical/react/components/WishlistProvider/context";
 import { IProps } from "./types";
 
 export const Wishlist: React.FC<IProps> = () => {

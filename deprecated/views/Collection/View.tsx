@@ -5,8 +5,8 @@ import Media from "react-media";
 import "./scss/index.scss";
 import { Box } from "@mui/material";
 // import { Grid } from "@mui/material";
-// import { ProductSideNavbarList } from "@temp/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
-import { ProductSideNavbarGrid } from "@temp/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
+// import { ProductSideNavbarList } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
+import { ProductSideNavbarGrid } from "deprecated/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
 import { IFilters } from "@types";
 import { StringParam, useQueryParam } from "use-query-params";
 import { Loader } from "@components/atoms";
@@ -35,11 +35,11 @@ import {
   TypedCollectionProductsQuery,
 } from "./queries";
 import { useIntl } from "react-intl";
-import { prodListHeaderCommonMsg } from "@temp/intl";
+import { prodListHeaderCommonMsg } from "deprecated/intl";
 import { useAuth } from "@nautical/react";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useParams } from "react-router";
 import StorePage from "../Builder/StorePage";
 // import { useQuery } from "@apollo/client";
@@ -122,24 +122,16 @@ export const View: React.FC<any> = ({ logo }) => {
     sortBy: sort || null,
   };
 
-  const [afterFilters, setAfterFilters] = useQueryParam(
-    "after"
-  );
-  const [beforeFilters, setBeforeFilters] = useQueryParam(
-    "before"
-  );
-  const [firstFilters, setFirstFilters] = useQueryParam(
-    "first"
-  );
-  const [lastFilters, setLastFilters] = useQueryParam(
-    "last"
-  );
+  const [afterFilters, setAfterFilters] = useQueryParam("after");
+  const [beforeFilters, setBeforeFilters] = useQueryParam("before");
+  const [firstFilters, setFirstFilters] = useQueryParam("first");
+  const [lastFilters, setLastFilters] = useQueryParam("last");
 
   const variables = {
     ...filters,
     after: afterFilters,
     before: beforeFilters,
-    first: (!lastFilters && !firstFilters) ? PRODUCTS_PER_PAGE : firstFilters,
+    first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
     attributes: filters.attributes
       ? convertToAttributeScalar(filters.attributes)
@@ -291,16 +283,22 @@ export const View: React.FC<any> = ({ logo }) => {
                     const loadNextPage = () => {
                       setBeforeFilters(null);
                       setLastFilters(null);
-                      setAfterFilters(collectionProductsData.data.collection.productList.pageInfo.endCursor);
+                      setAfterFilters(
+                        collectionProductsData.data.collection.productList
+                          .pageInfo.endCursor
+                      );
                       setFirstFilters(PRODUCTS_PER_PAGE);
-                    }
-                  
+                    };
+
                     const loadPrevPage = () => {
                       setAfterFilters(null);
                       setFirstFilters(null);
-                      setBeforeFilters(collectionProductsData.data.collection.productList.pageInfo.startCursor);
+                      setBeforeFilters(
+                        collectionProductsData.data.collection.productList
+                          .pageInfo.startCursor
+                      );
                       setLastFilters(PRODUCTS_PER_PAGE);
-                    }
+                    };
 
                     return (
                       <MetaWrapper
@@ -311,7 +309,14 @@ export const View: React.FC<any> = ({ logo }) => {
                           type: "product.collection",
                         }}
                       >
-                        <StorePage collection={{ ...collectionData.data, ...collectionProductsData.data }} loadNextPage={loadNextPage} loadPrevPage={loadPrevPage} />
+                        <StorePage
+                          collection={{
+                            ...collectionData.data,
+                            ...collectionProductsData.data,
+                          }}
+                          loadNextPage={loadNextPage}
+                          loadPrevPage={loadPrevPage}
+                        />
                       </MetaWrapper>
                     );
                   }

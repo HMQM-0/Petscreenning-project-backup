@@ -12,9 +12,12 @@ import { useCheckoutStepFromPath, useCheckoutStepState } from "@hooks";
 import { IItems, ITotalPrice } from "@nautical/api/Cart/types";
 // import { ICheckout, IPayment } from "@nautical/sdk/lib/api/Checkout/types";
 import { ICheckout, IPayment } from "@nautical/api/Checkout/types";
-import { CHECKOUT_STEPS, MICROSITE_CHECKOUT_STEPS } from "@temp/core/config";
+import {
+  CHECKOUT_STEPS,
+  MICROSITE_CHECKOUT_STEPS,
+} from "deprecated/core/config";
 import { checkIfShippingRequiredForProducts } from "@utils/core";
-import { isMicrosite } from "@temp/core/utils";
+import { isMicrosite } from "deprecated/core/utils";
 
 interface IRouterProps {
   items?: IItems;

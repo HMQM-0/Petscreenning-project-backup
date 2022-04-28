@@ -4,21 +4,21 @@ import isEqual from "lodash/isEqual";
 import * as React from "react";
 import { Box } from "@mui/material";
 import { Thumbnail } from "@components/molecules";
-// import saleBadge from "@temp/images/sale_corner_red.svg";
-// import SaleBadge from "@temp/_nautical/components/SaleBadge/SaleBadge";
+// import saleBadge from "deprecated/images/sale_corner_red.svg";
+// import SaleBadge from "deprecated/_nautical/components/SaleBadge/SaleBadge";
 // import { ReactSVG } from "react-svg";
 import { TaxedMoney } from "../../@next/components/containers";
 import { BasicProductFields } from "../../views/Product/gqlTypes/BasicProductFields";
 // import { ReactSVG } from "react-svg";
 
-// import cartAddImage from "@temp/images/fa-shopping-basket-add.svg";
-// import pricecapImage from "@temp/images/pricing-cap.svg";
+// import cartAddImage from "deprecated/images/fa-shopping-basket-add.svg";
+// import pricecapImage from "deprecated/images/pricing-cap.svg";
 
 import * as S from "../../@next/components/molecules/ProductTile/styles";
 import { AddToWishlist } from "@components/organisms";
 // import { string } from "yup";
-// import { attributes } from "@temp/@nautical/queries/attributes";
-// import { CollectionSortField } from "@temp/@nautical";
+// import { attributes } from "deprecated/@nautical/queries/attributes";
+// import { CollectionSortField } from "deprecated/@nautical";
 import { Attribute } from "@components/atoms";
 
 /*
@@ -306,8 +306,8 @@ import isEqual from "lodash/isEqual";
 import * as React from "react";
 
 import { Thumbnail } from "@components/molecules";
-// import saleBadge from "@temp/images/sale_corner_red.svg";
-import SaleBadge from "@temp/_nautical/components/SaleBadge/SaleBadge";
+// import saleBadge from "deprecated/images/sale_corner_red.svg";
+import SaleBadge from "deprecated/_nautical/components/SaleBadge/SaleBadge";
 // import { ReactSVG } from "react-svg";
 import { TaxedMoney } from "../../@next/components/containers";
 import { BasicProductFields } from "../../views/Product/gqlTypes/BasicProductFields";

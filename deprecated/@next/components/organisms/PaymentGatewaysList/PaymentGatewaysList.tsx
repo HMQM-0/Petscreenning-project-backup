@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ErrorMessage, Radio } from "@components/atoms";
-import { PROVIDERS } from "@temp/core/config";
+import { PROVIDERS } from "deprecated/core/config";
 
 import {
   BraintreePaymentGateway,

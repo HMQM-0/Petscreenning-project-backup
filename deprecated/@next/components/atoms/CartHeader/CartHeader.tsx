@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import * as S from "./styles";
 

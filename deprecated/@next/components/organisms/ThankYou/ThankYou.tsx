@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 
 import { Container } from "@components/templates";
-import { checkoutMessages } from "@temp/intl";
+import { checkoutMessages } from "deprecated/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";

@@ -52,7 +52,6 @@
       "@types": ["./deprecated/@next/types/index.ts"],
       "@types/*": ["./deprecated/@next/types/*"],
       "@app/*": ["./deprecated/@next/*"],
-      "@temp/*": ["./deprecated/*"],
       "@nautical/*": ["./deprecated/@nautical/*"]
     }
   },

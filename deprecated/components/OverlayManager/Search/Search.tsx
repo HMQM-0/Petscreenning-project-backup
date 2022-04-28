@@ -11,7 +11,7 @@ import {
 // import { RouteComponentProps, withRouter } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import {
   Button,
@@ -33,7 +33,7 @@ import { TypedSearchResults } from "./queries";
 
 import searchImg from "../../../images/search.svg";
 import closeImg from "../../../images/x.svg";
-import { withRouter } from "@temp/components/Overlay/provider";
+import { withRouter } from "deprecated/components/Overlay/provider";
 
 interface SearchProps extends WrappedComponentProps {
   overlay: OverlayContextInterface;

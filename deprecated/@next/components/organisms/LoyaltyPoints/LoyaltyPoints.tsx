@@ -5,10 +5,10 @@ import { ITaxedMoney } from "@types";
 import Slider from "@mui/material/Slider";
 import { customSliderStyles } from "./styles";
 import { Button, Divider } from "@mui/material";
-import { useCart, useCheckout } from "@temp/@nautical/react";
+import { useCart, useCheckout } from "deprecated/@nautical/react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { User } from "@temp/@nautical/fragments/gqlTypes/User";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { User } from "deprecated/@nautical/fragments/gqlTypes/User";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints } from "@nautical/react/mutations";
 import {
   useFetchLoyaltyAndReferralsInfo,

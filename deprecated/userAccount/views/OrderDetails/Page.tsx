@@ -7,7 +7,7 @@ import {
   checkoutMessages,
   translatePaymentStatus,
   translateOrderStatus,
-} from "@temp/intl";
+} from "deprecated/intl";
 // import { OrderDetail_lines } from "@nautical/sdk/lib/fragments/gqlTypes/OrderDetail";
 import { OrderDetail_lines } from "@nautical/fragments/gqlTypes/OrderDetail";
 import { DropdownMenu, IconButton } from "@components/atoms";
@@ -30,7 +30,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "@temp/core/utils";
+} from "deprecated/core/utils";
 
 const extractOrderLines = (lines: OrderDetail_lines[]): ILine[] => {
   return lines

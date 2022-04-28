@@ -17,7 +17,7 @@ import {
   isMicrosite,
 } from "../../../../core/utils";
 import usePrice, { usePriceRange } from "@hooks/usePrice";
-import { WishlistContext } from "@temp/@nautical/react/components/WishlistProvider/context";
+import { WishlistContext } from "deprecated/@nautical/react/components/WishlistProvider/context";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

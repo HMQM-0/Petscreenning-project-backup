@@ -2,14 +2,14 @@ import "./scss/index.scss";
 import * as React from "react";
 import { AlertManager, useAlert } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { Button, Form, TextField } from "../..";
 import { maybe } from "../../../core/utils";
 import { SubmitRatingAndReview } from "./gqlTypes/SubmitRatingAndReview";
 import { TypedRatingAndReviewMutation } from "./mutations";
 import Rating from "@mui/material/Rating";
 import { OverlayContext } from "../../../components/Overlay/context";
-import TextArea from "@temp/components/TextArea";
+import TextArea from "deprecated/components/TextArea";
 
 const showSuccessNotification = (
   data: SubmitRatingAndReview,

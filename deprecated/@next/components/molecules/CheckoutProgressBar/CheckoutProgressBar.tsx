@@ -1,7 +1,7 @@
 import React from "react";
 import { useIntl, IntlShape } from "react-intl";
 import { Link } from "react-router-dom";
-import { checkoutMessages } from "@temp/intl";
+import { checkoutMessages } from "deprecated/intl";
 
 import { ICheckoutStep } from "@types";
 

@@ -4,7 +4,7 @@ import {
   CHECKOUT_STEPS,
   CheckoutStep,
   MICROSITE_CHECKOUT_STEPS,
-} from "@temp/core/config";
+} from "deprecated/core/config";
 
 /**
  * Gets checkout step based on the provided path.

@@ -9,7 +9,7 @@ import NavItem, { INavItem } from "./NavItem";
 // import { FormattedMessage } from "react-intl";
 // import { Link } from "react-router-dom";
 // import { ReactSVG } from "react-svg";
-// import { commonMessages } from "@temp/intl";
+// import { commonMessages } from "deprecated/intl";
 
 // import { baseUrl } from "../../app/routes";
 

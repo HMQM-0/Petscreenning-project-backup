@@ -1,5 +1,9 @@
 import { Box, Button } from "@mui/material";
-import { OverlayContext, OverlayTheme, OverlayType } from "@temp/components";
+import {
+  OverlayContext,
+  OverlayTheme,
+  OverlayType,
+} from "deprecated/components";
 import * as React from "react";
 interface IPromoPopupProps {
   disabled?: boolean;

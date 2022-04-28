@@ -3,7 +3,7 @@
 // This file was automatically generated and should not be edited.
 
 import { CountryCode } from "./../../../../gqlTypes/globalTypes";
-import { Seller } from "@temp/@next/components/organisms/CheckoutShipping/gqlTypes/MultiSellerCheckout";
+import { Seller } from "deprecated/@next/components/organisms/CheckoutShipping/gqlTypes/MultiSellerCheckout";
 import {
   ProductDetails_product_attributes,
   ProductDetails_product_category_products_edges_node,
@@ -12,7 +12,7 @@ import {
   ProductDetails_product_thumbnail,
   ProductDetails_product_thumbnail2x,
   ProductDetails_product_variants,
-} from "@temp/@nautical/queries/gqlTypes/ProductDetails";
+} from "deprecated/@nautical/queries/gqlTypes/ProductDetails";
 import { ProductFeatures } from "./ProductDetails";
 
 // ====================================================

@@ -11,8 +11,8 @@ import { statuses as dummyStatuses } from "@components/organisms/DummyPaymentGat
 // import { useCheckout } from "@nautical/sdk";
 import { useCheckout } from "@nautical/react";
 import { IFormError } from "@types";
-import useCookie from "@temp/_nautical/hooks/useCookie";
-import { getMicrositeId, isMicrosite } from "@temp/core/utils";
+import useCookie from "deprecated/_nautical/hooks/useCookie";
+import { getMicrositeId, isMicrosite } from "deprecated/core/utils";
 
 export interface ISubmitCheckoutData {
   id: string;

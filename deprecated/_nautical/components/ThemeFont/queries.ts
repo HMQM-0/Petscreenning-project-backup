@@ -1,4 +1,4 @@
-import { TypedQuery } from "@temp/core/queries";
+import { TypedQuery } from "deprecated/core/queries";
 import gql from "graphql-tag";
 import { DesignerData } from "./types";
 

@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { IconButton } from "@components/atoms";
 import { AttributeValuesChecklist } from "@components/molecules";
 import { useHandlerWhenClickedOutside } from "@hooks";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import { Overlay } from "..";
 import { IFilters, ISingleFilterAttribute } from "../../../types";
@@ -33,7 +33,6 @@ export const FilterSidebar: React.FC<IProps> = ({
   target,
   onAttributeFiltersChange,
 }: IProps) => {
-
   const topEl = React.useRef(null);
 
   React.useEffect(() => {
@@ -41,8 +40,8 @@ export const FilterSidebar: React.FC<IProps> = ({
       // @ts-ignore
       topEl.current.scrollIntoView();
     }
-  }, [show])
-  
+  }, [show]);
+
   const { setElementRef } = useHandlerWhenClickedOutside(() => {
     hide();
   });

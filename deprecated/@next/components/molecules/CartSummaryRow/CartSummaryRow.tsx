@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Box } from "@mui/material";
 import { TaxedMoney } from "@components/containers";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { CachedImage } from "../CachedImage";
 
 import * as S from "./styles";

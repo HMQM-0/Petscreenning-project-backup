@@ -4,7 +4,7 @@ import {
   FormattedButton,
   FormattedText,
   TextAlign,
-} from "@temp/_nautical/types";
+} from "deprecated/_nautical/types";
 import { Box } from "@mui/material";
 import React from "react";
 import "./scss/index.scss";

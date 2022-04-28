@@ -6,7 +6,7 @@ import { useAlert } from "react-alert";
 import { useAuth, useAffiliateCode } from "@nautical/react";
 import { ServiceWorkerContext } from "@components/containers";
 import { useSearchParams } from "react-router-dom";
-import useCookie from "@temp/_nautical/hooks/useCookie";
+import useCookie from "deprecated/_nautical/hooks/useCookie";
 import { maybe } from "@utils/misc";
 // import { useLocation } from "react-router";
 

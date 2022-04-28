@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import "./scss/index.scss";
 
 import { AddressFormModal, AddressGrid } from "@components/organisms";
-import { checkoutMessages, commonMessages } from "@temp/intl";
+import { checkoutMessages, commonMessages } from "deprecated/intl";
 // import { useDefaultUserAddress, useDeleteUserAddresss } from "@nautical/sdk";
 import { useDefaultUserAddress, useDeleteUserAddresss } from "@nautical/react";
 /* import {

@@ -1,10 +1,10 @@
 import React from "react";
-import PromoBanner from "@temp/_nautical/components/PromoBanner/PromoBanner";
-import { ThemeFont } from "@temp/_nautical/components/ThemeFont/ThemeFont";
+import PromoBanner from "deprecated/_nautical/components/PromoBanner/PromoBanner";
+import { ThemeFont } from "deprecated/_nautical/components/ThemeFont/ThemeFont";
 // import { useAuth } from "@nautical/sdk";
 import { useAuth, useShopDetails } from "@nautical/react";
 // import { DemoBanner, Loader } from "@components/atoms";
-// import { demoMode } from "@temp/constants";
+// import { demoMode } from "deprecated/constants";
 import {
   Footer,
   // MainMenu,
@@ -16,8 +16,8 @@ import ShopProvider from "../components/ShopProvider";
 import "../globalStyles/scss/index.scss";
 import { AppRoutes } from "./routes";
 import Notifications from "./Notifications";
-import CookieBar from "@temp/_nautical/components/CookieBar";
-import { useAcceptCookies } from "@temp/hooks/useAcceptCookies";
+import CookieBar from "deprecated/_nautical/components/CookieBar";
+import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
 import {
   Button,
   createTheme,
@@ -27,10 +27,10 @@ import {
   useScrollTrigger,
   Skeleton,
 } from "@mui/material";
-// import MainMenu from "@temp/components/MainMenu/MainMenu";
-import BottomNav from "@temp/components/MainMenu/BottomNav";
-// import RewardBanner from "@temp/_nautical/components/RewardBanner/RewardBanner";
-import TopNav from "@temp/components/MainMenu/TopNav";
+// import MainMenu from "deprecated/components/MainMenu/MainMenu";
+import BottomNav from "deprecated/components/MainMenu/BottomNav";
+// import RewardBanner from "deprecated/_nautical/components/RewardBanner/RewardBanner";
+import TopNav from "deprecated/components/MainMenu/TopNav";
 import { useQuery } from "@apollo/client";
 import { brandingQuery } from "./queries";
 import { maybe } from "@utils/misc";

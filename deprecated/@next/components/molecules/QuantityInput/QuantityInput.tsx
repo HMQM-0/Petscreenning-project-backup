@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { TextField } from "@mui/material";
 // import { TextField } from "@components/molecules";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 export interface IQuantityInput {
   quantity: number;

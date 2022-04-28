@@ -4,8 +4,8 @@ import Media from "react-media";
 import { Box } from "@mui/material";
 // import { Grid } from "@mui/material";
 import { xLargeScreen } from "@styles/constants";
-// import { ProductSideNavbarList } from "@temp/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
-// import { ProductSideNavbarGrid } from "@temp/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
+// import { ProductSideNavbarList } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
+// import { ProductSideNavbarGrid } from "deprecated/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
 import { IFilters } from "@types";
 import { StringParam, useQueryParam } from "use-query-params";
 import { MetaWrapper, NotFound, OfflinePlaceholder } from "../../components";
@@ -25,13 +25,16 @@ import { OverlayContext, OverlayTheme, OverlayType } from "../../components";
 import { useAuth } from "@nautical/react";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useParams } from "react-router";
 import StorePage from "../Builder/StorePage";
-// import { useVisibility } from "@temp/_nautical/hooks";
+// import { useVisibility } from "deprecated/_nautical/hooks";
 // import { FormattedMessage } from "react-intl";
 import { useQuery } from "@apollo/client";
-import { BuilderProducts, BuilderProductsVariables } from "./gqlTypes/BuilderProducts";
+import {
+  BuilderProducts,
+  BuilderProductsVariables,
+} from "./gqlTypes/BuilderProducts";
 import { Loader } from "@components/atoms";
 
 // type ViewProps = RouteComponentProps<{
@@ -86,25 +89,16 @@ export const View: React.FC<any> = ({ logo }) => {
     "filters",
     FilterQuerySet
   );
-  const [afterFilters, setAfterFilters] = useQueryParam(
-    "after"
-  );
-  const [beforeFilters, setBeforeFilters] = useQueryParam(
-    "before"
-  );
-  const [firstFilters, setFirstFilters] = useQueryParam(
-    "first"
-  );
-  const [lastFilters, setLastFilters] = useQueryParam(
-    "last"
-  );
+  const [afterFilters, setAfterFilters] = useQueryParam("after");
+  const [beforeFilters, setBeforeFilters] = useQueryParam("before");
+  const [firstFilters, setFirstFilters] = useQueryParam("first");
+  const [lastFilters, setLastFilters] = useQueryParam("last");
 
   // React.useEffect(() => {
   //   if (!firstFilters && !lastFilters) {
   //     setFirstFilters(PRODUCTS_PER_PAGE)
   //   }
   // }, [])
-
 
   const clearFilters = () => {
     setAttributeFilters({});
@@ -153,7 +147,7 @@ export const View: React.FC<any> = ({ logo }) => {
     ...filters,
     after: afterFilters,
     before: beforeFilters,
-    first: (!lastFilters && !firstFilters) ? PRODUCTS_PER_PAGE : firstFilters,
+    first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
     attributes: filters.attributes
       ? convertToAttributeScalar(filters.attributes)
@@ -193,21 +187,24 @@ export const View: React.FC<any> = ({ logo }) => {
     },
   ];
   // @ts-ignore
-  const { data: builderProductsData, loading: builderProductsLoading } = useQuery<BuilderProducts, BuilderProductsVariables>(builderProductsQuery, {variables: variables});
+  const { data: builderProductsData, loading: builderProductsLoading } =
+    useQuery<BuilderProducts, BuilderProductsVariables>(builderProductsQuery, {
+      variables: variables,
+    });
 
   const loadNextPage = () => {
     setBeforeFilters(null);
     setLastFilters(null);
     setAfterFilters(builderProductsData.productList.pageInfo.endCursor);
     setFirstFilters(PRODUCTS_PER_PAGE);
-  }
+  };
 
   const loadPrevPage = () => {
     setAfterFilters(null);
     setFirstFilters(null);
     setBeforeFilters(builderProductsData.productList.pageInfo.startCursor);
     setLastFilters(PRODUCTS_PER_PAGE);
-  }
+  };
 
   return !user && loginForProducts ? (
     <>
@@ -254,49 +251,51 @@ export const View: React.FC<any> = ({ logo }) => {
         )}
       </OverlayContext.Consumer>
     </>
-  ) : (
-    builderKey ?
-      <NetworkStatus>
-        {(isOnline) => {
-          if (builderProductsLoading) {
-            return <Loader />
-          }
-          
-          const canDisplayFilters = maybe(
-            () => !!builderProductsData.attributes.edges,
-            false
+  ) : builderKey ? (
+    <NetworkStatus>
+      {(isOnline) => {
+        if (builderProductsLoading) {
+          return <Loader />;
+        }
+
+        const canDisplayFilters = maybe(
+          () => !!builderProductsData.attributes.edges,
+          false
+        );
+
+        if (canDisplayFilters) {
+          return (
+            <MetaWrapper
+              meta={{
+                description: "All Products",
+                title: "All Products",
+                type: "product.products",
+              }}
+            >
+              <StorePage
+                products={builderProductsData}
+                loadNextPage={loadNextPage}
+                loadPrevPage={loadPrevPage}
+              />
+            </MetaWrapper>
           );
-          
-          if (canDisplayFilters) {
-            return (
-              <MetaWrapper
-                meta={{
-                  description: "All Products",
-                  title: "All Products",
-                  type: "product.products",
-                }}
-              >
-                <StorePage products={builderProductsData} loadNextPage={loadNextPage} loadPrevPage={loadPrevPage} />
-              </MetaWrapper>
-            )
-          }
+        }
 
-          if (builderProductsData === null) {
-            return <NotFound />;
-          }
+        if (builderProductsData === null) {
+          return <NotFound />;
+        }
 
-          if (!isOnline) {
-            return <OfflinePlaceholder />;
-          }
+        if (!isOnline) {
+          return <OfflinePlaceholder />;
+        }
 
-          return <Loader />
-
-        }}
-      </NetworkStatus>
-        :
-      <NetworkStatus>
-        {(isOnline) => (
-          // @ts-ignore
+        return <Loader />;
+      }}
+    </NetworkStatus>
+  ) : (
+    <NetworkStatus>
+      {(isOnline) => (
+        // @ts-ignore
         <TypedProductsQuery variables={variables} errorPolicy="all" loaderFull>
           {({ loading, data, error, loadMore }) => {
             const canDisplayFilters = maybe(
@@ -304,102 +303,102 @@ export const View: React.FC<any> = ({ logo }) => {
               false
             );
 
-              const handleLoadMore = () =>
-                loadMore(
-                  (prev, next) => ({
-                    ...prev,
-                    products: {
-                      ...prev.products,
-                      edges: [...prev.products.edges, ...next.products.edges],
-                      pageInfo: next.products.pageInfo,
-                    },
-                  }),
-                  { after: data.products.pageInfo.endCursor }
-                );
+            const handleLoadMore = () =>
+              loadMore(
+                (prev, next) => ({
+                  ...prev,
+                  products: {
+                    ...prev.products,
+                    edges: [...prev.products.edges, ...next.products.edges],
+                    pageInfo: next.products.pageInfo,
+                  },
+                }),
+                { after: data.products.pageInfo.endCursor }
+              );
 
-              // const moreButton = useVisibility(
-              //   (visible) => {
-              //     if (!loading) {
-              //       if (visible && maybe(
-              //         () => data.products.pageInfo.hasNextPage,
-              //         false
-              //       )) {
-              //         // handleLoadMore();
-              //         setTimeout(() => {
-              //           handleLoadMore();
-              //         }, 500);
-              //       }
-              //     }
-              //   },
-              //   [loading]
-              // );
+            // const moreButton = useVisibility(
+            //   (visible) => {
+            //     if (!loading) {
+            //       if (visible && maybe(
+            //         () => data.products.pageInfo.hasNextPage,
+            //         false
+            //       )) {
+            //         // handleLoadMore();
+            //         setTimeout(() => {
+            //           handleLoadMore();
+            //         }, 500);
+            //       }
+            //     }
+            //   },
+            //   [loading]
+            // );
 
-              if (canDisplayFilters) {
-                return (
-                  <MetaWrapper
-                    meta={{
-                      description: "All Products",
-                      title: "All Products",
-                      type: "product.products",
+            if (canDisplayFilters) {
+              return (
+                <MetaWrapper
+                  meta={{
+                    description: "All Products",
+                    title: "All Products",
+                    type: "product.products",
+                  }}
+                >
+                  <Media
+                    query={{
+                      minWidth: xLargeScreen,
                     }}
                   >
-                    <Media
-                      query={{
-                        minWidth: xLargeScreen,
-                      }}
-                    >
-                      {(matches: boolean) => {
-                        return (
-                          <>
-                            {/* <ProductSideNavbarGrid
+                    {(matches: boolean) => {
+                      return (
+                        <>
+                          {/* <ProductSideNavbarGrid
                           matches={matches}
                           menu={data.menu}
                         > */}
-                            <Page
-                              clearFilters={clearFilters}
-                              attributes={data.attributes.edges.map(
-                                (edge) => edge.node
-                              )}
-                              menu={data.menu}
-                              displayLoader={loading}
-                              hasNextPage={maybe(
-                                () => data.products.pageInfo.hasNextPage,
-                                false
-                              )}
-                              sortOptions={sortOptions}
-                              activeSortOption={filters.sortBy}
-                              filters={filters}
-                              products={data.products}
-                              onAttributeFiltersChange={onFiltersChange}
-                              onLoadMore={handleLoadMore}
-                              activeFilters={
-                                filters!.attributes
-                                  ? Object.keys(filters!.attributes).length
-                                  : 0
-                              }
-                              onOrder={(value) => {
-                                setSort(value.value);
-                              }}
-                            />
-                            {/* </ProductSideNavbarGrid> */}
-                          </>
-                        );
-                      }}
-                    </Media>
-                  </MetaWrapper>
-                );
-              }
+                          <Page
+                            clearFilters={clearFilters}
+                            attributes={data.attributes.edges.map(
+                              (edge) => edge.node
+                            )}
+                            menu={data.menu}
+                            displayLoader={loading}
+                            hasNextPage={maybe(
+                              () => data.products.pageInfo.hasNextPage,
+                              false
+                            )}
+                            sortOptions={sortOptions}
+                            activeSortOption={filters.sortBy}
+                            filters={filters}
+                            products={data.products}
+                            onAttributeFiltersChange={onFiltersChange}
+                            onLoadMore={handleLoadMore}
+                            activeFilters={
+                              filters!.attributes
+                                ? Object.keys(filters!.attributes).length
+                                : 0
+                            }
+                            onOrder={(value) => {
+                              setSort(value.value);
+                            }}
+                          />
+                          {/* </ProductSideNavbarGrid> */}
+                        </>
+                      );
+                    }}
+                  </Media>
+                </MetaWrapper>
+              );
+            }
 
-              if (data === null) {
-                return <NotFound />;
-              }
+            if (data === null) {
+              return <NotFound />;
+            }
 
             if (!isOnline) {
               return <OfflinePlaceholder />;
             }
           }}
         </TypedProductsQuery>
-        )}
+      )}
     </NetworkStatus>
   );
 };

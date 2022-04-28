@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ProductDetails_product } from "@temp/views/Product/gqlTypes/ProductDetails";
+import { ProductDetails_product } from "deprecated/views/Product/gqlTypes/ProductDetails";
 
 export const productPlaceholder: ProductDetails_product = {
   id: "UHJvZHVjdDo4MQ==",

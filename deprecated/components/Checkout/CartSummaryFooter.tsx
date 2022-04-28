@@ -1,8 +1,8 @@
 import { Money, TaxedMoney } from "@components/containers";
 import { Box, Divider, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { ICheckoutModelPriceValue } from "@temp/@nautical/helpers";
-import { commonMessages } from "@temp/intl";
+import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
+import { commonMessages } from "deprecated/intl";
 import { ITaxedMoney } from "@types";
 import clsx from "clsx";
 import * as React from "react";

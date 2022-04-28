@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 // import { useAuth, useCart } from "@nautical/sdk";
 import { useAuth, useCart } from "@nautical/react";
 import { Box } from "@mui/material";

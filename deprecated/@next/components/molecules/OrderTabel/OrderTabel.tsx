@@ -4,7 +4,7 @@ import Media from "react-media";
 import { ThemeContext } from "styled-components";
 import { Box } from "@mui/material";
 import { TaxedMoney } from "@components/containers";
-import { commonMessages, translateOrderStatus } from "@temp/intl";
+import { commonMessages, translateOrderStatus } from "deprecated/intl";
 
 import { Thumbnail } from "..";
 import {

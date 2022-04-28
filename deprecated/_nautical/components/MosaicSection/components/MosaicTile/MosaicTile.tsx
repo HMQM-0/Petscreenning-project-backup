@@ -1,6 +1,6 @@
-import { ValueAction } from "@temp/_nautical/blocks";
-import { ValueActionProps } from "@temp/_nautical/blocks/ValueAction";
-import { BlockAlign, VerticalAlign } from "@temp/_nautical/types";
+import { ValueAction } from "deprecated/_nautical/blocks";
+import { ValueActionProps } from "deprecated/_nautical/blocks/ValueAction";
+import { BlockAlign, VerticalAlign } from "deprecated/_nautical/types";
 import * as React from "react";
 import "./scss/index.scss";
 import { Box } from "@mui/material";

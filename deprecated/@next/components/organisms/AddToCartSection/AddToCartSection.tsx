@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Button } from "@mui/material";
 
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { ICheckoutModelLine } from "@nautical/helpers";
 import {
   ProductDetails_product_pricing,
@@ -12,13 +12,13 @@ import {
 import { IProductVariantsAttributesSelectedValues } from "@types";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "@components/molecules/ViewSizeGuideButton/ViewSizeGuideButton";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useAuth } from "@nautical/react";
 import {
   OverlayContext,
   OverlayTheme,
   OverlayType,
-} from "@temp/components/Overlay";
+} from "deprecated/components/Overlay";
 
 import {
   getAvailableQuantity,

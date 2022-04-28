@@ -3,10 +3,10 @@ import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Button, Chip } from "@mui/material";
 import { ErrorMessage, Input } from "@components/atoms";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import * as S from "./styles";
 import { IProps } from "./types";
-import { useCheckout } from "@temp/@nautical/react";
+import { useCheckout } from "deprecated/@nautical/react";
 
 export const DiscountForm: React.FC<IProps> = ({
   handleSubmit,

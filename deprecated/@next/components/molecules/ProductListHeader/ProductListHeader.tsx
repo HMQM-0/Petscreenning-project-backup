@@ -3,15 +3,15 @@ import Media from "react-media";
 import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { Chip } from "@mui/material";
 import { DropdownSelect } from "@components/atoms";
 import { smallScreen, xLargeScreen } from "@styles/constants";
-import directory from "@temp/images/directory.svg";
-import filter from "@temp/images/filter.svg";
+import directory from "deprecated/images/directory.svg";
+import filter from "deprecated/images/filter.svg";
 import * as S from "./styles";
 import { IProps } from "./types";
-import { isMicrosite } from "@temp/core/utils";
+import { isMicrosite } from "deprecated/core/utils";
 
 export const ProductListHeader: React.FC<IProps> = ({
   numberOfProducts = 0,

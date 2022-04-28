@@ -1,13 +1,6 @@
 import { useAlert } from "react-alert";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/styles";
-import { useCart } from "@nautical/react";
-import {
-  ProductDetails_product,
-  ProductDetails_product_variants,
-  ProductDetails_product_variants_images,
-} from "../Product/gqlTypes/ProductDetails";
-import { AddToWishlist, FilterSidebar } from "@components/organisms";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   AlertColor,
@@ -22,28 +15,38 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import { AlertIcon, ButtonIcon, GridIcon, TextfieldIcon } from "./icons";
 import React from "react";
 import {
   InsertMenuConfig,
   InsertMenuItem,
 } from "@builder.io/sdk/dist/src/builder.class";
 import { Builder } from "@builder.io/react";
-import { enumsAlert, enumsButtonVariant, enumsColor } from "./mui";
-import { TaxedMoney } from "@components/containers";
-import { ProductList_products } from "@temp/@nautical/queries/gqlTypes/ProductList";
-import { DropdownSelect } from "@components/atoms";
 import { StringParam, useQueryParam, useQueryParams } from "use-query-params";
-import ProductGallery from "./components/ProductGallery";
 import { FormattedMessage } from "react-intl";
-import { useVisibility } from "@temp/_nautical/hooks";
 import { gql, useQuery } from "@apollo/client";
-import { FilterQuerySet } from "../Products/View";
+
 import { IFilters } from "@types";
 import { Products_attributes_edges_node } from "../Products/gqlTypes/Products";
-import filterImage from "@temp/images/filter.svg";
+import filterImage from "deprecated/images/filter.svg";
 import { ReactSVG } from "react-svg";
-// import { usePersistedState } from "@temp/_nautical/hooks/usePersistedState";
+import { useVisibility } from "deprecated/_nautical/hooks";
+import { DropdownSelect } from "@components/atoms";
+import { ProductList_products } from "deprecated/@nautical/queries/gqlTypes/ProductList";
+import { TaxedMoney } from "@components/containers";
+import { AddToWishlist, FilterSidebar } from "@components/organisms";
+import { useCart } from "@nautical/react";
+
+import ProductGallery from "./components/ProductGallery";
+import { enumsAlert, enumsButtonVariant, enumsColor } from "./mui";
+import { AlertIcon, ButtonIcon, GridIcon, TextfieldIcon } from "./icons";
+import { FilterQuerySet } from "../Products/View";
+
+import {
+  ProductDetails_product,
+  ProductDetails_product_variants,
+  ProductDetails_product_variants_images,
+} from "../Product/gqlTypes/ProductDetails";
+// import { usePersistedState } from "deprecated/_nautical/hooks/usePersistedState";
 // import ClearIcon from '@mui/icons-material/Clear';
 // import Media from "react-media";
 // import { smallScreen } from "@styles/constants";
@@ -145,7 +148,7 @@ export const BuilderAddToCartQuick = (props: {
 
   return (
     <IconButton
-      // @ts-ignore 
+      // @ts-ignore
       color={props.color ? props.color : "primary"}
       onClick={(event) => {
         handleAddToCart(event, props.variantId, 1);
@@ -544,7 +547,7 @@ export const BuilderProductSort = (props: {
     sortBy: StringParam,
     after: StringParam,
     before: StringParam,
-  })
+  });
 
   // @ts-ignore
   const { sortBy: sort, after, before } = queryParams;
@@ -554,8 +557,8 @@ export const BuilderProductSort = (props: {
     setQueryParams({
       sortBy: value.value,
       after: null,
-      before: null
-    })
+      before: null,
+    });
   };
 
   return (

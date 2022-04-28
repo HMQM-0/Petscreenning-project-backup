@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Media from "react-media";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import CostRow from "./CostRow";
 import ProductRow, { EditableProductRowProps, ILine } from "./ProductRow";

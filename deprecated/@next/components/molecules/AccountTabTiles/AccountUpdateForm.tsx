@@ -3,7 +3,7 @@ import React from "react";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 import { ButtonLink } from "@components/atoms";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import { TextField } from "../TextField";
 

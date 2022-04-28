@@ -3,10 +3,10 @@ import * as React from "react";
 import { Box } from "@mui/material";
 import Link from "next/link";
 
-import noPhotoImg from "@temp/images/no-photo.svg";
-import { generateCategoryUrl } from "@temp/core/utils";
+import noPhotoImg from "deprecated/images/no-photo.svg";
+import { generateCategoryUrl } from "deprecated/core/utils";
 import "./scss/index.module.scss";
-import { ProductsList_categories_edges_node } from "@temp/views/Home/gqlTypes/ProductsList";
+import { ProductsList_categories_edges_node } from "deprecated/views/Home/gqlTypes/ProductsList";
 
 interface ICategoryBlockProps {
   category: ProductsList_categories_edges_node;

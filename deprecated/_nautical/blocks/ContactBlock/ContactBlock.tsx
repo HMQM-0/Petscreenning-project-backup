@@ -1,5 +1,5 @@
-import facebookIcon from "@temp/images/facebook-icon.svg";
-import mediumIcon from "@temp/images/medium-icon.svg";
+import facebookIcon from "deprecated/images/facebook-icon.svg";
+import mediumIcon from "deprecated/images/medium-icon.svg";
 import React from "react";
 import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";

@@ -25,8 +25,8 @@ import {
 import { makeStyles } from "@mui/styles";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import LockIcon from "@mui/icons-material/Lock";
-import { IItems } from "@temp/@nautical/api/Cart/types";
-import { ICheckoutModelPriceValue } from "@temp/@nautical/helpers";
+import { IItems } from "deprecated/@nautical/api/Cart/types";
+import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import { ICardData, IFormError, ITaxedMoney } from "@types";
 import * as React from "react";
 import CartSummary from "./CartSummary";
@@ -41,18 +41,17 @@ import { Money } from "@components/containers";
 import { StripePaymentGateway } from "@components/organisms";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import Loader from "@temp/components/Loader";
+import Loader from "deprecated/components/Loader";
 import * as Yup from "yup";
 import { maybe } from "@utils/misc";
 import { LoyaltyPoints } from "@components/organisms/LoyaltyPoints";
 import { AuthorizeNetPaymentGateway } from "@components/organisms/AuthorizeNetPaymentGateway/AuthorizeNetPaymentGateway";
-import { ShopContext } from "@temp/components/ShopProvider/context";
-import { Plugins } from "@temp/@nautical";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
+import { Plugins } from "deprecated/@nautical";
 import {
   useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints,
   useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord,
 } from "@nautical/react/mutations";
-
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -1064,25 +1063,27 @@ const MuiCheckout: React.FunctionComponent<ICheckoutProps> = (props) => {
                           variant="outlined"
                           InputLabelProps={{ shrink: true }}
                         />
-                        {!!countries && <Field
-                          className={classes.textfield}
-                          component={TextField}
-                          name="country"
-                          label="country"
-                          variant="outlined"
-                          required
-                          // NEED TO FIGURE OUT HOW AUTOCOMPLETE INTERACTS WITH DROPDOWN SELECTOR
-                          autoComplete="shipping country"
-                          InputLabelProps={{ shrink: true }}
-                          select
-                        >
-                          {countries?.map((option) => (
-                            // @ts-ignore
-                            <MenuItem key={option.code} value={option}>
-                              {option.country}
-                            </MenuItem>
-                          ))}
-                        </Field>}
+                        {!!countries && (
+                          <Field
+                            className={classes.textfield}
+                            component={TextField}
+                            name="country"
+                            label="country"
+                            variant="outlined"
+                            required
+                            // NEED TO FIGURE OUT HOW AUTOCOMPLETE INTERACTS WITH DROPDOWN SELECTOR
+                            autoComplete="shipping country"
+                            InputLabelProps={{ shrink: true }}
+                            select
+                          >
+                            {countries?.map((option) => (
+                              // @ts-ignore
+                              <MenuItem key={option.code} value={option}>
+                                {option.country}
+                              </MenuItem>
+                            ))}
+                          </Field>
+                        )}
                         <Field
                           className={classes.textfield}
                           component={TextField}
@@ -1444,25 +1445,27 @@ const MuiCheckout: React.FunctionComponent<ICheckoutProps> = (props) => {
                             variant="outlined"
                             InputLabelProps={{ shrink: true }}
                           />
-                          {!!countries && <Field
-                            className={classes.textfield}
-                            component={TextField}
-                            name="billingCountry"
-                            label="country"
-                            variant="outlined"
-                            required
-                            // NEED TO FIGURE OUT HOW AUTOCOMPLETE INTERACTS WITH DROPDOWN SELECTOR
-                            autoComplete="billing country"
-                            InputLabelProps={{ shrink: true }}
-                            select
-                          >
-                            {countries.map((option) => (
-                              // @ts-ignore
-                              <MenuItem key={option.code} value={option}>
-                                {option.country}
-                              </MenuItem>
-                            ))}
-                          </Field>}
+                          {!!countries && (
+                            <Field
+                              className={classes.textfield}
+                              component={TextField}
+                              name="billingCountry"
+                              label="country"
+                              variant="outlined"
+                              required
+                              // NEED TO FIGURE OUT HOW AUTOCOMPLETE INTERACTS WITH DROPDOWN SELECTOR
+                              autoComplete="billing country"
+                              InputLabelProps={{ shrink: true }}
+                              select
+                            >
+                              {countries.map((option) => (
+                                // @ts-ignore
+                                <MenuItem key={option.code} value={option}>
+                                  {option.country}
+                                </MenuItem>
+                              ))}
+                            </Field>
+                          )}
                           {/* <Field
                                                     className={classes.textfield}
                                                     component={TextField}

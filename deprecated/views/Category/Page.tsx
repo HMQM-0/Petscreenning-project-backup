@@ -3,7 +3,7 @@ import "./scss/index.scss";
 import * as React from "react";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { IFilterAttributes, IFilters } from "@types";
 import {
   Breadcrumbs,
@@ -17,7 +17,7 @@ import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
 
 import { maybe } from "../../core/utils";
 
-import { ProductSideNavbar } from "@temp/_nautical/components/ProductSideNavbar/ProductSideNavbar";
+import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
 import { Menu } from "../Products/gqlTypes/Products";
 import { Category_category } from "./gqlTypes/Category";
 import { CategoryProducts_products } from "./gqlTypes/CategoryProducts";

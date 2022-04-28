@@ -10,7 +10,7 @@ import CartSummaryRow from "./CartSummaryRow";
 import CartSummaryFooter from "./CartSummaryFooter";
 import { TaxedMoney } from "@components/containers";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { ICheckoutModelPriceValue } from "@temp/@nautical/helpers";
+import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import {
   Accordion,
   AccordionDetails,
@@ -113,9 +113,9 @@ const CartSummary: React.FunctionComponent<ICartSummaryProps> = (props) => {
   const { promoCodeDiscount, addPromoCode, removePromoCode } = useCheckout();
 
   const handleAddPromoCode = async () => {
-    console.info("HANDLING ADD PROMO CODE")
+    console.info("HANDLING ADD PROMO CODE");
     const promoResult = await addPromoCode(code);
-    console.info(promoResult)
+    console.info(promoResult);
     if (promoResult?.dataError?.error) {
       alert.show(
         {
@@ -131,12 +131,12 @@ const CartSummary: React.FunctionComponent<ICartSummaryProps> = (props) => {
         { type: "success" }
       );
     }
-  }
+  };
 
   const handleRemovePromoCode = async () => {
-    console.info("HANDLING REMOVE PROMO CODE")
+    console.info("HANDLING REMOVE PROMO CODE");
     const promoResult = await removePromoCode(promoCodeDiscount.voucherCode);
-    console.info(promoResult)
+    console.info(promoResult);
     if (promoResult?.dataError?.error) {
       alert.show(
         {
@@ -152,7 +152,7 @@ const CartSummary: React.FunctionComponent<ICartSummaryProps> = (props) => {
         { type: "success" }
       );
     }
-  }
+  };
 
   return (
     <Box className={classes.root}>

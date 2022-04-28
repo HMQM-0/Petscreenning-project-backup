@@ -1,34 +1,35 @@
 import clsx from "clsx";
 import * as React from "react";
 import Media from "react-media";
+import { Box } from "@mui/material";
+import { useAlert } from "react-alert";
+
 import { ProductGallery } from "@components/organisms";
 import AddToCartSection from "@components/organisms/AddToCartSection";
+import { ProductDescription as NewProductDescription } from "deprecated/_nautical/components/ProductDescription";
+import NoHomeBreadcrumbs from "deprecated/components/NoHomeBreadcrumbs";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
+
+import GalleryCarousel from "./GalleryCarousel";
+import OtherProducts from "./Other";
+import { IProps } from "./types";
+
 import { smallScreen } from "../../globalStyles/scss/variables.scss";
-import { Box } from "@mui/material";
 import {
   Breadcrumbs,
   // OverlayContext,
   // OverlayTheme,
   // OverlayType,
 } from "../../components";
-
 import {
   generateCategoryUrl,
   generateMicrositeUrl,
   generateProductUrl,
   isMicrosite,
 } from "../../core/utils";
-import GalleryCarousel from "./GalleryCarousel";
-import OtherProducts from "./Other";
-
-import { ProductDescription as NewProductDescription } from "@temp/_nautical/components/ProductDescription";
-
 import { structuredData } from "../../core/SEO/Product/structuredData";
-import { IProps } from "./types";
+
 // import { useAlert } from "react-alert";
-import NoHomeBreadcrumbs from "@temp/components/NoHomeBreadcrumbs";
-import { useAlert } from "react-alert";
-import { ShopContext } from "@temp/components/ShopProvider/context";
 
 const populateBreadcrumbs = (product) => [
   {

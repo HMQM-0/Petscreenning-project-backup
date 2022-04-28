@@ -16,7 +16,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "@temp/core/utils";
+} from "deprecated/core/utils";
 
 const CheckoutLogin: React.FC<{}> = () => {
   const overlay = useContext(OverlayContext);

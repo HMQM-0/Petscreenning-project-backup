@@ -4,9 +4,9 @@ import { makeStyles } from "@mui/styles";
 // import { useIntl } from "react-intl";
 // import { Navigate, useLocation, useNavigate } from "react-router-dom";
 // import { Navigate } from "react-router-dom";
-import MuiCheckout from "@temp/components/Checkout/Checkout";
+import MuiCheckout from "deprecated/components/Checkout/Checkout";
 import { brandingQuery } from "../../../app/queries";
-import logoImg from "@temp/images/wine-logo.png";
+import logoImg from "deprecated/images/wine-logo.png";
 // import { Button, CircularProgress } from "@mui/material";
 // import { CheckoutProgressBar } from "@components/molecules";
 // import {
@@ -24,8 +24,8 @@ import { useCart, useCheckout } from "@nautical/react";
 //   CHECKOUT_STEPS,
 //   CheckoutStep,
 //   MICROSITE_CHECKOUT_STEPS,
-// } from "@temp/core/config";
-// import { checkoutMessages } from "@temp/intl";
+// } from "deprecated/core/config";
+// import { checkoutMessages } from "deprecated/intl";
 // import { ITaxedMoney, ICheckoutStep, ICardData, IFormError } from "@types";
 // import { ITaxedMoney, ICardData, IFormError } from "@types";
 import { ITaxedMoney } from "@types";
@@ -35,7 +35,7 @@ import { ITaxedMoney } from "@types";
 //   getMicrositeSlug,
 //   isMicrosite,
 //   // parseQueryString,
-// } from "@temp/core/utils";
+// } from "deprecated/core/utils";
 // import { CompleteCheckout_checkoutComplete_order } from "@nautical/sdk/lib/mutations/gqlTypes/CompleteCheckout";
 // import { CompleteCheckout_checkoutComplete_order } from "@nautical/mutations/gqlTypes/CompleteCheckout";
 
@@ -55,7 +55,7 @@ import { ITaxedMoney } from "@types";
 import { Box, Modal } from "@mui/material";
 import { useQuery } from "@apollo/client";
 import { maybe } from "@utils/misc";
-import Loader from "@temp/components/Loader";
+import Loader from "deprecated/components/Loader";
 // import { Spacer } from "@components/molecules/ProductTile/styles";
 
 const convertToTaxedMoney = (value: ITaxedMoney | null | undefined) => {

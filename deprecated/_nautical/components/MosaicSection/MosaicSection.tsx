@@ -1,5 +1,9 @@
 import { Grid } from "@mui/material";
-import { BlockAlign, TextAlign, VerticalAlign } from "@temp/_nautical/types";
+import {
+  BlockAlign,
+  TextAlign,
+  VerticalAlign,
+} from "deprecated/_nautical/types";
 import * as React from "react";
 import { MosaicTile } from "./components/MosaicTile";
 

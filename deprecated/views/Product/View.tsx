@@ -31,7 +31,7 @@ import {
 } from "./queries";
 import { IProps } from "./types";
 import { TypedMicrositeQuery } from "../Microsites/queries";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
 import StorePage from "../Builder/StorePage";

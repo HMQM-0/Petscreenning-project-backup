@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { IItems, ITotalPrice } from "@nautical/api/Cart/types";
 // import { ICheckout, IPayment } from "@nautical/sdk/lib/api/Checkout/types";
 import { ICheckout, IPayment } from "@nautical/api/Checkout/types";
-import { CheckoutStep } from "@temp/core/config";
+import { CheckoutStep } from "deprecated/core/config";
 import { checkIfShippingRequiredForProducts } from "@utils/core";
 import { isPriceEqual } from "@utils/money";
 

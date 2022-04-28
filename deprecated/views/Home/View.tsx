@@ -6,7 +6,7 @@ import { MetaWrapper } from "../../components";
 import Page from "./Page";
 import { builderHomePageQuery, TypedHomePageQuery } from "./queries";
 import StorePage from "../Builder/StorePage";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useQuery } from "@apollo/client";
 
 const View: React.FC = () => {

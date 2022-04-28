@@ -1,8 +1,8 @@
 // import { Theme } from "@mui/material";
 // import { createStyles, makeStyles } from "@mui/styles"';
-import { ValueAction } from "@temp/_nautical/blocks";
-import { ValueActionProps } from "@temp/_nautical/blocks/ValueAction";
-import { BlockAlign } from "@temp/_nautical/types";
+import { ValueAction } from "deprecated/_nautical/blocks";
+import { ValueActionProps } from "deprecated/_nautical/blocks/ValueAction";
+import { BlockAlign } from "deprecated/_nautical/types";
 import { Box } from "@mui/material";
 import React from "react";
 import "./scss/index.scss";

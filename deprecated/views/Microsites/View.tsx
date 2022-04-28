@@ -5,8 +5,8 @@ import Media from "react-media";
 import "./scss/index.scss";
 import { Box } from "@mui/material";
 // import { Grid } from "@mui/material";
-// import { ProductSideNavbarList } from "@temp/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
-// import { ProductSideNavbarGrid } from "@temp/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
+// import { ProductSideNavbarList } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
+// import { ProductSideNavbarGrid } from "deprecated/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
 import { IFilters } from "@types";
 import { StringParam, useQueryParam } from "use-query-params";
 import { Loader } from "@components/atoms";
@@ -35,8 +35,8 @@ import {
   TypedMicrositeProductsQuery,
 } from "./queries";
 import { useIntl } from "react-intl";
-import { prodListHeaderCommonMsg } from "@temp/intl";
-import { ShopContext } from "@temp/components/ShopProvider/context";
+import { prodListHeaderCommonMsg } from "deprecated/intl";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useAuth } from "@nautical/react";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
@@ -114,18 +114,10 @@ export const View: React.FC<any> = ({ logo }) => {
     }
   };
 
-  const [afterFilters, setAfterFilters] = useQueryParam(
-    "after"
-  );
-  const [beforeFilters, setBeforeFilters] = useQueryParam(
-    "before"
-  );
-  const [firstFilters, setFirstFilters] = useQueryParam(
-    "first"
-  );
-  const [lastFilters, setLastFilters] = useQueryParam(
-    "last"
-  );
+  const [afterFilters, setAfterFilters] = useQueryParam("after");
+  const [beforeFilters, setBeforeFilters] = useQueryParam("before");
+  const [firstFilters, setFirstFilters] = useQueryParam("first");
+  const [lastFilters, setLastFilters] = useQueryParam("last");
 
   const filters: IFilters = {
     attributes: attributeFilters,
@@ -138,7 +130,7 @@ export const View: React.FC<any> = ({ logo }) => {
     ...filters,
     after: afterFilters,
     before: beforeFilters,
-    first: (!lastFilters && !firstFilters) ? PRODUCTS_PER_PAGE : firstFilters,
+    first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
     attributes: filters.attributes
       ? convertToAttributeScalar(filters.attributes)
@@ -296,16 +288,22 @@ export const View: React.FC<any> = ({ logo }) => {
                     const loadNextPage = () => {
                       setBeforeFilters(null);
                       setLastFilters(null);
-                      setAfterFilters(micrositeProductsData.data.microsite.productList.pageInfo.endCursor);
+                      setAfterFilters(
+                        micrositeProductsData.data.microsite.productList
+                          .pageInfo.endCursor
+                      );
                       setFirstFilters(PRODUCTS_PER_PAGE);
-                    }
-                  
+                    };
+
                     const loadPrevPage = () => {
                       setAfterFilters(null);
                       setFirstFilters(null);
-                      setBeforeFilters(micrositeProductsData.data.microsite.productList.pageInfo.startCursor);
+                      setBeforeFilters(
+                        micrositeProductsData.data.microsite.productList
+                          .pageInfo.startCursor
+                      );
                       setLastFilters(PRODUCTS_PER_PAGE);
-                    }
+                    };
 
                     return (
                       <MetaWrapper
@@ -316,7 +314,14 @@ export const View: React.FC<any> = ({ logo }) => {
                           type: "microsites.microsite",
                         }}
                       >
-                        <StorePage microsite={{ ...micrositeData.data, ...micrositeProductsData.data }} loadNextPage={loadNextPage} loadPrevPage={loadPrevPage} />
+                        <StorePage
+                          microsite={{
+                            ...micrositeData.data,
+                            ...micrositeProductsData.data,
+                          }}
+                          loadNextPage={loadNextPage}
+                          loadPrevPage={loadPrevPage}
+                        />
                       </MetaWrapper>
                     );
                   }

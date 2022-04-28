@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 
 import { Checkbox } from "@components/atoms";
-import { checkoutMessages } from "@temp/intl";
+import { checkoutMessages } from "deprecated/intl";
 import { filterNotEmptyArrayItems } from "@utils/misc";
 
 import { AddressForm } from "../AddressForm";

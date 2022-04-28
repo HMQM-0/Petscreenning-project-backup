@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import { TypedQuery } from "@temp/core/queries";
-import { Branding } from "@temp/_nautical/components/ThemeFont/types";
+import { TypedQuery } from "deprecated/core/queries";
+import { Branding } from "deprecated/_nautical/components/ThemeFont/types";
 
 export const brandingQuery = gql`
   query Branding {

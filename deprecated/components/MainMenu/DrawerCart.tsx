@@ -7,7 +7,7 @@ import Link from "next/link";
 import { generatePath } from "react-router-dom";
 
 import { useAuth, useCart, useCheckout } from "@nautical/react";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { TaxedMoney } from "@components/containers";
 import {
   generateMicrositeUrl,
@@ -15,13 +15,13 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "@temp/core/utils";
+} from "deprecated/core/utils";
 import {
   cartUrl,
   checkoutLoginUrl,
   checkoutUrl,
   micrositeCartUrl,
-} from "@temp/app/routes";
+} from "deprecated/app/routes";
 
 import ProductList from "../OverlayManager/Cart/ProductList";
 import { Loader, Offline, OfflinePlaceholder, Online } from "..";

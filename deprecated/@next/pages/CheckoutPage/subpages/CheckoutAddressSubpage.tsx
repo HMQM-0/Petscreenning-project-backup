@@ -13,8 +13,8 @@ import { useIntl } from "react-intl";
 import { CheckoutAddress } from "@components/organisms";
 // import { useAuth, useCheckout, useCart } from "@nautical/sdk";
 import { useAuth, useCheckout, useCart } from "@nautical/react";
-import { ShopContext } from "@temp/components/ShopProvider/context";
-import { commonMessages } from "@temp/intl";
+import { ShopContext } from "deprecated/components/ShopProvider/context";
+import { commonMessages } from "deprecated/intl";
 import { IAddress, IFormError } from "@types";
 import { filterNotEmptyArrayItems } from "@utils/misc";
 

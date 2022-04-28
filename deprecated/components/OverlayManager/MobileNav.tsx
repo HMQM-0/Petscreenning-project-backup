@@ -1,4 +1,4 @@
-import { isMicrosite } from "@temp/core/utils";
+import { isMicrosite } from "deprecated/core/utils";
 import * as React from "react";
 import { Box } from "@mui/material";
 import { INavItem, MobileNavList, Overlay, OverlayContextInterface } from "..";

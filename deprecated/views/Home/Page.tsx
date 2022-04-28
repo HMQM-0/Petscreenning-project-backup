@@ -24,7 +24,7 @@ import { structuredData } from "../../core/SEO/Homepage/structuredData";
 // import { StringParam, useQueryParam } from 'use-query-params';
 // import noPhotoImg from "../../images/no-photo.svg";
 import { homeCollectionData } from "./functions/homeCollectionData";
-import CategoryBlock from "@temp/_nautical/components/CategoryBlock";
+import CategoryBlock from "deprecated/_nautical/components/CategoryBlock";
 
 const Page: React.FC<{
   loading: boolean;

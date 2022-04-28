@@ -7,9 +7,9 @@ import { StripeCreditCardForm } from "../StripeCreditCardForm";
 
 import { IProps } from "./types";
 import { useQuery } from "@apollo/client";
-import { getClientSecretQuery } from "@temp/app/queries";
+import { getClientSecretQuery } from "deprecated/app/queries";
 import { useCheckout } from "@nautical/react";
-import Loader from "@temp/components/Loader";
+import Loader from "deprecated/components/Loader";
 
 // import { useLocation } from "react-router";
 

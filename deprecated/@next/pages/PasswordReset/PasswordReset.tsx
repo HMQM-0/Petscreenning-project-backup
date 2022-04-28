@@ -7,7 +7,7 @@ import * as Yup from "yup";
 
 import { StringParam, useQueryParams } from "use-query-params";
 
-import { BASE_URL } from "@temp/core/config";
+import { BASE_URL } from "deprecated/core/config";
 
 import { ResetPasswordForm } from "@components/molecules";
 import * as S from "./styles";

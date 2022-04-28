@@ -1,5 +1,5 @@
 /*
-import { SliderLazyLoadOptions, SliderSettings } from "@temp/_nautical/types";
+import { SliderLazyLoadOptions, SliderSettings } from "deprecated/_nautical/types";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import * as React from "react";

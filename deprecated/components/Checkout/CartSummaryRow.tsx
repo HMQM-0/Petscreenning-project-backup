@@ -2,7 +2,7 @@ import { TaxedMoney } from "@components/containers";
 import { CachedImage } from "@components/molecules";
 import { Box, Card, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 import { IImage, ITaxedMoney } from "@types";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";

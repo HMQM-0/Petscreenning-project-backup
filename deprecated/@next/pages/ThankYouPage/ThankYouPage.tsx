@@ -5,12 +5,12 @@ import { useNavigate, useLocation } from "react-router";
 import { Loader } from "@components/atoms";
 import { ThankYou } from "@components/organisms";
 import { useNauticalOrderDetails } from "@nautical/react";
-import { BASE_URL } from "@temp/core/config";
+import { BASE_URL } from "deprecated/core/config";
 import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "@temp/core/utils";
+} from "deprecated/core/utils";
 import {
   generateGuestOrderDetailsUrl,
   generateMicrositeGuestOrderDetailsUrl,

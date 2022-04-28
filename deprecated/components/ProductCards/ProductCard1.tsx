@@ -1,7 +1,7 @@
-import BazarCard from "@temp/components/Bazar/BazarCard";
-import BazarRating from "@temp/components/Bazar/BazarRating";
-// import LazyImage from "@temp/components/Bazar/LazyImage";
-import { H3, Span } from "@temp/components/Bazar/Typography";
+import BazarCard from "deprecated/components/Bazar/BazarCard";
+import BazarRating from "deprecated/components/Bazar/BazarRating";
+// import LazyImage from "deprecated/components/Bazar/LazyImage";
+import { H3, Span } from "deprecated/components/Bazar/Typography";
 // import { useAppContext } from "contexts/app/AppContext";
 import Add from "@mui/icons-material/Add";
 import Close from "@mui/icons-material/Close";
@@ -21,7 +21,7 @@ import {
 // import { CartItem } from "reducers/cartReducer";
 import { Link } from "react-router-dom";
 import React, { useCallback, useState, CSSProperties } from "react";
-import FlexBox from "@temp/components/Bazar/FlexBox";
+import FlexBox from "deprecated/components/Bazar/FlexBox";
 
 const StyledBazarCard = styled(BazarCard)(() => ({
   position: "relative",

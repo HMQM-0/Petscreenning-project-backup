@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useIntl } from "react-intl";
 
 import { InputSelect, TextField } from "@components/molecules";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import * as S from "./styles";
 import { PropsWithFormik } from "./types";

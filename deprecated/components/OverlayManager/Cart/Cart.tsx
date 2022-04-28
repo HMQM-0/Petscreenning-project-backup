@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 import Link from "next/link";
 
 import { TaxedMoney } from "@components/containers";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 // import { useAuth, useCart, useCheckout } from "@nautical/sdk";
 import { useAuth, useCart, useCheckout } from "@nautical/react";
 

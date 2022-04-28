@@ -4,12 +4,12 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Icon } from "@components/atoms";
 import { Money, TaxedMoney } from "@components/containers";
 import { CartSummaryRow } from "@components/molecules";
-import { commonMessages } from "@temp/intl";
+import { commonMessages } from "deprecated/intl";
 
 import * as S from "./styles";
 import { ICostLine, ICosts, IProps } from "./types";
 
-import { ITaxedMoney } from "@temp/@next/types";
+import { ITaxedMoney } from "deprecated/@next/types";
 
 const CostLine = ({
   name,

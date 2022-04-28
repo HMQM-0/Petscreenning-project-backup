@@ -15,13 +15,13 @@ import { HomePage } from "../../views/Home";
 import { ProductPage } from "../../views/Product";
 import { SearchPage } from "../../views/Search";
 import { WishlistPage } from "../../views/Wishlist";
-import { LandingPage } from "@temp/views/Landing";
+import { LandingPage } from "deprecated/views/Landing";
 
-import { ProductsPage } from "@temp/views/Products";
+import { ProductsPage } from "deprecated/views/Products";
 import * as paths from "./paths";
-import BuilderPage from "@temp/views/Builder/BuilderPage";
-import ArticlePage from "@temp/views/Builder/ArticlePage";
-import StorePage from "@temp/views/Builder/StorePage";
+import BuilderPage from "deprecated/views/Builder/BuilderPage";
+import ArticlePage from "deprecated/views/Builder/ArticlePage";
+import StorePage from "deprecated/views/Builder/StorePage";
 
 interface IAppProps {
   logo?: React.ReactNode;
