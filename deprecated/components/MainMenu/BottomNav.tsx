@@ -1,4 +1,9 @@
-import { BottomNavigation, BottomNavigationAction, Fab } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Fab,
+  Box,
+} from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
@@ -6,7 +11,6 @@ import * as React from "react";
 // import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import "./scss/index.module.scss";
-import { Box } from "@mui/material";
 interface IBottomNavProps {}
 
 const fabStyle: React.CSSProperties = {

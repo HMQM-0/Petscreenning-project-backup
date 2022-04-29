@@ -3,10 +3,15 @@ import "./scss/index.module.scss";
 import isEqual from "lodash/isEqual";
 import * as React from "react";
 import { Box } from "@mui/material";
+
 import { Thumbnail } from "@components/molecules";
+
 // import saleBadge from "deprecated/images/sale_corner_red.svg";
 // import SaleBadge from "deprecated/_nautical/components/SaleBadge/SaleBadge";
 // import { ReactSVG } from "react-svg";
+import { AddToWishlist } from "@components/organisms";
+import { Attribute } from "@components/atoms";
+
 import { TaxedMoney } from "../../@next/components/containers";
 import { BasicProductFields } from "../../views/Product/gqlTypes/BasicProductFields";
 // import { ReactSVG } from "react-svg";
@@ -15,11 +20,9 @@ import { BasicProductFields } from "../../views/Product/gqlTypes/BasicProductFie
 // import pricecapImage from "deprecated/images/pricing-cap.svg";
 
 import * as S from "../../@next/components/molecules/ProductTile/styles";
-import { AddToWishlist } from "@components/organisms";
 // import { string } from "yup";
 // import { attributes } from "deprecated/@nautical/queries/attributes";
 // import { CollectionSortField } from "deprecated/@nautical";
-import { Attribute } from "@components/atoms";
 
 /*
 import * as X from "./styles";
@@ -149,11 +152,11 @@ const BigProductListItem: React.FC<ProductListItemProps> = ({
     // console.info(product);
 
     product.variants?.flat<Variant[]>().forEach((variant) => {
-      let attribute = variant.attributes.filter(
+      let attribute = variant.attributes?.filter(
         (attribute) => attribute.attribute.id === "QXR0cmlidXRlOjE0"
       );
 
-      attribute.flatMap((attr) => {
+      attribute?.flatMap((attr) => {
         values.push(...attr.values.flat());
       });
 

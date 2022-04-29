@@ -1,12 +1,15 @@
 // import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
-import { ICheckoutModelLine } from "@nautical/helpers";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 // import ReactSVG from "react-svg";
 import { Box } from "@mui/material";
+import { IconButton } from "@mui/material";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+
 import { TaxedMoney } from "@components/containers";
 import { Thumbnail } from "@components/molecules";
+import { ICheckoutModelLine } from "@nautical/helpers";
 
 import {
   generateMicrositeProductUrl,
@@ -16,10 +19,8 @@ import {
   getMicrositeSlug,
 } from "../../../core/utils";
 // import removeImg from "../../../images/garbage.svg";
-import { IconButton } from "@mui/material";
-import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 
-const ProductList: React.SFC<{
+const ProductList: React.FC<{
   lines: ICheckoutModelLine[];
   remove(variantId: string): void;
 }> = ({ lines, remove }) => (
