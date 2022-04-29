@@ -1,8 +1,7 @@
-import gql from "graphql-tag";
+import {gql} from "graphql-tag";
 
-import { orderDetailFragment } from "../fragments/order";
+import { orderDetailFragment , nauticalOrderDetailFragment } from "../fragments/order";
 import { invoiceFragment } from "../fragments/invoice";
-import { nauticalOrderDetailFragment } from "../fragments/order";
 
 export const ordersByUser = gql`
   query OrdersByUser($perPage: Int!, $after: String) {

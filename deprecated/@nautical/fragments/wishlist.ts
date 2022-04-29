@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
-export const wishlistProductInfoFragment = `
+export const wishlistProductInfoFragment = gql`
   fragment productInfo on Product {
     id
     name

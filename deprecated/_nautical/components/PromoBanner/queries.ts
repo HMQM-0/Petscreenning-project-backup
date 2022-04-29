@@ -1,5 +1,7 @@
+import { gql } from "graphql-tag";
+
 import { TypedQuery } from "deprecated/core/queries";
-import gql from "graphql-tag";
+
 import { DesignerData } from "./types";
 
 export const promoBannerQuery = gql`

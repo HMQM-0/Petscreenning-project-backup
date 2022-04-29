@@ -1,4 +1,5 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
+
 import { pageInfo } from "../fragments/pageInfo";
 import { baseCategoryFragment } from "../fragments/categories";
 

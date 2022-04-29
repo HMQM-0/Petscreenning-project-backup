@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
 import { checkoutPriceFragment } from "../fragments/checkout";
 import { pageInfo } from "../fragments/pageInfo";

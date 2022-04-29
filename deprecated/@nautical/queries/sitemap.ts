@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
 export const getProductsQuery = gql`
   query GetProducts($cursor: String, $perPage: Int) {
