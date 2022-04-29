@@ -1,5 +1,6 @@
 import { ApolloQueryResult } from "@apollo/client";
-import { PageInfo } from "../../fragments/gqlTypes/PageInfo";
+
+import { PageInfo } from "@generated";
 
 export type GetBaseList<TQuery, TVariables> = (
   variables: TVariables
