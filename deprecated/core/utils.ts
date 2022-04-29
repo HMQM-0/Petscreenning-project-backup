@@ -93,17 +93,17 @@ export function isMicrosite() {
 }
 
 export function getMicrositeId() {
+  const href = window && window.location.href;
+  const regex = /\/site\/[^/]+\/([0-9]+)/;
+  const matched = regex.exec(href);
   return getGraphqlIdFromDBId(
-    /\/site\/[^/]+\/([0-9]+)/
-      .exec(window.location.href)[1]
-      .trim()
-      .replace(/\//g, ""),
+    matched?.[1].trim().replace(/\//g, "") ?? "",
     "Microsite"
   );
 }
 
 export function getMicrositeSlug() {
-  return /\/site\/([^/]+)\/[0-9]+/.exec(window.location.href)[1];
+  return /\/site\/([^/]+)\/[0-9]+/.exec(window.location.href)?.[1] ?? "";
 }
 
 export const generatePageUrl = (slug: string) => `/page/${slug}/`;
