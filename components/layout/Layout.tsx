@@ -5,6 +5,7 @@ import { MaterialUIProvider, OverlayProvider } from "@providers";
 import { BrandingType } from "@generated";
 import { SEO, ThemeFont } from "components/atoms";
 import TopNav from "deprecated/components/MainMenu/TopNav";
+import PromoBanner from "deprecated/_nautical/components/PromoBanner/PromoBanner";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -43,7 +44,7 @@ const Layout = ({ children, branding }: LayoutProps) => {
         <SEO branding={branding} />
         <ThemeFont />
         <header style={trigger ? stickyStyle : emptyStyle}>
-          {/* <PromoBanner content="FREE SHIPPING over $50" /> */}
+          <PromoBanner content="FREE SHIPPING over $50" />
           <TopNav logo={logo} />
         </header>
         <div style={fillerStyle} />
