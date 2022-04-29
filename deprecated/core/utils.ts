@@ -36,10 +36,10 @@ export const getDBIdFromGraphqlId = (
   const rawId = Base64.decode(graphqlId);
   const regexp = /(\w+):(\d+)/;
   const arr = regexp.exec(rawId);
-  if (schema && schema !== arr![1]) {
-    throw new Error("Schema is not correct");
+  if (schema && schema !== arr?.[1]) {
+    // throw new Error("Schema is not correct");
   }
-  return parseInt(arr![2], 10);
+  return parseInt(arr?.[2] ?? "", 10);
 };
 
 export const getGraphqlIdFromDBId = (id: string, schema: string): string =>
