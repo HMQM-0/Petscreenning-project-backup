@@ -72,13 +72,16 @@ class NavDropdown extends React.PureComponent<
           })}
         >
           <ul>
-            {children.map((subItem, i) => (
+            {children?.map((subItem, i) => (
               <NavItem
                 menuStyle={this.props.menuStyle}
                 key={i}
                 hideOverlay={this.hideOverlayHandler}
                 {...subItem}
-              />
+              >
+                {/* @ts-ignore  */}
+                {subItem.children}
+              </NavItem>
             ))}
           </ul>
         </li>

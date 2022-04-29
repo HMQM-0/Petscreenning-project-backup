@@ -5,102 +5,87 @@ import { Box, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-import NavItem, { INavItem } from "./NavItem";
-// import { FormattedMessage } from "react-intl";
-// import { Link } from "react-router-dom";
-// import { ReactSVG } from "react-svg";
-// import { commonMessages } from "deprecated/intl";
+import { Maybe, MenuItem } from "@generated";
 
-// import { baseUrl } from "../../app/routes";
+import NavItem from "./NavItem";
 
-// import backImg from "../../images/arrow-back.svg";
-// import logoImg from "../../images/logo.png";
-interface NavListProps {
-  items: INavItem[];
+type NavListProps = {
   logo?: React.ReactNode;
   hideOverlay(): void;
-}
+  items: Maybe<MenuItem>[];
+};
 
-interface NavListState {
-  parent: INavItem | null;
-  displayedItems?: INavItem[];
-}
+const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
+  const [displayedItems, setDisplayedItems] = React.useState(items);
+  const [parent, setParent] = React.useState<
+    typeof displayedItems[number] | null
+  >(null);
 
-class NavList extends React.PureComponent<NavListProps, NavListState> {
-  state: NavListState = {
-    displayedItems: this.props.items,
-    parent: null,
+  const handleShowSubItems = (item: typeof parent) => {
+    setParent(item);
+    setDisplayedItems(item?.children ?? []);
   };
 
-  handleShowSubItems = (item: INavItem) => {
-    this.setState({ parent: item, displayedItems: item.children });
-  };
+  const findItemById = (id: string) =>
+    items.find((item) => item?.id === id) || null;
 
-  handleGoBack = () => {
-    const grandparent = this.state.parent?.parent ?? null;
+  const handleGoBack = () => {
+    const grandparent = parent?.parent ?? null;
 
     if (!grandparent) {
-      this.setState({ parent: null, displayedItems: this.props.items });
+      setParent(null);
+      setDisplayedItems(items);
     } else {
-      const newParent = this.findItemById(grandparent.id);
-      this.setState({
-        displayedItems: newParent?.children,
-        parent: newParent,
-      });
+      const newParent = findItemById(grandparent.id);
+      setParent(newParent);
+      setDisplayedItems(newParent?.children ?? []);
     }
   };
 
-  findItemById(id: string): INavItem | null {
-    return this.props.items.find((item) => item.id === id) || null;
-  }
-
-  render() {
-    const { hideOverlay } = this.props;
-    const { displayedItems, parent } = this.state;
-
-    return (
-      <ul>
-        {parent ? (
-          <li className="side-nav__menu-item side-nav__menu-item-back">
-            <Box component="span" onClick={this.handleGoBack}>
-              <KeyboardBackspaceIcon />
-              {parent.name}
-            </Box>
-          </li>
-        ) : (
-          <>
-            {/* <li className="side-nav__menu-item side-nav__menu-item--title"> */}
-            <li
-              style={{
-                display: "flex",
-                alignItems: "center",
-                paddingTop: "16px",
-                paddingLeft: "16px",
-                paddingRight: "16px",
-              }}
-            >
-              {/* <Link
+  return (
+    // @ts-ignore
+    <ul>
+      {parent ? (
+        <li className="side-nav__menu-item side-nav__menu-item-back">
+          <Box component="span" onClick={handleGoBack}>
+            <KeyboardBackspaceIcon />
+            {parent?.name}
+          </Box>
+        </li>
+      ) : (
+        <>
+          {/* <li className="side-nav__menu-item side-nav__menu-item--title"> */}
+          <li
+            style={{
+              display: "flex",
+              alignItems: "center",
+              paddingTop: "16px",
+              paddingLeft: "16px",
+              paddingRight: "16px",
+            }}
+          >
+            {/* <Link
                 to={baseUrl}
                 // className="side-nav__menu-item-logo"
                 onClick={hideOverlay}
               > */}
-              {this.props.logo}
-              {/* </Link> */}
-              <IconButton
-                onClick={hideOverlay}
-                style={{
-                  marginLeft: "auto",
-                  marginTop: "auto",
-                  marginBottom: "auto",
-                  marginRight: 0,
-                }}
-              >
-                {" "}
-                {/* className="side-nav__menu-item side-nav__menu-item--close"> */}
-                <CloseIcon />
-              </IconButton>
-            </li>
-            {/* <li className="side-nav__menu-item">
+            {logo}
+            {/* </Link> */}
+            <IconButton
+              onClick={hideOverlay}
+              style={{
+                marginLeft: "auto",
+                marginTop: "auto",
+                marginBottom: "auto",
+                marginRight: 0,
+              }}
+            >
+              {" "}
+              {/* className="side-nav__menu-item side-nav__menu-item--close"> */}
+              <CloseIcon />
+            </IconButton>
+          </li>
+          {/* <li className="side-nav__menu-item">
               <Link
                 to={baseUrl}
                 className="side-nav__menu-item-link"
@@ -109,21 +94,23 @@ class NavList extends React.PureComponent<NavListProps, NavListState> {
                 <FormattedMessage {...commonMessages.home} />
               </Link>
             </li> */}
-          </>
-        )}
+        </>
+      )}
 
-        {displayedItems?.map((item) => (
+      {displayedItems?.map((item) => {
+        return (
           <NavItem
-            key={item.id}
+            key={item?.id}
             hideOverlay={hideOverlay}
-            showSubItems={this.handleShowSubItems}
-            {...item}
+            showSubItems={() => handleShowSubItems(item)}
+            // @ts-ignore
+            item={item}
           />
-        ))}
-      </ul>
-    );
-  }
-}
+        );
+      })}
+    </ul>
+  );
+};
 
 export default NavList;
 

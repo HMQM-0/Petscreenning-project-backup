@@ -3,26 +3,25 @@ import * as React from "react";
 import { Box } from "@mui/material";
 import Link from "next/link";
 
+import { MainMenuSubItemFragment } from "@generated";
+
 import {
   generateCategoryUrl,
   generateCollectionUrl,
   generatePageUrl,
 } from "../../core/utils";
-import {
-  SecondaryMenu_shop_navigation_secondary_items,
-  SecondaryMenu_shop_navigation_secondary_items_children,
-} from "../Footer/gqlTypes/SecondaryMenu";
-import { MainMenu_shop_navigation_main_items } from "../MainMenu/gqlTypes/MainMenu";
-import { MainMenuSubItem } from "../MainMenu/gqlTypes/MainMenuSubItem";
-import { MenuStyle } from "../MainMenu/gqlTypes/MenuStyle";
+// import {
+//   SecondaryMenu_shop_navigation_secondary_items,
+//   SecondaryMenu_shop_navigation_secondary_items_children,
+// } from "../Footer/gqlTypes/SecondaryMenu";
+// import { MainMenu_shop_navigation_main_items } from "../MainMenu/gqlTypes/MainMenu";
+// import { MainMenuSubItem } from "../MainMenu/gqlTypes/MainMenuSubItem";
+// import { MenuStyle } from "../MainMenu/gqlTypes/MenuStyle";
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  item:
-    | MainMenu_shop_navigation_main_items
-    | MainMenuSubItem
-    | SecondaryMenu_shop_navigation_secondary_items
-    | SecondaryMenu_shop_navigation_secondary_items_children;
-  menuStyle?: MenuStyle;
+  item: MainMenuSubItemFragment & {
+    children?: MainMenuSubItemFragment[];
+  };
 }
 
 /*
@@ -61,7 +60,6 @@ export default NavLink;
 
 export const NavLink: React.FC<NavLinkProps> = ({
   item,
-  menuStyle,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -69,21 +67,6 @@ export const NavLink: React.FC<NavLinkProps> = ({
   ...props
 }) => {
   const { name, url, category, collection, page } = item;
-
-  /* 
-  const ThemedLink = css`
-    color: ${maybe(
-      () => menuStyle?.textColor + " !important",
-      "#323232 !important"
-    )};
-    &:hover {
-      color: ${maybe(
-        () => menuStyle?.hoverColor + " !important",
-        "#26b2e3 !important"
-      )};
-    }
-  `;
-  */
 
   const link = (url: string) => (
     <Link href={url} {...props}>

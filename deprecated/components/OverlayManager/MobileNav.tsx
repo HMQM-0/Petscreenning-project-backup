@@ -1,15 +1,17 @@
-import { isMicrosite } from "deprecated/core/utils";
 import * as React from "react";
 import { Box } from "@mui/material";
-import { INavItem, MobileNavList, Overlay, OverlayContextInterface } from "..";
 
-const MobileNav: React.FC<{ overlay: OverlayContextInterface }> = ({
-  overlay,
-}) => {
-  const items: INavItem[] = overlay.context.data;
+import { isMicrosite } from "deprecated/core/utils";
+import { Maybe, MenuItem } from "@generated";
+
+import { Overlay, OverlayContextInterface } from "../Overlay";
+import { MobileNavList } from "../MobileNav";
+
+const MobileNav = ({ overlay }: { overlay: OverlayContextInterface }) => {
+  const items: Maybe<MenuItem>[] = overlay.context.data;
 
   return (
-    !!!isMicrosite() && (
+    !Boolean(isMicrosite()) && (
       <Overlay testingContext="mobileNavigationOverlay" context={overlay}>
         <Box className="side-nav" onClick={(evt) => evt.stopPropagation()}>
           <MobileNavList items={items} hideOverlay={overlay.hide} />

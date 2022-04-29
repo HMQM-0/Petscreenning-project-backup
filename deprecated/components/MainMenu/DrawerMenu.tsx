@@ -1,17 +1,22 @@
 import { Drawer, Box } from "@mui/material";
 import * as React from "react";
 
-import { INavItem, MobileNavList } from "..";
+import { useMainMenuQuery } from "@generated";
+
+import { MobileNavList } from "../MobileNav";
+
 interface IDrawerMenuProps {
   anchor: "left" | "top" | "right" | "bottom";
-  items: INavItem[];
   open: boolean;
   logo?: React.ReactNode;
   close(): void;
 }
 
 const DrawerMenu: React.FunctionComponent<IDrawerMenuProps> = (props) => {
-  const { anchor, items, open, close, logo } = props;
+  const { anchor, open, close, logo } = props;
+  const { data } = useMainMenuQuery();
+  const menuItems = data?.shop.navigation?.main?.items ?? [];
+
   return (
     <Drawer
       anchor={anchor}
@@ -20,7 +25,8 @@ const DrawerMenu: React.FunctionComponent<IDrawerMenuProps> = (props) => {
       style={{ maxWidth: 400 }}
     >
       <Box className="side-nav" onClick={(evt) => evt.stopPropagation()}>
-        <MobileNavList logo={logo} items={items} hideOverlay={close} />
+        {/* @ts-ignore */}
+        <MobileNavList items={menuItems} logo={logo} hideOverlay={close} />
       </Box>
     </Drawer>
   );

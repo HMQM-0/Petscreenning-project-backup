@@ -26,17 +26,14 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Logout, ImportContacts } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { maybe } from "@utils/misc";
 import { useAuth, useCart } from "@nautical/react";
-import { MainMenuDocument } from "@generated";
 
 import DrawerMenu from "./DrawerMenu";
-import DrawerLogin from "./DrawerLogin";
-import DrawerCart from "./DrawerCart";
+// import DrawerLogin from "./DrawerLogin";
+// import DrawerCart from "./DrawerCart";
 import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 
 interface ITopNavProps {
@@ -120,7 +117,6 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
       items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) ||
     0;
 
-  // @ts-ignore
   function defaultStyle(data: DesignerData): MenuStyle {
     let json: MenuStyle = {
       active: true,
@@ -139,8 +135,6 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
   }
 
   const logoImage = logo ? logo : <Skeleton />; // <img src={logoImg} width={188} height={"auto"} style={{ marginTop: "4px", marginBottom: "4px" }} onClick={() => navigate('/')} alt="Logo" />;
-  const { data } = useQuery(MainMenuDocument);
-  const menuItems = maybe(() => data.shop.navigation.main.items, []);
   return (
     <>
       <AppBar
@@ -353,12 +347,11 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
       <DrawerMenu
         logo={logoImage}
         anchor="left"
-        items={menuItems}
         open={menuOpen}
         close={handleMenuClose}
       />
-      <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
-      <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} />
+      {/* <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} /> */}
+      {/* <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} /> */}
     </>
   );
 };

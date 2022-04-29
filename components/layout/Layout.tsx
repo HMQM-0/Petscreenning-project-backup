@@ -44,7 +44,7 @@ const Layout = ({ children, branding }: LayoutProps) => {
         <ThemeFont />
         <header style={trigger ? stickyStyle : emptyStyle}>
           {/* <PromoBanner content="FREE SHIPPING over $50" /> */}
-          {/* <TopNav logo={logo} /> */}
+          <TopNav logo={logo} />
         </header>
         <div style={fillerStyle} />
         {children}

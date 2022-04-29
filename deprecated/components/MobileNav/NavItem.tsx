@@ -1,34 +1,40 @@
 import clsx from "clsx";
 import * as React from "react";
-// import { ReactSVG } from "react-svg";
 import { IconButton, useTheme } from "@mui/material";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-import { NavLink } from "..";
-import { MainMenuSubItem } from "../MainMenu/gqlTypes/MainMenuSubItem";
-// import subcategoriesImg from "../../images/subcategories.svg";
+import { MainMenuSubItemFragment } from "@generated";
 
-export interface INavItem extends MainMenuSubItem {
-  children?: INavItem[];
-}
+import { NavLink } from "../NavLink";
 
-interface NavItemProps extends INavItem {
+interface NavItemProps {
   hideOverlay(): void;
-  showSubItems(item: INavItem): void;
+  showSubItems(item: MainMenuSubItemFragment): void;
+  item:
+    | (MainMenuSubItemFragment & {
+        children?: MainMenuSubItemFragment[];
+      })
+    | null;
 }
 
 const NavItem: React.FC<NavItemProps> = ({
   hideOverlay,
   showSubItems,
-  ...item
+  item,
 }) => {
   const [hover, setHover] = React.useState(false);
-  const hasSubNavigation = item.children && !!item.children.length;
+  const hasSubNavigation = item?.children && !!item.children.length;
   const theme = useTheme();
 
   const hoverStyle = {
     color: theme.palette.secondary.main,
   };
+
+  console.log("item", item);
+
+  if (!item) {
+    return null;
+  }
 
   return (
     <li

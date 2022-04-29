@@ -139,6 +139,7 @@ const MainMenu: React.FC = () => {
                             className="main-menu__item"
                             key={item?.id}
                           >
+                            {/* @ts-ignore */}
                             <NavDropdown
                               menuStyle={menuStyle}
                               overlay={overlayContext}
