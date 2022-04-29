@@ -28,7 +28,7 @@ const NavItem: React.FC<NavNestedItemProps> = ({
 
   return (
     <li onClick={hideOverlay}>
-      <NavLink menuStyle={menuStyle} item={item} onClick={hideOverlay} />
+      <NavLink style={menuStyle} item={item} onClick={hideOverlay} />
       {content}
     </li>
   );
