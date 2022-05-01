@@ -1,14 +1,18 @@
-import { useAuth } from "@nautical/react";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
+
+import { useAuth } from "@nautical/react";
+
+import { TypedFeaturedProductsQuery } from "./queries";
+
 import { Carousel, ProductListItem } from "..";
 import { generateProductUrl, maybe } from "../../core/utils";
-import { ShopContext } from "../ShopProvider/context";
-import { TypedFeaturedProductsQuery } from "./queries";
 
 import "./scss/index.module.scss";
 import { FormattedMessage } from "react-intl";
+
+import { useShopContext } from "components/providers/ShopProvider";
 
 interface ProductsFeaturedProps {
   caption?: string;
@@ -19,7 +23,7 @@ const ProductsFeatured: React.FC<ProductsFeaturedProps> = ({
   caption,
   title,
 }) => {
-  const { loginForProducts } = React.useContext(ShopContext);
+  const { loginForProducts } = useShopContext();
   const { user } = useAuth();
 
   if (!user && loginForProducts) {

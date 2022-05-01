@@ -4,7 +4,7 @@ import * as React from "react";
 import { Box } from "@mui/material";
 import { useQuery } from "@apollo/client";
 
-import { ShopContext } from "deprecated/components/ShopProvider/context";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import Page from "./Page";
 import { builderHomePageQuery, TypedHomePageQuery } from "./queries";
@@ -13,7 +13,7 @@ import { MetaWrapper } from "../../components";
 import StorePage from "../Builder/StorePage";
 
 const View: React.FC = () => {
-  const { builderKey } = React.useContext(ShopContext);
+  const { builderKey } = useShopContext();
 
   const { data: builderLandingData } = useQuery(builderHomePageQuery);
 

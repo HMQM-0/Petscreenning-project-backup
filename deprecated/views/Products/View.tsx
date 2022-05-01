@@ -2,13 +2,35 @@ import * as React from "react";
 import Media from "react-media";
 // import { RouteComponentProps } from "react-router";
 import { Box } from "@mui/material";
+
 // import { Grid } from "@mui/material";
+import { StringParam, useQueryParam } from "use-query-params";
+import { useParams } from "react-router";
+import { useQuery } from "@apollo/client";
+
 import { xLargeScreen } from "@styles/constants";
 // import { ProductSideNavbarList } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
 // import { ProductSideNavbarGrid } from "deprecated/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
 import { IFilters } from "@types";
-import { StringParam, useQueryParam } from "use-query-params";
-import { MetaWrapper, NotFound, OfflinePlaceholder } from "../../components";
+import { useAuth } from "@nautical/react";
+import { Loader } from "@components/atoms";
+import { useShopContext } from "components/providers/ShopProvider";
+
+import Page from "./Page";
+import { builderProductsQuery, TypedProductsQuery } from "./queries";
+import {
+  BuilderProducts,
+  BuilderProductsVariables,
+} from "./gqlTypes/BuilderProducts";
+
+import {
+  MetaWrapper,
+  NotFound,
+  OfflinePlaceholder,
+  OverlayContext,
+  OverlayTheme,
+  OverlayType,
+} from "../../components";
 import NetworkStatus from "../../components/NetworkStatus";
 import { PRODUCTS_PER_PAGE } from "../../core/config";
 import {
@@ -17,25 +39,15 @@ import {
   getGraphqlIdFromDBId,
   maybe,
 } from "../../core/utils";
-import Page from "./Page";
-import { builderProductsQuery, TypedProductsQuery } from "./queries";
 // import { TypedBuilderProductsQuery, TypedProductsQuery } from "./queries";
 
-import { OverlayContext, OverlayTheme, OverlayType } from "../../components";
-import { useAuth } from "@nautical/react";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
-import { useParams } from "react-router";
+
 import StorePage from "../Builder/StorePage";
+
 // import { useVisibility } from "deprecated/_nautical/hooks";
 // import { FormattedMessage } from "react-intl";
-import { useQuery } from "@apollo/client";
-import {
-  BuilderProducts,
-  BuilderProductsVariables,
-} from "./gqlTypes/BuilderProducts";
-import { Loader } from "@components/atoms";
 
 // type ViewProps = RouteComponentProps<{
 //   id: string;
@@ -106,7 +118,7 @@ export const View: React.FC<any> = ({ logo }) => {
 
   const { user } = useAuth();
 
-  const { loginForProducts, builderKey } = React.useContext(ShopContext);
+  const { loginForProducts, builderKey } = useShopContext();
 
   const onFiltersChange = (name, value) => {
     if (attributeFilters && attributeFilters.hasOwnProperty(name)) {

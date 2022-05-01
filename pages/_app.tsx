@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 import "deprecated/globalStyles/scss/variables.scss";
 import { defaultTheme, GlobalStyle } from "@styles";
-import { SEOProvider } from "@providers";
+import { SEOProvider, ShopProvider } from "@providers";
 
 const NotificationTemplate = dynamic(
   () => import("components/atoms/NotificationTemplate/NotificationTemplate")
@@ -40,8 +40,10 @@ function MyApp({ Component, pageProps }: AppProps) {
               <NauticalProvider>
                 <WishlistProvider>
                   <SEOProvider>
-                    <GlobalStyle />
-                    <Component {...pageProps} />
+                    <ShopProvider>
+                      <GlobalStyle />
+                      <Component {...pageProps} />
+                    </ShopProvider>
                   </SEOProvider>
                 </WishlistProvider>
               </NauticalProvider>

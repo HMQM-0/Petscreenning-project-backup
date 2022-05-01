@@ -6,13 +6,13 @@ import { WishlistContext } from "deprecated/@nautical/react/components/WishlistP
 
 // import { useHistory } from "react-router-dom";
 import { Wishlist } from "@components/templates";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import StorePage from "../Builder/StorePage";
 
 const View: React.FC = () => {
   const { wishlist } = React.useContext(WishlistContext);
-  const { builderKey } = React.useContext(ShopContext);
+  const { builderKey } = useShopContext();
 
   return builderKey ? (
     <StorePage wishlist={wishlist} />

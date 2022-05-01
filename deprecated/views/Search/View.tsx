@@ -9,8 +9,8 @@ import { useQuery } from "@apollo/client";
 import { prodListHeaderCommonMsg } from "deprecated/intl";
 import { IFilters } from "@types";
 import { useAuth } from "@nautical/react";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { Loader } from "@components/atoms";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import Page from "./Page";
 import { builderSearchQuery, TypedSearchProductsQuery } from "./queries";
@@ -86,7 +86,7 @@ export const View: React.FC<any> = ({ logo }) => {
 
   const { user } = useAuth();
 
-  const { loginForProducts, builderKey } = React.useContext(ShopContext);
+  const { loginForProducts, builderKey } = useShopContext();
 
   const filters: IFilters = {
     attributes: attributeFilters,

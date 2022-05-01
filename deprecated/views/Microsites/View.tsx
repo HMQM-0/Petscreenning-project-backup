@@ -18,8 +18,8 @@ import { StringParam, useQueryParam } from "use-query-params";
 
 import { Loader } from "@components/atoms";
 import { prodListHeaderCommonMsg } from "deprecated/intl";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useAuth } from "@nautical/react";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import Page from "./Page";
 import {
@@ -89,7 +89,7 @@ export const View: React.FC<any> = ({ logo }) => {
 
   const { user } = useAuth();
 
-  const { loginForProducts, builderKey } = React.useContext(ShopContext);
+  const { loginForProducts, builderKey } = useShopContext();
 
   const clearFilters = () => {
     setAttributeFilters({});

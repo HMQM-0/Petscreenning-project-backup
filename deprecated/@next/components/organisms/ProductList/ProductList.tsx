@@ -1,10 +1,16 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { useVisibility } from "deprecated/_nautical/hooks";
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
+import { useVisibility } from "deprecated/_nautical/hooks";
 import { Loader } from "@components/atoms";
 import ProductListItem from "deprecated/components/ProductListItem";
+import { useAuth } from "@nautical/react";
+import { useShopContext } from "components/providers/ShopProvider";
+
+import * as S from "./styles";
+import { IProps } from "./types";
 
 import {
   generateProductUrl,
@@ -13,12 +19,6 @@ import {
   getMicrositeId,
   getMicrositeSlug,
 } from "../../../../core/utils";
-
-import * as S from "./styles";
-import { IProps } from "./types";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
-import { useAuth } from "@nautical/react";
-import { Button } from "@mui/material";
 
 export const ProductList: React.FC<IProps> = ({
   products,
@@ -40,7 +40,7 @@ export const ProductList: React.FC<IProps> = ({
     [loading, canLoadMore, products]
   );
 
-  const { loginForPrice } = React.useContext(ShopContext);
+  const { loginForPrice } = useShopContext();
   const { user } = useAuth();
 
   return (

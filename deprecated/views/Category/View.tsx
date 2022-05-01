@@ -1,15 +1,32 @@
-import { xLargeScreen } from "@styles/constants";
 import React from "react";
 import Media from "react-media";
 import { Box } from "@mui/material";
+import { StringParam, useQueryParam } from "use-query-params";
+import { useIntl } from "react-intl";
+import { useParams } from "react-router";
+
+import { xLargeScreen } from "@styles/constants";
 // import { RouteComponentProps } from "react-router";
 
 // import { Grid } from "@mui/material";
 // import { ProductSideNavbarList } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbarList";
 import { ProductSideNavbarGrid } from "deprecated/_nautical/components/ProductSideNavbarGrid/ProductSideNavbarGrid";
 import { IFilters } from "@types";
-import { StringParam, useQueryParam } from "use-query-params";
 import { Loader } from "@components/atoms";
+import { prodListHeaderCommonMsg } from "deprecated/intl";
+import { useAuth } from "@nautical/react";
+import { useShopContext } from "components/providers/ShopProvider";
+
+import Page from "./Page";
+import {
+  TypedCategoryProductsQuery,
+  TypedCategoryProductsDataQuery,
+  TypedBuilderCategoryQuery,
+  TypedBuilderCategoryProductsQuery,
+  // builderCategoryQuery,
+  // builderCategoryDataQuery,
+} from "./queries";
+
 import {
   MetaWrapper,
   NotFound,
@@ -25,22 +42,10 @@ import {
   convertToAttributeScalar,
   getGraphqlIdFromDBId,
 } from "../../core/utils";
-import Page from "./Page";
-import {
-  TypedCategoryProductsQuery,
-  TypedCategoryProductsDataQuery,
-  TypedBuilderCategoryQuery,
-  TypedBuilderCategoryProductsQuery,
-  // builderCategoryQuery,
-  // builderCategoryDataQuery,
-} from "./queries";
-import { prodListHeaderCommonMsg } from "deprecated/intl";
-import { useIntl } from "react-intl";
-import { useAuth } from "@nautical/react";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
+
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
-import { useParams } from "react-router";
+
 import StorePage from "../Builder/StorePage";
 // import { useQuery } from "@apollo/client";
 
@@ -83,7 +88,7 @@ export const View: React.FC<any> = ({ logo }) => {
 
   const { user } = useAuth();
 
-  const { loginForProducts, builderKey } = React.useContext(ShopContext);
+  const { loginForProducts, builderKey } = useShopContext();
 
   const clearFilters = () => {
     setAttributeFilters({});

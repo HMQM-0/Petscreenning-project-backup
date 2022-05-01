@@ -18,13 +18,12 @@ import {
 import { getUserDetailsQuery } from "@nautical/queries/user";
 // import { User } from "@nautical/sdk/lib/fragments/gqlTypes/User";
 import { User } from "@nautical/fragments/gqlTypes/User";
-
-import { ShopContext } from "../../components/ShopProvider/context";
+import { useShopContext } from "components/providers/ShopProvider";
 
 const AddressBook: React.FC<{
   user: User;
 }> = ({ user }) => {
-  const { defaultCountry, countries } = React.useContext(ShopContext);
+  const { defaultCountry, countries } = useShopContext();
   const [displayNewModal, setDisplayNewModal] = React.useState(false);
   const [displayEditModal, setDisplayEditModal] = React.useState(false);
   const [addressData, setAddressData] = React.useState(null);

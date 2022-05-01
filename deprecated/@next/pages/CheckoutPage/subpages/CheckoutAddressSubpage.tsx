@@ -13,10 +13,10 @@ import { useIntl } from "react-intl";
 import { CheckoutAddress } from "@components/organisms";
 // import { useAuth, useCheckout, useCart } from "@nautical/sdk";
 import { useAuth, useCheckout, useCart } from "@nautical/react";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { commonMessages } from "deprecated/intl";
 import { IAddress, IFormError } from "@types";
 import { filterNotEmptyArrayItems } from "@utils/misc";
+import { useShopContext } from "components/providers/ShopProvider";
 
 export interface ICheckoutAddressSubpageHandles {
   submitAddress: () => void;
@@ -49,7 +49,7 @@ const CheckoutAddressSubpageWithRef: RefForwardingComponent<
     setBillingAsShippingAddress,
   } = useCheckout();
   const { items } = useCart();
-  const { countries } = useContext(ShopContext);
+  const { countries } = useShopContext();
 
   const [shippingErrors, setShippingErrors] = useState<IFormError[]>([]);
   const [billingErrors, setBillingErrors] = useState<IFormError[]>([]);

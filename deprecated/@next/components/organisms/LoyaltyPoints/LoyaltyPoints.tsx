@@ -1,19 +1,21 @@
 import React from "react";
-import * as S from "./styles";
 import Box from "@mui/material/Box";
-import { ITaxedMoney } from "@types";
 import Slider from "@mui/material/Slider";
-import { customSliderStyles } from "./styles";
 import { Button, Divider } from "@mui/material";
-import { useCart, useCheckout } from "deprecated/@nautical/react";
 import CircularProgress from "@mui/material/CircularProgress";
+
+import { useCart, useCheckout } from "deprecated/@nautical/react";
+import { ITaxedMoney } from "@types";
 import { User } from "deprecated/@nautical/fragments/gqlTypes/User";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints } from "@nautical/react/mutations";
 import {
   useFetchLoyaltyAndReferralsInfo,
   useYotpoLoyaltyAndReferralsFetchCustomerDetails,
 } from "@nautical/react/queries";
+import { useShopContext } from "components/providers/ShopProvider";
+
+import { customSliderStyles } from "./styles";
+import * as S from "./styles";
 
 interface LoyaltyPointsProps {
   // activeStepIndex: number;
@@ -35,7 +37,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
   const [pointsToRedeem, setPointsToRedeem] = React.useState(1);
 
   // CONTEXT
-  const { displayGrossPrices } = React.useContext(ShopContext);
+  const { displayGrossPrices } = useShopContext();
 
   // CUSTOM HOOKS
   const { addPromoCode, removePromoCode, promoCodeDiscount } = useCheckout();

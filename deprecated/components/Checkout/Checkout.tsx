@@ -25,33 +25,35 @@ import {
 import { makeStyles } from "@mui/styles";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import LockIcon from "@mui/icons-material/Lock";
-import { IItems } from "deprecated/@nautical/api/Cart/types";
-import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
-import { ICardData, IFormError, ITaxedMoney } from "@types";
 import * as React from "react";
-import CartSummary from "./CartSummary";
-import { IProduct } from "./types";
 import clsx from "clsx";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-mui";
+import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
+import * as Yup from "yup";
+
 import { useAuth, useCheckout } from "@nautical/react";
 import { TypedSellerNameQuery } from "@components/organisms/CheckoutShipping/queries";
 import { CachedImage } from "@components/molecules";
 import { Money } from "@components/containers";
 import { StripePaymentGateway } from "@components/organisms";
-import { useNavigate } from "react-router";
-import { useSearchParams } from "react-router-dom";
 import Loader from "deprecated/components/Loader";
-import * as Yup from "yup";
+import { ICardData, IFormError, ITaxedMoney } from "@types";
+import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
+import { IItems } from "deprecated/@nautical/api/Cart/types";
 import { maybe } from "@utils/misc";
 import { LoyaltyPoints } from "@components/organisms/LoyaltyPoints";
 import { AuthorizeNetPaymentGateway } from "@components/organisms/AuthorizeNetPaymentGateway/AuthorizeNetPaymentGateway";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { Plugins } from "deprecated/@nautical";
 import {
   useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints,
   useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord,
 } from "@nautical/react/mutations";
+import { useShopContext } from "components/providers/ShopProvider";
+
+import { IProduct } from "./types";
+import CartSummary from "./CartSummary";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -334,7 +336,7 @@ const MuiCheckout: React.FunctionComponent<ICheckoutProps> = (props) => {
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] =
     React.useState(false);
 
-  const { countries } = React.useContext(ShopContext);
+  const { countries } = useShopContext();
 
   // Used in place of React.useState(<initital_value>) to persist state in local storage.
   function usePersistedState(key, defaultValue) {

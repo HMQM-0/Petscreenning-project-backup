@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Divider, Typography } from "@mui/material";
+
 import { RichTextContent } from "@components/atoms";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import * as S from "./styles";
 import { IProps } from "./types";
-
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { RatingsAndReviews } from "./RatingsAndReviews";
 
 export const ProductDescription: React.FC<IProps> = ({
@@ -16,7 +16,7 @@ export const ProductDescription: React.FC<IProps> = ({
   productId,
   ratingsAndReviewsSectionRef,
 }: IProps) => {
-  const { activePlugins } = React.useContext(ShopContext);
+  const { activePlugins } = useShopContext();
   const yotpoRatingsAndReviewsPluginActive = Boolean(
     activePlugins.find(
       (plugin) => plugin.identifier === "nautical.reviews.yotpo"

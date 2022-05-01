@@ -1,6 +1,6 @@
-// import { GetShop_shop } from "@nautical/sdk/lib/queries/gqlTypes/GetShop";
-import { GetShop_shop } from "@nautical/queries/gqlTypes/GetShop";
 import { createContext } from "react";
+
+import { GetShopQuery } from "@generated";
 
 export const defaultCountry = {
   __typename: "CountryDisplay" as "CountryDisplay",
@@ -8,7 +8,7 @@ export const defaultCountry = {
   country: "United States of America",
 };
 
-export const defaultContext: GetShop_shop = {
+export const defaultContext: GetShopQuery["shop"] = {
   __typename: "Shop",
   countries: [],
   builderKey: null,
@@ -22,6 +22,6 @@ export const defaultContext: GetShop_shop = {
   activePlugins: [],
 };
 
-export const ShopContext = createContext<GetShop_shop>(defaultContext);
+export const ShopContext = createContext(defaultContext);
 
 ShopContext.displayName = "ShopContext";

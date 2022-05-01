@@ -11,7 +11,6 @@ import { Box } from "@mui/material";
 
 import { Loader } from "@components/atoms";
 import { useAuth, useCart } from "@nautical/react";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import {
   useProductVariantsAttributes,
   useProductVariantsAttributesValuesSelection,
@@ -21,6 +20,7 @@ import {
   canAddToCart,
   getAvailableQuantity,
 } from "@components/organisms/AddToCartSection/stockHelpers";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import {
   ProductDetails_product,
@@ -95,7 +95,7 @@ const PageWithQueryAttributes: React.FC<IProps> = (props) => {
   const { user } = useAuth();
 
   const searchQueryAttributes = queryString.parse(search);
-  const { builderKey, loginForPrice } = React.useContext(ShopContext);
+  const { builderKey, loginForPrice } = useShopContext();
 
   const onAttributeChangeHandler = (slug: string | null, value: string) => {
     navigate(

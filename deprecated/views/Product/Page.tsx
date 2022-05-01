@@ -8,7 +8,7 @@ import { ProductGallery } from "@components/organisms";
 import AddToCartSection from "@components/organisms/AddToCartSection";
 import { ProductDescription as NewProductDescription } from "deprecated/_nautical/components/ProductDescription";
 import NoHomeBreadcrumbs from "deprecated/components/NoHomeBreadcrumbs";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import GalleryCarousel from "./GalleryCarousel";
 import OtherProducts from "./Other";
@@ -74,7 +74,7 @@ const Page: React.FC<
 
   const [variantId, setVariantId] = React.useState(product.defaultVariant?.id);
 
-  const { builderKey } = React.useContext(ShopContext);
+  const { builderKey } = useShopContext();
 
   /* const showCarousel = () => {
     return this.props.product.images.length > 1;

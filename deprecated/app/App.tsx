@@ -1,10 +1,20 @@
 import React from "react";
+
 import PromoBanner from "deprecated/_nautical/components/PromoBanner/PromoBanner";
 import { ThemeFont } from "deprecated/_nautical/components/ThemeFont/ThemeFont";
 // import { useAuth } from "@nautical/sdk";
 import { useAuth, useShopDetails } from "@nautical/react";
+
 // import { DemoBanner, Loader } from "@components/atoms";
 // import { demoMode } from "deprecated/constants";
+import BottomNav from "deprecated/components/MainMenu/BottomNav";
+import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
+import CookieBar from "deprecated/_nautical/components/CookieBar";
+import TopNav from "deprecated/components/MainMenu/TopNav";
+import { maybe } from "@utils/misc";
+
+import Notifications from "./Notifications";
+
 import {
   Footer,
   // MainMenu,
@@ -12,12 +22,11 @@ import {
   OverlayManager,
   OverlayProvider,
 } from "../components";
-import ShopProvider from "../components/ShopProvider";
+
+// import ShopProvider from "../../components/providers/ShopProvider";
 import "../globalStyles/scss/index.scss";
 import { AppRoutes } from "./routes";
-import Notifications from "./Notifications";
-import CookieBar from "deprecated/_nautical/components/CookieBar";
-import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
+
 import {
   Button,
   createTheme,
@@ -27,13 +36,14 @@ import {
   useScrollTrigger,
   Skeleton,
 } from "@mui/material";
+
 // import MainMenu from "deprecated/components/MainMenu/MainMenu";
-import BottomNav from "deprecated/components/MainMenu/BottomNav";
 // import RewardBanner from "deprecated/_nautical/components/RewardBanner/RewardBanner";
-import TopNav from "deprecated/components/MainMenu/TopNav";
+
 import { useQuery } from "@apollo/client";
+
 import { brandingQuery } from "./queries";
-import { maybe } from "@utils/misc";
+
 import { useNavigate } from "react-router";
 import builder from "@builder.io/react";
 
@@ -194,39 +204,39 @@ const App: React.FC = () => {
     : {};
 
   return (
-    <ShopProvider>
-      <ThemeProvider theme={createTheme(theme)}>
-        <OverlayProvider>
-          <MetaConsumer />
-          {/* demoMode && <DemoBanner />*/}
-          <ThemeFont fontName="Playfair Display" />
-          <header style={trigger ? stickyStyle : emptyStyle}>
-            <PromoBanner content="FREE SHIPPING over $50" />
-            <TopNav logo={logo} />
-          </header>
-          <div style={fillerStyle} />
-          <AppRoutes logo={logo} />
-          <BottomNav />
-          <Footer footerText={footerText} icon={icon} />
-          <CookieBar
-            title=""
-            description="This website uses cookies to ensure you get the best experience. By continuing to use this site, you consent to cookies being used."
-            hide={acceptedCookies}
-            action={
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onAcceptCookies()}
-              >
-                Got it!
-              </Button>
-            }
-          />
-          <OverlayManager />
-          <Notifications />
-        </OverlayProvider>
-      </ThemeProvider>
-    </ShopProvider>
+    // <ShopProvider>
+    <ThemeProvider theme={createTheme(theme)}>
+      <OverlayProvider>
+        <MetaConsumer />
+        {/* demoMode && <DemoBanner />*/}
+        <ThemeFont fontName="Playfair Display" />
+        <header style={trigger ? stickyStyle : emptyStyle}>
+          <PromoBanner content="FREE SHIPPING over $50" />
+          <TopNav logo={logo} />
+        </header>
+        <div style={fillerStyle} />
+        <AppRoutes logo={logo} />
+        <BottomNav />
+        <Footer footerText={footerText} icon={icon} />
+        <CookieBar
+          title=""
+          description="This website uses cookies to ensure you get the best experience. By continuing to use this site, you consent to cookies being used."
+          hide={acceptedCookies}
+          action={
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={() => onAcceptCookies()}
+            >
+              Got it!
+            </Button>
+          }
+        />
+        <OverlayManager />
+        <Notifications />
+      </OverlayProvider>
+    </ThemeProvider>
+    // </ShopProvider>
   );
 };
 

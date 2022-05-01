@@ -12,13 +12,13 @@ import {
 import { IProductVariantsAttributesSelectedValues } from "@types";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "@components/molecules/ViewSizeGuideButton/ViewSizeGuideButton";
-import { ShopContext } from "deprecated/components/ShopProvider/context";
 import { useAuth } from "@nautical/react";
 import {
   OverlayContext,
   OverlayTheme,
   OverlayType,
 } from "deprecated/components/Overlay";
+import { useShopContext } from "components/providers/ShopProvider";
 
 import {
   getAvailableQuantity,
@@ -76,7 +76,7 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
 }) => {
   const intl = useIntl();
 
-  const { loginForPrice } = React.useContext(ShopContext);
+  const { loginForPrice } = useShopContext();
   const { user } = useAuth();
 
   const [quantity, setQuantity] = useState<number>(1);
