@@ -1,4 +1,3 @@
-import Head from "next/head";
 import * as React from "react";
 
 import { useThemeFontQuery } from "@generated";
@@ -7,7 +6,7 @@ interface IThemeFontProps {
   fontName?: string;
 }
 
-export const ThemeFont: React.FC<IThemeFontProps> = ({ fontName }) => {
+export const ThemeFont: React.FC<IThemeFontProps> = () => {
   const { data, loading } = useThemeFontQuery({
     variables: { name: "ThemeFont" },
   });
@@ -30,7 +29,7 @@ export const ThemeFont: React.FC<IThemeFontProps> = ({ fontName }) => {
       {loading ? (
         ""
       ) : (
-        <Head>
+        <>
           <link
             href={generateLinkUrl(fontNameFromQuery)}
             rel="stylesheet"
@@ -42,7 +41,7 @@ export const ThemeFont: React.FC<IThemeFontProps> = ({ fontName }) => {
                             }
                         `}
           </style>
-        </Head>
+        </>
       )}
     </>
   );
