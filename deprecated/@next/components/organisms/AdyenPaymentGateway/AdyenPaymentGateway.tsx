@@ -15,51 +15,49 @@ export const adyenNotNegativeConfirmationStatusCodes = [
   "PresentToShopper",
 ];
 
-const messageDescription = "Adyen payment gateway error";
-
 export const adyenErrorMessages = defineMessages({
   unknownPayment: {
     defaultMessage: "Unknown payment submission error occured.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
   invalidPaymentSubmission: {
     defaultMessage: "Invalid payment submission.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
   cannotHandlePaymentConfirmation: {
     defaultMessage:
       "Payment gateway did not provide payment confirmation handler.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
   paymentMalformedConfirmationData: {
     defaultMessage:
       "Payment needs confirmation but data required for confirmation received from the server is malformed.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
   paymentNoConfirmationData: {
     defaultMessage:
       "Payment needs confirmation but data required for confirmation not received from the server.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
 });
 
 export const adyenConfirmationErrorMessages = defineMessages({
   error: {
     defaultMessage: "Error processing payment occured.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
   refused: {
     defaultMessage:
       "The payment was refused. Try the payment again using a different payment method or card.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
   cancelled: {
     defaultMessage: "Payment was cancelled.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
   general: {
     defaultMessage: "Payment confirmation went wrong.",
-    description: messageDescription,
+    description: "Adyen payment gateway error",
   },
 });
 
