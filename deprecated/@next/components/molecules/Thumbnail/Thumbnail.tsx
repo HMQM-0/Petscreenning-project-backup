@@ -1,12 +1,13 @@
 import React from "react";
 
 import { maybe } from "@utils/misc";
-
 import { PlaceholderImage } from "@components/atoms";
-import { CachedImage } from "..";
+
 import { IProps } from "./types";
 
-export const Thumbnail: React.FC<IProps> = ({
+import { CachedImage } from "../CachedImage";
+
+export const Thumbnail = ({
   source,
   children,
   height,
@@ -28,7 +29,6 @@ export const Thumbnail: React.FC<IProps> = ({
   }
 
   return (
-    // @ts-ignore
     <CachedImage
       {...props}
       url={maybe(() => thumbnail!.url)}
