@@ -19437,7 +19437,7 @@ export type OrderDetailFragment = { __typename?: 'Order', userEmail?: string | n
 
 export type NauticalOrderDetailFragment = { __typename?: 'NauticalOrder', userEmail?: string | null, paymentStatus?: PaymentChargeStatusEnum | null, paymentStatusDisplay?: string | null, status: NauticalOrderStatus, statusDisplay?: string | null, id: string, token: string, number?: string | null, discountName?: string | null, shippingAddress?: { __typename?: 'Address', id: string, firstName: string, lastName: string, companyName: string, streetAddress1: string, streetAddress2: string, city: string, postalCode: string, countryArea: string, phone: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', code: string, country: string } } | null, discount?: { __typename?: 'Money', currency: string, amount: number } | null, lines: Array<{ __typename?: 'NauticalOrderLine', productName: string, productSku: string, quantity: number, variant?: { __typename?: 'ProductVariant', id: string, name: string, sku: string, quantityAvailable: number, isAvailable?: boolean | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }>, product: { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, productType: { __typename?: 'ProductType', id: string, isShippingRequired: boolean } } } | null, unitPrice?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, totalPrice?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null>, subtotal?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, total?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, shippingPrice?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, volumeDiscount?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, sellerFulfillments: Array<{ __typename?: 'Fulfillment', id: string, status: FulfillmentStatus, relatedTo?: { __typename?: 'Fulfillment', id: string } | null, lines?: Array<{ __typename?: 'FulfillmentLine', id: string, quantity: number, orderLine?: { __typename?: 'OrderLine', id: string, productName: string, productSku: string, variantName: string, quantity: number, quantityFulfilled: number } | null } | null> | null } | null> };
 
-export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean };
+export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean };
 
 export type PaymentFragment = { __typename?: 'Payment', id: string, gateway: string, token: string, creditCard?: { __typename?: 'CreditCard', brand: string, firstDigits?: string | null, lastDigits: string, expMonth?: number | null, expYear?: number | null } | null, total?: { __typename?: 'Money', amount: number, currency: string } | null };
 
@@ -19715,18 +19715,13 @@ export type AttributesQueryVariables = Exact<{
 
 export type AttributesQuery = { __typename?: 'Query', attributes?: { __typename?: 'AttributeCountableConnection', edges: Array<{ __typename?: 'AttributeCountableEdge', node: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, values?: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } | null> | null } }> } | null };
 
-export type BrandingQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type BrandingQuery = { __typename?: 'Query', branding?: { __typename?: 'BrandingType', id: string, jsonContent: any, footerText: string, logoHeight?: number | null, logoWidth?: number | null, logo?: { __typename?: 'Image', url: string } | null, icon?: { __typename?: 'Image', url: string } | null, favicon?: { __typename?: 'Image', url: string } | null } | null };
-
 export type CategoryListQueryVariables = Exact<{
   first: Scalars['Int'];
   after?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type CategoryListQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null };
+export type CategoryListQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } | null };
 
 export type CategoryChildrenListQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -19735,7 +19730,7 @@ export type CategoryChildrenListQueryVariables = Exact<{
 }>;
 
 
-export type CategoryChildrenListQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, children?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null } | null };
+export type CategoryChildrenListQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, children?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } | null } | null };
 
 export type CategoryAncestorsListQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -19744,7 +19739,7 @@ export type CategoryAncestorsListQueryVariables = Exact<{
 }>;
 
 
-export type CategoryAncestorsListQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, ancestors?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null } | null };
+export type CategoryAncestorsListQuery = { __typename?: 'Query', category?: { __typename?: 'Category', id: string, ancestors?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } | null } | null };
 
 export type CategoryDetailsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -19780,22 +19775,7 @@ export type CollectionListQueryVariables = Exact<{
 }>;
 
 
-export type CollectionListQuery = { __typename?: 'Query', collections?: { __typename?: 'CollectionCountableConnection', edges: Array<{ __typename?: 'CollectionCountableEdge', node: { __typename?: 'Collection', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null };
-
-export type GetClientSecretQueryVariables = Exact<{
-  gateway: Scalars['ID'];
-  paymentInformation: StripeClientPaymentData;
-}>;
-
-
-export type GetClientSecretQuery = { __typename?: 'Query', getClientSecret?: any | null };
-
-export type MainMenuSubItemFragment = { __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null };
-
-export type MainMenuQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MainMenuQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', navigation?: { __typename?: 'Navigation', main?: { __typename?: 'Menu', id: string, items?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null } | null } | null }, designerdata?: { __typename?: 'DesignerDataType', jsonContent: any, name: string } | null };
+export type CollectionListQuery = { __typename?: 'Query', collections?: { __typename?: 'CollectionCountableConnection', edges: Array<{ __typename?: 'CollectionCountableEdge', node: { __typename?: 'Collection', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } | null };
 
 export type OrdersByUserQueryVariables = Exact<{
   perPage: Scalars['Int'];
@@ -19856,7 +19836,7 @@ export type ProductListQueryVariables = Exact<{
 }>;
 
 
-export type ProductListQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, category?: { __typename?: 'Category', id: string, name: string } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null };
+export type ProductListQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, category?: { __typename?: 'Category', id: string, name: string } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } | null };
 
 export type ProductDetailsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -19909,13 +19889,6 @@ export type GetCollectionsQueryVariables = Exact<{
 
 export type GetCollectionsQuery = { __typename?: 'Query', collections?: { __typename?: 'CollectionCountableConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean }, edges: Array<{ __typename?: 'CollectionCountableEdge', node: { __typename?: 'Collection', id: string, name: string } }> } | null };
 
-export type ThemeFontQueryVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type ThemeFontQuery = { __typename?: 'Query', designerdata?: { __typename?: 'DesignerDataType', name: string, jsonContent: any } | null };
-
 export type UserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -19935,6 +19908,129 @@ export type WishlistQueryVariables = Exact<{
 
 
 export type WishlistQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, wishlist?: { __typename?: 'WishlistItemCountableConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null }, edges: Array<{ __typename?: 'WishlistItemCountableEdge', node: { __typename?: 'WishlistItem', id: string, product: { __typename?: 'Product', id: string, name: string, brand?: string | null, description: string, descriptionJson: any, isAvailable?: boolean | null, entityId: string, path: string, countableImages?: { __typename?: 'ProductImageCountableConnection', edges: Array<{ __typename?: 'ProductImageCountableEdge', node: { __typename?: 'ProductImage', id: string, altText: string, urlOriginal: string } }> } | null, seller?: { __typename?: 'Seller', id: string, companyName: string, microsite?: { __typename?: 'Microsite', id: string, name: string } | null, logo?: { __typename?: 'Image', url: string } | null } | null, price?: { __typename?: 'Money', currency: string, amount: number } | null, pricing?: { __typename?: 'ProductPricingInfo', priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number }, tax: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number }, tax: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number }, tax: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number }, tax: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, valueRequired: boolean, values?: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> }>, thumbnail?: { __typename?: 'Image', url: string } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable: number } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, sku: string, images?: Array<{ __typename?: 'ProductImage', url: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number }, tax: { __typename?: 'Money', amount: number, currency: string } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number }, tax: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, valueRequired: boolean, values?: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> }> } | null> | null }, variants: { __typename?: 'ProductVariantCountableConnection', edges: Array<{ __typename?: 'ProductVariantCountableEdge', node: { __typename?: 'ProductVariant', id: string, name: string, sku: string, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } }> } } }> } | null } | null };
+
+export type SellerQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type SellerQuery = { __typename?: 'Query', sellerName?: { __typename?: 'Seller', id: string, companyName: string } | null };
+
+export type PromoBannerQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type PromoBannerQuery = { __typename?: 'Query', designerdata?: { __typename?: 'DesignerDataType', name: string, jsonContent: any } | null };
+
+export type ThemeFontQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type ThemeFontQuery = { __typename?: 'Query', designerdata?: { __typename?: 'DesignerDataType', name: string, jsonContent: any } | null };
+
+export type BrandingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BrandingQuery = { __typename?: 'Query', branding?: { __typename?: 'BrandingType', id: string, jsonContent: any, footerText: string, logoHeight?: number | null, logoWidth?: number | null, logo?: { __typename?: 'Image', url: string } | null, icon?: { __typename?: 'Image', url: string } | null, favicon?: { __typename?: 'Image', url: string } | null } | null };
+
+export type GetClientSecretQueryVariables = Exact<{
+  gateway: Scalars['ID'];
+  paymentInformation: StripeClientPaymentData;
+}>;
+
+
+export type GetClientSecretQuery = { __typename?: 'Query', getClientSecret?: any | null };
+
+export type SecondaryMenuSubItemFragment = { __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null };
+
+export type SecondaryMenuQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SecondaryMenuQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', navigation?: { __typename?: 'Navigation', secondary?: { __typename?: 'Menu', items?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null } | null> | null } | null } | null } };
+
+export type MainMenuSubItemFragment = { __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null };
+
+export type MainMenuQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MainMenuQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', navigation?: { __typename?: 'Navigation', main?: { __typename?: 'Menu', id: string, items?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null } | null } | null }, designerdata?: { __typename?: 'DesignerDataType', jsonContent: any, name: string } | null };
+
+export type RegisterAccountMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  redirectUrl: Scalars['String'];
+  companyName?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RegisterAccountMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'Error', field?: string | null, message?: string | null }> } | null };
+
+export type SubmitRatingAndReviewMutationVariables = Exact<{
+  headline: Scalars['String'];
+  review: Scalars['String'];
+  publicName: Scalars['String'];
+  rating: Scalars['String'];
+  productId: Scalars['String'];
+  emailAddress: Scalars['String'];
+}>;
+
+
+export type SubmitRatingAndReviewMutation = { __typename?: 'Mutation', submitRatingAndReview?: { __typename?: 'SubmitRatingAndReview', submissionSuccessful?: boolean | null, errors: Array<{ __typename?: 'Error', field?: string | null, message?: string | null }> } | null };
+
+export type SearchResultsQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SearchResultsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, category?: { __typename?: 'Category', id: string, name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type GetMicrositesQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetMicrositesQuery = { __typename?: 'Query', microsites?: { __typename?: 'MicrositeCountableConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean }, edges: Array<{ __typename?: 'MicrositeCountableEdge', node: { __typename?: 'Microsite', id: string, name: string } }> } | null };
+
+export type ArticleQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type ArticleQuery = { __typename?: 'Query', page?: { __typename?: 'Page', contentJson: any, id: string, seoDescription?: string | null, seoTitle?: string | null, slug: string, title: string } | null, shop: { __typename?: 'Shop', homepageCollection?: { __typename?: 'Collection', id: string, backgroundImage?: { __typename?: 'Image', url: string } | null } | null } };
+
+export type HomePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomePageQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', description?: string | null, name: string, homepageCollection?: { __typename?: 'Collection', id: string, description: string, descriptionJson: any, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null } | null }, categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null, collections?: { __typename?: 'CollectionCountableConnection', edges: Array<{ __typename?: 'CollectionCountableEdge', node: { __typename?: 'Collection', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+
+export type SearchProductsQueryVariables = Exact<{
+  query: Scalars['String'];
+  attributes?: InputMaybe<Array<InputMaybe<AttributeInput>> | InputMaybe<AttributeInput>>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  sortBy?: InputMaybe<ProductOrder>;
+  microsite?: InputMaybe<Scalars['ID']>;
+  after?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type SearchProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, category?: { __typename?: 'Category', id: string, name: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean } } | null, attributes?: { __typename?: 'AttributeCountableConnection', edges: Array<{ __typename?: 'AttributeCountableEdge', node: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, values?: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } | null> | null } }> } | null };
+
+export type BuilderSearchQueryVariables = Exact<{
+  query: Scalars['String'];
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  attributes?: InputMaybe<Array<InputMaybe<AttributeInput>> | InputMaybe<AttributeInput>>;
+  sortBy?: InputMaybe<ProductOrder>;
+  microsite?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type BuilderSearchQuery = { __typename?: 'Query', productList?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, products: Array<{ __typename?: 'ProductCountableEdge', product: { __typename?: 'Product', id: string, name: string, slug: string, brand?: string | null, isAvailable?: boolean | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, seller?: { __typename?: 'Seller', id: string, companyName: string, microsite?: { __typename?: 'Microsite', id: string, name: string } | null, logo?: { __typename?: 'Image', url: string } | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable: number } | null, category?: { __typename?: 'Category', id: string, name: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null, attributeList?: { __typename?: 'AttributeCountableConnection', attributes: Array<{ __typename?: 'AttributeCountableEdge', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, values?: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } | null> | null } }> } | null };
 
 export const AddressFragmentDoc = gql`
     fragment Address on Address {
@@ -20343,7 +20439,6 @@ export const PageInfoFragmentDoc = gql`
     fragment PageInfo on PageInfo {
   endCursor
   hasNextPage
-  hasPreviousPage
 }
     `;
 export const PaymentFragmentDoc = gql`
@@ -20771,27 +20866,6 @@ export const OrderEventFragmentFragmentDoc = gql`
   }
 }
     `;
-export const MainMenuSubItemFragmentDoc = gql`
-    fragment MainMenuSubItem on MenuItem {
-  id
-  name
-  category {
-    id
-    name
-  }
-  url
-  collection {
-    id
-    name
-  }
-  page {
-    slug
-  }
-  parent {
-    id
-  }
-}
-    `;
 export const ProductPricingFieldFragmentDoc = gql`
     fragment ProductPricingField on Product {
   pricing {
@@ -20815,6 +20889,45 @@ export const ProductPricingFieldFragmentDoc = gql`
   }
 }
     ${PriceFragmentDoc}`;
+export const SecondaryMenuSubItemFragmentDoc = gql`
+    fragment SecondaryMenuSubItem on MenuItem {
+  id
+  name
+  category {
+    id
+    name
+  }
+  url
+  collection {
+    id
+    name
+  }
+  page {
+    slug
+  }
+}
+    `;
+export const MainMenuSubItemFragmentDoc = gql`
+    fragment MainMenuSubItem on MenuItem {
+  id
+  name
+  category {
+    id
+    name
+  }
+  url
+  collection {
+    id
+    name
+  }
+  page {
+    slug
+  }
+  parent {
+    id
+  }
+}
+    `;
 export const SetCustomerDefaultAddressDocument = gql`
     mutation SetCustomerDefaultAddress($id: ID!, $type: AddressTypeEnum!) {
   accountSetDefaultAddress(id: $id, type: $type) {
@@ -22179,53 +22292,6 @@ export function useAttributesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type AttributesQueryHookResult = ReturnType<typeof useAttributesQuery>;
 export type AttributesLazyQueryHookResult = ReturnType<typeof useAttributesLazyQuery>;
 export type AttributesQueryResult = Apollo.QueryResult<AttributesQuery, AttributesQueryVariables>;
-export const BrandingDocument = gql`
-    query Branding {
-  branding {
-    id
-    jsonContent
-    logo {
-      url
-    }
-    icon {
-      url
-    }
-    favicon {
-      url
-    }
-    footerText
-    logoHeight
-    logoWidth
-  }
-}
-    `;
-
-/**
- * __useBrandingQuery__
- *
- * To run a query within a React component, call `useBrandingQuery` and pass it any options that fit your needs.
- * When your component renders, `useBrandingQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBrandingQuery({
- *   variables: {
- *   },
- * });
- */
-export function useBrandingQuery(baseOptions?: Apollo.QueryHookOptions<BrandingQuery, BrandingQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BrandingQuery, BrandingQueryVariables>(BrandingDocument, options);
-      }
-export function useBrandingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BrandingQuery, BrandingQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BrandingQuery, BrandingQueryVariables>(BrandingDocument, options);
-        }
-export type BrandingQueryHookResult = ReturnType<typeof useBrandingQuery>;
-export type BrandingLazyQueryHookResult = ReturnType<typeof useBrandingLazyQuery>;
-export type BrandingQueryResult = Apollo.QueryResult<BrandingQuery, BrandingQueryVariables>;
 export const CategoryListDocument = gql`
     query CategoryList($first: Int!, $after: String) {
   categories(first: $first, after: $after) {
@@ -22572,112 +22638,6 @@ export function useCollectionListLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type CollectionListQueryHookResult = ReturnType<typeof useCollectionListQuery>;
 export type CollectionListLazyQueryHookResult = ReturnType<typeof useCollectionListLazyQuery>;
 export type CollectionListQueryResult = Apollo.QueryResult<CollectionListQuery, CollectionListQueryVariables>;
-export const GetClientSecretDocument = gql`
-    query GetClientSecret($gateway: ID!, $paymentInformation: StripeClientPaymentData!) {
-  getClientSecret(gateway: $gateway, paymentInformation: $paymentInformation)
-}
-    `;
-
-/**
- * __useGetClientSecretQuery__
- *
- * To run a query within a React component, call `useGetClientSecretQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetClientSecretQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetClientSecretQuery({
- *   variables: {
- *      gateway: // value for 'gateway'
- *      paymentInformation: // value for 'paymentInformation'
- *   },
- * });
- */
-export function useGetClientSecretQuery(baseOptions: Apollo.QueryHookOptions<GetClientSecretQuery, GetClientSecretQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetClientSecretQuery, GetClientSecretQueryVariables>(GetClientSecretDocument, options);
-      }
-export function useGetClientSecretLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetClientSecretQuery, GetClientSecretQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetClientSecretQuery, GetClientSecretQueryVariables>(GetClientSecretDocument, options);
-        }
-export type GetClientSecretQueryHookResult = ReturnType<typeof useGetClientSecretQuery>;
-export type GetClientSecretLazyQueryHookResult = ReturnType<typeof useGetClientSecretLazyQuery>;
-export type GetClientSecretQueryResult = Apollo.QueryResult<GetClientSecretQuery, GetClientSecretQueryVariables>;
-export const MainMenuDocument = gql`
-    query MainMenu {
-  shop {
-    navigation {
-      main {
-        id
-        items {
-          ...MainMenuSubItem
-          children {
-            ...MainMenuSubItem
-            children {
-              ...MainMenuSubItem
-              children {
-                ...MainMenuSubItem
-                children {
-                  ...MainMenuSubItem
-                  children {
-                    ...MainMenuSubItem
-                    children {
-                      ...MainMenuSubItem
-                      children {
-                        ...MainMenuSubItem
-                        children {
-                          ...MainMenuSubItem
-                          children {
-                            ...MainMenuSubItem
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  designerdata(name: "NavBar") {
-    jsonContent
-    name
-  }
-}
-    ${MainMenuSubItemFragmentDoc}`;
-
-/**
- * __useMainMenuQuery__
- *
- * To run a query within a React component, call `useMainMenuQuery` and pass it any options that fit your needs.
- * When your component renders, `useMainMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMainMenuQuery({
- *   variables: {
- *   },
- * });
- */
-export function useMainMenuQuery(baseOptions?: Apollo.QueryHookOptions<MainMenuQuery, MainMenuQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MainMenuQuery, MainMenuQueryVariables>(MainMenuDocument, options);
-      }
-export function useMainMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MainMenuQuery, MainMenuQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MainMenuQuery, MainMenuQueryVariables>(MainMenuDocument, options);
-        }
-export type MainMenuQueryHookResult = ReturnType<typeof useMainMenuQuery>;
-export type MainMenuLazyQueryHookResult = ReturnType<typeof useMainMenuLazyQuery>;
-export type MainMenuQueryResult = Apollo.QueryResult<MainMenuQuery, MainMenuQueryVariables>;
 export const OrdersByUserDocument = gql`
     query OrdersByUser($perPage: Int!, $after: String) {
   me {
@@ -23446,42 +23406,6 @@ export function useGetCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetCollectionsQueryHookResult = ReturnType<typeof useGetCollectionsQuery>;
 export type GetCollectionsLazyQueryHookResult = ReturnType<typeof useGetCollectionsLazyQuery>;
 export type GetCollectionsQueryResult = Apollo.QueryResult<GetCollectionsQuery, GetCollectionsQueryVariables>;
-export const ThemeFontDocument = gql`
-    query ThemeFont($name: String!) {
-  designerdata(name: $name) {
-    name
-    jsonContent
-  }
-}
-    `;
-
-/**
- * __useThemeFontQuery__
- *
- * To run a query within a React component, call `useThemeFontQuery` and pass it any options that fit your needs.
- * When your component renders, `useThemeFontQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useThemeFontQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useThemeFontQuery(baseOptions: Apollo.QueryHookOptions<ThemeFontQuery, ThemeFontQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ThemeFontQuery, ThemeFontQueryVariables>(ThemeFontDocument, options);
-      }
-export function useThemeFontLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ThemeFontQuery, ThemeFontQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ThemeFontQuery, ThemeFontQueryVariables>(ThemeFontDocument, options);
-        }
-export type ThemeFontQueryHookResult = ReturnType<typeof useThemeFontQuery>;
-export type ThemeFontLazyQueryHookResult = ReturnType<typeof useThemeFontLazyQuery>;
-export type ThemeFontQueryResult = Apollo.QueryResult<ThemeFontQuery, ThemeFontQueryVariables>;
 export const UserDetailsDocument = gql`
     query UserDetails {
   me {
@@ -23602,3 +23526,803 @@ export function useWishlistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<W
 export type WishlistQueryHookResult = ReturnType<typeof useWishlistQuery>;
 export type WishlistLazyQueryHookResult = ReturnType<typeof useWishlistLazyQuery>;
 export type WishlistQueryResult = Apollo.QueryResult<WishlistQuery, WishlistQueryVariables>;
+export const SellerDocument = gql`
+    query Seller($id: ID!) {
+  sellerName(id: $id) {
+    id
+    companyName
+  }
+}
+    `;
+
+/**
+ * __useSellerQuery__
+ *
+ * To run a query within a React component, call `useSellerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSellerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSellerQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSellerQuery(baseOptions: Apollo.QueryHookOptions<SellerQuery, SellerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SellerQuery, SellerQueryVariables>(SellerDocument, options);
+      }
+export function useSellerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellerQuery, SellerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SellerQuery, SellerQueryVariables>(SellerDocument, options);
+        }
+export type SellerQueryHookResult = ReturnType<typeof useSellerQuery>;
+export type SellerLazyQueryHookResult = ReturnType<typeof useSellerLazyQuery>;
+export type SellerQueryResult = Apollo.QueryResult<SellerQuery, SellerQueryVariables>;
+export const PromoBannerDocument = gql`
+    query PromoBanner($name: String!) {
+  designerdata(name: $name) {
+    name
+    jsonContent
+  }
+}
+    `;
+
+/**
+ * __usePromoBannerQuery__
+ *
+ * To run a query within a React component, call `usePromoBannerQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePromoBannerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePromoBannerQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function usePromoBannerQuery(baseOptions: Apollo.QueryHookOptions<PromoBannerQuery, PromoBannerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PromoBannerQuery, PromoBannerQueryVariables>(PromoBannerDocument, options);
+      }
+export function usePromoBannerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PromoBannerQuery, PromoBannerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PromoBannerQuery, PromoBannerQueryVariables>(PromoBannerDocument, options);
+        }
+export type PromoBannerQueryHookResult = ReturnType<typeof usePromoBannerQuery>;
+export type PromoBannerLazyQueryHookResult = ReturnType<typeof usePromoBannerLazyQuery>;
+export type PromoBannerQueryResult = Apollo.QueryResult<PromoBannerQuery, PromoBannerQueryVariables>;
+export const ThemeFontDocument = gql`
+    query ThemeFont($name: String!) {
+  designerdata(name: $name) {
+    name
+    jsonContent
+  }
+}
+    `;
+
+/**
+ * __useThemeFontQuery__
+ *
+ * To run a query within a React component, call `useThemeFontQuery` and pass it any options that fit your needs.
+ * When your component renders, `useThemeFontQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useThemeFontQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useThemeFontQuery(baseOptions: Apollo.QueryHookOptions<ThemeFontQuery, ThemeFontQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ThemeFontQuery, ThemeFontQueryVariables>(ThemeFontDocument, options);
+      }
+export function useThemeFontLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ThemeFontQuery, ThemeFontQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ThemeFontQuery, ThemeFontQueryVariables>(ThemeFontDocument, options);
+        }
+export type ThemeFontQueryHookResult = ReturnType<typeof useThemeFontQuery>;
+export type ThemeFontLazyQueryHookResult = ReturnType<typeof useThemeFontLazyQuery>;
+export type ThemeFontQueryResult = Apollo.QueryResult<ThemeFontQuery, ThemeFontQueryVariables>;
+export const BrandingDocument = gql`
+    query Branding {
+  branding {
+    id
+    jsonContent
+    logo {
+      url
+    }
+    icon {
+      url
+    }
+    favicon {
+      url
+    }
+    footerText
+    logoHeight
+    logoWidth
+  }
+}
+    `;
+
+/**
+ * __useBrandingQuery__
+ *
+ * To run a query within a React component, call `useBrandingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBrandingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBrandingQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBrandingQuery(baseOptions?: Apollo.QueryHookOptions<BrandingQuery, BrandingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BrandingQuery, BrandingQueryVariables>(BrandingDocument, options);
+      }
+export function useBrandingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BrandingQuery, BrandingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BrandingQuery, BrandingQueryVariables>(BrandingDocument, options);
+        }
+export type BrandingQueryHookResult = ReturnType<typeof useBrandingQuery>;
+export type BrandingLazyQueryHookResult = ReturnType<typeof useBrandingLazyQuery>;
+export type BrandingQueryResult = Apollo.QueryResult<BrandingQuery, BrandingQueryVariables>;
+export const GetClientSecretDocument = gql`
+    query GetClientSecret($gateway: ID!, $paymentInformation: StripeClientPaymentData!) {
+  getClientSecret(gateway: $gateway, paymentInformation: $paymentInformation)
+}
+    `;
+
+/**
+ * __useGetClientSecretQuery__
+ *
+ * To run a query within a React component, call `useGetClientSecretQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetClientSecretQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetClientSecretQuery({
+ *   variables: {
+ *      gateway: // value for 'gateway'
+ *      paymentInformation: // value for 'paymentInformation'
+ *   },
+ * });
+ */
+export function useGetClientSecretQuery(baseOptions: Apollo.QueryHookOptions<GetClientSecretQuery, GetClientSecretQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetClientSecretQuery, GetClientSecretQueryVariables>(GetClientSecretDocument, options);
+      }
+export function useGetClientSecretLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetClientSecretQuery, GetClientSecretQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetClientSecretQuery, GetClientSecretQueryVariables>(GetClientSecretDocument, options);
+        }
+export type GetClientSecretQueryHookResult = ReturnType<typeof useGetClientSecretQuery>;
+export type GetClientSecretLazyQueryHookResult = ReturnType<typeof useGetClientSecretLazyQuery>;
+export type GetClientSecretQueryResult = Apollo.QueryResult<GetClientSecretQuery, GetClientSecretQueryVariables>;
+export const SecondaryMenuDocument = gql`
+    query SecondaryMenu {
+  shop {
+    navigation {
+      secondary {
+        items {
+          ...SecondaryMenuSubItem
+          children {
+            ...SecondaryMenuSubItem
+          }
+        }
+      }
+    }
+  }
+}
+    ${SecondaryMenuSubItemFragmentDoc}`;
+
+/**
+ * __useSecondaryMenuQuery__
+ *
+ * To run a query within a React component, call `useSecondaryMenuQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSecondaryMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSecondaryMenuQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSecondaryMenuQuery(baseOptions?: Apollo.QueryHookOptions<SecondaryMenuQuery, SecondaryMenuQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SecondaryMenuQuery, SecondaryMenuQueryVariables>(SecondaryMenuDocument, options);
+      }
+export function useSecondaryMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SecondaryMenuQuery, SecondaryMenuQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SecondaryMenuQuery, SecondaryMenuQueryVariables>(SecondaryMenuDocument, options);
+        }
+export type SecondaryMenuQueryHookResult = ReturnType<typeof useSecondaryMenuQuery>;
+export type SecondaryMenuLazyQueryHookResult = ReturnType<typeof useSecondaryMenuLazyQuery>;
+export type SecondaryMenuQueryResult = Apollo.QueryResult<SecondaryMenuQuery, SecondaryMenuQueryVariables>;
+export const MainMenuDocument = gql`
+    query MainMenu {
+  shop {
+    navigation {
+      main {
+        id
+        items {
+          ...MainMenuSubItem
+          children {
+            ...MainMenuSubItem
+            children {
+              ...MainMenuSubItem
+              children {
+                ...MainMenuSubItem
+                children {
+                  ...MainMenuSubItem
+                  children {
+                    ...MainMenuSubItem
+                    children {
+                      ...MainMenuSubItem
+                      children {
+                        ...MainMenuSubItem
+                        children {
+                          ...MainMenuSubItem
+                          children {
+                            ...MainMenuSubItem
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  designerdata(name: "NavBar") {
+    jsonContent
+    name
+  }
+}
+    ${MainMenuSubItemFragmentDoc}`;
+
+/**
+ * __useMainMenuQuery__
+ *
+ * To run a query within a React component, call `useMainMenuQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMainMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMainMenuQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMainMenuQuery(baseOptions?: Apollo.QueryHookOptions<MainMenuQuery, MainMenuQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MainMenuQuery, MainMenuQueryVariables>(MainMenuDocument, options);
+      }
+export function useMainMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MainMenuQuery, MainMenuQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MainMenuQuery, MainMenuQueryVariables>(MainMenuDocument, options);
+        }
+export type MainMenuQueryHookResult = ReturnType<typeof useMainMenuQuery>;
+export type MainMenuLazyQueryHookResult = ReturnType<typeof useMainMenuLazyQuery>;
+export type MainMenuQueryResult = Apollo.QueryResult<MainMenuQuery, MainMenuQueryVariables>;
+export const RegisterAccountDocument = gql`
+    mutation RegisterAccount($email: String!, $password: String!, $redirectUrl: String!, $companyName: String) {
+  accountRegister(
+    input: {email: $email, password: $password, redirectUrl: $redirectUrl, companyName: $companyName}
+  ) {
+    errors {
+      field
+      message
+    }
+    requiresConfirmation
+  }
+}
+    `;
+export type RegisterAccountMutationFn = Apollo.MutationFunction<RegisterAccountMutation, RegisterAccountMutationVariables>;
+
+/**
+ * __useRegisterAccountMutation__
+ *
+ * To run a mutation, you first call `useRegisterAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerAccountMutation, { data, loading, error }] = useRegisterAccountMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *      redirectUrl: // value for 'redirectUrl'
+ *      companyName: // value for 'companyName'
+ *   },
+ * });
+ */
+export function useRegisterAccountMutation(baseOptions?: Apollo.MutationHookOptions<RegisterAccountMutation, RegisterAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterAccountMutation, RegisterAccountMutationVariables>(RegisterAccountDocument, options);
+      }
+export type RegisterAccountMutationHookResult = ReturnType<typeof useRegisterAccountMutation>;
+export type RegisterAccountMutationResult = Apollo.MutationResult<RegisterAccountMutation>;
+export type RegisterAccountMutationOptions = Apollo.BaseMutationOptions<RegisterAccountMutation, RegisterAccountMutationVariables>;
+export const SubmitRatingAndReviewDocument = gql`
+    mutation SubmitRatingAndReview($headline: String!, $review: String!, $publicName: String!, $rating: String!, $productId: String!, $emailAddress: String!) {
+  submitRatingAndReview(
+    headline: $headline
+    review: $review
+    publicName: $publicName
+    rating: $rating
+    productId: $productId
+    emailAddress: $emailAddress
+  ) {
+    errors {
+      field
+      message
+    }
+    submissionSuccessful
+  }
+}
+    `;
+export type SubmitRatingAndReviewMutationFn = Apollo.MutationFunction<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>;
+
+/**
+ * __useSubmitRatingAndReviewMutation__
+ *
+ * To run a mutation, you first call `useSubmitRatingAndReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubmitRatingAndReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [submitRatingAndReviewMutation, { data, loading, error }] = useSubmitRatingAndReviewMutation({
+ *   variables: {
+ *      headline: // value for 'headline'
+ *      review: // value for 'review'
+ *      publicName: // value for 'publicName'
+ *      rating: // value for 'rating'
+ *      productId: // value for 'productId'
+ *      emailAddress: // value for 'emailAddress'
+ *   },
+ * });
+ */
+export function useSubmitRatingAndReviewMutation(baseOptions?: Apollo.MutationHookOptions<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>(SubmitRatingAndReviewDocument, options);
+      }
+export type SubmitRatingAndReviewMutationHookResult = ReturnType<typeof useSubmitRatingAndReviewMutation>;
+export type SubmitRatingAndReviewMutationResult = Apollo.MutationResult<SubmitRatingAndReviewMutation>;
+export type SubmitRatingAndReviewMutationOptions = Apollo.BaseMutationOptions<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>;
+export const SearchResultsDocument = gql`
+    query SearchResults($query: String!) {
+  products(filter: {search: $query}, first: 20) {
+    edges {
+      node {
+        id
+        name
+        thumbnail {
+          url
+          alt
+        }
+        thumbnail2x: thumbnail(size: 510) {
+          url
+        }
+        category {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchResultsQuery__
+ *
+ * To run a query within a React component, call `useSearchResultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchResultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchResultsQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchResultsQuery(baseOptions: Apollo.QueryHookOptions<SearchResultsQuery, SearchResultsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchResultsQuery, SearchResultsQueryVariables>(SearchResultsDocument, options);
+      }
+export function useSearchResultsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchResultsQuery, SearchResultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchResultsQuery, SearchResultsQueryVariables>(SearchResultsDocument, options);
+        }
+export type SearchResultsQueryHookResult = ReturnType<typeof useSearchResultsQuery>;
+export type SearchResultsLazyQueryHookResult = ReturnType<typeof useSearchResultsLazyQuery>;
+export type SearchResultsQueryResult = Apollo.QueryResult<SearchResultsQuery, SearchResultsQueryVariables>;
+export const GetMicrositesDocument = gql`
+    query GetMicrosites($cursor: String, $perPage: Int) {
+  microsites(after: $cursor, first: $perPage) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMicrositesQuery__
+ *
+ * To run a query within a React component, call `useGetMicrositesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMicrositesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMicrositesQuery({
+ *   variables: {
+ *      cursor: // value for 'cursor'
+ *      perPage: // value for 'perPage'
+ *   },
+ * });
+ */
+export function useGetMicrositesQuery(baseOptions?: Apollo.QueryHookOptions<GetMicrositesQuery, GetMicrositesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMicrositesQuery, GetMicrositesQueryVariables>(GetMicrositesDocument, options);
+      }
+export function useGetMicrositesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMicrositesQuery, GetMicrositesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMicrositesQuery, GetMicrositesQueryVariables>(GetMicrositesDocument, options);
+        }
+export type GetMicrositesQueryHookResult = ReturnType<typeof useGetMicrositesQuery>;
+export type GetMicrositesLazyQueryHookResult = ReturnType<typeof useGetMicrositesLazyQuery>;
+export type GetMicrositesQueryResult = Apollo.QueryResult<GetMicrositesQuery, GetMicrositesQueryVariables>;
+export const ArticleDocument = gql`
+    query Article($slug: String!) {
+  page(slug: $slug) {
+    contentJson
+    id
+    seoDescription
+    seoTitle
+    slug
+    title
+  }
+  shop {
+    homepageCollection {
+      id
+      backgroundImage {
+        url
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useArticleQuery__
+ *
+ * To run a query within a React component, call `useArticleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArticleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useArticleQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useArticleQuery(baseOptions: Apollo.QueryHookOptions<ArticleQuery, ArticleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ArticleQuery, ArticleQueryVariables>(ArticleDocument, options);
+      }
+export function useArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ArticleQuery, ArticleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ArticleQuery, ArticleQueryVariables>(ArticleDocument, options);
+        }
+export type ArticleQueryHookResult = ReturnType<typeof useArticleQuery>;
+export type ArticleLazyQueryHookResult = ReturnType<typeof useArticleLazyQuery>;
+export type ArticleQueryResult = Apollo.QueryResult<ArticleQuery, ArticleQueryVariables>;
+export const HomePageDocument = gql`
+    query HomePage {
+  shop {
+    description
+    name
+    homepageCollection {
+      id
+      backgroundImage {
+        url
+      }
+      description
+      descriptionJson
+      name
+    }
+  }
+  categories(level: 0, first: 2) {
+    edges {
+      node {
+        id
+        name
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+  collections(first: 4) {
+    edges {
+      node {
+        id
+        name
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useHomePageQuery__
+ *
+ * To run a query within a React component, call `useHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomePageQuery(baseOptions?: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(HomePageDocument, options);
+      }
+export function useHomePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomePageQuery, HomePageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomePageQuery, HomePageQueryVariables>(HomePageDocument, options);
+        }
+export type HomePageQueryHookResult = ReturnType<typeof useHomePageQuery>;
+export type HomePageLazyQueryHookResult = ReturnType<typeof useHomePageLazyQuery>;
+export type HomePageQueryResult = Apollo.QueryResult<HomePageQuery, HomePageQueryVariables>;
+export const SearchProductsDocument = gql`
+    query SearchProducts($query: String!, $attributes: [AttributeInput], $pageSize: Int, $sortBy: ProductOrder, $microsite: ID, $after: String) {
+  products(
+    filter: {search: $query, attributes: $attributes}
+    first: $pageSize
+    sortBy: $sortBy
+    after: $after
+    microsite: $microsite
+  ) {
+    totalCount
+    edges {
+      node {
+        ...ProductPricingField
+        id
+        name
+        thumbnail {
+          url
+          alt
+        }
+        thumbnail2x: thumbnail(size: 510) {
+          url
+        }
+        category {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+  attributes(filter: {filterableInStorefront: true}, first: 100) {
+    edges {
+      node {
+        id
+        name
+        slug
+        values {
+          id
+          name
+          slug
+        }
+      }
+    }
+  }
+}
+    ${ProductPricingFieldFragmentDoc}`;
+
+/**
+ * __useSearchProductsQuery__
+ *
+ * To run a query within a React component, call `useSearchProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchProductsQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *      attributes: // value for 'attributes'
+ *      pageSize: // value for 'pageSize'
+ *      sortBy: // value for 'sortBy'
+ *      microsite: // value for 'microsite'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useSearchProductsQuery(baseOptions: Apollo.QueryHookOptions<SearchProductsQuery, SearchProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchProductsQuery, SearchProductsQueryVariables>(SearchProductsDocument, options);
+      }
+export function useSearchProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchProductsQuery, SearchProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchProductsQuery, SearchProductsQueryVariables>(SearchProductsDocument, options);
+        }
+export type SearchProductsQueryHookResult = ReturnType<typeof useSearchProductsQuery>;
+export type SearchProductsLazyQueryHookResult = ReturnType<typeof useSearchProductsLazyQuery>;
+export type SearchProductsQueryResult = Apollo.QueryResult<SearchProductsQuery, SearchProductsQueryVariables>;
+export const BuilderSearchDocument = gql`
+    query BuilderSearch($query: String!, $after: String, $before: String, $first: Int, $last: Int, $attributes: [AttributeInput], $sortBy: ProductOrder, $microsite: ID) {
+  productList: products(
+    filter: {search: $query, attributes: $attributes}
+    first: $first
+    after: $after
+    before: $before
+    last: $last
+    sortBy: $sortBy
+    microsite: $microsite
+  ) {
+    totalCount
+    products: edges {
+      product: node {
+        ...ProductPricingField
+        id
+        name
+        thumbnail {
+          url
+          alt
+        }
+        thumbnail2x: thumbnail(size: 510) {
+          url
+        }
+        slug
+        brand
+        isAvailable
+        seller {
+          id
+          companyName
+          microsite {
+            id
+            name
+          }
+          logo {
+            url
+          }
+        }
+        defaultVariant {
+          id
+          name
+          quantityAvailable
+        }
+        category {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+  attributeList: attributes(filter: {filterableInStorefront: true}, first: 100) {
+    attributes: edges {
+      attribute: node {
+        id
+        name
+        slug
+        values {
+          id
+          name
+          slug
+        }
+      }
+    }
+  }
+}
+    ${ProductPricingFieldFragmentDoc}`;
+
+/**
+ * __useBuilderSearchQuery__
+ *
+ * To run a query within a React component, call `useBuilderSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBuilderSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBuilderSearchQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      attributes: // value for 'attributes'
+ *      sortBy: // value for 'sortBy'
+ *      microsite: // value for 'microsite'
+ *   },
+ * });
+ */
+export function useBuilderSearchQuery(baseOptions: Apollo.QueryHookOptions<BuilderSearchQuery, BuilderSearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BuilderSearchQuery, BuilderSearchQueryVariables>(BuilderSearchDocument, options);
+      }
+export function useBuilderSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BuilderSearchQuery, BuilderSearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BuilderSearchQuery, BuilderSearchQueryVariables>(BuilderSearchDocument, options);
+        }
+export type BuilderSearchQueryHookResult = ReturnType<typeof useBuilderSearchQuery>;
+export type BuilderSearchLazyQueryHookResult = ReturnType<typeof useBuilderSearchLazyQuery>;
+export type BuilderSearchQueryResult = Apollo.QueryResult<BuilderSearchQuery, BuilderSearchQueryVariables>;
