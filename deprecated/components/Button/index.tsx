@@ -3,8 +3,9 @@ import {
   ButtonProps as MuiButtonProps,
 } from "@mui/material";
 import * as React from "react";
+import clsx from "clsx";
 
-import "./scss/index.module.scss";
+import classes from "./scss/index.module.scss";
 
 type ButtonType = "submit" | "reset" | "button";
 export interface ButtonProps extends MuiButtonProps {
@@ -38,9 +39,15 @@ const Button: React.FC<ButtonProps> = ({
     ? "secondary"
     : "secondary";
 
+  const cl = clsx(
+    classes.button,
+    { [classes.secondary]: secondary },
+    { [className]: className }
+  );
+
   return (
     <MuiButton
-      className={className}
+      className={cl}
       color={color}
       variant={outlined ? "outlined" : "contained"}
       ref={btnRef}
