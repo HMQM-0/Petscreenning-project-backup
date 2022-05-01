@@ -2,9 +2,7 @@ import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import clsx from "clsx";
 import * as React from "react";
-import Select from "react-select";
-// tslint:disable
-import { Props as SelectProps } from "react-select";
+import Select, { Props as SelectProps } from "react-select";
 
 type Style = "white" | "grey";
 
@@ -18,7 +16,7 @@ export interface SelectFieldProps<TValue> extends SelectProps<TValue> {
   styleType?: Style;
 }
 
-type GenericSelectField<TValue> = React.StatelessComponent<
+type GenericSelectField<TValue> = React.FunctionComponent<
   SelectFieldProps<TValue>
 >;
 

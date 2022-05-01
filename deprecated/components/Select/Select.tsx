@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { filter, find } from "lodash";
 import * as React from "react";
 
-import { useClickedOutside } from "../../hooks";
 import {
   IFilteredListArgs,
   ISelectChange,
@@ -14,6 +13,8 @@ import {
   ISelectProps,
 } from "./customTypes";
 import SelectOptionsList from "./SelectOptionsList";
+
+import { useClickedOutside } from "../../hooks";
 
 const updateOptions = (
   { label, value }: ISelectItem,

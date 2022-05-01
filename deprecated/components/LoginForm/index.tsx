@@ -2,13 +2,15 @@ import "./scss/index.module.scss";
 
 import * as React from "react";
 import { useIntl } from "react-intl";
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
+
 // import { useAuth } from "@nautical/sdk";
 import { useAuth } from "@nautical/react";
 import { demoMode } from "deprecated/constants";
 import { commonMessages } from "deprecated/intl";
-import { TextField } from "@mui/material";
-import { Button, Form } from "..";
+
+import Form from "../Form";
+import Button from "../Button";
 
 interface ILoginForm {
   hide?: () => void;

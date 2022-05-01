@@ -1,7 +1,7 @@
 import * as React from "react";
-
-import { FormError } from "../Form";
 import { Box } from "@mui/material";
+
+import { FormError } from "../Form/types";
 import "./scss/index.module.scss";
 
 type Style = "white" | "grey";

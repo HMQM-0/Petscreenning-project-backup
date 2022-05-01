@@ -12,7 +12,7 @@ import Form from "deprecated/components/Form";
 import { RegisterAccount } from "./gqlTypes/RegisterAccount";
 import { TypedAccountRegisterMutation } from "./queries";
 
-import { accountConfirmUrl } from "../../../app/routes";
+import { accountConfirmUrl } from "../../../app/routes/paths";
 
 const showSuccessNotification = (
   data: RegisterAccount,

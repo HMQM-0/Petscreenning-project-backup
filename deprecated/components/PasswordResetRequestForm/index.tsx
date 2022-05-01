@@ -2,13 +2,16 @@ import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+
 import { commonMessages } from "deprecated/intl";
 
-import { Button, Form, TextField } from "..";
 import { TypedPasswordResetRequestMutation } from "./queries";
-
-import { passwordResetUrl } from "../../app/routes";
 import { ResetPasswordRequest } from "./gqlTypes/ResetPasswordRequest";
+
+import Button from "../Button";
+import Form from "../Form";
+import TextField from "../TextField";
+import { passwordResetUrl } from "../../app/routes/paths";
 
 const PasswordResetRequestForm: React.FC = () => {
   const intl = useIntl();

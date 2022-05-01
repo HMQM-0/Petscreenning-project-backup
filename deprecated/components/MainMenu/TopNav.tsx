@@ -31,7 +31,7 @@ import Link from "next/link";
 import { useAuth, useCart } from "@nautical/react";
 
 import DrawerMenu from "./DrawerMenu";
-// import DrawerLogin from "./DrawerLogin";
+import DrawerLogin from "./DrawerLogin";
 import DrawerCart from "./DrawerCart";
 import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 
@@ -350,7 +350,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
         close={handleMenuClose}
       />
       <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
-      {/* <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} /> */}
+      <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} />
     </>
   );
 };

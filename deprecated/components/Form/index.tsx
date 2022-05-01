@@ -2,14 +2,13 @@ import * as React from "react";
 import NumberFormat from "react-number-format";
 import { Box } from "@mui/material";
 
-import { Select, SelectField, TextField } from "..";
+import { FormError } from "./types";
+
+import Select from "../Select";
+import SelectField from "../SelectField";
+import TextField from "../TextField";
 
 export const NON_FIELD_ERROR = "nonFieldError";
-
-export interface FormError {
-  message: string;
-  field?: string;
-}
 
 interface FormProps<Values> {
   id?: string;

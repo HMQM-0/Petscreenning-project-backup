@@ -30,8 +30,6 @@ const NavItem: React.FC<NavItemProps> = ({
     color: theme.palette.secondary.main,
   };
 
-  console.log("item", item);
-
   if (!item) {
     return null;
   }

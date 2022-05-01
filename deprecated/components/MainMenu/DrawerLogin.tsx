@@ -3,15 +3,14 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import CloseIcon from "@mui/icons-material/Close";
 
-import {
-  Online,
-  LoginForm,
-  Offline,
-  OfflinePlaceholder,
-  PasswordResetRequestForm,
-} from "..";
 import ForgottenPassword from "../OverlayManager/Login/ForgottenPassword";
 import RegisterForm from "../OverlayManager/Login/RegisterForm";
+import Online from "../Online";
+import LoginForm from "../LoginForm";
+import PasswordResetRequestForm from "../PasswordResetRequestForm";
+import Offline from "../Offline";
+import OfflinePlaceholder from "../OfflinePlaceholder";
+
 interface IDrawerLoginProps {
   anchor: "left" | "top" | "right" | "bottom";
   open: boolean;
