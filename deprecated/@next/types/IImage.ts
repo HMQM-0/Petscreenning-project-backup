@@ -1,8 +1,7 @@
-import CSS from "csstype";
 import React from "react";
 
 export interface IImage {
-  style?: CSS.Properties;
+  style?: React.CSSProperties;
   url?: string;
   url2x?: string;
   alt?: string;
