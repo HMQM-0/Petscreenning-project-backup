@@ -8,14 +8,13 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import { TaxedMoney } from "deprecated/@next/components/containers";
 import { Thumbnail } from "deprecated/@next/components/molecules";
 import { ICheckoutModelLine } from "@nautical/helpers";
-
 import {
   generateMicrositeProductUrl,
   generateProductUrl,
   getMicrositeId,
   isMicrosite,
   getMicrositeSlug,
-} from "../../../core/utils";
+} from "core/utils";
 // import removeImg from "../../../images/garbage.svg";
 
 type ProductListProps = {

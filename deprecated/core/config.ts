@@ -6,7 +6,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "./utils";
+} from "core/utils";
 
 export const BASE_URL = "/";
 export const PRODUCTS_PER_PAGE = 12;
@@ -87,13 +87,14 @@ export const SOCIAL_MEDIA = [
     href: "https://www.youtube.com/channel/UCA_fdbm17qpdAICbZHNjEtg/",
   },
 ];
+// THIS HAS BEEN REPLACED by core/config.ts
 export const META_DEFAULTS = {
   custom: [],
   description: "Marketplace PWA storefront powered by a modern GraphQL API",
-  image: `${window.location.origin}${require("../images/logo.svg")}`,
+  image: "", //`${window.location.origin}${require("../images/logo.svg")}`,
   title: "Nautical Commerce Storefront",
   type: "website",
-  url: window.location.origin,
+  url: "", //window.location.origin,
 };
 export enum CheckoutStep {
   Address = 1,

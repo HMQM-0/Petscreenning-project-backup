@@ -5,6 +5,9 @@ import * as React from "react";
 // import { RouteComponentProps } from "react-router-dom";
 import { useParams } from "react-router";
 
+import { useSetSEO } from "@providers";
+import { generatePageUrl, maybe } from "core/utils";
+
 import { Article_shop } from "./gqlTypes/Article";
 import Page from "./Page";
 import { TypedArticleQuery } from "./query";
@@ -12,7 +15,6 @@ import BuilderPage from "./BuilderPage";
 
 import { MetaWrapper, NotFound } from "../../components";
 import { STATIC_PAGES } from "../../core/config";
-import { generatePageUrl, maybe } from "../../core/utils";
 
 const canDisplay = (page) =>
   maybe(() => !!page && !!page.title && !!page.contentJson);

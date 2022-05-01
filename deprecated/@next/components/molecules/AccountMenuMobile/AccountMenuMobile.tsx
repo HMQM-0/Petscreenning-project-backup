@@ -1,14 +1,14 @@
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Link } from "react-router-dom";
 
 import { Icon } from "@components/atoms";
 import { useHandlerWhenClickedOutside } from "@hooks";
 import { commonMessages } from "deprecated/intl";
+import { isMicrosite } from "core/utils";
 
-import { Link } from "react-router-dom";
 import * as S from "./styles";
 import { IProps } from "./types";
-import { isMicrosite } from "deprecated/core/utils";
 
 export const AccountMenuMobile: React.FC<IProps> = ({
   links,

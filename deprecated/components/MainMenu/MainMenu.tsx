@@ -12,6 +12,13 @@ import { commonMessages } from "deprecated/intl";
 // import { useAuth, useCart } from "@nautical/sdk";
 import { useAuth, useCart } from "@nautical/react";
 import { Loader } from "@components/atoms";
+import {
+  maybe,
+  isMicrosite,
+  getMicrositeId,
+  generateMicrositeUrl,
+  getMicrositeSlug,
+} from "core/utils";
 
 import NavDropdown from "./NavDropdown";
 import { TypedMainMenuQuery } from "./queries";
@@ -25,13 +32,6 @@ import {
   OverlayType,
 } from "..";
 import * as appPaths from "../../app/routes";
-import {
-  maybe,
-  isMicrosite,
-  getMicrositeId,
-  generateMicrositeUrl,
-  getMicrositeSlug,
-} from "../../core/utils";
 
 // import heartImg from "../../images/heart.svg"
 // import cartImg from "../../images/cart.svg";

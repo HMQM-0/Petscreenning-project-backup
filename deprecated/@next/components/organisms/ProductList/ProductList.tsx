@@ -8,17 +8,16 @@ import { Loader } from "@components/atoms";
 import ProductListItem from "deprecated/components/ProductListItem";
 import { useAuth } from "@nautical/react";
 import { useShopContext } from "components/providers/ShopProvider";
-
-import * as S from "./styles";
-import { IProps } from "./types";
-
 import {
   generateProductUrl,
   generateMicrositeProductUrl,
   isMicrosite,
   getMicrositeId,
   getMicrositeSlug,
-} from "../../../../core/utils";
+} from "core/utils";
+
+import * as S from "./styles";
+import { IProps } from "./types";
 
 export const ProductList: React.FC<IProps> = ({
   products,

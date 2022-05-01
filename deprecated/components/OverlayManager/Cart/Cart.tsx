@@ -11,6 +11,13 @@ import { TaxedMoney } from "@components/containers";
 import { commonMessages } from "deprecated/intl";
 // import { useAuth, useCart, useCheckout } from "@nautical/sdk";
 import { useAuth, useCart, useCheckout } from "@nautical/react";
+import {
+  generateMicrositeUrl,
+  getDBIdFromGraphqlId,
+  getMicrositeId,
+  getMicrositeSlug,
+  isMicrosite,
+} from "core/utils";
 
 import Empty from "./Empty";
 import ProductList from "./ProductList";
@@ -32,13 +39,6 @@ import {
 import Loader from "../../Loader";
 import cartImg from "../../../images/cart.svg";
 import closeImg from "../../../images/x.svg";
-import {
-  generateMicrositeUrl,
-  getDBIdFromGraphqlId,
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "../../../core/utils";
 
 const Cart: React.FC<{ overlay: OverlayContextInterface }> = ({ overlay }) => {
   const { user } = useAuth();

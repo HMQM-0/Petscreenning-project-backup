@@ -37,9 +37,14 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 
 import CategoryBlock from "deprecated/_nautical/components/CategoryBlock";
 import logoImg from "deprecated/images/cooee-logo.svg";
-import DrawerCart from "deprecated/components/MainMenu/DrawerCart";
+// import DrawerCart from "deprecated/components/MainMenu/DrawerCart";
 import DrawerLogin from "deprecated/components/MainMenu/DrawerLogin";
 import DrawerMenu from "deprecated/components/MainMenu/DrawerMenu";
+import {
+  // generateCategoryUrl,
+  generateProductsUrl,
+  maybe,
+} from "core/utils";
 
 import { homeCollectionData } from "./functions/homeCollectionData";
 import {
@@ -50,11 +55,6 @@ import {
 } from "./gqlTypes/ProductsList";
 
 import { structuredData } from "../../core/SEO/Homepage/structuredData";
-import {
-  // generateCategoryUrl,
-  generateProductsUrl,
-  maybe,
-} from "../../core/utils";
 import { ProductsFeatured } from "../../components";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -263,11 +263,11 @@ const Page: React.FC<{
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
-      <DrawerCart
+      {/* <DrawerCart
         anchor="right"
         open={cartOpen}
         close={() => setCartOpen(false)}
-      />
+      /> */}
       <DrawerLogin
         anchor="right"
         open={loginOpen}

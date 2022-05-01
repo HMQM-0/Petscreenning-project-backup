@@ -3,10 +3,10 @@ import { FormattedMessage, FormattedDate, useIntl } from "react-intl";
 import Media from "react-media";
 import { ThemeContext } from "styled-components";
 import { Box } from "@mui/material";
+import { useNavigate } from "react-router";
+
 import { TaxedMoney } from "@components/containers";
 import { commonMessages, translateOrderStatus } from "deprecated/intl";
-
-import { Thumbnail } from "..";
 import {
   generateMicrositeProductUrl,
   generateMicrositeUrl,
@@ -14,11 +14,12 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "../../../../core/utils";
+} from "core/utils";
 
 import * as S from "./styles";
 import { IProps } from "./types";
-import { useNavigate } from "react-router";
+
+import { Thumbnail } from "..";
 
 const header = (matches: boolean) => (
   <S.HeaderRow>

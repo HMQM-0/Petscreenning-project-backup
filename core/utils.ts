@@ -14,6 +14,8 @@ import { Base64 } from "js-base64";
 // import { OrderDirection, ProductOrderField } from "../../gqlTypes/globalTypes";
 // import { IFilterAttributes } from "../@next/types";
 
+const IS_SERVER_SIDE = typeof window === "undefined";
+
 export const slugify = (text: string | number): string =>
   text
     .toString()
@@ -30,17 +32,17 @@ export const getDBIdFromGraphqlId = (
 ): number => {
   // This is temporary solution, we will use slugs in the future
   const rawId = Base64.decode(graphqlId);
-  const regexp = /(\w+):(\d+)/;
+  const regexp = /(\w+):(\d+)?/;
   const arr = regexp.exec(rawId);
-  if (schema && schema !== arr![1]) {
-    throw new Error("Schema is not correct");
+  if (schema && schema !== arr?.[1]) {
+    console.error("Schema is not correct");
   }
-  return parseInt(arr![2], 10);
+  return parseInt(arr?.[2] ?? "", 10);
 };
 
-// export const getGraphqlIdFromDBId = (id: string, schema: string): string =>
-//   // This is temporary solution, we will use slugs in the future
-//   Base64.encode(`${schema}:${id}`);
+export const getGraphqlIdFromDBId = (id: string, schema: string): string =>
+  // This is temporary solution, we will use slugs in the future
+  Base64.encode(`${schema}:${id}`);
 
 export const priceToString = (
   price: { amount: number; currency: string },
@@ -73,33 +75,35 @@ export const generateMicrositeUrl = (id: string, name: string) =>
 export const generateDBMicrositeUrl = (id: string, name: string) =>
   `/site/${slugify(name)}/${id}/`;
 
-// export const generateMicrositeProductUrl = (
-//   id: string,
-//   name: string,
-//   micrositeId: string,
-//   micrositeName: string
-// ) =>
-//   `/site/${slugify(micrositeName)}/${getDBIdFromGraphqlId(
-//     micrositeId,
-//     "Microsite"
-//   )}/product/${slugify(name)}/${getDBIdFromGraphqlId(id, "Product")}/`;
+export const generateMicrositeProductUrl = (
+  id: string,
+  name: string,
+  micrositeId: string,
+  micrositeName: string
+) =>
+  `/site/${slugify(micrositeName)}/${getDBIdFromGraphqlId(
+    micrositeId,
+    "Microsite"
+  )}/product/${slugify(name)}/${getDBIdFromGraphqlId(id, "Product")}/`;
 
 export function isMicrosite() {
-  return window.location.pathname.match(/\/site\/[^/]+\/[0-9]+/g);
+  return IS_SERVER_SIDE
+    ? false
+    : Boolean(window.location.pathname.match(/\/site\/[^/]+\/[0-9]+/g));
 }
 
-// export function getMicrositeId() {
-//   return getGraphqlIdFromDBId(
-//     /\/site\/[^/]+\/([0-9]+)/
-//       .exec(window.location.href)[1]
-//       .trim()
-//       .replace(/\//g, ""),
-//     "Microsite"
-//   );
-// }
+export function getMicrositeId() {
+  if (!IS_SERVER_SIDE) {
+    const href = window.location.href;
+    return getGraphqlIdFromDBId(
+      /\/site\/[^/]+\/([0-9]+)/.exec(href)?.[1] ?? "".trim().replace(/\//g, ""),
+      "Microsite"
+    );
+  }
+}
 
 export function getMicrositeSlug() {
-  const href = window.location.href;
+  const href = IS_SERVER_SIDE ? "" : window.location.href;
   return /\/site\/([^/]+)\/[0-9]+/.exec(href)?.[1] ?? "";
 }
 

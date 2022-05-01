@@ -1,23 +1,25 @@
 import React from "react";
-
-import { IProps } from "./types";
-import WishlistCard from "../WishlistCard";
 import { Box, Theme } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
+import { useNavigate } from "react-router";
+
 import heartImg from "images/heart.svg";
 import { useAuth } from "@nautical/react";
-import {
-  OverlayContext,
-  OverlayType,
-  OverlayTheme,
-} from "../../../../components/Overlay";
 import {
   generateMicrositeUrl,
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "deprecated/core/utils";
-import { useNavigate } from "react-router";
+} from "core/utils";
+
+import { IProps } from "./types";
+
+import WishlistCard from "../WishlistCard";
+import {
+  OverlayContext,
+  OverlayType,
+  OverlayTheme,
+} from "../../../../components/Overlay";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

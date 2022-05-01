@@ -3,9 +3,10 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 
 import { commonMessages } from "deprecated/intl";
+import { isMicrosite } from "core/utils";
+
 import * as S from "./styles";
 import { IProps } from "./types";
-import { isMicrosite } from "deprecated/core/utils";
 
 export const AccountMenu: React.FC<IProps> = ({ links, active }: IProps) => {
   const intl = useIntl();

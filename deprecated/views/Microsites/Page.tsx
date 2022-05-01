@@ -7,6 +7,7 @@ import { Box } from "@mui/material";
 // import { commonMessages } from "deprecated/intl";
 import { IFilterAttributes, IFilters } from "@types";
 import ProductListBanner from "deprecated/_nautical/components/ProductListBanner/ProductListBanner";
+import { maybe } from "core/utils";
 
 import { Microsite_microsite } from "./gqlTypes/Microsite";
 import { MicrositeProducts_microsite_products } from "./gqlTypes/MicrositeProducts";
@@ -14,7 +15,6 @@ import { MicrositeProducts_microsite_products } from "./gqlTypes/MicrositeProduc
 import { ProductListHeader } from "../../@next/components/molecules";
 import { ProductList } from "../../@next/components/organisms";
 // import { Breadcrumbs, ProductsFeatured } from "../../components";
-import { maybe } from "../../core/utils";
 
 // import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";

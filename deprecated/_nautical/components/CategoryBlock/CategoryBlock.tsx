@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import Link from "next/link";
 
 import noPhotoImg from "deprecated/images/no-photo.svg";
-import { generateCategoryUrl } from "deprecated/core/utils";
+import { generateCategoryUrl } from "core/utils";
 import "./scss/index.module.scss";
 import { ProductsList_categories_edges_node } from "deprecated/views/Home/gqlTypes/ProductsList";
 

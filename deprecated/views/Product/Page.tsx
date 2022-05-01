@@ -9,6 +9,12 @@ import AddToCartSection from "@components/organisms/AddToCartSection";
 import { ProductDescription as NewProductDescription } from "deprecated/_nautical/components/ProductDescription";
 import NoHomeBreadcrumbs from "deprecated/components/NoHomeBreadcrumbs";
 import { useShopContext } from "components/providers/ShopProvider";
+import {
+  generateCategoryUrl,
+  generateMicrositeUrl,
+  generateProductUrl,
+  isMicrosite,
+} from "core/utils";
 
 import GalleryCarousel from "./GalleryCarousel";
 import OtherProducts from "./Other";
@@ -20,12 +26,6 @@ import {
   // OverlayTheme,
   // OverlayType,
 } from "../../components";
-import {
-  generateCategoryUrl,
-  generateMicrositeUrl,
-  generateProductUrl,
-  isMicrosite,
-} from "../../core/utils";
 import { structuredData } from "../../core/SEO/Product/structuredData";
 
 // import { useAlert } from "react-alert";

@@ -3,7 +3,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 
 import noPhotoImg from "deprecated/images/no-photo.svg";
-import { generateCollectionUrl } from "deprecated/core/utils";
+import { generateCollectionUrl } from "core/utils";
 import "./scss/index.module.scss";
 import { ProductsList_collections_edges_node } from "deprecated/views/Home/gqlTypes/ProductsList";
 

@@ -1,7 +1,7 @@
 // import footerImg from "deprecated/images/footer.svg";
 import { Loader } from "@components/atoms/Loader";
 import { Spacer } from "@components/molecules/ProductTile/styles";
-import { getMicrositeId, isMicrosite } from "deprecated/core/utils";
+import { getMicrositeId, isMicrosite } from "core/utils";
 import { TypedMicrositeQuery } from "deprecated/views/Microsites/queries";
 import * as React from "react";
 import { Box, IconButton, Skeleton, Theme } from "@mui/material";

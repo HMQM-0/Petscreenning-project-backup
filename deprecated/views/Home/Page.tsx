@@ -21,7 +21,7 @@ import {
   // generateCategoryUrl,
   generateProductsUrl,
   maybe,
-} from "../../core/utils";
+} from "core/utils";
 import { structuredData } from "../../core/SEO/Homepage/structuredData";
 
 // import { StringParam, useQueryParam } from 'use-query-params';

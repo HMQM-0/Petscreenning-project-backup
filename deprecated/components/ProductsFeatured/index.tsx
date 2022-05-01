@@ -7,7 +7,7 @@ import { useAuth } from "@nautical/react";
 import { TypedFeaturedProductsQuery } from "./queries";
 
 import { Carousel, ProductListItem } from "..";
-import { generateProductUrl, maybe } from "../../core/utils";
+import { generateProductUrl, maybe } from "core/utils";
 
 import "./scss/index.module.scss";
 import { FormattedMessage } from "react-intl";

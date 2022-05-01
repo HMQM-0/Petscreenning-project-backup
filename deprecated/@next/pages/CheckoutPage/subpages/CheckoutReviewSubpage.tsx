@@ -12,7 +12,7 @@ import { statuses as dummyStatuses } from "@components/organisms/DummyPaymentGat
 import { useCheckout } from "@nautical/react";
 import { IFormError } from "@types";
 import useCookie from "deprecated/_nautical/hooks/useCookie";
-import { getMicrositeId, isMicrosite } from "deprecated/core/utils";
+import { getMicrositeId, isMicrosite } from "core/utils";
 
 export interface ISubmitCheckoutData {
   id: string;

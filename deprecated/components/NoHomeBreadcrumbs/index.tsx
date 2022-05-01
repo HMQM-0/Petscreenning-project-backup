@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { getDBIdFromGraphqlId, slugify } from "../../core/utils";
+import { getDBIdFromGraphqlId, slugify } from "core/utils";
 import { Category_category } from "../../views/Category/gqlTypes/Category";
 
 import "./scss/index.module.scss";

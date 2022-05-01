@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import Helmet from "react-helmet";
+
 import { ErrorMessage } from "@components/atoms";
 import { IFormError } from "@types";
-import { maybe, removeEmptySpaces } from "../../../../core/utils";
+import { maybe, removeEmptySpaces } from "core/utils";
+
 import * as S from "./styles";
 import { IProps } from "./types";
-import Helmet from "react-helmet";
 import { AuthorizeNetCreditCardForm } from "./AuthorizeNetCreditCardForm";
 
 const INITIAL_CARD_ERROR_STATE = {

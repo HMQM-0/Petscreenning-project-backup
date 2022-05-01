@@ -3,17 +3,17 @@ import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { Box, TextField } from "@mui/material";
+
 import { Icon, IconButton } from "@components/atoms";
 import { CachedImage } from "@components/molecules";
 import { commonMessages } from "deprecated/intl";
-
 import {
   generateMicrositeProductUrl,
   generateProductUrl,
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "../../../../core/utils";
+} from "core/utils";
 
 import * as S from "./styles";
 import { IProps } from "./types";

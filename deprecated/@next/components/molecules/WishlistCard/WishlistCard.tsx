@@ -1,21 +1,28 @@
 // @ts-nocheck
 import React from "react";
 import { FC, useState, useMemo } from "react";
-import { MenuItem, Select, InputLabel, Theme } from "@mui/material";
+import {
+  MenuItem,
+  Select,
+  InputLabel,
+  Theme,
+  Box,
+  Button,
+} from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-import { WishlistItem } from "@nautical/fragments/gqlTypes/WishlistItem";
-import { useCart, useRemoveWishlistProduct } from "@nautical/react";
-import { Box, Button } from "@mui/material";
-import trash from "images/trash.svg";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
+
+import { WishlistItem } from "@nautical/fragments/gqlTypes/WishlistItem";
+import { useCart, useRemoveWishlistProduct } from "@nautical/react";
+import trash from "images/trash.svg";
 import {
   generateMicrositeProductUrl,
   generateProductUrl,
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "../../../../core/utils";
+} from "core/utils";
 import usePrice, { usePriceRange } from "@hooks/usePrice";
 import { WishlistContext } from "deprecated/@nautical/react/components/WishlistProvider/context";
 

@@ -15,6 +15,12 @@ import { IFilters } from "@types";
 import { useAuth } from "@nautical/react";
 import { Loader } from "@components/atoms";
 import { useShopContext } from "components/providers/ShopProvider";
+import {
+  convertSortByFromString,
+  convertToAttributeScalar,
+  getGraphqlIdFromDBId,
+  maybe,
+} from "core/utils";
 
 import Page from "./Page";
 import { builderProductsQuery, TypedProductsQuery } from "./queries";
@@ -33,12 +39,6 @@ import {
 } from "../../components";
 import NetworkStatus from "../../components/NetworkStatus";
 import { PRODUCTS_PER_PAGE } from "../../core/config";
-import {
-  convertSortByFromString,
-  convertToAttributeScalar,
-  getGraphqlIdFromDBId,
-  maybe,
-} from "../../core/utils";
 // import { TypedBuilderProductsQuery, TypedProductsQuery } from "./queries";
 
 // import ReactSVG from "react-svg";

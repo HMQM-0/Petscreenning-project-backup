@@ -22,7 +22,7 @@ import {
   OverlayType,
 } from "../..";
 import { searchUrl } from "../../../app/routes";
-import { maybe } from "../../../core/utils";
+import { maybe } from "core/utils";
 import { DebouncedTextField } from "../../Debounce";
 import { Error } from "../../Error";
 import NetworkStatus from "../../NetworkStatus";

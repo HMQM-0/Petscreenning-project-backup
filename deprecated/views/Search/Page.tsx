@@ -6,6 +6,7 @@ import { Box, useTheme } from "@mui/material";
 
 import { commonMessages } from "deprecated/intl";
 import { IFilterAttributes, IFilters } from "@types";
+import { isMicrosite, maybe } from "core/utils";
 
 import { SearchProducts_products } from "./gqlTypes/SearchProducts";
 
@@ -13,7 +14,6 @@ import { DebounceChange, ProductsFeatured, TextField } from "../../components";
 import { ProductListHeader } from "../../@next/components/molecules";
 import { ProductList } from "../../@next/components/organisms";
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
-import { isMicrosite, maybe } from "../../core/utils";
 
 interface SortItem {
   label: string;

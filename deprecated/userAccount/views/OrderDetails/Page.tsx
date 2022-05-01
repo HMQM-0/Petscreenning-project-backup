@@ -30,7 +30,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "deprecated/core/utils";
+} from "core/utils";
 
 const extractOrderLines = (lines: OrderDetail_lines[]): ILine[] => {
   return lines

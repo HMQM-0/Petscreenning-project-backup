@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { ErrorMessage } from "@components/atoms";
 import { CreditCardForm } from "@components/organisms";
 import { IFormError } from "@types";
-
-import { maybe, removeEmptySpaces } from "../../../../core/utils";
+import { maybe, removeEmptySpaces } from "core/utils";
 
 import * as S from "./styles";
 import { IProps } from "./types";

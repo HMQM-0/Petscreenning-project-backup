@@ -4,28 +4,33 @@ import { FormattedMessage } from "react-intl";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
-import { generatePath } from "react-router-dom";
 
 import { useAuth, useCart, useCheckout } from "@nautical/react";
 import { commonMessages } from "deprecated/intl";
-import { TaxedMoney } from "@components/containers";
+import { TaxedMoney } from "deprecated/@next/components/containers/index";
 import {
   generateMicrositeUrl,
   getDBIdFromGraphqlId,
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "deprecated/core/utils";
+} from "core/utils";
 import {
   cartUrl,
   checkoutLoginUrl,
   checkoutUrl,
   micrositeCartUrl,
-} from "deprecated/app/routes";
+} from "deprecated/app/routes/paths";
+
+import classes from "./scss/index.module.scss";
 
 import ProductList from "../OverlayManager/Cart/ProductList";
-import { Loader, Offline, OfflinePlaceholder, Online } from "..";
+import overlayClasses from "../OverlayManager/Cart/scss/index.module.scss";
 import Empty from "../OverlayManager/Cart/Empty";
+import Online from "../Online";
+import Loader from "../Loader";
+import Offline from "../Offline";
+import OfflinePlaceholder from "../OfflinePlaceholder";
 
 interface IDrawerCartProps {
   anchor: "left" | "top" | "right" | "bottom";
@@ -65,25 +70,27 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
   const itemsQuantity =
     items?.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0) || 0;
 
-  const generatedPath = generatePath(micrositeCartUrl, {
-    micrositeId: String(getDBIdFromGraphqlId(getMicrositeId(), "Microsite")),
-    micrositeSlug: getMicrositeSlug(),
-  });
-
-  console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", generatedPath);
+  const micrositeId = String(
+    getDBIdFromGraphqlId(getMicrositeId() ?? "", "Microsite")
+  );
+  const micrositeSlug = getMicrositeSlug();
+  const generatedPath = `/site/${micrositeSlug}/${micrositeId}/cart/`;
 
   return (
     <Drawer anchor={anchor} open={open} ModalProps={{ onBackdropClick: close }}>
       <Online>
-        <Box className="cart">
-          <Box className="overlay__header">
+        <Box className={overlayClasses.cart}>
+          <Box className={overlayClasses.overlay__header}>
             <LocalMallIcon
-              className="overlay__header__cart-icon"
+              className={`${overlayClasses.overlay__header}__cart-icon`}
               color="secondary"
             />
-            <Box className="overlay__header-text">
+            <Box className={`${overlayClasses.overlay__header}-text`}>
               <FormattedMessage defaultMessage="My cart," />{" "}
-              <Box component="span" className="overlay__header-text-items">
+              <Box
+                component="span"
+                className={`${overlayClasses.overlay__header}-text-items`}
+              >
                 <FormattedMessage
                   defaultMessage="{itemsQuantity,plural,one{{itemsQuantity} item} other{{itemsQuantity} items}}"
                   description="items quantity in cart"
@@ -95,7 +102,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
             </Box>
             <CloseIcon
               onClick={close}
-              className="overlay__header__close-icon"
+              className={`${overlayClasses.overlay__header}__close-icon`}
             />
           </Box>
           {items?.length ? (
@@ -105,8 +112,8 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
               ) : (
                 <>
                   <ProductList lines={items} remove={removeItem} />
-                  <Box className="cart__footer">
-                    <Box className="cart__footer__price">
+                  <Box className={`${overlayClasses.cart}__footer`}>
+                    <Box className={`${overlayClasses.cart}__footer__price`}>
                       <Box component="span">
                         <FormattedMessage {...commonMessages.subtotal} />
                       </Box>
@@ -120,7 +127,9 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
 
                     {shippingTaxedPrice &&
                       shippingTaxedPrice.gross.amount !== 0 && (
-                        <Box className="cart__footer__price">
+                        <Box
+                          className={`${overlayClasses.cart}__footer__price`}
+                        >
                           <Box component="span">
                             <FormattedMessage {...commonMessages.shipping} />
                           </Box>
@@ -134,7 +143,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                       )}
 
                     {promoTaxedPrice && promoTaxedPrice.gross.amount !== 0 && (
-                      <Box className="cart__footer__price">
+                      <Box className={`${overlayClasses.cart}__footer__price`}>
                         <Box component="span">
                           <FormattedMessage {...commonMessages.promoCode} />
                         </Box>
@@ -147,7 +156,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                       </Box>
                     )}
 
-                    <Box className="cart__footer__price">
+                    <Box className={`${overlayClasses.cart}__footer__price`}>
                       <Box component="span">
                         <FormattedMessage {...commonMessages.total} />
                       </Box>
@@ -159,11 +168,11 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                       </Box>
                     </Box>
 
-                    <Box className="cart__footer__button">
+                    <Box className={`${overlayClasses.cart}__footer__button`}>
                       <Link href={!!isMicrosite() ? generatedPath : cartUrl}>
                         <a>
                           <Button
-                            className="drawer-button"
+                            className={classes["drawer-button"]}
                             variant="outlined"
                             color="secondary"
                             onClick={close}
@@ -173,17 +182,17 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                         </a>
                       </Link>
                     </Box>
-                    <Box className="cart__footer__button">
+                    <Box className={`${overlayClasses.cart}__footer__button`}>
                       <Link
                         href={
                           !!isMicrosite()
                             ? user
                               ? `${generateMicrositeUrl(
-                                  getMicrositeId(),
+                                  getMicrositeId() ?? "",
                                   getMicrositeSlug()
                                 )}checkout/`
                               : `${generateMicrositeUrl(
-                                  getMicrositeId(),
+                                  getMicrositeId() ?? "",
                                   getMicrositeSlug()
                                 )}login/`
                             : user
@@ -193,7 +202,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                       >
                         <a>
                           <Button
-                            className="drawer-button"
+                            className={classes["drawer-button"]}
                             variant="contained"
                             color="secondary"
                             onClick={close}
@@ -213,7 +222,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
         </Box>
       </Online>
       <Offline>
-        <Box className="cart">
+        <Box className={overlayClasses.cart}>
           <OfflinePlaceholder />
         </Box>
       </Offline>

@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { ErrorMessage } from "@components/atoms";
 import { CreditCardForm } from "@components/organisms";
 import { IFormError } from "@types";
+import { maybe, removeEmptySpaces } from "core/utils";
+
+import * as S from "./styles";
+import { IProps } from "./types";
 
 import {
   braintreePayment,
@@ -12,10 +16,6 @@ import {
   IPaymentCardError,
   PaymentData,
 } from "../../../../core/payments/braintree";
-import { maybe, removeEmptySpaces } from "../../../../core/utils";
-
-import * as S from "./styles";
-import { IProps } from "./types";
 
 const INITIAL_CARD_ERROR_STATE = {
   fieldErrors: {

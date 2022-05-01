@@ -1,10 +1,11 @@
 // import { useAuth, useCart, useCheckout } from "@nautical/sdk";
-import { useAuth, useCart, useCheckout } from "@nautical/react";
 // import { History } from "history";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+
+import { useAuth, useCart, useCheckout } from "@nautical/react";
 import { CartFooter, CartHeader } from "@components/atoms";
 import { TaxedMoney } from "@components/containers";
 import { CartRow } from "@components/organisms";
@@ -16,13 +17,12 @@ import { UserDetails_me } from "@nautical/queries/gqlTypes/UserDetails";
 import { BASE_URL } from "deprecated/core/config";
 import { checkoutMessages } from "deprecated/intl";
 import { ITaxedMoney } from "@types";
-
 import {
   generateMicrositeUrl,
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "deprecated/core/utils";
+} from "core/utils";
 
 const title = (
   <h1 data-test="cartPageTitle">

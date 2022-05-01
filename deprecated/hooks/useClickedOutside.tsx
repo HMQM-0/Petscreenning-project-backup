@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { maybe } from "../core/utils";
+import { maybe } from "core/utils";
 
 const useClickedOutside = () => {
   const [clickedOutside, setClickedOutside] = React.useState<boolean>(false);

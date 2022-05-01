@@ -8,6 +8,7 @@ import { commonMessages } from "deprecated/intl";
 import { IFilterAttributes, IFilters } from "@types";
 import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
 import ProductListBanner from "deprecated/_nautical/components/ProductListBanner/ProductListBanner";
+import { getDBIdFromGraphqlId, maybe } from "core/utils";
 
 import { Collection_collection } from "./gqlTypes/Collection";
 import { CollectionProducts_collection_products } from "./gqlTypes/CollectionProducts";
@@ -15,7 +16,6 @@ import { CollectionProducts_collection_products } from "./gqlTypes/CollectionPro
 import { ProductListHeader } from "../../@next/components/molecules";
 import { ProductList } from "../../@next/components/organisms";
 import { Breadcrumbs, ProductsFeatured } from "../../components";
-import { getDBIdFromGraphqlId, maybe } from "../../core/utils";
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
 import { Menu } from "../Products/gqlTypes/Products";
 

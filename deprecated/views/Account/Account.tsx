@@ -32,7 +32,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "deprecated/core/utils";
+} from "core/utils";
 import NoHomeBreadcrumbs from "deprecated/components/NoHomeBreadcrumbs";
 import { withRouter } from "deprecated/components/Overlay/provider";
 // import { Wishlist } from "@components/templates";

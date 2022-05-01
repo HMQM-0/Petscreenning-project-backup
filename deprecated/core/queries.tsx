@@ -9,10 +9,12 @@ import * as React from "react";
 import { Query } from "@apollo/client/react/components";
 import { QueryControls } from "@apollo/client/react/hoc";
 
+import { maybe } from "core/utils";
+
+import { RequireAtLeastOne } from "./tsUtils";
+
 import { Error } from "../components/Error";
 import Loader from "../components/Loader";
-import { RequireAtLeastOne } from "./tsUtils";
-import { maybe } from "./utils";
 
 interface LoadMore<TData, TVariables> {
   loadMore: (

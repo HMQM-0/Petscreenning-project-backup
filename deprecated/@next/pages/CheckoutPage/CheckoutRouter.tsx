@@ -17,7 +17,7 @@ import {
   MICROSITE_CHECKOUT_STEPS,
 } from "deprecated/core/config";
 import { checkIfShippingRequiredForProducts } from "@utils/core";
-import { isMicrosite } from "deprecated/core/utils";
+import { isMicrosite } from "core/utils";
 
 interface IRouterProps {
   items?: IItems;

@@ -1,16 +1,11 @@
 import React from "react";
-
 import { useNavigate, useLocation } from "react-router";
 
 import { Loader } from "@components/atoms";
 import { ThankYou } from "@components/organisms";
 import { useNauticalOrderDetails } from "@nautical/react";
 import { BASE_URL } from "deprecated/core/config";
-import {
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "deprecated/core/utils";
+import { getMicrositeId, getMicrositeSlug, isMicrosite } from "core/utils";
 import {
   generateGuestOrderDetailsUrl,
   generateMicrositeGuestOrderDetailsUrl,

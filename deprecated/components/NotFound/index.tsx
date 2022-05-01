@@ -10,7 +10,7 @@ import {
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
-} from "deprecated/core/utils";
+} from "core/utils";
 
 interface NotFoundProps {
   message?: string;

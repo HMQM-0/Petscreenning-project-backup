@@ -5,18 +5,14 @@ import { Navigate } from "react-router";
 
 // import { useAuth } from "@nautical/sdk";
 import { useAuth } from "@nautical/react";
-
-import { Offline, OfflinePlaceholder, Online, OverlayContext } from "..";
+import { generateMicrositeUrl } from "@utils/core";
+import { getMicrositeId, getMicrositeSlug, isMicrosite } from "core/utils";
 
 import CheckoutAsGuest from "./CheckoutAsGuest";
 import SignInForm from "./SignInForm";
+
+import { Offline, OfflinePlaceholder, Online, OverlayContext } from "..";
 import { OverlayType, OverlayTheme } from "../Overlay";
-import { generateMicrositeUrl } from "@utils/core";
-import {
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "deprecated/core/utils";
 
 const CheckoutLogin: React.FC<{}> = () => {
   const overlay = useContext(OverlayContext);

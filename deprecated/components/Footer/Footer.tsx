@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 // import { SocialMediaIcon } from "..";
 import { SOCIAL_MEDIA } from "../../core/config";
 import Nav from "./Nav";
-import { isMicrosite } from "deprecated/core/utils";
+import { isMicrosite } from "core/utils";
 
 interface FooterProps {
   footerText?: string;

@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 
 import { IFilterAttributes, IFilters } from "@types";
 import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
+import { maybe } from "core/utils";
 
 import { Menu, Products_products } from "./gqlTypes/Products";
 
@@ -12,7 +13,6 @@ import { Breadcrumbs } from "../../components";
 import { ProductListHeader } from "../../@next/components/molecules";
 import { ProductList } from "../../@next/components/organisms";
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
-import { maybe } from "../../core/utils";
 
 interface SortItem {
   label: string;

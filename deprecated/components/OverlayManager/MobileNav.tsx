@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box } from "@mui/material";
 
-import { isMicrosite } from "deprecated/core/utils";
+import { isMicrosite } from "core/utils";
 import { Maybe, MenuItem } from "@generated";
 
 import { Overlay, OverlayContextInterface } from "../Overlay";

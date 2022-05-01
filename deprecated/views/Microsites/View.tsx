@@ -45,7 +45,7 @@ import {
   convertSortByFromString,
   convertToAttributeScalar,
   getGraphqlIdFromDBId,
-} from "../../core/utils";
+} from "core/utils";
 
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";

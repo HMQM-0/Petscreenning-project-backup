@@ -9,7 +9,7 @@ import {
   generateCategoryUrl,
   generateCollectionUrl,
   generatePageUrl,
-} from "../../core/utils";
+} from "core/utils";
 // import {
 //   SecondaryMenu_shop_navigation_secondary_items,
 //   SecondaryMenu_shop_navigation_secondary_items_children,

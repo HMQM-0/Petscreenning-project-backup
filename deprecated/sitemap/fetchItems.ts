@@ -7,7 +7,8 @@ import {
   generateCollectionUrl,
   generateMicrositeUrl,
   generateProductUrl,
-} from "../core/utils";
+} from "core/utils";
+
 import {
   getCategoriesQuery,
   getCollectionsQuery,

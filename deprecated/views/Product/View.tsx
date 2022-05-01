@@ -21,6 +21,7 @@ import {
   getAvailableQuantity,
 } from "@components/organisms/AddToCartSection/stockHelpers";
 import { useShopContext } from "components/providers/ShopProvider";
+import { getGraphqlIdFromDBId, isMicrosite, maybe } from "core/utils";
 
 import {
   ProductDetails_product,
@@ -38,7 +39,6 @@ import { TypedMicrositeQuery } from "../Microsites/queries";
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
 import StorePage from "../Builder/StorePage";
-import { getGraphqlIdFromDBId, isMicrosite, maybe } from "../../core/utils";
 import NetworkStatus from "../../components/NetworkStatus";
 import {
   MetaWrapper,
