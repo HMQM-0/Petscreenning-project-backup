@@ -3,22 +3,19 @@ import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";
 
 import nauticalProp from "deprecated/images/nautical-prop.svg";
-import "./scss/index.module.scss";
+
+import classes from "./scss/index.module.scss";
 
 const Loader: React.FC<{ full?: boolean }> = ({ full }) => {
   const getHeight = () => {
-    const headerHeight =
-      document.getElementById("header") &&
-      document.getElementById("header").offsetHeight;
-    const footerHeight =
-      document.getElementById("footer") &&
-      document.getElementById("footer").offsetHeight;
+    const headerHeight = document.getElementById("header")?.offsetHeight ?? 0;
+    const footerHeight = document.getElementById("footer")?.offsetHeight ?? 0;
     return window.innerHeight - headerHeight - footerHeight;
   };
 
   return (
-    <Box className="loader" style={full && { height: getHeight() }}>
-      <ReactSVG src={nauticalProp} className={"loader__item"} />
+    <Box className={classes.loader} style={full ? { height: getHeight() } : {}}>
+      <ReactSVG src={nauticalProp} className={`${classes.loader}__item`} />
     </Box>
   );
 };
