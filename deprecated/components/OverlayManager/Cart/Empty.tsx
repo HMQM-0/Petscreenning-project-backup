@@ -1,7 +1,8 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { Box } from "@mui/material";
-import { Button } from "../..";
+
+import Button from "../../Button";
 
 const Empty: React.FC<{ overlayHide(): void }> = ({ overlayHide }) => (
   <Box className="cart__empty">

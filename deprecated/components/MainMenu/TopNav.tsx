@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useAlert } from "react-alert";
-import "./scss/index.module.scss";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonIcon from "@mui/icons-material/Person";
@@ -33,7 +32,7 @@ import { useAuth, useCart } from "@nautical/react";
 
 import DrawerMenu from "./DrawerMenu";
 // import DrawerLogin from "./DrawerLogin";
-// import DrawerCart from "./DrawerCart";
+import DrawerCart from "./DrawerCart";
 import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 
 interface ITopNavProps {
@@ -350,7 +349,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
         open={menuOpen}
         close={handleMenuClose}
       />
-      {/* <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} /> */}
+      <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
       {/* <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} /> */}
     </>
   );
