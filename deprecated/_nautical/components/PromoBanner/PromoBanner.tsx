@@ -1,12 +1,12 @@
 import { AppBar } from "@mui/material";
 import * as React from "react";
+import { isEmpty } from "lodash";
 
-import { TypedPromoBannerQuery } from "./queries";
+import { usePromoBannerQuery } from "@generated";
+
+import classes from "./scss/index.module.scss";
 
 import { MessageProp, NotificationBar } from "../NotificationBar";
-// import { DesignerData } from "../ThemeFont/types";
-
-import "./scss/index.module.scss";
 
 interface PromoBannerPromotionsData {
   display: string;
@@ -27,15 +27,21 @@ interface IPromoBannerProps {
   content: string;
 }
 
-const PromoBanner: React.FC<IPromoBannerProps> = (props) => {
-  const { content } = props;
+const PromoBanner = ({ content }: IPromoBannerProps) => {
+  const { data, loading } = usePromoBannerQuery({
+    variables: {
+      name: "PromoBanner",
+    },
+  });
 
-  function resolvePromoBannerData(data): PromoBannerData {
-    if (data === undefined) {
+  type Data = typeof data;
+
+  function resolvePromoBannerData(data: Data) {
+    if (typeof data === "undefined") {
       return null;
     }
     const json = JSON.parse(data?.designerdata?.jsonContent);
-    if (json !== undefined || json !== {} || json !== null) {
+    if (typeof json !== "undefined" || !isEmpty(json) || json !== null) {
       const _data: PromoBannerData = json;
       return _data;
     } else {
@@ -43,66 +49,55 @@ const PromoBanner: React.FC<IPromoBannerProps> = (props) => {
     }
   }
 
-  function hasMultiple(data: PromoBannerData) {
-    return data.promotions.length > 1;
-  }
+  const promo = resolvePromoBannerData(data);
 
-  function createMessageProp(content, link): MessageProp {
-    return { content, link };
-  }
+  type Promo = typeof promo;
 
-  function mapPromotions(data: PromoBannerData) {
-    const messages: MessageProp[] = data.promotions.map((promotion) =>
-      createMessageProp(promotion.display, promotion.link)
-    );
+  const hasMultiple = (promo?.promotions.length ?? 0) > 1;
+
+  function mapPromotions(promo: Promo) {
+    const messages: MessageProp[] =
+      promo?.promotions.map((promotion) => ({
+        content: promotion.display,
+        link: promotion.link,
+      })) ?? [];
     return messages;
   }
 
   return (
-    <TypedPromoBannerQuery
-      variables={{
-        name: "PromoBanner",
+    <AppBar
+      className={classes.promo_banner}
+      position="static"
+      style={{
+        backgroundColor: loading ? "#000055" : promo?.barColor,
+        color: loading ? "#fff" : promo?.textColor,
+        borderColor: loading ? "#ccc" : promo?.borderColor,
       }}
     >
-      {({ data, loading }) => {
-        const promo = resolvePromoBannerData(data);
-        return (
-          <AppBar
-            className="promo_banner"
-            position="static"
-            style={{
-              backgroundColor: loading ? "#000055" : promo.barColor,
-              color: loading ? "#fff" : promo.textColor,
-              borderColor: loading ? "#ccc" : promo.borderColor,
-            }}
-          >
-            {hasMultiple(promo) ? (
-              <NotificationBar
-                backgroundColor={promo.barColor}
-                fontColor={promo.textColor}
-                messages={mapPromotions(promo)}
-                sliderSettings={{
-                  arrows: false,
-                  autoplay: true,
-                  autoplaySpeed: 5000,
-                  dots: false,
-                  infinite: true,
-                  slidesToScroll: 1,
-                  slidesToShow: 1,
-                  speed: 500,
-                }}
-              />
-            ) : (
-              <>
-                {promo && promo.promotions.length > 0
-                  ? promo.promotions[0].display
-                  : content}
-              </>
-            )}
-          </AppBar>
-        );
-      }}
-    </TypedPromoBannerQuery>
+      {hasMultiple ? (
+        <NotificationBar
+          backgroundColor={promo?.barColor}
+          fontColor={promo?.textColor}
+          messages={mapPromotions(promo)}
+          sliderSettings={{
+            arrows: false,
+            autoplay: true,
+            autoplaySpeed: 5000,
+            dots: false,
+            infinite: true,
+            slidesToScroll: 1,
+            slidesToShow: 1,
+            speed: 500,
+          }}
+        />
+      ) : (
+        <>
+          {promo && promo.promotions.length > 0
+            ? promo.promotions[0].display
+            : content}
+        </>
+      )}
+    </AppBar>
   );
 };
 

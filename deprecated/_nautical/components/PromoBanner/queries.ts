@@ -1,9 +1,5 @@
 import { gql } from "graphql-tag";
 
-import { TypedQuery } from "deprecated/core/queries";
-
-import { DesignerData } from "./types";
-
 export const promoBannerQuery = gql`
   query PromoBanner($name: String!) {
     designerdata(name: $name) {
@@ -12,7 +8,3 @@ export const promoBannerQuery = gql`
     }
   }
 `;
-
-export const TypedPromoBannerQuery = TypedQuery<DesignerData, {}>(
-  promoBannerQuery
-);
