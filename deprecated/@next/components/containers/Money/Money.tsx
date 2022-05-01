@@ -1,5 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
+
 import { IProps } from "./types";
 
 export const Money: React.FC<IProps> = ({

@@ -1,16 +1,13 @@
 import React from "react";
 
-import { Money } from "../Money";
+import { useShopContext } from "components/providers/ShopProvider";
+
 import { IProps } from "./types";
 
-import { ShopContext } from "../../../../components/ShopProvider/context";
+import { Money } from "../Money";
 
-export const TaxedMoney: React.FC<IProps> = ({
-  taxedMoney,
-  defaultValue,
-  ...props
-}: IProps) => {
-  const { displayGrossPrices } = React.useContext(ShopContext);
+export const TaxedMoney = ({ taxedMoney, defaultValue, ...props }: IProps) => {
+  const { displayGrossPrices } = useShopContext();
   const money = taxedMoney
     ? displayGrossPrices
       ? taxedMoney.gross
