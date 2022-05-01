@@ -2,13 +2,11 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
-// import ReactSVG from "react-svg";
-import { Box } from "@mui/material";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 
-import { TaxedMoney } from "@components/containers";
-import { Thumbnail } from "@components/molecules";
+import { TaxedMoney } from "deprecated/@next/components/containers";
+import { Thumbnail } from "deprecated/@next/components/molecules";
 import { ICheckoutModelLine } from "@nautical/helpers";
 
 import {
@@ -20,22 +18,24 @@ import {
 } from "../../../core/utils";
 // import removeImg from "../../../images/garbage.svg";
 
-const ProductList: React.FC<{
+type ProductListProps = {
   lines: ICheckoutModelLine[];
   remove(variantId: string): void;
-}> = ({ lines, remove }) => (
+};
+
+const ProductList = ({ lines, remove }: ProductListProps) => (
   <ul className="cart__list">
     {lines.map((line, index) => {
       const productUrl = !!isMicrosite()
         ? generateMicrositeProductUrl(
-            line.variant.product.id,
-            line.variant.product.name,
+            line.variant.product?.id ?? "",
+            line.variant.product?.name ?? "",
             getMicrositeId(),
             getMicrositeSlug()
           )
         : generateProductUrl(
-            line.variant.product.id,
-            line.variant.product.name
+            line.variant.product?.id ?? "",
+            line.variant.product?.name ?? ""
           );
       const key = line.id ? `id-${line.id}` : `idx-${index}`;
 
@@ -47,14 +47,14 @@ const ProductList: React.FC<{
           data-test-id={line.variant.sku}
         >
           <Link to={productUrl}>
-            <Thumbnail source={line.variant.product} />
+            <Thumbnail source={line.variant.product ?? {}} />
           </Link>
           <Box className="cart__list__item__details">
             <p data-test="price">
-              <TaxedMoney taxedMoney={line.variant.pricing.price} />
+              <TaxedMoney taxedMoney={line.variant.pricing?.price} />
             </p>
             <Link to={productUrl}>
-              <p data-test="name">{line.variant.product.name}</p>
+              <p data-test="name">{line.variant.product?.name}</p>
             </Link>
             <Box
               component="span"
