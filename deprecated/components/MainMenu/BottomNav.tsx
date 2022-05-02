@@ -8,9 +8,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
-// import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
-import "./scss/index.module.scss";
+import Link from "next/link";
+
+import classes from "./scss/index.module.scss";
 interface IBottomNavProps {}
 
 const fabStyle: React.CSSProperties = {
@@ -25,9 +25,9 @@ const fabStyle: React.CSSProperties = {
 
 const BottomNav: React.FunctionComponent<IBottomNavProps> = (props) => {
   const [value, setValue] = React.useState(0);
-  const navigate = useNavigate();
+
   return (
-    <Box className="bottom-nav">
+    <Box className={classes["bottom-nav"]}>
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
@@ -41,35 +41,40 @@ const BottomNav: React.FunctionComponent<IBottomNavProps> = (props) => {
           width: "100%",
         }}
       >
-        <BottomNavigationAction
-          showLabel
-          label="Home"
-          icon={<HomeIcon />}
-          onClick={() => navigate("/")}
-          style={{ zIndex: 3 }}
-        />
+        <Link href="/">
+          <a>
+            <BottomNavigationAction
+              showLabel
+              label="Home"
+              icon={<HomeIcon />}
+              style={{ zIndex: 3 }}
+            />
+          </a>
+        </Link>
         <BottomNavigationAction
           disableRipple
           disableTouchRipple
           disabled
           style={{ zIndex: 3 }}
         />
-        <BottomNavigationAction
-          showLabel
-          label="Wishlist"
-          icon={<FavoriteIcon />}
-          onClick={() => navigate("/wishlist")}
-          style={{ zIndex: 3 }}
-        />
+        <Link href="wishlist/">
+          <a>
+            <BottomNavigationAction
+              showLabel
+              label="Wishlist"
+              icon={<FavoriteIcon />}
+              style={{ zIndex: 3 }}
+            />
+          </a>
+        </Link>
       </BottomNavigation>
-      <Fab
-        color="primary"
-        style={fabStyle}
-        aria-label="Search"
-        onClick={() => navigate("/search/?q=search")}
-      >
-        <SearchIcon fontSize="large" />
-      </Fab>
+      <Link href="/search/?q=search">
+        <a>
+          <Fab color="primary" style={fabStyle} aria-label="Search">
+            <SearchIcon fontSize="large" />
+          </Fab>
+        </a>
+      </Link>
     </Box>
   );
 };

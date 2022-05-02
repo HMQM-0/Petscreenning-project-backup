@@ -1,26 +1,27 @@
-// import { ContactIcon, ContactIconShape } from "deprecated/_nautical/blocks";
+// import { ContactIcon, ContactIconShape } from "deprecated/_nautical/blocks"
 import * as React from "react";
-import "./scss/index.module.scss";
 import { Box } from "@mui/material";
-// import { SocialMediaIcon } from "..";
-import { SOCIAL_MEDIA } from "../../core/config";
-import Nav from "./Nav";
+
+// import { SocialMediaIcon } from ".."
 import { isMicrosite } from "core/utils";
+import { SOCIAL_MEDIA } from "core/config";
+
+import classes from "./scss/index.module.scss";
+import Nav from "./Nav";
 
 interface FooterProps {
   footerText?: string;
   icon?: React.ReactNode;
 }
 
-const Footer: React.FC<FooterProps> = (props) => {
-  const { footerText, icon } = props;
+const Footer: React.FC<FooterProps> = ({ footerText, icon }) => {
   return (
-    <Box className="footer" id="footer">
-      {!!!isMicrosite() && (
-        <Box className="footer__favicons container">
+    <Box className={classes.footer} id="footer">
+      {!isMicrosite() && (
+        <Box className={`${classes.footer}__favicons ${classes.container}`}>
           {SOCIAL_MEDIA.map((medium) => (
             <Box
-              className="social-icon"
+              className={classes["social-icons"]}
               key={medium.ariaLabel}
               style={{ display: "none" }}
             >
@@ -38,7 +39,7 @@ const Footer: React.FC<FooterProps> = (props) => {
           ))}
         </Box>
       )}
-      {!!isMicrosite() && <Box pt={1} />}
+      {isMicrosite() && <Box pt={1} />}
       <Nav footerText={footerText} icon={icon} />
     </Box>
   );

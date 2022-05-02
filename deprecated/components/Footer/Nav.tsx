@@ -1,76 +1,81 @@
-// import footerImg from "deprecated/images/footer.svg";
+// import footerImg from "deprecated/images/footer.svg"
+import * as React from "react";
+import { Box, IconButton, Skeleton, Theme } from "@mui/material";
+import { ReactSVG } from "react-svg";
+import { styled } from "@mui/styles";
+
 import { Loader } from "@components/atoms/Loader";
 import { Spacer } from "@components/molecules/ProductTile/styles";
 import { getMicrositeId, isMicrosite } from "core/utils";
 import { TypedMicrositeQuery } from "deprecated/views/Microsites/queries";
-import * as React from "react";
-import { Box, IconButton, Skeleton, Theme } from "@mui/material";
-import { NavLink } from "..";
-import { TypedSecondaryMenuQuery } from "./queries";
-// import footerLogo from "deprecated/images/footer-logo.png";
-import fbIcon from "deprecated/images/fb-icon.svg";
-import igIcon from "deprecated/images/ig-icon.svg";
-import ttIcon from "deprecated/images/tt-icon.svg";
-import ytIcon from "deprecated/images/yt-icon.svg";
+// import fbIcon from "deprecated/images/fb-icon.svg"
+
+// import footerLogo from "deprecated/images/footer-logo.png"
+// import igIcon from "deprecated/images/ig-icon.svg"
+// import ttIcon from "deprecated/images/tt-icon.svg"
+// import ytIcon from "deprecated/images/yt-icon.svg"
+
 import "./scss/index.module.scss";
-import { ReactSVG } from "react-svg";
-import { makeStyles } from "@mui/styles";
+
 import { maybe } from "@utils/misc";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  logoButton: {
-    backgroundColor: "#fff",
-    height: 68,
-    width: 68,
+import { TypedSecondaryMenuQuery } from "./queries";
+
+import { NavLink } from "../NavLink";
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  backgroundColor: "#fff",
+  height: 36,
+  width: 36,
+  display: "flex",
+  placeItems: "center",
+  "& div > div": {
     display: "flex",
     placeItems: "center",
-    overflow: "hidden",
   },
-  socialButton: {
-    backgroundColor: "#fff",
-    height: 36,
-    width: 36,
-    display: "flex",
-    placeItems: "center",
-    "& div > div": {
-      display: "flex",
-      placeItems: "center",
-    },
-    "& div > div > svg": {
-      fill: "currentColor",
-      color: theme.palette.secondary.main,
-      height: 32,
-      width: 32,
-    },
+  "& div > div > svg": {
+    fill: "currentColor",
+    // color: theme.palette.secondary.main,
+    height: 32,
+    width: 32,
   },
 }));
+
 interface INavProps {
   footerText?: string;
   icon?: React.ReactNode;
 }
 
-const Nav: React.FunctionComponent<INavProps> = (props) => {
-  const { footerText, icon } = props;
-  const classes = useStyles();
+const Nav: React.FunctionComponent<INavProps> = ({ footerText, icon }) => {
   return (
     <footer className="footer-nav">
       <Box className="social-icons">
-        <IconButton className={classes.socialButton} aria-label="facebook">
-          <ReactSVG src={fbIcon} height="32" width="32" />
-        </IconButton>
-        <IconButton className={classes.socialButton} aria-label="instagram">
-          <ReactSVG src={igIcon} height="32" width="32" />
-        </IconButton>
-        <IconButton className={classes.logoButton} aria-label="home page">
+        <StyledIconButton aria-label="facebook">
+          {/* <ReactSVG src={fbIcon} height="32" width="32" /> */}
+        </StyledIconButton>
+        <StyledIconButton aria-label="instagram">
+          {/* <ReactSVG src={igIcon} height="32" width="32" /> */}
+        </StyledIconButton>
+        <IconButton
+          sx={{
+            backgroundColor: "#fff",
+            height: 68,
+            width: 68,
+            display: "flex",
+            placeItems: "center",
+            overflow: "hidden",
+          }}
+          aria-label="home page"
+        >
           {icon ? icon : <Skeleton />}
           {/* <img src={footerLogo} alt="Logo" height="64" width="64" /> */}
         </IconButton>
-        <IconButton className={classes.socialButton} aria-label="youtube">
-          <ReactSVG src={ytIcon} height="32" width="32" />
-        </IconButton>
-        <IconButton className={classes.socialButton} aria-label="tiktok">
-          <ReactSVG src={ttIcon} height="32" width="32" />
-        </IconButton>
+        <StyledIconButton aria-label="youtube">
+          {/* <ReactSVG src={ytIcon} height="32" width="32" /> */}
+        </StyledIconButton>
+        <StyledIconButton aria-label="tiktok">
+          {/* <ReactSVG src={ttIcon} height="32" width="32" /> */}
+        </StyledIconButton>
       </Box>
       <Box className="container">
         <Box
