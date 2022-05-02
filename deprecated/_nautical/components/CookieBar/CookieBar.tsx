@@ -1,6 +1,7 @@
 import React from "react";
-import "./scss/index.module.scss";
 import { Box } from "@mui/material";
+
+import classes from "./scss/index.module.scss";
 interface CookieBarProps {
   title: string;
   description?: string;
@@ -15,7 +16,7 @@ const CookieBar: React.FC<CookieBarProps> = ({
   hide,
 }) => {
   return (
-    <Box className={hide ? "cookie-hide" : "cookie-root"}>
+    <Box className={hide ? classes["cookie-hide"] : classes["cookie-root"]}>
       <span>{title}</span>
       <span>
         {description}
@@ -24,7 +25,7 @@ const CookieBar: React.FC<CookieBarProps> = ({
           rel="noreferrer"
           aria-label="learn more about cookies"
           role="button"
-          className="cookie-link"
+          className={classes["cookie-link"]}
           href="http://cookiesandyou.com"
           target="_blank"
         >
