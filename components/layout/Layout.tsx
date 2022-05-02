@@ -5,7 +5,13 @@ import { MaterialUIProvider, OverlayProvider } from "@providers";
 import { BrandingType } from "@generated";
 import { SEO, ThemeFont } from "components/atoms";
 import TopNav from "deprecated/components/MainMenu/TopNav";
+import BottomNav from "deprecated/components/MainMenu/BottomNav";
 import PromoBanner from "deprecated/_nautical/components/PromoBanner/PromoBanner";
+import { Footer } from "deprecated/components/Footer";
+import CookieBar from "deprecated/_nautical/components/CookieBar";
+import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
+import Button from "deprecated/components/Button";
+// import { OverlayManager } from "deprecated/components/OverlayManager";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -14,6 +20,8 @@ type LayoutProps = {
 
 const Layout = ({ children, branding }: LayoutProps) => {
   const trigger = useScrollTrigger();
+  const { acceptedCookies, onAcceptCookies } = useAcceptCookies();
+  console.log("acceptedCookies", acceptedCookies);
   const stickyStyle: React.CSSProperties = {
     position: "fixed",
     top: 0,
@@ -37,6 +45,10 @@ const Layout = ({ children, branding }: LayoutProps) => {
     <Skeleton />
   );
 
+  const icon = branding?.icon ? (
+    <img src={branding.icon.url} height="64" width="64" alt="Icon" />
+  ) : null;
+
   console.log("branding", branding);
   return (
     <MaterialUIProvider branding={branding}>
@@ -49,9 +61,9 @@ const Layout = ({ children, branding }: LayoutProps) => {
         </header>
         <div style={fillerStyle} />
         {children}
-        {/* <BottomNav /> */}
-        {/* <Footer footerText={footerText} icon={icon} /> */}
-        {/* <CookieBar
+        <BottomNav />
+        <Footer footerText={branding.footerText} icon={icon} />
+        <CookieBar
           title=""
           description="This website uses cookies to ensure you get the best experience. By continuing to use this site, you consent to cookies being used."
           hide={acceptedCookies}
@@ -64,9 +76,9 @@ const Layout = ({ children, branding }: LayoutProps) => {
               Got it!
             </Button>
           }
-        /> */}
-        {/* <OverlayManager />
-          <Notifications /> */}
+        />
+        {/* <OverlayManager /> */}
+        {/* <Notifications /> */}
       </OverlayProvider>
     </MaterialUIProvider>
   );

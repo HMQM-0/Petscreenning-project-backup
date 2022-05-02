@@ -1,7 +1,8 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
+
+import { SecondaryMenu } from "./gqlTypes/SecondaryMenu";
 
 import { TypedQuery } from "../../core/queries";
-import { SecondaryMenu } from "./gqlTypes/SecondaryMenu";
 
 const secondaryMenu = gql`
   fragment SecondaryMenuSubItem on MenuItem {
