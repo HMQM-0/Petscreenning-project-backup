@@ -12,11 +12,6 @@
     "type-check": "tsc --noEmit $(git diff --staged --name-only)",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@apollo/react-hoc": "^4.0.0",
