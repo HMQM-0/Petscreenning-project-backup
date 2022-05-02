@@ -1,7 +1,8 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { Box } from "@mui/material";
-export const NothingFound: React.FC<{ search: string }> = ({ search }) => {
+
+export const NothingFound = ({ search }: { search: string }) => {
   return (
     <Box className="search__products--not-found">
       <p className="u-lead u-lead--bold u-uppercase">

@@ -35,7 +35,7 @@ export type { INavItem } from "./MobileNav";
 export { NavLink } from "./NavLink";
 export { MetaConsumer, MetaProvider, MetaWrapper } from "./Meta";
 export type { MetaContextInterface } from "./Meta";
-export { OverlayManager } from "./OverlayManager";
+export { default as OverlayManager } from "./OverlayManager/OverlayManager";
 export {
   Overlay,
   OverlayContext,

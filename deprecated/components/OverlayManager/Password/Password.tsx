@@ -1,25 +1,28 @@
-import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { ReactSVG } from "react-svg";
 
-import {
-  Offline,
-  OfflinePlaceholder,
-  Online,
-  Overlay,
-  OverlayContextInterface,
-  PasswordResetRequestForm,
-} from "../..";
+import Offline from "deprecated/components/Offline/index";
+import Online from "deprecated/components/Online/index";
+import Overlay from "deprecated/components/Overlay/Overlay";
+import { OverlayContextInterface } from "deprecated/components/Overlay/context";
+import PasswordResetRequestForm from "deprecated/components/PasswordResetRequestForm/index";
+import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
+
+import classes from "./scss/index.module.scss";
 
 import closeImg from "../../../images/x.svg";
 
-const Password: React.FC<{ overlay: OverlayContextInterface }> = ({
+interface Props {
+  overlay: OverlayContextInterface
+}
+
+const Password = ({
   overlay,
-}) => (
+}: Props) => (
   <Overlay testingContext="passwordOverlay" context={overlay}>
-    <Box className="password-reset">
+    <Box className={classes.passwordReset}>
       <Online>
         <Box className="overlay__header">
           <p className="overlay__header-text">
@@ -31,7 +34,7 @@ const Password: React.FC<{ overlay: OverlayContextInterface }> = ({
             className="overlay__header__close-icon"
           />
         </Box>
-        <Box className="password-reset__content">
+        <Box className={classes.passwordReset__content}>
           <PasswordResetRequestForm />
         </Box>
       </Online>

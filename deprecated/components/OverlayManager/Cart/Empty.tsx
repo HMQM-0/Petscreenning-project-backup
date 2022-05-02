@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 
 import Button from "../../Button";
 
-const Empty: React.FC<{ overlayHide(): void }> = ({ overlayHide }) => (
+const Empty = ({ overlayHide }: { overlayHide: VoidFunction}) => (
   <Box className="cart__empty">
     <h4>
       <FormattedMessage defaultMessage="Your bag is empty" />

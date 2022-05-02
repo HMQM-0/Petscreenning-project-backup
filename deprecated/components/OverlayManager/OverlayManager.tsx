@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import Cart from "./Cart";
-import Login from "./Login";
+import Cart from "./Cart/Cart";
+import Login from "./Login/Login";
 import MobileNav from "./MobileNav";
-import Modal from "./Modal";
+import Modal from "./Modal/Modal";
 import Notification from "./Notification";
-import Password from "./Password";
-import Search from "./Search";
+import Password from "./Password/Password";
+import Search from "./Search/Search";
 
 import { Overlay, OverlayContext, OverlayType } from "../Overlay";
 
-const OverlayManager: React.FC = () => (
+const OverlayManager = () => (
   <OverlayContext.Consumer>
     {(overlay) => {
       switch (overlay.type) {

@@ -1,4 +1,3 @@
-// import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
@@ -15,7 +14,6 @@ import {
   isMicrosite,
   getMicrositeSlug,
 } from "core/utils";
-// import removeImg from "../../../images/garbage.svg";
 
 type ProductListProps = {
   lines: ICheckoutModelLine[];
@@ -29,7 +27,7 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
         ? generateMicrositeProductUrl(
             line.variant.product?.id ?? "",
             line.variant.product?.name ?? "",
-            getMicrositeId(),
+            getMicrositeId()!,
             getMicrositeSlug()
           )
         : generateProductUrl(

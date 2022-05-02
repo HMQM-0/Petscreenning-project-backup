@@ -40,7 +40,11 @@ import Loader from "../../Loader";
 import cartImg from "../../../images/cart.svg";
 import closeImg from "../../../images/x.svg";
 
-const Cart: React.FC<{ overlay: OverlayContextInterface }> = ({ overlay }) => {
+interface Props {
+  overlay: OverlayContextInterface;
+}
+
+const Cart = ({ overlay }: Props) => {
   const { user } = useAuth();
   const { checkout } = useCheckout();
   const {
@@ -65,7 +69,7 @@ const Cart: React.FC<{ overlay: OverlayContextInterface }> = ({ overlay }) => {
   };
 
   const missingVariants = () => {
-    return items.find((item) => !item.variant || !item.totalPrice);
+    return items?.find((item) => !item.variant || !item.totalPrice);
   };
 
   const itemsQuantity =
@@ -76,6 +80,7 @@ const Cart: React.FC<{ overlay: OverlayContextInterface }> = ({ overlay }) => {
     micrositeSlug: getMicrositeSlug(),
   });
   const cartURL = generatePath(cartUrl, {});
+  // TODO: "GET RID OF THIS" means just remove it???
   console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", micrositeURL);
   console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", cartURL);
 

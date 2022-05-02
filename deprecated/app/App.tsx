@@ -13,13 +13,14 @@ import CookieBar from "deprecated/_nautical/components/CookieBar";
 import TopNav from "deprecated/components/MainMenu/TopNav";
 import { maybe } from "@utils/misc";
 
+import OverlayManager from "deprecated/components/OverlayManager/OverlayManager";
+
 import Notifications from "./Notifications";
 
 import {
   Footer,
   // MainMenu,
   MetaConsumer,
-  OverlayManager,
   OverlayProvider,
 } from "../components";
 

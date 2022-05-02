@@ -12,7 +12,7 @@ export interface IModal {
   testingContext: string;
 }
 
-const Modal: React.FC<IModal> = ({ overlay, testingContext }) => (
+const Modal = ({ overlay, testingContext }: IModal) => (
   <Overlay testingContext={testingContext} context={overlay}>
     {overlay.context.content}
   </Overlay>
