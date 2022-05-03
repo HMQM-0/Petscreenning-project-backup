@@ -3,16 +3,15 @@ import * as React from "react";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import PublicIcon from "@mui/icons-material/Public";
-import "./scss/index.module.scss";
+
+import classes from "./scss/index.module.scss";
 
 interface IRewardBannerProps {}
 
-const RewardBanner: React.FC<IRewardBannerProps> = (props) => {
-  // const { content } = props;
-
+const RewardBanner: React.FC<IRewardBannerProps> = () => {
   return (
     <AppBar
-      className="reward_banner"
+      className={classes.reward_banner}
       position="static"
       style={{
         backgroundColor: "#9dc183",
@@ -25,17 +24,20 @@ const RewardBanner: React.FC<IRewardBannerProps> = (props) => {
       }}
     >
       <Box style={{ display: "flex", alignItems: "center" }}>
-        <PublicIcon color="secondary" className="reward-icon" />
+        <PublicIcon color="secondary" className={classes["reward-icon"]} />
         Sustainable and Rewarding
       </Box>
       <Box>|</Box>
       <Box style={{ display: "flex", alignItems: "center" }}>
-        <LoyaltyIcon color="secondary" className="reward-icon" />
+        <LoyaltyIcon color="secondary" className={classes["reward-icon"]} />
         Join the Kuí Club
       </Box>
       <Box>|</Box>
       <Box style={{ display: "flex", alignItems: "center" }}>
-        <LocalShippingIcon color="secondary" className="reward-icon" />
+        <LocalShippingIcon
+          color="secondary"
+          className={classes["reward-icon"]}
+        />
         Free Shipping on $40 in AU
       </Box>
     </AppBar>
