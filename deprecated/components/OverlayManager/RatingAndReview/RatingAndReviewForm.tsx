@@ -1,23 +1,29 @@
 import "./scss/index.module.scss";
-import * as React from "react";
-import { AlertManager, useAlert } from "react-alert";
+import React, { useState } from "react";
+import { useAlert } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
+import Rating from "@mui/material/Rating";
+
 import { commonMessages } from "deprecated/intl";
-import { Button, Form, TextField } from "../..";
 import { maybe } from "core/utils";
+import TextArea from "deprecated/components/TextArea";
+
 import { SubmitRatingAndReview } from "./gqlTypes/SubmitRatingAndReview";
 import { TypedRatingAndReviewMutation } from "./mutations";
-import Rating from "@mui/material/Rating";
+
+import { Button, Form, TextField } from "../..";
 import { OverlayContext } from "../../../components/Overlay/context";
-import TextArea from "deprecated/components/TextArea";
+import { FormError } from "../../Form/types";
+
 
 const showSuccessNotification = (
   data: SubmitRatingAndReview,
   hide: () => void,
-  alert: AlertManager,
+  // TODO: where to get type of function returned from useAlert?
+  alert: any,
   intl: IntlShape
 ) => {
-  const successful = maybe(() => !data.submitRatingAndReview.errors.length);
+  const successful = maybe(() => !data.submitRatingAndReview?.errors.length);
   if (successful) {
     hide();
     alert.show(
@@ -38,9 +44,9 @@ const RatingAndReviewForm: React.FC<{ productId: string }> = ({
   const intl = useIntl();
   const { hide } = React.useContext(OverlayContext);
 
-  const [review, setReview] = React.useState("");
-  const [rating, setRating] = React.useState(null);
-  const [noRatingSelected, setNoRatingSelected] = React.useState(null);
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState<number | null>(null);
+  const [noRatingSelected, setNoRatingSelected] = useState<boolean | null>(null);
 
   return (
     <TypedRatingAndReviewMutation
@@ -50,15 +56,17 @@ const RatingAndReviewForm: React.FC<{ productId: string }> = ({
         return (
           <div style={{ padding: "25px" }}>
             <Form
-              errors={maybe(() => data.submitRatingAndReview.errors, [])}
-              onSubmit={(event, { headline, publicName, emailAddress }) => {
+              errors={maybe(() => data?.submitRatingAndReview?.errors, []) as FormError[]}
+              onSubmit={(event, data) => {
+                // TODO: What should be passed to <Form<...> to fix this?
+                const { headline, publicName, emailAddress } = data as any;
                 event.preventDefault();
                 if (!rating) {
                   setNoRatingSelected(true);
                   return;
                 }
                 setNoRatingSelected(false);
-                submitRatingAndReview({
+                return submitRatingAndReview({
                   variables: {
                     headline,
                     publicName,
@@ -84,8 +92,7 @@ const RatingAndReviewForm: React.FC<{ productId: string }> = ({
                   <Rating
                     name="simple-controlled"
                     value={rating}
-                    // @ts-ignore
-                    onChange={(e) => setRating(e.target.value)}
+                    onChange={(e, value) => setRating(value)}
                   />
                   {noRatingSelected && (
                     <span

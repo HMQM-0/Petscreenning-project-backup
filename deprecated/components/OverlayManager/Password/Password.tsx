@@ -14,13 +14,13 @@ import classes from "./scss/index.module.scss";
 
 import closeImg from "../../../images/x.svg";
 
-interface Props {
-  overlay: OverlayContextInterface
+interface PasswordProps {
+  overlay: OverlayContextInterface;
 }
 
 const Password = ({
   overlay,
-}: Props) => (
+}: PasswordProps) => (
   <Overlay testingContext="passwordOverlay" context={overlay}>
     <Box className={classes.passwordReset}>
       <Online>

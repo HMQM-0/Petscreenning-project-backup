@@ -1,13 +1,16 @@
 import * as React from "react";
 
 import Message from "deprecated/components/Message/index";
-import { OverlayContextInterface } from "deprecated/components/Overlay/context"
+import { OverlayContextInterface } from "deprecated/components/Overlay/context";
 
-interface Props {
+interface NotificationOverlayProps {
   overlay: OverlayContextInterface;
 }
 
-export const NotificationOverlay = ({ overlay: { hide, context } }: Props) => {
+export const NotificationOverlay = ({ overlay: { hide, context } }: NotificationOverlayProps) => {
+  if (!context) {
+    return null;
+  }
   return (
     <Message title={context.title || ""} status={context.status} onClose={hide}>
       {context.content}

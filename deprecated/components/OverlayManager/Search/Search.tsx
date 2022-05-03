@@ -1,33 +1,32 @@
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import clsx from "clsx";
-import {stringify} from "query-string";
+import { stringify } from "query-string";
 import * as React from "react";
 import {
   injectIntl,
   WrappedComponentProps,
   FormattedMessage,
 } from "react-intl";
-import {ReactSVG} from "react-svg";
+import { ReactSVG } from "react-svg";
 
-import {commonMessages} from "deprecated/intl";
-import {maybe} from "core/utils";
-import {withRouter} from "deprecated/components/Overlay/provider";
+import { commonMessages } from "deprecated/intl";
+import { maybe } from "core/utils";
+import { withRouter } from "deprecated/components/Overlay/provider";
 import Button from "deprecated/components/Button/index";
 import Loader from "deprecated/components/Loader/index";
 import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
 import Overlay from "deprecated/components/Overlay/Overlay";
-import {OverlayContextInterface, OverlayType} from "deprecated/components/Overlay/context";
-import {SearchResultsQuery, useSearchResultsQuery} from "@generated";
+import { OverlayContextInterface, OverlayType } from "deprecated/components/Overlay/context";
+import { SearchResultsQuery, useSearchResultsQuery } from "@generated";
 
 import classes from "./scss/index.module.scss";
-import {SearchResults} from "./gqlTypes/SearchResults";
-import NothingFound from "./NothingFound";
+import { NothingFound } from "./NothingFound";
 import ProductItem from "./ProductItem";
 
 
-import {searchUrl} from "../../../app/routes";
+import { searchUrl } from "../../../app/routes";
 import DebouncedTextField from "../../Debounce/DebouncedTextField";
-import Error from "../../Error/index";
+import { Error } from "../../Error/index";
 import NetworkStatus from "../../NetworkStatus/index";
 import searchImg from "../../../images/search.svg";
 import closeImg from "../../../images/x.svg";
@@ -41,12 +40,12 @@ interface SearchState {
 }
 
 const SearchResults = ({
-                         search,
-                         isOnline,
-                         submitBtnRef
-                       }: { search: string; isOnline: boolean; submitBtnRef: React.RefObject<any> }) => {
-  const {data, error, loading} = useSearchResultsQuery({
-    variables: {query: search},
+  search,
+  isOnline,
+  submitBtnRef
+}: { search: string; isOnline: boolean; submitBtnRef: React.RefObject<any> }) => {
+  const { data, error, loading } = useSearchResultsQuery({
+    variables: { query: search },
     errorPolicy: "all"
   });
 
@@ -60,21 +59,23 @@ const SearchResults = ({
         <ul>
           {data?.products?.edges.map((product) => (
             <ProductItem
-              {...product}
+              // TODO: Not working since ProductDetails_product_thumbnail is not in sync with GraphQL one. How to?
+              // @ts-ignore
+              node={product.node}
               key={product.node.id}
             />
           ))}
         </ul>
         <Box className={classes.search__products__footer}>
           {loading ? (
-            <Loader/>
+            <Loader />
           ) : (
             <Button
               testingContext="searchProductsButton"
               btnRef={submitBtnRef}
               type="submit"
             >
-              <FormattedMessage defaultMessage="Show all results"/>
+              <FormattedMessage defaultMessage="Show all results" />
             </Button>
           )}
         </Box>
@@ -84,17 +85,17 @@ const SearchResults = ({
 
   if (error) {
     return isOnline ? (
-      <Error error={error.message}/>
+      <Error error={error.message} />
     ) : (
-      <OfflinePlaceholder/>
+      <OfflinePlaceholder />
     );
   }
 
-  return <NothingFound search={search}/>;
+  return <NothingFound search={search} />;
 };
 
 class Search extends React.Component<SearchProps, SearchState> {
-  state = {search: ""};
+  state = { search: "" };
 
   submitBtnRef = React.createRef<HTMLButtonElement>();
 
@@ -103,7 +104,7 @@ class Search extends React.Component<SearchProps, SearchState> {
       !!prevState.search.length &&
       this.props.overlay.type !== OverlayType.search
     ) {
-      this.setState({search: ""});
+      this.setState({ search: "" });
     }
   }
 
@@ -112,7 +113,7 @@ class Search extends React.Component<SearchProps, SearchState> {
   }
 
   get searchQs() {
-    return stringify({q: this.state.search});
+    return stringify({ q: this.state.search });
   }
 
   handleSubmit = (evt: React.FormEvent) => {
@@ -147,7 +148,7 @@ class Search extends React.Component<SearchProps, SearchState> {
         >
           <Box className={classes.search__input}>
             <DebouncedTextField
-              onChange={(evt) => this.setState({search: evt.target.value})}
+              onChange={(evt) => this.setState({ search: evt.target.value })}
               value={this.state.search}
               iconLeft={
                 <ReactSVG
@@ -157,7 +158,7 @@ class Search extends React.Component<SearchProps, SearchState> {
                   className="search__input__close-btn"
                 />
               }
-              iconRight={<ReactSVG src={searchImg}/>}
+              iconRight={<ReactSVG src={searchImg} />}
               autoFocus
               placeholder={this.props.intl.formatMessage(commonMessages.search)}
               onBlur={this.handleInputBlur}
@@ -172,8 +173,11 @@ class Search extends React.Component<SearchProps, SearchState> {
             <NetworkStatus>
               {(isOnline) => {
                 if (this.hasSearchPhrase) {
-                  return <SearchResults search={this.state.search} isOnline={isOnline}
-                                        submitBtnRef={this.submitBtnRef}/>
+                  return <SearchResults
+                    search={this.state.search}
+                    isOnline={isOnline}
+                    submitBtnRef={this.submitBtnRef}
+                  />;
                 }
                 return null;
               }}

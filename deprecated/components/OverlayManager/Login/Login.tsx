@@ -1,33 +1,33 @@
-import "./scss/index.module.scss";
 import { Box, Tab, Tabs } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { ReactSVG } from "react-svg";
 
-import RegisterForm from "./RegisterForm";
-import ForgottenPassword from "./ForgottenPassword";
+import LoginForm from "deprecated/components/LoginForm/index";
+import Offline from "deprecated/components/Offline/index";
+import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
+import Online from "deprecated/components/Online/index";
+import Overlay from "deprecated/components/Overlay/Overlay";
+import { OverlayContextInterface, OverlayTheme, OverlayType } from "deprecated/components/Overlay/context";
 
-import {
-  LoginForm,
-  Offline,
-  OfflinePlaceholder,
-  Online,
-  Overlay,
-  OverlayContextInterface,
-  OverlayTheme,
-  OverlayType,
-} from "../..";
+import classes from "./scss/index.module.scss";
+import ForgottenPassword from "./ForgottenPassword";
+import RegisterForm from "./RegisterForm";
+
 import closeImg from "../../../images/x.svg";
 
-class Login extends React.Component<
-  { overlay: OverlayContextInterface; active?: "login" | "register" },
-  { active: "login" | "register"; value: number }
-> {
+interface LoginProps {
+  overlay: OverlayContextInterface;
+  active: "login" | "register";
+}
+
+class Login extends React.Component<LoginProps,
+  { active: "login" | "register"; value: number }> {
   static defaultProps = {
     active: "login",
   };
 
-  constructor(props) {
+  constructor(props: LoginProps) {
     super(props);
     this.state = {
       active: props.active,
@@ -53,7 +53,7 @@ class Login extends React.Component<
 
     return (
       <Overlay testingContext="loginOverlay" context={overlay}>
-        <Box className="login">
+        <Box className={classes.login}>
           <Online>
             <Box className="overlay__header">
               <p className="overlay__header-text">
@@ -79,7 +79,7 @@ class Login extends React.Component<
                 }
               />
             </Tabs>
-            <Box className="login__tabs">
+            <Box className={classes.login__tabs}>
               <Box
                 component="span"
                 data-test="loginTab"
@@ -97,7 +97,7 @@ class Login extends React.Component<
                 <FormattedMessage defaultMessage="Register new account" />
               </Box>
             </Box>
-            <Box className="login__content">
+            <Box className={classes.login__content}>
               {this.state.active === "login" ? (
                 <>
                   <LoginForm hide={hide} />

@@ -8,11 +8,16 @@ import { OverlayContextInterface } from "../Overlay/context";
 import Overlay from "../Overlay/Overlay";
 import MobileNavList from "../MobileNav/NavList";
 
-const MobileNav = ({ overlay }: { overlay: OverlayContextInterface }) => {
-  const items: Maybe<MenuItem>[] = overlay.context.data;
+
+interface MobileNavProps {
+  overlay: OverlayContextInterface;
+}
+
+const MobileNav = ({ overlay }: MobileNavProps) => {
+  const items: Maybe<MenuItem>[] = overlay.context?.data;
 
   if (isMicrosite()) {
-      return null
+    return null;
   }
 
   return (

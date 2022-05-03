@@ -8,7 +8,8 @@ import Notification from "./Notification";
 import Password from "./Password/Password";
 import Search from "./Search/Search";
 
-import { Overlay, OverlayContext, OverlayType } from "../Overlay";
+import { OverlayContext, OverlayType } from "../Overlay/context";
+import Overlay from "../Overlay/Overlay";
 
 const OverlayManager = () => (
   <OverlayContext.Consumer>
@@ -24,6 +25,8 @@ const OverlayManager = () => (
           return <Cart overlay={overlay} />;
 
         case OverlayType.search:
+          // TODO: how to fix this?
+          // @ts-ignore
           return <Search overlay={overlay} />;
 
         case OverlayType.login:

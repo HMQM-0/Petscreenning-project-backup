@@ -2,11 +2,15 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Box } from "@mui/material";
 
-const ForgottenPassword: React.FC<{
-  onClick: () => void;
-}> = ({ onClick }) => (
+import classes from "./scss/index.module.scss";
+
+interface ForgottenPasswordProps {
+  onClick: VoidFunction;
+}
+
+const ForgottenPassword = ({ onClick }: ForgottenPasswordProps) => (
   <>
-    <Box className="login__content__password-reminder">
+    <Box className={classes.login__content__passwordReminder}>
       <p>
         <FormattedMessage defaultMessage="Have you forgotten your password?" />{" "}
         <Box

@@ -1,8 +1,7 @@
-/* eslint-disable react/no-unused-state */
-
 import * as React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-// import { RouteComponentProps } from "react-router";
+import { WrappedComponentProps } from "react-intl";
+
 import {
   InnerOverlayContextInterface,
   OverlayContext,
@@ -11,16 +10,9 @@ import {
   OverlayType,
 } from "./context";
 
-// export function withRouter( Child ) {
-//   return ( props ) => {
-//     const location = useLocation();
-//     const navigate = useNavigate();
-//     return <Child { ...props } navigate={ navigate } location={ location } />;
-//   }
-// }
-
-export function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
+// TODO: What type should be used here?
+export function withRouter(Component: any) {
+  function ComponentWithRouterProp(props: WrappedComponentProps) {
     let location = useLocation();
     let navigate = useNavigate();
     let params = useParams();
@@ -29,14 +21,11 @@ export function withRouter(Component) {
 
   return ComponentWithRouterProp;
 }
-class Provider extends React.Component<
-  // RouteComponentProps<{}>,
-  any,
-  OverlayContextInterface
-> {
+
+class Provider extends React.Component<any, OverlayContextInterface> {
   notificationCloseDelay = 2500;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       context: null,
@@ -47,13 +36,11 @@ class Provider extends React.Component<
     };
   }
 
-  componentDidUpdate(prevProps) {
-    // console.info("COMPONENT DID UPDATE")
-    // console.info(this.props)
+  componentDidUpdate(prevProps: any) {
     if (
       // this.props.history.location.pathname !== prevProps.history.location.pathname &&
       this.props.router.location.pathname !==
-        prevProps.router.location.pathname &&
+      prevProps.router.location.pathname &&
       this.state.type !== OverlayType.message
     ) {
       this.hide();
@@ -65,7 +52,7 @@ class Provider extends React.Component<
     theme?: OverlayTheme,
     context?: InnerOverlayContextInterface
   ) => {
-    this.setState({ type, theme, context });
+    this.setState({ type, theme: theme || null, context: context || null });
     document.body.style.overflow = type !== OverlayType.message ? "hidden" : "";
     if (type === OverlayType.message) {
       setTimeout(this.hide, this.notificationCloseDelay);
@@ -87,4 +74,3 @@ class Provider extends React.Component<
 }
 
 export default withRouter(Provider);
-// export default Provider;

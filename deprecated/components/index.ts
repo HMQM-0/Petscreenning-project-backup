@@ -36,13 +36,9 @@ export { NavLink } from "./NavLink";
 export { MetaConsumer, MetaProvider, MetaWrapper } from "./Meta";
 export type { MetaContextInterface } from "./Meta";
 export { default as OverlayManager } from "./OverlayManager/OverlayManager";
-export {
-  Overlay,
-  OverlayContext,
-  OverlayProvider,
-  OverlayTheme,
-  OverlayType,
-} from "./Overlay";
+export { default as Overlay } from "./Overlay/Overlay";
+export { OverlayContext, OverlayType, OverlayTheme } from "./Overlay/context";
+export { default as OverlayProvider } from "./Overlay/provider";
 export type {
   InnerOverlayContextInterface,
   OverlayContextInterface,

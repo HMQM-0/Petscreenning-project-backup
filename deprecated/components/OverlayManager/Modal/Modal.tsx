@@ -1,3 +1,4 @@
+// TODO: How to pass this into <Overlay> ?
 import "./scss/index.module.scss";
 
 import * as React from "react";
@@ -14,7 +15,7 @@ export interface IModal {
 
 const Modal = ({ overlay, testingContext }: IModal) => (
   <Overlay testingContext={testingContext} context={overlay}>
-    {overlay.context.content}
+    {overlay.context?.content}
   </Overlay>
 );
 

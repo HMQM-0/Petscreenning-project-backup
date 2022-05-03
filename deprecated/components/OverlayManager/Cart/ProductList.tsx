@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { Box, IconButton } from "@mui/material";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 
-import { TaxedMoney } from "deprecated/@next/components/containers";
-import { Thumbnail } from "deprecated/@next/components/molecules";
+import { TaxedMoney } from "deprecated/@next/components/containers/TaxedMoney/TaxedMoney";
+import { Thumbnail } from "deprecated/@next/components/molecules/Thumbnail/Thumbnail";
 import { ICheckoutModelLine } from "@nautical/helpers";
 import {
   generateMicrositeProductUrl,
@@ -23,17 +23,17 @@ type ProductListProps = {
 const ProductList = ({ lines, remove }: ProductListProps) => (
   <ul className="cart__list">
     {lines.map((line, index) => {
-      const productUrl = !!isMicrosite()
+      const productUrl = isMicrosite()
         ? generateMicrositeProductUrl(
-            line.variant.product?.id ?? "",
-            line.variant.product?.name ?? "",
-            getMicrositeId()!,
-            getMicrositeSlug()
-          )
+          line.variant.product?.id ?? "",
+          line.variant.product?.name ?? "",
+          getMicrositeId()!,
+          getMicrositeSlug()
+        )
         : generateProductUrl(
-            line.variant.product?.id ?? "",
-            line.variant.product?.name ?? ""
-          );
+          line.variant.product?.id ?? "",
+          line.variant.product?.name ?? ""
+        );
       const key = line.id ? `id-${line.id}` : `idx-${index}`;
 
       return (

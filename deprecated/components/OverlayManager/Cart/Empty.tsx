@@ -4,7 +4,11 @@ import { Box } from "@mui/material";
 
 import Button from "../../Button";
 
-const Empty = ({ overlayHide }: { overlayHide: VoidFunction}) => (
+interface EmptyProps {
+  overlayHide: VoidFunction;
+}
+
+const Empty = ({ overlayHide }: EmptyProps) => (
   <Box className="cart__empty">
     <h4>
       <FormattedMessage defaultMessage="Your bag is empty" />

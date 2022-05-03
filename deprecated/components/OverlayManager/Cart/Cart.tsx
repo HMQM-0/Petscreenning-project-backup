@@ -1,5 +1,3 @@
-import "./scss/index.module.scss";
-
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { generatePath } from "react-router-dom";
@@ -9,7 +7,6 @@ import Link from "next/link";
 
 import { TaxedMoney } from "@components/containers";
 import { commonMessages } from "deprecated/intl";
-// import { useAuth, useCart, useCheckout } from "@nautical/sdk";
 import { useAuth, useCart, useCheckout } from "@nautical/react";
 import {
   generateMicrositeUrl,
@@ -18,18 +15,17 @@ import {
   getMicrositeSlug,
   isMicrosite,
 } from "core/utils";
+import Offline from "deprecated/components/Offline/index";
+import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
+import Online from "deprecated/components/Online/index";
+import Overlay from "deprecated/components/Overlay/Overlay";
+import { OverlayContextInterface } from "deprecated/components/Overlay/context";
 
-import Empty from "./Empty";
 import ProductList from "./ProductList";
+import Empty from "./Empty";
+import classes from "./scss/index.module.scss";
 
-import {
-  Button,
-  Offline,
-  OfflinePlaceholder,
-  Online,
-  Overlay,
-  OverlayContextInterface,
-} from "../..";
+import Button from "../../Button";
 import {
   cartUrl,
   checkoutLoginUrl,
@@ -59,9 +55,9 @@ const Cart = ({ overlay }: Props) => {
   const shippingTaxedPrice =
     checkout?.shippingMethod?.id && shippingPrice
       ? {
-          gross: shippingPrice,
-          net: shippingPrice,
-        }
+        gross: shippingPrice,
+        net: shippingPrice,
+      }
       : null;
   const promoTaxedPrice = discount && {
     gross: discount,
@@ -75,19 +71,16 @@ const Cart = ({ overlay }: Props) => {
   const itemsQuantity =
     items?.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0) || 0;
 
-  const micrositeURL = generatePath(micrositeCartUrl, {
-    micrositeId: String(getDBIdFromGraphqlId(getMicrositeId(), "Microsite")),
+  const micrositeURL = isMicrosite() ? generatePath(micrositeCartUrl, {
+    micrositeId: String(getDBIdFromGraphqlId(getMicrositeId()!, "Microsite")),
     micrositeSlug: getMicrositeSlug(),
-  });
+  }) : "";
   const cartURL = generatePath(cartUrl, {});
-  // TODO: "GET RID OF THIS" means just remove it???
-  console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", micrositeURL);
-  console.warn("🚨🚨🚨GET RID OF THIS🚨🚨🚨", cartURL);
 
   return (
     <Overlay testingContext="cartOverlay" context={overlay}>
       <Online>
-        <Box className="cart">
+        <Box className={classes.cart}>
           <Box className="overlay__header">
             <ReactSVG src={cartImg} className="overlay__header__cart-icon" />
             <Box className="overlay__header-text">
@@ -115,8 +108,8 @@ const Cart = ({ overlay }: Props) => {
               ) : (
                 <>
                   <ProductList lines={items} remove={removeItem} />
-                  <Box className="cart__footer">
-                    <Box className="cart__footer__price">
+                  <Box className={classes.cart__footer}>
+                    <Box className={classes.cart__footer__price}>
                       <Box component="span">
                         <FormattedMessage {...commonMessages.subtotal} />
                       </Box>
@@ -129,22 +122,22 @@ const Cart = ({ overlay }: Props) => {
                     </Box>
 
                     {shippingTaxedPrice &&
-                      shippingTaxedPrice.gross.amount !== 0 && (
-                        <Box className="cart__footer__price">
-                          <Box component="span">
-                            <FormattedMessage {...commonMessages.shipping} />
-                          </Box>
-                          <Box component="span">
-                            <TaxedMoney
-                              data-test="shippingPrice"
-                              taxedMoney={shippingTaxedPrice}
-                            />
-                          </Box>
+                    shippingTaxedPrice.gross.amount !== 0 && (
+                      <Box className={classes.cart__footer__price}>
+                        <Box component="span">
+                          <FormattedMessage {...commonMessages.shipping} />
                         </Box>
-                      )}
+                        <Box component="span">
+                          <TaxedMoney
+                            data-test="shippingPrice"
+                            taxedMoney={shippingTaxedPrice}
+                          />
+                        </Box>
+                      </Box>
+                    )}
 
                     {promoTaxedPrice && promoTaxedPrice.gross.amount !== 0 && (
-                      <Box className="cart__footer__price">
+                      <Box className={classes.cart__footer__price}>
                         <Box component="span">
                           <FormattedMessage {...commonMessages.promoCode} />
                         </Box>
@@ -157,7 +150,7 @@ const Cart = ({ overlay }: Props) => {
                       </Box>
                     )}
 
-                    <Box className="cart__footer__price">
+                    <Box className={classes.cart__footer__price}>
                       <Box component="span">
                         <FormattedMessage {...commonMessages.total} />
                       </Box>
@@ -169,8 +162,8 @@ const Cart = ({ overlay }: Props) => {
                       </Box>
                     </Box>
 
-                    <Box className="cart__footer__button">
-                      <Link href={!!isMicrosite() ? micrositeURL : cartURL}>
+                    <Box className={classes.cart__footer__button}>
+                      <Link href={isMicrosite() ? micrositeURL : cartURL}>
                         <a>
                           <Button testingContext="gotoBagViewButton" secondary>
                             <FormattedMessage defaultMessage="Go to my cart" />
@@ -178,22 +171,22 @@ const Cart = ({ overlay }: Props) => {
                         </a>
                       </Link>
                     </Box>
-                    <Box className="cart__footer__button">
+                    <Box className={classes.cart__footer__button}>
                       <Link
                         href={
-                          !!isMicrosite()
+                          isMicrosite()
                             ? user
                               ? `${generateMicrositeUrl(
-                                  getMicrositeId(),
-                                  getMicrositeSlug()
-                                )}checkout/`
+                                getMicrositeId()!,
+                                getMicrositeSlug()
+                              )}checkout/`
                               : `${generateMicrositeUrl(
-                                  getMicrositeId(),
-                                  getMicrositeSlug()
-                                )}login/`
+                                getMicrositeId()!,
+                                getMicrositeSlug()
+                              )}login/`
                             : user
-                            ? checkoutUrl
-                            : checkoutLoginUrl
+                              ? checkoutUrl
+                              : checkoutLoginUrl
                         }
                       >
                         <a>
@@ -213,7 +206,7 @@ const Cart = ({ overlay }: Props) => {
         </Box>
       </Online>
       <Offline>
-        <Box className="cart">
+        <Box className={classes.cart}>
           <OfflinePlaceholder />
         </Box>
       </Offline>
