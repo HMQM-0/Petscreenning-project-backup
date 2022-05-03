@@ -9,6 +9,6 @@ module.exports = {
   "**/*.(ts|tsx)": [
     buildEslintCommand,
     "pretty-quick --staged",
-    "tsc-files --noEmit --pretty",
+    "tsc-files --noEmit --pretty scss.d.ts",
   ],
 };

@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "generate": "graphql-codegen",
-    "type-check": "tsc-files --noEmit --pretty $(git diff --staged --name-only)",
+    "type-check": "tsc-files --noEmit --pretty $(git diff --staged --name-only) *.d.ts",
     "prepare": "husky install"
   },
   "dependencies": {
