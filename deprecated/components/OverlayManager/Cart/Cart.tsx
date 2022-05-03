@@ -36,11 +36,11 @@ import Loader from "../../Loader";
 import cartImg from "../../../images/cart.svg";
 import closeImg from "../../../images/x.svg";
 
-interface Props {
+interface CartProps {
   overlay: OverlayContextInterface;
 }
 
-const Cart = ({ overlay }: Props) => {
+const Cart = ({ overlay }: CartProps) => {
   const { user } = useAuth();
   const { checkout } = useCheckout();
   const {
