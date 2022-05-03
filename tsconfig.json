@@ -1,4 +1,6 @@
 {
+  "include": ["next-env.d.ts", "scss.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es6",
@@ -54,7 +56,5 @@
       "@app/*": ["./deprecated/@next/*"],
       "@nautical/*": ["./deprecated/@nautical/*"]
     }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  }
 }
