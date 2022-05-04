@@ -7,7 +7,6 @@ export enum OverlayType {
   message = "message",
   sideNav = "side-nav",
   password = "password",
-  search = "search",
   mainMenuNav = "main-menu-nav",
   modal = "modal",
   register = "register",

@@ -6,7 +6,6 @@ import MobileNav from "./MobileNav";
 import Modal from "./Modal/Modal";
 import Notification from "./Notification";
 import Password from "./Password/Password";
-import Search from "./Search/Search";
 
 import { OverlayContext, OverlayType } from "../Overlay/context";
 import Overlay from "../Overlay/Overlay";
@@ -23,11 +22,6 @@ const OverlayManager = () => (
 
         case OverlayType.cart:
           return <Cart overlay={overlay} />;
-
-        case OverlayType.search:
-          // TODO: how to fix this?
-          // @ts-ignore
-          return <Search overlay={overlay} />;
 
         case OverlayType.login:
           return <Login overlay={overlay} />;
