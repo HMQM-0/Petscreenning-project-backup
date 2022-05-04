@@ -3,7 +3,8 @@ import "./scss/index.module.scss";
 
 import * as React from "react";
 
-import { Overlay, OverlayContextInterface } from "../..";
+import Overlay from "deprecated/components/Overlay/Overlay";
+import { OverlayContextInterface } from "components/providers/Overlay/context";
 
 export interface IModal {
   overlay: OverlayContextInterface;

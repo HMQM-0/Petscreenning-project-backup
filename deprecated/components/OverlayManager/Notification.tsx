@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Message from "deprecated/components/Message/index";
-import { OverlayContextInterface } from "deprecated/components/Overlay/context";
+import { OverlayContextInterface } from "components/providers/Overlay/context";
 
 interface NotificationOverlayProps {
   overlay: OverlayContextInterface;

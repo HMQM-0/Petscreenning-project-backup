@@ -3,8 +3,8 @@ import { Box } from "@mui/material";
 
 import { isMicrosite } from "core/utils";
 import { Maybe, MenuItem } from "@generated";
+import { OverlayContextInterface } from "components/providers/Overlay/context";
 
-import { OverlayContextInterface } from "../Overlay/context";
 import Overlay from "../Overlay/Overlay";
 import MobileNavList from "../MobileNav/NavList";
 

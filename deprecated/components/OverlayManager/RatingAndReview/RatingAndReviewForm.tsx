@@ -10,10 +10,10 @@ import Button from "deprecated/components/Button/index";
 import Form from "deprecated/components/Form/index";
 import TextField from "deprecated/components/TextField/index";
 import { SubmitRatingAndReviewMutation, useSubmitRatingAndReviewMutation } from "@generated";
+import { OverlayContext } from "components/providers/Overlay/context";
 
 import classes from "./scss/index.module.scss";
 
-import { OverlayContext } from "../../../components/Overlay/context";
 import { FormError } from "../../Form/types";
 
 

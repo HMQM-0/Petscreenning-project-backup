@@ -1,18 +1,17 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { ReactSVG } from "react-svg";
 
 import Offline from "deprecated/components/Offline/index";
 import Online from "deprecated/components/Online/index";
 import Overlay from "deprecated/components/Overlay/Overlay";
-import { OverlayContextInterface } from "deprecated/components/Overlay/context";
+import { OverlayContextInterface } from "components/providers/Overlay/context";
 import PasswordResetRequestForm from "deprecated/components/PasswordResetRequestForm/index";
 import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
+import { X as CloseImg } from "components/icons/x";
 
 import classes from "./scss/index.module.scss";
 
-import closeImg from "../../../images/x.svg";
 
 interface PasswordProps {
   overlay: OverlayContextInterface;
@@ -28,11 +27,12 @@ const Password = ({
           <p className="overlay__header-text">
             <FormattedMessage defaultMessage="Reset your password" />
           </p>
-          <ReactSVG
-            src={closeImg}
+          <button
             onClick={overlay.hide}
             className="overlay__header__close-icon"
-          />
+          >
+            <CloseImg />
+          </button>
         </Box>
         <Box className={classes.passwordReset__content}>
           <PasswordResetRequestForm />

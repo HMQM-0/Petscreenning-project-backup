@@ -2,8 +2,9 @@ import clsx from "clsx";
 import * as React from "react";
 import { Box } from "@mui/material";
 
+import { OverlayContextInterface } from "components/providers/Overlay/context";
+
 import classes from "./scss/index.module.scss";
-import { OverlayContextInterface } from "./context";
 
 interface OverlayProps {
   context: OverlayContextInterface;

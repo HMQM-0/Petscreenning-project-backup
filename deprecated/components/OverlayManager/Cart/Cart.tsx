@@ -1,7 +1,6 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { generatePath } from "react-router-dom";
-import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";
 import Link from "next/link";
 
@@ -19,7 +18,9 @@ import Offline from "deprecated/components/Offline/index";
 import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
 import Online from "deprecated/components/Online/index";
 import Overlay from "deprecated/components/Overlay/Overlay";
-import { OverlayContextInterface } from "deprecated/components/Overlay/context";
+import { OverlayContextInterface } from "components/providers/Overlay/context";
+import { Cart as CartImg } from "components/icons/cart";
+import { X as CloseImg } from "components/icons/x";
 
 import ProductList from "./ProductList";
 import Empty from "./Empty";
@@ -33,8 +34,6 @@ import {
   micrositeCartUrl,
 } from "../../../app/routes";
 import Loader from "../../Loader";
-import cartImg from "../../../images/cart.svg";
-import closeImg from "../../../images/x.svg";
 
 interface CartProps {
   overlay: OverlayContextInterface;
@@ -82,7 +81,11 @@ const Cart = ({ overlay }: CartProps) => {
       <Online>
         <Box className={classes.cart}>
           <Box className="overlay__header">
-            <ReactSVG src={cartImg} className="overlay__header__cart-icon" />
+            <CartImg
+              // TODO: How to pass className with the new component structure?
+              // @ts-ignore
+              className="overlay__header__cart-icon"
+            />
             <Box className="overlay__header-text">
               <FormattedMessage defaultMessage="My cart," />{" "}
               <Box component="span" className="overlay__header-text-items">
@@ -95,11 +98,12 @@ const Cart = ({ overlay }: CartProps) => {
                 />
               </Box>
             </Box>
-            <ReactSVG
-              src={closeImg}
+            <button
               onClick={overlay.hide}
               className="overlay__header__close-icon"
-            />
+            >
+              <CloseImg />
+            </button>
           </Box>
           {items?.length ? (
             <>

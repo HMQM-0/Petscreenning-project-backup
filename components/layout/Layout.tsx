@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { Skeleton, useScrollTrigger } from "@mui/material";
 
 import { MaterialUIProvider, OverlayProvider } from "@providers";
@@ -11,7 +11,8 @@ import { Footer } from "deprecated/components/Footer";
 import CookieBar from "deprecated/_nautical/components/CookieBar";
 import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
 import Button from "deprecated/components/Button";
-// import { OverlayManager } from "deprecated/components/OverlayManager";
+
+import OverlayManager from "../../deprecated/components/OverlayManager/OverlayManager";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -77,7 +78,7 @@ const Layout = ({ children, branding }: LayoutProps) => {
             </Button>
           }
         />
-        {/* <OverlayManager /> */}
+        <OverlayManager />
         {/* <Notifications /> */}
       </OverlayProvider>
     </MaterialUIProvider>

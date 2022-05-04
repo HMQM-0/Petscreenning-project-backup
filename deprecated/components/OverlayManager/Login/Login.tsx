@@ -1,20 +1,19 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { ReactSVG } from "react-svg";
 
 import LoginForm from "deprecated/components/LoginForm/index";
 import Offline from "deprecated/components/Offline/index";
 import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
 import Online from "deprecated/components/Online/index";
 import Overlay from "deprecated/components/Overlay/Overlay";
-import { OverlayContextInterface, OverlayTheme, OverlayType } from "deprecated/components/Overlay/context";
+import { OverlayContextInterface, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
+import { X as CloseImg } from "components/icons/x";
 
 import classes from "./scss/index.module.scss";
 import ForgottenPassword from "./ForgottenPassword";
 import RegisterForm from "./RegisterForm";
 
-import closeImg from "../../../images/x.svg";
 
 interface LoginProps {
   overlay: OverlayContextInterface;
@@ -59,11 +58,9 @@ class Login extends React.Component<LoginProps,
               <p className="overlay__header-text">
                 <FormattedMessage defaultMessage="Nautical account" />
               </p>
-              <ReactSVG
-                src={closeImg}
-                onClick={hide}
-                className="overlay__header__close-icon"
-              />
+              <button onClick={hide} className="overlay__header__close-icon">
+                <CloseImg />
+              </button>
             </Box>
             <Tabs
               value={this.state.value}
