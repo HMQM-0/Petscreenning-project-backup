@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -14,6 +14,8 @@ import classes from "./scss/index.module.scss";
 import ForgottenPassword from "./ForgottenPassword";
 import RegisterForm from "./RegisterForm";
 
+import overlayClasses from "../../Overlay/scss/index.module.scss";
+
 
 interface LoginProps {
   overlay: OverlayContextInterface;
@@ -21,7 +23,7 @@ interface LoginProps {
 }
 
 class Login extends React.Component<LoginProps,
-  { active: "login" | "register"; value: number }> {
+  { active: "login" | "register" }> {
   static defaultProps = {
     active: "login",
   };
@@ -30,7 +32,6 @@ class Login extends React.Component<LoginProps,
     super(props);
     this.state = {
       active: props.active,
-      value: 0,
     };
   }
 
@@ -41,47 +42,28 @@ class Login extends React.Component<LoginProps,
   render() {
     const { overlay } = this.props;
     const { show, hide } = overlay;
-    // const [value, setValue] = React.useState(0);
-
-    const handleTabChange: (
-      event: React.SyntheticEvent<Element, Event>,
-      value: any
-    ) => void = (event, newValue) => {
-      this.setState({ value: newValue });
-    };
 
     return (
       <Overlay testingContext="loginOverlay" context={overlay}>
         <Box className={classes.login}>
           <Online>
-            <Box className="overlay__header">
-              <p className="overlay__header-text">
+            <Box className={overlayClasses.overlay__header}>
+              {/* // TODO: why overlayClasses.overlay__headerText is undefined? */}
+              <p className={overlayClasses.overlay__headerText}>
                 <FormattedMessage defaultMessage="Nautical account" />
               </p>
-              <button onClick={hide} className="overlay__header__close-icon">
+              {/* // TODO: why overlayClasses.overlay__header__closeIcon is undefined? */}
+              <button onClick={hide} className={overlayClasses.overlay__header__closeIcon}>
                 <CloseImg />
               </button>
             </Box>
-            <Tabs
-              value={this.state.value}
-              onChange={handleTabChange}
-              textColor="primary"
-            >
-              <Tab
-                label={<FormattedMessage defaultMessage="Sign in to account" />}
-              />
-              <Tab
-                label={
-                  <FormattedMessage defaultMessage="Register new account" />
-                }
-              />
-            </Tabs>
             <Box className={classes.login__tabs}>
               <Box
                 component="span"
                 data-test="loginTab"
                 onClick={() => this.changeActiveTab("login")}
-                className={this.state.active === "login" ? "active-tab" : ""}
+                // TODO: classes.activeTab is undefined here for some reason
+                className={this.state.active === "login" ? classes.activeTab : ""}
               >
                 <FormattedMessage defaultMessage="Sign in to account" />
               </Box>
@@ -89,7 +71,8 @@ class Login extends React.Component<LoginProps,
                 component="span"
                 data-test="registerTab"
                 onClick={() => this.changeActiveTab("register")}
-                className={this.state.active === "register" ? "active-tab" : ""}
+                // TODO: classes.activeTab is undefined here for some reason
+                className={this.state.active === "register" ? classes.activeTab : ""}
               >
                 <FormattedMessage defaultMessage="Register new account" />
               </Box>

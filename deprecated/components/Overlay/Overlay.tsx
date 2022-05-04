@@ -31,7 +31,7 @@ const Overlay = ({
     onClick={hide}
   >
     <Box
-      className={`${classes.overlay}__${theme}`}
+      className={classes[`overlay__${theme}`]}
       onClick={(e) => e.stopPropagation()}
     >
       {children}
