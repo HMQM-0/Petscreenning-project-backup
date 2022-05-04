@@ -24,13 +24,16 @@ const Overlay = ({
 }: OverlayProps) => (
   <Box
     className={clsx(classes.overlay, {
-      [`${classes.overlay}--${type}`]: !!type,
+      [classes[`overlay--${type}`]]: !!type,
       [className ?? ""]: !!className,
     })}
     data-test={testingContext}
     onClick={hide}
   >
-    <Box className={`${classes.overlay}__${theme}`} onClick={(e) => e.stopPropagation()}>
+    <Box
+      className={`${classes.overlay}__${theme}`}
+      onClick={(e) => e.stopPropagation()}
+    >
       {children}
     </Box>
   </Box>

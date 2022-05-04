@@ -1,7 +1,4 @@
-// TODO: How to pass this into <Overlay> ?
-import "./scss/index.module.scss";
-
-import * as React from "react";
+import React from "react";
 
 import Overlay from "deprecated/components/Overlay/Overlay";
 import { OverlayContextInterface } from "components/providers/Overlay/context";
