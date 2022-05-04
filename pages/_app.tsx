@@ -4,7 +4,7 @@ import { positions, Provider as AlertProvider } from "react-alert";
 import { NextQueryParamProvider } from "next-query-params";
 import dynamic from "next/dynamic";
 
-import "deprecated/globalStyles/scss/variables.scss";
+import "deprecated/globalStyles/scss/index.scss";
 import { defaultTheme, GlobalStyle } from "@styles";
 import { SEOProvider, ShopProvider } from "@providers";
 
