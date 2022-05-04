@@ -15,13 +15,15 @@ import {
   getMicrositeSlug,
 } from "core/utils";
 
+import classes from "./scss/index.module.scss";
+
 type ProductListProps = {
   lines: ICheckoutModelLine[];
   remove(variantId: string): void;
 };
 
 const ProductList = ({ lines, remove }: ProductListProps) => (
-  <ul className="cart__list">
+  <ul className={classes.cart__list}>
     {lines.map((line, index) => {
       const productUrl = isMicrosite()
         ? generateMicrositeProductUrl(
@@ -39,14 +41,14 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
       return (
         <li
           key={key}
-          className="cart__list__item"
+          className={classes.cart__list__item}
           data-test="cartRow"
           data-test-id={line.variant.sku}
         >
           <Link to={productUrl}>
             <Thumbnail source={line.variant.product ?? {}} />
           </Link>
-          <Box className="cart__list__item__details">
+          <Box className={classes.cart__list__item__details}>
             <p data-test="price">
               <TaxedMoney taxedMoney={line.variant.pricing?.price} />
             </p>
@@ -55,7 +57,7 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
             </Link>
             <Box
               component="span"
-              className="cart__list__item__details__variant"
+              className={classes.cart__list__item__details__variant}
             >
               <Box component="span">{line.variant.name}</Box>
               <Box component="span" data-test="quantity">

@@ -12,6 +12,8 @@ import { X as CloseImg } from "components/icons/x";
 
 import classes from "./scss/index.module.scss";
 
+import overlayClasses from "../../Overlay/scss/index.module.scss";
+
 
 interface PasswordProps {
   overlay: OverlayContextInterface;
@@ -23,13 +25,13 @@ const Password = ({
   <Overlay testingContext="passwordOverlay" context={overlay}>
     <Box className={classes.passwordReset}>
       <Online>
-        <Box className="overlay__header">
-          <p className="overlay__header-text">
+        <Box className={overlayClasses.overlay__header}>
+          <p className={overlayClasses.overlay__headerText}>
             <FormattedMessage defaultMessage="Reset your password" />
           </p>
           <button
             onClick={overlay.hide}
-            className="overlay__header__close-icon"
+            className={overlayClasses.overlay__header__closeIcon}
           >
             <CloseImg />
           </button>
