@@ -29,7 +29,6 @@ export { default as Breadcrumbs, extractBreadcrumbs } from "./Breadcrumbs";
 export type { Breadcrumb } from "./Breadcrumbs";
 export { DebounceChange, DebouncedTextField } from "./Debounce";
 export { Footer } from "./Footer";
-export { MainMenu } from "./MainMenu";
 export { MobileNavList } from "./MobileNav";
 export type { INavItem } from "./MobileNav";
 export { NavLink } from "./NavLink";

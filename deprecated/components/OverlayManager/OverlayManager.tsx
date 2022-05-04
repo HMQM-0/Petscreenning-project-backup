@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { OverlayContext, OverlayType } from "components/providers/Overlay/context";
 
-import Cart from "./Cart/Cart";
 import Login from "./Login/Login";
 import MobileNav from "./MobileNav";
 import Modal from "./Modal/Modal";
@@ -20,10 +19,6 @@ const OverlayManager = () => (
 
         case OverlayType.message:
           return <Notification overlay={overlay} />;
-
-        // TODO: Not working
-        // case OverlayType.cart:
-        //   return <Cart overlay={overlay} />;
 
         case OverlayType.login:
           return <Login overlay={overlay} />;
