@@ -60,11 +60,11 @@ const OverlayProvider = ({ children }: OverlayProviderProps) => {
     };
   }, [router.events, type, hide]);
 
-  const contextValue: OverlayContextInterface = useMemo(
+  const value: OverlayContextInterface = useMemo(
     () => ({
       context,
-      hide: hide,
-      show: show,
+      hide,
+      show,
       theme,
       type,
     }),
@@ -72,9 +72,7 @@ const OverlayProvider = ({ children }: OverlayProviderProps) => {
   );
 
   return (
-    <OverlayContext.Provider value={contextValue}>
-      {children}
-    </OverlayContext.Provider>
+    <OverlayContext.Provider value={value}>{children}</OverlayContext.Provider>
   );
 };
 

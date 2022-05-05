@@ -1,10 +1,15 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
 import { useAlert } from "react-alert";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
 import { BrandingDocument, BrandingQuery } from "@generated";
 import { useSetSEO } from "@providers";
 import { Layout } from "@layout";
+import {
+  useOverlayContext,
+  OverlayType,
+  OverlayTheme,
+} from "components/providers/Overlay";
 
 import client from "../apollo-client";
 
@@ -13,6 +18,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }) => {
   const alert = useAlert();
   const setSeo = useSetSEO();
+  const { show } = useOverlayContext();
 
   useEffect(() => {
     setSeo((seo) => ({ ...seo, title: "Home" }));
@@ -22,15 +28,15 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     <Layout branding={branding}>
       <div>UOUOUO</div>
       <button
-        onClick={() =>
+        onClick={() => {
+          show(OverlayType.login, OverlayTheme.right);
           alert.show(
             {
-              // @ts-ignore
               title: "Added 1x pp",
             },
             { type: "success" }
-          )
-        }
+          );
+        }}
       >
         CLICK
       </button>

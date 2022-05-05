@@ -1,7 +1,7 @@
 import React from "react";
 import { Skeleton, useScrollTrigger } from "@mui/material";
 
-import { MaterialUIProvider, OverlayProvider } from "@providers";
+import { MaterialUIProvider } from "@providers";
 import { BrandingType } from "@generated";
 import { SEO, ThemeFont } from "components/atoms";
 import TopNav from "deprecated/components/MainMenu/TopNav";
@@ -50,37 +50,34 @@ const Layout = ({ children, branding }: LayoutProps) => {
     <img src={branding.icon.url} height="64" width="64" alt="Icon" />
   ) : null;
 
-  console.log("branding", branding);
   return (
     <MaterialUIProvider branding={branding}>
-      <OverlayProvider>
-        <SEO branding={branding} />
-        <ThemeFont />
-        <header style={trigger ? stickyStyle : emptyStyle}>
-          <PromoBanner content="FREE SHIPPING over $50" />
-          <TopNav logo={logo} />
-        </header>
-        <div style={fillerStyle} />
-        {children}
-        <BottomNav />
-        <Footer footerText={branding.footerText} icon={icon} />
-        <CookieBar
-          title=""
-          description="This website uses cookies to ensure you get the best experience. By continuing to use this site, you consent to cookies being used."
-          hide={acceptedCookies}
-          action={
-            <Button
-              color="secondary"
-              variant="contained"
-              onClick={() => onAcceptCookies()}
-            >
-              Got it!
-            </Button>
-          }
-        />
-        <OverlayManager />
-        {/* <Notifications /> */}
-      </OverlayProvider>
+      <SEO branding={branding} />
+      <ThemeFont />
+      <header style={trigger ? stickyStyle : emptyStyle}>
+        <PromoBanner content="FREE SHIPPING over $50" />
+        <TopNav logo={logo} />
+      </header>
+      <div style={fillerStyle} />
+      {children}
+      <BottomNav />
+      <Footer footerText={branding.footerText} icon={icon} />
+      <CookieBar
+        title=""
+        description="This website uses cookies to ensure you get the best experience. By continuing to use this site, you consent to cookies being used."
+        hide={acceptedCookies}
+        action={
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => onAcceptCookies()}
+          >
+            Got it!
+          </Button>
+        }
+      />
+      <OverlayManager />
+      {/* <Notifications /> */}
     </MaterialUIProvider>
   );
 };

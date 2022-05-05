@@ -1,6 +1,9 @@
 import * as React from "react";
 
-import { OverlayContext, OverlayType } from "components/providers/Overlay/context";
+import {
+  OverlayContext,
+  OverlayType,
+} from "components/providers/Overlay/context";
 
 import Login from "./Login/Login";
 import MobileNav from "./MobileNav";
