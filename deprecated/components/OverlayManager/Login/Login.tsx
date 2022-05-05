@@ -1,37 +1,37 @@
-import "./scss/index.module.scss";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { ReactSVG } from "react-svg";
 
-import RegisterForm from "./RegisterForm";
+import LoginForm from "deprecated/components/LoginForm/index";
+import Offline from "deprecated/components/Offline/index";
+import OfflinePlaceholder from "deprecated/components/OfflinePlaceholder";
+import Online from "deprecated/components/Online/index";
+import Overlay from "deprecated/components/Overlay/Overlay";
+import { OverlayContextInterface, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
+import { X as CloseImg } from "components/icons/x";
+
+import classes from "./scss/index.module.scss";
 import ForgottenPassword from "./ForgottenPassword";
+import RegisterForm from "./RegisterForm";
 
-import {
-  LoginForm,
-  Offline,
-  OfflinePlaceholder,
-  Online,
-  Overlay,
-  OverlayContextInterface,
-  OverlayTheme,
-  OverlayType,
-} from "../..";
-import closeImg from "../../../images/x.svg";
+import overlayClasses from "../../Overlay/scss/index.module.scss";
 
-class Login extends React.Component<
-  { overlay: OverlayContextInterface; active?: "login" | "register" },
-  { active: "login" | "register"; value: number }
-> {
+
+interface LoginProps {
+  overlay: OverlayContextInterface;
+  active: "login" | "register";
+}
+
+class Login extends React.Component<LoginProps,
+  { active: "login" | "register" }> {
   static defaultProps = {
     active: "login",
   };
 
-  constructor(props) {
+  constructor(props: LoginProps) {
     super(props);
     this.state = {
       active: props.active,
-      value: 0,
     };
   }
 
@@ -42,49 +42,25 @@ class Login extends React.Component<
   render() {
     const { overlay } = this.props;
     const { show, hide } = overlay;
-    // const [value, setValue] = React.useState(0);
-
-    const handleTabChange: (
-      event: React.SyntheticEvent<Element, Event>,
-      value: any
-    ) => void = (event, newValue) => {
-      this.setState({ value: newValue });
-    };
 
     return (
       <Overlay testingContext="loginOverlay" context={overlay}>
-        <Box className="login">
+        <Box className={classes.login}>
           <Online>
-            <Box className="overlay__header">
-              <p className="overlay__header-text">
+            <Box className={overlayClasses.overlay__header}>
+              <p className={overlayClasses["overlay__header-text"]}>
                 <FormattedMessage defaultMessage="Nautical account" />
               </p>
-              <ReactSVG
-                src={closeImg}
-                onClick={hide}
-                className="overlay__header__close-icon"
-              />
+              <button onClick={hide} className={overlayClasses["overlay__header__close-icon"]}>
+                <CloseImg />
+              </button>
             </Box>
-            <Tabs
-              value={this.state.value}
-              onChange={handleTabChange}
-              textColor="primary"
-            >
-              <Tab
-                label={<FormattedMessage defaultMessage="Sign in to account" />}
-              />
-              <Tab
-                label={
-                  <FormattedMessage defaultMessage="Register new account" />
-                }
-              />
-            </Tabs>
-            <Box className="login__tabs">
+            <Box className={classes.login__tabs}>
               <Box
                 component="span"
                 data-test="loginTab"
                 onClick={() => this.changeActiveTab("login")}
-                className={this.state.active === "login" ? "active-tab" : ""}
+                className={this.state.active === "login" ? classes["active-tab"] : ""}
               >
                 <FormattedMessage defaultMessage="Sign in to account" />
               </Box>
@@ -92,12 +68,12 @@ class Login extends React.Component<
                 component="span"
                 data-test="registerTab"
                 onClick={() => this.changeActiveTab("register")}
-                className={this.state.active === "register" ? "active-tab" : ""}
+                className={this.state.active === "register" ? classes["active-tab"] : ""}
               >
                 <FormattedMessage defaultMessage="Register new account" />
               </Box>
             </Box>
-            <Box className="login__content">
+            <Box className={classes.login__content}>
               {this.state.active === "login" ? (
                 <>
                   <LoginForm hide={hide} />

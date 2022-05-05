@@ -1,12 +1,11 @@
-// import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { Box, IconButton } from "@mui/material";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 
-import { TaxedMoney } from "deprecated/@next/components/containers";
-import { Thumbnail } from "deprecated/@next/components/molecules";
+import { TaxedMoney } from "deprecated/@next/components/containers/TaxedMoney/TaxedMoney";
+import { Thumbnail } from "deprecated/@next/components/molecules/Thumbnail/Thumbnail";
 import { ICheckoutModelLine } from "@nautical/helpers";
 import {
   generateMicrositeProductUrl,
@@ -15,7 +14,8 @@ import {
   isMicrosite,
   getMicrositeSlug,
 } from "core/utils";
-// import removeImg from "../../../images/garbage.svg";
+
+import classes from "./scss/index.module.scss";
 
 type ProductListProps = {
   lines: ICheckoutModelLine[];
@@ -23,32 +23,32 @@ type ProductListProps = {
 };
 
 const ProductList = ({ lines, remove }: ProductListProps) => (
-  <ul className="cart__list">
+  <ul className={classes.cart__list}>
     {lines.map((line, index) => {
-      const productUrl = !!isMicrosite()
+      const productUrl = isMicrosite()
         ? generateMicrositeProductUrl(
-            line.variant.product?.id ?? "",
-            line.variant.product?.name ?? "",
-            getMicrositeId(),
-            getMicrositeSlug()
-          )
+          line.variant.product?.id ?? "",
+          line.variant.product?.name ?? "",
+          getMicrositeId()!,
+          getMicrositeSlug()
+        )
         : generateProductUrl(
-            line.variant.product?.id ?? "",
-            line.variant.product?.name ?? ""
-          );
+          line.variant.product?.id ?? "",
+          line.variant.product?.name ?? ""
+        );
       const key = line.id ? `id-${line.id}` : `idx-${index}`;
 
       return (
         <li
           key={key}
-          className="cart__list__item"
+          className={classes.cart__list__item}
           data-test="cartRow"
           data-test-id={line.variant.sku}
         >
           <Link to={productUrl}>
             <Thumbnail source={line.variant.product ?? {}} />
           </Link>
-          <Box className="cart__list__item__details">
+          <Box className={classes.cart__list__item__details}>
             <p data-test="price">
               <TaxedMoney taxedMoney={line.variant.pricing?.price} />
             </p>
@@ -57,7 +57,7 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
             </Link>
             <Box
               component="span"
-              className="cart__list__item__details__variant"
+              className={classes.cart__list__item__details__variant}
             >
               <Box component="span">{line.variant.name}</Box>
               <Box component="span" data-test="quantity">

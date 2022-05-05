@@ -8,6 +8,7 @@ interface MessageProps {
   title: string;
   status?: "success" | "error";
   onClose: () => void;
+  children: React.ReactNode;
 }
 
 const Message: React.FC<MessageProps> = ({
