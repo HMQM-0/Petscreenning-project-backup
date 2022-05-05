@@ -10,7 +10,7 @@ interface ForgottenPasswordProps {
 
 const ForgottenPassword = ({ onClick }: ForgottenPasswordProps) => (
   <>
-    <Box className={classes.login__content__passwordReminder}>
+    <Box className={classes["login__content__password-reminder"]}>
       <p>
         <FormattedMessage defaultMessage="Have you forgotten your password?" />{" "}
         <Box

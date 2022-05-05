@@ -48,12 +48,10 @@ class Login extends React.Component<LoginProps,
         <Box className={classes.login}>
           <Online>
             <Box className={overlayClasses.overlay__header}>
-              {/* // TODO: why overlayClasses.overlay__headerText is undefined? */}
-              <p className={overlayClasses.overlay__headerText}>
+              <p className={overlayClasses["overlay__header-text"]}>
                 <FormattedMessage defaultMessage="Nautical account" />
               </p>
-              {/* // TODO: why overlayClasses.overlay__header__closeIcon is undefined? */}
-              <button onClick={hide} className={overlayClasses.overlay__header__closeIcon}>
+              <button onClick={hide} className={overlayClasses["overlay__header__close-icon"]}>
                 <CloseImg />
               </button>
             </Box>
@@ -62,8 +60,7 @@ class Login extends React.Component<LoginProps,
                 component="span"
                 data-test="loginTab"
                 onClick={() => this.changeActiveTab("login")}
-                // TODO: classes.activeTab is undefined here for some reason
-                className={this.state.active === "login" ? classes.activeTab : ""}
+                className={this.state.active === "login" ? classes["active-tab"] : ""}
               >
                 <FormattedMessage defaultMessage="Sign in to account" />
               </Box>
@@ -71,8 +68,7 @@ class Login extends React.Component<LoginProps,
                 component="span"
                 data-test="registerTab"
                 onClick={() => this.changeActiveTab("register")}
-                // TODO: classes.activeTab is undefined here for some reason
-                className={this.state.active === "register" ? classes.activeTab : ""}
+                className={this.state.active === "register" ? classes["active-tab"] : ""}
               >
                 <FormattedMessage defaultMessage="Register new account" />
               </Box>

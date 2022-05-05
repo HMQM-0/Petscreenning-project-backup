@@ -21,30 +21,33 @@ interface PasswordProps {
 
 const Password = ({
   overlay,
-}: PasswordProps) => (
-  <Overlay testingContext="passwordOverlay" context={overlay}>
-    <Box className={classes.passwordReset}>
-      <Online>
-        <Box className={overlayClasses.overlay__header}>
-          <p className={overlayClasses.overlay__headerText}>
-            <FormattedMessage defaultMessage="Reset your password" />
-          </p>
-          <button
-            onClick={overlay.hide}
-            className={overlayClasses.overlay__header__closeIcon}
-          >
-            <CloseImg />
-          </button>
-        </Box>
-        <Box className={classes.passwordReset__content}>
-          <PasswordResetRequestForm />
-        </Box>
-      </Online>
-      <Offline>
-        <OfflinePlaceholder />
-      </Offline>
-    </Box>
-  </Overlay>
-);
+}: PasswordProps) => {
+  console.log('overlayClasses', overlayClasses);
+  return (
+    <Overlay testingContext="passwordOverlay" context={overlay}>
+      <Box className={classes["password-reset"]}>
+        <Online>
+          <Box className={overlayClasses.overlay__header}>
+            <p className={overlayClasses["overlay__header-text"]}>
+              <FormattedMessage defaultMessage="Reset your password" />
+            </p>
+            <button
+              onClick={overlay.hide}
+              className={overlayClasses["overlay__header__close-icon"]}
+            >
+              <CloseImg />
+            </button>
+          </Box>
+          <Box className={classes["password-reset__content"]}>
+            <PasswordResetRequestForm />
+          </Box>
+        </Online>
+        <Offline>
+          <OfflinePlaceholder />
+        </Offline>
+      </Box>
+    </Overlay>
+  );
+};
 
 export default Password;
