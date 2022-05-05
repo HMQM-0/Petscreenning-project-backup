@@ -34,18 +34,13 @@ export interface OverlayContextInterface {
   theme: OverlayTheme | null;
   context: InnerOverlayContextInterface;
   show: ShowOverlayType;
-
   hide(): void;
 }
 
 export const OverlayContext = React.createContext<OverlayContextInterface>({
   context: {},
-  hide: () => {
-  },
-  show: (type) => {
-  },
+  hide: () => {},
+  show: (type) => {},
   theme: null,
   type: null,
 });
-
-OverlayContext.displayName = "OverlayContext";

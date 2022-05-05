@@ -50,7 +50,6 @@ const Layout = ({ children, branding }: LayoutProps) => {
     <img src={branding.icon.url} height="64" width="64" alt="Icon" />
   ) : null;
 
-  console.log("branding", branding);
   return (
     <MaterialUIProvider branding={branding}>
       <OverlayProvider>
