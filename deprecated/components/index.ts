@@ -29,20 +29,15 @@ export { default as Breadcrumbs, extractBreadcrumbs } from "./Breadcrumbs";
 export type { Breadcrumb } from "./Breadcrumbs";
 export { DebounceChange, DebouncedTextField } from "./Debounce";
 export { Footer } from "./Footer";
-export { MainMenu } from "./MainMenu";
 export { MobileNavList } from "./MobileNav";
 export type { INavItem } from "./MobileNav";
 export { NavLink } from "./NavLink";
 export { MetaConsumer, MetaProvider, MetaWrapper } from "./Meta";
 export type { MetaContextInterface } from "./Meta";
-export { OverlayManager } from "./OverlayManager";
-export {
-  Overlay,
-  OverlayContext,
-  OverlayProvider,
-  OverlayTheme,
-  OverlayType,
-} from "./Overlay";
+export { default as OverlayManager } from "./OverlayManager/OverlayManager";
+export { default as Overlay } from "./Overlay/Overlay";
+export { OverlayContext, OverlayType, OverlayTheme } from "./Overlay/context";
+export { default as OverlayProvider } from "./Overlay/provider";
 export type {
   InnerOverlayContextInterface,
   OverlayContextInterface,

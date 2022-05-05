@@ -1,13 +1,10 @@
 import * as React from "react";
 
 export enum OverlayType {
-  cart = "cart",
-  checkout = "checkout",
   login = "login",
   message = "message",
   sideNav = "side-nav",
   password = "password",
-  search = "search",
   mainMenuNav = "main-menu-nav",
   modal = "modal",
   register = "register",
@@ -37,13 +34,16 @@ export interface OverlayContextInterface {
   theme: OverlayTheme | null;
   context: InnerOverlayContextInterface;
   show: ShowOverlayType;
+
   hide(): void;
 }
 
 export const OverlayContext = React.createContext<OverlayContextInterface>({
   context: {},
-  hide: () => {},
-  show: (type) => {},
+  hide: () => {
+  },
+  show: (type) => {
+  },
   theme: null,
   type: null,
 });

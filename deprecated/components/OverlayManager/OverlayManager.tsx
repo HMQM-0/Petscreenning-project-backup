@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import Cart from "./Cart";
-import Login from "./Login";
+import { OverlayContext, OverlayType } from "components/providers/Overlay/context";
+
+import Login from "./Login/Login";
 import MobileNav from "./MobileNav";
-import Modal from "./Modal";
+import Modal from "./Modal/Modal";
 import Notification from "./Notification";
-import Password from "./Password";
-import Search from "./Search";
+import Password from "./Password/Password";
 
-import { Overlay, OverlayContext, OverlayType } from "../Overlay";
+import Overlay from "../Overlay/Overlay";
 
-const OverlayManager: React.FC = () => (
+const OverlayManager = () => (
   <OverlayContext.Consumer>
     {(overlay) => {
       switch (overlay.type) {
@@ -19,12 +19,6 @@ const OverlayManager: React.FC = () => (
 
         case OverlayType.message:
           return <Notification overlay={overlay} />;
-
-        case OverlayType.cart:
-          return <Cart overlay={overlay} />;
-
-        case OverlayType.search:
-          return <Search overlay={overlay} />;
 
         case OverlayType.login:
           return <Login overlay={overlay} />;

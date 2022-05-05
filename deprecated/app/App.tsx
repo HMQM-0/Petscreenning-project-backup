@@ -37,7 +37,6 @@ import {
   Skeleton,
 } from "@mui/material";
 
-// import MainMenu from "deprecated/components/MainMenu/MainMenu";
 // import RewardBanner from "deprecated/_nautical/components/RewardBanner/RewardBanner";
 
 import { useQuery } from "@apollo/client";
@@ -118,10 +117,12 @@ const App: React.FC = () => {
 
     // @ts-ignore
     window.dataLayer = window.dataLayer || [];
+
     function gtag() {
       // @ts-ignore
       dataLayer.push(arguments);
     }
+
     // @ts-ignore
     gtag("js", new Date());
     // @ts-ignore
