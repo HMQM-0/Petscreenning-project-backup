@@ -23,7 +23,7 @@ const MobileNav = ({ overlay }: MobileNavProps) => {
 
   return (
     <Overlay testingContext="mobileNavigationOverlay" context={overlay}>
-      <Box className={mobileNavClasses.sideNav} onClick={(evt) => evt.stopPropagation()}>
+      <Box className={mobileNavClasses["side-nav"]} onClick={(evt) => evt.stopPropagation()}>
         <MobileNavList items={items} hideOverlay={overlay.hide} />
       </Box>
     </Overlay>

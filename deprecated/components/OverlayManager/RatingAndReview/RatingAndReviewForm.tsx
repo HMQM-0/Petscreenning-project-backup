@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAlert } from "react-alert";
+import { useAlert, AlertContainer } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
 import Rating from "@mui/material/Rating";
 
@@ -20,8 +20,7 @@ import { FormError } from "../../Form/types";
 const showSuccessNotification = (
   data: SubmitRatingAndReviewMutation,
   hide: () => void,
-  // TODO: where to get type of function returned from useAlert?
-  alert: any,
+  alert: AlertContainer,
   intl: IntlShape
 ) => {
   const successful = maybe(() => !data.submitRatingAndReview?.errors.length);
@@ -29,6 +28,8 @@ const showSuccessNotification = (
     hide();
     alert.show(
       {
+        // TODO: to be fixed in a separate task
+        // @ts-ignore
         title: intl.formatMessage({
           defaultMessage: "Your Rating and Review has been submitted.",
         }),
