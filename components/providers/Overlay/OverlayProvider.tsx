@@ -34,7 +34,6 @@ const OverlayProvider = ({ children }: OverlayProviderProps) => {
       theme?: OverlayTheme,
       context?: InnerOverlayContextInterface
     ) => {
-      console.log("called show", type);
       type && setType(type);
       theme && setTheme(theme);
       context && setContext(context);
