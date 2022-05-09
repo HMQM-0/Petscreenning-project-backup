@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { TypedQuery } from "../../core/queries";
+
 import {
   BuilderProductDetails,
   BuilderProductDetailsVariables,
@@ -10,8 +10,10 @@ import {
 } from "./gqlTypes/ProductDetails";
 import { VariantList, VariantListVariables } from "./gqlTypes/VariantList";
 
+import { TypedQuery } from "../../core/queries";
+
 export const priceFragment = gql`
-  fragment Price on TaxedMoney {
+  fragment PriceDeprecated on TaxedMoney {
     gross {
       amount
       currency
@@ -24,7 +26,7 @@ export const priceFragment = gql`
 `;
 
 export const basicProductFragment = gql`
-  fragment BasicProductFields on Product {
+  fragment BasicProductFieldsDeprecated on Product {
     id
     name
     thumbnail {
@@ -63,7 +65,7 @@ export const productPricingFragment = gql`
 `;
 
 export const selectedAttributeFragment = gql`
-  fragment SelectedAttributeFields on SelectedAttribute {
+  fragment SelectedAttributeFieldsDeprecated on SelectedAttribute {
     attribute {
       id
       name
@@ -77,7 +79,7 @@ export const selectedAttributeFragment = gql`
 
 export const productVariantFragment = gql`
   ${priceFragment}
-  fragment ProductVariantFields on ProductVariant {
+  fragment ProductVariantFieldsDeprecated on ProductVariant {
     id
     sku
     name
@@ -122,7 +124,7 @@ export const productDetailsQuery = gql`
   ${selectedAttributeFragment}
   ${productVariantFragment}
   ${productPricingFragment}
-  query ProductDetails($id: ID!, $countryCode: CountryCode) {
+  query ProductDetailsDeprecated($id: ID!, $countryCode: CountryCode) {
     product(id: $id) {
       ...BasicProductFields
       ...ProductPricingField
@@ -200,7 +202,7 @@ export const builderProductDetailsQuery = gql`
   ${selectedAttributeFragment}
   ${productVariantFragment}
   ${productPricingFragment}
-  query BuilderProductDetails($id: ID!, $countryCode: CountryCode) {
+  query BuilderProductDetailsDeprecated($id: ID!, $countryCode: CountryCode) {
     product(id: $id) {
       ...BasicProductFields
       ...ProductPricingField
