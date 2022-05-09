@@ -11,6 +11,7 @@ export interface SEOContextInterface {
   image?: string;
   type?: string;
   custom?: MetaProps[];
+  schema?: string;
 }
 
 export const { Provider, Consumer } =

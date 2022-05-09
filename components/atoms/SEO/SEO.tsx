@@ -15,7 +15,7 @@ export const SEO: React.FC<SEOProps> = ({ branding }) => {
 
   return (
     <Consumer>
-      {({ title, description, image, url }) => (
+      {({ title, description, image, url, schema }) => (
         <Head>
           <title>{title}</title>
           <link rel="shortcut icon" href={branding.favicon?.url} />
@@ -83,6 +83,8 @@ export const SEO: React.FC<SEOProps> = ({ branding }) => {
           <meta property="og:site_name" content={title} />
           <meta property="og:url" content="https://yourdomain.com" />
           <meta property="og:image" content={branding.icon?.url} />
+
+          {schema && <script type="application/ld+json">{schema}</script>}
         </Head>
       )}
     </Consumer>
