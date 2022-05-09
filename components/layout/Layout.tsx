@@ -22,7 +22,7 @@ type LayoutProps = {
 const Layout = ({ children, branding }: LayoutProps) => {
   const trigger = useScrollTrigger();
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies();
-  console.log("acceptedCookies", acceptedCookies);
+
   const stickyStyle: React.CSSProperties = {
     position: "fixed",
     top: 0,
