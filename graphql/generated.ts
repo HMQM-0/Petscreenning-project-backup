@@ -2091,6 +2091,31 @@ export type BulkStockError = {
   message?: Maybe<Scalars['String']>;
 };
 
+/** Shipping carrier option */
+export type CarrierOption = {
+  __typename?: 'CarrierOption';
+  label?: Maybe<Scalars['String']>;
+  option?: Maybe<Scalars['String']>;
+  parameters?: Maybe<Parameters>;
+};
+
+/** Various Shipping Service Rates available on given shipping plugin for provided To and From addresses */
+export type CarrierRates = {
+  __typename?: 'CarrierRates';
+  carrier?: Maybe<Scalars['String']>;
+  carrierId?: Maybe<Scalars['String']>;
+  carrierLabel?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
+  deliveryDays?: Maybe<Scalars['String']>;
+  detailedPricing?: Maybe<Array<Maybe<DetailedPricing>>>;
+  orderId?: Maybe<Scalars['String']>;
+  rate?: Maybe<Scalars['Float']>;
+  rateId?: Maybe<Scalars['String']>;
+  service?: Maybe<Scalars['String']>;
+  weightRange?: Maybe<Scalars['String']>;
+  zoneName?: Maybe<Scalars['String']>;
+};
+
 export type CatalogueInput = {
   /** Categories related to the discount. */
   categories?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
@@ -3611,6 +3636,8 @@ export type CountryDisplay = {
   code: Scalars['String'];
   /** Country name. */
   country: Scalars['String'];
+  /** List of required address fields for the country. */
+  requiredFields?: Maybe<Array<Scalars['String']>>;
   /** Country tax. */
   vat?: Maybe<Vat>;
 };
@@ -3958,6 +3985,14 @@ export type DesignerDataTypeDomainSetArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+};
+
+/** Detailed information about the shipping rate */
+export type DetailedPricing = {
+  __typename?: 'DetailedPricing';
+  desc?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type DigitalContent = Node & ObjectWithMetadata & {
@@ -4782,6 +4817,7 @@ export type Fulfillment = Node & ObjectWithMetadata & {
   relatedTo?: Maybe<Fulfillment>;
   /** Seller who made the fulfillment. */
   seller?: Maybe<Seller>;
+  shippingLabelUrl?: Maybe<Scalars['String']>;
   status: FulfillmentStatus;
   /** User-friendly fulfillment status. */
   statusDisplay?: Maybe<Scalars['String']>;
@@ -4852,6 +4888,40 @@ export type FulfillmentCountableEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node: Fulfillment;
+};
+
+/** Updates a fulfillment for an order. */
+export type FulfillmentCreateLabel = {
+  __typename?: 'FulfillmentCreateLabel';
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  /** A fulfillment with updated tracking. */
+  fulfillment?: Maybe<Fulfillment>;
+  /** Order for which fulfillment was updated. */
+  order?: Maybe<Order>;
+  orderErrors: Array<OrderError>;
+  /** Shipping label details. */
+  shippingLabel?: Maybe<ShippingLabel>;
+};
+
+/** Get the shipping options available for the selected shipping carrier for a fulfillment. */
+export type FulfillmentGetCarrierOptions = {
+  __typename?: 'FulfillmentGetCarrierOptions';
+  /** Available shipping carrier options. */
+  carrierOptions?: Maybe<Array<Maybe<CarrierOption>>>;
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  /** A fulfillment with updated tracking. */
+  fulfillment?: Maybe<Fulfillment>;
+  /** Order for which fulfillment was updated. */
+  order?: Maybe<Order>;
+  orderErrors: Array<OrderError>;
 };
 
 /** Represents line of the fulfillment. */
@@ -5044,6 +5114,19 @@ export type Geolocalization = {
   __typename?: 'Geolocalization';
   /** Country of the user acquired by his IP address. */
   country?: Maybe<CountryDisplay>;
+};
+
+/** Retrieves an onboarding link for the given vendor from the given gateway if available. */
+export type GetPayoutOnboardingLink = {
+  __typename?: 'GetPayoutOnboardingLink';
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  /** Onboarding link for the given vendor from the given gateway if available. */
+  link?: Maybe<Scalars['String']>;
+  pluginsErrors: Array<PluginError>;
 };
 
 /** A gift card is a prepaid electronic payment card accepted in stores. They can be used during checkout by providing a valid gift card codes. */
@@ -7226,6 +7309,8 @@ export type Mutation = {
   exportCustomers?: Maybe<ExportCustomers>;
   /** Export products to csv file. */
   exportProducts?: Maybe<ExportProducts>;
+  /** Retrieves an onboarding link for the given vendor from the given gateway if available. */
+  getPayoutOnboardingLink?: Maybe<GetPayoutOnboardingLink>;
   /** Activate a gift card. */
   giftCardActivate?: Maybe<GiftCardActivate>;
   /** Creates a new gift card. */
@@ -7386,6 +7471,10 @@ export type Mutation = {
    * @deprecated Use the `deletePrivateMetadata` mutation instead. This field will be removed after 2020-07-31.
    */
   orderFulfillmentClearPrivateMeta?: Maybe<FulfillmentClearPrivateMeta>;
+  /** Updates a fulfillment for an order. */
+  orderFulfillmentCreateLabel?: Maybe<FulfillmentCreateLabel>;
+  /** Get the shipping options available for the selected shipping carrier for a fulfillment. */
+  orderFulfillmentGetCarrierOptions?: Maybe<FulfillmentGetCarrierOptions>;
   /** Returns selected quantity from fulfillment lines and restocks items. */
   orderFulfillmentReturn?: Maybe<FulfillmentReturn>;
   /**
@@ -7731,6 +7820,8 @@ export type Mutation = {
   updatePrivateMetadata?: Maybe<UpdatePrivateMetadata>;
   /** Updates a sellers status and override information */
   updateSellerData?: Maybe<UpdateSellerData>;
+  /** Updates settings for the given seller. */
+  updateSellerSettings?: Maybe<UpdateSellerSettings>;
   /** Updates given warehouse. */
   updateWarehouse?: Maybe<WarehouseUpdate>;
   /** Deletes a user avatar. Only for staff members. */
@@ -8254,6 +8345,7 @@ export type MutationCheckoutCompleteArgs = {
   checkoutId: Scalars['ID'];
   microsite?: InputMaybe<Scalars['ID']>;
   paymentData?: InputMaybe<Scalars['JSONString']>;
+  poNumber?: InputMaybe<Scalars['String']>;
   redirectUrl?: InputMaybe<Scalars['String']>;
   storeSource?: InputMaybe<Scalars['Boolean']>;
   userOverride?: InputMaybe<Scalars['ID']>;
@@ -8625,6 +8717,13 @@ export type MutationExportCustomersArgs = {
 
 export type MutationExportProductsArgs = {
   input: ExportProductsInput;
+};
+
+
+export type MutationGetPayoutOnboardingLinkArgs = {
+  gateway: Scalars['String'];
+  vendorId: Scalars['ID'];
+  vendorType: Scalars['String'];
 };
 
 
@@ -9038,6 +9137,22 @@ export type MutationOrderFulfillmentClearMetaArgs = {
 export type MutationOrderFulfillmentClearPrivateMetaArgs = {
   id: Scalars['ID'];
   input: MetaPath;
+};
+
+
+export type MutationOrderFulfillmentCreateLabelArgs = {
+  carrierId: Scalars['String'];
+  carrierName: Scalars['String'];
+  carrierOption: Scalars['String'];
+  carrierService: Scalars['String'];
+  fulfillmentId: Scalars['ID'];
+};
+
+
+export type MutationOrderFulfillmentGetCarrierOptionsArgs = {
+  carrierId: Scalars['String'];
+  carrierName: Scalars['String'];
+  fulfillmentId: Scalars['ID'];
 };
 
 
@@ -9830,6 +9945,12 @@ export type MutationUpdatePrivateMetadataArgs = {
 export type MutationUpdateSellerDataArgs = {
   id: Scalars['ID'];
   input: SellerUpdateInput;
+};
+
+
+export type MutationUpdateSellerSettingsArgs = {
+  id: Scalars['ID'];
+  input: SellerSettingsUpdateInput;
 };
 
 
@@ -11918,6 +12039,23 @@ export type PageUpdate = {
   pageErrors: Array<PageError>;
 };
 
+/** Parameter name and value */
+export type Parameter = {
+  __typename?: 'Parameter';
+  name?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** Parameters for shipping carrier option */
+export type Parameters = {
+  __typename?: 'Parameters';
+  parameter1?: Maybe<Parameter>;
+  parameter2?: Maybe<Parameter>;
+  parameter3?: Maybe<Parameter>;
+  parameter4?: Maybe<Parameter>;
+  parameter5?: Maybe<Parameter>;
+};
+
 /** Change the password of the logged in user. */
 export type PasswordChange = {
   __typename?: 'PasswordChange';
@@ -12325,6 +12463,13 @@ export enum PayoutVendorType {
   Sellers = 'SELLERS'
 }
 
+/** Shipping label pdf(s) */
+export type Pdf = {
+  __typename?: 'Pdf';
+  pdf1?: Maybe<Scalars['String']>;
+  pdf2?: Maybe<Scalars['String']>;
+};
+
 /** Update whether process_pending_webhook_transactions periodic django celery beat task is enabled */
 export type PeriodicTaskEnabledUpdate = {
   __typename?: 'PeriodicTaskEnabledUpdate';
@@ -12681,6 +12826,7 @@ export type Product = Node & ObjectWithMetadata & {
   cumulativePrice?: Maybe<Money>;
   /** Available stock for grouped product. */
   cumulativeStock?: Maybe<Scalars['Int']>;
+  currency: Scalars['String'];
   defaultVariant?: Maybe<ProductVariant>;
   description: Scalars['String'];
   descriptionJson: Scalars['JSONString'];
@@ -12724,6 +12870,7 @@ export type Product = Node & ObjectWithMetadata & {
   name: Scalars['String'];
   /** Products origin location. */
   originLocation?: Maybe<Location>;
+  overrideCurrency: Scalars['Boolean'];
   overridePrice: Scalars['Boolean'];
   /** Lists the storefront product's pricing, the current price and discounts, only meant for displaying. */
   pricing?: Maybe<ProductPricingInfo>;
@@ -12915,6 +13062,8 @@ export type ProductCreateInput = {
   configuration?: InputMaybe<Scalars['Int']>;
   /** Default cost price for product variant. Note: this field is only used if a product doesn't use variants. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Choose a currency to assign to the product prices. */
+  currency?: InputMaybe<Scalars['String']>;
   /** Product description (HTML/text). */
   description?: InputMaybe<Scalars['String']>;
   /** Product description (JSON). */
@@ -12931,13 +13080,16 @@ export type ProductCreateInput = {
   mpn?: InputMaybe<Scalars['String']>;
   /** Product name. */
   name?: InputMaybe<Scalars['String']>;
+  /** Override currency for product */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Override price for grouped products */
   overridePrice?: InputMaybe<Scalars['Boolean']>;
   /** ID of the type that product belongs to. */
   productType: Scalars['ID'];
   /** Publication date. ISO 8601 standard. */
   publicationDate?: InputMaybe<Scalars['Date']>;
-  seller?: InputMaybe<Scalars['ID']>;
+  /** ID of the seller that product belongs to. */
+  seller: Scalars['ID'];
   /** Search engine optimization fields. */
   seo?: InputMaybe<SeoInput>;
   /** Stock keeping unit of a product. Note: this field is only used if a product doesn't use variants. */
@@ -13180,6 +13332,8 @@ export type ProductInput = {
   collections?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Default cost price for product variant. Note: this field is only used if a product doesn't use variants. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Choose a currency to assign to the product prices. */
+  currency?: InputMaybe<Scalars['String']>;
   /** Product description (HTML/text). */
   description?: InputMaybe<Scalars['String']>;
   /** Product description (JSON). */
@@ -13196,11 +13350,12 @@ export type ProductInput = {
   mpn?: InputMaybe<Scalars['String']>;
   /** Product name. */
   name?: InputMaybe<Scalars['String']>;
+  /** Override currency for product */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Override price for grouped products */
   overridePrice?: InputMaybe<Scalars['Boolean']>;
   /** Publication date. ISO 8601 standard. */
   publicationDate?: InputMaybe<Scalars['Date']>;
-  seller?: InputMaybe<Scalars['ID']>;
   /** Search engine optimization fields. */
   seo?: InputMaybe<SeoInput>;
   /** Stock keeping unit of a product. Note: this field is only used if a product doesn't use variants. */
@@ -13275,6 +13430,8 @@ export type ProductOrder = {
 export enum ProductOrderField {
   /** Sort products by category. */
   Category = 'CATEGORY',
+  /** Sort products by create date. */
+  Created = 'CREATED',
   /** Sort products by update date. */
   Date = 'DATE',
   /** Sort products by a minimal price of a product's variant. */
@@ -13716,6 +13873,7 @@ export type ProductVariant = Node & ObjectWithMetadata & {
   attributes: Array<SelectedAttribute>;
   /** Cost price of the variant. */
   costPrice?: Maybe<Money>;
+  currency?: Maybe<Scalars['String']>;
   /** Digital content for the product variant. */
   digitalContent?: Maybe<DigitalContent>;
   grossRevenue?: Maybe<Scalars['Float']>;
@@ -13739,6 +13897,7 @@ export type ProductVariant = Node & ObjectWithMetadata & {
   metadata: Array<Maybe<MetadataItem>>;
   name: Scalars['String'];
   netRevenue?: Maybe<Scalars['Float']>;
+  overrideCurrency: Scalars['Boolean'];
   /** Base price of a product variant. This field is restricted for admins. Use the pricing field to get the public price for customers. */
   price?: Maybe<Money>;
   /** Lists the storefront variant's pricing, the current price and discounts, only meant for displaying. */
@@ -13817,6 +13976,10 @@ export type ProductVariantBulkCreateInput = {
   attributes: Array<InputMaybe<AttributeValueInput>>;
   /** Cost price of the variant. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Currency of the product variant */
+  currency?: InputMaybe<Scalars['String']>;
+  /** Whether to override the currency for this product variant */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Price of the particular variant. */
   price?: InputMaybe<Scalars['PositiveDecimal']>;
   /** Stock keeping unit. */
@@ -13900,6 +14063,10 @@ export type ProductVariantCreateInput = {
   attributes: Array<InputMaybe<AttributeValueInput>>;
   /** Cost price of the variant. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Currency of the product variant */
+  currency?: InputMaybe<Scalars['String']>;
+  /** Whether to override the currency for this product variant */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Price of the particular variant. */
   price?: InputMaybe<Scalars['PositiveDecimal']>;
   /** Product ID of which type is the variant. */
@@ -13936,6 +14103,10 @@ export type ProductVariantInput = {
   attributes?: InputMaybe<Array<InputMaybe<AttributeValueInput>>>;
   /** Cost price of the variant. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Currency of the product variant */
+  currency?: InputMaybe<Scalars['String']>;
+  /** Whether to override the currency for this product variant */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Price of the particular variant. */
   price?: InputMaybe<Scalars['PositiveDecimal']>;
   /** Stock keeping unit. */
@@ -14183,6 +14354,8 @@ export type Query = {
   exportFiles?: Maybe<ExportFileCountableConnection>;
   /** Get client secret if necessary for frontend configuration. */
   getClientSecret?: Maybe<Scalars['GenericScalar']>;
+  /** List of active payment gateways that have payouts enabled. */
+  getPayoutGateways?: Maybe<Array<Maybe<PaymentGateway>>>;
   /** Look up a gift card by ID. */
   giftCard?: Maybe<GiftCard>;
   /** List of gift cards. */
@@ -14262,6 +14435,8 @@ export type Query = {
   order?: Maybe<Order>;
   /** Look up an order by token. */
   orderByToken?: Maybe<Order>;
+  /** All Shipping Carrier Rates available on shipping plugin for given To and From address */
+  orderFulfillmentGetCarrierRates?: Maybe<Array<Maybe<CarrierRates>>>;
   /** List of orders. */
   orders?: Maybe<OrderCountableConnection>;
   /** Return the total sales amount from a specific period. */
@@ -15025,6 +15200,11 @@ export type QueryOrderByTokenArgs = {
 };
 
 
+export type QueryOrderFulfillmentGetCarrierRatesArgs = {
+  fulfillmentId?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryOrdersArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -15410,6 +15590,12 @@ export type QueryTranslationsArgs = {
 
 export type QueryTypeformFormArgs = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryTypeformFormsArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -15925,9 +16111,13 @@ export type Seller = Node & ObjectWithMetadata & {
   companyName: Scalars['String'];
   created?: Maybe<Scalars['DateTime']>;
   defaultBillingAddress?: Maybe<Address>;
+  defaultCurrency: Scalars['String'];
   defaultShippingAddress?: Maybe<Address>;
   domainSet: NauticalSiteCountableConnection;
   events: SellerEventTypeCountableConnection;
+  externalPayoutAccountId?: Maybe<Scalars['String']>;
+  externalPayoutOnboardingUrl?: Maybe<Scalars['String']>;
+  externalPayoutSource?: Maybe<SellerExternalPayoutSource>;
   flows: FlowCountableConnection;
   /** The ID of the object. */
   id: Scalars['ID'];
@@ -15964,6 +16154,7 @@ export type Seller = Node & ObjectWithMetadata & {
   status: SellerStatus;
   syncConfiguration: SyncConfigurationCountableConnection;
   updated?: Maybe<Scalars['DateTime']>;
+  variants: ProductVariantCountableConnection;
   warehouses: WarehouseCountableConnection;
   webhookTransactions: WebhookJobCountableConnection;
 };
@@ -16094,6 +16285,14 @@ export type SellerSyncConfigurationArgs = {
 };
 
 
+export type SellerVariantsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
 export type SellerWarehousesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -16145,7 +16344,7 @@ export type SellerAddressSetDefault = {
    * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
    */
   errors: Array<Error>;
-  /** An updated user instance. */
+  /** An updated seller instance. */
   seller?: Maybe<Seller>;
   sellerErrors: Array<SellerError>;
 };
@@ -16262,6 +16461,12 @@ export enum SellerEventsEnum {
   SellerStatusChanged = 'SELLER_STATUS_CHANGED'
 }
 
+/** An enumeration. */
+export enum SellerExternalPayoutSource {
+  /** nautical.payments.stripe */
+  NauticalPaymentsStripe = 'NAUTICAL_PAYMENTS_STRIPE'
+}
+
 export type SellerFilterInput = {
   created?: InputMaybe<DateRangeInput>;
   search?: InputMaybe<Scalars['String']>;
@@ -16293,6 +16498,11 @@ export type SellerNoteInput = {
   message?: InputMaybe<Scalars['String']>;
   seller?: InputMaybe<Scalars['ID']>;
   user?: InputMaybe<Scalars['ID']>;
+};
+
+export type SellerSettingsUpdateInput = {
+  /** Default currency for the seller. */
+  defaultCurrency?: InputMaybe<Scalars['String']>;
 };
 
 export enum SellerSortField {
@@ -16615,6 +16825,20 @@ export enum ShippingErrorCode {
   Required = 'REQUIRED',
   Unique = 'UNIQUE'
 }
+
+/** Shipping label information */
+export type ShippingLabel = {
+  __typename?: 'ShippingLabel';
+  additionalTrackingNumbers?: Maybe<TrackingNumbers>;
+  labelUrl?: Maybe<Scalars['String']>;
+  newOrderId?: Maybe<Scalars['String']>;
+  pdf?: Maybe<Pdf>;
+  status?: Maybe<Scalars['String']>;
+  trackingCarrier?: Maybe<Scalars['String']>;
+  trackingExternalLink?: Maybe<Scalars['String']>;
+  trackingNumber?: Maybe<Scalars['String']>;
+  zpl?: Maybe<Zpl>;
+};
 
 /** Shipping method are the methods you'll use to get customer's orders to them. They are directly exposed to the customers. */
 export type ShippingMethod = Node & {
@@ -17646,6 +17870,14 @@ export type TaxedMoneyRange = {
   stop?: Maybe<TaxedMoney>;
 };
 
+/** Additional tracking numbers */
+export type TrackingNumbers = {
+  __typename?: 'TrackingNumbers';
+  trackingNumber1?: Maybe<Scalars['String']>;
+  trackingNumber2?: Maybe<Scalars['String']>;
+  trackingNumber3?: Maybe<Scalars['String']>;
+};
+
 /** An object representing a single payment. */
 export type Transaction = Node & {
   __typename?: 'Transaction';
@@ -17915,6 +18147,19 @@ export type UpdateSellerData = {
   errors: Array<Error>;
   ok?: Maybe<Scalars['Boolean']>;
   seller?: Maybe<Seller>;
+};
+
+/** Updates settings for the given seller. */
+export type UpdateSellerSettings = {
+  __typename?: 'UpdateSellerSettings';
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  /** An updated seller instance. */
+  seller?: Maybe<Seller>;
+  sellerErrors: Array<SellerError>;
 };
 
 /** Represents user data. */
@@ -19392,6 +19637,13 @@ export type YotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord = {
   status?: Maybe<Scalars['Int']>;
 };
 
+/** Shipping label zpl(s) */
+export type Zpl = {
+  __typename?: 'Zpl';
+  zpl1?: Maybe<Scalars['String']>;
+  zpl2?: Maybe<Scalars['String']>;
+};
+
 export type _Entity = Address | App | Category | Collection | Directory | Group | Listing | Location | Microsite | Product | ProductImage | ProductType | ProductVariant | ServiceAccount | User;
 
 export type _Service = {
@@ -19399,13 +19651,55 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']>;
 };
 
+export type HomeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', description?: string | null, name: string, homepageCollection?: { __typename?: 'Collection', id: string, description: string, descriptionJson: any, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null, products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', isAvailable?: boolean | null, id: string, name: string, category?: { __typename?: 'Category', id: string, name: string } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null } | null }, categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null, collections?: { __typename?: 'CollectionCountableConnection', edges: Array<{ __typename?: 'CollectionCountableEdge', node: { __typename?: 'Collection', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+
+export type BuilderHomeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BuilderHomeQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', description?: string | null, name: string, homepageCollection?: { __typename?: 'Collection', id: string, description: string, descriptionJson: any, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null, productList?: { __typename?: 'ProductCountableConnection', products: Array<{ __typename?: 'ProductCountableEdge', product: { __typename?: 'Product', isAvailable?: boolean | null, slug: string, brand?: string | null, id: string, name: string, category?: { __typename?: 'Category', id: string, name: string } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> }>, seller?: { __typename?: 'Seller', id: string, companyName: string, microsite?: { __typename?: 'Microsite', id: string, name: string } | null, logo?: { __typename?: 'Image', url: string } | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable: number } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null } | null }, categoryList?: { __typename?: 'CategoryCountableConnection', categories: Array<{ __typename?: 'CategoryCountableEdge', category: { __typename?: 'Category', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null, collectionList?: { __typename?: 'CollectionCountableConnection', collections: Array<{ __typename?: 'CollectionCountableEdge', collection: { __typename?: 'Collection', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string } | null } }> } | null };
+
+export type PriceFragment = { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } };
+
+export type BasicProductFieldsFragment = { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null };
+
+export type ProductPricingFieldFragment = { __typename?: 'Product', pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
+
+export type ProductPageSelectedAttributeFieldsFragment = { __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> };
+
+export type ProductPageProductVariantFieldsFragment = { __typename?: 'ProductVariant', id: string, sku: string, name: string, isAvailable?: boolean | null, quantityAvailable: number, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, metadata: Array<{ __typename?: 'MetadataItem', key: string, value: string } | null> }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null, extra?: string | null } | null> }> };
+
+export type ProductPageProductDetailsQueryVariables = Exact<{
+  id: Scalars['ID'];
+  countryCode?: InputMaybe<CountryCode>;
+}>;
+
+
+export type ProductPageProductDetailsQuery = { __typename?: 'Query', product?: { __typename?: 'Product', descriptionJson: any, description: string, seoDescription?: string | null, seoTitle?: string | null, isAvailable?: boolean | null, isAvailableForPurchase?: boolean | null, availableForPurchase?: any | null, id: string, name: string, category?: { __typename?: 'Category', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null, products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', slug: string, isAvailable?: boolean | null, id: string, name: string, defaultVariant?: { __typename?: 'ProductVariant', id: string, sku: string, name: string, quantityAvailable: number, isAvailable?: boolean | null, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }> } | null, seller?: { __typename?: 'Seller', id: string, companyName: string, microsite?: { __typename?: 'Microsite', id: string, name: string } | null, logo?: { __typename?: 'Image', url: string } | null } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, sku: string, name: string, quantityAvailable: number, isAvailable?: boolean | null, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }> } | null, images?: Array<{ __typename?: 'ProductImage', id: string, alt: string, url: string } | null> | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> }>, features?: Array<{ __typename?: 'FeatureItems', name?: string | null, description?: string | null } | null> | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, sku: string, name: string, quantityAvailable: number, isAvailable?: boolean | null, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }> } | null> | null, seller?: { __typename?: 'Seller', id: string, companyName: string } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } | null };
+
+export type BuilderProductDetailsQueryVariables = Exact<{
+  id: Scalars['ID'];
+  countryCode?: InputMaybe<CountryCode>;
+}>;
+
+
+export type BuilderProductDetailsQuery = { __typename?: 'Query', product?: { __typename?: 'Product', descriptionJson: any, description: string, seoDescription?: string | null, seoTitle?: string | null, isAvailable?: boolean | null, isAvailableForPurchase?: boolean | null, availableForPurchase?: any | null, id: string, name: string, category?: { __typename?: 'Category', id: string, name: string, backgroundImage?: { __typename?: 'Image', url: string, alt?: string | null } | null, productList?: { __typename?: 'ProductCountableConnection', products: Array<{ __typename?: 'ProductCountableEdge', product: { __typename?: 'Product', slug: string, isAvailable?: boolean | null, id: string, name: string, defaultVariant?: { __typename?: 'ProductVariant', id: string, sku: string, name: string, quantityAvailable: number, isAvailable?: boolean | null, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> }>, seller?: { __typename?: 'Seller', id: string, companyName: string, microsite?: { __typename?: 'Microsite', id: string, name: string } | null, logo?: { __typename?: 'Image', url: string } | null } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }> } | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, sku: string, name: string, quantityAvailable: number, isAvailable?: boolean | null, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }> } | null, images?: Array<{ __typename?: 'ProductImage', id: string, alt: string, url: string } | null> | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> }>, features?: Array<{ __typename?: 'FeatureItems', name?: string | null, description?: string | null } | null> | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, sku: string, name: string, quantityAvailable: number, isAvailable?: boolean | null, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }> } | null> | null, seller?: { __typename?: 'Seller', id: string, companyName: string, microsite?: { __typename?: 'Microsite', id: string, name: string } | null, logo?: { __typename?: 'Image', url: string } | null } | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } | null };
+
+export type VariantListQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['ID']> | Scalars['ID']>;
+  countryCode?: InputMaybe<CountryCode>;
+}>;
+
+
+export type VariantListQuery = { __typename?: 'Query', productVariants?: { __typename?: 'ProductVariantCountableConnection', edges: Array<{ __typename?: 'ProductVariantCountableEdge', node: { __typename?: 'ProductVariant', id: string, sku: string, name: string, quantityAvailable: number, isAvailable?: boolean | null, product: { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null }, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null } | null> }> } }> } | null };
+
 export type UserFragment = { __typename?: 'User', id: string, email: string, firstName: string, lastName: string, companyName: string, isStaff: boolean, defaultShippingAddress?: { __typename?: 'Address', id: string, firstName: string, lastName: string, companyName: string, streetAddress1: string, streetAddress2: string, city: string, postalCode: string, countryArea: string, phone: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', code: string, country: string } } | null, defaultBillingAddress?: { __typename?: 'Address', id: string, firstName: string, lastName: string, companyName: string, streetAddress1: string, streetAddress2: string, city: string, postalCode: string, countryArea: string, phone: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', code: string, country: string } } | null, addresses?: Array<{ __typename?: 'Address', id: string, firstName: string, lastName: string, companyName: string, streetAddress1: string, streetAddress2: string, city: string, postalCode: string, countryArea: string, phone: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', code: string, country: string } } | null> | null };
 
 export type BaseCategoryFragment = { __typename?: 'Category', id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null };
 
 export type CategoryDetailsFragment = { __typename?: 'Category', description: string, descriptionJson: any, id: string, name: string, slug: string, seoDescription?: string | null, seoTitle?: string | null, backgroundImage?: { __typename?: 'Image', alt?: string | null, url: string } | null };
-
-export type PriceFragment = { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } };
 
 export type AddressFragment = { __typename?: 'Address', id: string, firstName: string, lastName: string, companyName: string, streetAddress1: string, streetAddress2: string, city: string, postalCode: string, countryArea: string, phone: string, isDefaultBillingAddress?: boolean | null, isDefaultShippingAddress?: boolean | null, country: { __typename?: 'CountryDisplay', code: string, country: string } };
 
@@ -19826,8 +20120,6 @@ export type GetLoyaltyAndReferralsInfoQueryVariables = Exact<{ [key: string]: ne
 
 export type GetLoyaltyAndReferralsInfoQuery = { __typename?: 'Query', loyaltyAndReferralsInfo?: { __typename?: 'LoyaltyAndReferrals', awardLoyaltyPointsEnabled?: boolean | null, pointsForMakingPurchaseEnabled?: boolean | null, pointsUsedPerDollarSaved?: number | null, pointsGainedPerDollarSpent?: number | null } | null };
 
-export type ProductPricingFieldFragment = { __typename?: 'Product', pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
-
 export type ProductListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
   first: Scalars['Int'];
@@ -19957,35 +20249,6 @@ export type MainMenuQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MainMenuQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', navigation?: { __typename?: 'Navigation', main?: { __typename?: 'Menu', id: string, items?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null } | null } | null }, designerdata?: { __typename?: 'DesignerDataType', jsonContent: any, name: string } | null };
 
-export type RegisterAccountMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
-  redirectUrl: Scalars['String'];
-  companyName?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type RegisterAccountMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'Error', field?: string | null, message?: string | null }> } | null };
-
-export type SubmitRatingAndReviewMutationVariables = Exact<{
-  headline: Scalars['String'];
-  review: Scalars['String'];
-  publicName: Scalars['String'];
-  rating: Scalars['String'];
-  productId: Scalars['String'];
-  emailAddress: Scalars['String'];
-}>;
-
-
-export type SubmitRatingAndReviewMutation = { __typename?: 'Mutation', submitRatingAndReview?: { __typename?: 'SubmitRatingAndReview', submissionSuccessful?: boolean | null, errors: Array<{ __typename?: 'Error', field?: string | null, message?: string | null }> } | null };
-
-export type SearchResultsQueryVariables = Exact<{
-  query: Scalars['String'];
-}>;
-
-
-export type SearchResultsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, category?: { __typename?: 'Category', id: string, name: string } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
-
 export type GetMicrositesQueryVariables = Exact<{
   cursor?: InputMaybe<Scalars['String']>;
   perPage?: InputMaybe<Scalars['Int']>;
@@ -20032,6 +20295,106 @@ export type BuilderSearchQueryVariables = Exact<{
 
 export type BuilderSearchQuery = { __typename?: 'Query', productList?: { __typename?: 'ProductCountableConnection', totalCount?: number | null, products: Array<{ __typename?: 'ProductCountableEdge', product: { __typename?: 'Product', id: string, name: string, slug: string, brand?: string | null, isAvailable?: boolean | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, seller?: { __typename?: 'Seller', id: string, companyName: string, microsite?: { __typename?: 'Microsite', id: string, name: string } | null, logo?: { __typename?: 'Image', url: string } | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, name: string, quantityAvailable: number } | null, category?: { __typename?: 'Category', id: string, name: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, startCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean } } | null, attributeList?: { __typename?: 'AttributeCountableConnection', attributes: Array<{ __typename?: 'AttributeCountableEdge', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, values?: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } | null> | null } }> } | null };
 
+export const BasicProductFieldsFragmentDoc = gql`
+    fragment BasicProductFields on Product {
+  id
+  name
+  thumbnail {
+    url
+    alt
+  }
+  thumbnail2x: thumbnail(size: 540) {
+    url
+  }
+}
+    `;
+export const PriceFragmentDoc = gql`
+    fragment Price on TaxedMoney {
+  gross {
+    amount
+    currency
+  }
+  net {
+    amount
+    currency
+  }
+}
+    `;
+export const ProductPricingFieldFragmentDoc = gql`
+    fragment ProductPricingField on Product {
+  pricing {
+    onSale
+    priceRangeUndiscounted {
+      start {
+        ...Price
+      }
+      stop {
+        ...Price
+      }
+    }
+    priceRange {
+      start {
+        ...Price
+      }
+      stop {
+        ...Price
+      }
+    }
+  }
+}
+    ${PriceFragmentDoc}`;
+export const ProductPageSelectedAttributeFieldsFragmentDoc = gql`
+    fragment ProductPageSelectedAttributeFields on SelectedAttribute {
+  attribute {
+    id
+    name
+  }
+  values {
+    id
+    name
+  }
+}
+    `;
+export const ProductPageProductVariantFieldsFragmentDoc = gql`
+    fragment ProductPageProductVariantFields on ProductVariant {
+  id
+  sku
+  name
+  isAvailable
+  quantityAvailable(countryCode: $countryCode)
+  images {
+    id
+    url
+    alt
+  }
+  pricing {
+    onSale
+    priceUndiscounted {
+      ...Price
+    }
+    price {
+      ...Price
+    }
+  }
+  attributes {
+    attribute {
+      id
+      name
+      slug
+      metadata {
+        key
+        value
+      }
+    }
+    values {
+      id
+      name
+      value: name
+      extra: value
+    }
+  }
+}
+    ${PriceFragmentDoc}`;
 export const AddressFragmentDoc = gql`
     fragment Address on Address {
   id
@@ -20091,18 +20454,6 @@ export const CategoryDetailsFragmentDoc = gql`
   descriptionJson
 }
     ${BaseCategoryFragmentDoc}`;
-export const PriceFragmentDoc = gql`
-    fragment Price on TaxedMoney {
-  gross {
-    amount
-    currency
-  }
-  net {
-    amount
-    currency
-  }
-}
-    `;
 export const ShippingMethodFragmentDoc = gql`
     fragment ShippingMethod on ShippingMethod {
   id
@@ -20866,29 +21217,6 @@ export const OrderEventFragmentFragmentDoc = gql`
   }
 }
     `;
-export const ProductPricingFieldFragmentDoc = gql`
-    fragment ProductPricingField on Product {
-  pricing {
-    onSale
-    priceRangeUndiscounted {
-      start {
-        ...Price
-      }
-      stop {
-        ...Price
-      }
-    }
-    priceRange {
-      start {
-        ...Price
-      }
-      stop {
-        ...Price
-      }
-    }
-  }
-}
-    ${PriceFragmentDoc}`;
 export const SecondaryMenuSubItemFragmentDoc = gql`
     fragment SecondaryMenuSubItem on MenuItem {
   id
@@ -20928,6 +21256,468 @@ export const MainMenuSubItemFragmentDoc = gql`
   }
 }
     `;
+export const HomeDocument = gql`
+    query Home {
+  shop {
+    description
+    name
+    homepageCollection {
+      id
+      backgroundImage {
+        url
+      }
+      description
+      descriptionJson
+      name
+      products(first: 20) {
+        edges {
+          node {
+            ...BasicProductFields
+            ...ProductPricingField
+            category {
+              id
+              name
+            }
+            isAvailable
+            defaultVariant {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  categories(level: 0, first: 2) {
+    edges {
+      node {
+        id
+        name
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+  collections(first: 4) {
+    edges {
+      node {
+        id
+        name
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+}
+    ${BasicProductFieldsFragmentDoc}
+${ProductPricingFieldFragmentDoc}`;
+
+/**
+ * __useHomeQuery__
+ *
+ * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeQuery(baseOptions?: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
+      }
+export function useHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
+        }
+export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>;
+export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>;
+export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>;
+export const BuilderHomeDocument = gql`
+    query BuilderHome {
+  shop {
+    description
+    name
+    homepageCollection {
+      id
+      backgroundImage {
+        url
+      }
+      description
+      descriptionJson
+      name
+      productList: products(first: 20) {
+        products: edges {
+          product: node {
+            ...BasicProductFields
+            ...ProductPricingField
+            category {
+              id
+              name
+            }
+            isAvailable
+            slug
+            brand
+            attributes {
+              attribute {
+                id
+                name
+              }
+              values {
+                id
+                name
+              }
+            }
+            seller {
+              id
+              companyName
+              microsite {
+                id
+                name
+              }
+              logo {
+                url
+              }
+            }
+            defaultVariant {
+              id
+              name
+              quantityAvailable
+            }
+          }
+        }
+      }
+    }
+  }
+  categoryList: categories(level: 0, first: 2) {
+    categories: edges {
+      category: node {
+        id
+        name
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+  collectionList: collections(first: 4) {
+    collections: edges {
+      collection: node {
+        id
+        name
+        backgroundImage {
+          url
+        }
+      }
+    }
+  }
+}
+    ${BasicProductFieldsFragmentDoc}
+${ProductPricingFieldFragmentDoc}`;
+
+/**
+ * __useBuilderHomeQuery__
+ *
+ * To run a query within a React component, call `useBuilderHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBuilderHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBuilderHomeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBuilderHomeQuery(baseOptions?: Apollo.QueryHookOptions<BuilderHomeQuery, BuilderHomeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BuilderHomeQuery, BuilderHomeQueryVariables>(BuilderHomeDocument, options);
+      }
+export function useBuilderHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BuilderHomeQuery, BuilderHomeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BuilderHomeQuery, BuilderHomeQueryVariables>(BuilderHomeDocument, options);
+        }
+export type BuilderHomeQueryHookResult = ReturnType<typeof useBuilderHomeQuery>;
+export type BuilderHomeLazyQueryHookResult = ReturnType<typeof useBuilderHomeLazyQuery>;
+export type BuilderHomeQueryResult = Apollo.QueryResult<BuilderHomeQuery, BuilderHomeQueryVariables>;
+export const ProductPageProductDetailsDocument = gql`
+    query ProductPageProductDetails($id: ID!, $countryCode: CountryCode) {
+  product(id: $id) {
+    ...BasicProductFields
+    ...ProductPricingField
+    descriptionJson
+    description
+    category {
+      id
+      name
+      backgroundImage {
+        url
+        alt
+      }
+      products(first: 6) {
+        edges {
+          node {
+            ...BasicProductFields
+            ...ProductPricingField
+            defaultVariant {
+              ...ProductVariantFields
+            }
+            slug
+            isAvailable
+            seller {
+              id
+              companyName
+              microsite {
+                id
+                name
+              }
+              logo {
+                url
+              }
+            }
+            thumbnail {
+              url
+              alt
+            }
+          }
+        }
+      }
+    }
+    defaultVariant {
+      ...ProductVariantFields
+    }
+    images {
+      id
+      alt
+      url
+    }
+    attributes {
+      ...SelectedAttributeFields
+    }
+    features {
+      name
+      description
+    }
+    variants {
+      ...ProductVariantFields
+    }
+    seoDescription
+    seoTitle
+    isAvailable
+    isAvailableForPurchase
+    availableForPurchase
+    seller {
+      id
+      companyName
+    }
+  }
+}
+    ${BasicProductFieldsFragmentDoc}
+${ProductPricingFieldFragmentDoc}
+${ProductVariantFieldsFragmentDoc}
+${SelectedAttributeFieldsFragmentDoc}`;
+
+/**
+ * __useProductPageProductDetailsQuery__
+ *
+ * To run a query within a React component, call `useProductPageProductDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductPageProductDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductPageProductDetailsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      countryCode: // value for 'countryCode'
+ *   },
+ * });
+ */
+export function useProductPageProductDetailsQuery(baseOptions: Apollo.QueryHookOptions<ProductPageProductDetailsQuery, ProductPageProductDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductPageProductDetailsQuery, ProductPageProductDetailsQueryVariables>(ProductPageProductDetailsDocument, options);
+      }
+export function useProductPageProductDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductPageProductDetailsQuery, ProductPageProductDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductPageProductDetailsQuery, ProductPageProductDetailsQueryVariables>(ProductPageProductDetailsDocument, options);
+        }
+export type ProductPageProductDetailsQueryHookResult = ReturnType<typeof useProductPageProductDetailsQuery>;
+export type ProductPageProductDetailsLazyQueryHookResult = ReturnType<typeof useProductPageProductDetailsLazyQuery>;
+export type ProductPageProductDetailsQueryResult = Apollo.QueryResult<ProductPageProductDetailsQuery, ProductPageProductDetailsQueryVariables>;
+export const BuilderProductDetailsDocument = gql`
+    query BuilderProductDetails($id: ID!, $countryCode: CountryCode) {
+  product(id: $id) {
+    ...BasicProductFields
+    ...ProductPricingField
+    descriptionJson
+    description
+    category {
+      id
+      name
+      backgroundImage {
+        url
+        alt
+      }
+      productList: products(first: 6) {
+        products: edges {
+          product: node {
+            ...BasicProductFields
+            ...ProductPricingField
+            defaultVariant {
+              ...ProductVariantFields
+            }
+            slug
+            isAvailable
+            attributes {
+              attribute {
+                id
+                name
+              }
+              values {
+                id
+                name
+              }
+            }
+            seller {
+              id
+              companyName
+              microsite {
+                id
+                name
+              }
+              logo {
+                url
+              }
+            }
+            thumbnail {
+              url
+              alt
+            }
+          }
+        }
+      }
+    }
+    defaultVariant {
+      ...ProductVariantFields
+    }
+    images {
+      id
+      alt
+      url
+    }
+    attributes {
+      ...SelectedAttributeFields
+    }
+    features {
+      name
+      description
+    }
+    variants {
+      ...ProductVariantFields
+    }
+    seoDescription
+    seoTitle
+    isAvailable
+    isAvailableForPurchase
+    availableForPurchase
+    seller {
+      id
+      companyName
+      microsite {
+        id
+        name
+      }
+      logo {
+        url
+      }
+    }
+  }
+}
+    ${BasicProductFieldsFragmentDoc}
+${ProductPricingFieldFragmentDoc}
+${ProductVariantFieldsFragmentDoc}
+${SelectedAttributeFieldsFragmentDoc}`;
+
+/**
+ * __useBuilderProductDetailsQuery__
+ *
+ * To run a query within a React component, call `useBuilderProductDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBuilderProductDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBuilderProductDetailsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      countryCode: // value for 'countryCode'
+ *   },
+ * });
+ */
+export function useBuilderProductDetailsQuery(baseOptions: Apollo.QueryHookOptions<BuilderProductDetailsQuery, BuilderProductDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BuilderProductDetailsQuery, BuilderProductDetailsQueryVariables>(BuilderProductDetailsDocument, options);
+      }
+export function useBuilderProductDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BuilderProductDetailsQuery, BuilderProductDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BuilderProductDetailsQuery, BuilderProductDetailsQueryVariables>(BuilderProductDetailsDocument, options);
+        }
+export type BuilderProductDetailsQueryHookResult = ReturnType<typeof useBuilderProductDetailsQuery>;
+export type BuilderProductDetailsLazyQueryHookResult = ReturnType<typeof useBuilderProductDetailsLazyQuery>;
+export type BuilderProductDetailsQueryResult = Apollo.QueryResult<BuilderProductDetailsQuery, BuilderProductDetailsQueryVariables>;
+export const VariantListDocument = gql`
+    query VariantList($ids: [ID!], $countryCode: CountryCode) {
+  productVariants(ids: $ids, first: 100) {
+    edges {
+      node {
+        ...ProductVariantFields
+        product {
+          ...BasicProductFields
+        }
+      }
+    }
+  }
+}
+    ${ProductVariantFieldsFragmentDoc}
+${BasicProductFieldsFragmentDoc}`;
+
+/**
+ * __useVariantListQuery__
+ *
+ * To run a query within a React component, call `useVariantListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVariantListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVariantListQuery({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *      countryCode: // value for 'countryCode'
+ *   },
+ * });
+ */
+export function useVariantListQuery(baseOptions?: Apollo.QueryHookOptions<VariantListQuery, VariantListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<VariantListQuery, VariantListQueryVariables>(VariantListDocument, options);
+      }
+export function useVariantListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VariantListQuery, VariantListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<VariantListQuery, VariantListQueryVariables>(VariantListDocument, options);
+        }
+export type VariantListQueryHookResult = ReturnType<typeof useVariantListQuery>;
+export type VariantListLazyQueryHookResult = ReturnType<typeof useVariantListLazyQuery>;
+export type VariantListQueryResult = Apollo.QueryResult<VariantListQuery, VariantListQueryVariables>;
 export const SetCustomerDefaultAddressDocument = gql`
     mutation SetCustomerDefaultAddress($id: ID!, $type: AddressTypeEnum!) {
   accountSetDefaultAddress(id: $id, type: $type) {
@@ -23830,154 +24620,6 @@ export function useMainMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
 export type MainMenuQueryHookResult = ReturnType<typeof useMainMenuQuery>;
 export type MainMenuLazyQueryHookResult = ReturnType<typeof useMainMenuLazyQuery>;
 export type MainMenuQueryResult = Apollo.QueryResult<MainMenuQuery, MainMenuQueryVariables>;
-export const RegisterAccountDocument = gql`
-    mutation RegisterAccount($email: String!, $password: String!, $redirectUrl: String!, $companyName: String) {
-  accountRegister(
-    input: {email: $email, password: $password, redirectUrl: $redirectUrl, companyName: $companyName}
-  ) {
-    errors {
-      field
-      message
-    }
-    requiresConfirmation
-  }
-}
-    `;
-export type RegisterAccountMutationFn = Apollo.MutationFunction<RegisterAccountMutation, RegisterAccountMutationVariables>;
-
-/**
- * __useRegisterAccountMutation__
- *
- * To run a mutation, you first call `useRegisterAccountMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRegisterAccountMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [registerAccountMutation, { data, loading, error }] = useRegisterAccountMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *      redirectUrl: // value for 'redirectUrl'
- *      companyName: // value for 'companyName'
- *   },
- * });
- */
-export function useRegisterAccountMutation(baseOptions?: Apollo.MutationHookOptions<RegisterAccountMutation, RegisterAccountMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RegisterAccountMutation, RegisterAccountMutationVariables>(RegisterAccountDocument, options);
-      }
-export type RegisterAccountMutationHookResult = ReturnType<typeof useRegisterAccountMutation>;
-export type RegisterAccountMutationResult = Apollo.MutationResult<RegisterAccountMutation>;
-export type RegisterAccountMutationOptions = Apollo.BaseMutationOptions<RegisterAccountMutation, RegisterAccountMutationVariables>;
-export const SubmitRatingAndReviewDocument = gql`
-    mutation SubmitRatingAndReview($headline: String!, $review: String!, $publicName: String!, $rating: String!, $productId: String!, $emailAddress: String!) {
-  submitRatingAndReview(
-    headline: $headline
-    review: $review
-    publicName: $publicName
-    rating: $rating
-    productId: $productId
-    emailAddress: $emailAddress
-  ) {
-    errors {
-      field
-      message
-    }
-    submissionSuccessful
-  }
-}
-    `;
-export type SubmitRatingAndReviewMutationFn = Apollo.MutationFunction<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>;
-
-/**
- * __useSubmitRatingAndReviewMutation__
- *
- * To run a mutation, you first call `useSubmitRatingAndReviewMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSubmitRatingAndReviewMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [submitRatingAndReviewMutation, { data, loading, error }] = useSubmitRatingAndReviewMutation({
- *   variables: {
- *      headline: // value for 'headline'
- *      review: // value for 'review'
- *      publicName: // value for 'publicName'
- *      rating: // value for 'rating'
- *      productId: // value for 'productId'
- *      emailAddress: // value for 'emailAddress'
- *   },
- * });
- */
-export function useSubmitRatingAndReviewMutation(baseOptions?: Apollo.MutationHookOptions<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>(SubmitRatingAndReviewDocument, options);
-      }
-export type SubmitRatingAndReviewMutationHookResult = ReturnType<typeof useSubmitRatingAndReviewMutation>;
-export type SubmitRatingAndReviewMutationResult = Apollo.MutationResult<SubmitRatingAndReviewMutation>;
-export type SubmitRatingAndReviewMutationOptions = Apollo.BaseMutationOptions<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>;
-export const SearchResultsDocument = gql`
-    query SearchResults($query: String!) {
-  products(filter: {search: $query}, first: 20) {
-    edges {
-      node {
-        id
-        name
-        thumbnail {
-          url
-          alt
-        }
-        thumbnail2x: thumbnail(size: 510) {
-          url
-        }
-        category {
-          id
-          name
-        }
-      }
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
-      hasPreviousPage
-      startCursor
-    }
-  }
-}
-    `;
-
-/**
- * __useSearchResultsQuery__
- *
- * To run a query within a React component, call `useSearchResultsQuery` and pass it any options that fit your needs.
- * When your component renders, `useSearchResultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSearchResultsQuery({
- *   variables: {
- *      query: // value for 'query'
- *   },
- * });
- */
-export function useSearchResultsQuery(baseOptions: Apollo.QueryHookOptions<SearchResultsQuery, SearchResultsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchResultsQuery, SearchResultsQueryVariables>(SearchResultsDocument, options);
-      }
-export function useSearchResultsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchResultsQuery, SearchResultsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchResultsQuery, SearchResultsQueryVariables>(SearchResultsDocument, options);
-        }
-export type SearchResultsQueryHookResult = ReturnType<typeof useSearchResultsQuery>;
-export type SearchResultsLazyQueryHookResult = ReturnType<typeof useSearchResultsLazyQuery>;
-export type SearchResultsQueryResult = Apollo.QueryResult<SearchResultsQuery, SearchResultsQueryVariables>;
 export const GetMicrositesDocument = gql`
     query GetMicrosites($cursor: String, $perPage: Int) {
   microsites(after: $cursor, first: $perPage) {
