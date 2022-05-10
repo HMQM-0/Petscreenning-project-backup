@@ -13,7 +13,7 @@ import { structuredData } from "./structuredData";
 import classes from "./scss/index.module.scss";
 import { parseHomePageCollectionJson } from "./helpers";
 
-const IndexPage: React.FC = () => {
+const IndexPage = () => {
   const intl = useIntl();
   const { builderKey } = useShopContext();
   const { data, loading } = useHomeQuery();
