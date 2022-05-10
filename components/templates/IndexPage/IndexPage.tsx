@@ -83,7 +83,7 @@ const IndexPage = () => {
         title={intl.formatMessage({ defaultMessage: "Featured Products" })}
         caption="New, trending, and on-sale this month"
       /> */}
-          {categories.length && (
+          {categories.length > 0 && (
             <Box className={classes["home-page__categories"]}>
               <Box className={"container"}>
                 <Typography variant="h3" sx={{ fontSize: "1.5rem" }}>
