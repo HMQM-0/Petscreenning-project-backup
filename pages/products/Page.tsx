@@ -1,3 +1,4 @@
+// TODO: Not yet refactored
 import "./scss/index.module.scss";
 
 import * as React from "react";
@@ -9,9 +10,16 @@ import { maybe } from "core/utils";
 
 import { Menu, Products_products } from "./gqlTypes/Products";
 
+// @ts-ignore
 import { Breadcrumbs } from "../../components";
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved
 import { ProductListHeader } from "../../@next/components/molecules";
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved
 import { ProductList } from "../../@next/components/organisms";
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved
 import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
 
 interface SortItem {
@@ -19,7 +27,8 @@ interface SortItem {
   value?: string;
 }
 
-interface SortOptions extends Array<SortItem> {}
+interface SortOptions extends Array<SortItem> {
+}
 
 interface PageProps {
   activeFilters: number;
@@ -72,6 +81,7 @@ const Page: React.FC<PageProps> = ({
   const getAttribute = (attributeSlug: string, valueSlug: string) => {
     return {
       attributeSlug,
+      // @ts-ignore
       valueName: attributes
         .find(({ slug }) => attributeSlug === slug)
         .values.find(({ slug }) => valueSlug === slug).name,
@@ -85,6 +95,7 @@ const Page: React.FC<PageProps> = ({
     Object.keys(filters.attributes).reduce(
       (acc, key) =>
         acc.concat(
+          // @ts-ignore
           filters.attributes[key].map((valueSlug) =>
             getAttribute(key, valueSlug)
           )
@@ -99,6 +110,7 @@ const Page: React.FC<PageProps> = ({
         <ProductSideNavbar
           show={showDirectory}
           onHide={() => setShowDirectory(false)}
+          // @ts-ignore
           items={menu?.items}
         />
         <FilterSidebar
@@ -134,6 +146,3 @@ const Page: React.FC<PageProps> = ({
 };
 
 export default Page;
-
-// <Breadcrumbs breadcrumbs={extractBreadcrumbs(category)} />
-// {!hasProducts && <ProductsFeatured title="You might like" />}
