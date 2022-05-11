@@ -23,5 +23,3 @@ export const defaultContext: GetShopQuery["shop"] = {
 };
 
 export const ShopContext = createContext(defaultContext);
-
-ShopContext.displayName = "ShopContext";

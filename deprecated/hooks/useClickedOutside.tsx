@@ -4,11 +4,13 @@ import { maybe } from "core/utils";
 
 const useClickedOutside = () => {
   const [clickedOutside, setClickedOutside] = React.useState<boolean>(false);
-  const elementRef = React.useRef(null);
+  const elementRef = React.useRef<HTMLElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (maybe(() => elementRef.current && e.target, null)) {
-      setClickedOutside(!elementRef.current.contains(e.target as Node));
+      setClickedOutside(
+        elementRef.current?.contains(e.target as Node) ?? false
+      );
     }
   };
 

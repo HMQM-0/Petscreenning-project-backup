@@ -1,19 +1,7 @@
-import gql from "graphql-tag";
-
-import {
-  BuilderProductDetails,
-  BuilderProductDetailsVariables,
-} from "./gqlTypes/BuilderProductDetails";
-import {
-  ProductDetails,
-  ProductDetailsVariables,
-} from "./gqlTypes/ProductDetails";
-import { VariantList, VariantListVariables } from "./gqlTypes/VariantList";
-
-import { TypedQuery } from "../../core/queries";
+import { gql } from "graphql-tag";
 
 export const priceFragment = gql`
-  fragment PriceDeprecated on TaxedMoney {
+  fragment Price on TaxedMoney {
     gross {
       amount
       currency
@@ -26,7 +14,7 @@ export const priceFragment = gql`
 `;
 
 export const basicProductFragment = gql`
-  fragment BasicProductFieldsDeprecated on Product {
+  fragment BasicProductFields on Product {
     id
     name
     thumbnail {
@@ -65,7 +53,7 @@ export const productPricingFragment = gql`
 `;
 
 export const selectedAttributeFragment = gql`
-  fragment SelectedAttributeFieldsDeprecated on SelectedAttribute {
+  fragment ProductPageSelectedAttributeFields on SelectedAttribute {
     attribute {
       id
       name
@@ -79,7 +67,7 @@ export const selectedAttributeFragment = gql`
 
 export const productVariantFragment = gql`
   ${priceFragment}
-  fragment ProductVariantFieldsDeprecated on ProductVariant {
+  fragment ProductPageProductVariantFields on ProductVariant {
     id
     sku
     name
@@ -124,7 +112,7 @@ export const productDetailsQuery = gql`
   ${selectedAttributeFragment}
   ${productVariantFragment}
   ${productPricingFragment}
-  query ProductDetailsDeprecated($id: ID!, $countryCode: CountryCode) {
+  query ProductPageProductDetails($id: ID!, $countryCode: CountryCode) {
     product(id: $id) {
       ...BasicProductFields
       ...ProductPricingField
@@ -202,7 +190,7 @@ export const builderProductDetailsQuery = gql`
   ${selectedAttributeFragment}
   ${productVariantFragment}
   ${productPricingFragment}
-  query BuilderProductDetailsDeprecated($id: ID!, $countryCode: CountryCode) {
+  query BuilderProductDetails($id: ID!, $countryCode: CountryCode) {
     product(id: $id) {
       ...BasicProductFields
       ...ProductPricingField
@@ -310,18 +298,3 @@ export const productVariantsQuery = gql`
     }
   }
 `;
-
-export const TypedProductDetailsQuery = TypedQuery<
-  ProductDetails,
-  ProductDetailsVariables
->(productDetailsQuery);
-
-export const TypedBuilderProductDetailsQuery = TypedQuery<
-  BuilderProductDetails,
-  BuilderProductDetailsVariables
->(builderProductDetailsQuery);
-
-export const TypedProductVariantsQuery = TypedQuery<
-  VariantList,
-  VariantListVariables
->(productVariantsQuery);

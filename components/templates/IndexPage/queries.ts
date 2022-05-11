@@ -1,11 +1,9 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
-import { TypedQuery } from "../../core/queries";
 import {
   basicProductFragment,
   productPricingFragment,
-} from "../Product/queries";
-import { ProductsList } from "./gqlTypes/ProductsList";
+} from "../ProductPage/queries";
 
 export const homePageQuery = gql`
   ${basicProductFragment}
@@ -65,12 +63,10 @@ export const homePageQuery = gql`
   }
 `;
 
-export const TypedHomePageQuery = TypedQuery<ProductsList, {}>(homePageQuery);
-
 export const builderHomePageQuery = gql`
   ${basicProductFragment}
   ${productPricingFragment}
-  query Home {
+  query BuilderHome {
     shop {
       description
       name
