@@ -2,8 +2,7 @@ import React from "react";
 import { Skeleton, useScrollTrigger } from "@mui/material";
 
 import { MaterialUIProvider } from "@providers";
-import { BrandingType } from "@generated";
-import { SEO, ThemeFont } from "components/atoms";
+import { DocumentHead, DocumentHeadProps, ThemeFont } from "components/atoms";
 import TopNav from "deprecated/components/MainMenu/TopNav";
 import BottomNav from "deprecated/components/MainMenu/BottomNav";
 import PromoBanner from "deprecated/_nautical/components/PromoBanner/PromoBanner";
@@ -16,10 +15,11 @@ import OverlayManager from "../../deprecated/components/OverlayManager/OverlayMa
 
 type LayoutProps = {
   children: React.ReactNode;
-  branding: BrandingType;
+  documentHead: DocumentHeadProps;
 };
 
-const Layout = ({ children, branding }: LayoutProps) => {
+const Layout = ({ children, documentHead }: LayoutProps) => {
+  const { branding } = documentHead;
   const trigger = useScrollTrigger();
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies();
 
@@ -52,7 +52,7 @@ const Layout = ({ children, branding }: LayoutProps) => {
 
   return (
     <MaterialUIProvider branding={branding}>
-      <SEO branding={branding} />
+      <DocumentHead {...documentHead} />
       <ThemeFont />
       <header style={trigger ? stickyStyle : emptyStyle}>
         <PromoBanner content="FREE SHIPPING over $50" />
