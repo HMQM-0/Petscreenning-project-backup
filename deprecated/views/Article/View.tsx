@@ -5,7 +5,6 @@ import * as React from "react";
 // import { RouteComponentProps } from "react-router-dom";
 import { useParams } from "react-router";
 
-import { useSetSEO } from "@providers";
 import { generatePageUrl, maybe } from "core/utils";
 
 import { Article_shop } from "./gqlTypes/Article";

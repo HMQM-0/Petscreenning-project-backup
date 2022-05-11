@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 import "deprecated/globalStyles/scss/index.scss";
 import { defaultTheme, GlobalStyle } from "@styles";
-import { SEOProvider, ShopProvider, OverlayProvider } from "@providers";
+import { ShopProvider, OverlayProvider } from "@providers";
 
 const NotificationTemplate = dynamic(
   () => import("components/atoms/NotificationTemplate/NotificationTemplate")
@@ -39,14 +39,12 @@ function MyApp({ Component, pageProps }: AppProps) {
             <NextQueryParamProvider>
               <NauticalProvider>
                 <WishlistProvider>
-                  <SEOProvider>
-                    <ShopProvider>
-                      <OverlayProvider>
-                        <GlobalStyle />
-                        <Component {...pageProps} />
-                      </OverlayProvider>
-                    </ShopProvider>
-                  </SEOProvider>
+                  <ShopProvider>
+                    <OverlayProvider>
+                      <GlobalStyle />
+                      <Component {...pageProps} />
+                    </OverlayProvider>
+                  </ShopProvider>
                 </WishlistProvider>
               </NauticalProvider>
             </NextQueryParamProvider>
