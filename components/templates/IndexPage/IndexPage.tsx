@@ -7,9 +7,17 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
 
-// import StorePage from "../Builder/StorePage";
+// import StorePage from "../Builder/StorePage"; // TODO: This has yet to be refactored
 import classes from "./scss/index.module.scss";
-import { parseHomePageCollectionJson } from "./helpers";
+
+export const parseHomePageCollectionJson = (descriptionJson: any): string => {
+  if (!descriptionJson) {
+    return "";
+  }
+
+  const object = JSON.parse(descriptionJson);
+  return object?.blocks?.[0]?.text ?? ""; // TODO: Need to type this data
+};
 
 type IndexPageProps = {
   data: HomeQuery;
@@ -27,6 +35,7 @@ const IndexPage = ({ data }: IndexPageProps) => {
   return (
     <Box className={classes["home-page"]}>
       {builderKey ? (
+        // TODO: The StorePage component from builder has not yet been refactored
         // <StorePage landing={builderLandingData} />
         <>BUILDER</>
       ) : (

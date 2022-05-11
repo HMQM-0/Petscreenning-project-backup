@@ -1,4 +1,5 @@
 import urljoin from "url-join";
+// TODO: Remove url-join package - use URL instead
 
 export const structuredData = (description: string, name: string) => {
   return JSON.stringify({
