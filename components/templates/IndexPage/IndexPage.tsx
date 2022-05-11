@@ -4,32 +4,25 @@ import { FormattedMessage, useIntl } from "react-intl";
 import Link from "next/link";
 
 import { useShopContext } from "components/providers/ShopProvider";
-import { useSetSEO } from "@providers";
-import { useHomeQuery } from "@generated";
+import { HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
 
-import { structuredData } from "./structuredData";
 // import StorePage from "../Builder/StorePage";
 import classes from "./scss/index.module.scss";
 import { parseHomePageCollectionJson } from "./helpers";
 
-const IndexPage = () => {
-  const intl = useIntl();
-  const { builderKey } = useShopContext();
-  const { data, loading } = useHomeQuery();
-  const setSeo = useSetSEO();
+type IndexPageProps = {
+  data: HomeQuery;
+};
 
-  const description = data?.shop.description ?? "";
-  const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title);
+const IndexPage = ({ data }: IndexPageProps) => {
+  const intl = useIntl();
+  const shopContext = useShopContext();
+  const { builderKey } = shopContext;
 
   const backgroundImage =
     data?.shop.homepageCollection?.backgroundImage ?? null;
   const categories = data?.categories?.edges ?? [];
-
-  React.useEffect(() => {
-    setSeo((seo) => ({ ...seo, description, title, schema }));
-  }, [description, schema, setSeo, title]);
 
   return (
     <Box className={classes["home-page"]}>
