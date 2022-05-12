@@ -1,4 +1,4 @@
-import { gql } from "graphql-tag";
+import { gql } from "@apollo/client";
 
 export const priceFragment = gql`
   fragment Price on TaxedMoney {
@@ -53,7 +53,7 @@ export const productPricingFragment = gql`
 `;
 
 export const selectedAttributeFragment = gql`
-  fragment ProductPageSelectedAttributeFields on SelectedAttribute {
+  fragment SelectedAttributeFields on SelectedAttribute {
     attribute {
       id
       name
@@ -67,7 +67,7 @@ export const selectedAttributeFragment = gql`
 
 export const productVariantFragment = gql`
   ${priceFragment}
-  fragment ProductPageProductVariantFields on ProductVariant {
+  fragment ProductVariantFields on ProductVariant {
     id
     sku
     name
@@ -112,7 +112,7 @@ export const productDetailsQuery = gql`
   ${selectedAttributeFragment}
   ${productVariantFragment}
   ${productPricingFragment}
-  query ProductPageProductDetails($id: ID!, $countryCode: CountryCode) {
+  query ProductDetails($id: ID!, $countryCode: CountryCode) {
     product(id: $id) {
       ...BasicProductFields
       ...ProductPricingField

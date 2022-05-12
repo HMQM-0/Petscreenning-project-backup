@@ -1,9 +1,9 @@
-import { gql } from "graphql-tag";
+import { gql } from "@apollo/client";
 
 import {
   basicProductFragment,
   productPricingFragment,
-} from "../ProductPage/queries";
+} from "../ProductPage/queries.graphql";
 
 export const homePageQuery = gql`
   ${basicProductFragment}
