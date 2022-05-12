@@ -19796,6 +19796,16 @@ export type MainMenuQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MainMenuQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', navigation?: { __typename?: 'Navigation', main?: { __typename?: 'Menu', id: string, items?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, url?: string | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', slug: string } | null, parent?: { __typename?: 'MenuItem', id: string } | null } | null> | null } | null } | null }, designerdata?: { __typename?: 'DesignerDataType', jsonContent: any, name: string } | null };
 
+export type RegisterAccountMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  redirectUrl: Scalars['String'];
+  companyName?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RegisterAccountMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'Error', field?: string | null, message?: string | null }> } | null };
+
 export type BrandingQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -21074,6 +21084,48 @@ export function useMainMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
 export type MainMenuQueryHookResult = ReturnType<typeof useMainMenuQuery>;
 export type MainMenuLazyQueryHookResult = ReturnType<typeof useMainMenuLazyQuery>;
 export type MainMenuQueryResult = Apollo.QueryResult<MainMenuQuery, MainMenuQueryVariables>;
+export const RegisterAccountDocument = gql`
+    mutation RegisterAccount($email: String!, $password: String!, $redirectUrl: String!, $companyName: String) {
+  accountRegister(
+    input: {email: $email, password: $password, redirectUrl: $redirectUrl, companyName: $companyName}
+  ) {
+    errors {
+      field
+      message
+    }
+    requiresConfirmation
+  }
+}
+    `;
+export type RegisterAccountMutationFn = Apollo.MutationFunction<RegisterAccountMutation, RegisterAccountMutationVariables>;
+
+/**
+ * __useRegisterAccountMutation__
+ *
+ * To run a mutation, you first call `useRegisterAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerAccountMutation, { data, loading, error }] = useRegisterAccountMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *      redirectUrl: // value for 'redirectUrl'
+ *      companyName: // value for 'companyName'
+ *   },
+ * });
+ */
+export function useRegisterAccountMutation(baseOptions?: Apollo.MutationHookOptions<RegisterAccountMutation, RegisterAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterAccountMutation, RegisterAccountMutationVariables>(RegisterAccountDocument, options);
+      }
+export type RegisterAccountMutationHookResult = ReturnType<typeof useRegisterAccountMutation>;
+export type RegisterAccountMutationResult = Apollo.MutationResult<RegisterAccountMutation>;
+export type RegisterAccountMutationOptions = Apollo.BaseMutationOptions<RegisterAccountMutation, RegisterAccountMutationVariables>;
 export const BrandingDocument = gql`
     query Branding {
   branding {
