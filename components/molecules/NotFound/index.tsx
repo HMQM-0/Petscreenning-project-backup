@@ -1,28 +1,26 @@
-import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
-import { BASE_URL } from "../../core/config";
-import Button from "../Button";
+
+import { BASE_URL } from "core/config";
 import {
   generateMicrositeUrl,
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
 } from "core/utils";
+import Button from "components/atoms/Button";
 
-interface NotFoundProps {
-  message?: string;
-}
+import classes from "./scss/index.module.scss";
 
-const NotFound: React.FC<NotFoundProps> = () => (
-  <Box className="not-found-page">
-    <h2 className="not-found-page__header">
+const NotFound = () => (
+  <Box className={classes["not-found-page"]}>
+    <h2 className={classes["not-found-page__header"]}>
       <FormattedMessage defaultMessage="404" />
     </h2>
-    <Box className="not-found-page__ruler" />
-    <Box className="not-found-page__message">
+    <Box className={classes["not-found-page__ruler"]} />
+    <Box className={classes["not-found-page__message"]}>
       <p>
         <FormattedMessage defaultMessage="We can’t seem to find a page you are looking for!" />{" "}
       </p>
@@ -33,11 +31,11 @@ const NotFound: React.FC<NotFoundProps> = () => (
         <FormattedMessage defaultMessage="We’re sorry for the error and hope you’ll have a good day." />
       </p>
     </Box>
-    <Box className="not-found-page__button">
+    <Box className={classes["not-found-page__button"]}>
       <Link
         to={
-          !!isMicrosite()
-            ? generateMicrositeUrl(getMicrositeId(), getMicrositeSlug())
+          isMicrosite()
+            ? generateMicrositeUrl(getMicrositeId()!, getMicrositeSlug())
             : BASE_URL
         }
       >

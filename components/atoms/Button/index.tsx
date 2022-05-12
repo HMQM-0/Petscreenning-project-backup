@@ -2,14 +2,14 @@ import {
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
 } from "@mui/material";
-import * as React from "react";
+import React from "react";
 import clsx from "clsx";
 
 import classes from "./scss/index.module.scss";
 
 type ButtonType = "submit" | "reset" | "button";
+
 export interface ButtonProps extends MuiButtonProps {
-  //extends React.HTMLProps<HTMLButtonElement> {
   primary?: boolean;
   secondary?: boolean;
   outlined?: boolean;
@@ -20,7 +20,7 @@ export interface ButtonProps extends MuiButtonProps {
   testingContext?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   className = "",
   children,
   // testingContext,
@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   btnRef,
   type,
   ...otherProps
-}) => {
+}: ButtonProps) => {
   type ColorType = "inherit" | "default" | "primary" | "secondary";
 
   const color: ColorType = primary
@@ -61,17 +61,3 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 export default Button;
-
-/* 
-
-<button
-  data-test={testingContext}
-  className={`button ${secondary ? "secondary" : ""} ${className}`}
-  ref={btnRef}
-  type={type as ButtonType}
-  {...otherProps}
->
-  <span>{children}</span>
-</button>
-
-*/
