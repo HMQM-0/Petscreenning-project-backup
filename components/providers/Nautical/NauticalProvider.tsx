@@ -17,7 +17,7 @@ const NauticalProvider: FunctionComponent<NauticalProviderProps> = ({
         apiUrl: process.env.NEXT_PUBLIC_API_URI as string,
       }}
     >
-      <ApolloProvider client={client}>{children}</ApolloProvider>;
+      <ApolloProvider client={client}>{children}</ApolloProvider>
     </OldNauticalProvider>
   );
 };
