@@ -2,7 +2,8 @@ import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
-import { TaxedMoney } from "@components/containers";
+
+import { TaxedMoney } from "components/containers/TaxedMoney";
 import {
   checkoutMessages,
   translatePaymentStatus,
@@ -20,17 +21,16 @@ import {
   NauticalOrderDetail,
   OrderDetail,
 } from "@nautical/fragments/gqlTypes/OrderDetail";
-
-import { AddressSummary, CartTable, NotFound } from "../../../components";
-import { ILine } from "../../../components/CartTable/ProductRow";
-
-import { orderHistoryUrl } from "../../../app/routes";
 import {
   generateMicrositeUrl,
   getMicrositeId,
   getMicrositeSlug,
   isMicrosite,
 } from "core/utils";
+
+import { AddressSummary, CartTable, NotFound } from "../../../components";
+import { ILine } from "../../../components/CartTable/ProductRow";
+import { orderHistoryUrl } from "../../../app/routes";
 
 const extractOrderLines = (lines: OrderDetail_lines[]): ILine[] => {
   return lines
@@ -57,9 +57,9 @@ const Page: React.FC<{
           to={
             !!isMicrosite()
               ? `${generateMicrositeUrl(
-                  getMicrositeId(),
-                  getMicrositeSlug()
-                )}order-history/`
+                getMicrositeId(),
+                getMicrositeSlug()
+              )}order-history/`
               : orderHistoryUrl
           }
         >
@@ -80,36 +80,36 @@ const Page: React.FC<{
           </p>
         </Box>
         {order &&
-          "invoices" in order &&
-          order.invoices?.filter((invoice) => {
-            return invoice.number.includes("INV");
-          }).length > 0 && (
-            <Box className="order-details__header-menu">
-              <DropdownMenu
-                type="clickable"
-                header={
-                  <IconButton
-                    testingContext="expandButton"
-                    name="expand"
-                    size={28}
-                  />
-                }
-                items={[
-                  {
-                    onClick: downloadInvoice,
-                    content: (
-                      <span>
+        "invoices" in order &&
+        order.invoices?.filter((invoice) => {
+          return invoice.number.includes("INV");
+        }).length > 0 && (
+          <Box className="order-details__header-menu">
+            <DropdownMenu
+              type="clickable"
+              header={
+                <IconButton
+                  testingContext="expandButton"
+                  name="expand"
+                  size={28}
+                />
+              }
+              items={[
+                {
+                  onClick: downloadInvoice,
+                  content: (
+                    <span>
                         <FormattedMessage
                           defaultMessage="Download invoice"
                           description="action in popup menu in order view"
                         />
                       </span>
-                    ),
-                  },
-                ]}
-              />
-            </Box>
-          )}
+                  ),
+                },
+              ]}
+            />
+          </Box>
+        )}
       </Box>
       <CartTable
         lines={extractOrderLines(order.lines)}

@@ -1,26 +1,16 @@
-// TODO: Not yet refactored
-import "./scss/index.module.scss";
-
-import * as React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 
 import { IFilterAttributes, IFilters } from "@types";
 import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
 import { maybe } from "core/utils";
+import Breadcrumbs from "components/atoms/Breadcrumbs";
+import { ProductListHeader } from "components/organisms/ProductListHeader";
+import { ProductList } from "components/organisms/ProductList";
+import { FilterSidebar } from "components/organisms/FilterSidebar";
 
+import classes from "./scss/index.module.scss";
 import { Menu, Products_products } from "./gqlTypes/Products";
-
-// @ts-ignore
-import { Breadcrumbs } from "../../components";
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import { ProductListHeader } from "../../@next/components/molecules";
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import { ProductList } from "../../@next/components/organisms";
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import { FilterSidebar } from "../../@next/components/organisms/FilterSidebar";
 
 interface SortItem {
   label: string;
@@ -46,7 +36,7 @@ interface PageProps {
   onOrder: (order: { value?: string; label: string }) => void;
 }
 
-const Page: React.FC<PageProps> = ({
+const Page = ({
   activeFilters,
   activeSortOption,
   attributes,
@@ -60,13 +50,13 @@ const Page: React.FC<PageProps> = ({
   onOrder,
   sortOptions,
   onAttributeFiltersChange,
-}) => {
+}: PageProps) => {
   const canDisplayProducts = maybe(
     () => !!products.edges && products.totalCount !== undefined
   );
   // const hasProducts = canDisplayProducts && !!products.totalCount;
-  const [showFilters, setShowFilters] = React.useState(false);
-  const [showDirectory, setShowDirectory] = React.useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [showDirectory, setShowDirectory] = useState(false);
 
   const createBreadcrumbs = () => {
     const constructLink = () => ({
@@ -104,7 +94,7 @@ const Page: React.FC<PageProps> = ({
     );
 
   return (
-    <Box className="category">
+    <Box className={classes.category}>
       <Box className="container">
         <Breadcrumbs breadcrumbs={createBreadcrumbs()} />
         <ProductSideNavbar
@@ -124,7 +114,7 @@ const Page: React.FC<PageProps> = ({
           activeSortOption={activeSortOption}
           openDirectoryMenu={() => setShowDirectory(true)}
           openFiltersMenu={() => setShowFilters(true)}
-          numberOfProducts={products ? products.totalCount : 0}
+          numberOfProducts={products?.totalCount ?? 0}
           activeFilters={activeFilters}
           activeFiltersAttributes={activeFiltersAttributes}
           clearFilters={clearFilters}

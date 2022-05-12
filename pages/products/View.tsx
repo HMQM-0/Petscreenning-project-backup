@@ -1,5 +1,5 @@
 import * as React from "react";
-import { QueryParamConfig, StringParam, useQueryParam } from "use-query-params";
+import { useQueryParam, StringParam, QueryParamConfig } from 'next-query-params';
 import { useParams } from "react-router";
 
 import { IFilters } from "@types";
@@ -11,6 +11,7 @@ import {
   getGraphqlIdFromDBId,
 } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
+import { Layout } from "@layout";
 
 import LoginToViewProducts from "./components/LoginToViewProducts";
 import BuilderProducts from "./components/BuilderProducts";
@@ -39,7 +40,13 @@ export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
   },
 };
 
-export const View = ({ logo }: { logo: string }) => {
+interface ProductsProps {
+  logo: string;
+  // TODO: where to get it? What is the type of it?
+  branding: any;
+}
+
+export const View = ({ logo, branding = {} }: ProductsProps) => {
   const params = useParams();
   const [sort] = useQueryParam("sortBy", StringParam);
   const [attributeFilters] = useQueryParam(
@@ -88,14 +95,20 @@ export const View = ({ logo }: { logo: string }) => {
   //       type: "product.products",
   //     }}
 
-  return !user && loginForProducts ? (
-    <LoginToViewProducts logo={logo} />
-  ) : builderKey ? (
-    <BuilderProducts variables={variables} />
-  ) : (
-    // TODO: Fix types
-    // @ts-ignore
-    <Products variables={variables} filters={filters} />
+  return (
+    <Layout branding={branding}>
+      {
+        (!user && loginForProducts) ? (
+          <LoginToViewProducts logo={logo} />
+        ) : builderKey ? (
+          <BuilderProducts variables={variables} />
+        ) : (
+          // TODO: Fix types
+          // @ts-ignore
+          <Products variables={variables} filters={filters} />
+        )
+      }
+    </Layout>
   );
 };
 

@@ -20,6 +20,18 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
+  InsertMenuConfig,
+  InsertMenuItem,
+} from "@builder.io/sdk/dist/src/builder.class";
+import React from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
+import { TaxedMoney } from "components/containers/TaxedMoney";
+
+import {
   AlertIcon,
   AutoCompleteIcon,
   AvatarIcon,
@@ -39,17 +51,6 @@ import {
   TabsIcon,
   TextfieldIcon,
 } from "./icons";
-import {
-  InsertMenuConfig,
-  InsertMenuItem,
-} from "@builder.io/sdk/dist/src/builder.class";
-import React from "react";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-
-import { TaxedMoney } from "@components/containers";
 
 export const enumsAlert = [
   { label: "error", value: "error" },

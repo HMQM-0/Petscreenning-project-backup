@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { Icon } from "@components/atoms";
-import { Money, TaxedMoney } from "@components/containers";
+import { Icon } from "components/atoms/Icon";
+import { TaxedMoney } from "components/containers/TaxedMoney";
+import { Money } from "components/containers/Money";
 import { CartSummaryRow } from "@components/molecules";
 import { commonMessages } from "deprecated/intl";
 

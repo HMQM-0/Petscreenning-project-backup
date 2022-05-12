@@ -1,9 +1,17 @@
 // TODO: Not yet refactored
 // eslint-disable-next-line import/no-named-as-default
 import gql from "graphql-tag";
+
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
-import { TypedQuery } from "core/queries";
+import { TypedQuery } from "deprecated/core/queries";
+import {
+  basicProductFragment,
+  productPricingFragment,
+}
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved
+  from "deprecated/views/Product/queries";
 
 import {
   BuilderProducts,
@@ -11,13 +19,6 @@ import {
 } from "./gqlTypes/BuilderProducts";
 import { Products, ProductsVariables } from "./gqlTypes/Products";
 
-import {
-  basicProductFragment,
-  productPricingFragment,
-}
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-  from "../Product/queries";
 
 export const productVariantSummaryFragment = gql`
   fragment ProductVariantSummaryFields on ProductVariant {

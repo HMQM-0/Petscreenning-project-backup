@@ -11,15 +11,15 @@ import {
   getMicrositeSlug,
   isMicrosite,
 } from "core/utils";
-
-import { IProps } from "./types";
-
-import WishlistCard from "../WishlistCard";
 import {
   OverlayContext,
   OverlayType,
   OverlayTheme,
-} from "../../../../components/Overlay";
+} from "components/providers/Overlay/context";
+
+import { IProps } from "./types";
+
+import WishlistCard from "../WishlistCard";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -86,11 +86,11 @@ export const WishlistTable: React.FC<IProps> = ({ wishlist }: IProps) => {
         <Box className={classes.container}>
           <h3 className={classes.title}>My Wishlist</h3>
           {wishlist &&
-            user &&
-            wishlist.length >= 1 &&
-            wishlist?.map((item) => {
-              return <WishlistCard key={item.id} item={item} />;
-            })}
+          user &&
+          wishlist.length >= 1 &&
+          wishlist?.map((item) => {
+            return <WishlistCard key={item.id} item={item} />;
+          })}
           {!user && (
             <Box className={classes.emptyContainer}>
               <Box component="span" className={classes.heartWrapper}>
@@ -119,9 +119,9 @@ export const WishlistTable: React.FC<IProps> = ({ wishlist }: IProps) => {
                   navigate(
                     !!isMicrosite()
                       ? generateMicrositeUrl(
-                          getMicrositeId(),
-                          getMicrositeSlug()
-                        )
+                        getMicrositeId(),
+                        getMicrositeSlug()
+                      )
                       : "/products/"
                   )
                 }

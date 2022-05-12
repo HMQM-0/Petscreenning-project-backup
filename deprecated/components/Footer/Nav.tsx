@@ -4,7 +4,7 @@ import { Box, IconButton, Skeleton, Theme } from "@mui/material";
 import { ReactSVG } from "react-svg";
 import { styled } from "@mui/styles";
 
-import { Loader } from "@components/atoms/Loader";
+import { Loader } from "components/atoms/Loader";
 import { Spacer } from "@components/molecules/ProductTile/styles";
 import { getMicrositeId, isMicrosite } from "core/utils";
 import { TypedMicrositeQuery } from "deprecated/views/Microsites/queries";
@@ -110,7 +110,7 @@ const Nav: React.FunctionComponent<INavProps> = ({ footerText, icon }) => {
                   </Box>
                 );
               }
-              return <Loader />;
+              return (<Loader />);
             }}
           </TypedMicrositeQuery>
         )}

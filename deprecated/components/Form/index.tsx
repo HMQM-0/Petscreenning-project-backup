@@ -2,11 +2,12 @@ import * as React from "react";
 import NumberFormat from "react-number-format";
 import { Box } from "@mui/material";
 
+import TextField from "components/atoms/TextField";
+
 import { FormError } from "./types";
 
 import Select from "../Select";
 import SelectField from "../SelectField";
-import TextField from "../TextField";
 
 export const NON_FIELD_ERROR = "nonFieldError";
 
@@ -45,10 +46,8 @@ function removeDuplicatedErrors(errors) {
   });
 }
 
-class Form<Values> extends React.Component<
-  FormProps<Values>,
-  FormState<Values>
-> {
+class Form<Values> extends React.Component<FormProps<Values>,
+  FormState<Values>> {
   static getDerivedStateFromProps(props, state) {
     const propsKey = (props.errors || [])
       .map((error) => error.field || NON_FIELD_ERROR)

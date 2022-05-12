@@ -1,16 +1,9 @@
 // import Media from 'react-media';
 // import { makeStyles } from "@mui/styles";
 import Media from "react-media";
-import { IProduct } from "./types";
-import { ITaxedMoney } from "@types";
 import React, { Fragment } from "react";
 import { makeStyles } from "@mui/styles";
-import { useCheckout } from "@nautical/react";
-import CartSummaryRow from "./CartSummaryRow";
-import CartSummaryFooter from "./CartSummaryFooter";
-import { TaxedMoney } from "@components/containers";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import {
   Accordion,
   AccordionDetails,
@@ -24,6 +17,15 @@ import {
   Typography,
 } from "@mui/material";
 import { useAlert } from "react-alert";
+
+import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
+import { TaxedMoney } from "components/containers/TaxedMoney";
+import { useCheckout } from "@nautical/react";
+import { ITaxedMoney } from "@types";
+
+import CartSummaryFooter from "./CartSummaryFooter";
+import CartSummaryRow from "./CartSummaryRow";
+import { IProduct } from "./types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   accordion: {
@@ -204,35 +206,35 @@ const CartSummary: React.FunctionComponent<ICartSummaryProps> = (props) => {
                         ))}
                       </Box>
                       {onPaymentStep &&
-                        (loyaltyPoints ? (
-                          <Box style={{ marginTop: "30px " }}>
-                            {loyaltyPoints}
+                      (loyaltyPoints ? (
+                        <Box style={{ marginTop: "30px " }}>
+                          {loyaltyPoints}
+                        </Box>
+                      ) : (
+                        <Box>
+                          <Box className={classes.promoCodeContainer}>
+                            <TextField
+                              onChange={(event) =>
+                                setCode(event.target.value)
+                              }
+                              placeholder="Promo code"
+                              value={code}
+                            />
+                            <Button onClick={handleAddPromoCode}>
+                              APPLY
+                            </Button>
                           </Box>
-                        ) : (
-                          <Box>
-                            <Box className={classes.promoCodeContainer}>
-                              <TextField
-                                onChange={(event) =>
-                                  setCode(event.target.value)
-                                }
-                                placeholder="Promo code"
-                                value={code}
-                              />
-                              <Button onClick={handleAddPromoCode}>
-                                APPLY
-                              </Button>
-                            </Box>
-                            {promoCodeDiscount.voucherCode && (
-                              <Chip
-                                className={classes.discountChip}
-                                label={promoCodeDiscount.discountName}
-                                // onClick={handleClick}
-                                onDelete={handleRemovePromoCode}
-                              />
-                            )}
-                            <Divider />
-                          </Box>
-                        ))}
+                          {promoCodeDiscount.voucherCode && (
+                            <Chip
+                              className={classes.discountChip}
+                              label={promoCodeDiscount.discountName}
+                              // onClick={handleClick}
+                              onDelete={handleRemovePromoCode}
+                            />
+                          )}
+                          <Divider />
+                        </Box>
+                      ))}
                       <CartSummaryFooter
                         subtotal={subtotal}
                         total={total}
@@ -271,33 +273,33 @@ const CartSummary: React.FunctionComponent<ICartSummaryProps> = (props) => {
                     ))}
                   </Box>
                   {onPaymentStep &&
-                    (loyaltyPoints ? (
-                      <Box style={{ marginTop: "30px" }}>{loyaltyPoints}</Box>
-                    ) : (
-                      <Box>
-                        <Box className={classes.promoCodeContainer}>
-                          <TextField
-                            onChange={(event) => setCode(event.target.value)}
-                            placeholder="Promo code"
-                            value={code}
-                          />
-                          <Button onClick={() => addPromoCode(code)}>
-                            APPLY
-                          </Button>
-                        </Box>
-                        {promoCodeDiscount.voucherCode && (
-                          <Chip
-                            className={classes.discountChip}
-                            label={promoCodeDiscount.discountName}
-                            // onClick={handleClick}
-                            onDelete={() =>
-                              removePromoCode(promoCodeDiscount.voucherCode)
-                            }
-                          />
-                        )}
-                        <Divider />
+                  (loyaltyPoints ? (
+                    <Box style={{ marginTop: "30px" }}>{loyaltyPoints}</Box>
+                  ) : (
+                    <Box>
+                      <Box className={classes.promoCodeContainer}>
+                        <TextField
+                          onChange={(event) => setCode(event.target.value)}
+                          placeholder="Promo code"
+                          value={code}
+                        />
+                        <Button onClick={() => addPromoCode(code)}>
+                          APPLY
+                        </Button>
                       </Box>
-                    ))}
+                      {promoCodeDiscount.voucherCode && (
+                        <Chip
+                          className={classes.discountChip}
+                          label={promoCodeDiscount.discountName}
+                          // onClick={handleClick}
+                          onDelete={() =>
+                            removePromoCode(promoCodeDiscount.voucherCode)
+                          }
+                        />
+                      )}
+                      <Divider />
+                    </Box>
+                  ))}
                   <CartSummaryFooter
                     subtotal={subtotal}
                     total={total}

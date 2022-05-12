@@ -41,9 +41,6 @@
       "@components/templates": [
         "./deprecated/@next/components/templates/index.ts"
       ],
-      "@components/containers": [
-        "./deprecated/@next/components/containers/index.ts"
-      ],
       "@pages": ["./deprecated/@next/pages/index.ts"],
       "@styles": ["./deprecated/@next/globalStyles/index.ts"],
       "@styles/*": ["./deprecated/@next/globalStyles/*"],

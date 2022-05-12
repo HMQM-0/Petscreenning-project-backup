@@ -1,10 +1,12 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 
-import { Icon } from "../Icon";
-import { Tile } from "../Tile";
+import { Icon } from "components/atoms/Icon";
+
 import * as S from "./styles";
 import { IProps } from "./types";
+
+import { Tile } from "../Tile";
 
 export const AddNewTile: React.FC<IProps> = ({ type, ...props }: IProps) => {
   return (

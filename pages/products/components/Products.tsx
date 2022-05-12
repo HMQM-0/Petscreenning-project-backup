@@ -1,6 +1,6 @@
 import * as React from "react";
 import Media from "react-media";
-import { StringParam, useQueryParam } from "use-query-params";
+import { useQueryParam, StringParam } from 'next-query-params';
 
 import { xLargeScreen } from "@styles/constants";
 import {
@@ -100,10 +100,6 @@ const Products = ({
     },
   ];
 
-  if (!data) {
-    return <NotFound />;
-  }
-
   // TODO: Refactor NetworkStatus to a hook?
   return (
     <NetworkStatus>
@@ -113,9 +109,7 @@ const Products = ({
         }
 
         const canDisplayFilters = maybe(
-          // TODO: No attribute in ProductsListQuery?
-          // @ts-ignore
-          () => !!data.attributes.edges,
+          () => !!data?.products?.edges,
           false
         );
 
@@ -145,7 +139,7 @@ const Products = ({
                 clearFilters={clearFilters}
                 // TODO: No attribute in ProductsListQuery?
                 // @ts-ignore
-                attributes={data.attributes.edges.map(
+                attributes={data?.attributes?.edges.map(
                   // TODO: see above
                   // @ts-ignore
                   (edge) => edge.node
@@ -155,7 +149,7 @@ const Products = ({
                 menu={data.menu}
                 displayLoader={loading}
                 hasNextPage={maybe(
-                  () => !!data.products?.pageInfo.hasNextPage,
+                  () => !!data?.products?.pageInfo.hasNextPage,
                   false
                 ) as boolean}
                 // TODO: Fix sortOptions type
@@ -169,7 +163,7 @@ const Products = ({
                 filters={filters}
                 // TODO: Fix products type
                 // @ts-ignore
-                products={data.products}
+                products={data?.products}
                 onAttributeFiltersChange={onFiltersChange}
                 onLoadMore={handleLoadMore}
                 activeFilters={
@@ -183,6 +177,10 @@ const Products = ({
               />
             </Media>
           );
+        }
+
+        if (!data) {
+          return <NotFound />;
         }
       }}
     </NetworkStatus>

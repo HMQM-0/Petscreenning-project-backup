@@ -1,6 +1,7 @@
 import React from "react";
 import { Skeleton, useScrollTrigger } from "@mui/material";
 
+import Button from "components/atoms/Button";
 import { MaterialUIProvider } from "@providers";
 import { DocumentHead, DocumentHeadProps, ThemeFont } from "components/atoms";
 import TopNav from "deprecated/components/MainMenu/TopNav";
@@ -9,9 +10,7 @@ import PromoBanner from "deprecated/_nautical/components/PromoBanner/PromoBanner
 import { Footer } from "deprecated/components/Footer";
 import CookieBar from "deprecated/_nautical/components/CookieBar";
 import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
-import Button from "deprecated/components/Button";
-
-import OverlayManager from "../../deprecated/components/OverlayManager/OverlayManager";
+import OverlayManager from "components/organisms/OverlayManager/OverlayManager";
 
 type LayoutProps = {
   children: React.ReactNode;

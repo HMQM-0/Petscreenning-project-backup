@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useQuery } from "@apollo/client";
-import { StringParam, useQueryParam } from "use-query-params";
+import { useQueryParam, StringParam } from 'next-query-params';
 
-import { Loader } from "@components/atoms";
+import { Loader } from "components/atoms/Loader";
 import {
   maybe,
 } from "core/utils";
@@ -13,7 +13,7 @@ import { PRODUCTS_PER_PAGE } from "core/config";
 
 import { builderProductsQuery } from "../queries";
 import {
-  BuilderProducts,
+  BuilderProducts as IBuilderProducts,
   BuilderProductsVariables,
 } from "../gqlTypes/BuilderProducts";
 
@@ -31,7 +31,7 @@ const BuilderProducts = ({
   const [, setLastFilters] = useQueryParam("last", StringParam);
 
   const { data: builderProductsData, loading: builderProductsLoading } =
-    useQuery<BuilderProducts, BuilderProductsVariables>(builderProductsQuery, {
+    useQuery<IBuilderProducts, BuilderProductsVariables>(builderProductsQuery, {
       // @ts-ignore
       variables: variables,
     });

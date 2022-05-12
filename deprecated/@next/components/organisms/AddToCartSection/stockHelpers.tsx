@@ -12,10 +12,10 @@ import {
   ProductDetails_product_variants_pricing,
   ProductDetails_product_pricing,
 } from "@nautical/queries/gqlTypes/ProductDetails";
+import { TaxedMoney } from "components/containers/TaxedMoney";
 
 import * as S from "./styles";
 
-import { TaxedMoney } from "../../containers";
 
 /**
  * Renders formatted price for chosen variant or product.

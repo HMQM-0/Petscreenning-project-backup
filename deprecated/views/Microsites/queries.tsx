@@ -1,17 +1,13 @@
 import gql from "graphql-tag";
 
-import { TypedQuery } from "../../core/queries";
-import {
-  basicProductFragment,
-  productPricingFragment,
-} from "../Product/queries";
+
+import { menuItem } from "pages/products/queries";
 
 import { Microsite, MicrositeVariables } from "./gqlTypes/Microsite";
 import {
   MicrositeProducts,
   MicrositeProductsVariables,
 } from "./gqlTypes/MicrositeProducts";
-import { menuItem } from "../Products/queries";
 import {
   BuilderMicrositeProducts,
   BuilderMicrositeProductsVariables,
@@ -20,6 +16,12 @@ import {
   BuilderMicrosite,
   BuilderMicrositeVariables,
 } from "./gqlTypes/BuilderMicrosite";
+
+import {
+  basicProductFragment,
+  productPricingFragment,
+} from "../Product/queries";
+import { TypedQuery } from "../../core/queries";
 
 export const micrositeProductsDataQuery = gql`
   ${menuItem}
@@ -70,10 +72,8 @@ export const micrositeProductsDataQuery = gql`
   }
 `;
 
-export const TypedMicrositeProductsDataQuery = TypedQuery<
-  Microsite,
-  MicrositeVariables
->(micrositeProductsDataQuery);
+export const TypedMicrositeProductsDataQuery = TypedQuery<Microsite,
+  MicrositeVariables>(micrositeProductsDataQuery);
 
 export const micrositeProductsQuery = gql`
   ${basicProductFragment}
@@ -146,10 +146,8 @@ export const micrositeProductsQuery = gql`
   }
 `;
 
-export const TypedMicrositeProductsQuery = TypedQuery<
-  MicrositeProducts,
-  MicrositeProductsVariables
->(micrositeProductsQuery);
+export const TypedMicrositeProductsQuery = TypedQuery<MicrositeProducts,
+  MicrositeProductsVariables>(micrositeProductsQuery);
 
 export const micrositeQuery = gql`
   query Microsite($id: ID!) {
@@ -321,12 +319,8 @@ export const builderMicrositeQuery = gql`
   }
 `;
 
-export const TypedBuilderMicrositeProductsQuery = TypedQuery<
-  BuilderMicrositeProducts,
-  BuilderMicrositeProductsVariables
->(builderMicrositeQuery);
+export const TypedBuilderMicrositeProductsQuery = TypedQuery<BuilderMicrositeProducts,
+  BuilderMicrositeProductsVariables>(builderMicrositeQuery);
 
-export const TypedBuilderMicrositeProductsDataQuery = TypedQuery<
-  BuilderMicrosite,
-  BuilderMicrositeVariables
->(builderMicrositeInfoQuery);
+export const TypedBuilderMicrositeProductsDataQuery = TypedQuery<BuilderMicrosite,
+  BuilderMicrositeVariables>(builderMicrositeInfoQuery);
