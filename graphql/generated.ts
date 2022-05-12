@@ -19806,6 +19806,18 @@ export type RegisterAccountMutationVariables = Exact<{
 
 export type RegisterAccountMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', requiresConfirmation?: boolean | null, errors: Array<{ __typename?: 'Error', field?: string | null, message?: string | null }> } | null };
 
+export type SubmitRatingAndReviewMutationVariables = Exact<{
+  headline: Scalars['String'];
+  review: Scalars['String'];
+  publicName: Scalars['String'];
+  rating: Scalars['String'];
+  productId: Scalars['String'];
+  emailAddress: Scalars['String'];
+}>;
+
+
+export type SubmitRatingAndReviewMutation = { __typename?: 'Mutation', submitRatingAndReview?: { __typename?: 'SubmitRatingAndReview', submissionSuccessful?: boolean | null, errors: Array<{ __typename?: 'Error', field?: string | null, message?: string | null }> } | null };
+
 export type BrandingQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -21126,6 +21138,55 @@ export function useRegisterAccountMutation(baseOptions?: Apollo.MutationHookOpti
 export type RegisterAccountMutationHookResult = ReturnType<typeof useRegisterAccountMutation>;
 export type RegisterAccountMutationResult = Apollo.MutationResult<RegisterAccountMutation>;
 export type RegisterAccountMutationOptions = Apollo.BaseMutationOptions<RegisterAccountMutation, RegisterAccountMutationVariables>;
+export const SubmitRatingAndReviewDocument = gql`
+    mutation SubmitRatingAndReview($headline: String!, $review: String!, $publicName: String!, $rating: String!, $productId: String!, $emailAddress: String!) {
+  submitRatingAndReview(
+    headline: $headline
+    review: $review
+    publicName: $publicName
+    rating: $rating
+    productId: $productId
+    emailAddress: $emailAddress
+  ) {
+    errors {
+      field
+      message
+    }
+    submissionSuccessful
+  }
+}
+    `;
+export type SubmitRatingAndReviewMutationFn = Apollo.MutationFunction<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>;
+
+/**
+ * __useSubmitRatingAndReviewMutation__
+ *
+ * To run a mutation, you first call `useSubmitRatingAndReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubmitRatingAndReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [submitRatingAndReviewMutation, { data, loading, error }] = useSubmitRatingAndReviewMutation({
+ *   variables: {
+ *      headline: // value for 'headline'
+ *      review: // value for 'review'
+ *      publicName: // value for 'publicName'
+ *      rating: // value for 'rating'
+ *      productId: // value for 'productId'
+ *      emailAddress: // value for 'emailAddress'
+ *   },
+ * });
+ */
+export function useSubmitRatingAndReviewMutation(baseOptions?: Apollo.MutationHookOptions<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>(SubmitRatingAndReviewDocument, options);
+      }
+export type SubmitRatingAndReviewMutationHookResult = ReturnType<typeof useSubmitRatingAndReviewMutation>;
+export type SubmitRatingAndReviewMutationResult = Apollo.MutationResult<SubmitRatingAndReviewMutation>;
+export type SubmitRatingAndReviewMutationOptions = Apollo.BaseMutationOptions<SubmitRatingAndReviewMutation, SubmitRatingAndReviewMutationVariables>;
 export const BrandingDocument = gql`
     query Branding {
   branding {
