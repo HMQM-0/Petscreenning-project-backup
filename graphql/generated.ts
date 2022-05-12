@@ -19782,6 +19782,13 @@ export type VariantListQueryVariables = Exact<{
 
 export type VariantListQuery = { __typename?: 'Query', productVariants?: { __typename?: 'ProductVariantCountableConnection', edges: Array<{ __typename?: 'ProductVariantCountableEdge', node: { __typename?: 'ProductVariant', id: string, sku: string, name: string, isAvailable?: boolean | null, quantityAvailable: number, product: { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null }, images?: Array<{ __typename?: 'ProductImage', id: string, url: string, alt: string } | null> | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, metadata: Array<{ __typename?: 'MetadataItem', key: string, value: string } | null> }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null, extra?: string | null } | null> }> } }> } | null };
 
+export type PromoBannerQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type PromoBannerQuery = { __typename?: 'Query', designerdata?: { __typename?: 'DesignerDataType', name: string, jsonContent: any } | null };
+
 export type BrandingQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -20931,6 +20938,42 @@ export function useVariantListLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type VariantListQueryHookResult = ReturnType<typeof useVariantListQuery>;
 export type VariantListLazyQueryHookResult = ReturnType<typeof useVariantListLazyQuery>;
 export type VariantListQueryResult = Apollo.QueryResult<VariantListQuery, VariantListQueryVariables>;
+export const PromoBannerDocument = gql`
+    query PromoBanner($name: String!) {
+  designerdata(name: $name) {
+    name
+    jsonContent
+  }
+}
+    `;
+
+/**
+ * __usePromoBannerQuery__
+ *
+ * To run a query within a React component, call `usePromoBannerQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePromoBannerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePromoBannerQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function usePromoBannerQuery(baseOptions: Apollo.QueryHookOptions<PromoBannerQuery, PromoBannerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PromoBannerQuery, PromoBannerQueryVariables>(PromoBannerDocument, options);
+      }
+export function usePromoBannerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PromoBannerQuery, PromoBannerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PromoBannerQuery, PromoBannerQueryVariables>(PromoBannerDocument, options);
+        }
+export type PromoBannerQueryHookResult = ReturnType<typeof usePromoBannerQuery>;
+export type PromoBannerLazyQueryHookResult = ReturnType<typeof usePromoBannerLazyQuery>;
+export type PromoBannerQueryResult = Apollo.QueryResult<PromoBannerQuery, PromoBannerQueryVariables>;
 export const BrandingDocument = gql`
     query Branding {
   branding {
