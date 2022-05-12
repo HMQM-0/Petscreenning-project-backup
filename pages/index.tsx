@@ -3,8 +3,8 @@ import type { NextPage, InferGetStaticPropsType } from "next";
 import {
   BrandingDocument,
   BrandingQuery,
-  HomePageDocument,
-  HomePageQuery,
+  HomeQuery,
+  HomeDocument,
 } from "@generated";
 import { Layout } from "@layout";
 import { IndexPage } from "components/templates/IndexPage";
@@ -39,8 +39,8 @@ export async function getStaticProps() {
   const { data: brandingData } = await client.query<BrandingQuery>({
     query: BrandingDocument,
   });
-  const { data: homepageData } = await client.query<HomePageQuery>({
-    query: HomePageDocument,
+  const { data: homepageData } = await client.query<HomeQuery>({
+    query: HomeDocument,
   });
 
   const fallbackBranding: typeof brandingData.branding = {

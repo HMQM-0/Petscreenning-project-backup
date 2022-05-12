@@ -1,5 +1,5 @@
 schema: https://api-foo.nauticalcommerce.com/graphql/
-documents: "./**/*.ts"
+documents: "./**/*.graphql.ts"
 generates:
   graphql/generated.ts:
     plugins:
