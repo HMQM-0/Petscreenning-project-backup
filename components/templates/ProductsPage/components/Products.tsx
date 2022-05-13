@@ -137,7 +137,8 @@ const Products = ({
                 attributes={data?.attributes?.edges.map(
                   (edge) => edge.node
                 ) ?? []}
-                menu={data?.menu}
+                // TODO: menu is NOT undefined here
+                menu={data?.menu!}
                 displayLoader={loading}
                 hasNextPage={maybe(
                   () => !!data?.products?.pageInfo.hasNextPage,
@@ -147,7 +148,7 @@ const Products = ({
                 activeSortOption={filters.sortBy}
                 filters={filters}
                 // TODO: products is NOT undefined here. That is a generated type error
-                products={data?.products}
+                products={data?.products!}
                 onAttributeFiltersChange={onFiltersChange}
                 onLoadMore={handleLoadMore}
                 activeFilters={

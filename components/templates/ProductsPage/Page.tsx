@@ -7,7 +7,7 @@ import Breadcrumbs from "components/atoms/Breadcrumbs";
 import { ProductListHeader } from "components/organisms/ProductListHeader";
 import { ProductList } from "components/organisms/ProductList";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
-import { Attribute, Menu, ProductCountableConnection } from "@generated";
+import { Menu, ProductsPageAttributeFragment, ProductsPageMenuFragment, ProductsQuery } from "@generated";
 
 import classes from "./scss/index.module.scss";
 
@@ -24,13 +24,13 @@ interface SortOptions extends Array<SortItem> {
 
 interface PageProps {
   activeFilters: number;
-  attributes: Attribute[];
+  attributes: ProductsPageAttributeFragment[];
   activeSortOption: string;
   displayLoader: boolean;
   filters: ProductFilters;
   hasNextPage: boolean;
-  menu: Menu;
-  products: ProductCountableConnection;
+  menu: ProductsPageMenuFragment;
+  products: ProductsQuery["products"];
   sortOptions: SortOptions;
   clearFilters: () => void;
   onLoadMore: () => void;
@@ -54,7 +54,8 @@ const Page = ({
   onAttributeFiltersChange,
 }: PageProps) => {
   const canDisplayProducts = maybe(
-    () => !!products.edges && products.totalCount !== undefined
+    // TODO: products is NOT undefined
+    () => !!products!.edges && products!.totalCount !== undefined
   );
   // const hasProducts = canDisplayProducts && !!products.totalCount;
   const [showFilters, setShowFilters] = useState(false);
@@ -129,7 +130,8 @@ const Page = ({
         />
         {canDisplayProducts && (
           <ProductList
-            products={products.edges.map((edge) => edge.node)}
+            // TODO: products is NOT undefined here. That is a BE issue (probably?)
+            products={products!.edges.map((edge) => edge.node)}
             canLoadMore={hasNextPage}
             loading={displayLoader}
             onLoadMore={onLoadMore}

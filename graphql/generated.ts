@@ -19819,6 +19819,8 @@ export type ProductsPageAttributeFragment = { __typename?: 'Attribute', id: stri
 
 export type ProductsPageProductFragment = { __typename?: 'Product', id: string, name: string, seller?: { __typename?: 'Seller', id: string, companyName: string } | null, category?: { __typename?: 'Category', id: string, name: string } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null } | null> }>, defaultVariant?: { __typename?: 'ProductVariant', id: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, images?: Array<{ __typename?: 'ProductImage', url: string } | null> | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, value?: string | null, extra?: string | null } | null> }> } | null> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, thumbnail2x?: { __typename?: 'Image', url: string } | null, pricing?: { __typename?: 'ProductPricingInfo', onSale?: boolean | null, priceRangeUndiscounted?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null, priceRange?: { __typename?: 'TaxedMoneyRange', start?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null, stop?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number, currency: string }, net: { __typename?: 'Money', amount: number, currency: string } } | null } | null } | null };
 
+export type ProductsPageMenuFragment = { __typename?: 'Menu', id: string, name: string, items?: Array<{ __typename?: 'MenuItem', id: string, name: string, level: number, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, level: number, children?: Array<{ __typename?: 'MenuItem', id: string, name: string, level: number, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', id: string, title: string } | null, parent?: { __typename?: 'MenuItem', id: string, name: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', id: string, title: string } | null, parent?: { __typename?: 'MenuItem', id: string, name: string } | null } | null> | null, category?: { __typename?: 'Category', id: string, name: string } | null, collection?: { __typename?: 'Collection', id: string, name: string } | null, page?: { __typename?: 'Page', id: string, title: string } | null, parent?: { __typename?: 'MenuItem', id: string, name: string } | null } | null> | null };
+
 export type ProductsQueryVariables = Exact<{
   attributes?: InputMaybe<Array<InputMaybe<AttributeInput>> | InputMaybe<AttributeInput>>;
   after?: InputMaybe<Scalars['String']>;
@@ -20089,29 +20091,6 @@ export const WishlistItemFragmentDoc = gql`
   }
 }
     ${ProductInfoFragmentDoc}`;
-export const MenuItemFragmentDoc = gql`
-    fragment MenuItem on MenuItem {
-  id
-  name
-  category {
-    id
-    name
-  }
-  collection {
-    id
-    name
-  }
-  page {
-    id
-    title
-  }
-  level
-  parent {
-    id
-    name
-  }
-}
-    `;
 export const ProductsPageAttributeFragmentDoc = gql`
     fragment ProductsPageAttribute on Attribute {
   id
@@ -20220,6 +20199,44 @@ export const ProductsPageProductFragmentDoc = gql`
 }
     ${BasicProductFieldsFragmentDoc}
 ${ProductPricingFieldFragmentDoc}`;
+export const MenuItemFragmentDoc = gql`
+    fragment MenuItem on MenuItem {
+  id
+  name
+  category {
+    id
+    name
+  }
+  collection {
+    id
+    name
+  }
+  page {
+    id
+    title
+  }
+  level
+  parent {
+    id
+    name
+  }
+}
+    `;
+export const ProductsPageMenuFragmentDoc = gql`
+    fragment ProductsPageMenu on Menu {
+  id
+  name
+  items {
+    ...MenuItem
+    children {
+      ...MenuItem
+      children {
+        ...MenuItem
+      }
+    }
+  }
+}
+    ${MenuItemFragmentDoc}`;
 export const MainMenuSubItemFragmentDoc = gql`
     fragment MainMenuSubItem on MenuItem {
   id
@@ -20826,22 +20843,12 @@ export const ProductsDocument = gql`
     }
   }
   menu(name: "sidenav") {
-    id
-    name
-    items {
-      ...MenuItem
-      children {
-        ...MenuItem
-        children {
-          ...MenuItem
-        }
-      }
-    }
+    ...ProductsPageMenu
   }
 }
     ${ProductsPageProductFragmentDoc}
 ${ProductsPageAttributeFragmentDoc}
-${MenuItemFragmentDoc}`;
+${ProductsPageMenuFragmentDoc}`;
 
 /**
  * __useProductsQuery__

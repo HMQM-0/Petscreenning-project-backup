@@ -90,12 +90,27 @@ export const productsPageProduct = gql`
     }
   }
 `;
+export const productsPageMenu = gql`
+  ${menuItem}
+  fragment ProductsPageMenu on Menu {
+    id
+    name
+    items {
+      ...MenuItem
+      children {
+        ...MenuItem
+        children {
+          ...MenuItem
+        }
+      }
+    }
+  }
+`;
 
 export const productsQuery = gql`
-  ${basicProductFragment}
-  ${productPricingFragment}
+  ${productsPageProduct}
   ${productsPageAttribute}
-  ${menuItem}
+  ${productsPageMenu}
   query Products(
     $attributes: [AttributeInput]
     $after: String
@@ -134,17 +149,7 @@ export const productsQuery = gql`
       }
     }
     menu(name: "sidenav") {
-      id
-      name
-      items {
-        ...MenuItem
-        children {
-          ...MenuItem
-          children {
-            ...MenuItem
-          }
-        }
-      }
+      ...ProductsPageMenu
     }
   }
 `;
