@@ -1,34 +1,37 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 
-import { IFilterAttributes, IFilters } from "@types";
-import { ProductSideNavbar } from "deprecated/_nautical/components/ProductSideNavbar/ProductSideNavbar";
+import { ProductSideNavbar } from "components/organisms/ProductSideNavbar/ProductSideNavbar";
 import { maybe } from "core/utils";
 import Breadcrumbs from "components/atoms/Breadcrumbs";
 import { ProductListHeader } from "components/organisms/ProductListHeader";
 import { ProductList } from "components/organisms/ProductList";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
+import { Attribute, Menu, ProductCountableConnection } from "@generated";
 
 import classes from "./scss/index.module.scss";
-import { Menu, Products_products } from "./gqlTypes/Products";
+// import { Menu } from "./gqlTypes/Products";
+
+import { ProductFilters } from "../../../types/Product";
 
 interface SortItem {
   label: string;
-  value?: string;
+  value?: string | null;
 }
 
+// TODO: Export this
 interface SortOptions extends Array<SortItem> {
 }
 
 interface PageProps {
   activeFilters: number;
-  attributes: IFilterAttributes[];
+  attributes: Attribute[];
   activeSortOption: string;
   displayLoader: boolean;
-  filters: IFilters;
+  filters: ProductFilters;
   hasNextPage: boolean;
   menu: Menu;
-  products: Products_products;
+  products: ProductCountableConnection;
   sortOptions: SortOptions;
   clearFilters: () => void;
   onLoadMore: () => void;
@@ -100,7 +103,6 @@ const Page = ({
         <ProductSideNavbar
           show={showDirectory}
           onHide={() => setShowDirectory(false)}
-          // @ts-ignore
           items={menu?.items}
         />
         <FilterSidebar

@@ -141,7 +141,7 @@ export const getAttributesFromQs = (qs: QueryString) =>
 export const getValueOrEmpty = <T>(value: T): T | string =>
   value === undefined || value === null ? "" : value;
 
-export const convertSortByFromString = (sortBy: string) => {
+export const convertSortByFromString = (sortBy: string | undefined | null) => {
   if (!sortBy) {
     return null;
   }

@@ -11,7 +11,7 @@ import NotFound from "components/molecules/NotFound";
 import NetworkStatus from "components/atoms/NetworkStatus";
 import { PRODUCTS_PER_PAGE } from "core/config";
 
-import { builderProductsQuery } from "../queries";
+import { builderProductsQuery } from "../queries.graphql";
 import {
   BuilderProducts as IBuilderProducts,
   BuilderProductsVariables,

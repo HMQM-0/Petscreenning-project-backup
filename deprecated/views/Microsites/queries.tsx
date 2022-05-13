@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 
-import { menuItem } from "pages/products/queries";
+import { menuItem } from "components/templates/ProductsPage/queries.graphql";
 
 import { Microsite, MicrositeVariables } from "./gqlTypes/Microsite";
 import {

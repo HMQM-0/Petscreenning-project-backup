@@ -1,18 +1,12 @@
 import React from "react";
-// import { Transition } from "react-transition-group";
-
-// import { largeScreen } from "@styles/constants";
 
 import { ListItem } from "./ProductSideNavbar";
-// import * as S from "./styles";
 import { IProps, IState } from "./types";
 
-export const ProductSideNavbarList: React.FC<IProps> = ({
+export const ProductSideNavbarList = ({
   items,
-  width,
 }: IProps) => {
-  // @ts-ignore
-  const [view, _setView] = React.useState<IState>({
+  const [, _setView] = React.useState<IState>({
     buffer: { index: null, depth: null },
     depth: null,
     index: null,

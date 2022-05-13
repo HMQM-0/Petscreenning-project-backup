@@ -416,35 +416,6 @@ export type AddressSetDefault = {
   user?: Maybe<User>;
 };
 
-export type AddressType = Node & ObjectWithMetadata & {
-  __typename?: 'AddressType';
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  countryArea?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  lastName?: Maybe<Scalars['String']>;
-  /**
-   * List of publicly stored metadata namespaces.
-   * @deprecated Use the `metadata` field. This field will be removed after 2020-07-31.
-   */
-  meta: Array<Maybe<MetaStore>>;
-  /** List of public metadata items. Can be accessed without permissions. */
-  metadata: Array<Maybe<MetadataItem>>;
-  phone?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  /**
-   * List of privately stored metadata namespaces.
-   * @deprecated Use the `privetaMetadata` field. This field will be removed after 2020-07-31.
-   */
-  privateMeta: Array<Maybe<MetaStore>>;
-  /** List of private metadata items.Requires proper staff permissions to access. */
-  privateMetadata: Array<Maybe<MetadataItem>>;
-  streetAddress1?: Maybe<Scalars['String']>;
-  streetAddress2?: Maybe<Scalars['String']>;
-};
-
 /** An enumeration. */
 export enum AddressTypeEnum {
   Billing = 'BILLING',
@@ -2815,8 +2786,7 @@ export type CheckoutLine = Node & {
   quantity: Scalars['Int'];
   /** Indicates whether the item need to be delivered. */
   requiresShipping?: Maybe<Scalars['Boolean']>;
-  /** User info on the seller's underlying owner. */
-  seller?: Maybe<SellerType>;
+  seller?: Maybe<Scalars['ID']>;
   /** The sum of the checkout line price, taxes and discounts. */
   totalPrice?: Maybe<TaxedMoney>;
   variant: ProductVariant;
@@ -3364,8 +3334,11 @@ export type ConfigurationItemInput = {
 /** An enumeration. */
 export enum ConfigurationTypeFieldEnum {
   Boolean = 'BOOLEAN',
+  Multiline = 'MULTILINE',
+  Output = 'OUTPUT',
   Password = 'PASSWORD',
   Secret = 'SECRET',
+  Secretmultiline = 'SECRETMULTILINE',
   String = 'STRING'
 }
 
@@ -3666,6 +3639,8 @@ export type CountryDisplay = {
   code: Scalars['String'];
   /** Country name. */
   country: Scalars['String'];
+  /** List of required address fields for the country. */
+  requiredFields?: Maybe<Array<Scalars['String']>>;
   /** Country tax. */
   vat?: Maybe<Vat>;
 };
@@ -3953,13 +3928,6 @@ export type DateTimeRangeInput = {
   gte?: InputMaybe<Scalars['DateTime']>;
   /** End date. */
   lte?: InputMaybe<Scalars['DateTime']>;
-};
-
-/** Days and times drop off point is open */
-export type DayOfWeek = {
-  __typename?: 'DayOfWeek';
-  Day?: Maybe<Scalars['String']>;
-  Hours?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 /** Deactivate all JWT tokens of the currently authenticated user. */
@@ -4380,13 +4348,6 @@ export enum DiscountValueTypeEnum {
   Percentage = 'PERCENTAGE'
 }
 
-/** Distance from drop off points to to_address */
-export type DistanceFromOrigin = {
-  __typename?: 'DistanceFromOrigin';
-  UnitOfMeasurement?: Maybe<UnitOfMeasurement>;
-  Value?: Maybe<Scalars['String']>;
-};
-
 export enum DistanceUnit {
   Km = 'KM',
   Mi = 'MI'
@@ -4561,25 +4522,6 @@ export type DraftOrderUpdate = {
   orderErrors: Array<OrderError>;
 };
 
-/** List of drop off points for selected courier and to_address */
-export type DropOffPoints = {
-  __typename?: 'DropOffPoints';
-  CarrierName?: Maybe<Scalars['String']>;
-  City?: Maybe<Scalars['String']>;
-  DayOfWeek?: Maybe<Array<Maybe<DayOfWeek>>>;
-  DistanceFromOrigin?: Maybe<DistanceFromOrigin>;
-  ImageURL?: Maybe<Scalars['String']>;
-  Latitude?: Maybe<Scalars['String']>;
-  Longitude?: Maybe<Scalars['String']>;
-  Phone?: Maybe<Scalars['String']>;
-  PointID?: Maybe<Scalars['String']>;
-  PointName?: Maybe<Scalars['String']>;
-  State?: Maybe<Scalars['String']>;
-  Street?: Maybe<Scalars['String']>;
-  TypeOfPoint?: Maybe<Scalars['Boolean']>;
-  Zip?: Maybe<Scalars['String']>;
-};
-
 /** Register a new user. */
 export type EnhancedAccountRegister = {
   __typename?: 'EnhancedAccountRegister';
@@ -4613,6 +4555,20 @@ export type Error = {
 /** Export catalog. */
 export type ExportCatalog = {
   __typename?: 'ExportCatalog';
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  ok?: Maybe<Scalars['Boolean']>;
+  /** Plugin ID */
+  plugin?: Maybe<Scalars['ID']>;
+  pluginsErrors: Array<PluginError>;
+};
+
+/** Export customer list. */
+export type ExportCustomers = {
+  __typename?: 'ExportCustomers';
   /**
    * List of errors that occurred executing the mutation.
    * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
@@ -5118,8 +5074,16 @@ export type GatewayConfigLine = {
 export enum GenericWebhookTransactionType {
   /** A paylod for customer create was received */
   CustomerCreate = 'CUSTOMER_CREATE',
+  /** A payload for fulfillment create was received. */
+  FulfillmentCreate = 'FULFILLMENT_CREATE',
+  /** A payload for fulfillment update was received. */
+  FulfillmentUpdate = 'FULFILLMENT_UPDATE',
+  /** A payload for product inventory tracking update was received. */
+  InventoryTrackingUpdate = 'INVENTORY_TRACKING_UPDATE',
   /** A payload for item shipment that was received */
   ItemShipNotify = 'ITEM_SHIP_NOTIFY',
+  /** A payload for order cancel was received */
+  OrderCancel = 'ORDER_CANCEL',
   /** A payload for order create was received */
   OrderCreate = 'ORDER_CREATE',
   /** A payload for order update was received */
@@ -5132,17 +5096,19 @@ export enum GenericWebhookTransactionType {
   ProductUpdate = 'PRODUCT_UPDATE',
   /** A payload for seller create was received */
   SellerCreate = 'SELLER_CREATE',
-  /** A payload for product update was received. */
+  /** A payload for stock create was received. */
   StockCreate = 'STOCK_CREATE',
-  /** A payload for product create was received. */
+  /** A payload for stock delete was received. */
+  StockDelete = 'STOCK_DELETE',
+  /** A payload for stock update was received. */
   StockUpdate = 'STOCK_UPDATE',
   /** A payload for vehicles was received */
   VehiclePayload = 'VEHICLE_PAYLOAD',
-  /** A payload for product delete was received. */
+  /** A payload for warehouse create was received. */
   WarehouseCreate = 'WAREHOUSE_CREATE',
-  /** A payload for product delete was received. */
+  /** A payload for warehouse delete was received. */
   WarehouseDelete = 'WAREHOUSE_DELETE',
-  /** A payload for product update was received. */
+  /** A payload for warehouse update was received. */
   WarehouseUpdate = 'WAREHOUSE_UPDATE'
 }
 
@@ -5151,6 +5117,19 @@ export type Geolocalization = {
   __typename?: 'Geolocalization';
   /** Country of the user acquired by his IP address. */
   country?: Maybe<CountryDisplay>;
+};
+
+/** Retrieves an onboarding link for the given vendor from the given gateway if available. */
+export type GetPayoutOnboardingLink = {
+  __typename?: 'GetPayoutOnboardingLink';
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  /** Onboarding link for the given vendor from the given gateway if available. */
+  link?: Maybe<Scalars['String']>;
+  pluginsErrors: Array<PluginError>;
 };
 
 /** A gift card is a prepaid electronic payment card accepted in stores. They can be used during checkout by providing a valid gift card codes. */
@@ -5392,6 +5371,19 @@ export type HashtagTypeCountableEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node: HashtagType;
+};
+
+export type HistoricalOrderLineInput = {
+  /** Order ID in the external source. */
+  externalId?: InputMaybe<Scalars['String']>;
+  /** Number of variant items ordered. */
+  quantity: Scalars['Int'];
+  /** Total price with taxes. */
+  unitPriceGrossAmount?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Total price without taxes. */
+  unitPriceNetAmount?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Product variant ID. */
+  variantId: Scalars['ID'];
 };
 
 /** Updates homepage collection of the shop. */
@@ -5740,9 +5732,9 @@ export type InvoiceRequestDelete = {
   invoiceErrors: Array<InvoiceError>;
 };
 
-/** Send an invoice by email. */
-export type InvoiceSendEmail = {
-  __typename?: 'InvoiceSendEmail';
+/** Send an invoice notification to the customer. */
+export type InvoiceSendNotification = {
+  __typename?: 'InvoiceSendNotification';
   /**
    * List of errors that occurred executing the mutation.
    * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
@@ -7329,8 +7321,12 @@ export type Mutation = {
   enhancedAccountRegister?: Maybe<EnhancedAccountRegister>;
   /** Export catalog. */
   exportCatalog?: Maybe<ExportCatalog>;
+  /** Export customer list. */
+  exportCustomers?: Maybe<ExportCustomers>;
   /** Export products to csv file. */
   exportProducts?: Maybe<ExportProducts>;
+  /** Retrieves an onboarding link for the given vendor from the given gateway if available. */
+  getPayoutOnboardingLink?: Maybe<GetPayoutOnboardingLink>;
   /** Activate a gift card. */
   giftCardActivate?: Maybe<GiftCardActivate>;
   /** Creates a new gift card. */
@@ -7359,8 +7355,8 @@ export type Mutation = {
   invoiceRequest?: Maybe<InvoiceRequest>;
   /** Requests deletion of an invoice. */
   invoiceRequestDelete?: Maybe<InvoiceRequestDelete>;
-  /** Send an invoice by email. */
-  invoiceSendEmail?: Maybe<InvoiceSendEmail>;
+  /** Send an invoice notification to the customer. */
+  invoiceSendNotification?: Maybe<InvoiceSendNotification>;
   /** Updates an invoice. */
   invoiceUpdate?: Maybe<InvoiceUpdate>;
   /** Geocode locations */
@@ -7431,6 +7427,8 @@ export type Mutation = {
   nauticalDraftOrderLinesCreate?: Maybe<NauticalDraftOrderLinesCreate>;
   /** Updates a draft nautical order. */
   nauticalDraftOrderUpdate?: Maybe<NauticalDraftOrderUpdate>;
+  /** Creates a new Nautical historical order. */
+  nauticalHistoricalOrderCreate?: Maybe<NauticalHistoricalOrderCreate>;
   /** Adds note to the order. */
   nauticalOrderAddNote?: Maybe<NauticalOrderAddNote>;
   /** Cancel an order. */
@@ -7789,10 +7787,6 @@ export type Mutation = {
   shippingZoneDelete?: Maybe<ShippingZoneDelete>;
   /** Updates a new shipping zone. */
   shippingZoneUpdate?: Maybe<ShippingZoneUpdate>;
-  /** Get the shipping rate available for Seller Order. */
-  shippyProGetCarrierRates?: Maybe<ShippyProGetCarrierRates>;
-  /** Get drop off points for selected courier. */
-  shippyProGetDropOffPoints?: Maybe<ShippyProGetDropOffPoints>;
   /** Update the shop's address. If the `null` value is passed, the currently selected address will be deleted. */
   shopAddressUpdate?: Maybe<ShopAddressUpdate>;
   /** Updates site domain of the shop. */
@@ -7844,6 +7838,8 @@ export type Mutation = {
   updatePrivateMetadata?: Maybe<UpdatePrivateMetadata>;
   /** Updates a sellers status and override information */
   updateSellerData?: Maybe<UpdateSellerData>;
+  /** Updates settings for the given seller. */
+  updateSellerSettings?: Maybe<UpdateSellerSettings>;
   /** Updates given warehouse. */
   updateWarehouse?: Maybe<WarehouseUpdate>;
   /** Deletes a user avatar. Only for staff members. */
@@ -8367,6 +8363,7 @@ export type MutationCheckoutCompleteArgs = {
   checkoutId: Scalars['ID'];
   microsite?: InputMaybe<Scalars['ID']>;
   paymentData?: InputMaybe<Scalars['JSONString']>;
+  poNumber?: InputMaybe<Scalars['String']>;
   redirectUrl?: InputMaybe<Scalars['String']>;
   storeSource?: InputMaybe<Scalars['Boolean']>;
   userOverride?: InputMaybe<Scalars['ID']>;
@@ -8730,8 +8727,21 @@ export type MutationExportCatalogArgs = {
 };
 
 
+export type MutationExportCustomersArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+  sellerId?: InputMaybe<Scalars['ID']>;
+};
+
+
 export type MutationExportProductsArgs = {
   input: ExportProductsInput;
+};
+
+
+export type MutationGetPayoutOnboardingLinkArgs = {
+  gateway: Scalars['String'];
+  vendorId: Scalars['ID'];
+  vendorType: Scalars['String'];
 };
 
 
@@ -8813,7 +8823,7 @@ export type MutationInvoiceRequestDeleteArgs = {
 };
 
 
-export type MutationInvoiceSendEmailArgs = {
+export type MutationInvoiceSendNotificationArgs = {
   id: Scalars['ID'];
 };
 
@@ -9007,6 +9017,11 @@ export type MutationNauticalDraftOrderLinesCreateArgs = {
 export type MutationNauticalDraftOrderUpdateArgs = {
   id: Scalars['ID'];
   input: DraftOrderInput;
+};
+
+
+export type MutationNauticalHistoricalOrderCreateArgs = {
+  input: NauticalHistoricalOrderInput;
 };
 
 
@@ -9815,23 +9830,6 @@ export type MutationShippingZoneUpdateArgs = {
 };
 
 
-export type MutationShippyProGetCarrierRatesArgs = {
-  checkoutToken: Scalars['String'];
-  sellerId: Scalars['ID'];
-  toAddress: AddressInput;
-};
-
-
-export type MutationShippyProGetDropOffPointsArgs = {
-  checkoutToken: Scalars['String'];
-  city: Scalars['String'];
-  country: Scalars['String'];
-  courier: Scalars['String'];
-  sellerId: Scalars['ID'];
-  zip: Scalars['String'];
-};
-
-
 export type MutationShopAddressUpdateArgs = {
   input?: InputMaybe<AddressInput>;
 };
@@ -9970,6 +9968,12 @@ export type MutationUpdatePrivateMetadataArgs = {
 export type MutationUpdateSellerDataArgs = {
   id: Scalars['ID'];
   input: SellerUpdateInput;
+};
+
+
+export type MutationUpdateSellerSettingsArgs = {
+  id: Scalars['ID'];
+  input: SellerSettingsUpdateInput;
 };
 
 
@@ -10417,6 +10421,56 @@ export enum NauticalFulfillmentStatus {
   ReturnRequested = 'RETURN_REQUESTED'
 }
 
+/** Creates a new Nautical historical order. */
+export type NauticalHistoricalOrderCreate = {
+  __typename?: 'NauticalHistoricalOrderCreate';
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  nauticalOrder?: Maybe<NauticalOrder>;
+  orderErrors: Array<OrderError>;
+};
+
+export type NauticalHistoricalOrderInput = {
+  /** Billing address of the customer. */
+  billingAddress?: InputMaybe<AddressInput>;
+  /** ID of the channel to attach the order to */
+  channel?: InputMaybe<Scalars['ID']>;
+  /** Created date time of historical order in ISO 8601 format. */
+  created?: InputMaybe<Scalars['DateTime']>;
+  /** Currency code. */
+  currency?: InputMaybe<Scalars['String']>;
+  /** A note from a customer. Visible by customers in the order summary. */
+  customerNote?: InputMaybe<Scalars['String']>;
+  /** Discount amount for the order. */
+  discount?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Order ID in the external source. */
+  externalId?: InputMaybe<Scalars['String']>;
+  externalInventoryId?: InputMaybe<Scalars['String']>;
+  /** External source name. */
+  externalSource?: InputMaybe<Scalars['String']>;
+  /** Variant line input consisting of variant ID and quantity of products. */
+  lines?: InputMaybe<Array<InputMaybe<HistoricalOrderLineInput>>>;
+  seller?: InputMaybe<Scalars['ID']>;
+  /** Shipping address of the customer. */
+  shippingAddress?: InputMaybe<AddressInput>;
+  /** ID of a selected shipping method. */
+  shippingMethod?: InputMaybe<Scalars['ID']>;
+  /** Shipping price with taxes. */
+  shippingPriceGrossAmount?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Shipping price without taxes. */
+  shippingPriceNetAmount?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Total price with taxes. */
+  totalGrossAmount?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Total price without taxes. */
+  totalNetAmount?: InputMaybe<Scalars['PositiveDecimal']>;
+  user?: InputMaybe<Scalars['ID']>;
+  /** Email address of the customer. */
+  userEmail?: InputMaybe<Scalars['String']>;
+};
+
 /** Represents a nautical order in the shop. */
 export type NauticalOrder = Node & ObjectWithMetadata & {
   __typename?: 'NauticalOrder';
@@ -10445,6 +10499,8 @@ export type NauticalOrder = Node & ObjectWithMetadata & {
   giftCards?: Maybe<Array<Maybe<GiftCard>>>;
   /** The ID of the object. */
   id: Scalars['ID'];
+  /** Data time when the order was imported from another platform. */
+  importedAt?: Maybe<Scalars['DateTime']>;
   /** List of order invoices. */
   invoices?: Maybe<Array<Maybe<Invoice>>>;
   /** Informs if an order is fully paid. */
@@ -11016,6 +11072,8 @@ export type Order = Node & ObjectWithMetadata & {
   giftCards?: Maybe<Array<Maybe<GiftCard>>>;
   /** The ID of the object. */
   id: Scalars['ID'];
+  /** Data time when the order was imported from another platform. */
+  importedAt?: Maybe<Scalars['DateTime']>;
   /** List of order invoices. */
   invoices?: Maybe<Array<Maybe<Invoice>>>;
   /** Informs if an order is fully paid. */
@@ -11274,6 +11332,7 @@ export type OrderDraftFilterInput = {
   channel?: InputMaybe<Scalars['String']>;
   created?: InputMaybe<DateRangeInput>;
   customer?: InputMaybe<Scalars['String']>;
+  isHistorical?: InputMaybe<Scalars['Boolean']>;
   search?: InputMaybe<Scalars['String']>;
 };
 
@@ -11391,8 +11450,10 @@ export type OrderEventOrderLineObject = {
 
 /** An enumeration. */
 export enum OrderEventsEmailsEnum {
+  Confirmed = 'CONFIRMED',
   DigitalLinks = 'DIGITAL_LINKS',
   FulfillmentConfirmation = 'FULFILLMENT_CONFIRMATION',
+  MpoExpiringOrdersNotification = 'MPO_EXPIRING_ORDERS_NOTIFICATION',
   MpoOrderNotification = 'MPO_ORDER_NOTIFICATION',
   OrderCancel = 'ORDER_CANCEL',
   OrderConfirmation = 'ORDER_CONFIRMATION',
@@ -11405,7 +11466,9 @@ export enum OrderEventsEmailsEnum {
 
 /** An enumeration. */
 export enum OrderEventsEnum {
+  AddedProducts = 'ADDED_PRODUCTS',
   Canceled = 'CANCELED',
+  Confirmed = 'CONFIRMED',
   DraftAddedProducts = 'DRAFT_ADDED_PRODUCTS',
   DraftCreated = 'DRAFT_CREATED',
   DraftRemovedProducts = 'DRAFT_REMOVED_PRODUCTS',
@@ -11430,6 +11493,7 @@ export enum OrderEventsEnum {
   PaymentVoided = 'PAYMENT_VOIDED',
   Placed = 'PLACED',
   PlacedFromDraft = 'PLACED_FROM_DRAFT',
+  RemovedProducts = 'REMOVED_PRODUCTS',
   ReturnAuthorized = 'RETURN_AUTHORIZED',
   ReturnCancelled = 'RETURN_CANCELLED',
   ReturnComplete = 'RETURN_COMPLETE',
@@ -11444,6 +11508,7 @@ export type OrderFilterInput = {
   channel?: InputMaybe<Scalars['String']>;
   created?: InputMaybe<DateRangeInput>;
   customer?: InputMaybe<Scalars['String']>;
+  isHistorical?: InputMaybe<Scalars['Boolean']>;
   paymentStatus?: InputMaybe<Array<InputMaybe<PaymentChargeStatusEnum>>>;
   search?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Array<InputMaybe<OrderStatusFilter>>>;
@@ -12845,6 +12910,7 @@ export type Product = Node & ObjectWithMetadata & {
   cumulativePrice?: Maybe<Money>;
   /** Available stock for grouped product. */
   cumulativeStock?: Maybe<Scalars['Int']>;
+  currency: Scalars['String'];
   defaultVariant?: Maybe<ProductVariant>;
   description: Scalars['String'];
   descriptionJson: Scalars['JSONString'];
@@ -12888,6 +12954,7 @@ export type Product = Node & ObjectWithMetadata & {
   name: Scalars['String'];
   /** Products origin location. */
   originLocation?: Maybe<Location>;
+  overrideCurrency: Scalars['Boolean'];
   overridePrice: Scalars['Boolean'];
   /** Lists the storefront product's pricing, the current price and discounts, only meant for displaying. */
   pricing?: Maybe<ProductPricingInfo>;
@@ -13079,6 +13146,8 @@ export type ProductCreateInput = {
   configuration?: InputMaybe<Scalars['Int']>;
   /** Default cost price for product variant. Note: this field is only used if a product doesn't use variants. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Choose a currency to assign to the product prices. */
+  currency?: InputMaybe<Scalars['String']>;
   /** Product description (HTML/text). */
   description?: InputMaybe<Scalars['String']>;
   /** Product description (JSON). */
@@ -13095,13 +13164,16 @@ export type ProductCreateInput = {
   mpn?: InputMaybe<Scalars['String']>;
   /** Product name. */
   name?: InputMaybe<Scalars['String']>;
+  /** Override currency for product */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Override price for grouped products */
   overridePrice?: InputMaybe<Scalars['Boolean']>;
   /** ID of the type that product belongs to. */
   productType: Scalars['ID'];
   /** Publication date. ISO 8601 standard. */
   publicationDate?: InputMaybe<Scalars['Date']>;
-  seller?: InputMaybe<Scalars['ID']>;
+  /** ID of the seller that product belongs to. */
+  seller: Scalars['ID'];
   /** Search engine optimization fields. */
   seo?: InputMaybe<SeoInput>;
   /** Stock keeping unit of a product. Note: this field is only used if a product doesn't use variants. */
@@ -13344,6 +13416,8 @@ export type ProductInput = {
   collections?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Default cost price for product variant. Note: this field is only used if a product doesn't use variants. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Choose a currency to assign to the product prices. */
+  currency?: InputMaybe<Scalars['String']>;
   /** Product description (HTML/text). */
   description?: InputMaybe<Scalars['String']>;
   /** Product description (JSON). */
@@ -13360,11 +13434,12 @@ export type ProductInput = {
   mpn?: InputMaybe<Scalars['String']>;
   /** Product name. */
   name?: InputMaybe<Scalars['String']>;
+  /** Override currency for product */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Override price for grouped products */
   overridePrice?: InputMaybe<Scalars['Boolean']>;
   /** Publication date. ISO 8601 standard. */
   publicationDate?: InputMaybe<Scalars['Date']>;
-  seller?: InputMaybe<Scalars['ID']>;
   /** Search engine optimization fields. */
   seo?: InputMaybe<SeoInput>;
   /** Stock keeping unit of a product. Note: this field is only used if a product doesn't use variants. */
@@ -13439,6 +13514,8 @@ export type ProductOrder = {
 export enum ProductOrderField {
   /** Sort products by category. */
   Category = 'CATEGORY',
+  /** Sort products by create date. */
+  Created = 'CREATED',
   /** Sort products by update date. */
   Date = 'DATE',
   /** Sort products by a minimal price of a product's variant. */
@@ -13880,6 +13957,7 @@ export type ProductVariant = Node & ObjectWithMetadata & {
   attributes: Array<SelectedAttribute>;
   /** Cost price of the variant. */
   costPrice?: Maybe<Money>;
+  currency?: Maybe<Scalars['String']>;
   /** Digital content for the product variant. */
   digitalContent?: Maybe<DigitalContent>;
   grossRevenue?: Maybe<Scalars['Float']>;
@@ -13903,6 +13981,7 @@ export type ProductVariant = Node & ObjectWithMetadata & {
   metadata: Array<Maybe<MetadataItem>>;
   name: Scalars['String'];
   netRevenue?: Maybe<Scalars['Float']>;
+  overrideCurrency: Scalars['Boolean'];
   /** Base price of a product variant. This field is restricted for admins. Use the pricing field to get the public price for customers. */
   price?: Maybe<Money>;
   /** Lists the storefront variant's pricing, the current price and discounts, only meant for displaying. */
@@ -13981,6 +14060,10 @@ export type ProductVariantBulkCreateInput = {
   attributes: Array<InputMaybe<AttributeValueInput>>;
   /** Cost price of the variant. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Currency of the product variant */
+  currency?: InputMaybe<Scalars['String']>;
+  /** Whether to override the currency for this product variant */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Price of the particular variant. */
   price?: InputMaybe<Scalars['PositiveDecimal']>;
   /** Stock keeping unit. */
@@ -14064,6 +14147,10 @@ export type ProductVariantCreateInput = {
   attributes: Array<InputMaybe<AttributeValueInput>>;
   /** Cost price of the variant. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Currency of the product variant */
+  currency?: InputMaybe<Scalars['String']>;
+  /** Whether to override the currency for this product variant */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Price of the particular variant. */
   price?: InputMaybe<Scalars['PositiveDecimal']>;
   /** Product ID of which type is the variant. */
@@ -14100,6 +14187,10 @@ export type ProductVariantInput = {
   attributes?: InputMaybe<Array<InputMaybe<AttributeValueInput>>>;
   /** Cost price of the variant. */
   costPrice?: InputMaybe<Scalars['PositiveDecimal']>;
+  /** Currency of the product variant */
+  currency?: InputMaybe<Scalars['String']>;
+  /** Whether to override the currency for this product variant */
+  overrideCurrency?: InputMaybe<Scalars['Boolean']>;
   /** Price of the particular variant. */
   price?: InputMaybe<Scalars['PositiveDecimal']>;
   /** Stock keeping unit. */
@@ -14347,6 +14438,8 @@ export type Query = {
   exportFiles?: Maybe<ExportFileCountableConnection>;
   /** Get client secret if necessary for frontend configuration. */
   getClientSecret?: Maybe<Scalars['GenericScalar']>;
+  /** List of active payment gateways that have payouts enabled. */
+  getPayoutGateways?: Maybe<Array<Maybe<PaymentGateway>>>;
   /** Look up a gift card by ID. */
   giftCard?: Maybe<GiftCard>;
   /** List of gift cards. */
@@ -15584,6 +15677,12 @@ export type QueryTypeformFormArgs = {
 };
 
 
+export type QueryTypeformFormsArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryUpcItemDbArgs = {
   barcode?: InputMaybe<Scalars['String']>;
 };
@@ -16058,7 +16157,7 @@ export type SaleTranslation = Node & {
 
 /** An enumeration. */
 export enum SaleType {
-  /** EUR */
+  /** USD */
   Fixed = 'FIXED',
   /** % */
   Percentage = 'PERCENTAGE'
@@ -16096,9 +16195,13 @@ export type Seller = Node & ObjectWithMetadata & {
   companyName: Scalars['String'];
   created?: Maybe<Scalars['DateTime']>;
   defaultBillingAddress?: Maybe<Address>;
+  defaultCurrency: Scalars['String'];
   defaultShippingAddress?: Maybe<Address>;
   domainSet: NauticalSiteCountableConnection;
   events: SellerEventTypeCountableConnection;
+  externalPayoutAccountId?: Maybe<Scalars['String']>;
+  externalPayoutOnboardingUrl?: Maybe<Scalars['String']>;
+  externalPayoutSource?: Maybe<SellerExternalPayoutSource>;
   flows: FlowCountableConnection;
   /** The ID of the object. */
   id: Scalars['ID'];
@@ -16135,6 +16238,7 @@ export type Seller = Node & ObjectWithMetadata & {
   status: SellerStatus;
   syncConfiguration: SyncConfigurationCountableConnection;
   updated?: Maybe<Scalars['DateTime']>;
+  variants: ProductVariantCountableConnection;
   warehouses: WarehouseCountableConnection;
   webhookTransactions: WebhookJobCountableConnection;
 };
@@ -16265,6 +16369,14 @@ export type SellerSyncConfigurationArgs = {
 };
 
 
+export type SellerVariantsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
 export type SellerWarehousesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -16316,7 +16428,7 @@ export type SellerAddressSetDefault = {
    * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
    */
   errors: Array<Error>;
-  /** An updated user instance. */
+  /** An updated seller instance. */
   seller?: Maybe<Seller>;
   sellerErrors: Array<SellerError>;
 };
@@ -16433,6 +16545,12 @@ export enum SellerEventsEnum {
   SellerStatusChanged = 'SELLER_STATUS_CHANGED'
 }
 
+/** An enumeration. */
+export enum SellerExternalPayoutSource {
+  /** nautical.payments.stripe */
+  NauticalPaymentsStripe = 'NAUTICAL_PAYMENTS_STRIPE'
+}
+
 export type SellerFilterInput = {
   created?: InputMaybe<DateRangeInput>;
   search?: InputMaybe<Scalars['String']>;
@@ -16464,6 +16582,11 @@ export type SellerNoteInput = {
   message?: InputMaybe<Scalars['String']>;
   seller?: InputMaybe<Scalars['ID']>;
   user?: InputMaybe<Scalars['ID']>;
+};
+
+export type SellerSettingsUpdateInput = {
+  /** Default currency for the seller. */
+  defaultCurrency?: InputMaybe<Scalars['String']>;
 };
 
 export enum SellerSortField {
@@ -16506,29 +16629,6 @@ export enum SellerStatusFilter {
   Pending = 'PENDING',
   Suspended = 'SUSPENDED'
 }
-
-export type SellerType = Node & ObjectWithMetadata & {
-  __typename?: 'SellerType';
-  companyName?: Maybe<Scalars['String']>;
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  /**
-   * List of publicly stored metadata namespaces.
-   * @deprecated Use the `metadata` field. This field will be removed after 2020-07-31.
-   */
-  meta: Array<Maybe<MetaStore>>;
-  /** List of public metadata items. Can be accessed without permissions. */
-  metadata: Array<Maybe<MetadataItem>>;
-  owner?: Maybe<UserType>;
-  pk?: Maybe<Scalars['Int']>;
-  /**
-   * List of privately stored metadata namespaces.
-   * @deprecated Use the `privetaMetadata` field. This field will be removed after 2020-07-31.
-   */
-  privateMeta: Array<Maybe<MetaStore>>;
-  /** List of private metadata items.Requires proper staff permissions to access. */
-  privateMetadata: Array<Maybe<MetadataItem>>;
-};
 
 export type SellerUpdateInput = {
   plan?: InputMaybe<Scalars['ID']>;
@@ -17079,32 +17179,6 @@ export type ShippingZoneUpdateInput = {
   removeWarehouses?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Seller ID */
   seller?: InputMaybe<Scalars['ID']>;
-};
-
-/** Get the shipping rate available for Seller Order. */
-export type ShippyProGetCarrierRates = {
-  __typename?: 'ShippyProGetCarrierRates';
-  /** Available shipping carrier rates. */
-  carrierRates?: Maybe<Array<Maybe<CarrierRates>>>;
-  /**
-   * List of errors that occurred executing the mutation.
-   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
-   */
-  errors: Array<Error>;
-  orderErrors: Array<OrderError>;
-};
-
-/** Get drop off points for selected courier. */
-export type ShippyProGetDropOffPoints = {
-  __typename?: 'ShippyProGetDropOffPoints';
-  /**
-   * List of errors that occurred executing the mutation.
-   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
-   */
-  errors: Array<Error>;
-  orderErrors: Array<OrderError>;
-  /** List of drop off points, if any, for courier. */
-  points?: Maybe<Array<Maybe<DropOffPoints>>>;
 };
 
 /** Represents a shop resource containing general shop data and configuration. */
@@ -18096,13 +18170,6 @@ export type TypeformGroupProperties = {
   type?: Maybe<Scalars['String']>;
 };
 
-/** Unit of measurement info */
-export type UnitOfMeasurement = {
-  __typename?: 'UnitOfMeasurement';
-  Code?: Maybe<Scalars['String']>;
-  Description?: Maybe<Scalars['String']>;
-};
-
 export type UpdateBranding = {
   __typename?: 'UpdateBranding';
   branding?: Maybe<BrandingType>;
@@ -18166,6 +18233,19 @@ export type UpdateSellerData = {
   seller?: Maybe<Seller>;
 };
 
+/** Updates settings for the given seller. */
+export type UpdateSellerSettings = {
+  __typename?: 'UpdateSellerSettings';
+  /**
+   * List of errors that occurred executing the mutation.
+   * @deprecated Use typed errors with error codes. This field will be removed after 2020-07-31.
+   */
+  errors: Array<Error>;
+  /** An updated seller instance. */
+  seller?: Maybe<Seller>;
+  sellerErrors: Array<SellerError>;
+};
+
 /** Represents user data. */
 export type User = Node & ObjectWithMetadata & {
   __typename?: 'User';
@@ -18187,6 +18267,9 @@ export type User = Node & ObjectWithMetadata & {
   email: Scalars['String'];
   /** List of events associated with the user. */
   events?: Maybe<Array<Maybe<CustomerEvent>>>;
+  externalPayoutAccountId?: Maybe<Scalars['String']>;
+  externalPayoutOnboardingUrl?: Maybe<Scalars['String']>;
+  externalPayoutSource?: Maybe<SellerExternalPayoutSource>;
   firstName: Scalars['String'];
   /** List of the user gift cards. */
   giftCards?: Maybe<GiftCardCountableConnection>;
@@ -18450,30 +18533,6 @@ export type UserSortingInput = {
   direction: OrderDirection;
   /** Sort users by the selected field. */
   field: UserSortField;
-};
-
-export type UserType = Node & ObjectWithMetadata & {
-  __typename?: 'UserType';
-  defaultShippingAddress?: Maybe<AddressType>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  lastName?: Maybe<Scalars['String']>;
-  /**
-   * List of publicly stored metadata namespaces.
-   * @deprecated Use the `metadata` field. This field will be removed after 2020-07-31.
-   */
-  meta: Array<Maybe<MetaStore>>;
-  /** List of public metadata items. Can be accessed without permissions. */
-  metadata: Array<Maybe<MetadataItem>>;
-  /**
-   * List of privately stored metadata namespaces.
-   * @deprecated Use the `privetaMetadata` field. This field will be removed after 2020-07-31.
-   */
-  privateMeta: Array<Maybe<MetaStore>>;
-  /** List of private metadata items.Requires proper staff permissions to access. */
-  privateMetadata: Array<Maybe<MetadataItem>>;
 };
 
 /** Updates metadata for user. */

@@ -9,14 +9,15 @@ import {
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
 import NetworkStatus from "components/atoms/NetworkStatus";
-import { ProductFilterInput, ProductListQueryVariables, useProductListQuery } from "@generated";
+import { ProductsQueryVariables, useProductsQuery } from "@generated";
+import { ProductFilters } from "types/Product";
 
 import Page from "../Page";
 import { FilterQuerySet } from "../View";
 
 interface ProductsProps {
-  variables: ProductListQueryVariables;
-  filters: ProductFilterInput;
+  variables: ProductsQueryVariables;
+  filters: ProductFilters;
 }
 
 const Products = ({
@@ -28,9 +29,7 @@ const Products = ({
     "filters",
     FilterQuerySet
   );
-  // TODO: Why `loadMore` is missing?
-  // @ts-ignore
-  const { loading, data, loadMore } = useProductListQuery({
+  const { loading, data, fetchMore } = useProductsQuery({
     variables,
     errorPolicy: "all",
   });
@@ -42,8 +41,6 @@ const Products = ({
   const onFiltersChange = (name: string, value: string) => {
     if (attributeFilters && attributeFilters.hasOwnProperty(name)) {
       if (attributeFilters[name].includes(value)) {
-        // TODO: filters.attributes is array?
-        // @ts-ignore
         if (filters.attributes?.[name]?.length === 1) {
           const att = { ...attributeFilters };
           delete att[`${name}`];
@@ -114,18 +111,18 @@ const Products = ({
         );
 
         const handleLoadMore = () =>
-          loadMore(
-            // TODO: see missing loadMore issue
-            // @ts-ignore
-            (prev, next) => ({
-              ...prev,
-              products: {
-                ...prev.products,
-                edges: [...prev.products.edges, ...next.products.edges],
-                pageInfo: next.products.pageInfo,
-              },
-            }),
-            { after: data?.products?.pageInfo.endCursor }
+          fetchMore(
+            // TODO: Refactor loadMore into the new fetchMore structure
+            {}
+            // (prev, next) => ({
+            //   ...prev,
+            //   products: {
+            //     ...prev.products,
+            //     edges: [...prev.products.edges, ...next.products.edges],
+            //     pageInfo: next.products.pageInfo,
+            //   },
+            // }),
+            // { after: data?.products?.pageInfo.endCursor }
           );
 
         if (canDisplayFilters) {
@@ -137,32 +134,18 @@ const Products = ({
             >
               <Page
                 clearFilters={clearFilters}
-                // TODO: No attribute in ProductsListQuery?
-                // @ts-ignore
                 attributes={data?.attributes?.edges.map(
-                  // TODO: see above
-                  // @ts-ignore
                   (edge) => edge.node
-                )}
-                // TODO: No menu in ProductsListQuery?
-                // @ts-ignore
-                menu={data.menu}
+                ) ?? []}
+                menu={data?.menu}
                 displayLoader={loading}
                 hasNextPage={maybe(
                   () => !!data?.products?.pageInfo.hasNextPage,
                   false
                 ) as boolean}
-                // TODO: Fix sortOptions type
-                // @ts-ignore
                 sortOptions={sortOptions}
-                // TODO: No sortBy in ProductFilterInput?
-                // @ts-ignore
                 activeSortOption={filters.sortBy}
-                // TODO: Fix filters type
-                // @ts-ignore
                 filters={filters}
-                // TODO: Fix products type
-                // @ts-ignore
                 products={data?.products}
                 onAttributeFiltersChange={onFiltersChange}
                 onLoadMore={handleLoadMore}

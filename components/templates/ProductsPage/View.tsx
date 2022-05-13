@@ -11,11 +11,13 @@ import {
   getGraphqlIdFromDBId,
 } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
-import { Layout } from "@layout";
+import { ProductsQueryVariables } from "@generated";
 
 import LoginToViewProducts from "./components/LoginToViewProducts";
 import BuilderProducts from "./components/BuilderProducts";
 import Products from "./components/Products";
+
+import { ProductFilters } from "../../../types/Product";
 
 export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
   encode(valueObj) {
@@ -42,11 +44,9 @@ export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
 
 interface ProductsProps {
   logo: string;
-  // TODO: where to get it? What is the type of it?
-  branding: any;
 }
 
-export const View = ({ logo, branding = {} }: ProductsProps) => {
+export const View = ({ logo }: ProductsProps) => {
   const params = useParams();
   const [sort] = useQueryParam("sortBy", StringParam);
   const [attributeFilters] = useQueryParam(
@@ -62,53 +62,36 @@ export const View = ({ logo, branding = {} }: ProductsProps) => {
 
   const { loginForProducts, builderKey } = useShopContext();
 
-  const filters: IFilters = {
+  const filters: ProductFilters = {
     attributes: attributeFilters,
     pageSize: PRODUCTS_PER_PAGE,
-    // TODO: Is it expected to be null? Nothing is specified in the docs
-    // @ts-ignore
-    priceGte: null,
-    // @ts-ignore
-    priceLte: null,
-    // @ts-ignore
-    sortBy: sort || null,
+    sortBy: sort || undefined,
   };
-  const variables = {
+  const variables: ProductsQueryVariables = {
     ...filters,
     after: afterFilters,
+    // TODO: since before is missing in type - it is not allowed in the API?
+    // @ts-ignore
     before: beforeFilters,
     first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
     attributes: filters.attributes
       ? convertToAttributeScalar(filters.attributes)
       : {},
-    // TODO: id is empty here?
+    // TODO: id is empty here? is that expected?
     // @ts-ignore
     id: getGraphqlIdFromDBId(params.id, "Category"),
     sortBy: convertSortByFromString(filters.sortBy),
   };
 
-  // TODO: Add Layout with metadata once it is merged into main
-  //     meta={{
-  //       description: "All Products",
-  //       title: "All Products",
-  //       type: "product.products",
-  //     }}
-
+  if (!user && loginForProducts) {
+    return (<LoginToViewProducts logo={logo} />);
+  }
+  if (builderKey) {
+    return (<BuilderProducts variables={variables} />);
+  }
   return (
-    <Layout branding={branding}>
-      {
-        (!user && loginForProducts) ? (
-          <LoginToViewProducts logo={logo} />
-        ) : builderKey ? (
-          <BuilderProducts variables={variables} />
-        ) : (
-          // TODO: Fix types
-          // @ts-ignore
-          <Products variables={variables} filters={filters} />
-        )
-      }
-    </Layout>
+    <Products variables={variables} filters={filters} />
   );
 };
 
