@@ -65,8 +65,6 @@ export const ProductList = ({
               >
                 <ProductListItem
                   wide
-                  // TODO: Products typing is a mess. Total types refactoring needed
-                  // @ts-ignore
                   product={product}
                   loginForPrice={Boolean(loginForPrice && !user)}
                 />

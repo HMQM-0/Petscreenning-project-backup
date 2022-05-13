@@ -10,7 +10,6 @@ import { FilterSidebar } from "components/organisms/FilterSidebar";
 import { Attribute, Menu, ProductCountableConnection } from "@generated";
 
 import classes from "./scss/index.module.scss";
-// import { Menu } from "./gqlTypes/Products";
 
 import { ProductFilters } from "../../../types/Product";
 
@@ -77,6 +76,8 @@ const Page = ({
       // @ts-ignore
       valueName: attributes
         .find(({ slug }) => attributeSlug === slug)
+        // TODO: values can not contain null values like [null, {}, ...]. That is a BE error
+        // @ts-ignore
         .values.find(({ slug }) => valueSlug === slug).name,
       valueSlug,
     };
@@ -103,6 +104,8 @@ const Page = ({
         <ProductSideNavbar
           show={showDirectory}
           onHide={() => setShowDirectory(false)}
+          // TODO: items can not contain `null`. e.g. [null, {}, ...]. This is a BE issue
+          // @ts-ignore
           items={menu?.items}
         />
         <FilterSidebar

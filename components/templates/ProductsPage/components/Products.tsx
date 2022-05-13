@@ -146,6 +146,7 @@ const Products = ({
                 sortOptions={sortOptions}
                 activeSortOption={filters.sortBy}
                 filters={filters}
+                // TODO: products is NOT undefined here. That is a generated type error
                 products={data?.products}
                 onAttributeFiltersChange={onFiltersChange}
                 onLoadMore={handleLoadMore}

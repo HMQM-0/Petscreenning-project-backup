@@ -10,6 +10,7 @@ import pricecapImage from "deprecated/images/pricing-cap.svg";
 import { AddToWishlist } from "@components/organisms";
 import { TaxedMoney } from "components/containers/TaxedMoney";
 import { BasicProductFields } from "deprecated/views/Product/gqlTypes/BasicProductFields";
+import { ProductsPageProductFragment } from "@generated";
 
 import classes from "./scss/index.module.scss";
 
@@ -76,7 +77,8 @@ export interface Product extends BasicProductFields {
 
 interface ProductListItemProps {
   loginForPrice?: boolean;
-  product: Product;
+  // TODO: We might need to replace this with some other type (once this component is used on any other page)
+  product: ProductsPageProductFragment;
   style?: number;
   wide?: boolean;
 }
@@ -218,6 +220,8 @@ const ProductListItem = ({
           <Box
             className={wide ? classes['product-list-image-wide'] : classes['product-list-image']}
           >
+            {/* // TODO: product.image can undefined in type. Is that an error? */}
+            {/* @ts-ignore */}
             <Thumbnail source={product} height="255" width="255" />
           </Box>
           <h4 className={classes['product-list-title']}>{product.name}</h4>

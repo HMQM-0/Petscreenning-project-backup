@@ -1,20 +1,21 @@
 import * as React from "react";
 import { useQuery } from "@apollo/client";
-import { useQueryParam, StringParam } from 'next-query-params';
+import { useQueryParam, StringParam } from "next-query-params";
 
 import { Loader } from "components/atoms/Loader";
-import {
-  maybe,
-} from "core/utils";
+import { maybe } from "core/utils";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
 import NetworkStatus from "components/atoms/NetworkStatus";
 import { PRODUCTS_PER_PAGE } from "core/config";
 
+// @ts-ignore
 import { builderProductsQuery } from "../queries.graphql";
 import {
   BuilderProducts as IBuilderProducts,
   BuilderProductsVariables,
+  // @ts-ignore
+  // eslint-disable-next-line import/no-unresolved
 } from "../gqlTypes/BuilderProducts";
 
 interface BuilderProductsProps {
@@ -22,9 +23,7 @@ interface BuilderProductsProps {
 }
 
 // TODO: This component to be refactored during StorePage implementation?
-const BuilderProducts = ({
-  variables,
-}: BuilderProductsProps) => {
+const BuilderProducts = ({ variables }: BuilderProductsProps) => {
   const [, setAfterFilters] = useQueryParam("after", StringParam);
   const [, setBeforeFilters] = useQueryParam("before", StringParam);
   const [, setFirstFilters] = useQueryParam("first", StringParam);

@@ -1,7 +1,8 @@
-import { IProduct } from "@types";
+import { ProductsPageProductFragment } from "@generated";
 
 export interface IProps {
-  products: IProduct[];
+  // TODO: We might need to replace this with some other type (once this component is used on any other page)
+  products: ProductsPageProductFragment[];
   canLoadMore?: boolean;
   loading?: boolean;
   onLoadMore?: () => void;

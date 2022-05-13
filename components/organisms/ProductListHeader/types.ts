@@ -1,5 +1,5 @@
 interface SortOptions {
-  value?: string;
+  value?: string | null;
   label: string;
 }
 

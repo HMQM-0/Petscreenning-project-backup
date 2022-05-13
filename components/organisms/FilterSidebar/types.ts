@@ -1,8 +1,10 @@
-import { IFilterAttributes, IFilters } from "@types";
+import { ProductsPageAttributeFragment } from "@generated";
+
+import { ProductFilters } from "../../../types/Product";
 
 export interface IProps {
-  attributes: IFilterAttributes[];
-  filters: IFilters;
+  attributes: ProductsPageAttributeFragment[];
+  filters: ProductFilters;
   hide: () => void;
   onAttributeFiltersChange: (attributeSlug: string, values: string) => void;
   show: boolean;

@@ -28,60 +28,73 @@ export const menuItem = gql`
     }
   }
 `;
+export const productsPageAttribute = gql`
+  fragment ProductsPageAttribute on Attribute {
+    id
+    name
+    slug
+    values {
+      id
+      name
+      slug
+    }
+  }
+`;
 
-// export const productsPageProduct = gql`
-//   ${basicProductFragment}
-//   ${productPricingFragment}
-//   fragment ProductsPageProduct on Product {
-//     ...BasicProductFields
-//     ...ProductPricingField
-//     seller {
-//       id
-//       companyName
-//     }
-//     category {
-//       id
-//       name
-//     }
-//     attributes {
-//       attribute {
-//         id
-//         name
-//       }
-//       values {
-//         id
-//         name
-//       }
-//     }
-//     defaultVariant {
-//       id
-//     }
-//     variants {
-//       id
-//       name
-//       images {
-//         url
-//       }
-//       attributes {
-//         attribute {
-//           id
-//           name
-//           slug
-//         }
-//         values {
-//           id
-//           name
-//           value: name
-//           extra: value
-//         }
-//       }
-//     }
-//   }
-// `;
+export const productsPageProduct = gql`
+  ${basicProductFragment}
+  ${productPricingFragment}
+  fragment ProductsPageProduct on Product {
+    ...BasicProductFields
+    ...ProductPricingField
+    seller {
+      id
+      companyName
+    }
+    category {
+      id
+      name
+    }
+    attributes {
+      attribute {
+        id
+        name
+      }
+      values {
+        id
+        name
+      }
+    }
+    defaultVariant {
+      id
+    }
+    variants {
+      id
+      name
+      images {
+        url
+      }
+      attributes {
+        attribute {
+          id
+          name
+          slug
+        }
+        values {
+          id
+          name
+          value: name
+          extra: value
+        }
+      }
+    }
+  }
+`;
 
 export const productsQuery = gql`
   ${basicProductFragment}
   ${productPricingFragment}
+  ${productsPageAttribute}
   ${menuItem}
   query Products(
     $attributes: [AttributeInput]
@@ -103,50 +116,9 @@ export const productsQuery = gql`
       totalCount
       edges {
         node {
-          ...BasicProductFields
-          ...ProductPricingField
-          seller {
-            id
-            companyName
-          }
-          category {
-            id
-            name
-          }
-          attributes {
-            attribute {
-              id
-              name
-            }
-            values {
-              id
-              name
-            }
-          }
-          defaultVariant {
-            id
-          }
-          variants {
-            id
-            name
-            images {
-              url
-            }
-            attributes {
-              attribute {
-                id
-                name
-                slug
-              }
-              values {
-                id
-                name
-                value: name
-                extra: value
-              }
-            }
-          }
+          ...ProductsPageProduct
         }
+      }
       pageInfo {
         endCursor
         hasNextPage
@@ -157,14 +129,7 @@ export const productsQuery = gql`
     attributes(first: 100) {
       edges {
         node {
-          id
-          name
-          slug
-          values {
-            id
-            name
-            slug
-          }
+          ...ProductsPageAttribute
         }
       }
     }
