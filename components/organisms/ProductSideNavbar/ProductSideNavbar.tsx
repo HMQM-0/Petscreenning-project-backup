@@ -53,15 +53,13 @@ export const ListItem = ({ item, onClick }: ListItemProps) => {
           <S.ListTitle>{item.name}</S.ListTitle>
         </S.TitleNavButton>
       </S.ListItem>
-      {item.children ? (
+      {item.children && (
         <>
           {item.children?.map((child, index) => (
             <ChildItem key={child.id} onClick={onClick} item={child} />
           ))}
           <S.ListBottomBorder />
         </>
-      ) : (
-        ""
       )}
     </>
   );

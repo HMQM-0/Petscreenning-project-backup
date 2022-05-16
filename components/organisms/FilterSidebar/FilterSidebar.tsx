@@ -18,7 +18,7 @@ const checkIfAttributeIsChecked = (
   slug: string
 ) => {
   if (filters!.attributes && filters.attributes.hasOwnProperty(slug)) {
-    return !!(filters.attributes[slug].find((filter) => filter === value.slug));
+    return filters.attributes[slug].some((filter) => filter === value.slug);
   }
   return false;
 };
