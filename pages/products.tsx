@@ -3,8 +3,6 @@ import type { NextPage, InferGetStaticPropsType } from "next";
 import {
   BrandingDocument,
   BrandingQuery,
-  HomeQuery,
-  HomeDocument,
 } from "@generated";
 import { Layout } from "@layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
@@ -14,7 +12,6 @@ import { ProductsPage } from "../components/templates/ProductsPage";
 
 const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   branding,
-  homepage,
 }) => {
   const description = "All Products";
   const title = "All Products";
@@ -24,17 +21,13 @@ const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     description,
     title,
     schema,
-    image: homepage.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
     url: "", // TODO: Store the canonical URL either as env or in dasboard
     type: "product.products",
   };
 
   return (
     <Layout documentHead={documentHead}>
-      <ProductsPage
-        // TODO: Where do I get a logo? It is now in the Layout and passed furter
-        logo={''}
-      />
+      <ProductsPage />
     </Layout>
   );
 };
@@ -42,10 +35,6 @@ const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 export async function getStaticProps() {
   const { data: brandingData } = await client.query<BrandingQuery>({
     query: BrandingDocument,
-  });
-  // TODO: What exactly to load here? HomeQuery on every page?
-  const { data: homepageData } = await client.query<HomeQuery>({
-    query: HomeDocument,
   });
 
   const fallbackBranding: typeof brandingData.branding = {
@@ -57,7 +46,6 @@ export async function getStaticProps() {
   return {
     props: {
       branding: brandingData?.branding ?? fallbackBranding,
-      homepage: homepageData,
     },
   };
 }

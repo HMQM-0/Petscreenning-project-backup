@@ -6,7 +6,7 @@ import { BrandingType } from "@generated";
 export type DocumentHeadProps = {
   title: string;
   description: string;
-  image: string;
+  image?: string;
   url: string;
   schema: string;
   type?: string;

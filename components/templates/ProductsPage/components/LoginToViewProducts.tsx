@@ -2,18 +2,16 @@ import * as React from "react";
 import { Box } from "@mui/material";
 
 import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
+import productsPageClasses from "components/templates/ProductsPage/scss/index.module.scss";
 
 import classes from "../scss/index.module.scss";
 
-const LoginToViewProducts = ({ logo }: { logo: string }) => {
+const LoginToViewProducts = () => {
   return (
     <>
       <OverlayContext.Consumer>
         {(overlayContext) => (
           <Box className={classes['products-hidden-state']}>
-            <Box>
-              {logo}
-            </Box>
             <Box className={classes['products-hidden-text']}>
               Login required to view products
             </Box>
@@ -24,9 +22,8 @@ const LoginToViewProducts = ({ logo }: { logo: string }) => {
                   overlayContext.show(OverlayType.login, OverlayTheme.right)
                 }
               >
-                {/* // TODO: where to import "text" and "icon" ? */}
-                <span className="text">Login</span>
-                <span className="icon">
+                <span className={productsPageClasses.text}>Login</span>
+                <span className={productsPageClasses.icon}>
                   <svg
                     aria-hidden="true"
                     data-prefix="far"

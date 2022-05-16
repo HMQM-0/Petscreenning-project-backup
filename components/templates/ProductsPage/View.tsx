@@ -38,11 +38,7 @@ export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
   },
 };
 
-interface ProductsProps {
-  logo: string;
-}
-
-export const View = ({ logo }: ProductsProps) => {
+export const View = () => {
   const [sort] = useQueryParam("sortBy", StringParam);
   const [attributeFilters] = useQueryParam(
     "filters",
@@ -64,7 +60,7 @@ export const View = ({ logo }: ProductsProps) => {
   };
 
   if (!user && loginForProducts) {
-    return (<LoginToViewProducts logo={logo} />);
+    return (<LoginToViewProducts />);
   }
   if (builderKey) {
     return (<BuilderProducts variables={variables} />);
