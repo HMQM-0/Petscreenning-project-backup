@@ -1,42 +1,55 @@
-import clsx from "clsx";
-import * as React from "react";
-import { Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import * as ReactDOM from "react-dom";
+import { Transition } from "react-transition-group";
 
-import { OverlayContextInterface } from "components/providers/Overlay/context";
+import * as S from "./styles";
+import { IProps } from "./types";
 
-import classes from "./scss/index.module.scss";
-
-interface OverlayProps {
-  context: OverlayContextInterface;
-  className?: string;
-  /**
-   * Unique name used as selector for writing e2e tests in Cypress
-   */
-  testingContext: string;
-  children?: React.ReactNode;
-}
-
-const Overlay = ({
+export const Overlay: React.FC<IProps> = ({
   children,
-  className,
-  context: { type, theme, hide },
+  duration = 600,
+  hide,
+  position = "center",
+  show,
+  transparent = false,
   testingContext,
-}: OverlayProps) => (
-  <Box
-    className={clsx(classes.overlay, {
-      [classes[`overlay--${type}`]]: !!type,
-      [className ?? ""]: !!className,
-    })}
-    data-test={testingContext}
-    onClick={hide}
-  >
-    <Box
-      className={classes[`overlay__${theme}`]}
-      onClick={(e) => e.stopPropagation()}
-    >
-      {children}
-    </Box>
-  </Box>
-);
+  testingContextId,
+}: IProps) => {
+  const animationProps = {
+    open: show,
+    position,
+  };
+  const [target, setTarget] = useState<HTMLElement | null>(null);
 
-export default Overlay;
+  useEffect(() => {
+    const root = document.getElementById("modal-root");
+    setTarget(root);
+  }, []);
+
+  return (
+    target &&
+    ReactDOM.createPortal(
+      <Transition in={show} timeout={duration} unmountOnExit>
+        {(state) => (
+          <S.Overlay
+            {...animationProps}
+            state={state}
+            onClick={hide}
+            transparent={transparent}
+            data-test={testingContext}
+            data-test-id={testingContextId}
+          >
+            <S.Lightbox
+              {...animationProps}
+              state={state}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {children}
+            </S.Lightbox>
+          </S.Overlay>
+        )}
+      </Transition>,
+      target
+    )
+  );
+};

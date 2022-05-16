@@ -1,3 +1,5 @@
+import React from "react";
+
 export type Position = "center" | "left" | "right";
 
 export interface IProps {

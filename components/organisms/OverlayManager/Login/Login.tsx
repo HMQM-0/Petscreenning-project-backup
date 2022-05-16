@@ -6,15 +6,15 @@ import LoginForm from "deprecated/components/LoginForm/index";
 import Offline from "deprecated/components/Offline/index";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import Online from "deprecated/components/Online/index";
-import Overlay from "components/atoms/Overlay/Overlay";
 import { OverlayContextInterface, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
 import { X as CloseImg } from "components/icons/x";
-import overlayClasses from "components/atoms/Overlay/scss/index.module.scss";
 
 import classes from "./scss/index.module.scss";
 import ForgottenPassword from "./ForgottenPassword";
 import RegisterForm from "./RegisterForm";
 
+import overlayClasses from "../Overlay/scss/index.module.scss";
+import Overlay from "../Overlay/Overlay";
 
 
 interface LoginProps {

@@ -1,7 +1,8 @@
 import React from "react";
 
-import Overlay from "components/atoms/Overlay/Overlay";
 import { OverlayContextInterface } from "components/providers/Overlay/context";
+
+import Overlay from "../Overlay/Overlay";
 
 export interface IModal {
   overlay: OverlayContextInterface;

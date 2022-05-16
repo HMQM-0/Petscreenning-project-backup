@@ -5,14 +5,16 @@ import { IconButton } from "components/molecules/IconButton";
 import { AttributeValuesChecklist } from "components/molecules/AttributeValuesChecklist";
 import { useHandlerWhenClickedOutside } from "@hooks";
 import { commonMessages } from "deprecated/intl";
-import Overlay from "components/atoms/Overlay/Overlay";
-import { IFilters, ISingleFilterAttribute } from "@types";
+import { Overlay } from "components/atoms/Overlay";
+import { ISingleFilterAttribute } from "@types";
 
 import * as S from "./styles";
 import { IProps } from "./types";
 
+import { ProductFilters } from "../../../types/Product";
+
 const checkIfAttributeIsChecked = (
-  filters: IFilters,
+  filters: ProductFilters,
   value: ISingleFilterAttribute,
   slug: string
 ) => {
@@ -42,10 +44,8 @@ export const FilterSidebar = ({
     hide();
   });
 
-  // TODO: Overlay does not have mentioned props. Which component was used here??
   return (
     <Overlay
-      // @ts-ignore
       duration={0}
       position="left"
       show={show}
@@ -67,20 +67,34 @@ export const FilterSidebar = ({
           />
         </S.Header>
         {attributes
-          .sort((a, b) => a.name.localeCompare(b.name))
+          .sort((a, b) =>
+            // TODO: name can be undefined?
+            a.name?.localeCompare(b.name || '') || 0
+          )
           .map(({ id, name, slug, values }) => {
             return (
               <AttributeValuesChecklist
                 key={id}
                 title={name}
-                name={slug}
-                values={values.map((value) => ({
-                  ...value,
-                  selected: checkIfAttributeIsChecked(filters, value, slug),
+                // TODO: slug can be undefined?
+                name={slug || ''}
+                // TODO: values is [] (not undefined). BE issue
+                values={values!.map((value) => ({
+                  // TODO: value can not be null
+                  // TODO: ISingleFilterAttribute is not compatible with value. See todos below
+                  // @ts-ignore
+                  selected: checkIfAttributeIsChecked(filters, value!, slug),
+                  // TODO: value can NOT be undefined. BE issue
+                  id: value!.id,
+                  // TODO: can name be undefined?
+                  name: value!.name || '',
+                  // TODO: can slug be undefined?
+                  slug: value!.slug || '',
                 }))}
                 valuesShowLimit
                 onValueClick={(value) =>
-                  onAttributeFiltersChange(slug, value.slug)
+                  // TODO: can slug be undefined?
+                  onAttributeFiltersChange(slug || '', value.slug)
                 }
               />
             );

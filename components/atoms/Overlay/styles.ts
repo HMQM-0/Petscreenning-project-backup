@@ -1,5 +1,7 @@
-import { styled } from "@styles";
 import { css, keyframes } from "styled-components";
+
+import { styled } from "@styles";
+
 import { Position, TransitionState } from "./types";
 
 interface IStyleProps {
@@ -54,20 +56,20 @@ export const Lightbox = styled.div<IStyleProps>`
   display: flex;
   position: relative;
   width: ${({ position, theme: { modal } }) =>
-    lightboxHeight(modal.modalWidth)[position]};
+  lightboxHeight(modal.modalWidth)[position]};
   min-height: ${(props) => props.theme.modal.modalMinHeight}px;
   height: ${({ position }) => lightboxWidth[position]};
   background-color: ${(props) => props.theme.colors.white};
   ${({ open, position }) => {
-    if (position === "left" || position === "right") {
-      return css`
+  if (position === "left" || position === "right") {
+    return css`
         ${position}: 0;
         transform: translateX(${getTranslate(position)});
         animation: ${slideAnimation(open, position)} 0.4s both;
         animation-delay: ${open ? ".1s" : 0};
       `;
-    }
-  }}
+  }
+}}
 `;
 Lightbox.displayName = "S.Lightbox";
 
@@ -83,7 +85,7 @@ export const Overlay = styled.div<IStyleProps>`
   transition: opacity 0.2s ease;
   transition-delay: ${({ open }) => (open ? 0 : ".4s")};
   background-color: ${({ transparent, theme }) =>
-    transparent ? "" : theme.colors.overlay};
+  transparent ? "" : theme.colors.overlay};
   align-items: center;
   justify-content: ${({ position }) => justify[position]};
   opacity: ${({ state }) => opacity[state]};

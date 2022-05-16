@@ -5,8 +5,9 @@ import { isMicrosite } from "core/utils";
 import { Maybe, MenuItem } from "@generated";
 import { OverlayContextInterface } from "components/providers/Overlay/context";
 import mobileNavClasses from "deprecated/components/MobileNav/scss/index.module.scss";
-import Overlay from "components/atoms/Overlay/Overlay";
 import MobileNavList from "deprecated/components/MobileNav/NavList";
+
+import Overlay from "./Overlay/Overlay";
 
 
 interface MobileNavProps {

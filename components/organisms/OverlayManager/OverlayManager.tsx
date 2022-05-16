@@ -4,8 +4,8 @@ import {
   OverlayContext,
   OverlayType,
 } from "components/providers/Overlay/context";
-import Overlay from "components/atoms/Overlay/Overlay";
 
+import Overlay from "./Overlay/Overlay";
 import Login from "./Login/Login";
 import MobileNav from "./MobileNav";
 import Modal from "./Modal/Modal";

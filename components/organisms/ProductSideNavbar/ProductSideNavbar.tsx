@@ -3,46 +3,29 @@ import Media from "react-media";
 
 import { Icon } from "components/atoms/Icon";
 import { IconButton } from "components/molecules/IconButton";
-import Overlay from "components/atoms/Overlay/Overlay";
+import { Overlay } from "components/atoms/Overlay";
 import { xLargeScreen } from "@styles/constants";
 
 import * as S from "./styles";
 import { DirectoryItem, IProps } from "./types";
 
-type TopBarProps = {
-  onHide: VoidFunction;
-  children: React.ReactNode;
-};
-
-export const TopBar = ({
-  children,
-  onHide,
-}: TopBarProps) => (
-  <S.Bar>
-    {children}
-    <S.CloseIconWrapper onClick={onHide}>
-      <Icon name="horizontal_line" size={22} />
-    </S.CloseIconWrapper>
-  </S.Bar>
-);
-
-type MenuItemProps = {
-  name: string;
-  onClick: VoidFunction;
-};
-
-export const MenuItem = ({ name, onClick }: MenuItemProps) => {
-  return (
-    <S.Item>
-      <S.NavButton onClick={onClick}>
-        <span>{name}</span>
-        <S.SubcategoryIcon>
-          <Icon name="subcategories" size={10} />
-        </S.SubcategoryIcon>
-      </S.NavButton>
-    </S.Item>
-  );
-};
+// TODO: not yet used
+// type TopBarProps = {
+//   onHide: VoidFunction;
+//   children: React.ReactNode;
+// };
+//
+// export const TopBar = ({
+//   children,
+//   onHide,
+// }: TopBarProps) => (
+//   <S.Bar>
+//     {children}
+//     <S.CloseIconWrapper onClick={onHide}>
+//       <Icon name="horizontal_line" size={22} />
+//     </S.CloseIconWrapper>
+//   </S.Bar>
+// );
 
 type ChildItemProps = {
   item: DirectoryItem;
@@ -73,7 +56,7 @@ export const ListItem = ({ item, onClick }: ListItemProps) => {
       {item.children ? (
         <>
           {item.children?.map((child, index) => (
-            <ChildItem onClick={onClick} item={child} />
+            <ChildItem key={child.id} onClick={onClick} item={child} />
           ))}
           <S.ListBottomBorder />
         </>
@@ -96,12 +79,10 @@ export const ProductSideNavbar = ({
 
   return (
     <Media query={{ maxWidth: xLargeScreen }}>
-      {/* // TODO: Overlay is a wrong one? */}
       <Overlay
-        // @ts-ignore
         duration={0}
         position="left"
-        show={show}
+        show={!!show}
         hide={handleHide}
         target={target}
       >

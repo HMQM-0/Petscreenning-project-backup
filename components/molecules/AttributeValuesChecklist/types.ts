@@ -1,3 +1,5 @@
+import React from "react";
+
 import { ISingleFilterAttribute } from "@types";
 
 export interface IProps {
