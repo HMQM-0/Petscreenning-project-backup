@@ -7,7 +7,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useCart } from "@nautical/react";
 import { Thumbnail } from "components/molecules/Thumbnail";
 import pricecapImage from "deprecated/images/pricing-cap.svg";
-import { AddToWishlist } from "@components/organisms";
+import { AddToWishlist } from "components/organisms/AddToWishlist";
 import { TaxedMoney } from "components/containers/TaxedMoney";
 import { BasicProductFields } from "deprecated/views/Product/gqlTypes/BasicProductFields";
 import { ProductsPageProductFragment } from "@generated";
@@ -220,8 +220,6 @@ const ProductListItem = ({
           <Box
             className={wide ? classes['product-list-image-wide'] : classes['product-list-image']}
           >
-            {/* // TODO: product.image can undefined in type. Is that an error? */}
-            {/* @ts-ignore */}
             <Thumbnail source={product} height="255" width="255" />
           </Box>
           <h4 className={classes['product-list-title']}>{product.name}</h4>

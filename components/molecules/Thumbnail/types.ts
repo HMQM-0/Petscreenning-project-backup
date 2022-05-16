@@ -1,13 +1,10 @@
 import React from "react";
 
-import {
-  ProductDetails_product_thumbnail,
-  ProductDetails_product_thumbnail2x,
-} from "@nautical/queries/gqlTypes/ProductDetails";
+import { ProductsPageProductFragment } from "@generated";
 
 interface ISource {
-  thumbnail?: ProductDetails_product_thumbnail | null;
-  thumbnail2x?: ProductDetails_product_thumbnail2x | null;
+  thumbnail?: ProductsPageProductFragment["thumbnail"] | null;
+  thumbnail2x?: ProductsPageProductFragment["thumbnail2x"] | null;
 }
 
 export interface IProps {

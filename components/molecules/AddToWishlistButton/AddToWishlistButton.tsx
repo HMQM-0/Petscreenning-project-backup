@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Icon } from "@components/atoms";
+
+import { Icon } from "components/atoms/Icon";
+
 import * as S from "./styles";
 import { IProps } from "./types";
 
-export const AddToWishlistButton: React.FC<IProps> = ({
+export const AddToWishlistButton = ({
   added,
   showText = true,
   onClick = (evt) => null,
@@ -23,7 +25,7 @@ export const AddToWishlistButton: React.FC<IProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* S.WishlistIcon component is reapeted for two icons - it should to prevent flashing css */}
+      {/* S.WishlistIcon component is repeated for two icons - it should to prevent flashing css */}
       {added || hover ? (
         <S.WishlistIcon addRightMargin={showText}>
           <Icon name="heart_filled" size={28} />

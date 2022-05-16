@@ -1,24 +1,26 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useAlert } from "react-alert";
+import { useIntl } from "react-intl";
+
+import { AddToWishlistButton } from "components/molecules/AddToWishlistButton";
+import { WishlistContext } from "components/providers/Wishlist/context";
+// TODO: Refactor
 import {
   useAddWishlistProduct,
   useRemoveWishlistProduct,
   useAuth,
 } from "@nautical/react";
-import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
-
-import { IProps } from "./types";
-import { AddToWishlistButton } from "@components/molecules/AddToWishlistButton";
-import { useAlert } from "react-alert";
-import { useIntl } from "react-intl";
-
+// TODO: Refactor
 import { userWishlist } from "@nautical/queries/wishlist";
 
-export const AddToWishlist: React.FC<IProps> = ({
+import { IProps } from "./types";
+
+export const AddToWishlist = ({
   productId,
   showButtonText = true,
 }: IProps) => {
   // const { wishlist, update } = React.useContext(WishlistContext);
-  const { wishlist } = React.useContext(WishlistContext);
+  const { wishlist } = useContext(WishlistContext);
   const { user } = useAuth();
   const alert = useAlert();
   const intl = useIntl();
@@ -29,7 +31,7 @@ export const AddToWishlist: React.FC<IProps> = ({
     );
   };
 
-  const [addedToWishlist, setAddedToWishlist] = React.useState(
+  const [addedToWishlist, setAddedToWishlist] = useState(
     isAddedToWishlist()
   );
   React.useEffect(() => {
