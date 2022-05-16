@@ -7,35 +7,31 @@ import Breadcrumbs from "components/atoms/Breadcrumbs";
 import { ProductListHeader } from "components/organisms/ProductListHeader";
 import { ProductList } from "components/organisms/ProductList";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
-import { Menu, ProductsPageAttributeFragment, ProductsPageMenuFragment, ProductsQuery } from "@generated";
+import { ProductsPageAttributeFragment, ProductsPageMenuFragment, ProductsQuery } from "@generated";
 
 import classes from "./scss/index.module.scss";
 
 import { ProductFilters } from "../../../types/Product";
-
-interface SortItem {
-  label: string;
-  value?: string | null;
-}
-
-// TODO: Export this
-interface SortOptions extends Array<SortItem> {
-}
+import { IProps as ProductListHeaderProps } from "../../organisms/ProductListHeader/types";
+import { IProps as ProductListProps } from "../../organisms/ProductList/types";
 
 interface PageProps {
-  activeFilters: number;
   attributes: ProductsPageAttributeFragment[];
-  activeSortOption: string;
   displayLoader: boolean;
   filters: ProductFilters;
   hasNextPage: boolean;
   menu: ProductsPageMenuFragment;
   products: ProductsQuery["products"];
-  sortOptions: SortOptions;
-  clearFilters: () => void;
-  onLoadMore: () => void;
   onAttributeFiltersChange: (attributeSlug: string, value: string) => void;
-  onOrder: (order: { value?: string; label: string }) => void;
+  // TODO: There might be a better way,
+  //  since we do not use `sortOptions` and others
+  //  in this component and just pass them further
+  sortOptions: ProductListHeaderProps["sortOptions"];
+  clearFilters: ProductListHeaderProps["clearFilters"];
+  onLoadMore: ProductListProps["onLoadMore"];
+  onOrder: ProductListHeaderProps["onChange"];
+  activeSortOption: ProductListHeaderProps["activeSortOption"];
+  activeFilters: ProductListHeaderProps["activeFilters"];
 }
 
 const Page = ({
@@ -67,8 +63,7 @@ const Page = ({
       value: "All Products",
     });
 
-    const breadcrumbs = [constructLink()];
-    return breadcrumbs;
+    return [constructLink()];
   };
 
   const getAttribute = (attributeSlug: string, valueSlug: string) => {
@@ -90,12 +85,11 @@ const Page = ({
     Object.keys(filters.attributes).reduce(
       (acc, key) =>
         acc.concat(
-          // @ts-ignore
           filters.attributes[key].map((valueSlug) =>
-            getAttribute(key, valueSlug)
+            getAttribute(key, valueSlug) as ProductListHeaderProps["activeFiltersAttributes"][number]
           )
         ),
-      []
+      [] as ProductListHeaderProps["activeFiltersAttributes"]
     );
 
   return (
