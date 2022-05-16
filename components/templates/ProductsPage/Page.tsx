@@ -2,26 +2,24 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 
 import { ProductSideNavbar } from "components/organisms/ProductSideNavbar/ProductSideNavbar";
-import { maybe } from "core/utils";
 import Breadcrumbs from "components/atoms/Breadcrumbs";
 import { ProductListHeader } from "components/organisms/ProductListHeader";
 import { ProductList } from "components/organisms/ProductList";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
-import { ProductsPageAttributeFragment, ProductsPageMenuFragment, ProductsQuery } from "@generated";
+import { ProductsPageAttributeFragment, ProductsQuery } from "@generated";
 
 import classes from "./scss/index.module.scss";
 
 import { ProductFilters } from "../../../types/Product";
 import { IProps as ProductListHeaderProps } from "../../organisms/ProductListHeader/types";
 import { IProps as ProductListProps } from "../../organisms/ProductList/types";
-import { CategoryItem, CollectionItem, PageItem, ParentItem } from "../../organisms/ProductSideNavbar/types";
 
 interface PageProps {
   attributes: ProductsPageAttributeFragment[];
   displayLoader: boolean;
   filters: ProductFilters;
   hasNextPage: boolean;
-  menu: ProductsPageMenuFragment;
+  menu: ProductsQuery["menu"];
   products: ProductsQuery["products"];
   onAttributeFiltersChange: (attributeSlug: string, value: string) => void;
   // TODO: There might be a better way,
@@ -50,10 +48,6 @@ const Page = ({
   sortOptions,
   onAttributeFiltersChange,
 }: PageProps) => {
-  const canDisplayProducts = maybe(
-    // TODO: products is NOT undefined
-    () => !!products!.edges && products!.totalCount !== undefined
-  );
   const [showFilters, setShowFilters] = useState(false);
   const [showDirectory, setShowDirectory] = useState(false);
 
@@ -69,12 +63,19 @@ const Page = ({
   const getAttribute = (attributeSlug: string, valueSlug: string) => {
     return {
       attributeSlug,
+      valueName:
+      // TODO: attributes can not be undefined here, can it? is that a non-valid type issue?
       // @ts-ignore
-      valueName: attributes
-        .find(({ slug }) => attributeSlug === slug)
+      attributes.find(
+        // TODO: attributes can not contain null values like [null, {}, ...]. That is a BE error
+        // @ts-ignore
+        ({ slug }) => attributeSlug === slug
+      )
+        ?.values.find(
         // TODO: values can not contain null values like [null, {}, ...]. That is a BE error
         // @ts-ignore
-        .values.find(({ slug }) => valueSlug === slug).name,
+        ({ slug }) => valueSlug === slug
+      ).name,
       valueSlug,
     };
   };
@@ -122,15 +123,12 @@ const Page = ({
           onChange={onOrder}
           onCloseFilterAttribute={onAttributeFiltersChange}
         />
-        {canDisplayProducts && (
-          <ProductList
-            // TODO: products is NOT undefined here. That is a BE issue (probably?)
-            products={products!.edges.map((edge) => edge.node)}
-            canLoadMore={hasNextPage}
-            loading={displayLoader}
-            onLoadMore={onLoadMore}
-          />
-        )}
+        <ProductList
+          products={products?.edges.map((edge) => edge.node) ?? []}
+          canLoadMore={hasNextPage}
+          loading={displayLoader}
+          onLoadMore={onLoadMore}
+        />
       </Box>
     </Box>
   );

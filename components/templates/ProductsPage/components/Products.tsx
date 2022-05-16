@@ -14,6 +14,7 @@ import { ProductFilters } from "types/Product";
 
 import Page from "../Page";
 import { FilterQuerySet } from "../View";
+import { Loader } from "../../../atoms/Loader";
 
 interface ProductsProps {
   variables: ProductsQueryVariables;
@@ -132,8 +133,7 @@ const Products = ({
                 attributes={data?.attributes?.edges.map(
                   (edge) => edge.node
                 ) ?? []}
-                // TODO: menu is NOT undefined here
-                menu={data?.menu!}
+                menu={data?.menu}
                 displayLoader={loading}
                 hasNextPage={maybe(
                   () => !!data?.products?.pageInfo.hasNextPage,
@@ -142,8 +142,7 @@ const Products = ({
                 sortOptions={sortOptions}
                 activeSortOption={filters.sortBy}
                 filters={filters}
-                // TODO: products is NOT undefined here. That is a generated type error
-                products={data?.products!}
+                products={data?.products}
                 onAttributeFiltersChange={onFiltersChange}
                 onLoadMore={handleLoadMore}
                 activeFilters={
