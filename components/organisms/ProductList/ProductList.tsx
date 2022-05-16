@@ -62,12 +62,15 @@ export const ProductList = ({
                     )
                 }
                 key={id}
+                passHref
               >
-                <ProductListItem
-                  wide
-                  product={product}
-                  loginForPrice={Boolean(loginForPrice && !user)}
-                />
+                <a>
+                  <ProductListItem
+                    wide
+                    product={product}
+                    loginForPrice={Boolean(loginForPrice && !user)}
+                  />
+                </a>
               </Link>
             )
           );

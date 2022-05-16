@@ -11,6 +11,7 @@ import NotFound from "components/molecules/NotFound";
 import NetworkStatus from "components/atoms/NetworkStatus";
 import { ProductsQueryVariables, useProductsQuery } from "@generated";
 import { ProductFilters } from "types/Product";
+import { useNetworkStatus } from "@hooks";
 
 import Page from "../Page";
 import { FilterQuerySet } from "../View";
@@ -34,6 +35,8 @@ const Products = ({
     variables,
     errorPolicy: "all",
   });
+
+  const { online } = useNetworkStatus();
 
   const clearFilters = () => {
     setAttributeFilters({});
@@ -98,71 +101,64 @@ const Products = ({
     },
   ];
 
-  // TODO: Refactor NetworkStatus to a hook?
+  if (!online) {
+    return <OfflinePlaceholder />;
+  }
+
+  if (!data && !loading) {
+    return <NotFound />;
+  }
+
+  const handleLoadMore = () =>
+    fetchMore(
+      {
+        variables: { after: data?.products?.pageInfo.endCursor }
+      }
+      // TODO: Refactor loadMore into the new fetchMore structure.
+      //  We need to specify field policy here somehow to merge paginated results
+      // (prev, next) => ({
+      //   ...prev,
+      //   products: {
+      //     ...prev.products,
+      //     edges: [...prev.products.edges, ...next.products.edges],
+      //     pageInfo: next.products.pageInfo,
+      //   },
+      // }),
+    );
+
   return (
-    <NetworkStatus>
-      {(isOnline) => {
-        if (!isOnline) {
-          return <OfflinePlaceholder />;
-        }
-
-        const handleLoadMore = () =>
-          fetchMore(
-            // TODO: Refactor loadMore into the new fetchMore structure
-            {}
-            // (prev, next) => ({
-            //   ...prev,
-            //   products: {
-            //     ...prev.products,
-            //     edges: [...prev.products.edges, ...next.products.edges],
-            //     pageInfo: next.products.pageInfo,
-            //   },
-            // }),
-            // { after: data?.products?.pageInfo.endCursor }
-          );
-
-        if (!!data || loading) {
-          return (
-            <Media
-              query={{
-                minWidth: xLargeScreen,
-              }}
-            >
-              <Page
-                clearFilters={clearFilters}
-                attributes={data?.attributes?.edges.map(
-                  (edge) => edge.node
-                ) ?? []}
-                menu={data?.menu}
-                displayLoader={loading}
-                hasNextPage={maybe(
-                  () => !!data?.products?.pageInfo.hasNextPage,
-                  false
-                ) as boolean}
-                sortOptions={sortOptions}
-                activeSortOption={filters.sortBy}
-                filters={filters}
-                products={data?.products}
-                onAttributeFiltersChange={onFiltersChange}
-                onLoadMore={handleLoadMore}
-                activeFilters={
-                  filters.attributes
-                    ? Object.keys(filters.attributes).length
-                    : 0
-                }
-                onOrder={(value) => {
-                  setSort(value.value);
-                }}
-              />
-            </Media>
-          );
-        }
-
-        if (!data) {
-          return <NotFound />;
-        }
+    <Media
+      query={{
+        minWidth: xLargeScreen,
       }}
-    </NetworkStatus>
+    >
+      <Page
+        clearFilters={clearFilters}
+        attributes={data?.attributes?.edges.map(
+          (edge) => edge.node
+        ) ?? []}
+        menu={data?.menu}
+        displayLoader={loading}
+        hasNextPage={maybe(
+          () => !!data?.products?.pageInfo.hasNextPage,
+          false
+        ) as boolean}
+        sortOptions={sortOptions}
+        activeSortOption={filters.sortBy}
+        filters={filters}
+        products={data?.products}
+        onAttributeFiltersChange={onFiltersChange}
+        onLoadMore={handleLoadMore}
+        activeFilters={
+          filters.attributes
+            ? Object.keys(filters.attributes).length
+            : 0
+        }
+        onOrder={(value) => {
+          setSort(value.value);
+        }}
+      />
+    </Media>
   );
 };
 
