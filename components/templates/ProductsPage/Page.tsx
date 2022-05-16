@@ -94,7 +94,6 @@ const Page = ({
     );
   return (
     <Box className={classes.category}>
-      {/* // TODO: how to import "container" className? */}
       <Box className="container">
         <Breadcrumbs breadcrumbs={createBreadcrumbs()} />
         <ProductSideNavbar

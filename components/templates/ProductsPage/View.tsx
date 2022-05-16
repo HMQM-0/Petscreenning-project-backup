@@ -49,9 +49,6 @@ export const View = ({ logo }: ProductsProps) => {
     FilterQuerySet
   );
   const [afterFilters] = useQueryParam("after", StringParam);
-  const [beforeFilters] = useQueryParam("before", StringParam);
-  const [firstFilters] = useQueryParam("first", StringParam);
-  const [lastFilters] = useQueryParam("last", StringParam);
 
   const { user } = useAuth();
 
@@ -59,11 +56,6 @@ export const View = ({ logo }: ProductsProps) => {
 
   const variables: ProductsQueryVariables = {
     after: afterFilters,
-    // TODO: before/first/last missing in type. How to set type properly?
-    // @ts-ignore
-    before: beforeFilters,
-    first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
-    last: lastFilters,
     attributes: attributeFilters
       ? convertToAttributeScalar(attributeFilters)
       : {},
