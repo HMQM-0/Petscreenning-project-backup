@@ -38,6 +38,7 @@ const NotFound = () => (
             ? generateMicrositeUrl(getMicrositeId()!, getMicrositeSlug())
             : BASE_URL
         }
+        passHref
       >
         <Button testingContext="404pageGotoHomeButton" secondary>
           <FormattedMessage defaultMessage="Back to home" />
