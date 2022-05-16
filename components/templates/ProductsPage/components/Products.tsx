@@ -8,18 +8,20 @@ import {
 } from "core/utils";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
-import NetworkStatus from "components/atoms/NetworkStatus";
 import { ProductsQueryVariables, useProductsQuery } from "@generated";
-import { ProductFilters } from "types/Product";
 import { useNetworkStatus } from "@hooks";
 
 import Page from "../Page";
 import { FilterQuerySet } from "../View";
-import { Loader } from "../../../atoms/Loader";
+import { IProps as FilterSidebatProps } from "../../../organisms/FilterSidebar/types";
+import { IProps as ProductListHeaderProps } from "../../../organisms/ProductListHeader/types";
 
 interface ProductsProps {
   variables: ProductsQueryVariables;
-  filters: ProductFilters;
+  filters: {
+    attributes: FilterSidebatProps["filters"]["attributes"];
+    sortBy: ProductListHeaderProps["activeSortOption"];
+  };
 }
 
 const Products = ({

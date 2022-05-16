@@ -10,14 +10,14 @@ import { ProductsPageAttributeFragment, ProductsQuery } from "@generated";
 
 import classes from "./scss/index.module.scss";
 
-import { ProductFilters } from "../../../types/Product";
 import { IProps as ProductListHeaderProps } from "../../organisms/ProductListHeader/types";
 import { IProps as ProductListProps } from "../../organisms/ProductList/types";
+import { IProps as FilterSidebarProps } from "../../organisms/FilterSidebar/types";
 
 interface PageProps {
   attributes: ProductsPageAttributeFragment[];
   displayLoader: boolean;
-  filters: ProductFilters;
+  filters: FilterSidebarProps["filters"];
   hasNextPage: boolean;
   menu: ProductsQuery["menu"];
   products: ProductsQuery["products"];

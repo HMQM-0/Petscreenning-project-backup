@@ -11,10 +11,9 @@ import { ISingleFilterAttribute } from "@types";
 import * as S from "./styles";
 import { IProps } from "./types";
 
-import { ProductFilters } from "../../../types/Product";
 
 const checkIfAttributeIsChecked = (
-  filters: ProductFilters,
+  filters: IProps["filters"],
   value: ISingleFilterAttribute,
   slug: string
 ) => {

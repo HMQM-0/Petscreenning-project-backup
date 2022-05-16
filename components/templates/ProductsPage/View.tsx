@@ -15,8 +15,6 @@ import LoginToViewProducts from "./components/LoginToViewProducts";
 import BuilderProducts from "./components/BuilderProducts";
 import Products from "./components/Products";
 
-import { ProductFilters } from "../../../types/Product";
-
 export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
   encode(valueObj) {
     const str: string[] = [];
@@ -59,23 +57,18 @@ export const View = ({ logo }: ProductsProps) => {
 
   const { loginForProducts, builderKey } = useShopContext();
 
-  const filters: ProductFilters = {
-    attributes: attributeFilters,
-    pageSize: PRODUCTS_PER_PAGE,
-    sortBy: sort || undefined,
-  };
   const variables: ProductsQueryVariables = {
-    ...filters,
     after: afterFilters,
     // TODO: before/first/last missing in type. How to set type properly?
     // @ts-ignore
     before: beforeFilters,
     first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
-    attributes: filters.attributes
-      ? convertToAttributeScalar(filters.attributes)
+    attributes: attributeFilters
+      ? convertToAttributeScalar(attributeFilters)
       : {},
-    sortBy: convertSortByFromString(filters.sortBy),
+    sortBy: convertSortByFromString(sort),
+    pageSize: PRODUCTS_PER_PAGE,
   };
 
   if (!user && loginForProducts) {
@@ -85,7 +78,13 @@ export const View = ({ logo }: ProductsProps) => {
     return (<BuilderProducts variables={variables} />);
   }
   return (
-    <Products variables={variables} filters={filters} />
+    <Products
+      variables={variables}
+      filters={{
+        attributes: attributeFilters,
+        sortBy: sort || undefined,
+      }}
+    />
   );
 };
 

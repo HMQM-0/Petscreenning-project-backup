@@ -1,10 +1,12 @@
 import { ProductsPageAttributeFragment } from "@generated";
 
-import { ProductFilters } from "../../../types/Product";
+interface Attributes {
+  [key: string]: string[];
+}
 
 export interface IProps {
   attributes: ProductsPageAttributeFragment[];
-  filters: ProductFilters;
+  filters: { attributes: Attributes };
   hide: () => void;
   onAttributeFiltersChange: (attributeSlug: string, values: string) => void;
   show: boolean;
