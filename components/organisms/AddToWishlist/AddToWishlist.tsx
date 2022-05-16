@@ -1,53 +1,33 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo } from "react";
 import { useAlert } from "react-alert";
 import { useIntl } from "react-intl";
 
 import { AddToWishlistButton } from "components/molecules/AddToWishlistButton";
 import { WishlistContext } from "components/providers/Wishlist/context";
 // TODO: Refactor
-import {
-  useAddWishlistProduct,
-  useRemoveWishlistProduct,
-  useAuth,
-} from "@nautical/react";
-// TODO: Refactor
-import { userWishlist } from "@nautical/queries/wishlist";
+import { useAuth } from "@nautical/react";
+import { useAddWishlistProductMutation, useRemoveWishlistProductMutation } from "@generated";
+import { userWishlist } from "components/providers/Wishlist/queries.graphql";
 
 import { IProps } from "./types";
+
 
 export const AddToWishlist = ({
   productId,
   showButtonText = true,
 }: IProps) => {
-  // const { wishlist, update } = React.useContext(WishlistContext);
   const { wishlist } = useContext(WishlistContext);
   const { user } = useAuth();
   const alert = useAlert();
   const intl = useIntl();
 
-  const isAddedToWishlist = () => {
-    return (
-      !!wishlist && wishlist.some(({ product }) => product.id === productId)
-    );
-  };
-
-  const [addedToWishlist, setAddedToWishlist] = useState(
-    isAddedToWishlist()
+  const isAddedToWishlist = useMemo(
+    () => !!wishlist && wishlist.some(({ product }) => product.id === productId),
+    [wishlist, productId]
   );
-  React.useEffect(() => {
-    const added = isAddedToWishlist();
-    if (added !== addedToWishlist) {
-      setAddedToWishlist(added);
-    }
-  }, [wishlist]);
-  const [
-    addWishlistProduct,
-    // { loading: addLoading, error: addError },
-  ] = useAddWishlistProduct({ productId });
-  const [
-    removeWishlistProduct,
-    // { loading: errorLoading, error: removeError },
-  ] = useRemoveWishlistProduct({ productId });
+
+  const [addWishlistProduct] = useAddWishlistProductMutation({ variables: { productId } });
+  const [removeWishlistProduct] = useRemoveWishlistProductMutation({ variables: { productId } });
 
   const addOrRemoveFromWishlist = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -66,17 +46,16 @@ export const AddToWishlist = ({
         }
       );
     }
-    if (addedToWishlist && user) {
+    if (isAddedToWishlist) {
       removeWishlistProduct(
-        { productId },
         {
+          variables: { productId },
           refetchQueries: [
             userWishlist, // DocumentNode object parsed with gql
             "Wishlist", // Query name
           ],
         }
       );
-      // update();
       alert.show(
         {
           content: `Removed product from your wishlist`,
@@ -89,17 +68,16 @@ export const AddToWishlist = ({
           type: "success",
         }
       );
-    } else if (!addedToWishlist && user) {
+    } else if (!isAddedToWishlist) {
       addWishlistProduct(
-        { productId },
         {
+          variables: { productId },
           refetchQueries: [
             userWishlist, // DocumentNode object parsed with gql
             "Wishlist", // Query name
           ],
         }
       );
-      // update();
       alert.show(
         {
           content: `Added product to your wishlist`,
@@ -117,7 +95,7 @@ export const AddToWishlist = ({
 
   return (
     <AddToWishlistButton
-      added={addedToWishlist}
+      added={isAddedToWishlist}
       onClick={addOrRemoveFromWishlist}
       showText={showButtonText}
     />

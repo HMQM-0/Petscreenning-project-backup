@@ -98,7 +98,7 @@ const ProductListItem = ({
   const handleAddToCart = (event: React.MouseEvent, variantId: string | undefined, quantity: number) => {
     event.stopPropagation();
     event.preventDefault();
-    // TODO: Is this an error in addItem typing?
+    // TODO: Is this an error in addItem typing? or defaultVariant can NOT be empty?
     // @ts-ignore
     addItem(variantId, quantity);
     // NOTE: DO NOT WANT TO SHOW CART OVERLAY EVERY TIME NEW ITEM IS ADDED, JUST

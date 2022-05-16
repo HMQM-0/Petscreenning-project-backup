@@ -75,7 +75,7 @@ const Page = ({
         // TODO: values can not contain null values like [null, {}, ...]. That is a BE error
         // @ts-ignore
         ({ slug }) => valueSlug === slug
-      ).name,
+      )?.name,
       valueSlug,
     };
   };
