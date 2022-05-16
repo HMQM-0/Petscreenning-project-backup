@@ -14,6 +14,7 @@ import classes from "./scss/index.module.scss";
 import { ProductFilters } from "../../../types/Product";
 import { IProps as ProductListHeaderProps } from "../../organisms/ProductListHeader/types";
 import { IProps as ProductListProps } from "../../organisms/ProductList/types";
+import { CategoryItem, CollectionItem, PageItem, ParentItem } from "../../organisms/ProductSideNavbar/types";
 
 interface PageProps {
   attributes: ProductsPageAttributeFragment[];
@@ -53,7 +54,6 @@ const Page = ({
     // TODO: products is NOT undefined
     () => !!products!.edges && products!.totalCount !== undefined
   );
-  // const hasProducts = canDisplayProducts && !!products.totalCount;
   const [showFilters, setShowFilters] = useState(false);
   const [showDirectory, setShowDirectory] = useState(false);
 
@@ -91,9 +91,9 @@ const Page = ({
         ),
       [] as ProductListHeaderProps["activeFiltersAttributes"]
     );
-
   return (
     <Box className={classes.category}>
+      {/* // TODO: how to import "container" className? */}
       <Box className="container">
         <Breadcrumbs breadcrumbs={createBreadcrumbs()} />
         <ProductSideNavbar
