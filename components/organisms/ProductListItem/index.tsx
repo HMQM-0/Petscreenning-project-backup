@@ -7,8 +7,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 // TODO: Refactor
 import { useCart } from "@nautical/react";
 import { Thumbnail } from "components/molecules/Thumbnail";
-// TODO: How to use new SVG components as background image?
-import pricecapImage from "deprecated/images/pricing-cap.svg";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import { TaxedMoney } from "components/containers/TaxedMoney";
 import { BasicProductFieldsFragment, ProductsPageProductFragment } from "@generated";
@@ -133,7 +131,8 @@ const ProductListItem = ({
   }) */
 
   const pricecap = {
-    backgroundImage: `url(${pricecapImage})`,
+    // TODO: using svg from the public folder for now. To be refactored later.
+    backgroundImage: `url("/images/pricing-cap.svg")`,
     backgroundRepeat: "no-repeat",
     height: 30,
   };
