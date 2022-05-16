@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useQueryParam, StringParam, QueryParamConfig } from 'next-query-params';
-import { useParams } from "react-router";
 
 import { IFilters } from "@types";
 import { useAuth } from "@nautical/react";
@@ -8,7 +7,6 @@ import { useShopContext } from "components/providers/ShopProvider";
 import {
   convertSortByFromString,
   convertToAttributeScalar,
-  getGraphqlIdFromDBId,
 } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
 import { ProductsQueryVariables } from "@generated";
@@ -47,7 +45,6 @@ interface ProductsProps {
 }
 
 export const View = ({ logo }: ProductsProps) => {
-  const params = useParams();
   const [sort] = useQueryParam("sortBy", StringParam);
   const [attributeFilters] = useQueryParam(
     "filters",
@@ -70,7 +67,7 @@ export const View = ({ logo }: ProductsProps) => {
   const variables: ProductsQueryVariables = {
     ...filters,
     after: afterFilters,
-    // TODO: since before is missing in type - it is not allowed in the API?
+    // TODO: before/first/last missing in type. How to set type properly?
     // @ts-ignore
     before: beforeFilters,
     first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
@@ -78,9 +75,6 @@ export const View = ({ logo }: ProductsProps) => {
     attributes: filters.attributes
       ? convertToAttributeScalar(filters.attributes)
       : {},
-    // TODO: id is empty here? is that expected?
-    // @ts-ignore
-    id: getGraphqlIdFromDBId(params.id, "Category"),
     sortBy: convertSortByFromString(filters.sortBy),
   };
 

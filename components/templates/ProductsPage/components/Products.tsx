@@ -105,11 +105,6 @@ const Products = ({
           return <OfflinePlaceholder />;
         }
 
-        const canDisplayFilters = maybe(
-          () => !!data?.products?.edges,
-          false
-        );
-
         const handleLoadMore = () =>
           fetchMore(
             // TODO: Refactor loadMore into the new fetchMore structure
@@ -125,7 +120,7 @@ const Products = ({
             // { after: data?.products?.pageInfo.endCursor }
           );
 
-        if (canDisplayFilters) {
+        if (!!data || loading) {
           return (
             <Media
               query={{
