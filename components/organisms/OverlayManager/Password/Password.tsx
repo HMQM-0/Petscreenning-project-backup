@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import overlayClasses from "components/atoms/Overlay/scss/index.module.scss";
+
 
 import Offline from "deprecated/components/Offline/index";
 import Online from "deprecated/components/Online/index";
@@ -12,6 +12,7 @@ import { X as CloseImg } from "components/icons/x";
 
 import classes from "./scss/index.module.scss";
 
+import overlayClasses from "../Overlay/scss/index.module.scss";
 import Overlay from "../Overlay/Overlay";
 
 
