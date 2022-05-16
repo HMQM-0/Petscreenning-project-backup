@@ -4,18 +4,19 @@ import { Box, Card, IconButton } from "@mui/material";
 import { useAlert } from "react-alert";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
+// TODO: Refactor
 import { useCart } from "@nautical/react";
 import { Thumbnail } from "components/molecules/Thumbnail";
+// TODO: How to use new SVG components as background image?
 import pricecapImage from "deprecated/images/pricing-cap.svg";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import { TaxedMoney } from "components/containers/TaxedMoney";
-import { BasicProductFields } from "deprecated/views/Product/gqlTypes/BasicProductFields";
-import { ProductsPageProductFragment } from "@generated";
+import { BasicProductFieldsFragment, ProductsPageProductFragment } from "@generated";
 
 import classes from "./scss/index.module.scss";
 
 
-export interface Product extends BasicProductFields {
+export interface Product extends BasicProductFieldsFragment {
   seller?: {
     id: string;
     companyName: string;
