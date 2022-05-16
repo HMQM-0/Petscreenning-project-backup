@@ -26,8 +26,7 @@ const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     schema,
     image: homepage.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
     url: "", // TODO: Store the canonical URL either as env or in dasboard
-    // TODO: How to pass it properly?
-    //meta.type: "product.products",
+    type: "product.products",
   };
 
   return (

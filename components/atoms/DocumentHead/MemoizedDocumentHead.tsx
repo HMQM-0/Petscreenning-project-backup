@@ -9,6 +9,7 @@ export type DocumentHeadProps = {
   image: string;
   url: string;
   schema: string;
+  type?: string;
   branding: BrandingType;
 };
 
@@ -16,6 +17,7 @@ const DocumentHead = ({
   title,
   description,
   image,
+  type = 'website',
   url,
   schema,
   branding,
@@ -69,7 +71,7 @@ color="#5bbad5"
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={branding.icon?.url} />
     {/* <meta name="twitter:creator" content="@crushon" /> */}
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={title} />
