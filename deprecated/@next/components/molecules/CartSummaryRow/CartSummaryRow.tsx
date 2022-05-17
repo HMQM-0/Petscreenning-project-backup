@@ -1,12 +1,14 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Box } from "@mui/material";
-import { TaxedMoney } from "@components/containers";
+
+import { TaxedMoney } from "components/containers/TaxedMoney";
 import { commonMessages } from "deprecated/intl";
-import { CachedImage } from "../CachedImage";
+import { CachedImage } from "components/molecules/CachedImage";
 
 import * as S from "./styles";
 import { IProps } from "./types";
+
 
 /**
  * Row with product to display in cart summary.

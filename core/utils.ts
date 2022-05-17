@@ -1,6 +1,8 @@
 // import { History, LocationState } from "history";
 // import { History } from "history";
 import { Base64 } from "js-base64";
+
+import { Attribute, OrderDirection, ProductOrderField } from "@generated";
 // import { each } from "lodash";
 // import {
 //   parse as parseQs,
@@ -12,7 +14,6 @@ import { Base64 } from "js-base64";
 // import { FormError } from "./types";
 
 // import { OrderDirection, ProductOrderField } from "../../gqlTypes/globalTypes";
-// import { IFilterAttributes } from "../@next/types";
 
 const IS_SERVER_SIDE = typeof window === "undefined";
 
@@ -112,18 +113,20 @@ export const generatePageUrl = (slug: string) => `/page/${slug}/`;
 interface AttributeDict {
   [attributeSlug: string]: string[];
 }
-// export const convertToAttributeScalar = (
-//   attributes: AttributeDict | IFilterAttributes
-// ) =>
-//   Object.entries(attributes)
-//     .map(([key, value]) =>
-//       value.map((attribute: any) => ({ slug: key, value: attribute }))
-//     )
-//     .reduce((prev, curr) => [...prev, ...curr], []);
+
+export const convertToAttributeScalar = (
+  attributes: AttributeDict | Attribute
+) =>
+  Object.entries(attributes)
+    .map(([key, value]) =>
+      value.map((attribute: any) => ({ slug: key, value: attribute }))
+    )
+    .reduce((prev, curr) => [...prev, ...curr], []);
 
 interface QueryString {
   [key: string]: string[] | string | null | undefined;
 }
+
 export const getAttributesFromQs = (qs: QueryString) =>
   Object.keys(qs)
     .filter(
@@ -138,33 +141,33 @@ export const getAttributesFromQs = (qs: QueryString) =>
 export const getValueOrEmpty = <T>(value: T): T | string =>
   value === undefined || value === null ? "" : value;
 
-// export const convertSortByFromString = (sortBy: string) => {
-//   if (!sortBy) {
-//     return null;
-//   }
-//   const direction = sortBy.startsWith("-")
-//     ? OrderDirection.DESC
-//     : OrderDirection.ASC;
+export const convertSortByFromString = (sortBy: string | undefined | null) => {
+  if (!sortBy) {
+    return null;
+  }
+  const direction = sortBy.startsWith("-")
+    ? OrderDirection.Desc
+    : OrderDirection.Asc;
 
-//   let field;
-//   switch (sortBy.replace(/^-/, "")) {
-//     case "name":
-//       field = ProductOrderField.NAME;
-//       break;
+  let field;
+  switch (sortBy.replace(/^-/, "")) {
+    case "name":
+      field = ProductOrderField.Name;
+      break;
 
-//     case "price":
-//       field = ProductOrderField.MINIMAL_PRICE;
-//       break;
+    case "price":
+      field = ProductOrderField.MinimalPrice;
+      break;
 
-//     case "updated_at":
-//       field = ProductOrderField.DATE;
-//       break;
+    case "updated_at":
+      field = ProductOrderField.Date;
+      break;
 
-//     default:
-//       return null;
-//   }
-//   return { field, direction };
-// };
+    default:
+      return null;
+  }
+  return { field, direction };
+};
 
 export const maybe = <T>(exp: () => T, d?: T) => {
   try {

@@ -1,10 +1,12 @@
 import React from "react";
 import { Button } from "@mui/material";
+
 import { ButtonLink } from "@components/atoms";
+
 import * as S from "./styles";
 import { IButtonProps, IProps } from "./types";
 
-const LoadingText = () => <>Loading</>;
+const LoadingText = () => (<>Loading</>);
 
 const getBtnAction = (btn: IButtonProps) =>
   btn.action && { onClick: btn.action };

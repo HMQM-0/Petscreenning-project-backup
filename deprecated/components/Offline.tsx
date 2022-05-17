@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import NetworkStatus from "./NetworkStatus";
+import NetworkStatus from "components/atoms/NetworkStatus";
 
 type OnlineProps = {
   children: React.ReactNode;

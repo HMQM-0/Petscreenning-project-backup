@@ -17,7 +17,7 @@ import {
   OverlayContext,
   OverlayTheme,
   OverlayType,
-} from "deprecated/components/Overlay";
+} from "components/providers/Overlay/context";
 import { useShopContext } from "components/providers/ShopProvider";
 
 import {
@@ -52,9 +52,13 @@ export interface IAddToCartSection {
   availableForPurchase: string | null;
   variantId: string;
   sizeGuideUrl?: string;
+
   setVariantId(variantId: string): void;
+
   onAddToCart(variantId: string, quantity?: number): void;
+
   onAttributeChangeHandler(slug: string | null, value: string): void;
+
   scrollToRatingsAndReviewsSection: () => void;
 }
 
@@ -189,35 +193,35 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
         </S.ProductPricing>
       )}
       {noPurchaseAvailable &&
-        renderErrorMessage(
-          intl.formatMessage(commonMessages.noPurchaseAvailable),
-          "notAvailable"
-        )}
+      renderErrorMessage(
+        intl.formatMessage(commonMessages.noPurchaseAvailable),
+        "notAvailable"
+      )}
       {purchaseAvailableDate &&
-        renderErrorMessage(
-          intl.formatMessage(commonMessages.purchaseAvailableOn, {
-            date: new Intl.DateTimeFormat("default", {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-            }).format(purchaseAvailableDate),
-            time: new Intl.DateTimeFormat("default", {
-              hour: "numeric",
-              minute: "numeric",
-            }).format(purchaseAvailableDate),
-          }),
-          "timeRestrictedAvailability"
-        )}
+      renderErrorMessage(
+        intl.formatMessage(commonMessages.purchaseAvailableOn, {
+          date: new Intl.DateTimeFormat("default", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }).format(purchaseAvailableDate),
+          time: new Intl.DateTimeFormat("default", {
+            hour: "numeric",
+            minute: "numeric",
+          }).format(purchaseAvailableDate),
+        }),
+        "timeRestrictedAvailability"
+      )}
       {isLowStock &&
-        renderErrorMessage(
-          intl.formatMessage(commonMessages.lowStock),
-          "lowStockWarning"
-        )}
+      renderErrorMessage(
+        intl.formatMessage(commonMessages.lowStock),
+        "lowStockWarning"
+      )}
       {isNoItemsAvailable &&
-        renderErrorMessage(
-          intl.formatMessage(commonMessages.noItemsAvailable),
-          "noItemsAvailable"
-        )}
+      renderErrorMessage(
+        intl.formatMessage(commonMessages.noItemsAvailable),
+        "noItemsAvailable"
+      )}
       <S.VariantPicker>
         <ProductVariantPicker
           productVariants={productVariants}

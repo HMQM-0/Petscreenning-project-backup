@@ -4,13 +4,13 @@ import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { commonMessages } from "deprecated/intl";
+import Button from "components/atoms/Button";
+import TextField from "components/atoms/TextField";
 
 import { TypedPasswordResetRequestMutation } from "./queries";
 import { ResetPasswordRequest } from "./gqlTypes/ResetPasswordRequest";
 
-import Button from "../Button";
 import Form from "../Form";
-import TextField from "../TextField";
 import { passwordResetUrl } from "../../app/routes/paths";
 
 const PasswordResetRequestForm: React.FC = () => {

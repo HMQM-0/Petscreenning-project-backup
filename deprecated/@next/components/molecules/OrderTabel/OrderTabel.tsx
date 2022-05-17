@@ -5,7 +5,7 @@ import { ThemeContext } from "styled-components";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
 
-import { TaxedMoney } from "@components/containers";
+import { TaxedMoney } from "components/containers/TaxedMoney";
 import { commonMessages, translateOrderStatus } from "deprecated/intl";
 import {
   generateMicrositeProductUrl,
@@ -61,73 +61,73 @@ export const OrderTabel: React.FC<IProps> = ({ orders }: IProps) => {
             <>
               <S.Row>{header(matches)}</S.Row>
               {orders &&
-                orders.map((order) => {
-                  const date = new Date(order.node.created);
-                  return (
-                    <S.Row
-                      data-test="orderEntry"
-                      data-test-id={order.node.number}
-                      key={order.node.number}
-                      onClick={(evt) => {
-                        evt.stopPropagation();
-                        navigate(
-                          !!isMicrosite()
-                            ? `${generateMicrositeUrl(
-                                getMicrositeId(),
-                                getMicrositeSlug()
-                              )}order-history/${order.node.token}`
-                            : `/order-history/${order.node.token}`
-                        );
-                      }}
-                    >
-                      <S.IndexNumber>{order.node.number}</S.IndexNumber>
-                      {matches ? (
-                        <>
-                          <S.ProductsOrdered>
-                            {order.node.lines
-                              .slice(0, 5)
-                              .map((product: any) => (
-                                <Box
-                                  component="span"
-                                  key={product?.variant?.product?.id}
-                                  // @ts-ignore
-                                  onClick={(evt) => {
-                                    evt.stopPropagation();
-                                    navigate(
-                                      !!isMicrosite()
-                                        ? generateMicrositeProductUrl(
-                                            product.variant.product.id,
-                                            product.variant.product.name,
-                                            getMicrositeId(),
-                                            getMicrositeSlug()
-                                          )
-                                        : generateProductUrl(
-                                            product.variant.product.id,
-                                            product.variant.product.name
-                                          )
-                                    );
-                                  }}
-                                >
-                                  <Thumbnail source={product} />
-                                </Box>
-                              ))}
-                          </S.ProductsOrdered>
-                          <S.DateOfOrder>
-                            <FormattedDate value={date} />
-                          </S.DateOfOrder>
-                          <S.Value>
-                            <TaxedMoney taxedMoney={order.node.total} />
-                          </S.Value>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      <S.Status>
-                        {translateOrderStatus(order.node.statusDisplay, intl)}
-                      </S.Status>
-                    </S.Row>
-                  );
-                })}
+              orders.map((order) => {
+                const date = new Date(order.node.created);
+                return (
+                  <S.Row
+                    data-test="orderEntry"
+                    data-test-id={order.node.number}
+                    key={order.node.number}
+                    onClick={(evt) => {
+                      evt.stopPropagation();
+                      navigate(
+                        !!isMicrosite()
+                          ? `${generateMicrositeUrl(
+                            getMicrositeId(),
+                            getMicrositeSlug()
+                          )}order-history/${order.node.token}`
+                          : `/order-history/${order.node.token}`
+                      );
+                    }}
+                  >
+                    <S.IndexNumber>{order.node.number}</S.IndexNumber>
+                    {matches ? (
+                      <>
+                        <S.ProductsOrdered>
+                          {order.node.lines
+                            .slice(0, 5)
+                            .map((product: any) => (
+                              <Box
+                                component="span"
+                                key={product?.variant?.product?.id}
+                                // @ts-ignore
+                                onClick={(evt) => {
+                                  evt.stopPropagation();
+                                  navigate(
+                                    !!isMicrosite()
+                                      ? generateMicrositeProductUrl(
+                                        product.variant.product.id,
+                                        product.variant.product.name,
+                                        getMicrositeId(),
+                                        getMicrositeSlug()
+                                      )
+                                      : generateProductUrl(
+                                        product.variant.product.id,
+                                        product.variant.product.name
+                                      )
+                                  );
+                                }}
+                              >
+                                <Thumbnail source={product} />
+                              </Box>
+                            ))}
+                        </S.ProductsOrdered>
+                        <S.DateOfOrder>
+                          <FormattedDate value={date} />
+                        </S.DateOfOrder>
+                        <S.Value>
+                          <TaxedMoney taxedMoney={order.node.total} />
+                        </S.Value>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    <S.Status>
+                      {translateOrderStatus(order.node.statusDisplay, intl)}
+                    </S.Status>
+                  </S.Row>
+                );
+              })}
             </>
           );
         }}

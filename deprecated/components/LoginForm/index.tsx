@@ -8,9 +8,9 @@ import { Box, TextField } from "@mui/material";
 import { useAuth } from "@nautical/react";
 import { demoMode } from "deprecated/constants";
 import { commonMessages } from "deprecated/intl";
+import Button from "components/atoms/Button";
 
 import Form from "../Form";
-import Button from "../Button";
 
 interface ILoginForm {
   hide?: () => void;
@@ -41,13 +41,13 @@ const LoginForm: React.FC<ILoginForm> = ({ hide }) => {
   const [formData, setFormData] = React.useState(
     demoMode
       ? {
-          email: "admin@example.com",
-          password: "admin",
-        }
+        email: "admin@example.com",
+        password: "admin",
+      }
       : {
-          email: "",
-          password: "",
-        }
+        email: "",
+        password: "",
+      }
   );
 
   const intl = useIntl();

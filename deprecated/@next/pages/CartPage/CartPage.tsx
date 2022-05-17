@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 
 import { useAuth, useCart, useCheckout } from "@nautical/react";
 import { CartFooter, CartHeader } from "@components/atoms";
-import { TaxedMoney } from "@components/containers";
+import { TaxedMoney } from "components/containers/TaxedMoney";
 import { CartRow } from "@components/organisms";
 import { Cart, CartEmpty } from "@components/templates";
 // import { IItems } from "@nautical/sdk/lib/api/Cart/types";
@@ -55,16 +55,16 @@ const getCheckoutButton = (navigate: any, user?: UserDetails_me | null) => (
         !!isMicrosite()
           ? user
             ? `${generateMicrositeUrl(
-                getMicrositeId(),
-                getMicrositeSlug()
-              )}checkout/`
+              getMicrositeId(),
+              getMicrositeSlug()
+            )}checkout/`
             : `${generateMicrositeUrl(
-                getMicrositeId(),
-                getMicrositeSlug()
-              )}login/`
+              getMicrositeId(),
+              getMicrositeSlug()
+            )}login/`
           : user
-          ? `/checkout/`
-          : `/login/`
+            ? `/checkout/`
+            : `/login/`
       )
     }
   >
@@ -162,9 +162,9 @@ export const CartPage: React.FC<any> = () => {
     checkout?.sellerShippingMethods.length > 5 &&
     shippingPrice
       ? {
-          gross: shippingPrice,
-          net: shippingPrice,
-        }
+        gross: shippingPrice,
+        net: shippingPrice,
+      }
       : null;
   const promoTaxedPrice = discount && {
     gross: discount,

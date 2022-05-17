@@ -1,7 +1,7 @@
 import React from "react";
 
-import { TaxedMoney } from "@components/containers";
-import { Thumbnail } from "@components/molecules";
+import { TaxedMoney } from "components/containers/TaxedMoney";
+import { Thumbnail } from "components/molecules/Thumbnail";
 import { AddToWishlist } from "@components/organisms";
 
 import * as S from "./styles";

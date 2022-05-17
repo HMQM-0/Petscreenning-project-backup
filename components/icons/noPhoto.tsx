@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 
-const NoPhoto: FunctionComponent = () => {
+const NoPhoto = ({ title }: { title: string }) => {
   return (
     <svg
       width="263"
@@ -8,7 +8,9 @@ const NoPhoto: FunctionComponent = () => {
       viewBox="0 0 263 351"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      aria-labelledby="noPhotoSvgTitle"
     >
+      <title id="noPhotoSvgTitle">{title}</title>
       <mask
         id="mask0"
         mask-type="alpha"

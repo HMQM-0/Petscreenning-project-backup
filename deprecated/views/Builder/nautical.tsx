@@ -24,23 +24,23 @@ import { Builder } from "@builder.io/react";
 import { StringParam, useQueryParam, useQueryParams } from "use-query-params";
 import { FormattedMessage } from "react-intl";
 import { gql, useQuery } from "@apollo/client";
-
-import { IFilters } from "@types";
-import { Products_attributes_edges_node } from "../Products/gqlTypes/Products";
-import filterImage from "deprecated/images/filter.svg";
 import { ReactSVG } from "react-svg";
+
+import filterImage from "deprecated/images/filter.svg";
+import { IFilters } from "@types";
 import { useVisibility } from "deprecated/_nautical/hooks";
 import { DropdownSelect } from "@components/atoms";
 import { ProductList_products } from "deprecated/@nautical/queries/gqlTypes/ProductList";
-import { TaxedMoney } from "@components/containers";
+import { TaxedMoney } from "components/containers/TaxedMoney";
 import { AddToWishlist, FilterSidebar } from "@components/organisms";
 import { useCart } from "@nautical/react";
 
 import ProductGallery from "./components/ProductGallery";
 import { enumsAlert, enumsButtonVariant, enumsColor } from "./mui";
 import { AlertIcon, ButtonIcon, GridIcon, TextfieldIcon } from "./icons";
-import { FilterQuerySet } from "../Products/View";
 
+import { Products_attributes_edges_node } from "../Products/gqlTypes/Products";
+import { FilterQuerySet } from "../Products/View";
 import {
   ProductDetails_product,
   ProductDetails_product_variants,

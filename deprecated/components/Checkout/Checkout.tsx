@@ -35,8 +35,8 @@ import * as Yup from "yup";
 
 import { useAuth, useCheckout } from "@nautical/react";
 import { TypedSellerNameQuery } from "@components/organisms/CheckoutShipping/queries";
-import { CachedImage } from "@components/molecules";
-import { Money } from "@components/containers";
+import { CachedImage } from "components/molecules/CachedImage";
+import { Money } from "components/containers/Money";
 import { StripePaymentGateway } from "@components/organisms";
 import Loader from "deprecated/components/Loader";
 import { ICardData, IFormError, ITaxedMoney } from "@types";
@@ -317,6 +317,7 @@ interface ICheckoutProps {
   products?: IProduct[] | null;
   items?: IItems | null;
   logo?: React.ReactNode;
+
   close?(): void;
 }
 
@@ -348,6 +349,7 @@ const MuiCheckout: React.FunctionComponent<ICheckoutProps> = (props) => {
     }, [key, state]);
     return [state, setState];
   }
+
   const [
     loyaltyPointsToBeEarnedOnOrderComplete,
     setLoyaltyPointsToBeEarnedOnOrderComplete,
@@ -698,8 +700,8 @@ const MuiCheckout: React.FunctionComponent<ICheckoutProps> = (props) => {
       while (i < response.messages.message.length) {
         console.error(
           response.messages.message[i].code +
-            ": " +
-            response.messages.message[i].text
+          ": " +
+          response.messages.message[i].text
         );
         i = i + 1;
       }

@@ -51,6 +51,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           </LocaleProvider>
         </AlertProvider>
       </ThemeProvider>
+      {/*
+        // TODO: Overlay component uses this div as it's root.
+            Overlay might need to be refactored to get rid of this
+      */}
+      <div id="modal-root" />
     </>
   );
 }

@@ -3,7 +3,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { Radio } from "@mui/material";
 // import { Radio } from "@components/atoms";
-import { Money } from "@components/containers";
+import { Money } from "components/containers/Money";
 
 import * as S from "./styles";
 
@@ -60,8 +60,8 @@ const CheckoutShippingLines: React.FC<IProps> = ({
                 !!values[seller] && values[seller].length > 0
                   ? !!values[seller] && values[seller] === id
                   : sellerSelection &&
-                    sellerSelection.length > 0 &&
-                    sellerSelection[0]?.shippingMethod?.id === id;
+                  sellerSelection.length > 0 &&
+                  sellerSelection[0]?.shippingMethod?.id === id;
               return (
                 <Radio
                   name={seller}

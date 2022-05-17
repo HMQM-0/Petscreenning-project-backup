@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { useAuth, useCart, useCheckout } from "@nautical/react";
 import { commonMessages } from "deprecated/intl";
-import { TaxedMoney } from "deprecated/@next/components/containers/index";
+import { TaxedMoney } from "components/containers/TaxedMoney";
 import {
   generateMicrositeUrl,
   getDBIdFromGraphqlId,
@@ -21,20 +21,21 @@ import {
   checkoutUrl,
   micrositeCartUrl,
 } from "deprecated/app/routes/paths";
+import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
+import ProductList from "components/organisms/OverlayManager/Cart/ProductList";
+import overlayClasses from "components/organisms/OverlayManager/Cart/scss/index.module.scss";
+import Empty from "components/organisms/OverlayManager/Cart/Empty";
 
 import classes from "./scss/index.module.scss";
 
-import ProductList from "../OverlayManager/Cart/ProductList";
-import overlayClasses from "../OverlayManager/Cart/scss/index.module.scss";
-import Empty from "../OverlayManager/Cart/Empty";
 import Online from "../Online";
 import Loader from "../Loader";
 import Offline from "../Offline";
-import OfflinePlaceholder from "../OfflinePlaceholder";
 
 interface IDrawerCartProps {
   anchor: "left" | "top" | "right" | "bottom";
   open: boolean;
+
   close(): void;
 }
 
@@ -54,9 +55,9 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
   const shippingTaxedPrice =
     checkout?.shippingMethod?.id && shippingPrice
       ? {
-          gross: shippingPrice,
-          net: shippingPrice,
-        }
+        gross: shippingPrice,
+        net: shippingPrice,
+      }
       : null;
   const promoTaxedPrice = discount && {
     gross: discount,
@@ -126,21 +127,21 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                     </Box>
 
                     {shippingTaxedPrice &&
-                      shippingTaxedPrice.gross.amount !== 0 && (
-                        <Box
-                          className={`${overlayClasses.cart}__footer__price`}
-                        >
-                          <Box component="span">
-                            <FormattedMessage {...commonMessages.shipping} />
-                          </Box>
-                          <Box component="span">
-                            <TaxedMoney
-                              data-test="shippingPrice"
-                              taxedMoney={shippingTaxedPrice}
-                            />
-                          </Box>
+                    shippingTaxedPrice.gross.amount !== 0 && (
+                      <Box
+                        className={`${overlayClasses.cart}__footer__price`}
+                      >
+                        <Box component="span">
+                          <FormattedMessage {...commonMessages.shipping} />
                         </Box>
-                      )}
+                        <Box component="span">
+                          <TaxedMoney
+                            data-test="shippingPrice"
+                            taxedMoney={shippingTaxedPrice}
+                          />
+                        </Box>
+                      </Box>
+                    )}
 
                     {promoTaxedPrice && promoTaxedPrice.gross.amount !== 0 && (
                       <Box className={`${overlayClasses.cart}__footer__price`}>
@@ -188,16 +189,16 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                           !!isMicrosite()
                             ? user
                               ? `${generateMicrositeUrl(
-                                  getMicrositeId() ?? "",
-                                  getMicrositeSlug()
-                                )}checkout/`
+                                getMicrositeId() ?? "",
+                                getMicrositeSlug()
+                              )}checkout/`
                               : `${generateMicrositeUrl(
-                                  getMicrositeId() ?? "",
-                                  getMicrositeSlug()
-                                )}login/`
+                                getMicrositeId() ?? "",
+                                getMicrositeSlug()
+                              )}login/`
                             : user
-                            ? checkoutUrl
-                            : checkoutLoginUrl
+                              ? checkoutUrl
+                              : checkoutLoginUrl
                         }
                       >
                         <a>

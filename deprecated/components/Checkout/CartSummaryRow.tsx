@@ -1,12 +1,13 @@
-import { TaxedMoney } from "@components/containers";
-import { CachedImage } from "@components/molecules";
 import { Box, Card, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { commonMessages } from "deprecated/intl";
-import { IImage, ITaxedMoney } from "@types";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import isEqual from "lodash/isEqual";
+
+import { IImage, ITaxedMoney } from "@types";
+import { commonMessages } from "deprecated/intl";
+import { CachedImage } from "components/molecules/CachedImage";
+import { TaxedMoney } from "components/containers/TaxedMoney";
 
 interface ICartSummaryRowProps {
   index?: number;
