@@ -64,7 +64,7 @@ const Page = ({
     return {
       attributeSlug,
       valueName:
-      // TODO: attributes can not be undefined here, can it? is that a non-valid type issue?
+      // TODO: adding `ts-ignore` as a tmp fix, since values has incorrect type. To be fixed on BE
       // @ts-ignore
       attributes.find(
         // TODO: attributes can not contain null values like [null, {}, ...]. That is a BE error

@@ -9,6 +9,6 @@ module.exports = {
   "**/*.(ts|tsx)": [
     buildEslintCommand,
     "pretty-quick --staged",
-    "tsc-files --noEmit --pretty next-env.d.ts",
+    "tsc-files --noEmit --pretty next-env.d.ts alert.d.ts",
   ],
 };

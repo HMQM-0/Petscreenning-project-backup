@@ -67,33 +67,34 @@ export const FilterSidebar = ({
         </S.Header>
         {attributes
           .sort((a, b) =>
-            // TODO: name can be undefined?
-            a.name?.localeCompare(b.name || '') || 0
+            // TODO: name can NOT be undefined. A BE issue. Adding `!` as a tmp fix
+            a.name!.localeCompare(b.name!)
           )
           .map(({ id, name, slug, values }) => {
             return (
               <AttributeValuesChecklist
                 key={id}
                 title={name}
-                // TODO: slug can be undefined?
-                name={slug || ''}
+                // TODO: slug can NOT be undefined. A BE issue. Adding `!` as a tmp fix
+                name={slug!}
                 // TODO: values is [] (not undefined). BE issue
                 values={values!.map((value) => ({
-                  // TODO: value can not be null
-                  // TODO: ISingleFilterAttribute is not compatible with value. See todos below
+                  // TODO: value can not be null. A BE issue. Adding `!` as a tmp fix
+                  // TODO: ISingleFilterAttribute is not compatible with value due to BE issues.
+                  //  Adding `ts-ignore` as a tmp solution
                   // @ts-ignore
                   selected: checkIfAttributeIsChecked(filters, value!, slug),
                   // TODO: value can NOT be undefined. BE issue
                   id: value!.id,
-                  // TODO: can name be undefined?
-                  name: value!.name || '',
-                  // TODO: can slug be undefined?
-                  slug: value!.slug || '',
+                  // TODO: value.name can NOT be undefined. A BE issue. Adding `!` as a tmp fix
+                  name: value!.name!,
+                  // TODO: value.slug can NOT be undefined. A BE issue. Adding `!` as a tmp fix
+                  slug: value!.slug!,
                 }))}
                 valuesShowLimit
                 onValueClick={(value) =>
-                  // TODO: can slug be undefined?
-                  onAttributeFiltersChange(slug || '', value.slug)
+                  // TODO: slug can NOT be undefined. A BE issue. Adding `!` as a tmp fix
+                  onAttributeFiltersChange(slug!, value.slug)
                 }
               />
             );

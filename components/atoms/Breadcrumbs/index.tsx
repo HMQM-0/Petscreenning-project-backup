@@ -14,7 +14,7 @@ export interface Breadcrumb {
   link: string;
 }
 
-// TODO: Refactor this once it is used in any of the componennts
+// TODO: Refactor this once it is used in any of the components
 // export const extractBreadcrumbs = (category: Category_category) => {
 //   const constructLink = (item) => ({
 //     link: [
@@ -39,7 +39,11 @@ export interface Breadcrumb {
 const getBackLink = (breadcrumbs: Breadcrumb[]) =>
   breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 2].link : "/";
 
-const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: Breadcrumb[] }) => (
+type BreadcrumbsProps = {
+  breadcrumbs: Breadcrumb[]
+}
+
+const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => (
   <Media
     query={{
       minWidth: "540px",
@@ -50,7 +54,9 @@ const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: Breadcrumb[] }) => (
         <ul className={classes.breadcrumbs}>
           <li>
             <Link href="/">
-              <FormattedMessage {...commonMessages.home} />
+              <a>
+                <FormattedMessage {...commonMessages.home} />
+              </a>
             </Link>
           </li>
           {breadcrumbs.map((breadcrumb, index) => (
@@ -67,7 +73,9 @@ const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: Breadcrumb[] }) => (
       ) : (
         <Box className={classes.breadcrumbs}>
           <Link href={getBackLink(breadcrumbs)}>
-            <FormattedMessage defaultMessage="Back" />
+            <a>
+              <FormattedMessage defaultMessage="Back" />
+            </a>
           </Link>
         </Box>
       )
