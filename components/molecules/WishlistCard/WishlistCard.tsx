@@ -1,21 +1,17 @@
-// @ts-nocheck
-import React from "react";
-import { FC, useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MenuItem,
   Select,
   InputLabel,
-  Theme,
   Box,
   Button,
 } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { useAlert } from "react-alert";
-import { useNavigate } from "react-router-dom";
+import Link from "next/link";
 
-import { WishlistItem } from "@nautical/fragments/gqlTypes/WishlistItem";
-import { useCart, useRemoveWishlistProduct } from "@nautical/react";
-import trash from "images/trash.svg";
+import { useCart } from "@nautical/react";
+import { Trash } from "components/icons/trash";
 import {
   generateMicrositeProductUrl,
   generateProductUrl,
@@ -23,10 +19,17 @@ import {
   getMicrositeSlug,
   isMicrosite,
 } from "core/utils";
-import usePrice, { usePriceRange } from "@hooks/usePrice";
-import { WishlistContext } from "deprecated/@nautical/react/components/WishlistProvider/context";
+import { WishlistContext } from "components/providers/Wishlist/context";
+import {
+  useRemoveWishlistProductMutation,
+  WishlistItemFragment,
+  WishlistItemVariantFragment
+} from "@generated";
 
-const useStyles = makeStyles((theme: Theme) =>
+import ProductPrice from "../../organisms/ProductPrice";
+import ProductVariantPrice from "../../organisms/ProductVariantPrice";
+
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "grid",
@@ -51,9 +54,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       justifyContent: "space-between",
       gridColumn: "span 7 / span 7",
-    },
-    struckPrice: {
-      textDecoration: "line-through",
     },
     trash: {
       display: "flex",
@@ -112,51 +112,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface Props {
-  item: WishlistItem;
+interface WhishlistCardProps {
+  item: WishlistItemFragment;
 }
 
-const WishlistCard: FC<Props> = ({ item }) => {
-  const product = item.product!;
-  const [variant, setVariant] = useState(null);
-  const navigate = useNavigate();
+const WishlistCard = ({ item }: WhishlistCardProps) => {
+  const product = item.product;
+  const [variant, setVariant] = useState<WishlistItemVariantFragment | null>(null);
   const alert = useAlert();
 
   const { update } = React.useContext(WishlistContext);
 
-  const [setRemoveWishlistProduct] = useRemoveWishlistProduct();
+  const [removeWishlistProduct] = useRemoveWishlistProductMutation({ variables: { productId: product.id } });
 
   const classes = useStyles();
 
-  useMemo(() => {
+  useEffect(() => {
     if (product.variants?.length === 1 && !variant) {
       setVariant(product.variants?.[0]);
     }
-  }, [product]);
+  }, [product.variants, variant]);
 
   const [loading, setLoading] = useState(false);
   const [removing, setRemoving] = useState(false);
   const { addItem } = useCart();
-
-  // @ts-ignore
-  const { price, basePrice, discount } = !variant
-    ? usePrice({
-        amount: product?.pricing?.priceRange?.start?.gross?.amount,
-        baseAmount:
-          product.pricing?.priceRangeUndiscounted?.start?.gross?.amount,
-        currencyCode: product.pricing?.priceRange?.start?.currency!,
-      })
-    : usePrice({
-        amount: variant?.pricing?.price?.gross?.amount,
-        baseAmount: variant?.pricing?.priceUndiscounted?.gross?.amount,
-        currencyCode: variant?.pricing?.price?.currency!,
-      });
-
-  const productPriceRange = usePriceRange({
-    start: product?.pricing?.priceRange?.start?.gross?.amount,
-    stop: product?.pricing?.priceRange?.stop?.gross?.amount,
-    currencyCode: product?.pricing?.priceRange?.start?.gross?.currency,
-  });
 
   const handleRemove = async () => {
     setRemoving(true);
@@ -164,9 +143,7 @@ const WishlistCard: FC<Props> = ({ item }) => {
     try {
       // If this action succeeds then there's no need to do `setRemoving(true)`
       // because the component will be removed from the view
-      await setRemoveWishlistProduct({
-        productId: product?.id,
-      });
+      await removeWishlistProduct();
       update();
       setRemoving(false);
     } catch (error) {
@@ -189,11 +166,13 @@ const WishlistCard: FC<Props> = ({ item }) => {
     }
   };
 
+  const showVariants = product.variants && product.variants.length > 1;
+
   return (
     <Box className={classes.root}>
       <Box className={classes.image}>
         <img
-          src={product.countableImages?.edges?.[0]?.node.urlOriginal!}
+          src={product.countableImages?.edges?.[0]?.node.urlOriginal}
           width="100%"
           height="auto"
           alt={
@@ -203,27 +182,26 @@ const WishlistCard: FC<Props> = ({ item }) => {
       </Box>
 
       <Box className={classes.details}>
-        <h3
-          className={classes.productName}
-          onClick={() =>
-            navigate(
-              !!isMicrosite()
-                ? generateMicrositeProductUrl(
-                    item.product.id,
-                    item.product.name,
-                    getMicrositeId(),
-                    getMicrositeSlug()
-                  )
-                : generateProductUrl(item.product.id, item.product.name)
-            )
+        <Link
+          href={
+            isMicrosite()
+              ? generateMicrositeProductUrl(
+                item.product.id,
+                item.product.name,
+                getMicrositeId()!,
+                getMicrositeSlug()
+              )
+              : generateProductUrl(item.product.id, item.product.name)
           }
+          passHref
         >
-          {product.name}
-        </h3>
-        {/* <Box className={classes.productDescription}>{product.description}</Box> */}
-        <Box className={classes.productDescription}></Box>
-        {product.variants?.length > 1 && (
-          <React.Fragment>
+          <a>
+            <h3 className={classes.productName}>{product.name}</h3>
+          </a>
+        </Link>
+        <Box className={classes.productDescription} />
+        {showVariants && (
+          <>
             <InputLabel
               htmlFor={`variant${product.id}`}
               className={classes.selectLabel}
@@ -235,7 +213,6 @@ const WishlistCard: FC<Props> = ({ item }) => {
               name="variant"
               id={`variant${product.id}`}
               MenuProps={{
-                getContentAnchorEl: null,
                 anchorOrigin: {
                   vertical: "bottom",
                   horizontal: "left",
@@ -245,23 +222,24 @@ const WishlistCard: FC<Props> = ({ item }) => {
                 },
               }}
               onChange={(event) => {
-                event.persist();
-                setVariant(event.target.value);
+                const selectedVariant =
+                  // TODO: variantItem can NOT be null. A BE issue
+                  product.variants?.find((variantItem) => variantItem!.id === event.target.value);
+                setVariant(selectedVariant || null);
               }}
             >
-              {product.variants?.map((v: any, i: number) => {
-                return <MenuItem value={v}>{v.name}</MenuItem>;
+              {product.variants?.map((variant) => {
+                // TODO: v is not null. a BE issue
+                return (<MenuItem key={variant!.id} value={variant!.id}>{variant!.name}</MenuItem>);
               })}
             </Select>
-          </React.Fragment>
+          </>
         )}
         <Button
           aria-label="Add to Cart"
           type="button"
           className={classes.addToCart}
           onClick={addToCart}
-          // loading={loading}
-          testingContext="addToCart"
           disabled={!variant || loading || removing}
         >
           Add to Cart
@@ -269,25 +247,19 @@ const WishlistCard: FC<Props> = ({ item }) => {
       </Box>
       <Box className={classes.pricing}>
         <Box className={classes.pricing_price}>
-          {!variant ? (
-            <Box>
-              {/* product?.pricing?.priceRange?.start?.gross?.amount}&nbsp;&nbsp;-&nbsp;&nbsp;{product?.pricing?.priceRange?.stop?.gross?.amount */}
-              {productPriceRange}
-            </Box>
-          ) : discount ? (
-            <Box>
-              <Box component="span" className={classes.struckPrice}>
-                {basePrice}
-              </Box>
-              &nbsp;&nbsp;&nbsp;&nbsp;{price}
-            </Box>
-          ) : (
-            price
-          )}
+          {
+            variant ? (
+              <ProductVariantPrice pricing={variant.pricing} />
+            ) : (
+              <ProductPrice pricing={product.pricing} />
+            )
+          }
         </Box>
         <Box className={classes.pricing_trash}>
           <button onClick={handleRemove}>
-            <img className={classes.trash} src={trash} />
+            {/* // TODO: pass classname */}
+            {/* @ts-ignore */}
+            <Trash className={classes.trash} />
           </button>
         </Box>
       </Box>

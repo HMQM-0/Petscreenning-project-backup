@@ -1,10 +1,10 @@
 import React from "react";
 
 import { useShopContext } from "components/providers/ShopProvider";
+import { Money } from "components/atoms/Money";
 
 import { IProps } from "./types";
 
-import { Money } from "../Money";
 
 export const TaxedMoney = ({ taxedMoney, defaultValue, ...props }: IProps) => {
   const { displayGrossPrices } = useShopContext();
