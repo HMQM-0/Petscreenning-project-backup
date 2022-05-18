@@ -5,32 +5,8 @@ import {
   productPricingFragment,
 } from "../ProductPage/queries.graphql";
 
-export const productVariantSummaryFragment = gql`
-  fragment ProductVariantSummaryFields on ProductVariant {
-    id
-    name
-    isAvailable
-    images {
-      url
-    }
-    attributes {
-      attribute {
-        id
-        name
-        slug
-      }
-      values {
-        id
-        name
-        value: name
-        extra: value
-      }
-    }
-  }
-`;
-
-export const menuItem = gql`
-  fragment MenuItem on MenuItem {
+export const builderMenuItem = gql`
+  fragment BuilderMenuItem on MenuItem {
     id
     name
     category {
@@ -53,11 +29,11 @@ export const menuItem = gql`
   }
 `;
 
-export const productsQuery = gql`
+export const builderProductsQuery = gql`
   ${basicProductFragment}
   ${productPricingFragment}
-  ${menuItem}
-  query Products(
+  ${builderMenuItem}
+  query BuilderProducts(
     $attributes: [AttributeInput]
     $after: String
     $pageSize: Int
@@ -160,10 +136,10 @@ export const productsQuery = gql`
   }
 `;
 
-export const categoryProductsQuery = gql`
+export const builderCategoryProductsQuery = gql`
   ${basicProductFragment}
   ${productPricingFragment}
-  query Category(
+  query BuilderCategory(
     $id: ID!
     $attributes: [AttributeInput]
     $after: String
@@ -233,8 +209,6 @@ export const categoryProductsQuery = gql`
     }
   }
 `;
-
-export const QUERY_BUILDER_PRODUCTS = productsQuery;
 
 export const micrositesQuery = gql`
   query Microsites($first: Int, $search: String) {
