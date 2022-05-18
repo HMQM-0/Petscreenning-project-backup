@@ -2,8 +2,6 @@ import "./mui";
 import * as React from "react";
 import { BuilderComponent, Builder, builder } from "@builder.io/react";
 import { CircularProgress } from "@mui/material";
-// @ts-ignore
-import { Base64 } from "js-base64";
 
 const model = "article";
 
@@ -13,11 +11,9 @@ const NoComponent: React.FunctionComponent = (props) => {
 
 const ArticlePage: React.FunctionComponent = (props) => {
   const [pageJson, setPage] = React.useState();
-  // @ts-ignore
   const [isLoading, setLoading] = React.useState(false);
   const isEditingOrPreviewing = Builder.isEditing || Builder.isPreviewing;
 
-  // @ts-ignore
   function getLastNumberOfString(value: string) {
     var allNumbers = value
       .replace(/[^0-9]/g, " ")
@@ -54,7 +50,7 @@ const ArticlePage: React.FunctionComponent = (props) => {
 
       fetchPage();
     }
-  }, []);
+  }, [isEditingOrPreviewing]);
 
   if (!pageJson && !isEditingOrPreviewing) {
     return isLoading ? (
