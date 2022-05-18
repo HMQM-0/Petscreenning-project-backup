@@ -29,9 +29,66 @@ export const builderMenuItem = gql`
   }
 `;
 
-export const builderProductsQuery = gql`
+export const builderPageProductVariantImage = gql`
+  fragment BuilderPageProductVariantImages on ProductVariant {
+    images {
+      url
+    }
+  }
+`;
+
+export const builderPageProduct = gql`
   ${basicProductFragment}
   ${productPricingFragment}
+  ${builderPageProductVariantImage}
+  fragment BuilderPageProduct on Product {
+    ...BasicProductFields
+    ...ProductPricingField
+    seller {
+      id
+      companyName
+    }
+    category {
+      id
+      name
+    }
+    attributes {
+      attribute {
+        id
+        name
+      }
+      values {
+        id
+        name
+      }
+    }
+    defaultVariant {
+      id
+    }
+    brand
+    variants {
+      id
+      name
+      ...BuilderPageProductVariantImages
+      attributes {
+        attribute {
+          id
+          name
+          slug
+        }
+        values {
+          id
+          name
+          value: name
+          extra: value
+        }
+      }
+    }
+  }
+`;
+
+export const builderProductsQuery = gql`
+  ${builderPageProduct}
   ${builderMenuItem}
   query BuilderProducts(
     $attributes: [AttributeInput]
@@ -53,50 +110,7 @@ export const builderProductsQuery = gql`
       totalCount
       products: edges {
         product: node {
-          ...BasicProductFields
-          ...ProductPricingField
-          seller {
-            id
-            companyName
-          }
-          category {
-            id
-            name
-          }
-          attributes {
-            attribute {
-              id
-              name
-            }
-            values {
-              id
-              name
-            }
-          }
-          defaultVariant {
-            id
-          }
-          brand
-          variants {
-            id
-            name
-            images {
-              url
-            }
-            attributes {
-              attribute {
-                id
-                name
-                slug
-              }
-              values {
-                id
-                name
-                value: name
-                extra: value
-              }
-            }
-          }
+          ...BuilderPageProduct
         }
       }
       pageInfo {
@@ -124,11 +138,11 @@ export const builderProductsQuery = gql`
       id
       name
       items {
-        ...MenuItem
+        ...BuilderMenuItem
         children {
-          ...MenuItem
+          ...BuilderMenuItem
           children {
-            ...MenuItem
+            ...BuilderMenuItem
           }
         }
       }
