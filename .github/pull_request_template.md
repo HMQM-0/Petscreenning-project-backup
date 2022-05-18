@@ -2,7 +2,7 @@
 <!--- Describe your changes in detail -->
 
 ## Ticket(s)
-- PROD-XXXX
+- [PROD-XXXX](https://nauticalcommerce.atlassian.net/browse/PROD-XXXX)
 
 ## Backend (or any related project) Dependencies
 List PRs depended on or depended by:
