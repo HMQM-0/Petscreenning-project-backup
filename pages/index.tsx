@@ -6,10 +6,10 @@ import {
   HomeQuery,
   HomeDocument,
 } from "@generated";
-import { Layout } from "@layout";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 
+import { Layout } from "../components/layouts/Layout";
 import client from "../apollo-client";
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
