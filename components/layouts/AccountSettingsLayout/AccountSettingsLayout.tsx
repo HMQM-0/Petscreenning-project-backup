@@ -5,6 +5,7 @@ import classes from "./scss/index.module.scss";
 import Media from "react-media";
 import { smallScreen } from "@styles/constants";
 import { AccountMenuSidebar } from "../../organisms/AccountMenuSidebar";
+import { AccountMenuMobile } from "../../organisms/AccountMenuMobile";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ const AccountSettingsLayout = ({ children }: LayoutProps) => {
         </Media>
         <Media query={{ maxWidth: smallScreen - 1 }}>
           <Box>
-            {/*<AccountMenuMobile links={links} active={location.pathname} />*/}
+            <AccountMenuMobile />
           </Box>
         </Media>
         <Box className={classes.account__content}>{children}</Box>

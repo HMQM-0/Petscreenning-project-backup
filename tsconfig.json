@@ -27,7 +27,6 @@
       "@fragments": ["./_fragments/index.ts"],
       "@queries": ["./_queries/index.ts"],
       "@mutations": ["./_mutations/index.ts"],
-      "@layouts": ["./components/layouts/*"],
 
       // Deprecated
       "@components/*": ["./deprecated/@next/components/*"],

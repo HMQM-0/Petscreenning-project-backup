@@ -22,10 +22,10 @@ export const AccountMenuItem = ({
   ...rest
 }: {
   children: React.ReactNode;
-  active?: boolean;
+  active: boolean;
 }) => {
   return (
-    <S.MenuItem active={!!active} {...rest}>
+    <S.MenuItem active={active} {...rest}>
       {children}
     </S.MenuItem>
   );
