@@ -20,11 +20,10 @@ import {
   useCart,
   useRemoveWishlistProduct,
 } from "@nautical/react";
-import { maybe } from "@utils/misc";
 import { userWishlist } from "deprecated/@nautical/queries/wishlist";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
 
-import { micrositesQuery } from "./queries";
+import { micrositesQuery } from "./queries.graphql";
 
 import { FilterQuerySet } from "../ProductsPage/View";
 // import { useProductVariantsAttributes, useProductVariantsAttributesValuesSelection } from "@hooks";
