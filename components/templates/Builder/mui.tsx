@@ -369,7 +369,7 @@ Builder.registerComponent(BuilderButton, {
 
 export const BuilderIcon = (props: {
   name: "favorite" | "favoriteFilled" | "plus" | "minus" | "empty";
-  paddingTop;
+  paddingTop: string | number;
 }) => {
   switch (props.name) {
     case "favorite":
