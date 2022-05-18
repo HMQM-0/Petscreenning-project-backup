@@ -37,6 +37,19 @@ export const builderPageProductVariantImage = gql`
   }
 `;
 
+export const builderPageAttribute = gql`
+  fragment BuilderPageAttribute on Attribute {
+    id
+    name
+    slug
+    values {
+      id
+      name
+      slug
+    }
+  }
+`;
+
 export const builderPageProduct = gql`
   ${basicProductFragment}
   ${productPricingFragment}
@@ -123,14 +136,7 @@ export const builderProductsQuery = gql`
     attributes(first: 100) {
       edges {
         node {
-          id
-          name
-          slug
-          values {
-            id
-            name
-            slug
-          }
+          ...BuilderPageAttribute
         }
       }
     }
