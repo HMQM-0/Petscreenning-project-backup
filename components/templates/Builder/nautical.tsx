@@ -21,7 +21,7 @@ import {
   InsertMenuItem,
 } from "@builder.io/sdk/dist/src/builder.class";
 import { Builder } from "@builder.io/react";
-import { StringParam, useQueryParam, useQueryParams } from "use-query-params";
+import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
 import { FormattedMessage } from "react-intl";
 import { gql, useQuery } from "@apollo/client";
 import { ReactSVG } from "react-svg";
@@ -29,27 +29,25 @@ import { ReactSVG } from "react-svg";
 import filterImage from "deprecated/images/filter.svg";
 import { IFilters } from "@types";
 import { useVisibility } from "deprecated/_nautical/hooks";
-import { DropdownSelect } from "@components/atoms";
+import {
+  DropdownSelect,
+  AddToWishlist,
+  FilterSidebar,
+} from "components/organisms";
 import { ProductList_products } from "deprecated/@nautical/queries/gqlTypes/ProductList";
 import { TaxedMoney } from "components/containers/TaxedMoney";
-import { AddToWishlist, FilterSidebar } from "@components/organisms";
 import { useCart } from "@nautical/react";
+import {
+  BuilderPageAttributeFragment,
+  BuilderPageProductFragment,
+  BuilderPageProductVariantImagesFragment,
+} from "@generated";
 
 import ProductGallery from "./components/ProductGallery";
 import { enumsAlert, enumsButtonVariant, enumsColor } from "./mui";
 import { AlertIcon, ButtonIcon, GridIcon, TextfieldIcon } from "./icons";
 
-import { Products_attributes_edges_node } from "../Products/gqlTypes/Products";
-import { FilterQuerySet } from "../Products/View";
-import {
-  ProductDetails_product,
-  ProductDetails_product_variants,
-  ProductDetails_product_variants_images,
-} from "../Product/gqlTypes/ProductDetails";
-// import { usePersistedState } from "deprecated/_nautical/hooks/usePersistedState";
-// import ClearIcon from '@mui/icons-material/Clear';
-// import Media from "react-media";
-// import { smallScreen } from "@styles/constants";
+import { FilterQuerySet } from "../ProductsPage/View";
 
 export const BuilderCard = (props: {
   message: string;
@@ -134,7 +132,11 @@ export const BuilderAddToCartQuick = (props: {
   const alert = useAlert();
   const { addItem } = useCart();
 
-  const handleAddToCart = (event: React.MouseEvent, variantId, quantity) => {
+  const handleAddToCart = (
+    event: React.MouseEvent,
+    variantId: string,
+    quantity: number
+  ) => {
     event.stopPropagation();
     event.preventDefault();
     addItem(variantId, quantity);
@@ -340,22 +342,23 @@ const makeQueryMenuItem: InsertMenuItem = {
   },
 };
 
-export const BuilderAddToCartSection = (props: {
-  product: ProductDetails_product;
+export const BuilderAddToCartSection = ({
+  product,
+}: {
+  product: BuilderPageProductFragment;
 }) => {
   // const [open, setOpen] = React.useState(false);
   const [selectedVariant, setSelectedVariant] = React.useState(
-    props.product?.defaultVariant
+    product?.defaultVariant?.id
   );
-
-  if (!props.product || props.product?.variants.length === 0) {
-    return <Typography>MISSING PRODUCT BINDING</Typography>;
-  }
-
   const {
     addItem,
     // removeItem
   } = useCart();
+
+  if (!product || (product.variants?.length ?? 0) === 0) {
+    return <Typography>MISSING PRODUCT BINDING</Typography>;
+  }
 
   // const handleClick = async () => {
   //   await addItem(selectedVariantId, 1);
@@ -371,7 +374,9 @@ export const BuilderAddToCartSection = (props: {
   //   };
 
   const handleSelect = async () => {
-    await addItem(selectedVariant.id, 1);
+    if (selectedVariant) {
+      await addItem(selectedVariant, 1);
+    }
   };
 
   // const action = (
@@ -390,20 +395,27 @@ export const BuilderAddToCartSection = (props: {
   //   </React.Fragment>
   // );
 
+  // TODO: Determine what part of price range TaxedMoney should receive
+  const variants = product.variants ?? [];
   return (
     <>
-      <TaxedMoney taxedMoney={selectedVariant.pricing.price} />
+      <TaxedMoney taxedMoney={product.pricing?.priceRange?.start} />
       <Select
-        defaultValue={props.product.defaultVariant}
-        // @ts-ignore
-        onChange={(event) => setSelectedVariant(event.target.value)}
+        defaultValue={product.defaultVariant}
+        onChange={(event) => {
+          const value = event.target.value as string;
+          setSelectedVariant(value);
+        }}
       >
-        {props.product.variants?.map(
-          (v: ProductDetails_product_variants, i: number) => {
-            // @ts-ignore
-            return <MenuItem value={v}>{v.name}</MenuItem>;
-          }
-        )}
+        {variants.map((variant) => {
+          const id = variant?.id ?? "";
+          const name = variant?.name ?? "";
+          return (
+            <MenuItem key={id} value={id}>
+              {name}
+            </MenuItem>
+          );
+        })}
       </Select>
       <Button
         color={"primary"}
@@ -435,9 +447,15 @@ Builder.registerComponent(BuilderAddToCartSection, {
   docsLink: "https://mui.com/components/alert/",
 });
 
-export const BuilderProductGallery = (props: {
-  images: ProductDetails_product_variants_images[] | null;
-}) => <ProductGallery images={props.images} />;
+export const BuilderProductGallery = ({
+  images,
+}: {
+  images: BuilderPageProductVariantImagesFragment["images"];
+}) => {
+  // TODO: This is a BE issue where images has values which are potentially null
+  // @ts-ignore
+  return <ProductGallery images={images} />;
+};
 
 Builder.registerComponent(BuilderProductGallery, {
   name: "ProductGallery",
@@ -591,20 +609,21 @@ const productSortMenuItem: InsertMenuItem = {
   },
 };
 
-export const BuilderProductFilters = (props: {
-  attributes: Products_attributes_edges_node[];
+export const BuilderProductFilters = ({
+  attributes,
+}: {
+  attributes: BuilderPageAttributeFragment[];
 }) => {
   const [attributeFilters, setAttributeFilters] = useQueryParam(
     "filters",
     FilterQuerySet
   );
 
-  // @ts-ignore
   const clearFilters = () => {
     setAttributeFilters({});
   };
 
-  const onFiltersChange = (name, value) => {
+  const onFiltersChange = (name: string, value: string) => {
     if (attributeFilters && attributeFilters.hasOwnProperty(name)) {
       if (attributeFilters[name].includes(value)) {
         if (filters.attributes[`${name}`].length === 1) {
@@ -632,15 +651,11 @@ export const BuilderProductFilters = (props: {
     }
   };
 
-  // @ts-ignore
-  const [sort, setSort] = useQueryParam("sortBy", StringParam);
+  // TODO: This value wasn't being used - the filters only accept attributes right now
+  // const [sort, setSort] = useQueryParam("sortBy", StringParam);
 
-  const filters: IFilters = {
+  const filters = {
     attributes: attributeFilters,
-    pageSize: 12,
-    priceGte: null,
-    priceLte: null,
-    sortBy: sort || null,
   };
 
   const activeFilters = filters!.attributes
@@ -679,7 +694,7 @@ export const BuilderProductFilters = (props: {
         show={showFilters}
         hide={() => setShowFilters(false)}
         onAttributeFiltersChange={onFiltersChange}
-        attributes={props.attributes}
+        attributes={attributes}
         filters={filters}
       />
     </>
