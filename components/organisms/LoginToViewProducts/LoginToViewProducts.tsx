@@ -2,9 +2,8 @@ import * as React from "react";
 import { Box } from "@mui/material";
 
 import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
-import productsPageClasses from "components/templates/ProductsPage/scss/index.module.scss";
 
-import classes from "../scss/index.module.scss";
+import classes from "./scss/index.module.scss";
 
 const LoginToViewProducts = () => {
   return (
@@ -22,8 +21,8 @@ const LoginToViewProducts = () => {
                   overlayContext.show(OverlayType.login, OverlayTheme.right)
                 }
               >
-                <span className={productsPageClasses.text}>Login</span>
-                <span className={productsPageClasses.icon}>
+                <span className={classes.text}>Login</span>
+                <span className={classes.icon}>
                   <svg
                     aria-hidden="true"
                     data-prefix="far"

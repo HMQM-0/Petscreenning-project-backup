@@ -1,43 +1,29 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
-import { useRouter } from "next/router";
 
+import View from "components/templates/CategoryPage/View";
 import { BrandingDocument, BrandingQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import client from "apollo-client";
-import { ProductsPage } from "components/templates/ProductsPage";
-import { Loader } from "components/atoms/Loader";
+import { ProductsListView } from "components/templates/ProductsList/View";
 
-type CategoryPageProps = InferGetStaticPropsType<typeof getStaticProps>;
-
-// TODO: InferGetStaticPropsType does not work correctly in case of getStaticPaths -> fallback:true
-//  adding `| {}` manually as explained here
-//  https://github.com/vercel/next.js/issues/18705
-const Category: NextPage<CategoryPageProps | {}> = (props) => {
-  const router = useRouter();
-
-  if (router.isFallback) {
-    // Showing Loader until branding is still in progress for fallback routes
-    return (<Loader />);
-  }
-
-  const { branding } = props as CategoryPageProps;
-
-  const description = "Category"; // TODO: insert category name here?
-  const title = "Category"; // TODO: insert category name here?
+const Category: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ branding }) => {
+  const description = "Category"; // TODO: insert categoryData.data.category.seoDescription here
+  const title = "Category"; // TODO: insert categoryData.data.category.seoTitle here
   const schema = structuredData(description, title);
   const documentHead = {
     branding,
     description,
     title,
     schema,
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    url: "", // TODO: Store the canonical URL either as env or in dashboard
+    type: "product.category",
   };
 
   return (
     <Layout documentHead={documentHead}>
       {/* TODO: To be replaced with category page */}
-      <ProductsPage />
+      <ProductsListView ProductsComponent={View} />
     </Layout>
   );
 };
@@ -63,10 +49,10 @@ export async function getStaticProps() {
 }
 
 export async function getStaticPaths() {
-  // TODO: Load all available categories here?
+  // TODO: Load all available categories here and prepare paths aray
   return {
     paths: [],
-    fallback: true,
+    fallback: 'blocking',
   };
 }
 

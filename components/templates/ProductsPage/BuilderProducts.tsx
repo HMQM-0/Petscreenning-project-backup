@@ -10,7 +10,8 @@ import NetworkStatus from "components/atoms/NetworkStatus";
 import { PRODUCTS_PER_PAGE } from "core/config";
 
 // @ts-ignore
-import { builderProductsQuery } from "../queries.graphql";
+import { builderProductsQuery } from "./queries.graphql";
+
 import {
   BuilderProducts as IBuilderProducts,
   BuilderProductsVariables,

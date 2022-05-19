@@ -3,9 +3,9 @@ import type { NextPage, InferGetStaticPropsType } from "next";
 import { BrandingDocument, BrandingQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-
-import client from "../apollo-client";
-import { ProductsPage } from "../components/templates/ProductsPage";
+import client from "apollo-client";
+import { ProductsListView } from "components/templates/ProductsList/View";
+import View from "components/templates/ProductsPage/View";
 
 const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   branding,
@@ -24,7 +24,7 @@ const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   return (
     <Layout documentHead={documentHead}>
-      <ProductsPage />
+      <ProductsListView ProductsComponent={View} />
     </Layout>
   );
 };
