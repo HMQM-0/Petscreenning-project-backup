@@ -6,6 +6,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useInView } from "react-intersection-observer";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
+
 import { CachedImage } from "./CachedImage";
 
 export interface IImage {
@@ -123,7 +124,7 @@ const ProductGallery: React.FunctionComponent<IProductGalleryProps> = (
     if (imageIndex >= images.length) {
       setImageIndex(0);
     }
-  }, [images]);
+  }, [imageIndex, images]);
 
   const bottomImageRef = React.useRef<HTMLDivElement | null>(null);
   const topImageRef = React.useRef<HTMLDivElement | null>(null);
@@ -136,7 +137,7 @@ const ProductGallery: React.FunctionComponent<IProductGalleryProps> = (
   });
 
   const setBottomRef = React.useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       bottomImageRef.current = node;
       bottomImageIntersectionObserver(node);
     },
@@ -144,7 +145,7 @@ const ProductGallery: React.FunctionComponent<IProductGalleryProps> = (
   );
 
   const setTopRef = React.useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       topImageRef.current = node;
       topImageIntersectionObserver(node);
     },
