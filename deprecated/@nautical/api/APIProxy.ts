@@ -90,11 +90,6 @@ class APIProxy {
     data.me ? data.me.orders : null
   );
 
-  getNauticalOrdersByUser = this.watchQuery(
-    QUERIES.NauticalOrdersByUser,
-    (data) => (data.me ? data.me.nauticalOrders : null)
-  );
-
   getOrderDetails = (
     variables: InferOptions<
       QUERIES["OrderDetails"] | QUERIES["OrderDetailsByUser"]

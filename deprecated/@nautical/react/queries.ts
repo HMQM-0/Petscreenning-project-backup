@@ -10,9 +10,6 @@ export const useNauticalOrderDetails = queryWithVariablesFactory(
   "getNauticalOrderDetails"
 );
 export const useOrdersByUser = queryWithVariablesFactory("getOrdersByUser");
-export const useNauticalOrdersByUser = queryWithVariablesFactory(
-  "getNauticalOrdersByUser"
-);
 
 export const useCategoryDetails =
   queryWithVariablesFactory("getCategoryDetails");
