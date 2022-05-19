@@ -8,8 +8,8 @@ import {
 } from "@generated";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
+import { Layout } from "@layouts/Layout";
 
-import { Layout } from "../components/layouts/Layout";
 import client from "../apollo-client";
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({

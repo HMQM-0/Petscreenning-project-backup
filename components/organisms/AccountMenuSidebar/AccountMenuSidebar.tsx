@@ -11,7 +11,7 @@ import {commonMessages} from "../../../deprecated/intl";
 interface Route {
   path: string;
   label: string;
-  intlKeyId: string;
+  intlKeyId: keyof typeof commonMessages;
 }
 
 export const routes: Route[] = [
@@ -35,7 +35,6 @@ export const AccountMenuSidebar = () => {
             active={router.pathname === route.path}
           >
             {
-              // @ts-ignore
               intl.formatMessage(commonMessages[route.intlKeyId])
             }
           </AccountMenuItem>
