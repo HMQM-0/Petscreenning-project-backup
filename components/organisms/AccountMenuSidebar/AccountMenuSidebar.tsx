@@ -26,7 +26,6 @@ export const AccountMenuSidebar = () => {
   const router = useRouter();
   const intl = useIntl();
 
-
   return (
     <AccountMenu>
       {routes.map(route => (
