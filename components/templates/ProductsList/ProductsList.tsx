@@ -258,7 +258,7 @@ const ProductsList = ({
     </Box>
   );
 
-  if (!showSidebar) {
+  if (!showSidebar || !menuResult?.items?.length) {
     return productsListComponents;
   }
 
