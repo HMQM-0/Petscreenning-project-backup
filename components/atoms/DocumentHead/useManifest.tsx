@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { BrandingType } from "graphql/generated";
+import { BrandingType } from "@generated";
 
 export default function useManifest(branding: BrandingType) {
   useEffect(() => {

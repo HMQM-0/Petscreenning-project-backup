@@ -6,8 +6,10 @@
     "node": ">=16 <17"
   },
   "scripts": {
+    "predev": "yarn generate",
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "yarn generate",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
