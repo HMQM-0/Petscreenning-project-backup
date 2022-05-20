@@ -29,7 +29,7 @@ import { DirectoryItem, IProps } from "./types";
 
 type ChildItemProps = {
   item: DirectoryItem;
-  onClick: VoidFunction;
+  onClick?: VoidFunction;
 };
 
 export const ChildItem = ({ item, onClick }: ChildItemProps) => {
@@ -42,7 +42,7 @@ export const ChildItem = ({ item, onClick }: ChildItemProps) => {
 
 type ListItemProps = {
   item: DirectoryItem;
-  onClick: VoidFunction;
+  onClick?: VoidFunction;
 };
 
 export const ListItem = ({ item, onClick }: ListItemProps) => {

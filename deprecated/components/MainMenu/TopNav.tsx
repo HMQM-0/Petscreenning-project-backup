@@ -50,9 +50,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
   };
   const alert = useAlert();
   const [term, setTerm] = React.useState<string>("");
-  const [anchorEl, setAnchorEl] = React.useState<
-    (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
-  >(null);
+  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const accountMenuOpen = Boolean(anchorEl);
@@ -303,7 +301,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/wishlist">
+                  <Link href="/account/wishlist">
                     <a>
                       <ListItemIcon>
                         <FavoriteIcon fontSize="small" />
@@ -350,6 +348,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
         close={handleMenuClose}
       />
       <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
+      {/* TODO: We need to use Overlay.Login here to reduce code duplication */}
       <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} />
     </>
   );

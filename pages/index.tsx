@@ -13,9 +13,9 @@ import {
   BuilderHomeQuery,
   BuilderHomeDocument,
 } from "@generated";
-import { Layout } from "@layout";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
+import { Layout } from "@layouts/Layout";
 
 import client from "../apollo-client";
 

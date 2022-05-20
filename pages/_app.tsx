@@ -33,8 +33,8 @@ const notificationOptions = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={defaultTheme}>
+      <div id="root">
         <AlertProvider
           template={NotificationTemplate as any}
           {...notificationOptions}
@@ -54,13 +54,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             </NextQueryParamProvider>
           </LocaleProvider>
         </AlertProvider>
-      </ThemeProvider>
+      </div>
       {/*
         // TODO: Overlay component uses this div as it's root.
             Overlay might need to be refactored to get rid of this
       */}
       <div id="modal-root" />
-    </>
+    </ThemeProvider>
   );
 }
 
