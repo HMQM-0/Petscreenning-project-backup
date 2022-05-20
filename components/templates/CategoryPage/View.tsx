@@ -31,6 +31,7 @@ const View = ({
       fetchMore={fetchMore}
       filters={filters}
       variables={variables}
+      showSidebar
     />
   );
 };

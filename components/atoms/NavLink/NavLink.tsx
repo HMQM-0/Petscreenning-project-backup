@@ -1,9 +1,3 @@
-// TODO: Once used in @next - move utils to @utils
-// Use slugs everywhere (they are used partially right now)
-
-// NOTE: This component should only be used for navigation inside application
-// For external urls, use different component
-
 import React from "react";
 
 import {
@@ -12,6 +6,7 @@ import {
   generateMicrositeUrl,
   generatePageUrl,
 } from "@utils/core";
+
 import * as S from "./styles";
 import { IProps } from "./types";
 
@@ -55,8 +50,7 @@ export const NavLink: React.FC<IProps> = ({
 
   return linkUrl ? (
     <S.Link
-      to={linkUrl}
-      // @ts-ignore
+      href={linkUrl}
       activeClassName="navlink-active"
       fullWidth={fullWidth}
       {...props}

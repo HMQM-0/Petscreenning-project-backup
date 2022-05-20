@@ -39,8 +39,6 @@ export async function getStaticProps() {
     footerText: "",
   };
 
-  console.log('brandingData?.branding', brandingData?.branding);
-
   return {
     props: {
       branding: brandingData?.branding ?? fallbackBranding,

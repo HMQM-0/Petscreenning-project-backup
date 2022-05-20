@@ -36,6 +36,7 @@ interface ProductsProps {
   // TODO: or ProductCategories/ProductCollection ?
   data: ProductsQueryResult["data"];
   fetchMore: ProductsQueryResult["fetchMore"];
+  showSidebar?: boolean;
 }
 
 const ProductsList = ({
@@ -43,6 +44,7 @@ const ProductsList = ({
   data,
   fetchMore,
   filters,
+  showSidebar,
 }: ProductsProps) => {
   const intl = useIntl();
   const [showFilters, setShowFilters] = useState(false);
@@ -201,6 +203,63 @@ const ProductsList = ({
 
   const showFeatured = !products?.totalCount && !loading;
 
+  const productsListComponents = (
+    <Box className={classes.category}>
+      <Box className="container">
+        <Breadcrumbs breadcrumbs={createBreadcrumbs()} />
+        {/* // TODO: combine these. Get Category data somewhere*/}
+        {/*<Breadcrumbs breadcrumbs={extractBreadcrumbs(category)} />*/}
+        <ProductSideNavbar
+          show={showDirectory}
+          onHide={() => setShowDirectory(false)}
+          // TODO: items can not contain `null`. e.g. [null, {}, ...]. This is a BE issue
+          // @ts-ignore
+          items={menuResult?.items ?? []}
+        />
+        <FilterSidebar
+          show={showFilters}
+          hide={() => setShowFilters(false)}
+          onAttributeFiltersChange={onFiltersChange}
+          attributes={attributes}
+          filters={filters}
+        />
+        <ProductListHeader
+          activeSortOption={filters.sortBy}
+          openDirectoryMenu={() => setShowDirectory(true)}
+          openFiltersMenu={() => setShowFilters(true)}
+          numberOfProducts={products?.totalCount ?? 0}
+          activeFilters={filters.attributes
+            ? Object.keys(filters.attributes).length
+            : 0}
+          activeFiltersAttributes={activeFiltersAttributes}
+          clearFilters={clearFilters}
+          sortOptions={sortOptions}
+          onChange={(value) => {
+            setSort(value.value);
+          }}
+          onCloseFilterAttribute={onFiltersChange}
+        />
+        <ProductList
+          products={products?.edges.map((edge) => edge.node) ?? []}
+          canLoadMore={maybe(() => !!data?.products?.pageInfo.hasNextPage, false)}
+          loading={loading}
+          onLoadMore={handleLoadMore}
+        />
+      </Box>
+      {!showFeatured && (
+        <></>
+        // TODO: To be refactored in future tasks
+        // <ProductsFeatured
+        //   title={intl.formatMessage(commonMessages.youMightLike)}
+        // />
+      )}
+    </Box>
+  );
+
+  if (!showSidebar) {
+    return productsListComponents;
+  }
+
   return (
     <Media
       query={{
@@ -213,56 +272,7 @@ const ProductsList = ({
             matches={matches}
             menu={menuResult}
           >
-            <Box className={classes.category}>
-              <Box className="container">
-                <Breadcrumbs breadcrumbs={createBreadcrumbs()} />
-                {/* // TODO: combine these. Get Category data somewhere*/}
-                {/*<Breadcrumbs breadcrumbs={extractBreadcrumbs(category)} />*/}
-                <ProductSideNavbar
-                  show={showDirectory}
-                  onHide={() => setShowDirectory(false)}
-                  // TODO: items can not contain `null`. e.g. [null, {}, ...]. This is a BE issue
-                  // @ts-ignore
-                  items={menuResult?.items ?? []}
-                />
-                <FilterSidebar
-                  show={showFilters}
-                  hide={() => setShowFilters(false)}
-                  onAttributeFiltersChange={onFiltersChange}
-                  attributes={attributes}
-                  filters={filters}
-                />
-                <ProductListHeader
-                  activeSortOption={filters.sortBy}
-                  openDirectoryMenu={() => setShowDirectory(true)}
-                  openFiltersMenu={() => setShowFilters(true)}
-                  numberOfProducts={products?.totalCount ?? 0}
-                  activeFilters={filters.attributes
-                    ? Object.keys(filters.attributes).length
-                    : 0}
-                  activeFiltersAttributes={activeFiltersAttributes}
-                  clearFilters={clearFilters}
-                  sortOptions={sortOptions}
-                  onChange={(value) => {
-                    setSort(value.value);
-                  }}
-                  onCloseFilterAttribute={onFiltersChange}
-                />
-                <ProductList
-                  products={products?.edges.map((edge) => edge.node) ?? []}
-                  canLoadMore={maybe(() => !!data?.products?.pageInfo.hasNextPage, false)}
-                  loading={loading}
-                  onLoadMore={handleLoadMore}
-                />
-              </Box>
-              {!showFeatured && (
-                <></>
-                // TODO: To be refactored in future tasks
-                // <ProductsFeatured
-                //   title={intl.formatMessage(commonMessages.youMightLike)}
-                // />
-              )}
-            </Box>
+            {productsListComponents}
           </ProductSideNavbarGrid>
         );
       }}
