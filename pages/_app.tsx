@@ -3,10 +3,14 @@ import { ThemeProvider } from "styled-components";
 import { positions, Provider as AlertProvider } from "react-alert";
 import { NextQueryParamProvider } from "next-query-params";
 import dynamic from "next/dynamic";
+import { builder } from "@builder.io/react";
 
 import "deprecated/globalStyles/scss/index.scss";
+
 import { defaultTheme, GlobalStyle } from "@styles";
 import { ShopProvider, OverlayProvider } from "@providers";
+
+builder.init(String(process.env.NEXT_PUBLIC_BUILDER_KEY));
 
 const NotificationTemplate = dynamic(
   () => import("components/atoms/NotificationTemplate/NotificationTemplate")
