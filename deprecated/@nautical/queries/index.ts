@@ -4,17 +4,14 @@ import {
   QueryOptions as ApolloQueryOptions,
 } from "@apollo/client";
 
-import { RequireOnlyOne } from "../tsHelpers";
 import * as AttributesList from "./attributes";
 import * as Category from "./category";
 import * as Collections from "./collections";
 import * as Orders from "./orders";
 import * as Product from "./products";
 import * as Shop from "./shop";
-import * as Wishlist from "./wishlist";
 import * as User from "./user";
 import * as PluginInfo from "./pluginInfo";
-
 import {
   NauticalOrderByToken,
   OrderByToken,
@@ -25,28 +22,18 @@ import {
   UserNauticalOrderByToken,
   UserOrderByTokenVariables,
 } from "./gqlTypes/UserOrderByToken";
-
 import { Attributes, AttributesVariables } from "./gqlTypes/Attributes";
 import {
   ProductDetails,
   ProductDetailsVariables,
 } from "./gqlTypes/ProductDetails";
-
 import { ProductList, ProductListVariables } from "./gqlTypes/ProductList";
-
 import {
   CategoryDetails,
   CategoryDetailsVariables,
 } from "./gqlTypes/CategoryDetails";
-
 import { GetShop } from "./gqlTypes/GetShop";
 import { GetProductRatingsAndReviews } from "./gqlTypes/GetProductRatingsAndReviews";
-
-import {
-  Wishlist as WishlistType,
-  WishlistVariables,
-} from "./gqlTypes/Wishlist";
-
 import {
   NauticalOrdersByUser,
   OrdersByUser,
@@ -62,6 +49,8 @@ import {
 } from "./gqlTypes/CollectionList";
 import { GetYotpoLoyaltyAndReferralsCustomerDetails } from "./gqlTypes/GetYotpoLoyaltyAndReferralsCustomerDetails";
 import { GetLoyaltyAndReferralsInfo } from "./gqlTypes/GetLoyaltyAndReferralsInfo";
+
+import { RequireOnlyOne } from "../tsHelpers";
 
 type QueryOptions<T = {}> = T extends { [n: string]: never }
   ? Omit<ApolloQueryOptions<{}>, "query">
@@ -179,14 +168,6 @@ export const QUERIES = {
   ): ObservableQuery<VariantsProducts, any> =>
     client.watchQuery({
       query: Product.variantsProducts,
-      ...options,
-    }),
-  Wishlist: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: QueryOptions<WishlistVariables>
-  ): ObservableQuery<WishlistType, any> =>
-    client.watchQuery({
-      query: Wishlist.userWishlist,
       ...options,
     }),
   GetProductRatingsAndReviews: <TCacheShape>(

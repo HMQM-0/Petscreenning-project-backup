@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useQueryParam, StringParam, QueryParamConfig } from 'next-query-params';
 
+import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
 import { IFilters } from "@types";
 import { useAuth } from "@nautical/react";
 import { useShopContext } from "components/providers/ShopProvider";
@@ -10,10 +11,8 @@ import {
 } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
 import { ProductsQueryVariables } from "@generated";
-
-import LoginToViewProducts from "./components/LoginToViewProducts";
-import BuilderProducts from "./components/BuilderProducts";
-import Products from "./components/Products";
+import { IProps as FilterSidebarProps } from "components/organisms/FilterSidebar/types";
+import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
 
 export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
   encode(valueObj) {
@@ -38,7 +37,20 @@ export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
   },
 };
 
-export const View = () => {
+export type ChildrenFunctionProps = {
+  variables: ProductsQueryVariables;
+  filters: {
+    attributes: FilterSidebarProps["filters"]["attributes"];
+    sortBy: ProductListHeaderProps["activeSortOption"];
+  };
+};
+
+type ProductsListViewProps = {
+  // TODO: is => JSX.Element; is the correct type? (it works, but still not sure)
+  children: (props: ChildrenFunctionProps) => JSX.Element;
+};
+
+export const ProductsListView = ({ children }: ProductsListViewProps) => {
   const [sort] = useQueryParam("sortBy", StringParam);
   const [attributeFilters] = useQueryParam(
     "filters",
@@ -63,17 +75,17 @@ export const View = () => {
     return (<LoginToViewProducts />);
   }
   if (builderKey) {
-    return (<BuilderProducts variables={variables} />);
+    // TODO: also use `children(...)` here? TBA in Builder related task
+    return null;
   }
-  return (
-    <Products
-      variables={variables}
-      filters={{
-        attributes: attributeFilters,
-        sortBy: sort || undefined,
-      }}
-    />
-  );
+
+  return children({
+    variables,
+    filters: {
+      attributes: attributeFilters,
+      sortBy: sort || undefined,
+    }
+  });
 };
 
-export default View;
+export default ProductsListViewProps;

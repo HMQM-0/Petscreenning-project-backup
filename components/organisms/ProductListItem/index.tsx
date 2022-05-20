@@ -8,7 +8,7 @@ import { useMemo } from "react";
 import { useCart } from "@nautical/react";
 import { Thumbnail } from "components/molecules/Thumbnail";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
-import { ProductsPageProductFragment } from "@generated";
+import { ProductsListProductFragment } from "@generated";
 import ProductVariantPrice from "components/organisms/ProductVariantPrice";
 
 import classes from "./scss/index.module.scss";
@@ -16,8 +16,7 @@ import classes from "./scss/index.module.scss";
 
 interface ProductListItemProps {
   loginForPrice?: boolean;
-  // TODO: We might need to replace this with some other type (once this component is used on any other page)
-  product: ProductsPageProductFragment;
+  product: ProductsListProductFragment;
   style?: number;
   wide?: boolean;
 }

@@ -1,13 +1,9 @@
-import { Link as _Link } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 import { css } from "styled-components";
 
 import { styled } from "@styles";
-import { NavLink as _NavLink } from "@components/atoms";
+import { NavLink as _NavLink } from "components/atoms/NavLink";
 
-// import { NAVBAR_HEIGHT } from "@components/organisms/TopNavbar/styles";
-
-// padding: 0 25px 0px 15px;
 const NAVBAR_HEIGHT = "2.5rem";
 
 const ListTitleItemStyles = css`
@@ -126,10 +122,6 @@ export const NavLink = styled(_NavLink).attrs({
   ${ListItemStyles};
   font-weight: normal !important;
   text-transform: none !important;
-`;
-
-export const Link = styled(_Link)`
-  ${ListItemStyles};
 `;
 
 export const LogoWrapper = styled(ReactSVG)`

@@ -1,10 +1,11 @@
 import React from "react";
-import { ProductSideNavbarList } from "../ProductSideNavbar/ProductSideNavbarList";
+
+import { ProductSideNavbarList } from "components/organisms/ProductSideNavbar/ProductSideNavbarList";
 
 import * as S from "./styles";
 import { IProps } from "./types";
 
-export const ProductSideNavbarGrid: React.FC<IProps> = ({
+export const ProductSideNavbarGrid = ({
   children,
   menu,
   matches,
@@ -15,6 +16,8 @@ export const ProductSideNavbarGrid: React.FC<IProps> = ({
         <S.Wrapper>
           <S.Grid>
             <S.Nav>
+              {/* // TODO: A BE issue. items can not contain null like `[null]` */}
+              {/* @ts-ignore */}
               <ProductSideNavbarList items={menu?.items} />
             </S.Nav>
             {children}

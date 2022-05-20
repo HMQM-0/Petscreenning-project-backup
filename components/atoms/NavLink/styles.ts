@@ -1,8 +1,8 @@
-// @ts-nocheck
-import { styled } from "@styles";
-import { NavLink } from "react-router-dom";
+import { default as _Link } from "next/link";
 
-export const Link = styled(NavLink)<{ fullWidth: boolean }>`
+import { styled } from "@styles";
+
+export const Link = styled(_Link)<{ fullWidth: boolean; activeClassName: string; }>`
   position: relative;
   font-weight: ${({ theme }) => theme.typography.boldFontWeight};
   text-transform: uppercase;
@@ -10,8 +10,8 @@ export const Link = styled(NavLink)<{ fullWidth: boolean }>`
   z-index: 0;
 
   ${({ fullWidth }) =>
-    fullWidth &&
-    `
+  fullWidth &&
+  `
       display: block;
       width: 100%;
   `}
@@ -22,8 +22,10 @@ export const Link = styled(NavLink)<{ fullWidth: boolean }>`
   }
 
   /* Active URL styles
-  &.${(props) => props.activeClassName} {
-    
-  } 
+  &.${({ activeClassName }) => activeClassName && `
+  {
+    color: ${({ theme }: any) => theme.colors.primary};
+  }
+  `} 
   */
 `;

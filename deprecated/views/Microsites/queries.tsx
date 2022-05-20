@@ -1,7 +1,5 @@
+// eslint-disable-next-line import/no-named-as-default
 import gql from "graphql-tag";
-
-
-import { menuItem } from "components/templates/ProductsPage/queries.graphql";
 
 import { Microsite, MicrositeVariables } from "./gqlTypes/Microsite";
 import {
@@ -22,9 +20,10 @@ import {
   productPricingFragment,
 } from "../Product/queries";
 import { TypedQuery } from "../../core/queries";
+import { menuTree } from "../../../components/organisms/ProductSideNavbar/queries.graphql";
 
 export const micrositeProductsDataQuery = gql`
-  ${menuItem}
+  ${menuTree}
   query Microsite($id: ID!) {
     microsite(id: $id) {
       id
@@ -40,17 +39,7 @@ export const micrositeProductsDataQuery = gql`
       }
     }
     menu(name: "sidenav") {
-      id
-      name
-      items {
-        ...MenuItem
-        children {
-          ...MenuItem
-          children {
-            ...MenuItem
-          }
-        }
-      }
+      ...MenuTree
     }
     attributes(
       filter: { inMicrosite: $id, filterableInStorefront: true }
@@ -170,7 +159,7 @@ export const TypedMicrositeQuery = TypedQuery<Microsite, MicrositeVariables>(
 );
 
 export const builderMicrositeInfoQuery = gql`
-  ${menuItem}
+  ${menuTree}
   query BuilderMicrositeInfo($id: ID!) {
     microsite(id: $id) {
       id
@@ -188,17 +177,7 @@ export const builderMicrositeInfoQuery = gql`
       }
     }
     menu(name: "sidenav") {
-      id
-      name
-      items {
-        ...MenuItem
-        children {
-          ...MenuItem
-          children {
-            ...MenuItem
-          }
-        }
-      }
+      ...MenuTree
     }
     attributeList: attributes(
       filter: { inMicrosite: $id, filterableInStorefront: true }
