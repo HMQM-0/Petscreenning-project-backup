@@ -6,7 +6,6 @@ import { structuredData } from "components/templates/IndexPage/structuredData";
 import client from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 
-import { getGraphqlIdFromDBId } from "../../../core/utils";
 import { default as CollectionProducts } from "../../../components/templates/CollectionPage/CollectionProducts";
 import NotFound from "../../../components/molecules/NotFound";
 
@@ -63,7 +62,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data: collectionData } = await client.query<CollectionQuery>({
     query: CollectionDocument,
     variables: {
-      id: getGraphqlIdFromDBId(collectionId, "Collection"),
+      id: collectionId,
     },
   });
 

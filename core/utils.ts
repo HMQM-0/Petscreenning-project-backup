@@ -68,7 +68,7 @@ export const generateCategoryUrl = (id: string, name: string) =>
   `/category/${slugify(name)}/${id}/`;
 
 export const generateCollectionUrl = (id: string, name: string) =>
-  `/collection/${slugify(name)}/${getDBIdFromGraphqlId(id, "Collection")}/`;
+  `/collection/${slugify(name)}/${id}/`;
 
 export const generateMicrositeUrl = (id: string, name: string) =>
   `/site/${slugify(name)}/${getDBIdFromGraphqlId(id, "Microsite")}/`;

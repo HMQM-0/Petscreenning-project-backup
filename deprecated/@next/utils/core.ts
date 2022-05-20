@@ -29,16 +29,8 @@ export const getDBIdFromGraphqlId = (
   return parseInt(id, 10);
 };
 
-export const generateCategoryUrl = (id: string, name: string) =>
-  `/category/${slugify(name)}/${getDBIdFromGraphqlId(id, "Category")}/`;
-
-export const generateCollectionUrl = (id: string, name: string) =>
-  `/collection/${slugify(name)}/${getDBIdFromGraphqlId(id, "Collection")}/`;
-
 export const generateMicrositeUrl = (id: string, name: string) =>
   `/site/${slugify(name)}/${getDBIdFromGraphqlId(id, "Microsite")}/`;
-
-export const generatePageUrl = (slug: string) => `/page/${slug}/`;
 
 export const generateGuestOrderDetailsUrl = (token: string) =>
   `/order-history/${token}/`;

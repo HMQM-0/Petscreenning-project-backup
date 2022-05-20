@@ -3,7 +3,6 @@ import React from "react";
 import { BasicCollectionFragment, useProductsQuery } from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
-import { getDBIdFromGraphqlId } from "@utils/core";
 
 type CollectionProductsProps = ChildrenFunctionProps & {
   collection: BasicCollectionFragment
@@ -35,7 +34,7 @@ const CollectionProducts = ({
           link: [
             `/collection`,
             `/${collection.slug}`,
-            `/${getDBIdFromGraphqlId(collection.id, "Collection")}/`,
+            `/${collection.id}/`,
           ].join(""),
           value: collection.name,
         }
