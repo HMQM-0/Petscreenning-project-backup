@@ -21,6 +21,7 @@ import { ProductListHeader } from "components/organisms/ProductListHeader";
 import { ProductList } from "components/organisms/ProductList";
 import { xLargeScreen } from "@styles/constants";
 import { ProductSideNavbarGrid } from "components/organisms/ProductSideNavbarGrid";
+import ProductListBanner from "components/atoms/ProductListBanner/ProductListBanner";
 
 import { FilterQuerySet } from "./View";
 import classes from "./scss/index.module.scss";
@@ -35,6 +36,7 @@ interface ProductsProps {
   loading: ProductsQueryResult["loading"];
   data: ProductsQueryResult["data"];
   fetchMore: ProductsQueryResult["fetchMore"];
+  backgroundImageUrl?: string;
   showSidebar?: boolean;
   showNoResultFeaturedProducts?: boolean;
   breadcrumbs?: Breadcrumb[];
@@ -45,6 +47,7 @@ const ProductsList = ({
   data,
   fetchMore,
   filters,
+  backgroundImageUrl,
   showSidebar,
   showNoResultFeaturedProducts,
   breadcrumbs,
@@ -214,6 +217,11 @@ const ProductsList = ({
           attributes={attributes}
           filters={filters}
         />
+        {backgroundImageUrl && (
+          <ProductListBanner
+            image={backgroundImageUrl}
+          />
+        )}
         <ProductListHeader
           activeSortOption={filters.sortBy}
           openDirectoryMenu={() => setShowDirectory(true)}
