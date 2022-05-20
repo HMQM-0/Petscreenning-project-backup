@@ -31,11 +31,7 @@ const CollectionProducts = ({
       variables={variables}
       breadcrumbs={([
         {
-          link: [
-            `/collection`,
-            `/${collection.slug}`,
-            `/${collection.id}/`,
-          ].join(""),
+          link: `/collection/${collection.slug}/${collection.id}/`,
           value: collection.name,
         }
       ])}
