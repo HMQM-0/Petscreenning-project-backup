@@ -8,11 +8,11 @@ import { ProductsListView } from "components/templates/ProductsList/View";
 
 import { getGraphqlIdFromDBId } from "../../../core/utils";
 import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";
+import NotFound from "../../../components/molecules/NotFound";
 
 const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   branding,
   categoryData,
-  categoryId,
 }) => {
   const description = categoryData.category?.seoDescription || "Category";
   const title = categoryData.category?.seoTitle || categoryData.category?.name || "Category";
@@ -26,20 +26,22 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     type: "product.category",
   };
 
-  console.log('category', categoryData.category);
+  const category = categoryData.category;
 
   return (
     <Layout documentHead={documentHead}>
-      <ProductsListView>
-        {(props) => (
-          <CategoryProducts
-            {...props}
-            id={categoryId}
-            // TODO: category should always be set?
-            category={categoryData.category!}
-          />
-        )}
-      </ProductsListView>
+      {category ? (
+        <ProductsListView>
+          {(props) => (
+            <CategoryProducts
+              {...props}
+              category={category}
+            />
+          )}
+        </ProductsListView>
+      ) : (
+        <NotFound />
+      )}
     </Layout>
   );
 };
@@ -69,7 +71,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: {
       branding: brandingData?.branding ?? fallbackBranding,
       categoryData,
-      categoryId,
     },
   };
 }

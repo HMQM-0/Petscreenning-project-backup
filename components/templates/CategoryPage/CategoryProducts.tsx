@@ -8,12 +8,10 @@ import { slugify, getDBIdFromGraphqlId } from "@utils/core";
 import { getGraphqlIdFromDBId } from "../../../core/utils";
 
 type CategoryProductsProps = ChildrenFunctionProps & {
-  id: string;
   category: BasicCategoryFragment
 };
 
 
-// TODO: Might need to be refactored further and have "Category" as a param (e.g. for Collection?)
 export const extractBreadcrumbs = (category: BasicCategoryFragment) => {
   const constructLink = (item: { name: string; id: string; }) => ({
     link: [
@@ -38,14 +36,13 @@ export const extractBreadcrumbs = (category: BasicCategoryFragment) => {
 const CategoryProducts = ({
   variables,
   filters,
-  id,
   category,
 }: CategoryProductsProps) => {
 
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,
-      categoryIds: [getGraphqlIdFromDBId(id, "Category")],
+      categoryIds: [getGraphqlIdFromDBId(category.id, "Category")],
     },
     errorPolicy: "all",
   });
