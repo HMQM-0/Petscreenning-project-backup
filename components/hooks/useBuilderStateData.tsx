@@ -1,5 +1,3 @@
-import "components/templates/Builder/mui";
-import "components/templates/Builder/nautical";
 import "@builder.io/widgets";
 import * as React from "react";
 import { useTheme } from "@mui/material";

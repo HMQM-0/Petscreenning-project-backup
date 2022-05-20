@@ -21,7 +21,7 @@
     "@apollo/client": "^3.5.10",
     "@apollo/react-hoc": "^4.0.0",
     "@builder.io/app-context": "^1.0.0",
-    "@builder.io/react": "^1.1.47",
+    "@builder.io/react": "^1.1.52",
     "@builder.io/widgets": "^1.2.21",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.65",

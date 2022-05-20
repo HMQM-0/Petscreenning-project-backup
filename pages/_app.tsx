@@ -5,12 +5,15 @@ import { NextQueryParamProvider } from "next-query-params";
 import dynamic from "next/dynamic";
 import { builder } from "@builder.io/react";
 
+// eslint-disable-next-line import/order
+import builderConfig from "config/builder";
+builder.init(builderConfig.apiKey);
+import "components/templates/Builder/mui";
+import "components/templates/Builder/nautical";
 import "deprecated/globalStyles/scss/index.scss";
 
 import { defaultTheme, GlobalStyle } from "@styles";
 import { ShopProvider, OverlayProvider } from "@providers";
-
-builder.init(String(process.env.NEXT_PUBLIC_BUILDER_KEY));
 
 const NotificationTemplate = dynamic(
   () => import("components/atoms/NotificationTemplate/NotificationTemplate")
@@ -56,9 +59,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         </AlertProvider>
       </div>
       {/*
-        // TODO: Overlay component uses this div as it's root.
-            Overlay might need to be refactored to get rid of this
-      */}
+          TODO: Overlay component uses this div as it's root.
+             Overlay might need to be refactored to get rid of this
+       */}
       <div id="modal-root" />
     </ThemeProvider>
   );
