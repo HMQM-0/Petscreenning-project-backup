@@ -1,4 +1,8 @@
-import type { NextPage, InferGetStaticPropsType } from "next";
+import type {
+  NextPage,
+  InferGetStaticPropsType,
+  InferGetServerSidePropsType,
+} from "next";
 
 import { BrandingDocument, BrandingQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
@@ -7,9 +11,9 @@ import client from "apollo-client";
 import { WishlistPage } from "components/templates/WishlistPage";
 import { AccountSettingsLayout } from "components/layouts/AccountSettingsLayout";
 
-const Wishlist: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  branding,
-}) => {
+const Wishlist: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ branding }) => {
   const description = "Wishlist";
   const title = "Wishlist";
   const schema = structuredData(description, title);
@@ -30,7 +34,7 @@ const Wishlist: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const { data: brandingData } = await client.query<BrandingQuery>({
     query: BrandingDocument,
   });
