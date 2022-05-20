@@ -1,8 +1,4 @@
-import type {
-  NextPage,
-  InferGetStaticPropsType,
-  InferGetServerSidePropsType,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
 
 import { BrandingDocument, BrandingQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
