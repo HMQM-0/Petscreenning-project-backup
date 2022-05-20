@@ -34,20 +34,19 @@ import {
   AddToWishlist,
   FilterSidebar,
 } from "components/organisms";
-import { ProductList_products } from "deprecated/@nautical/queries/gqlTypes/ProductList";
-import { TaxedMoney } from "components/containers/TaxedMoney";
 import { useCart } from "@nautical/react";
 import {
   BuilderPageAttributeFragment,
   BuilderPageProductFragment,
   BuilderPageProductVariantImagesFragment,
 } from "@generated";
+import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 import ProductGallery from "./components/ProductGallery";
 import { enumsAlert, enumsButtonVariant, enumsColor } from "./mui";
 import { AlertIcon, ButtonIcon, GridIcon, TextfieldIcon } from "./icons";
 
-import { FilterQuerySet } from "../ProductsPage/View";
+import { FilterQuerySet } from "../ProductsList/View";
 
 export const BuilderCard = (props: {
   message: string;
@@ -524,7 +523,7 @@ const addToCartQuickMenuItem: InsertMenuItem = {
 };
 
 export const BuilderProductSort = (props: {
-  products: ProductList_products;
+  products: BuilderPageProductFragment[];
 }) => {
   const sortOptions = [
     {
