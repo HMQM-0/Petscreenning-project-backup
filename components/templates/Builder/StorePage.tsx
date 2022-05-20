@@ -7,11 +7,11 @@ import { BuilderComponent, Builder, builder } from "@builder.io/react";
 import { CircularProgress, useTheme } from "@mui/material";
 import { useAlert } from "react-alert";
 import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
-import { useNavigate } from "react-router";
 import { Base64 } from "js-base64";
 import queryString from "query-string";
 import { useQuery } from "@apollo/client";
 import { useIntl } from "react-intl";
+import { useRouter } from "next/router";
 
 import { slugify } from "@utils/core";
 import {
@@ -77,7 +77,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
   const [searchParams, setSearchParams] = useQueryParams({
     q: StringParam,
   });
-  const navigate = useNavigate();
+  const router = useRouter();
   const { user } = useAuth();
   const [pageJson, setPage] = React.useState();
   const [isLoading, setLoading] = React.useState(false);
@@ -159,7 +159,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
   // }, [productVariantsAttributesSelectedValues]);
 
   const onAttributeChangeHandler = (slug: string | null, value: string) => {
-    navigate(
+    router.push(
       queryString.stringifyUrl(
         {
           query: { [slug ?? ""]: value },
@@ -210,7 +210,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       if (schema.toLowerCase() === "microsite") {
         schema = "site";
       }
-      navigate("/" + schema.toLowerCase() + "/" + slug + "/" + primaryKey);
+      router.push("/" + schema.toLowerCase() + "/" + slug + "/" + primaryKey);
     }
 
     function handleNavigateByItem(item: { id: string; name: string }) {
@@ -221,7 +221,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       if (schema.toLowerCase() === "microsite") {
         schema = "site";
       }
-      navigate("/" + schema.toLowerCase() + "/" + slug + "/" + primaryKey);
+      router.push("/" + schema.toLowerCase() + "/" + slug + "/" + primaryKey);
     }
 
     const isAddedToWishlist = async (productId: string) => {
@@ -324,7 +324,8 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       addToCart: (name: string, variantId: string, quantity: number) =>
         handleAddToCart(name, variantId, quantity),
       searchFor: (query: string) => handleSetSearch(query),
-      navigate: (to: string, replace: boolean) => navigate(to, { replace }),
+      navigate: (to: string, replace: boolean) =>
+        replace ? router.replace(to) : router.push(to),
       navigateById: (id: string, name: string) => handleNavigateById(id, name),
       navigateByItem: (item: { id: string; name: string }) =>
         handleNavigateByItem(item),
@@ -352,7 +353,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     loadNextPage,
     loadPrevPage,
     microsite,
-    navigate,
+    router,
     product,
     products,
     search,
