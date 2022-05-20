@@ -5,10 +5,10 @@ import {ThemeContext} from "styled-components";
 import {Box} from "@mui/material";
 import Link from "next/link";
 
-import {TaxedMoney} from "components/containers/TaxedMoney";
 import {commonMessages, translateOrderStatus} from "deprecated/intl";
 import {generateProductUrl} from "core/utils";
 import {Thumbnail} from "components/molecules/Thumbnail";
+import {TaxedMoney} from "components/molecules/TaxedMoney";
 
 import * as S from "./styles";
 import {IProps} from "./types";
