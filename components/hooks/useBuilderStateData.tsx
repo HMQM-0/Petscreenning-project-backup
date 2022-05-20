@@ -2,13 +2,10 @@ import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";
 import "@builder.io/widgets";
 import * as React from "react";
-// import appState from '@builder.io/app-context';
-import { BuilderComponent, Builder, builder } from "@builder.io/react";
-import { CircularProgress, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { useAlert } from "react-alert";
 import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
 import { Base64 } from "js-base64";
-import queryString from "query-string";
 import { useQuery } from "@apollo/client";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
@@ -20,10 +17,11 @@ import {
   useCart,
   useRemoveWishlistProduct,
 } from "@nautical/react";
-import { userWishlist } from "deprecated/@nautical/queries/wishlist";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
 import { micrositesQuery } from "components/templates/Builder/queries.graphql";
-import { FilterQuerySet } from "components/templates/ProductsPage/View";
+import { userWishlist } from "components/providers/Wishlist/queries.graphql";
+import { FilterQuerySet } from "components/templates/ProductsList/View";
+
 // import { useProductVariantsAttributes, useProductVariantsAttributesValuesSelection } from "@hooks";
 
 const model = "store";
