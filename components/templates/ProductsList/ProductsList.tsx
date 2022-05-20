@@ -37,6 +37,7 @@ interface ProductsProps {
   data: ProductsQueryResult["data"];
   fetchMore: ProductsQueryResult["fetchMore"];
   showSidebar?: boolean;
+  showNoResultFeaturedProducts?: boolean;
 }
 
 const ProductsList = ({
@@ -45,6 +46,7 @@ const ProductsList = ({
   fetchMore,
   filters,
   showSidebar,
+  showNoResultFeaturedProducts,
 }: ProductsProps) => {
   const intl = useIntl();
   const [showFilters, setShowFilters] = useState(false);
@@ -201,7 +203,7 @@ const ProductsList = ({
 
   const products = data?.products;
 
-  const showFeatured = !products?.totalCount && !loading;
+  const showFeatured = showNoResultFeaturedProducts && !products?.totalCount && !loading;
 
   const productsListComponents = (
     <Box className={classes.category}>

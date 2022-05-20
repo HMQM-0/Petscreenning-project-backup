@@ -37,8 +37,7 @@ export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
   },
 };
 
-export type ProductsComponentProps = {
-  // TODO: Adjust to allow Category and Collection Query as well
+export type ChildrenFunctionProps = {
   variables: ProductsQueryVariables;
   filters: {
     attributes: FilterSidebarProps["filters"]["attributes"];
@@ -47,10 +46,11 @@ export type ProductsComponentProps = {
 };
 
 type ProductsListViewProps = {
-  ProductsComponent: React.FunctionComponent<ProductsComponentProps>;
+  // TODO: is => JSX.Element; is the correct type? (it works, but still not sure)
+  children: (props: ChildrenFunctionProps) => JSX.Element;
 };
 
-export const ProductsListView = ({ ProductsComponent }: ProductsListViewProps) => {
+export const ProductsListView = ({ children }: ProductsListViewProps) => {
   const [sort] = useQueryParam("sortBy", StringParam);
   const [attributeFilters] = useQueryParam(
     "filters",
@@ -75,19 +75,17 @@ export const ProductsListView = ({ ProductsComponent }: ProductsListViewProps) =
     return (<LoginToViewProducts />);
   }
   if (builderKey) {
-    // TODO: accept BuilderProducts as a prop as well? TBA in Builder related task
+    // TODO: also use `children(...)` here? TBA in Builder related task
     return null;
   }
-  // TODO: refactor into HOC?
-  return (
-    <ProductsComponent
-      variables={variables}
-      filters={{
-        attributes: attributeFilters,
-        sortBy: sort || undefined,
-      }}
-    />
-  );
+
+  return children({
+    variables,
+    filters: {
+      attributes: attributeFilters,
+      sortBy: sort || undefined,
+    }
+  });
 };
 
 export default ProductsListViewProps;

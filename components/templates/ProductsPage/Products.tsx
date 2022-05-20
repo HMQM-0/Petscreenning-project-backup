@@ -2,11 +2,11 @@ import React from "react";
 
 import { useProductsQuery } from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
-import { ProductsComponentProps } from "components/templates/ProductsList/View";
+import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
 
-type ProductsProps = ProductsComponentProps & {};
+type ProductsProps = ChildrenFunctionProps & {};
 
-const View = ({
+const Products = ({
   variables,
   filters,
 }: ProductsProps) => {
@@ -26,4 +26,4 @@ const View = ({
   );
 };
 
-export default View;
+export default Products;
