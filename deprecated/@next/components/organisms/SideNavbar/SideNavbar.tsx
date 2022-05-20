@@ -6,9 +6,10 @@ import { Icon } from "@components/atoms";
 import { largeScreen } from "@styles/constants";
 import LogoSmall from "images/logo-small.svg";
 
-import { Overlay } from "..";
 import * as S from "./styles";
 import { IProps, IState } from "./types";
+
+import { Overlay } from "..";
 
 const TopBar: React.FC<{ onHide: () => void }> = ({ children, onHide }) => (
   <S.Bar>
@@ -101,7 +102,7 @@ export const SideNavbar: React.FC<IProps> = ({
           )}
           <Media query={{ maxWidth: largeScreen }}>
             <S.Item>
-              <S.Link to="/wishlist">
+              <S.Link to="/account/wishlist">
                 <S.IconWrapper>
                   <Icon name="heart" size={24} />
                 </S.IconWrapper>

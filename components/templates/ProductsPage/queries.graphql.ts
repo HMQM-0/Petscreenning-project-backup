@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 
 import {
   basicProductFragment,
+  priceFragment,
   productPricingFragment,
 } from "components/templates/ProductPage/queries.graphql";
 
@@ -41,9 +42,25 @@ export const productsPageAttribute = gql`
   }
 `;
 
+export const productVariantPricingFragment = gql`
+  ${priceFragment}
+  fragment ProductVariantPricingField on ProductVariant {
+    pricing {
+      onSale
+      priceUndiscounted {
+        ...Price
+      }
+      price {
+        ...Price
+      }
+    }
+  }
+`;
+
 export const productsPageProduct = gql`
   ${basicProductFragment}
   ${productPricingFragment}
+  ${productVariantPricingFragment}
   fragment ProductsPageProduct on Product {
     ...BasicProductFields
     ...ProductPricingField
@@ -87,6 +104,7 @@ export const productsPageProduct = gql`
           extra: value
         }
       }
+      ...ProductVariantPricingField
     }
   }
 `;

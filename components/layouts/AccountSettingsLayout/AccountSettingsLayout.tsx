@@ -4,8 +4,8 @@ import { Box } from "@mui/material";
 import classes from "./scss/index.module.scss";
 import Media from "react-media";
 import { smallScreen } from "@styles/constants";
-import { AccountMenuSidebar } from "../../organisms/AccountMenuSidebar";
-import { AccountMenuMobile } from "../../organisms/AccountMenuMobile";
+import { AccountMenuSidebar } from "components/organisms/AccountMenuSidebar";
+import { AccountMenuMobile } from "components/organisms/AccountMenuMobile";
 
 type LayoutProps = {
   children: React.ReactNode;

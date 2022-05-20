@@ -1,7 +1,7 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
 
 import { BrandingDocument, BrandingQuery } from "@generated";
-import { Layout } from "components/layouts/Layout";
+import { Layout} from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 
 import client from "../apollo-client";
