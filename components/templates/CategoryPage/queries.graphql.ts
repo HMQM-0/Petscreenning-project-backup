@@ -21,23 +21,6 @@ export const categoryQuery = gql`
         }
       }
     }
-    attributes(
-      filter: { inCategory: $id, filterableInStorefront: true }
-      first: 100
-    ) {
-      edges {
-        node {
-          id
-          name
-          slug
-          values {
-            id
-            name
-            slug
-          }
-        }
-      }
-    }
   }
 `;
 

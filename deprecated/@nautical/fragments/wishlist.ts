@@ -172,42 +172,42 @@ export const wishlistProductInfoFragment = gql`
   }
 `;
 
-export const wishlistItemFragment = gql`
-  fragment WishlistItem on WishlistItem {
-    id
-    product {
-      ...productInfo
-      countableImages(first: 100) {
-        edges {
-          node {
-            id
-            altText: alt
-            urlOriginal: url
-          }
-        }
-      }
-    }
-    variants(first: 100) {
-      edges {
-        node {
-          id
-          name
-          sku
-          pricing {
-            price {
-              gross {
-                amount
-                currency
-              }
-              net {
-                amount
-                currency
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${wishlistProductInfoFragment}
-`;
+// export const wishlistItemFragment = gql`
+//   fragment WishlistItem on WishlistItem {
+//     id
+//     product {
+//       ...productInfo
+//       countableImages(first: 100) {
+//         edges {
+//           node {
+//             id
+//             altText: alt
+//             urlOriginal: url
+//           }
+//         }
+//       }
+//     }
+//     variants(first: 100) {
+//       edges {
+//         node {
+//           id
+//           name
+//           sku
+//           pricing {
+//             price {
+//               gross {
+//                 amount
+//                 currency
+//               }
+//               net {
+//                 amount
+//                 currency
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+//   ${wishlistProductInfoFragment}
+// `;

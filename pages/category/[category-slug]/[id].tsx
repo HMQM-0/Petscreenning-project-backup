@@ -1,15 +1,20 @@
-import type { NextPage, InferGetStaticPropsType } from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 
 import View from "components/templates/CategoryPage/View";
-import { BrandingDocument, BrandingQuery } from "@generated";
+import { BrandingDocument, BrandingQuery, CategoryDocument, CategoryQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import client from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 
-const Category: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ branding }) => {
-  const description = "Category"; // TODO: insert categoryData.data.category.seoDescription here
-  const title = "Category"; // TODO: insert categoryData.data.category.seoTitle here
+import { getGraphqlIdFromDBId } from "../../../core/utils";
+
+const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  branding,
+  categoryData,
+}) => {
+  const description = categoryData.category?.seoDescription || "Category";
+  const title = categoryData.category?.seoTitle || categoryData.category?.name || "Category";
   const schema = structuredData(description, title);
   const documentHead = {
     branding,
@@ -22,13 +27,12 @@ const Category: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ br
 
   return (
     <Layout documentHead={documentHead}>
-      {/* TODO: To be replaced with category page */}
       <ProductsListView ProductsComponent={View} />
     </Layout>
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data: brandingData } = await client.query<BrandingQuery>({
     query: BrandingDocument,
   });
@@ -39,18 +43,18 @@ export async function getStaticProps() {
     footerText: "",
   };
 
+  const { data: categoryData } = await client.query<CategoryQuery>({
+    query: CategoryDocument,
+    variables: {
+      id: getGraphqlIdFromDBId(context.params?.id as string, "Category"),
+    },
+  });
+
   return {
     props: {
       branding: brandingData?.branding ?? fallbackBranding,
+      categoryData,
     },
-  };
-}
-
-export async function getStaticPaths() {
-  // TODO: Load all available categories here and prepare paths aray
-  return {
-    paths: [],
-    fallback: 'blocking',
   };
 }
 

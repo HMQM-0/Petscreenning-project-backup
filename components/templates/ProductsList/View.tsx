@@ -78,6 +78,7 @@ export const ProductsListView = ({ ProductsComponent }: ProductsListViewProps) =
     // TODO: accept BuilderProducts as a prop as well? TBA in Builder related task
     return null;
   }
+  // TODO: refactor into HOC?
   return (
     <ProductsComponent
       variables={variables}
