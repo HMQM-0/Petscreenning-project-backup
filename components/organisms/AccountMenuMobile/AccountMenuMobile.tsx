@@ -7,9 +7,9 @@ import {
   AccountMenuMobile as AccountMenuMobileWrapper,
   AccountMenuMobileItem,
 } from "components/molecules/AccountMenuMobile";
+import {commonMessages} from "deprecated/intl";
 
 import { routes } from "../AccountMenuSidebar";
-import {commonMessages} from "../../../deprecated/intl";
 
 export const AccountMenuMobile = () => {
   const router = useRouter();

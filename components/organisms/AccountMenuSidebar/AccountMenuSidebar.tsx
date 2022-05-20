@@ -4,8 +4,7 @@ import {useRouter} from "next/router";
 import {useIntl} from "react-intl";
 
 import { AccountMenu, AccountMenuItem } from "components/molecules/AccountMenu";
-
-import {commonMessages} from "../../../deprecated/intl";
+import {commonMessages} from "deprecated/intl";
 
 
 interface Route {
