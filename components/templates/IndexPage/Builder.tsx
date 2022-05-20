@@ -1,12 +1,25 @@
+import { BuilderComponent } from "@builder.io/react";
 import React from "react";
 
-import { useBuilderHomeQuery } from "@generated";
+import useBuilderStateData from "components/hooks/useBuilderStateData";
+import { BuilderHomeQuery } from "@generated";
 
-import StorePage from "../Builder/StorePage";
+const Builder = ({
+  builderContent,
+  builderData,
+}: {
+  builderContent: any;
+  builderData: BuilderHomeQuery;
+}) => {
+  const stateData = useBuilderStateData({ landing: builderData });
 
-const Builder = () => {
-  const { data } = useBuilderHomeQuery();
-  return <StorePage landing={data} />;
+  return (
+    <BuilderComponent
+      model={"store"}
+      content={builderContent}
+      data={stateData}
+    />
+  );
 };
 
 export { Builder };

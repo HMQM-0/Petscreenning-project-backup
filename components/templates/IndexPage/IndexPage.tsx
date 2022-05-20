@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import Link from "next/link";
 
-import { useShopContext } from "components/providers/ShopProvider";
-import { HomeQuery } from "@generated";
+import { BuilderHomeQuery, HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
 
 import classes from "./scss/index.module.scss";
@@ -21,22 +20,19 @@ export const parseHomePageCollectionJson = (descriptionJson: any): string => {
 
 type IndexPageProps = {
   data: HomeQuery;
+  builderContent: any;
+  builderData: BuilderHomeQuery;
 };
 
-const IndexPage = ({ data }: IndexPageProps) => {
-  const intl = useIntl();
-  const shopContext = useShopContext();
-  const { builderKey } = shopContext;
-  console.log("builderKey", builderKey);
-
+const IndexPage = ({ data, builderContent, builderData }: IndexPageProps) => {
   const backgroundImage =
     data?.shop.homepageCollection?.backgroundImage ?? null;
   const categories = data?.categories?.edges ?? [];
 
   return (
     <Box className={classes["home-page"]}>
-      {builderKey ? (
-        <Builder />
+      {builderContent ? (
+        <Builder builderContent={builderContent} builderData={builderData} />
       ) : (
         <>
           <Box
