@@ -5,8 +5,6 @@ import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
 import { getDBIdFromGraphqlId } from "@utils/core";
 
-import { getGraphqlIdFromDBId } from "../../../core/utils";
-
 type CollectionProductsProps = ChildrenFunctionProps & {
   collection: BasicCollectionFragment
 };
@@ -20,7 +18,7 @@ const CollectionProducts = ({
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,
-      collectionIds: [getGraphqlIdFromDBId(collection.id, "Collection")],
+      collectionIds: [collection.id],
     },
     errorPolicy: "all",
   });
