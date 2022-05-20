@@ -1,33 +1,33 @@
 import React from "react";
-import { FormattedMessage, FormattedDate, useIntl } from "react-intl";
+import {FormattedMessage, FormattedDate, useIntl} from "react-intl";
 import Media from "react-media";
-import { ThemeContext } from "styled-components";
-import { Box } from "@mui/material";
-import { useRouter } from "next/router";
+import {ThemeContext} from "styled-components";
+import {Box} from "@mui/material";
+import Link from "next/link";
 
-import { TaxedMoney } from "components/containers/TaxedMoney";
-import { commonMessages, translateOrderStatus } from "deprecated/intl";
-import { generateProductUrl } from "core/utils";
-import { Thumbnail } from "components/molecules/Thumbnail";
+import {TaxedMoney} from "components/containers/TaxedMoney";
+import {commonMessages, translateOrderStatus} from "deprecated/intl";
+import {generateProductUrl} from "core/utils";
+import {Thumbnail} from "components/molecules/Thumbnail";
 
 import * as S from "./styles";
-import { IProps } from "./types";
+import {IProps} from "./types";
 
-const header = (matches: boolean) => (
+const Header = ({matches}: { matches: boolean }) => (
   <S.HeaderRow>
     <S.IndexNumber>
-      <FormattedMessage defaultMessage="Order Number" />
+      <FormattedMessage defaultMessage="Order Number"/>
     </S.IndexNumber>
     {matches && (
       <>
         <S.ProductsOrdered>
-          <FormattedMessage defaultMessage="Products Ordered" />
+          <FormattedMessage defaultMessage="Products Ordered"/>
         </S.ProductsOrdered>
         <S.DateOfOrder>
-          <FormattedMessage defaultMessage="Order Placed" />
+          <FormattedMessage defaultMessage="Order Placed"/>
         </S.DateOfOrder>
         <S.Value>
-          <FormattedMessage defaultMessage="Total" />
+          <FormattedMessage defaultMessage="Total"/>
         </S.Value>
       </>
     )}
@@ -37,10 +37,9 @@ const header = (matches: boolean) => (
   </S.HeaderRow>
 );
 
-export const OrderTable: React.FC<IProps> = ({ orders }: IProps) => {
+export const OrderTable = ({orders}: IProps) => {
   const theme = React.useContext(ThemeContext);
   const intl = useIntl();
-  const router = useRouter();
 
   return (
     <S.Wrapper>
@@ -49,55 +48,40 @@ export const OrderTable: React.FC<IProps> = ({ orders }: IProps) => {
           minWidth: theme.breakpoints.largeScreen,
         }}
       >
-        {(matches: boolean) => {
+        {(matches) => {
           return (
             <>
-              <S.Row>{header(matches)}</S.Row>
-              {orders &&
-                orders.map((order) => {
-                  const date = new Date(order.created);
-                  return (
+              <S.Row><Header matches={matches}/></S.Row>
+              {orders?.map((order) => {
+                const date = new Date(order.created);
+                return (
+                  <Link key={order.number} href={`/account/order-history/${order.token}/`} passHref>
                     <S.Row
                       data-test="orderEntry"
                       data-test-id={order.number}
-                      key={order.number}
-                      onClick={(evt) => {
-                        evt.stopPropagation();
-                        router.push(`/account/order-history/${order.token}/`);
-                      }}
                     >
                       <S.IndexNumber>{order.number}</S.IndexNumber>
-                      {matches ? (
+                      {matches && (
                         <>
                           <S.ProductsOrdered>
                             {order.lines.slice(0, 5).map((product: any) => (
-                              <Box
-                                component="span"
-                                key={product?.variant?.product?.id}
-                                // @ts-ignore
-                                onClick={(evt) => {
-                                  evt.stopPropagation();
-                                  router.push(
-                                    generateProductUrl(
-                                      product.variant.product.id,
-                                      product.variant.product.name
-                                    )
-                                  );
-                                }}
-                              >
-                                <Thumbnail source={product} />
-                              </Box>
+                              <Link key={product?.variant?.product?.id} href={generateProductUrl(
+                                product.variant.product.id,
+                                product.variant.product.name
+                              )} passHref>
+                                <Box component="a">
+                                  <Thumbnail source={product}/>
+                                </Box>
+                              </Link>
                             ))}
                           </S.ProductsOrdered>
                           <S.DateOfOrder>
-                            <FormattedDate value={date} />
+                            <FormattedDate value={date}/>
                           </S.DateOfOrder>
                           <S.Value>
-                            <TaxedMoney taxedMoney={order.total} />
+                            <TaxedMoney taxedMoney={order.total}/>
                           </S.Value>
                         </>
-                      ) : (
-                        ""
                       )}
                       <S.Status>
                         {
@@ -106,8 +90,9 @@ export const OrderTable: React.FC<IProps> = ({ orders }: IProps) => {
                         }
                       </S.Status>
                     </S.Row>
-                  );
-                })}
+                  </Link>
+                );
+              })}
             </>
           );
         }}
