@@ -12,7 +12,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      origin: "http://localhost:3000", // TODO: Use an env variable to ensure this is controlled as expected
+      origin: process.env.NEXT_PUBLIC_APOLLO_LINK_ORIGIN,
       // authorization: token ? `Bearer ${token}` : "",
     },
   };
