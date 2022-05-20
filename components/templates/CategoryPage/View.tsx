@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-import { useCategoryProductsQuery } from "@generated";
+import { useProductsQuery } from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ProductsComponentProps } from "components/templates/ProductsList/View";
 
@@ -15,11 +15,11 @@ const View = ({
 }: ProductsProps) => {
   const { query: { id } } = useRouter();
 
-  const { loading, data, fetchMore } = useCategoryProductsQuery({
+  const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,
       // TODO: We need to early return if id is not set? Should it be always set here?
-      id: getGraphqlIdFromDBId(id as string, "Category"),
+      categoryIds: [getGraphqlIdFromDBId(id as string, "Category")],
     },
     errorPolicy: "all",
   });

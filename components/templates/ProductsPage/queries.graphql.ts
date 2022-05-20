@@ -5,6 +5,7 @@ import { productsListProduct } from "components/templates/ProductsList/queries.g
 export const productsQuery = gql`
   ${productsListProduct}
   query Products(
+    $categoryIds: [ID!]
     $attributes: [AttributeInput]
     $after: String
     $pageSize: Int
@@ -18,6 +19,7 @@ export const productsQuery = gql`
       sortBy: $sortBy
       filter: {
         attributes: $attributes
+        categories: $categoryIds
         minimalPrice: { gte: $priceGte, lte: $priceLte }
       }
     ) {

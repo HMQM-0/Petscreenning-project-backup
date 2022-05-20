@@ -1,7 +1,5 @@
 import { gql } from "@apollo/client";
 
-import { productsListProduct } from "components/templates/ProductsList/queries.graphql";
-
 export const categoryQuery = gql`
   query Category($id: ID!) {
     category(id: $id) {
@@ -19,45 +17,6 @@ export const categoryQuery = gql`
             name
           }
         }
-      }
-    }
-  }
-`;
-
-// TODO: It's almost the same as productsQuery (except the filter.categories: [$id] part).
-//  Refactoring required to make it DRY
-export const categoryProductsQuery = gql`
-  ${productsListProduct}
-  query CategoryProducts(
-    $id: ID!
-    $attributes: [AttributeInput]
-    $after: String
-    $pageSize: Int
-    $sortBy: ProductOrder
-    $priceLte: Float
-    $priceGte: Float
-  ) {
-    products(
-      after: $after
-      first: $pageSize
-      sortBy: $sortBy
-      filter: {
-        attributes: $attributes
-        categories: [$id]
-        minimalPrice: { gte: $priceGte, lte: $priceLte }
-      }
-    ) {
-      totalCount
-      edges {
-        node {
-          ...ProductsListProduct
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
       }
     }
   }
