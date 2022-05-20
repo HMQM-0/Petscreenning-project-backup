@@ -14,7 +14,7 @@ import { useNetworkStatus } from "@hooks";
 import { IProps as FilterSidebarProps } from "components/organisms/FilterSidebar/types";
 import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
 import { prodListHeaderCommonMsg } from "deprecated/intl";
-import Breadcrumbs from "components/atoms/Breadcrumbs";
+import Breadcrumbs, { Breadcrumb } from "components/atoms/Breadcrumbs";
 import { ProductSideNavbar } from "components/organisms/ProductSideNavbar";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
 import { ProductListHeader } from "components/organisms/ProductListHeader";
@@ -33,11 +33,11 @@ interface ProductsProps {
     sortBy: ProductListHeaderProps["activeSortOption"];
   };
   loading: ProductsQueryResult["loading"];
-  // TODO: or ProductCategories/ProductCollection ?
   data: ProductsQueryResult["data"];
   fetchMore: ProductsQueryResult["fetchMore"];
   showSidebar?: boolean;
   showNoResultFeaturedProducts?: boolean;
+  breadcrumbs?: Breadcrumb[];
 }
 
 const ProductsList = ({
@@ -47,6 +47,7 @@ const ProductsList = ({
   filters,
   showSidebar,
   showNoResultFeaturedProducts,
+  breadcrumbs,
 }: ProductsProps) => {
   const intl = useIntl();
   const [showFilters, setShowFilters] = useState(false);
@@ -154,16 +155,6 @@ const ProductsList = ({
       // }),
     );
 
-  // TODO: Conditionally change this for Category/Collection
-  const createBreadcrumbs = () => {
-    const constructLink = () => ({
-      link: "/products",
-      value: "All Products",
-    });
-
-    return [constructLink()];
-  };
-
   const attributes = attributesResult?.edges.map(
     (edge) => edge.node
   ) ?? [];
@@ -208,9 +199,7 @@ const ProductsList = ({
   const productsListComponents = (
     <Box className={classes.category}>
       <Box className="container">
-        <Breadcrumbs breadcrumbs={createBreadcrumbs()} />
-        {/* // TODO: combine these. Get Category data somewhere*/}
-        {/*<Breadcrumbs breadcrumbs={extractBreadcrumbs(category)} />*/}
+        <Breadcrumbs breadcrumbs={breadcrumbs ?? []} />
         <ProductSideNavbar
           show={showDirectory}
           onHide={() => setShowDirectory(false)}

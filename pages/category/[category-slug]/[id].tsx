@@ -26,11 +26,18 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     type: "product.category",
   };
 
+  console.log('category', categoryData.category);
+
   return (
     <Layout documentHead={documentHead}>
       <ProductsListView>
         {(props) => (
-          <CategoryProducts {...props} id={categoryId} />
+          <CategoryProducts
+            {...props}
+            id={categoryId}
+            // TODO: category should always be set?
+            category={categoryData.category!}
+          />
         )}
       </ProductsListView>
     </Layout>

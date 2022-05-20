@@ -22,6 +22,14 @@ const Products = ({
       fetchMore={fetchMore}
       filters={filters}
       variables={variables}
+      breadcrumbs={(
+        [
+          {
+            link: "/products",
+            value: "All Products",
+          },
+        ]
+      )}
     />
   );
 };
