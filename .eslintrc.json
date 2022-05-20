@@ -7,6 +7,7 @@
   "plugins": ["import"],
   "rules": {
     "import/no-unresolved": "error",
+    "import/no-relative-parent-imports": "error",
     "import/order": [
       1,
       {
