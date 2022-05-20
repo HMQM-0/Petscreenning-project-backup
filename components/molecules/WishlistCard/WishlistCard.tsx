@@ -256,10 +256,8 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
           }
         </Box>
         <Box className={classes.pricing_trash}>
-          <button onClick={handleRemove}>
-            {/* // TODO: pass classname */}
-            {/* @ts-ignore */}
-            <Trash className={classes.trash} />
+          <button onClick={handleRemove} className={classes.trash}>
+            <Trash />
           </button>
         </Box>
       </Box>
