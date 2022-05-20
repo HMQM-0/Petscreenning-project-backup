@@ -7,8 +7,8 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
 
-// import StorePage from "../Builder/StorePage"; // TODO: This has yet to be refactored
 import classes from "./scss/index.module.scss";
+import { Builder } from "./Builder";
 
 export const parseHomePageCollectionJson = (descriptionJson: any): string => {
   if (!descriptionJson) {
@@ -27,6 +27,7 @@ const IndexPage = ({ data }: IndexPageProps) => {
   const intl = useIntl();
   const shopContext = useShopContext();
   const { builderKey } = shopContext;
+  console.log("builderKey", builderKey);
 
   const backgroundImage =
     data?.shop.homepageCollection?.backgroundImage ?? null;
@@ -35,9 +36,7 @@ const IndexPage = ({ data }: IndexPageProps) => {
   return (
     <Box className={classes["home-page"]}>
       {builderKey ? (
-        // TODO: The StorePage component from builder has not yet been refactored
-        // <StorePage landing={builderLandingData} />
-        <>BUILDER</>
+        <Builder />
       ) : (
         <>
           <Box
