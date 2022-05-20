@@ -63,7 +63,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data: categoryData } = await client.query<CategoryQuery>({
     query: CategoryDocument,
     variables: {
-      id: getGraphqlIdFromDBId(categoryId, "Category"),
+      id: categoryId,
     },
   });
 

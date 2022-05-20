@@ -5,7 +5,7 @@ import {
   generateCollectionUrl,
   generateMicrositeUrl,
   generatePageUrl,
-} from "@utils/core";
+} from "core/utils";
 
 import * as S from "./styles";
 import { IProps } from "./types";
