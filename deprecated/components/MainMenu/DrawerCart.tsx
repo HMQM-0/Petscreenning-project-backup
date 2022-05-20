@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { useAuth, useCart, useCheckout } from "@nautical/react";
 import { commonMessages } from "deprecated/intl";
-import { TaxedMoney } from "components/containers/TaxedMoney";
+import { TaxedMoney } from "components/molecules/TaxedMoney";
 import {
   generateMicrositeUrl,
   getDBIdFromGraphqlId,

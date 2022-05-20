@@ -364,7 +364,7 @@ exports[`Storyshots @components/organisms/SideNavbar default 1`] = `
           >
             <a
               className="c8"
-              href="/wishlist"
+              href="/account/wishlist"
               onClick={[Function]}
             >
               <span

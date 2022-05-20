@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Box, IconButton } from "@mui/material";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 
-import { TaxedMoney } from "components/containers/TaxedMoney/TaxedMoney";
+import { TaxedMoney } from "components/molecules/TaxedMoney/TaxedMoney";
 import { Thumbnail } from "components/molecules/Thumbnail/Thumbnail";
 import { ICheckoutModelLine } from "@nautical/helpers";
 import {

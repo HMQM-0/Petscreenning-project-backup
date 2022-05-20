@@ -172,7 +172,28 @@ export const wishlistProductInfoFragment = gql`
   }
 `;
 
+export const wishlistItemVariantFragment = gql`
+  fragment WishlistItemVariant on ProductVariant {
+    id
+    name
+    sku
+    pricing {
+      price {
+        gross {
+          amount
+          currency
+        }
+        net {
+          amount
+          currency
+        }
+      }
+    }
+  }
+`;
+
 export const wishlistItemFragment = gql`
+  ${wishlistItemVariantFragment}
   fragment WishlistItem on WishlistItem {
     id
     product {
@@ -190,21 +211,7 @@ export const wishlistItemFragment = gql`
     variants(first: 100) {
       edges {
         node {
-          id
-          name
-          sku
-          pricing {
-            price {
-              gross {
-                amount
-                currency
-              }
-              net {
-                amount
-                currency
-              }
-            }
-          }
+          ...WishlistItemVariant
         }
       }
     }

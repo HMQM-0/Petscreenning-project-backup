@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Theme } from "@mui/material";
+import { Box } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-import { useNavigate } from "react-router";
+import Link from 'next/link';
 
-import heartImg from "images/heart.svg";
+import { Heart } from 'components/icons/heart';
 import { useAuth } from "@nautical/react";
 import {
   generateMicrositeUrl,
@@ -16,12 +16,12 @@ import {
   OverlayType,
   OverlayTheme,
 } from "components/providers/Overlay/context";
+import WishlistCard from "components/molecules/WishlistCard";
 
 import { IProps } from "./types";
 
-import WishlistCard from "../WishlistCard";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     container: {
       paddingLeft: "1.5rem",
@@ -76,58 +76,54 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const WishlistTable: React.FC<IProps> = ({ wishlist }: IProps) => {
+export const WishlistTable = ({ wishlist }: IProps) => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const { user } = useAuth();
   return (
     <OverlayContext.Consumer>
       {(overlayContext) => (
         <Box className={classes.container}>
           <h3 className={classes.title}>My Wishlist</h3>
-          {wishlist &&
-          user &&
-          wishlist.length >= 1 &&
-          wishlist?.map((item) => {
-            return <WishlistCard key={item.id} item={item} />;
-          })}
-          {!user && (
+          {wishlist?.map((item) => (
+            <WishlistCard key={item.id} item={item} />
+          ))}
+          {(!wishlist || wishlist.length === 0) && (
             <Box className={classes.emptyContainer}>
               <Box component="span" className={classes.heartWrapper}>
-                <img src={heartImg} className={classes.heartIcon} />
+                {/* TODO: how to pass classname? */}
+                {/* @ts-ignore */}
+                <Heart className={classes.heartIcon} />
               </Box>
               <h2 className={classes.emptyMessage}>Your wishlist is empty</h2>
-              <p
-                className={classes.clickMessage}
-                onClick={() =>
-                  overlayContext.show(OverlayType.login, OverlayTheme.right)
-                }
-              >
-                <a>Sign in to start adding products to your wishlist</a>
-              </p>
-            </Box>
-          )}
-          {(!wishlist || wishlist.length === 0) && user && (
-            <Box className={classes.emptyContainer}>
-              <Box component="span" className={classes.heartWrapper}>
-                <img src={heartImg} className={classes.heartIcon} />
-              </Box>
-              <h2 className={classes.emptyMessage}>Your wishlist is empty</h2>
-              <p
-                className={classes.clickMessage}
-                onClick={() =>
-                  navigate(
-                    !!isMicrosite()
+              {user ? (
+                <Link
+                  href={
+                    isMicrosite()
                       ? generateMicrositeUrl(
-                        getMicrositeId(),
+                        getMicrositeId()!,
                         getMicrositeSlug()
                       )
                       : "/products/"
-                  )
-                }
-              >
-                <a>Browse to start adding products to your wishlist</a>
-              </p>
+                  }
+                  passHref
+                >
+                  <a>
+                    <p className={classes.clickMessage}>
+                      Browse to start adding products to your wishlist
+                    </p>
+                  </a>
+                </Link>
+              ) : (
+                <p
+                  className={classes.clickMessage}
+                  onClick={() =>
+                    // TODO: is it possible to get here when user is not set? Login flow to be fixed?
+                    overlayContext.show(OverlayType.login, OverlayTheme.right)
+                  }
+                >
+                  <a>Sign in to start adding products to your wishlist</a>
+                </p>
+              )}
             </Box>
           )}
         </Box>
