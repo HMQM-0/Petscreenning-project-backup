@@ -6,6 +6,7 @@ export const productsQuery = gql`
   ${productsListProduct}
   query Products(
     $categoryIds: [ID!]
+    $collectionIds: [ID!]
     $attributes: [AttributeInput]
     $after: String
     $pageSize: Int
@@ -20,6 +21,7 @@ export const productsQuery = gql`
       filter: {
         attributes: $attributes
         categories: $categoryIds
+        collections: $collectionIds
         minimalPrice: { gte: $priceGte, lte: $priceLte }
       }
     ) {
