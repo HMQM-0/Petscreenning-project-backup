@@ -5,8 +5,6 @@ import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
 import { slugify, getDBIdFromGraphqlId } from "@utils/core";
 
-import { getGraphqlIdFromDBId } from "../../../core/utils";
-
 type CategoryProductsProps = ChildrenFunctionProps & {
   category: BasicCategoryFragment
 };
@@ -42,7 +40,7 @@ const CategoryProducts = ({
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,
-      categoryIds: [getGraphqlIdFromDBId(category.id, "Category")],
+      categoryIds: [category.id],
     },
     errorPolicy: "all",
   });
