@@ -7,7 +7,8 @@ import { builder } from "@builder.io/react";
 
 // eslint-disable-next-line import/order
 import builderConfig from "config/builder";
-builder.init(builderConfig.apiKey);
+builder.init(builderConfig.apiKey); // TODO: BE no longer stores/manages builder key
+// TODO: Try to reduce bundle size by only loading required custom builder on each page
 import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";
 import "deprecated/globalStyles/scss/index.scss";

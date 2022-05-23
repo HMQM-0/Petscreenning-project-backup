@@ -1,3 +1,5 @@
+// TODO: These queries will need to be moved out to where they will be used by pages
+
 import { gql } from "@apollo/client";
 
 import {

@@ -1,3 +1,5 @@
+// TODO: This component will be deleted - we will use the useBuilderStateData hook instead and pass the values directly to BuilderComponent from the builder package
+
 import "@builder.io/widgets";
 import * as React from "react";
 // import appState from '@builder.io/app-context';

@@ -46,10 +46,12 @@ const Home: NextPage<
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  // TODO: Type this return value
   const content = await builder
     .get("store", { url: "/store/landing" })
     .promise();
 
+  // TODO: Combine these into only one page level SSR query
   const { data: builderHome } = await client.query<BuilderHomeQuery>({
     query: BuilderHomeDocument,
   });

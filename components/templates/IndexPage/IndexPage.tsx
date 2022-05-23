@@ -20,7 +20,7 @@ export const parseHomePageCollectionJson = (descriptionJson: any): string => {
 
 type IndexPageProps = {
   data: HomeQuery;
-  builderContent: any;
+  builderContent: any; // TODO: Type this return value from SSR builder call
   builderData: BuilderHomeQuery;
 };
 
