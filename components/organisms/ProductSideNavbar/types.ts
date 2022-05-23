@@ -9,15 +9,6 @@ export interface IProps {
   width?: string;
 }
 
-export interface IState {
-  buffer: {
-    index: number | null;
-    depth: number | null;
-  };
-  index: number | null;
-  depth: number | null;
-}
-
 export interface CategoryItem {
   id: string;
   name: string;
