@@ -1,10 +1,10 @@
 import React from "react";
 
-import { ProductsPageProductFragment } from "@generated";
+import { BasicProductFieldsFragment } from "@generated";
 
 interface ISource {
-  thumbnail?: ProductsPageProductFragment["thumbnail"] | null;
-  thumbnail2x?: ProductsPageProductFragment["thumbnail2x"] | null;
+  thumbnail?: BasicProductFieldsFragment["thumbnail"] | null;
+  thumbnail2x?: BasicProductFieldsFragment["thumbnail2x"] | null;
 }
 
 export interface IProps {

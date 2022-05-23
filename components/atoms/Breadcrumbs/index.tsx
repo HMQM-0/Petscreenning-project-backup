@@ -14,28 +14,6 @@ export interface Breadcrumb {
   link: string;
 }
 
-// TODO: Refactor this once it is used in any of the components
-// export const extractBreadcrumbs = (category: Category_category) => {
-//   const constructLink = (item) => ({
-//     link: [
-//       `/category`,
-//       `/${slugify(item.name)}`,
-//       `/${getDBIdFromGraphqlId(item.id, "Category")}/`,
-//     ].join(""),
-//     value: item.name,
-//   });
-//
-//   let breadcrumbs = [constructLink(category)];
-//
-//   if (category.ancestors.edges.length) {
-//     const ancestorsList = category.ancestors.edges.map((edge) =>
-//       constructLink(edge.node)
-//     );
-//     breadcrumbs = ancestorsList.concat(breadcrumbs);
-//   }
-//   return breadcrumbs;
-// };
-
 const getBackLink = (breadcrumbs: Breadcrumb[]) =>
   breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 2].link : "/";
 
