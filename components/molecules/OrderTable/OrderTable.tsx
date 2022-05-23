@@ -13,7 +13,9 @@ import {TaxedMoney} from "components/molecules/TaxedMoney";
 import * as S from "./styles";
 import {IProps} from "./types";
 
-const Header = ({matches}: { matches: boolean }) => (
+type HeaderProps = { matches: boolean };
+
+const Header = ({matches}: HeaderProps) => (
   <S.HeaderRow>
     <S.IndexNumber>
       <FormattedMessage defaultMessage="Order Number"/>
