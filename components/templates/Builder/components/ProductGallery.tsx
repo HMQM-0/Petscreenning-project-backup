@@ -7,7 +7,7 @@ import { useInView } from "react-intersection-observer";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 
-import { CachedImage } from "./CachedImage";
+import { CachedImage } from "components/molecules/CachedImage";
 
 export interface IImage {
   style?: CSS.Properties;

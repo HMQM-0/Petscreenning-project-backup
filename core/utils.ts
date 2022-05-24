@@ -101,6 +101,7 @@ export function getMicrositeId() {
       "Microsite"
     );
   }
+  return "";
 }
 
 export function getMicrositeSlug() {
