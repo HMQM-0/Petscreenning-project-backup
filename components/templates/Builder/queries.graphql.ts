@@ -234,45 +234,44 @@ export const builderCategoryProductsQuery = gql`
   }
 `;
 
-// TODO: This query may be used in future work - commented out for now
-// export const micrositesQuery = gql`
-//   query Microsites($first: Int, $search: String) {
-//     microsites(
-//       first: $first
-//       filter: { published: PUBLISHED, search: $search }
-//     ) {
-//       edges {
-//         node {
-//           seoTitle
-//           seoDescription
-//           description
-//           descriptionJson
-//           id
-//           name
-//           slug
-//           description
-//           affiliate {
-//             id
-//             firstName
-//             lastName
-//             companyName
-//             email
-//           }
-//           seller {
-//             id
-//             companyName
-//             logo {
-//               url
-//             }
-//           }
-//           logoImage {
-//             url
-//           }
-//           bannerImage {
-//             url
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
+export const micrositesQuery = gql`
+  query Microsites($first: Int, $search: String) {
+    microsites(
+      first: $first
+      filter: { published: PUBLISHED, search: $search }
+    ) {
+      edges {
+        node {
+          seoTitle
+          seoDescription
+          description
+          descriptionJson
+          id
+          name
+          slug
+          description
+          affiliate {
+            id
+            firstName
+            lastName
+            companyName
+            email
+          }
+          seller {
+            id
+            companyName
+            logo {
+              url
+            }
+          }
+          logoImage {
+            url
+          }
+          bannerImage {
+            url
+          }
+        }
+      }
+    }
+  }
+`;
