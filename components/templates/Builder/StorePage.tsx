@@ -174,10 +174,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
   const [setRemoveWishlistProduct] = useRemoveWishlistProduct();
   const [setAddWishlistProduct] = useAddWishlistProduct();
 
-  // const onAttributeChange = (id: string, value: any, slug: string | null) => {
-  //   selectProductVariantsAttributesValue(id, value);
-  //   onAttributeChangeHandler(slug, value);
-  // };
 
   const stateData = React.useMemo(() => {
     const clearFilters = () => {
