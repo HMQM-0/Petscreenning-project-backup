@@ -360,8 +360,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     wishlistContext,
   ]);
 
-  // console.info("SANITIZED STATE DATA")
-  // console.info(stateData)
 
   React.useEffect(() => {
     function getStoreModel() {
