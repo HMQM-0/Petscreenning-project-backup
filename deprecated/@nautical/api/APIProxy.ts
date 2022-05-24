@@ -6,6 +6,8 @@ import {
 } from "@apollo/client";
 import { GraphQLError } from "graphql";
 
+import { SetPasswordChange, SetPasswordResult } from "./types";
+
 import {
   UserOrderByToken,
   UserNauticalOrderByToken,
@@ -33,7 +35,6 @@ import {
   isDataEmpty,
   mergeEdges,
 } from "../utils";
-import { SetPasswordChange, SetPasswordResult } from "./types";
 
 const handleDataErrors = <T extends QueryShape, TData>(
   mapFn: MapFn<T, TData> | WatchMapFn<T, TData>,
@@ -165,9 +166,10 @@ class APIProxy {
     (data) => data
   );
 
-  getUserWishlist = this.watchQuery(QUERIES.Wishlist, (data) =>
-    data.me ? data.me.wishlist : null
-  );
+  // TODO: Ensure this behaviour exists in new Wishlist Provider
+  // getUserWishlist = this.watchQuery(QUERIES.Wishlist, (data) =>
+  //   data.me ? data.me.wishlist : null
+  // );
 
   getProductRatingsAndReviews = this.watchQuery(
     QUERIES.GetProductRatingsAndReviews,
@@ -179,25 +181,29 @@ class APIProxy {
     (data) => data
   );
 
-  setAddWishlistProduct = this.fireQuery(
-    MUTATIONS.AddWishlistProduct,
-    (data) => data!.wishlistAddProduct
-  );
+  // TODO: Ensure this behaviour exists in new Wishlist Provider
+  // setAddWishlistProduct = this.fireQuery(
+  //   MUTATIONS.AddWishlistProduct,
+  //   (data) => data!.wishlistAddProduct
+  // );
 
-  setRemoveWishlistProduct = this.fireQuery(
-    MUTATIONS.RemoveWishlistProduct,
-    (data) => data!.wishlistRemoveProduct
-  );
+  // TODO: Ensure this behaviour exists in new Wishlist Provider
+  // setRemoveWishlistProduct = this.fireQuery(
+  //   MUTATIONS.RemoveWishlistProduct,
+  //   (data) => data!.wishlistRemoveProduct
+  // );
 
-  setAddWishlistProductVariant = this.fireQuery(
-    MUTATIONS.AddWishlistProductVariant,
-    (data) => data!.wishlistAddVariant
-  );
+  // TODO: Ensure this behaviour exists in new Wishlist Provider
+  // setAddWishlistProductVariant = this.fireQuery(
+  //   MUTATIONS.AddWishlistProductVariant,
+  //   (data) => data!.wishlistAddVariant
+  // );
 
-  setRemoveWishlistProductVariant = this.fireQuery(
-    MUTATIONS.RemoveWishlistProductVariant,
-    (data) => data!.wishlistRemoveVariant
-  );
+  // TODO: Ensure this behaviour exists in new Wishlist Provider
+  // setRemoveWishlistProductVariant = this.fireQuery(
+  //   MUTATIONS.RemoveWishlistProductVariant,
+  //   (data) => data!.wishlistRemoveVariant
+  // );
 
   setUserDefaultAddress = this.fireQuery(
     MUTATIONS.AddressTypeUpdate,
