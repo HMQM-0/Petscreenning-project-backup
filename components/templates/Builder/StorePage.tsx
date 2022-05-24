@@ -386,7 +386,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     }
 
     type = getStoreModel() ?? "/store/landing";
-    console.info(type);
     if (!isEditingOrPreviewing) {
       const fetchPage = async () => {
         setLoading(true);
