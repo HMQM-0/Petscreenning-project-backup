@@ -10,21 +10,16 @@ import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { slugify } from "@utils/core";
-import {
-  useAddWishlistProduct,
-  useAuth,
-  useCart,
-  useRemoveWishlistProduct,
-} from "@nautical/react";
+import { useAuth, useCart } from "@nautical/react";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
 import { micrositesQuery } from "components/templates/Builder/queries.graphql";
-import { userWishlist } from "components/providers/Wishlist/queries.graphql";
 import { FilterQuerySet } from "components/templates/ProductsList/View";
+import {
+  useAddWishlistProductMutation,
+  useRemoveWishlistProductMutation,
+  WishlistDocument,
+} from "@generated";
 
-// import { useProductVariantsAttributes, useProductVariantsAttributesValuesSelection } from "@hooks";
-
-const model = "store";
-var type = "/store/product";
 interface IStorePage {
   category?: any;
   collection?: any;
@@ -85,8 +80,8 @@ const useBuilderStateData = ({
     },
   });
 
-  const [setRemoveWishlistProduct] = useRemoveWishlistProduct();
-  const [setAddWishlistProduct] = useAddWishlistProduct();
+  const [setRemoveWishlistProduct] = useRemoveWishlistProductMutation();
+  const [setAddWishlistProduct] = useAddWishlistProductMutation();
 
   return React.useMemo(() => {
     const clearFilters = () => {
@@ -166,15 +161,13 @@ const useBuilderStateData = ({
         );
       }
       if (addedToWishlist && user) {
-        await setRemoveWishlistProduct(
-          { productId },
-          {
-            refetchQueries: [
-              userWishlist, // DocumentNode object parsed with gql
-              "Wishlist", // Query name
-            ],
-          }
-        );
+        await setRemoveWishlistProduct({
+          variables: { productId },
+          refetchQueries: [
+            WishlistDocument, // DocumentNode object parsed with gql
+            "Wishlist", // Query name
+          ],
+        });
         // update();
         alert.show(
           {
@@ -189,15 +182,13 @@ const useBuilderStateData = ({
           }
         );
       } else if (!addedToWishlist && user) {
-        await setAddWishlistProduct(
-          { productId },
-          {
-            refetchQueries: [
-              userWishlist, // DocumentNode object parsed with gql
-              "Wishlist", // Query name
-            ],
-          }
-        );
+        await setAddWishlistProduct({
+          variables: { productId },
+          refetchQueries: [
+            WishlistDocument, // DocumentNode object parsed with gql
+            "Wishlist", // Query name
+          ],
+        });
         // update();
         alert.show(
           {
