@@ -4,7 +4,9 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { builder } from "@builder.io/react";
+import { BuilderContent } from "@builder.io/sdk";
 
+import builderConfig from "config/builder";
 import {
   BrandingDocument,
   BrandingQuery,
@@ -46,10 +48,11 @@ const Home: NextPage<
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // TODO: Type this return value
-  const content = await builder
-    .get("store", { url: "/store/landing" })
-    .promise();
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    // TODO: Type this return value
+    content = await builder.get("store", { url: "/store/landing" }).promise();
+  }
 
   // TODO: Combine these into only one page level SSR query
   const { data: builderHome } = await client.query<BuilderHomeQuery>({
@@ -72,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       branding: brandingData?.branding ?? fallbackBranding,
       homepage: homepageData,
-      builderContent: content ?? null,
+      builderContent: content,
       builderData: builderHome,
     },
   };

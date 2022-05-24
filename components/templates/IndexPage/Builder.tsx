@@ -1,5 +1,6 @@
 import { BuilderComponent } from "@builder.io/react";
 import React from "react";
+import { BuilderContent } from "@builder.io/sdk";
 
 import builderConfig from "config/builder";
 import useBuilderStateData from "components/hooks/useBuilderStateData";
@@ -9,7 +10,7 @@ const Builder = ({
   builderContent,
   builderData,
 }: {
-  builderContent: any; // TODO: Type this content object returned from builder
+  builderContent: BuilderContent;
   builderData: BuilderHomeQuery;
 }) => {
   const stateData = useBuilderStateData({ landing: builderData });

@@ -9,7 +9,7 @@ import builderConfig from "config/builder";
 import { defaultTheme, GlobalStyle } from "@styles";
 import { ShopProvider, OverlayProvider } from "@providers";
 
-builder.init(builderConfig.apiKey); // TODO: BE no longer stores/manages builder key
+builderConfig.apiKey && builder.init(builderConfig.apiKey); // TODO: BE no longer stores/manages builder key
 // TODO: Try to reduce bundle size by only loading required custom builder on each page
 import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";

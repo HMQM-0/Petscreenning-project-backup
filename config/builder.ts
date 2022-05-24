@@ -1,9 +1,5 @@
-if (!process.env.NEXT_PUBLIC_BUILDER_KEY) {
-  throw new Error("Missing env varialbe NEXT_PUBLIC_BUILDER_KEY");
-}
-
 const config = {
-  apiKey: process.env.NEXT_PUBLIC_BUILDER_KEY,
+  apiKey: process.env.NEXT_PUBLIC_BUILDER_KEY ?? null,
   storeModel: "store",
 };
 

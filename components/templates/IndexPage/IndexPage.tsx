@@ -2,6 +2,7 @@ import * as React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import Link from "next/link";
+import { BuilderContent } from "@builder.io/sdk";
 
 import { BuilderHomeQuery, HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
@@ -20,7 +21,7 @@ export const parseHomePageCollectionJson = (descriptionJson: any): string => {
 
 type IndexPageProps = {
   data: HomeQuery;
-  builderContent: any; // TODO: Type this return value from SSR builder call
+  builderContent: BuilderContent | null;
   builderData: BuilderHomeQuery;
 };
 
