@@ -410,17 +410,17 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     wishlist,
   ]);
 
-  if (!pageJson && !isEditingOrPreviewing) {
-    return isLoading ? (
-      <CircularProgress sx={{ placeSelf: "center" }} />
-    ) : (
-      <NoComponent />
-    );
-  } else {
+  if (pageJson || isEditingOrPreviewing) {
     return (
       <BuilderComponent model={model} content={pageJson} data={stateData} />
     );
   }
+  
+  if (isLoading) {
+    return <CircularProgress sx={{ placeSelf: "center" }} />;
+  }
+  
+  return <NoComponent />;
 };
 
 export default StorePage;
