@@ -5,16 +5,15 @@ import { NextQueryParamProvider } from "next-query-params";
 import dynamic from "next/dynamic";
 import { builder } from "@builder.io/react";
 
-// eslint-disable-next-line import/order
 import builderConfig from "config/builder";
+import { defaultTheme, GlobalStyle } from "@styles";
+import { ShopProvider, OverlayProvider } from "@providers";
+
 builder.init(builderConfig.apiKey); // TODO: BE no longer stores/manages builder key
 // TODO: Try to reduce bundle size by only loading required custom builder on each page
 import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";
 import "deprecated/globalStyles/scss/index.scss";
-
-import { defaultTheme, GlobalStyle } from "@styles";
-import { ShopProvider, OverlayProvider } from "@providers";
 
 const NotificationTemplate = dynamic(
   () => import("components/atoms/NotificationTemplate/NotificationTemplate")
