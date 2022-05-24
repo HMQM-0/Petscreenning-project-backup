@@ -1,16 +1,22 @@
 import * as React from "react";
-
-import { CachedImage } from "@components/molecules";
 import { Box } from "@mui/material";
-import { Carousel } from "../../components";
-import { ProductDetails_product_images } from "./gqlTypes/ProductDetails";
 
-import noPhotoImg from "../../images/no-photo.svg";
+import { CachedImage } from "components/molecules/CachedImage";
+import { NoPhoto } from "components/icons/noPhoto";
+import Carousel from "components/atoms/Carousel";
 
-const GalleryCarousel: React.FC<{
-  images: ProductDetails_product_images[];
-}> = ({ images }) => (
-  <Box className="product-page__product__gallery">
+import classes from "./scss/index.module.scss";
+
+type GalleryCarouselProps = {
+  images: {
+    id: string;
+    url?: string;
+    alt?: string;
+  }[];
+};
+
+const GalleryCarousel = ({ images }: GalleryCarouselProps) => (
+  <Box className={classes['product-page__product__gallery']}>
     <Carousel
       renderCenterLeftControls={() => null}
       renderCenterRightControls={() => null}
@@ -22,12 +28,12 @@ const GalleryCarousel: React.FC<{
         }
 
         return (
-          <ul className="product-page__product__gallery__nav">
+          <ul className={classes['product-page__product__gallery__nav']}>
             {indexes.map((index) => (
               <li
                 key={index}
                 onClick={props.goToSlide.bind(null, index)}
-                className={props.currentSlide === index ? "active" : ""}
+                className={props.currentSlide === index ? classes.active : ""}
               >
                 <span />
               </li>
@@ -37,8 +43,8 @@ const GalleryCarousel: React.FC<{
       }}
     >
       {images.map((image) => (
-        <CachedImage url={image.url || noPhotoImg} key={image.id}>
-          <img src={noPhotoImg} alt={image?.alt} />
+        <CachedImage url={image.url} key={image.id}>
+          <NoPhoto title={image.alt} />
         </CachedImage>
       ))}
     </Carousel>

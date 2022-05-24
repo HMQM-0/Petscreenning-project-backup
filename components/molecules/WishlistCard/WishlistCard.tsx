@@ -12,13 +12,7 @@ import Link from "next/link";
 
 import { useCart } from "@nautical/react";
 import { Trash } from "components/icons/trash";
-import {
-  generateMicrositeProductUrl,
-  generateProductUrl,
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "core/utils";
+import { generateProductUrl } from "core/utils";
 import { WishlistContext } from "components/providers/Wishlist/context";
 import {
   useRemoveWishlistProductMutation,
@@ -183,16 +177,7 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
 
       <Box className={classes.details}>
         <Link
-          href={
-            isMicrosite()
-              ? generateMicrositeProductUrl(
-                item.product.id,
-                item.product.name,
-                getMicrositeId()!,
-                getMicrositeSlug()
-              )
-              : generateProductUrl(item.product.id, item.product.name)
-          }
+          href={generateProductUrl(item.product.id, item.product.name)}
           passHref
         >
           <a>

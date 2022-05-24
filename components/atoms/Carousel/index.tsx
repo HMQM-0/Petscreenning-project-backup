@@ -1,31 +1,35 @@
 import NukaCarousel, { CarouselProps } from "nuka-carousel";
 import * as React from "react";
 import Media from "react-media";
-import "./scss/index.module.scss";
 import { IconButton, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import clsx from "clsx";
 
+import carouselClasses from "./scss/index.module.scss";
+
 interface CarouselType extends CarouselProps {
   children: React.ReactNode;
 }
 
-const Carousel: React.FC<CarouselType> = ({ children, ...rest }) => {
+const Carousel = ({ children, ...rest }: CarouselType) => {
   const useStyles = makeStyles((theme: Theme) => ({
     buttonStyle: {
-      backgroundColor: theme.palette.secondary.main,
+      // TODO: palette can undefined. Is it a TS issue?
+      backgroundColor: theme.palette?.secondary.main,
       placeItems: "center",
       position: "absolute",
       "&:hover": {
-        backgroundColor: theme.palette.primary.main,
+        // TODO: palette can undefined. Is it a TS issue?
+        backgroundColor: theme.palette?.primary.main,
       },
     },
     backStyle: {
       left: -20,
       top: -20,
 
-      [theme.breakpoints.down("sm")]: {
+      // TODO: breakpoints can undefined. Is it a TS issue?
+      [theme.breakpoints?.down("sm")]: {
         left: -5,
       },
     },
@@ -33,7 +37,8 @@ const Carousel: React.FC<CarouselType> = ({ children, ...rest }) => {
       left: -24,
       top: -20,
 
-      [theme.breakpoints.down("sm")]: {
+      // TODO: breakpoints can undefined. Is it a TS issue?
+      [theme.breakpoints?.down("sm")]: {
         left: -42,
       },
     },
@@ -46,12 +51,17 @@ const Carousel: React.FC<CarouselType> = ({ children, ...rest }) => {
 
   const classes = useStyles({});
 
-  const settings = {
-    className: "carousel",
-    renderBottomCenterControls: () => null,
-    renderCenterLeftControls: ({ previousSlide, currentSlide }) =>
-      currentSlide !== 0 ? (
-        <>
+  const carousel = (slides: number) => (
+    // TODO: Is it working? children is not in props
+    // @ts-ignore
+    <NukaCarousel
+      className={carouselClasses.carousel}
+      slidesToShow={slides}
+      slidesToScroll={slides}
+      heightMode="max"
+      renderBottomCenterControls={() => null}
+      renderCenterLeftControls={({ previousSlide, currentSlide }) =>
+        currentSlide !== 0 ? (
           <IconButton
             onClick={previousSlide}
             className={clsx(classes.buttonStyle, classes.backStyle)}
@@ -62,24 +72,14 @@ const Carousel: React.FC<CarouselType> = ({ children, ...rest }) => {
               style={{ transform: "scaleX(-1)" }}
             />
           </IconButton>
-          {/*
-        <Box
-          onClick={previousSlide}
-          className="carousel__control carousel__control--left"
-        >
-          <ReactSVG src={arrowLeft} />
-        </Box>
-        */}
-        </>
-      ) : null,
-    renderCenterRightControls: ({
-      nextSlide,
-      currentSlide,
-      slideCount,
-      slidesToShow,
-    }) =>
-      slideCount - slidesToShow !== currentSlide ? (
-        <>
+        ) : null}
+      renderCenterRightControls={({
+        nextSlide,
+        currentSlide,
+        slideCount,
+        slidesToShow,
+      }) =>
+        slideCount - slidesToShow !== currentSlide ? (
           <IconButton
             onClick={nextSlide}
             className={clsx(classes.buttonStyle, classes.frontStyle)}
@@ -87,24 +87,8 @@ const Carousel: React.FC<CarouselType> = ({ children, ...rest }) => {
           >
             <ArrowForwardIosIcon className={classes.iconStyle} />
           </IconButton>
-          {/*
-          <Box
-            onClick={nextSlide}
-            className="carousel__control carousel__control--right"
-          >
-            <ReactSVG src={arrowRight} />
-          </Box>
-          */}
-        </>
-      ) : null,
-    ...rest,
-  };
-  const carousel = (slides: number) => (
-    <NukaCarousel
-      slidesToShow={slides}
-      slidesToScroll={slides}
-      heightMode="max"
-      {...settings}
+        ) : null}
+      {...rest}
     >
       {children}
     </NukaCarousel>

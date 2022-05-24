@@ -1,18 +1,9 @@
-import * as React from "react";
-
-// import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
+import React from "react";
 import { isEqual } from "lodash";
 
-import { ICheckoutModelLine } from "@nautical/helpers";
-/* import {
-  ProductDetails_product_variants_pricing,
-  ProductDetails_product_pricing,
-} from "@nautical/sdk/lib/queries/gqlTypes/ProductDetails"; */
-import {
-  ProductDetails_product_variants_pricing,
-  ProductDetails_product_pricing,
-} from "@nautical/queries/gqlTypes/ProductDetails";
-import { TaxedMoney } from "components/containers/TaxedMoney";
+import { TaxedMoney } from "components/molecules/TaxedMoney";
+import { IItems } from "@nautical/api/Cart/types";
+import { ProductPricingFieldFragment, ProductVariantPricingFieldFragment } from "@generated";
 
 import * as S from "./styles";
 
@@ -22,8 +13,8 @@ import * as S from "./styles";
  * Price ranges and discounts are additionally formatted available.
  */
 export const getProductPrice = (
-  productPricingRange: ProductDetails_product_pricing,
-  variantPricing?: ProductDetails_product_variants_pricing | null
+  productPricingRange: ProductPricingFieldFragment["pricing"],
+  variantPricing: ProductVariantPricingFieldFragment["pricing"],
 ) => {
   if (variantPricing) {
     if (isEqual(variantPricing.priceUndiscounted, variantPricing.price)) {
@@ -40,7 +31,7 @@ export const getProductPrice = (
     );
   }
 
-  if (!productPricingRange.priceRange) {
+  if (!productPricingRange?.priceRange) {
     return <></>;
   }
 
@@ -56,9 +47,9 @@ export const getProductPrice = (
 };
 
 export const canAddToCart = (
-  items: ICheckoutModelLine[],
+  items: IItems,
   isAvailableForPurchase: boolean,
-  variantId: string,
+  variantId: string | undefined,
   variantStock: number,
   quantity: number
 ): boolean => {
@@ -78,8 +69,8 @@ export const canAddToCart = (
  * Returns how many items you can add to the cart. Takes in account quantity already in cart.
  */
 export const getAvailableQuantity = (
-  items: ICheckoutModelLine[],
-  variantId: string,
+  items: IItems,
+  variantId: string | undefined,
   variantStock: number
 ): number => {
   const cartItem = items?.find((item) => item.variant.id === variantId);

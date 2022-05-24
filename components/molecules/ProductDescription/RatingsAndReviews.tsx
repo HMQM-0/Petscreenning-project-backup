@@ -2,22 +2,19 @@ import React from "react";
 import Rating from "@mui/material/Rating";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Button, Grid } from "@mui/material";
-import { RatingsAndReviewProps } from "./types";
-import { Theme } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { FormattedMessage } from "react-intl";
-import { ReviewBars } from "./ReviewBars";
-import {
-  OverlayContext,
-  OverlayTheme,
-  OverlayType,
-} from "deprecated/components";
-import RatingAndReviewForm from "deprecated/components/OverlayManager/RatingAndReview/RatingAndReviewForm";
+
+import RatingAndReviewForm from "components/organisms/OverlayManager/RatingAndReview/RatingAndReviewForm";
+import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
+import { useGetProductRatingsAndReviewsQuery } from "@generated";
+
 import { decodeEntities, formatDate } from "./utils";
-import { useProductRatingsAndReviews } from "deprecated/@nautical/react/queries";
+import { RatingsAndReviewProps } from "./types";
+import { ReviewBars } from "./ReviewBars";
 
 // STYLING
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     button: {
       backgroundColor: "#0082a0",
@@ -117,17 +114,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const RatingsAndReviews: React.FC<RatingsAndReviewProps> = ({
-  productId,
-}) => {
+export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
   const classes = useStyles();
 
-  const { data } = useProductRatingsAndReviews(
-    { productId },
-    { fetchPolicy: "network-only" }
-  );
+  const { data } = useGetProductRatingsAndReviewsQuery({
+    variables: {
+      productId,
+    },
+    fetchPolicy: "network-only",
+  });
   const reviewsData = data?.productRatingsAndReviews;
   const reviewsSummary = reviewsData?.bottomline;
+  const averageScore = reviewsSummary?.averageScore || 0;
+  const totalReview = reviewsSummary?.totalReview || 0;
   const reviews = reviewsData?.reviews;
 
   const [hasMore, setHasMore] = React.useState(true);
@@ -135,7 +134,7 @@ export const RatingsAndReviews: React.FC<RatingsAndReviewProps> = ({
 
   // TODO: NEED TO MODIFY THIS LATER TO DEAL WITH HUGE LISTS OF REVIEWS
   const fetchMoreData = () => {
-    if (items.length >= reviews?.length) {
+    if (!reviews?.length || items.length >= reviews.length) {
       setHasMore(false);
       return;
     }
@@ -158,26 +157,27 @@ export const RatingsAndReviews: React.FC<RatingsAndReviewProps> = ({
           }}
         >
           <div className={classes.reviewSummaryContainer}>
-            {/* <div className={classes.heading}>Customer Reviews</div> */}
             <div className={classes.flexContainer}>
               <div className={classes.averageScore}>
-                {parseInt(reviewsSummary?.averageScore).toFixed(1)}
+                {averageScore.toFixed(1)}
               </div>
               <div>
                 <Rating
                   name="read-only"
-                  value={parseInt(reviewsSummary?.averageScore)}
+                  value={averageScore}
                   readOnly
                 />
                 <div className={classes.totalReviews}>
-                  {reviewsSummary?.totalReview}{" "}
-                  {reviewsSummary?.totalReview === 1 ? "Review" : "Reviews"}
+                  {totalReview}{" "}
+                  {totalReview === 1 ? "Review" : "Reviews"}
                 </div>
               </div>
             </div>
-            <div className={classes.barsContainer}>
-              <ReviewBars reviewsData={reviewsData} />
-            </div>
+            {reviewsData && (
+              <div className={classes.barsContainer}>
+                <ReviewBars reviewsData={reviewsData} />
+              </div>
+            )}
             <Button
               aria-label="Leave Review"
               type="button"
@@ -192,13 +192,12 @@ export const RatingsAndReviews: React.FC<RatingsAndReviewProps> = ({
             </Button>
           </div>
           <div className={classes.reviewsContainer}>
-            {reviews?.length > 0 ? (
-              // @ts-ignore
+            {!!reviews?.length ? (
               <InfiniteScroll
                 dataLength={items.length}
                 next={fetchMoreData}
                 hasMore={hasMore}
-                loader={reviews?.length > 0 && <h4>Loading...</h4>}
+                loader={!!reviews?.length && <h4>Loading...</h4>}
                 height={500}
                 endMessage={
                   <p style={{ textAlign: "center" }}>
@@ -219,32 +218,39 @@ export const RatingsAndReviews: React.FC<RatingsAndReviewProps> = ({
                       <img
                         className={classes.reviewAvatar}
                         src={
-                          review.user.socialImage ||
+                          // TODO: social image is not present in the API. A BE issue?
+                          // @ts-ignore
+                          review!.user?.socialImage ||
                           "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                         }
                         alt="user avatar"
                       />
                       <div className={classes.reviewUserName}>
-                        {decodeEntities(review.user.displayName)}
+                        {/* // TODO: reviews can not contain null (`[null]`) */}
+                        {decodeEntities(review!.user?.displayName)}
                       </div>
                     </div>
                     <div className={classes.flexContainer}>
                       <div className={classes.reviewStars}>
                         <Rating
                           name="read-only"
-                          value={review.score}
+                          // TODO: reviews can not contain null (`[null]`)
+                          value={review!.score}
                           readOnly
                         />
                       </div>
                       <div className={classes.reviewTitle}>
-                        {decodeEntities(review.title)}
+                        {/* // TODO: reviews can not contain null (`[null]`) */}
+                        {decodeEntities(review!.title)}
                       </div>
                     </div>
                     <div className={classes.reviewDate}>
-                      {formatDate(review.createdAt)}
+                      {/* // TODO: reviews can not contain null (`[null]`) */}
+                      {formatDate(review!.createdAt)}
                     </div>
                     <div className={classes.reviewBody}>
-                      {decodeEntities(review.content)}
+                      {/* // TODO: reviews can not contain null (`[null]`) */}
+                      {decodeEntities(review!.content)}
                     </div>
                   </div>
                 ))}

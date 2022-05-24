@@ -14,9 +14,17 @@ import ProductVariantPrice from "components/organisms/ProductVariantPrice";
 import classes from "./scss/index.module.scss";
 
 
-interface ProductListItemProps {
+export interface ProductListItemProps {
   loginForPrice?: boolean;
-  product: ProductsListProductFragment;
+  product: Pick<ProductsListProductFragment,
+    'id'
+    | 'name'
+    | 'variants'
+    | 'seller'
+    | 'category'
+    | 'defaultVariant'
+    | 'thumbnail'
+    | 'thumbnail2x'>;
   style?: number;
   wide?: boolean;
 }

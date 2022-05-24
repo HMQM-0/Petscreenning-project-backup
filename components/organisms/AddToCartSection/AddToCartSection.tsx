@@ -5,13 +5,12 @@ import { Box, Button } from "@mui/material";
 import { commonMessages } from "deprecated/intl";
 import { ICheckoutModelLine } from "@nautical/helpers";
 import {
-  ProductDetails_product_pricing,
   ProductDetails_product_variants,
   ProductDetails_product_variants_pricing,
 } from "@nautical/queries/gqlTypes/ProductDetails";
 import { IProductVariantsAttributesSelectedValues } from "@types";
 import RatingStars from "components/atoms/RatingStars";
-import { ViewSizeGuideButton } from "@components/molecules/ViewSizeGuideButton/ViewSizeGuideButton";
+// import { ViewSizeGuideButton } from "@components/molecules/ViewSizeGuideButton/ViewSizeGuideButton";
 import { useAuth } from "@nautical/react";
 import {
   OverlayContext,
@@ -19,6 +18,9 @@ import {
   OverlayType,
 } from "components/providers/Overlay/context";
 import { useShopContext } from "components/providers/ShopProvider";
+import { AddToWishlist } from "components/organisms/AddToWishlist";
+import { IItems } from "@nautical/api/Cart/types";
+import { ProductDetailsFragment } from "@generated";
 
 import {
   getAvailableQuantity,
@@ -27,30 +29,21 @@ import {
 } from "./stockHelpers";
 import * as S from "./styles";
 
-import { AddToWishlist } from "../AddToWishlist";
-import ProductVariantPicker from "../ProductVariantPicker";
-import { QuantityInput } from "../../molecules/QuantityInput";
-
-// import { ICheckoutModelLine } from "@nautical/sdk/lib/helpers";
-/* import {
-  ProductDetails_product_pricing,
-  ProductDetails_product_variants,
-  ProductDetails_product_variants_pricing,
-} from "@nautical/sdk/lib/queries/gqlTypes/ProductDetails"; */
-// import AddToCartButton from "../../molecules/AddToCartButton";
+// import ProductVariantPicker from "../ProductVariantPicker";
+// import { QuantityInput } from "components/molecules/QuantityInput";
 
 const LOW_STOCK_QUANTITY: number = 5;
 
 export interface IAddToCartSection {
   productId: string;
-  productVariants: ProductDetails_product_variants[];
+  productVariants: ProductDetailsFragment["variants"];
   name: string;
-  productPricing: ProductDetails_product_pricing;
-  items: ICheckoutModelLine[];
+  productPricing: ProductDetailsFragment["pricing"];
+  items: IItems;
   queryAttributes: Record<string, string>;
   isAvailableForPurchase: boolean | null;
   availableForPurchase: string | null;
-  variantId: string;
+  variantId: string | undefined;
   sizeGuideUrl?: string;
 
   setVariantId(variantId: string): void;
@@ -180,7 +173,7 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
                         <path
                           fill="currentColor"
                           d="M295.515 115.716l-19.626 19.626c-4.753 4.753-4.675 12.484.173 17.14L356.78 230H12c-6.627 0-12 5.373-12 12v28c0 6.627 5.373 12 12 12h344.78l-80.717 77.518c-4.849 4.656-4.927 12.387-.173 17.14l19.626 19.626c4.686 4.686 12.284 4.686 16.971 0l131.799-131.799c4.686-4.686 4.686-12.284 0-16.971L312.485 115.716c-4.686-4.686-12.284-4.686-16.97 0z"
-                        ></path>
+                        />
                       </svg>
                     </Box>
                   </button>
@@ -223,51 +216,46 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
         "noItemsAvailable"
       )}
       <S.VariantPicker>
-        <ProductVariantPicker
-          productVariants={productVariants}
-          onChange={onVariantPickerChange}
-          selectSidebar
-          queryAttributes={queryAttributes}
-          onAttributeChangeHandler={onAttributeChangeHandler}
-        />
+        TODO: Product Variant Picker
+        {/*<ProductVariantPicker*/}
+        {/*  productVariants={productVariants}*/}
+        {/*  onChange={onVariantPickerChange}*/}
+        {/*  selectSidebar*/}
+        {/*  queryAttributes={queryAttributes}*/}
+        {/*  onAttributeChangeHandler={onAttributeChangeHandler}*/}
+        {/*/>*/}
       </S.VariantPicker>
       <S.QuantityInput>
-        <QuantityInput
-          quantity={quantity}
-          maxQuantity={availableQuantity}
-          disabled={isOutOfStock || isNoItemsAvailable}
-          onQuantityChange={setQuantity}
-          hideErrors={!variantId || isOutOfStock || isNoItemsAvailable}
-          testingContext="addToCartQuantity"
-        />
+        TODO: Quantity input
+        {/*<QuantityInput*/}
+        {/*  quantity={quantity}*/}
+        {/*  maxQuantity={availableQuantity}*/}
+        {/*  disabled={isOutOfStock || isNoItemsAvailable}*/}
+        {/*  onQuantityChange={setQuantity}*/}
+        {/*  hideErrors={!variantId || isOutOfStock || isNoItemsAvailable}*/}
+        {/*  testingContext="addToCartQuantity"*/}
+        {/*/>*/}
       </S.QuantityInput>
       <Button
         variant="contained"
         color="secondary"
         fullWidth
         onClick={() => {
-          onAddToCart(variantId, quantity);
+          // VariantId is set here since it is checked in disableButton
+          onAddToCart(variantId!, quantity);
           setQuantity(0);
         }}
-        disabled={disableButton}
+        disabled={!!disableButton}
       >
         <FormattedMessage defaultMessage="Add to cart" />
       </Button>
-      {/*
-      <AddToCartButton
-        onSubmit={() => {
-          onAddToCart(variantId, quantity);
-          setQuantity(0);
-        }}
-        disabled={disableButton}
-      />
-      */}
       <S.WishlistButton>
         <AddToWishlist productId={productId} showButtonText={true} />
       </S.WishlistButton>
       {sizeGuideUrl && (
         <S.WishlistButton>
-          <ViewSizeGuideButton sizeGuideUrl={sizeGuideUrl} />
+          TODO: ViewSizeGuideButton
+          {/*<ViewSizeGuideButton sizeGuideUrl={sizeGuideUrl} />*/}
         </S.WishlistButton>
       )}
     </S.AddToCartSelection>

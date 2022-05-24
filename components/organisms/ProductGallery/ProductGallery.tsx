@@ -1,15 +1,15 @@
 import React from "react";
 import { useInView } from "react-intersection-observer";
 
-import { Icon } from "@components/atoms";
-import { CachedImage } from "@components/molecules";
+import { Icon } from "components/atoms/Icon";
+import { CachedImage } from "components/molecules/CachedImage";
 
 import * as S from "./styles";
 import { IProps } from "./types";
 
 const MINIMAL_NUMBER_OF_IMAGES_FOR_BUTTONS = 4;
 
-export const ProductGallery: React.FC<IProps> = ({ images }: IProps) => {
+export const ProductGallery = ({ images }: IProps) => {
   const [imageIndex, setImageIndex] = React.useState<number>(0);
 
   const displayButtons = images.length > MINIMAL_NUMBER_OF_IMAGES_FOR_BUTTONS;
@@ -31,7 +31,7 @@ export const ProductGallery: React.FC<IProps> = ({ images }: IProps) => {
   });
 
   const setBottomRef = React.useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       bottomImageRef.current = node;
       bottomImageIntersectionObserver(node);
     },
@@ -39,7 +39,7 @@ export const ProductGallery: React.FC<IProps> = ({ images }: IProps) => {
   );
 
   const setTopRef = React.useCallback(
-    (node) => {
+    (node: HTMLDivElement) => {
       topImageRef.current = node;
       topImageIntersectionObserver(node);
     },
@@ -92,26 +92,24 @@ export const ProductGallery: React.FC<IProps> = ({ images }: IProps) => {
         )}
         <S.ThumbnailList>
           <ul>
-            {images &&
-              images.length > 0 &&
-              images.map((image, index) => {
-                return (
-                  <li
-                    key={index}
-                    data-test="galleryThumbnail"
-                    data-test-id={index}
+            {images.map((image, index) => {
+              return (
+                <li
+                  key={index}
+                  data-test="galleryThumbnail"
+                  data-test-id={index}
+                >
+                  <S.Thumbnail
+                    ref={setIntersectionObserver(index, images.length)}
+                    onClick={() => setImageIndex(index)}
+                    onMouseEnter={() => setImageIndex(index)}
+                    activeThumbnail={Boolean(index === imageIndex)}
                   >
-                    <S.Thumbnail
-                      ref={setIntersectionObserver(index, images.length)}
-                      onClick={() => setImageIndex(index)}
-                      onMouseEnter={() => setImageIndex(index)}
-                      activeThumbnail={Boolean(index === imageIndex)}
-                    >
-                      <CachedImage alt={image.alt} url={image.url} />
-                    </S.Thumbnail>
-                  </li>
-                );
-              })}
+                    <CachedImage alt={image.alt} url={image.url} />
+                  </S.Thumbnail>
+                </li>
+              );
+            })}
           </ul>
         </S.ThumbnailList>
       </S.ThumbnailsContainer>

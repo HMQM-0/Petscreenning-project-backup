@@ -100,19 +100,21 @@ const Nav: React.FunctionComponent<INavProps> = ({ footerText, icon }) => {
             }}
           </TypedSecondaryMenuQuery>
         </Box>
-        {!!isMicrosite() && (
-          <TypedMicrositeQuery variables={{ id: getMicrositeId() }}>
-            {({ data, error, loading }) => {
-              if (data && !error && !loading) {
-                return (
-                  <Box style={{ textAlign: "center" }}>
-                    {data.microsite?.footerText}
-                  </Box>
-                );
-              }
-              return (<Loader />);
-            }}
-          </TypedMicrositeQuery>
+        {isMicrosite() && (
+          <></>
+          // TODO: not allowing to build. To be refactored in Footer related task
+          // <TypedMicrositeQuery variables={{ id: getMicrositeId() }}>
+          //   {({ data, error, loading }) => {
+          //     if (data && !error && !loading) {
+          //       return (
+          //         <Box style={{ textAlign: "center" }}>
+          //           {data.microsite?.footerText}
+          //         </Box>
+          //       );
+          //     }
+          //     return (<Loader />);
+          //   }}
+          // </TypedMicrositeQuery>
         )}
       </Box>
       <Spacer />
