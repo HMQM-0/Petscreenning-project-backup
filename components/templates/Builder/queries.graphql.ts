@@ -102,6 +102,7 @@ export const builderPageProduct = gql`
   }
 `;
 
+// TODO: This query will be used in future work
 export const builderProductsQuery = gql`
   ${builderPageProduct}
   ${builderMenuItem}
@@ -158,6 +159,7 @@ export const builderProductsQuery = gql`
   }
 `;
 
+// TODO: This query will be used in future work
 export const builderCategoryProductsQuery = gql`
   ${basicProductFragment}
   ${productPricingFragment}
@@ -232,44 +234,45 @@ export const builderCategoryProductsQuery = gql`
   }
 `;
 
-export const micrositesQuery = gql`
-  query Microsites($first: Int, $search: String) {
-    microsites(
-      first: $first
-      filter: { published: PUBLISHED, search: $search }
-    ) {
-      edges {
-        node {
-          seoTitle
-          seoDescription
-          description
-          descriptionJson
-          id
-          name
-          slug
-          description
-          affiliate {
-            id
-            firstName
-            lastName
-            companyName
-            email
-          }
-          seller {
-            id
-            companyName
-            logo {
-              url
-            }
-          }
-          logoImage {
-            url
-          }
-          bannerImage {
-            url
-          }
-        }
-      }
-    }
-  }
-`;
+// TODO: This query may be used in future work - commented out for now
+// export const micrositesQuery = gql`
+//   query Microsites($first: Int, $search: String) {
+//     microsites(
+//       first: $first
+//       filter: { published: PUBLISHED, search: $search }
+//     ) {
+//       edges {
+//         node {
+//           seoTitle
+//           seoDescription
+//           description
+//           descriptionJson
+//           id
+//           name
+//           slug
+//           description
+//           affiliate {
+//             id
+//             firstName
+//             lastName
+//             companyName
+//             email
+//           }
+//           seller {
+//             id
+//             companyName
+//             logo {
+//               url
+//             }
+//           }
+//           logoImage {
+//             url
+//           }
+//           bannerImage {
+//             url
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
