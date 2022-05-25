@@ -1,3 +1,6 @@
+// TODO: Try to remove any of these that aren't being actively used
+// TODO: Try to move these to individual files so they can be imported as required, rather than wholesale
+
 import { Builder } from "@builder.io/react";
 import {
   Alert,
@@ -369,7 +372,7 @@ Builder.registerComponent(BuilderButton, {
 
 export const BuilderIcon = (props: {
   name: "favorite" | "favoriteFilled" | "plus" | "minus" | "empty";
-  paddingTop: string;
+  paddingTop: string | number;
 }) => {
   switch (props.name) {
     case "favorite":

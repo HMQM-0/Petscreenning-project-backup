@@ -1,10 +1,19 @@
-import type { NextPage, InferGetStaticPropsType } from "next";
+import type {
+  NextPage,
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+} from "next";
+import { builder } from "@builder.io/react";
+import { BuilderContent } from "@builder.io/sdk";
 
+import builderConfig from "config/builder";
 import {
   BrandingDocument,
   BrandingQuery,
   HomeQuery,
   HomeDocument,
+  BuilderHomeQuery,
+  BuilderHomeDocument,
 } from "@generated";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
@@ -12,10 +21,9 @@ import { Layout } from "@layouts/Layout";
 
 import client from "../apollo-client";
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  branding,
-  homepage,
-}) => {
+const Home: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ branding, homepage, builderContent, builderData }) => {
   const description = homepage?.shop.description ?? "";
   const title = homepage?.shop.name ?? "";
   const schema = structuredData(description, title);
@@ -30,12 +38,26 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   return (
     <Layout documentHead={documentHead}>
-      <IndexPage data={homepage} />
+      <IndexPage
+        data={homepage}
+        builderContent={builderContent}
+        builderData={builderData}
+      />
     </Layout>
   );
 };
 
-export async function getStaticProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    // TODO: Type this return value
+    content = await builder.get("store", { url: "/store/landing" }).promise();
+  }
+
+  // TODO: Combine these into only one page level SSR query
+  const { data: builderHome } = await client.query<BuilderHomeQuery>({
+    query: BuilderHomeDocument,
+  });
   const { data: brandingData } = await client.query<BrandingQuery>({
     query: BrandingDocument,
   });
@@ -53,8 +75,10 @@ export async function getStaticProps() {
     props: {
       branding: brandingData?.branding ?? fallbackBranding,
       homepage: homepageData,
+      builderContent: content,
+      builderData: builderHome,
     },
   };
-}
+};
 
 export default Home;

@@ -1,15 +1,15 @@
-import type { NextPage, InferGetStaticPropsType } from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
 
 import { default as ProductsPage } from "components/templates/ProductsPage/Products";
 import { BrandingDocument, BrandingQuery } from "@generated";
-import { Layout} from "@layouts/Layout";
+import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import client from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 
-const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  branding,
-}) => {
+const Products: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ branding }) => {
   const description = "All Products";
   const title = "All Products";
   const schema = structuredData(description, title);
@@ -25,15 +25,13 @@ const Products: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   return (
     <Layout documentHead={documentHead}>
       <ProductsListView>
-        {(props) => (
-          <ProductsPage {...props} />
-        )}
+        {(props) => <ProductsPage {...props} />}
       </ProductsListView>
     </Layout>
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const { data: brandingData } = await client.query<BrandingQuery>({
     query: BrandingDocument,
   });
