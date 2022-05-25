@@ -103,136 +103,136 @@ export const builderPageProduct = gql`
 `;
 
 // TODO: This query will be used in future work
-export const builderProductsQuery = gql`
-  ${builderPageProduct}
-  ${builderMenuItem}
-  query BuilderProducts(
-    $attributes: [AttributeInput]
-    $after: String
-    $pageSize: Int
-    $sortBy: ProductOrder
-    $priceLte: Float
-    $priceGte: Float
-  ) {
-    productList: products(
-      after: $after
-      first: $pageSize
-      sortBy: $sortBy
-      filter: {
-        attributes: $attributes
-        minimalPrice: { gte: $priceGte, lte: $priceLte }
-      }
-    ) {
-      totalCount
-      products: edges {
-        product: node {
-          ...BuilderPageProduct
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
-    }
-    attributes(first: 100) {
-      edges {
-        node {
-          ...BuilderPageAttribute
-        }
-      }
-    }
-    menu(name: "sidenav") {
-      id
-      name
-      items {
-        ...BuilderMenuItem
-        children {
-          ...BuilderMenuItem
-          children {
-            ...BuilderMenuItem
-          }
-        }
-      }
-    }
-  }
-`;
+// export const builderProductsQuery = gql`
+//   ${builderPageProduct}
+//   ${builderMenuItem}
+//   query BuilderProducts(
+//     $attributes: [AttributeInput]
+//     $after: String
+//     $pageSize: Int
+//     $sortBy: ProductOrder
+//     $priceLte: Float
+//     $priceGte: Float
+//   ) {
+//     productList: products(
+//       after: $after
+//       first: $pageSize
+//       sortBy: $sortBy
+//       filter: {
+//         attributes: $attributes
+//         minimalPrice: { gte: $priceGte, lte: $priceLte }
+//       }
+//     ) {
+//       totalCount
+//       products: edges {
+//         product: node {
+//           ...BuilderPageProduct
+//         }
+//       }
+//       pageInfo {
+//         endCursor
+//         hasNextPage
+//         hasPreviousPage
+//         startCursor
+//       }
+//     }
+//     attributes(first: 100) {
+//       edges {
+//         node {
+//           ...BuilderPageAttribute
+//         }
+//       }
+//     }
+//     menu(name: "sidenav") {
+//       id
+//       name
+//       items {
+//         ...BuilderMenuItem
+//         children {
+//           ...BuilderMenuItem
+//           children {
+//             ...BuilderMenuItem
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
 // TODO: This query will be used in future work
-export const builderCategoryProductsQuery = gql`
-  ${basicProductFragment}
-  ${productPricingFragment}
-  query BuilderCategory(
-    $id: ID!
-    $attributes: [AttributeInput]
-    $after: String
-    $pageSize: Int
-    $sortBy: ProductOrder
-    $priceLte: Float
-    $priceGte: Float
-  ) {
-    products(
-      after: $after
-      first: $pageSize
-      sortBy: $sortBy
-      filter: {
-        attributes: $attributes
-        categories: [$id]
-        minimalPrice: { gte: $priceGte, lte: $priceLte }
-      }
-    ) {
-      totalCount
-      edges {
-        node {
-          ...BasicProductFields
-          ...ProductPricingField
-          category {
-            id
-            name
-          }
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
-    }
-    category(id: $id) {
-      seoDescription
-      seoTitle
-      id
-      name
-      backgroundImage {
-        url
-      }
-      ancestors(last: 5) {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-    }
-    attributes(filter: { inCategory: $id }, first: 100) {
-      edges {
-        node {
-          id
-          name
-          slug
-          values {
-            id
-            name
-            slug
-          }
-        }
-      }
-    }
-  }
-`;
+// export const builderCategoryProductsQuery = gql`
+//   ${basicProductFragment}
+//   ${productPricingFragment}
+//   query BuilderCategory(
+//     $id: ID!
+//     $attributes: [AttributeInput]
+//     $after: String
+//     $pageSize: Int
+//     $sortBy: ProductOrder
+//     $priceLte: Float
+//     $priceGte: Float
+//   ) {
+//     products(
+//       after: $after
+//       first: $pageSize
+//       sortBy: $sortBy
+//       filter: {
+//         attributes: $attributes
+//         categories: [$id]
+//         minimalPrice: { gte: $priceGte, lte: $priceLte }
+//       }
+//     ) {
+//       totalCount
+//       edges {
+//         node {
+//           ...BasicProductFields
+//           ...ProductPricingField
+//           category {
+//             id
+//             name
+//           }
+//         }
+//       }
+//       pageInfo {
+//         endCursor
+//         hasNextPage
+//         hasPreviousPage
+//         startCursor
+//       }
+//     }
+//     category(id: $id) {
+//       seoDescription
+//       seoTitle
+//       id
+//       name
+//       backgroundImage {
+//         url
+//       }
+//       ancestors(last: 5) {
+//         edges {
+//           node {
+//             id
+//             name
+//           }
+//         }
+//       }
+//     }
+//     attributes(filter: { inCategory: $id }, first: 100) {
+//       edges {
+//         node {
+//           id
+//           name
+//           slug
+//           values {
+//             id
+//             name
+//             slug
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
 export const micrositesQuery = gql`
   query Microsites($first: Int, $search: String) {
