@@ -203,7 +203,6 @@ const useBuilderStateData = ({
       category: sanitizeModel(category),
       collection: sanitizeModel(collection),
       product: sanitizeModel(product),
-      // "variantId": product?.defaultVariant?.id || "",
       defaultVariant: sanitizeModel(product?.defaultVariant),
       // "selectedVariant": sanitizeModel(selectedVariant),
       shop: sanitizeModel(landing),
