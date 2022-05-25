@@ -130,11 +130,6 @@ const useBuilderStateData = ({
     }
 
     const isAddedToWishlist = async (productId: string) => {
-      // console.info("WISHLIST")
-      // console.info(wishlistContext)
-      // console.info(productId)
-      // console.info(wishlistContext.some(({ product }) => product.id === productId))
-      // console.info(!!wishlistContext && wishlistContext.some(({ product }) => product.id === productId))
       return (
         !!wishlistContext &&
         wishlistContext.some(({ product }) => product.id === productId)
@@ -189,7 +184,6 @@ const useBuilderStateData = ({
             "Wishlist", // Query name
           ],
         });
-        // update();
         alert.show(
           {
             content: `Added product to your wishlist`,
@@ -209,9 +203,7 @@ const useBuilderStateData = ({
       category: sanitizeModel(category),
       collection: sanitizeModel(collection),
       product: sanitizeModel(product),
-      // "variantId": product?.defaultVariant?.id || "",
       defaultVariant: sanitizeModel(product?.defaultVariant),
-      // "selectedVariant": sanitizeModel(selectedVariant),
       shop: sanitizeModel(landing),
       products: sanitizeModel(products),
       search: sanitizeModel(search),

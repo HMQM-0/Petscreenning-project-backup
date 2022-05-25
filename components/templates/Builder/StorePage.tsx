@@ -174,10 +174,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
   const [setRemoveWishlistProduct] = useRemoveWishlistProduct();
   const [setAddWishlistProduct] = useAddWishlistProduct();
 
-  // const onAttributeChange = (id: string, value: any, slug: string | null) => {
-  //   selectProductVariantsAttributesValue(id, value);
-  //   onAttributeChangeHandler(slug, value);
-  // };
 
   const stateData = React.useMemo(() => {
     const clearFilters = () => {
@@ -226,11 +222,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     }
 
     const isAddedToWishlist = async (productId: string) => {
-      // console.info("WISHLIST")
-      // console.info(wishlistContext)
-      // console.info(productId)
-      // console.info(wishlistContext.some(({ product }) => product.id === productId))
-      // console.info(!!wishlistContext && wishlistContext.some(({ product }) => product.id === productId))
       return (
         !!wishlistContext &&
         wishlistContext.some(({ product }) => product.id === productId)
@@ -369,8 +360,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     wishlistContext,
   ]);
 
-  // console.info("SANITIZED STATE DATA")
-  // console.info(stateData)
 
   React.useEffect(() => {
     function getStoreModel() {
@@ -386,7 +375,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     }
 
     type = getStoreModel() ?? "/store/landing";
-    console.info(type);
     if (!isEditingOrPreviewing) {
       const fetchPage = async () => {
         setLoading(true);
@@ -410,17 +398,17 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     wishlist,
   ]);
 
-  if (!pageJson && !isEditingOrPreviewing) {
-    return isLoading ? (
-      <CircularProgress sx={{ placeSelf: "center" }} />
-    ) : (
-      <NoComponent />
-    );
-  } else {
+  if (pageJson || isEditingOrPreviewing) {
     return (
       <BuilderComponent model={model} content={pageJson} data={stateData} />
     );
   }
+  
+  if (isLoading) {
+    return <CircularProgress sx={{ placeSelf: "center" }} />;
+  }
+  
+  return <NoComponent />;
 };
 
 export default StorePage;
