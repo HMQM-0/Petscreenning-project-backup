@@ -37,9 +37,7 @@ export const useCheckoutStepState = (
     const isBillingAddressSet = !!checkout?.billingAddress;
     const isShippingMethodSet =
       // !isShippingRequiredForProducts || !!checkout?.shippingMethod;
-      (!isShippingRequiredForProducts ||
-        checkout?.sellerShippingMethods?.length) ??
-      0 > 0;
+      !isShippingRequiredForProducts || !!checkout?.sellerShippingMethods?.length;
     const isPaymentMethodSet =
       !!payment?.id && isCheckoutPriceEqualPaymentPrice;
 
