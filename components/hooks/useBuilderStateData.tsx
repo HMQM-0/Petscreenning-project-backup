@@ -204,7 +204,6 @@ const useBuilderStateData = ({
       collection: sanitizeModel(collection),
       product: sanitizeModel(product),
       defaultVariant: sanitizeModel(product?.defaultVariant),
-      // "selectedVariant": sanitizeModel(selectedVariant),
       shop: sanitizeModel(landing),
       products: sanitizeModel(products),
       search: sanitizeModel(search),
