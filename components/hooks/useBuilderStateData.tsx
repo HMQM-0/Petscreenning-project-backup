@@ -130,11 +130,6 @@ const useBuilderStateData = ({
     }
 
     const isAddedToWishlist = async (productId: string) => {
-      // console.info("WISHLIST")
-      // console.info(wishlistContext)
-      // console.info(productId)
-      // console.info(wishlistContext.some(({ product }) => product.id === productId))
-      // console.info(!!wishlistContext && wishlistContext.some(({ product }) => product.id === productId))
       return (
         !!wishlistContext &&
         wishlistContext.some(({ product }) => product.id === productId)
