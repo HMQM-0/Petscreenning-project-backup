@@ -184,7 +184,6 @@ const useBuilderStateData = ({
             "Wishlist", // Query name
           ],
         });
-        // update();
         alert.show(
           {
             content: `Added product to your wishlist`,
