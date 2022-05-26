@@ -7,76 +7,53 @@ import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 
 import builderConfig from "config/builder";
-import {
-  BrandingDocument,
-  BrandingQuery,
-  HomeQuery,
-  HomeDocument,
-  BuilderHomeQuery,
-  BuilderHomeDocument,
-} from "@generated";
+import { HomeQuery, HomeDocument } from "@generated";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 
 import client from "../apollo-client";
 
-const Home: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ branding, homepage, builderContent, builderData }) => {
-  const description = homepage?.shop.description ?? "";
-  const title = homepage?.shop.name ?? "";
+type HomepageProps = {
+  data: HomeQuery;
+  builderContent: BuilderContent;
+};
+
+const Home: NextPage<HomepageProps> = ({ data, builderContent }) => {
+  const description = data?.shop.description ?? "";
+  const title = data?.shop.name ?? "";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    branding: data.branding, // TODO: BE issue BrandingFragment cannot be null | undefined
     description,
     title,
     schema,
-    image: homepage.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
+    image: data.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
     url: "", // TODO: Store the canonical URL either as env or in dasboard
   };
 
   return (
     <Layout documentHead={documentHead}>
-      <IndexPage
-        data={homepage}
-        builderContent={builderContent}
-        builderData={builderData}
-      />
+      <IndexPage data={data} builderContent={builderContent} />
     </Layout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (req) => {
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
     // TODO: Type this return value
     content = await builder.get("store", { url: "/store/landing" }).promise();
   }
 
-  // TODO: Combine these into only one page level SSR query
-  const { data: builderHome } = await client.query<BuilderHomeQuery>({
-    query: BuilderHomeDocument,
-  });
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
-  });
-  const { data: homepageData } = await client.query<HomeQuery>({
+  const { data } = await client.query<HomeQuery>({
     query: HomeDocument,
   });
 
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
-  };
-
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
-      homepage: homepageData,
+      data,
       builderContent: content,
-      builderData: builderHome,
     },
   };
 };
