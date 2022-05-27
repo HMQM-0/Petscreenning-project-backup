@@ -1,8 +1,5 @@
-import type {
-  NextPage,
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
+import { NormalizedCacheObject } from "@apollo/client";
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 
@@ -12,19 +9,16 @@ import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 
-import client from "../apollo-client";
+import { getApolloClient } from "../apollo-client";
 
-type HomepageProps = {
-  data: HomeQuery;
-  builderContent: BuilderContent;
-};
-
-const Home: NextPage<HomepageProps> = ({ data, builderContent }) => {
+const Home: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ data, builderContent }) => {
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding: data.branding, // TODO: BE issue BrandingFragment cannot be null | undefined
+    branding: data.branding,
     description,
     title,
     schema,
@@ -33,13 +27,15 @@ const Home: NextPage<HomepageProps> = ({ data, builderContent }) => {
   };
 
   return (
+    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <IndexPage data={data} builderContent={builderContent} />
     </Layout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (req) => {
+export const getServerSideProps = async () => {
+  const client = getApolloClient();
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
     // TODO: Type this return value
@@ -50,10 +46,13 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
     query: HomeDocument,
   });
 
+  const __APOLLO__: NormalizedCacheObject = client.extract();
+
   return {
     props: {
       data,
       builderContent: content,
+      __APOLLO__,
     },
   };
 };
