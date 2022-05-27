@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { useQueryParam, StringParam } from 'next-query-params';
+import { useQueryParam, StringParam } from "next-query-params";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 import Media from "react-media";
 
-import {
-  maybe,
-} from "core/utils";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
-import { ProductsQueryResult, ProductsQueryVariables, useProductsPageMenuAndAttributesQuery } from "@generated";
+import {
+  ProductsQueryResult,
+  ProductsQueryVariables,
+  useProductsPageMenuAndAttributesQuery,
+} from "@generated";
 import { useNetworkStatus } from "@hooks";
 import { IProps as FilterSidebarProps } from "components/organisms/FilterSidebar/types";
 import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
@@ -25,7 +26,6 @@ import ProductListBanner from "components/atoms/ProductListBanner/ProductListBan
 
 import { FilterQuerySet } from "./View";
 import classes from "./scss/index.module.scss";
-
 
 interface ProductsProps {
   variables: ProductsQueryVariables;
@@ -61,12 +61,8 @@ const ProductsList = ({
     FilterQuerySet
   );
 
-  const {
-    data: {
-      attributes: attributesResult,
-      menu: menuResult,
-    } = {}
-  } = useProductsPageMenuAndAttributesQuery();
+  const { data: { attributes: attributesResult, menu: menuResult } = {} } =
+    useProductsPageMenuAndAttributesQuery();
 
   const { online } = useNetworkStatus();
 
@@ -128,7 +124,9 @@ const ProductsList = ({
       value: "updated_at",
     },
     {
-      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc),
+      label: intl.formatMessage(
+        prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc
+      ),
       value: "-updated_at",
     },
   ];
@@ -144,7 +142,7 @@ const ProductsList = ({
   const handleLoadMore = () =>
     fetchMore(
       {
-        variables: { after: data?.products?.pageInfo.endCursor }
+        variables: { after: data?.productList?.pageInfo.endCursor },
       }
       // TODO: Refactor loadMore into the new fetchMore structure.
       //  We need to specify field policy here somehow to merge paginated results
@@ -158,26 +156,25 @@ const ProductsList = ({
       // }),
     );
 
-  const attributes = attributesResult?.edges.map(
-    (edge) => edge.node
-  ) ?? [];
+  const attributes = attributesResult?.edges.map((edge) => edge.node) ?? [];
 
   const getAttribute = (attributeSlug: string, valueSlug: string) => {
     return {
       attributeSlug,
       valueName:
-      // TODO: adding `ts-ignore` as a tmp fix, since values has incorrect type. To be fixed on BE
-      // @ts-ignore
-      attributes.find(
-        // TODO: attributes can not contain null values like [null, {}, ...]. That is a BE error
+        // TODO: adding `ts-ignore` as a tmp fix, since values has incorrect type. To be fixed on BE
         // @ts-ignore
-        ({ slug }) => attributeSlug === slug
-      )
-        ?.values.find(
-        // TODO: values can not contain null values like [null, {}, ...]. That is a BE error
-        // @ts-ignore
-        ({ slug }) => valueSlug === slug
-      )?.name,
+        attributes
+          .find(
+            // TODO: attributes can not contain null values like [null, {}, ...]. That is a BE error
+            // @ts-ignore
+            ({ slug }) => attributeSlug === slug
+          )
+          ?.values.find(
+            // TODO: values can not contain null values like [null, {}, ...]. That is a BE error
+            // @ts-ignore
+            ({ slug }) => valueSlug === slug
+          )?.name,
       valueSlug,
     };
   };
@@ -188,16 +185,21 @@ const ProductsList = ({
     Object.keys(filters.attributes).reduce(
       (acc, key) =>
         acc.concat(
-          filters.attributes[key].map((valueSlug) =>
-            getAttribute(key, valueSlug) as ProductListHeaderProps["activeFiltersAttributes"][number]
+          filters.attributes[key].map(
+            (valueSlug) =>
+              getAttribute(
+                key,
+                valueSlug
+              ) as ProductListHeaderProps["activeFiltersAttributes"][number]
           )
         ),
       [] as ProductListHeaderProps["activeFiltersAttributes"]
     );
 
-  const products = data?.products;
+  const products = data?.productList;
 
-  const showFeatured = showNoResultFeaturedProducts && !products?.totalCount && !loading;
+  const showFeatured =
+    showNoResultFeaturedProducts && !products?.totalCount && !loading;
 
   const productsListComponents = (
     <Box className={classes.category}>
@@ -217,19 +219,15 @@ const ProductsList = ({
           attributes={attributes}
           filters={filters}
         />
-        {backgroundImageUrl && (
-          <ProductListBanner
-            image={backgroundImageUrl}
-          />
-        )}
+        {backgroundImageUrl && <ProductListBanner image={backgroundImageUrl} />}
         <ProductListHeader
           activeSortOption={filters.sortBy}
           openDirectoryMenu={() => setShowDirectory(true)}
           openFiltersMenu={() => setShowFilters(true)}
           numberOfProducts={products?.totalCount ?? 0}
-          activeFilters={filters.attributes
-            ? Object.keys(filters.attributes).length
-            : 0}
+          activeFilters={
+            filters.attributes ? Object.keys(filters.attributes).length : 0
+          }
           activeFiltersAttributes={activeFiltersAttributes}
           clearFilters={clearFilters}
           sortOptions={sortOptions}
@@ -239,8 +237,8 @@ const ProductsList = ({
           onCloseFilterAttribute={onFiltersChange}
         />
         <ProductList
-          products={products?.edges.map((edge) => edge.node) ?? []}
-          canLoadMore={maybe(() => !!data?.products?.pageInfo.hasNextPage, false)}
+          products={products?.products.map((edge) => edge.product) ?? []}
+          canLoadMore={!!data?.productList?.pageInfo.hasNextPage ?? false}
           loading={loading}
           onLoadMore={handleLoadMore}
         />
@@ -267,10 +265,7 @@ const ProductsList = ({
     >
       {(matches: boolean) => {
         return (
-          <ProductSideNavbarGrid
-            matches={matches}
-            menu={menuResult}
-          >
+          <ProductSideNavbarGrid matches={matches} menu={menuResult}>
             {productsListComponents}
           </ProductSideNavbarGrid>
         );
