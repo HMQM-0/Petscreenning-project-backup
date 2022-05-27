@@ -9,6 +9,9 @@ const nextConfig = {
     // 🚨🚨🚨🚨🚨!! WARN !!🚨🚨🚨🚨🚨
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ["mediacdn.nauticalcommerce.app"],
+  },
 };
 
 const withPWA = require("next-pwa");
