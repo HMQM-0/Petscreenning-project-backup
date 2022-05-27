@@ -1,23 +1,33 @@
-import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
+import type {
+  NextPage,
+  InferGetServerSidePropsType,
+  GetServerSidePropsContext,
+} from "next";
+import { NormalizedCacheObject } from "@apollo/client";
 
-import { BrandingDocument, BrandingQuery, CollectionDocument, CollectionQuery } from "@generated";
+import {
+  CollectionPageQuery,
+  CollectionPageDocument,
+  CollectionPageQueryVariables,
+} from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-import client from "apollo-client";
+import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
+import { getProductQueryVariablesFromContext } from "core/utils";
+import { PRODUCTS_PER_PAGE } from "core/config";
+import NotFound from "components/molecules/NotFound";
+import { default as CollectionProducts } from "components/templates/CollectionPage/CollectionProducts";
 
-import { default as CollectionProducts } from "../../../components/templates/CollectionPage/CollectionProducts";
-import NotFound from "../../../components/molecules/NotFound";
-
-const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  branding,
-  collectionData,
-}) => {
-  const description = collectionData.collection?.seoDescription || "Collection";
-  const title = collectionData.collection?.seoTitle || collectionData.collection?.name || "Collection";
+const Collection: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ data }) => {
+  const description = data.collection?.seoDescription || "Collection";
+  const title =
+    data.collection?.seoTitle || data.collection?.name || "Collection";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    branding: data.branding,
     description,
     title,
     schema,
@@ -25,18 +35,14 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     type: "product.collection",
   };
 
-  const collection = collectionData.collection;
+  const collection = data.collection;
 
   return (
+    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       {collection ? (
         <ProductsListView>
-          {(props) => (
-            <CollectionProducts
-              {...props}
-              collection={collection}
-            />
-          )}
+          {(props) => <CollectionProducts {...props} collection={collection} />}
         </ProductsListView>
       ) : (
         <NotFound />
@@ -45,31 +51,34 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // TODO: is is always set here (since it's a dynamic routing prop)
-  const collectionId = context.params!.id as string;
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<{ id: string }>
+) {
+  const client = getApolloClient();
+  const collectionId = context.params?.id ?? "";
+  const { sortBy, after, attributes } =
+    getProductQueryVariablesFromContext(context);
 
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
-  });
-
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
+  const variables: CollectionPageQueryVariables = {
+    id: collectionId,
+    after,
+    attributes,
+    sortBy,
+    pageSize: PRODUCTS_PER_PAGE,
   };
 
-  const { data: collectionData } = await client.query<CollectionQuery>({
-    query: CollectionDocument,
-    variables: {
-      id: collectionId,
-    },
+  const { data } = await client.query<CollectionPageQuery>({
+    query: CollectionPageDocument,
+    variables,
+    errorPolicy: "all",
   });
+
+  const __APOLLO__: NormalizedCacheObject = client.extract();
 
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
-      collectionData,
+      data,
+      __APOLLO__,
     },
   };
 }

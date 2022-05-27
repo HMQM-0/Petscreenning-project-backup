@@ -1,17 +1,23 @@
 import { gql } from "@apollo/client";
 
+import { brandingFragment } from "queries/branding.graphql";
+
+import { productList } from "../ProductsPage/queries.graphql";
+
 export const basicCategory = gql`
   fragment BasicCategory on Category {
     seoDescription
     seoTitle
+    description
+    descriptionJson
     id
     name
     backgroundImage {
       url
     }
-    ancestors(last: 5) {
-      edges {
-        node {
+    ancestorList: ancestors(last: 5) {
+      categories: edges {
+        category: node {
           id
           name
         }
@@ -29,7 +35,40 @@ export const categoryQuery = gql`
   }
 `;
 
-// TODO: To be uncommented when needed in Builder related task
+export const categoryPageQuery = gql`
+  ${basicCategory}
+  ${brandingFragment}
+  ${productList}
+  query CategoryPage(
+    $id: ID!
+    $attributes: [AttributeInput]
+    $after: String
+    $pageSize: Int
+    $sortBy: ProductOrder
+    $priceLte: Float
+    $priceGte: Float
+  ) {
+    branding {
+      ...Branding
+    }
+    category(id: $id) {
+      ...BasicCategory
+    }
+    productList: products(
+      after: $after
+      first: $pageSize
+      sortBy: $sortBy
+      filter: {
+        attributes: $attributes
+        categories: [$id]
+        minimalPrice: { gte: $priceGte, lte: $priceLte }
+      }
+    ) {
+      ...ProductList
+    }
+  }
+`;
+
 // export const builderCategoryQuery = gql`
 //   ${menuItem}
 //   query BuilderCategoryData($id: ID!) {
@@ -80,115 +119,6 @@ export const categoryQuery = gql`
 //             ...MenuItem
 //           }
 //         }
-//       }
-//     }
-//   }
-// `;
-//
-// export const builderCategoryProductsQuery = gql`
-//   ${basicProductFragment}
-//   ${productPricingFragment}
-//   query BuilderCategoryProductsData(
-//     $id: ID!
-//     $attributes: [AttributeInput]
-//     $after: String
-//     $before: String
-//     $first: Int
-//     $last: Int
-//     $sortBy: ProductOrder
-//     $priceLte: Float
-//     $priceGte: Float
-//   ) {
-//     productList: products(
-//       after: $after
-//       first: $first
-//       before: $before
-//       last: $last
-//       sortBy: $sortBy
-//       filter: {
-//         attributes: $attributes
-//         categories: [$id]
-//         minimalPrice: { gte: $priceGte, lte: $priceLte }
-//       }
-//     ) {
-//       totalCount
-//       products: edges {
-//         product: node {
-//           ...BasicProductFields
-//           ...ProductPricingField
-//           category {
-//             id
-//             name
-//           }
-//           slug
-//           isAvailable
-//           seller {
-//             id
-//             companyName
-//             microsite {
-//               id
-//               name
-//             }
-//             logo {
-//               url
-//             }
-//           }
-//           brand
-//           defaultVariant {
-//             id
-//             name
-//             quantityAvailable
-//             pricing {
-//               onSale
-//               price {
-//                 gross {
-//                   amount
-//                   currency
-//                 }
-//                 net {
-//                   amount
-//                   currency
-//                 }
-//               }
-//             }
-//           }
-//           attributes {
-//             attribute {
-//               id
-//               name
-//             }
-//             values {
-//               id
-//               name
-//             }
-//           }
-//           variants {
-//             id
-//             name
-//             images {
-//               url
-//             }
-//             attributes {
-//               attribute {
-//                 id
-//                 name
-//                 slug
-//               }
-//               values {
-//                 id
-//                 name
-//                 value: name
-//                 extra: value
-//               }
-//             }
-//           }
-//         }
-//       }
-//       pageInfo {
-//         endCursor
-//         hasNextPage
-//         hasPreviousPage
-//         startCursor
 //       }
 //     }
 //   }

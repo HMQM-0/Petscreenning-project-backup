@@ -1,5 +1,7 @@
 /* eslint-disable global-require */
 
+import { BrandingFragment } from "@generated";
+
 // import {
 //   generateMicrositeUrl,
 //   // generatePageUrl,
@@ -94,6 +96,11 @@ export const META_DEFAULTS = {
   title: "Nautical Commerce Storefront",
   type: "website",
   url: "",
+};
+export const DEFAULT_BRANDING: BrandingFragment = {
+  id: "",
+  jsonContent: {},
+  footerText: "",
 };
 export enum CheckoutStep {
   Address = 1,

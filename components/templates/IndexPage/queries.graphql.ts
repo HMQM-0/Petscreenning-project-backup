@@ -1,72 +1,20 @@
 import { gql } from "@apollo/client";
 
+import { brandingFragment } from "queries/branding.graphql";
+
 import {
   basicProductFragment,
   productPricingFragment,
 } from "../ProductPage/queries.graphql";
 
 export const homePageQuery = gql`
+  ${brandingFragment}
   ${basicProductFragment}
   ${productPricingFragment}
   query Home {
-    shop {
-      description
-      name
-      homepageCollection {
-        id
-        backgroundImage {
-          url
-        }
-        description
-        descriptionJson
-        name
-        products(first: 20) {
-          edges {
-            node {
-              ...BasicProductFields
-              ...ProductPricingField
-              category {
-                id
-                name
-              }
-              isAvailable
-              defaultVariant {
-                id
-              }
-            }
-          }
-        }
-      }
+    branding {
+      ...Branding
     }
-    categories(level: 0, first: 2) {
-      edges {
-        node {
-          id
-          name
-          backgroundImage {
-            url
-          }
-        }
-      }
-    }
-    collections(first: 4) {
-      edges {
-        node {
-          id
-          name
-          backgroundImage {
-            url
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const builderHomePageQuery = gql`
-  ${basicProductFragment}
-  ${productPricingFragment}
-  query BuilderHome {
     shop {
       description
       name

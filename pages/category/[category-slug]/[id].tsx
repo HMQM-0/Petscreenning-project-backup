@@ -1,24 +1,32 @@
-import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
+import type {
+  NextPage,
+  InferGetServerSidePropsType,
+  GetServerSidePropsContext,
+} from "next";
 
-import { BrandingDocument, BrandingQuery, CategoryDocument, CategoryQuery } from "@generated";
+import {
+  CategoryPageDocument,
+  CategoryPageQuery,
+  CategoryPageQueryVariables,
+} from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-import client from "apollo-client";
+import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
+import { PRODUCTS_PER_PAGE } from "core/config";
 
-import { getGraphqlIdFromDBId } from "../../../core/utils";
+import { getProductQueryVariablesFromContext } from "../../../core/utils";
 import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";
 import NotFound from "../../../components/molecules/NotFound";
 
-const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  branding,
-  categoryData,
-}) => {
-  const description = categoryData.category?.seoDescription || "Category";
-  const title = categoryData.category?.seoTitle || categoryData.category?.name || "Category";
+const Category: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ data }) => {
+  const description = data.category?.seoDescription || "Category";
+  const title = data.category?.seoTitle || data.category?.name || "Category";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    branding: data.branding,
     description,
     title,
     schema,
@@ -26,18 +34,14 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     type: "product.category",
   };
 
-  const category = categoryData.category;
+  const category = data.category;
 
   return (
+    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       {category ? (
         <ProductsListView>
-          {(props) => (
-            <CategoryProducts
-              {...props}
-              category={category}
-            />
-          )}
+          {(props) => <CategoryProducts {...props} category={category} />}
         </ProductsListView>
       ) : (
         <NotFound />
@@ -46,31 +50,35 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // TODO: is is always set here (since it's a dynamic routing prop)
-  const categoryId = context.params!.id as string;
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<{ id: string }>
+) {
+  const client = getApolloClient();
+  const categoryId = context.params?.id ?? "";
 
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
-  });
+  const { sortBy, after, attributes } =
+    getProductQueryVariablesFromContext(context);
 
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
+  const variables: CategoryPageQueryVariables = {
+    id: categoryId,
+    after,
+    attributes,
+    sortBy,
+    pageSize: PRODUCTS_PER_PAGE,
   };
 
-  const { data: categoryData } = await client.query<CategoryQuery>({
-    query: CategoryDocument,
-    variables: {
-      id: categoryId,
-    },
+  const { data } = await client.query<CategoryPageQuery>({
+    query: CategoryPageDocument,
+    variables,
+    errorPolicy: "all",
   });
+
+  const __APOLLO__ = client.extract();
 
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
-      categoryData,
+      data,
+      __APOLLO__,
     },
   };
 }

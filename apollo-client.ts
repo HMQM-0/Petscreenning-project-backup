@@ -1,5 +1,12 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+
+const IS_SSR = typeof window === "undefined";
 
 // TODO: Use links to attach Auth token
 const httpLink = createHttpLink({
@@ -19,9 +26,11 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
-
-export default client;
+export const getApolloClient = (initialState?: NormalizedCacheObject) => {
+  const cache = new InMemoryCache().restore(initialState || {});
+  return new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache,
+    ssrMode: IS_SSR,
+  });
+};

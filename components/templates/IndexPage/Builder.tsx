@@ -4,21 +4,21 @@ import { BuilderContent } from "@builder.io/sdk";
 
 import builderConfig from "config/builder";
 import useBuilderStateData from "components/hooks/useBuilderStateData";
-import { BuilderHomeQuery } from "@generated";
+import { HomeQuery } from "@generated";
 
 const Builder = ({
-  builderContent,
-  builderData,
+  content,
+  data,
 }: {
-  builderContent: BuilderContent;
-  builderData: BuilderHomeQuery;
+  content: BuilderContent;
+  data: HomeQuery;
 }) => {
-  const stateData = useBuilderStateData({ landing: builderData });
+  const stateData = useBuilderStateData({ landing: data });
 
   return (
     <BuilderComponent
       model={builderConfig.storeModel}
-      content={builderContent}
+      content={content}
       data={stateData}
     />
   );

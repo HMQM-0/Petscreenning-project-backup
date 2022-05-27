@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import Link from "next/link";
 import { BuilderContent } from "@builder.io/sdk";
 
-import { BuilderHomeQuery, HomeQuery } from "@generated";
+import { HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
 
 import classes from "./scss/index.module.scss";
@@ -22,18 +22,17 @@ export const parseHomePageCollectionJson = (descriptionJson: any): string => {
 type IndexPageProps = {
   data: HomeQuery;
   builderContent: BuilderContent | null;
-  builderData: BuilderHomeQuery;
 };
 
-const IndexPage = ({ data, builderContent, builderData }: IndexPageProps) => {
+const IndexPage = ({ data, builderContent }: IndexPageProps) => {
   const backgroundImage =
     data?.shop.homepageCollection?.backgroundImage ?? null;
-  const categories = data?.categories?.edges ?? [];
+  const categories = data?.categoryList?.categories ?? [];
 
   return (
     <Box className={classes["home-page"]}>
       {builderContent ? (
-        <Builder builderContent={builderContent} builderData={builderData} />
+        <Builder content={builderContent} data={data} />
       ) : (
         <>
           <Box
@@ -92,7 +91,7 @@ const IndexPage = ({ data, builderContent, builderData }: IndexPageProps) => {
                 </Box>
 
                 <Box className={classes["home-page-category-blocks"]}>
-                  {categories.map(({ node: category }) => (
+                  {categories.map(({ category }) => (
                     <>{category.name}</>
                     // <CategoryBlock key={category.id} category={category} />
                   ))}

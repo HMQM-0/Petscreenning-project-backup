@@ -1,22 +1,22 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
 import * as React from "react";
 
-import { BrandingDocument, BrandingQuery } from "@generated";
+import { OrderHistoryPageDocument, OrderHistoryPageQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { OrderHistoryPage } from "components/templates/OrderHistoryPage";
+import { getApolloClient } from "apollo-client";
 
-import client from "../../../apollo-client";
 import { AccountSettingsLayout } from "../../../components/layouts/AccountSettingsLayout";
 
 const OrderHistory: NextPage<
   InferGetStaticPropsType<typeof getStaticProps>
-> = ({ branding }) => {
+> = ({ data }) => {
   const description = "Order History";
   const title = "Order History";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    branding: data.branding,
     description,
     title,
     schema,
@@ -24,6 +24,7 @@ const OrderHistory: NextPage<
   };
 
   return (
+    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
         <OrderHistoryPage />
@@ -33,19 +34,16 @@ const OrderHistory: NextPage<
 };
 
 export async function getStaticProps() {
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
-  });
+  const client = getApolloClient();
 
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
-  };
+  // TODO: Determine if we can get the JWT for SSR queries
+  const { data } = await client.query<OrderHistoryPageQuery>({
+    query: OrderHistoryPageDocument,
+  });
 
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
+      data,
     },
   };
 }

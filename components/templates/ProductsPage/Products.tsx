@@ -6,10 +6,7 @@ import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
 
 type ProductsProps = ChildrenFunctionProps & {};
 
-const Products = ({
-  variables,
-  filters,
-}: ProductsProps) => {
+const Products = ({ variables, filters }: ProductsProps) => {
   const { loading, data, fetchMore } = useProductsQuery({
     variables,
     errorPolicy: "all",
@@ -22,14 +19,12 @@ const Products = ({
       fetchMore={fetchMore}
       filters={filters}
       variables={variables}
-      breadcrumbs={(
-        [
-          {
-            link: "/products",
-            value: "All Products",
-          },
-        ]
-      )}
+      breadcrumbs={[
+        {
+          link: "/products",
+          value: "All Products",
+        },
+      ]}
     />
   );
 };
