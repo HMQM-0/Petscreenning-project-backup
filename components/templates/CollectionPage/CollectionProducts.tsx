@@ -1,10 +1,6 @@
 import React from "react";
 
-import {
-  BasicCollectionFragment,
-  useCollectionPageQuery,
-  useProductsQuery,
-} from "@generated";
+import { BasicCollectionFragment, useCollectionPageQuery } from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
 
