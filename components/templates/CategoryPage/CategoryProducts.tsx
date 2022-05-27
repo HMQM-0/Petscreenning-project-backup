@@ -11,7 +11,7 @@ type CategoryProductsProps = ChildrenFunctionProps & {
 
 export const extractBreadcrumbs = (category: BasicCategoryFragment) => {
   const constructLink = (item: { name: string; id: string }) => ({
-    link: [`/category`, `/${slugify(item.name)}`, `/${item.id}/`].join(""),
+    link: `/category/${slugify(item.name)}/${item.id}/`,
     value: item.name,
   });
 
