@@ -7,16 +7,15 @@ import { useAuth, useCart } from "@nautical/react";
 import {
   useNetworkStatus,
 } from "@hooks";
-import { isMicrosite } from "core/utils";
 import NotFound from "components/molecules/NotFound";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
-import { useProductDetailsQuery, ProductDetailsFragment } from "@generated";
+import { useProductDetailsQuery, ProductDetailsFragment, VariantAttributeFragment, AttributeValue } from "@generated";
 import { IItems } from "@nautical/api/Cart/types";
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
 import { ShopContext } from "components/providers/ShopProvider/context";
 
 import Page from "./Page";
-// import MicrositeView from "./MicrositeView";
+
 // import BuilderView from "./BuilderView";
 
 
@@ -30,16 +29,6 @@ const PageWithQueryAttributes = (props: IProps) => {
   const { product } = props;
   const router = useRouter();
   const searchQueryAttributes = router.query;
-
-  const onAttributeChangeHandler = (slug: string, value: string) =>
-    router.replace(
-      {
-        query: {
-          ...router.query,
-          [slug]: value,
-        },
-      },
-    );
 
   useEffect(() => {
     const defaultVariantQueryAttributes: Record<string, string> = {};
@@ -67,14 +56,7 @@ const PageWithQueryAttributes = (props: IProps) => {
   }, [searchQueryAttributes, product.defaultVariant, router]);
 
   return (
-    <Page
-      {...props}
-      microsite={null}
-      queryAttributes={searchQueryAttributes as Record<string, string>}
-      // TODO: Looks like a BE issue. Slug should not be null
-      // @ts-ignore
-      onAttributeChangeHandler={onAttributeChangeHandler}
-    />
+    <Page {...props} />
   );
 };
 
@@ -118,10 +100,6 @@ const View = ({ id: productId }: ViewProps) => {
 
   if (builderKey) {
     // return (<BuilderView />);
-  }
-
-  if (isMicrosite()) {
-    // return (<MicrositeView />);
   }
 
   return (

@@ -2,15 +2,11 @@ import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Button } from "@mui/material";
 
+import ProductVariantPicker, { IProductVariantPickerProps } from "components/organisms/ProductVariantPicker";
 import { commonMessages } from "deprecated/intl";
-import { ICheckoutModelLine } from "@nautical/helpers";
-import {
-  ProductDetails_product_variants,
-  ProductDetails_product_variants_pricing,
-} from "@nautical/queries/gqlTypes/ProductDetails";
 import { IProductVariantsAttributesSelectedValues } from "@types";
 import RatingStars from "components/atoms/RatingStars";
-// import { ViewSizeGuideButton } from "@components/molecules/ViewSizeGuideButton/ViewSizeGuideButton";
+import { ViewSizeGuideButton } from "components/organisms/ViewSizeGuideButton";
 import { useAuth } from "@nautical/react";
 import {
   OverlayContext,
@@ -20,7 +16,8 @@ import {
 import { useShopContext } from "components/providers/ShopProvider";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import { IItems } from "@nautical/api/Cart/types";
-import { ProductDetailsFragment } from "@generated";
+import { ProductDetailsFragment, ProductVariantFieldsFragment } from "@generated";
+import { QuantityInput } from "components/molecules/QuantityInput";
 
 import {
   getAvailableQuantity,
@@ -29,8 +26,6 @@ import {
 } from "./stockHelpers";
 import * as S from "./styles";
 
-// import ProductVariantPicker from "../ProductVariantPicker";
-// import { QuantityInput } from "components/molecules/QuantityInput";
 
 const LOW_STOCK_QUANTITY: number = 5;
 
@@ -40,7 +35,6 @@ export interface IAddToCartSection {
   name: string;
   productPricing: ProductDetailsFragment["pricing"];
   items: IItems;
-  queryAttributes: Record<string, string>;
   isAvailableForPurchase: boolean | null;
   availableForPurchase: string | null;
   variantId: string | undefined;
@@ -50,7 +44,7 @@ export interface IAddToCartSection {
 
   onAddToCart(variantId: string, quantity?: number): void;
 
-  onAttributeChangeHandler(slug: string | null, value: string): void;
+  onVariantChangeHandler: IProductVariantPickerProps["onVariantChangeHandler"];
 
   scrollToRatingsAndReviewsSection: () => void;
 }
@@ -63,9 +57,8 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
   productId,
   productPricing,
   productVariants,
-  queryAttributes,
   onAddToCart,
-  onAttributeChangeHandler,
+  onVariantChangeHandler,
   setVariantId,
   variantId,
   sizeGuideUrl,
@@ -79,7 +72,7 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
   const [quantity, setQuantity] = useState<number>(1);
   const [variantStock, setVariantStock] = useState<number>(0);
   const [variantPricing, setVariantPricing] =
-    useState<ProductDetails_product_variants_pricing | null>(null);
+    useState<ProductVariantFieldsFragment["pricing"] | null | undefined>(null);
 
   const availableQuantity = getAvailableQuantity(
     items,
@@ -115,7 +108,7 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
 
   const onVariantPickerChange = (
     _selectedAttributesValues?: IProductVariantsAttributesSelectedValues,
-    selectedVariant?: ProductDetails_product_variants
+    selectedVariant?: ProductVariantFieldsFragment
   ): undefined => {
     if (!selectedVariant) {
       setVariantId("");
@@ -124,6 +117,8 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
       return;
     }
     setVariantId(selectedVariant.id);
+    // TODO: A BE issue?
+    // @ts-ignore
     setVariantPricing(selectedVariant?.pricing);
     setVariantStock(selectedVariant?.quantityAvailable);
   };
@@ -215,26 +210,26 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
         intl.formatMessage(commonMessages.noItemsAvailable),
         "noItemsAvailable"
       )}
-      <S.VariantPicker>
-        TODO: Product Variant Picker
-        {/*<ProductVariantPicker*/}
-        {/*  productVariants={productVariants}*/}
-        {/*  onChange={onVariantPickerChange}*/}
-        {/*  selectSidebar*/}
-        {/*  queryAttributes={queryAttributes}*/}
-        {/*  onAttributeChangeHandler={onAttributeChangeHandler}*/}
-        {/*/>*/}
-      </S.VariantPicker>
+      {!!productVariants?.length && (
+        <S.VariantPicker>
+          <ProductVariantPicker
+            // TODO: A BE issue. productVariants can not contain null
+            // @ts-ignore
+            productVariants={productVariants}
+            onChange={onVariantPickerChange}
+            onVariantChangeHandler={onVariantChangeHandler}
+          />
+        </S.VariantPicker>
+      )}
       <S.QuantityInput>
-        TODO: Quantity input
-        {/*<QuantityInput*/}
-        {/*  quantity={quantity}*/}
-        {/*  maxQuantity={availableQuantity}*/}
-        {/*  disabled={isOutOfStock || isNoItemsAvailable}*/}
-        {/*  onQuantityChange={setQuantity}*/}
-        {/*  hideErrors={!variantId || isOutOfStock || isNoItemsAvailable}*/}
-        {/*  testingContext="addToCartQuantity"*/}
-        {/*/>*/}
+        <QuantityInput
+          quantity={quantity}
+          maxQuantity={availableQuantity}
+          disabled={isOutOfStock || isNoItemsAvailable}
+          onQuantityChange={setQuantity}
+          hideErrors={!variantId || isOutOfStock || isNoItemsAvailable}
+          testingContext="addToCartQuantity"
+        />
       </S.QuantityInput>
       <Button
         variant="contained"
@@ -254,8 +249,7 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
       </S.WishlistButton>
       {sizeGuideUrl && (
         <S.WishlistButton>
-          TODO: ViewSizeGuideButton
-          {/*<ViewSizeGuideButton sizeGuideUrl={sizeGuideUrl} />*/}
+          <ViewSizeGuideButton sizeGuideUrl={sizeGuideUrl} />
         </S.WishlistButton>
       )}
     </S.AddToCartSelection>

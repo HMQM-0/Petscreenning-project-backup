@@ -65,8 +65,29 @@ export const selectedAttributeFragment = gql`
   }
 `;
 
+export const variantAttributeFragment = gql`
+  fragment VariantAttribute on SelectedAttribute {
+    attribute {
+      id
+      name
+      slug
+      metadata {
+        key
+        value
+      }
+    }
+    values {
+      id
+      name
+      value: name
+      extra: value
+    }
+  }
+`;
+
 export const productVariantFragment = gql`
   ${priceFragment}
+  ${variantAttributeFragment}
   fragment ProductVariantFields on ProductVariant {
     id
     sku
@@ -88,21 +109,7 @@ export const productVariantFragment = gql`
       }
     }
     attributes {
-      attribute {
-        id
-        name
-        slug
-        metadata {
-          key
-          value
-        }
-      }
-      values {
-        id
-        name
-        value: name
-        extra: value
-      }
+      ...VariantAttribute
     }
   }
 `;

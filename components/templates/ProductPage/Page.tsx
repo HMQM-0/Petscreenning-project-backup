@@ -2,8 +2,11 @@ import React, { useRef, useState } from "react";
 import Media from "react-media";
 import { Box } from "@mui/material";
 import { useAlert } from "react-alert";
+import _mapValues from "lodash/mapValues";
+import _keyBy from "lodash/keyBy";
+import { useRouter } from "next/router";
 
-import AddToCartSection from "components/organisms/AddToCartSection";
+import AddToCartSection, { IAddToCartSection } from "components/organisms/AddToCartSection";
 import { ProductDescription } from "components/molecules/ProductDescription";
 import { ProductGallery } from "components/organisms/ProductGallery";
 import {
@@ -22,20 +25,17 @@ export interface PageProps {
   product: ProductDetailsFragment;
   add: (variantId: string, quantity: number) => void;
   items: IItems;
-  queryAttributes: Record<string, string>;
-  onAttributeChangeHandler: (slug: string | null, value: string) => void;
 }
 
 const Page = ({
   add,
   product,
   items,
-  queryAttributes,
-  onAttributeChangeHandler,
 }: PageProps) => {
   const alert = useAlert();
   const productGallery = useRef<HTMLDivElement | undefined>();
   const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
+  const router = useRouter();
 
   const scrollToRatingsAndReviewsSection = () =>
     ratingsAndReviewsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -87,6 +87,28 @@ const Page = ({
       .includes("sizeguide-")
   );
 
+  const onVariantChangeHandler = (variantId: string | undefined) => {
+    // TODO: BE issue. Default variant should not be empty
+    const selectedVariantId = variantId || product.defaultVariant!.id;
+    const selectedVariant =
+      // TODO: variant should not be empty here. A BE issue? And variants should not contain null as well
+      product.variants?.find((variant) => variant!.id === selectedVariantId);
+
+    router.replace(
+      {
+        query: {
+          ...router.query,
+          ..._mapValues(
+            _keyBy(selectedVariant?.attributes, 'attribute.slug'),
+            (attributeItem) => attributeItem.values[0]?.value
+          )
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   const handleAddToCart = (variantId: string, quantity: number) => {
     add(variantId, quantity);
     alert.show(
@@ -104,11 +126,10 @@ const Page = ({
       name={product.name}
       productVariants={product.variants}
       productPricing={product.pricing}
-      queryAttributes={queryAttributes}
       setVariantId={setVariantId}
       variantId={variantId}
       onAddToCart={handleAddToCart}
-      onAttributeChangeHandler={onAttributeChangeHandler}
+      onVariantChangeHandler={onVariantChangeHandler}
       isAvailableForPurchase={!!product.isAvailableForPurchase}
       availableForPurchase={product.availableForPurchase}
       sizeGuideUrl={getSizeGuide()}

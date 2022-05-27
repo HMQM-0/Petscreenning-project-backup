@@ -5,8 +5,7 @@ import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import client from "apollo-client";
 import NotFound from "components/molecules/NotFound";
-
-import View from "../../../components/templates/ProductPage/View";
+import View from "components/templates/ProductPage/View";
 
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   branding,
@@ -56,7 +55,7 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // TODO: is is always set here (since it's a dynamic routing prop)
+  // TODO: it is always set here (since it's a dynamic routing prop)
   const productId = context.params!.id as string;
 
   const { data: brandingData } = await client.query<BrandingQuery>({
