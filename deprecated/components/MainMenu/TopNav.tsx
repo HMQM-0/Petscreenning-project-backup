@@ -50,7 +50,9 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
   };
   const alert = useAlert();
   const [term, setTerm] = React.useState<string>("");
-  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<
+    (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
+  >(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const accountMenuOpen = Boolean(anchorEl);
@@ -131,7 +133,6 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
     return json;
   }
 
-  const logoImage = logo ? logo : <Skeleton />; // <img src={logoImg} width={188} height={"auto"} style={{ marginTop: "4px", marginBottom: "4px" }} onClick={() => navigate('/')} alt="Logo" />;
   return (
     <>
       <AppBar
@@ -164,9 +165,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
           </Button>
 
           <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
-            <Box sx={{ alignItems: "center", display: "flex" }}>
-              {logoImage}
-            </Box>
+            <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
             <Button
               sx={{
                 display: { xs: "none", sm: "flex" },
@@ -342,7 +341,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
         </Toolbar>
       </AppBar>
       <DrawerMenu
-        logo={logoImage}
+        logo={logo}
         anchor="left"
         open={menuOpen}
         close={handleMenuClose}
