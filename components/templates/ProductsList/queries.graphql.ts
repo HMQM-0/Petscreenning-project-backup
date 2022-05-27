@@ -33,7 +33,16 @@ export const productsListProduct = gql`
     seller {
       id
       companyName
+      microsite {
+        id
+        name
+      }
+      logo {
+        url
+      }
     }
+    slug
+    isAvailable
     category {
       id
       name
@@ -48,8 +57,11 @@ export const productsListProduct = gql`
         name
       }
     }
+    brand
     defaultVariant {
       id
+      name
+      quantityAvailable
     }
     variants {
       id
