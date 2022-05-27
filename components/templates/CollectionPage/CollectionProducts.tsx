@@ -1,11 +1,15 @@
 import React from "react";
 
-import { BasicCollectionFragment, useProductsQuery } from "@generated";
+import {
+  BasicCollectionFragment,
+  useCollectionPageQuery,
+  useProductsQuery,
+} from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
 
 type CollectionProductsProps = ChildrenFunctionProps & {
-  collection: BasicCollectionFragment
+  collection: BasicCollectionFragment;
 };
 
 const CollectionProducts = ({
@@ -13,11 +17,10 @@ const CollectionProducts = ({
   filters,
   collection,
 }: CollectionProductsProps) => {
-
-  const { loading, data, fetchMore } = useProductsQuery({
+  const { loading, data, fetchMore } = useCollectionPageQuery({
     variables: {
       ...variables,
-      collectionIds: [collection.id],
+      id: collection.id,
     },
     errorPolicy: "all",
   });
@@ -29,12 +32,12 @@ const CollectionProducts = ({
       fetchMore={fetchMore}
       filters={filters}
       variables={variables}
-      breadcrumbs={([
+      breadcrumbs={[
         {
           link: `/collection/${collection.slug}/${collection.id}/`,
           value: collection.name,
-        }
-      ])}
+        },
+      ]}
       backgroundImageUrl={collection.backgroundImage?.url}
       showSidebar
     />

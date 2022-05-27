@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 
-import { basicProductFragment, priceFragment, productPricingFragment } from "../../../deprecated/views/Product/queries";
+import { productList } from "@nautical/queries/products";
+import { brandingFragment } from "queries/branding.graphql";
 
 export const basicCollection = gql`
   fragment BasicCollection on Collection {
@@ -15,7 +16,6 @@ export const basicCollection = gql`
   }
 `;
 
-
 export const collectionQuery = gql`
   ${basicCollection}
   query Collection($id: ID!) {
@@ -25,114 +25,44 @@ export const collectionQuery = gql`
   }
 `;
 
+export const collectionPageQuery = gql`
+  ${basicCollection}
+  ${brandingFragment}
+  ${productList}
+  query CollectionPage(
+    $id: ID!
+    $categoryIds: [ID!]
+    $attributes: [AttributeInput]
+    $after: String
+    $pageSize: Int
+    $sortBy: ProductOrder
+    $priceLte: Float
+    $priceGte: Float
+  ) {
+    branding {
+      ...Branding
+    }
+    collection(id: $id) {
+      ...BasicCollection
+    }
+    productList: products(
+      after: $after
+      first: $pageSize
+      sortBy: $sortBy
+      filter: {
+        attributes: $attributes
+        categories: $categoryIds
+        collections: [$id]
+        minimalPrice: { gte: $priceGte, lte: $priceLte }
+      }
+    ) {
+      ...ProductList
+    }
+  }
+`;
+
 // TODO: To be uncommented when needed in Builder related task
-// export const builderCollectionQuery = gql`
-//   ${priceFragment}
-//   ${basicProductFragment}
-//   ${productPricingFragment}
-//   query BuilderCollection(
-//     $id: ID!
-//     $attributes: [AttributeInput]
-//     $after: String
-//     $first: Int
-//     $before: String
-//     $last: Int
-//     $sortBy: ProductOrder
-//     $priceLte: Float
-//     $priceGte: Float
-//   ) {
-//     collection(id: $id) {
-//       id
-//       slug
-//       name
-//       seoDescription
-//       seoTitle
-//       description
-//       descriptionJson
-//       backgroundImage {
-//         url
-//       }
-//       productList: products(
-//         after: $after
-//         first: $first
-//         before: $before
-//         last: $last
-//         sortBy: $sortBy
-//         filter: {
-//           attributes: $attributes
-//           minimalPrice: { gte: $priceGte, lte: $priceLte }
-//         }
-//       ) {
-//         totalCount
-//         products: edges {
-//           product: node {
-//             ...BasicProductFields
-//             ...ProductPricingField
-//             category {
-//               id
-//               name
-//             }
-//             slug
-//             seller {
-//               id
-//               companyName
-//               microsite {
-//                 id
-//                 name
-//               }
-//               logo {
-//                 url
-//               }
-//             }
-//             isAvailable
-//             brand
-//             defaultVariant {
-//               id
-//               name
-//               quantityAvailable
-//               pricing {
-//                 onSale
-//                 priceUndiscounted {
-//                   ...Price
-//                 }
-//                 price {
-//                   ...Price
-//                 }
-//               }
-//             }
-//             variants {
-//               id
-//               name
-//               images {
-//                 url
-//               }
-//               attributes {
-//                 attribute {
-//                   id
-//                   name
-//                   slug
-//                 }
-//                 values {
-//                   id
-//                   name
-//                   value: name
-//                   extra: value
-//                 }
-//               }
-//             }
-//           }
-//         }
-//         pageInfo {
-//           endCursor
-//           hasNextPage
-//           hasPreviousPage
-//           startCursor
-//         }
-//       }
-//     }
-//   }
-// `;
-//
+
 // export const builderCollectionInfoQuery = gql`
 //   ${menuItem}
 //   query Collection($id: ID!) {
