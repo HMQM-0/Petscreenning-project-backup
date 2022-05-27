@@ -1,20 +1,34 @@
-import type { NextPage, InferGetServerSidePropsType } from "next";
+import type {
+  NextPage,
+  InferGetServerSidePropsType,
+  GetServerSidePropsContext,
+} from "next";
+import { NormalizedCacheObject } from "@apollo/client";
 
 import { default as ProductsPage } from "components/templates/ProductsPage/Products";
-import { BrandingDocument, BrandingQuery } from "@generated";
+import {
+  ProductsPageDocument,
+  ProductsPageQuery,
+  ProductsPageQueryVariables,
+} from "@generated";
 import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-import client from "apollo-client";
-import { ProductsListView } from "components/templates/ProductsList/View";
+import { getApolloClient } from "apollo-client";
+import {
+  FilterQuerySet,
+  ProductsListView,
+} from "components/templates/ProductsList/View";
+import { PRODUCTS_PER_PAGE } from "core/config";
+import { convertSortByFromString, convertToAttributeScalar } from "core/utils";
 
 const Products: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ branding }) => {
+> = ({ data }) => {
   const description = "All Products";
   const title = "All Products";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    branding: data.branding,
     description,
     title,
     schema,
@@ -23,6 +37,7 @@ const Products: NextPage<
   };
 
   return (
+    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <ProductsListView>
         {(props) => <ProductsPage {...props} />}
@@ -31,20 +46,33 @@ const Products: NextPage<
   );
 };
 
-export async function getServerSideProps() {
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
+export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+  const client = getApolloClient();
+  const { sortBy, filters, after } = query;
+
+  const attributeFilters = FilterQuerySet.decode(filters);
+
+  const variables: ProductsPageQueryVariables = {
+    after: after && String(after),
+    attributes: attributeFilters
+      ? convertToAttributeScalar(attributeFilters)
+      : {},
+    sortBy: convertSortByFromString(String(sortBy)),
+    pageSize: PRODUCTS_PER_PAGE,
+  };
+
+  const { data } = await client.query<ProductsPageQuery>({
+    query: ProductsPageDocument,
+    variables,
+    errorPolicy: "all",
   });
 
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
-  };
+  const __APOLLO__: NormalizedCacheObject = client.extract();
 
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
+      data,
+      __APOLLO__,
     },
   };
 }
