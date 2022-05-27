@@ -10,6 +10,8 @@ export const basicCollection = gql`
     name
     seoDescription
     seoTitle
+    description
+    descriptionJson
     backgroundImage {
       url
     }
