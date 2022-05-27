@@ -35,6 +35,7 @@ const notificationOptions = {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { __APOLLO__ } = pageProps;
   return (
     <ThemeProvider theme={defaultTheme}>
       <div id="root">
@@ -44,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <LocaleProvider>
             <NextQueryParamProvider>
-              <NauticalProvider>
+              <NauticalProvider initialState={__APOLLO__}>
                 <WishlistProvider>
                   <ShopProvider>
                     <OverlayProvider>
