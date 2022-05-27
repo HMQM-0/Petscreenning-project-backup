@@ -11,7 +11,6 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  Skeleton,
 } from "@mui/material";
 import React from "react";
 import { useAlert } from "react-alert";
