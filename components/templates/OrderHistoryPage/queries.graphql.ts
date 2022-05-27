@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+import { brandingFragment } from "queries/branding.graphql";
+
 export const nauticalOrderByUserFragment = gql`
   fragment NauticalOrderByUser on NauticalOrder {
     id
@@ -72,6 +74,15 @@ export const nauticalOrdersByUser = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const orderHistoryPageQuery = gql`
+  ${brandingFragment}
+  query OrderHistoryPage {
+    branding {
+      ...Branding
     }
   }
 `;
