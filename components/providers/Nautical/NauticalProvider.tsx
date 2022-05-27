@@ -1,16 +1,20 @@
 import React, { FunctionComponent } from "react";
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider, NormalizedCacheObject } from "@apollo/client";
 
 import { NauticalProvider as OldNauticalProvider } from "@nautical/react";
-import client from "apollo-client";
+import { getApolloClient } from "apollo-client";
 
 type NauticalProviderProps = {
   children: React.ReactNode;
+  initialState: NormalizedCacheObject;
 };
 
 const NauticalProvider: FunctionComponent<NauticalProviderProps> = ({
   children,
+  initialState,
 }) => {
+  const client = getApolloClient(initialState);
+
   return (
     <OldNauticalProvider
       config={{
