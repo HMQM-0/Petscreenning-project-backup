@@ -1,8 +1,11 @@
 // import { History, LocationState } from "history";
 // import { History } from "history";
 import { Base64 } from "js-base64";
+import { GetServerSidePropsContext } from "next";
+import { isString } from "lodash";
 
 import { Attribute, OrderDirection, ProductOrderField } from "@generated";
+import { FilterQuerySet } from "components/templates/ProductsList/View";
 // import { each } from "lodash";
 // import {
 //   parse as parseQs,
@@ -227,3 +230,17 @@ export const maybe = <T>(exp: () => T, d?: T) => {
 // };
 
 export const removeEmptySpaces = (text: string) => text.replace(/\s+/g, "");
+
+export const getProductQueryVariablesFromContext = (
+  context: GetServerSidePropsContext
+) => {
+  const { sortBy, filters, after } = context.query;
+  const attributeFilters = FilterQuerySet.decode(filters);
+  return {
+    sortBy: convertSortByFromString(isString(sortBy) ? sortBy : null),
+    attributes: attributeFilters
+      ? convertToAttributeScalar(attributeFilters)
+      : {},
+    after: isString(after) ? after : undefined,
+  };
+};

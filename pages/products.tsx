@@ -14,12 +14,9 @@ import {
 import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
-import {
-  FilterQuerySet,
-  ProductsListView,
-} from "components/templates/ProductsList/View";
+import { ProductsListView } from "components/templates/ProductsList/View";
 import { PRODUCTS_PER_PAGE } from "core/config";
-import { convertSortByFromString, convertToAttributeScalar } from "core/utils";
+import { getProductQueryVariablesFromContext } from "core/utils";
 
 const Products: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -46,18 +43,15 @@ const Products: NextPage<
   );
 };
 
-export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = getApolloClient();
-  const { sortBy, filters, after } = query;
-
-  const attributeFilters = FilterQuerySet.decode(filters);
+  const { sortBy, after, attributes } =
+    getProductQueryVariablesFromContext(context);
 
   const variables: ProductsPageQueryVariables = {
-    after: after && String(after),
-    attributes: attributeFilters
-      ? convertToAttributeScalar(attributeFilters)
-      : {},
-    sortBy: convertSortByFromString(String(sortBy)),
+    after,
+    attributes,
+    sortBy,
     pageSize: PRODUCTS_PER_PAGE,
   };
 
