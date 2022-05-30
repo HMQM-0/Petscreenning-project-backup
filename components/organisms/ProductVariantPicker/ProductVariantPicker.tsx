@@ -44,7 +44,6 @@ const ProductVariantPicker = ({
   );
 
   const selectedAttributeValues = useMemo(() => (
-    // useState<Record<AttributeValue["attribute"]["id"], AttributeValue["value"]>>(() => (
     _mapValues(allAttributesById, (attributeData) => {
       // TODO: slug can not be null here. A BE issue
       const slug = attributeData.attribute.slug!.toLowerCase();

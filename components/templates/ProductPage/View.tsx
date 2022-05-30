@@ -6,8 +6,7 @@ import {
 } from "@hooks";
 import NotFound from "components/molecules/NotFound";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
-import { ProductDetailsFragment, ProductDetailsQuery, ProductDetailsQueryResult } from "@generated";
-import { IItems } from "@nautical/api/Cart/types";
+import { ProductDetailsFragment } from "@generated";
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
 import { ShopContext } from "components/providers/ShopProvider/context";
 
