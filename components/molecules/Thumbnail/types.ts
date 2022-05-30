@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BasicProductFieldsFragment } from "@generated";
+import { BasicProductFieldsFragment } from "components/templates/ProductPage/queries.graphql.generated";
 
 interface ISource {
   thumbnail?: BasicProductFieldsFragment["thumbnail"] | null;

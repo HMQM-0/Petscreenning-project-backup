@@ -1,4 +1,4 @@
-import { ProductsListProductFragment } from "@generated";
+import { ProductsListProductFragment } from "components/templates/ProductsList/queries.graphql.generated";
 
 export interface IProps {
   products: ProductsListProductFragment[];

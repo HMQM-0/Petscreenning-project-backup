@@ -1,8 +1,9 @@
 import React from "react";
 
-import { useProductsQuery } from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
+
+import { useProductsQuery } from "./queries.graphql.generated";
 
 type ProductsProps = ChildrenFunctionProps & {};
 

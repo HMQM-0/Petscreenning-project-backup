@@ -38,16 +38,16 @@ import {
   FilterSidebar,
 } from "components/organisms";
 import { useCart } from "@nautical/react";
-import {
-  BuilderPageAttributeFragment,
-  BuilderPageProductFragment,
-  BuilderPageProductVariantImagesFragment,
-} from "@generated";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 import ProductGallery from "./components/ProductGallery";
 import { enumsAlert, enumsButtonVariant, enumsColor } from "./mui";
 import { AlertIcon, ButtonIcon, GridIcon, TextfieldIcon } from "./icons";
+import {
+  BuilderPageAttributeFragment,
+  BuilderPageProductFragment,
+  BuilderPageProductVariantImagesFragment,
+} from "./queries.graphql.generated";
 
 import { FilterQuerySet } from "../ProductsList/View";
 

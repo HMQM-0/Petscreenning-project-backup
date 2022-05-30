@@ -1,11 +1,14 @@
 import type { NextPage, InferGetStaticPropsType } from "next";
 import * as React from "react";
 
-import { OrderHistoryPageDocument, OrderHistoryPageQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { OrderHistoryPage } from "components/templates/OrderHistoryPage";
 import { getApolloClient } from "apollo-client";
+import {
+  OrderHistoryPageDocument,
+  OrderHistoryPageQuery,
+} from "components/templates/OrderHistoryPage/queries.graphql.generated";
 
 import { AccountSettingsLayout } from "../../../components/layouts/AccountSettingsLayout";
 

@@ -6,11 +6,6 @@ import Media from "react-media";
 
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
-import {
-  ProductsQueryResult,
-  ProductsQueryVariables,
-  useProductsPageMenuAndAttributesQuery,
-} from "@generated";
 import { useNetworkStatus } from "@hooks";
 import { IProps as FilterSidebarProps } from "components/organisms/FilterSidebar/types";
 import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
@@ -26,6 +21,12 @@ import ProductListBanner from "components/atoms/ProductListBanner/ProductListBan
 
 import { FilterQuerySet } from "./View";
 import classes from "./scss/index.module.scss";
+import { useProductsPageMenuAndAttributesQuery } from "./queries.graphql.generated";
+
+import {
+  ProductsQueryResult,
+  ProductsQueryVariables,
+} from "../ProductsPage/queries.graphql.generated";
 
 interface ProductsProps {
   variables: ProductsQueryVariables;

@@ -4,10 +4,13 @@ import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 
 import builderConfig from "config/builder";
-import { HomeQuery, HomeDocument } from "@generated";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
+import {
+  HomeDocument,
+  HomeQuery,
+} from "components/templates/IndexPage/queries.graphql.generated";
 
 import { getApolloClient } from "../apollo-client";
 

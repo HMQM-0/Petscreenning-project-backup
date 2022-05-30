@@ -1,7 +1,7 @@
 import { Drawer, Box } from "@mui/material";
 import * as React from "react";
 
-import { useMainMenuQuery } from "@generated";
+import { useMainMenuQuery } from "./queries.graphql.generated";
 
 import { MobileNavList } from "../MobileNav";
 

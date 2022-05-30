@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ProductsPageMenuAndAttributesQuery } from "@generated";
+import { ProductsPageMenuAndAttributesQuery } from "components/templates/ProductsList/queries.graphql.generated";
 
 export interface IProps {
   children: React.ReactNode;
