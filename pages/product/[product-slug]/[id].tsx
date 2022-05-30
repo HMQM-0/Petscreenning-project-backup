@@ -1,7 +1,7 @@
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import { ProductSeoQuery, ProductSeoDocument } from "@generated";
+import { ProductDetailsQuery, ProductDetailsDocument } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
@@ -9,12 +9,14 @@ import NotFound from "components/molecules/NotFound";
 import View from "components/templates/ProductPage/View";
 
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  branding,
-  productSeo,
+  data: {
+    product,
+    branding,
+  },
   productId,
 }) => {
-  const description = productSeo?.seoDescription || productSeo?.descriptionJson || "Product";
-  const title = productSeo?.seoTitle || productSeo?.name || "Product";
+  const description = product?.seoDescription || product?.descriptionJson || "Product";
+  const title = product?.seoTitle || product?.name || "Product";
   const schema = structuredData(description, title);
   const documentHead = {
     // TODO: is should NOT be undefined here. BE issue
@@ -22,24 +24,24 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
     description,
     title,
     schema,
-    image: productSeo?.thumbnail?.url || undefined,
+    image: product?.thumbnail?.url || undefined,
     url: "", // TODO: Store the canonical URL either as env or in dashboard
     type: "product.item",
     custom: [
       {
-        content: productSeo?.pricing?.priceRange?.start?.gross.amount.toString(),
+        content: product?.pricing?.priceRange?.start?.gross.amount.toString(),
         property: "product:price:amount",
       },
       {
-        content: productSeo?.pricing?.priceRange?.start?.gross.currency,
+        content: product?.pricing?.priceRange?.start?.gross.currency,
         property: "product:price:currency",
       },
       {
-        content: productSeo?.isAvailable ? "in stock" : "out off stock",
+        content: product?.isAvailable ? "in stock" : "out off stock",
         property: "product:isAvailable",
       },
       {
-        content: productSeo?.category?.name,
+        content: product?.category?.name,
         property: "product:category",
       },
     ],
@@ -47,8 +49,8 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 
   return (
     <Layout documentHead={documentHead}>
-      {productSeo ? (
-        <View id={productId} />
+      {product ? (
+        <View product={product} />
       ) : (
         <NotFound />
       )}
@@ -62,8 +64,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // TODO: it is always set here (since it's a dynamic routing prop)
   const productId = context.params!.id as string;
 
-  const { data } = await client.query<ProductSeoQuery>({
-    query: ProductSeoDocument,
+  const { data } = await client.query<ProductDetailsQuery>({
+    query: ProductDetailsDocument,
     variables: {
       id: productId,
     },
@@ -73,8 +75,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      branding: data.branding,
-      productSeo: data.product,
+      data,
       productId,
       __APOLLO__,
     },

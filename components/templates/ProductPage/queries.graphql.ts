@@ -192,43 +192,42 @@ export const productDetailsFragment = gql`
   }
 `;
 
-export const productDetailsQuery = gql`
-  query ProductDetails($id: ID!, $countryCode: CountryCode) {
-    product(id: $id) {
-      ...ProductDetails
+export const productSeoFragment = gql`
+  fragment ProductSeo on Product {
+    seoTitle
+    name
+    seoDescription
+    descriptionJson
+    thumbnail {
+      url
+    }
+    category {
+      name
+    }
+    isAvailable
+    pricing {
+      priceRange {
+        start {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
     }
   }
 `;
 
-
-export const productSeoQuery = gql`
-  ${brandingFragment}
-  query ProductSeo($id: ID!) {
+export const productDetailsQuery = gql`
+  ${productDetailsFragment}
+  ${productSeoFragment}
+  query ProductDetails($id: ID!, $countryCode: CountryCode) {
     branding {
       ...Branding
     }
     product(id: $id) {
-      seoTitle
-      name
-      seoDescription
-      descriptionJson
-      thumbnail {
-        url
-      }
-      category {
-        name
-      }
-      isAvailable
-      pricing {
-        priceRange {
-          start {
-            gross {
-              amount
-              currency
-            }
-          }
-        }
-      }
+      ...ProductDetails,
+      ...ProductSeo
     }
   }
 `;
