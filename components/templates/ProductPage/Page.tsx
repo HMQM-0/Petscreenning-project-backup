@@ -73,8 +73,6 @@ const Page = ({
       })
     );
 
-    console.log('suitableVariant', suitableVariant);
-
     if (!suitableVariant) {
       if (!product.defaultVariant) {
         // TODO: Default variant should always be set.

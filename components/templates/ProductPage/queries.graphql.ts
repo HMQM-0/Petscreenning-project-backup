@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+import { brandingFragment } from "../../../queries/branding.graphql";
+
 export const priceFragment = gql`
   fragment Price on TaxedMoney {
     gross {
@@ -200,7 +202,11 @@ export const productDetailsQuery = gql`
 
 
 export const productSeoQuery = gql`
+  ${brandingFragment}
   query ProductSeo($id: ID!) {
+    branding {
+      ...Branding
+    }
     product(id: $id) {
       seoTitle
       name

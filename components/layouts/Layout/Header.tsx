@@ -7,7 +7,7 @@ import TopNav from "deprecated/components/MainMenu/TopNav";
 
 type HeaderProps = {
   logo: {
-    src: string;
+    src?: string;
     height?: number;
     width?: number;
   };
@@ -24,8 +24,13 @@ const Header = ({ logo }: HeaderProps) => {
   };
   const emptyStyle: React.CSSProperties = {};
 
-  const _logo = logo ? (
-    <Image {...logo} objectFit="contain" alt="Logo" />
+  const _logo = logo.src ? (
+    <Image
+      {...logo}
+      src={logo.src}
+      objectFit="contain"
+      alt="Logo"
+    />
   ) : (
     <Skeleton />
   );

@@ -1,9 +1,10 @@
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
+import { NormalizedCacheObject } from "@apollo/client";
 
-import { BrandingDocument, BrandingQuery, ProductSeoQuery, ProductSeoDocument } from "@generated";
+import { ProductSeoQuery, ProductSeoDocument } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-import client from "apollo-client";
+import { getApolloClient } from "apollo-client";
 import NotFound from "components/molecules/NotFound";
 import View from "components/templates/ProductPage/View";
 
@@ -16,7 +17,8 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
   const title = productSeo?.seoTitle || productSeo?.name || "Product";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    // TODO: is should NOT be undefined here. BE issue
+    branding: branding!,
     description,
     title,
     schema,
@@ -55,18 +57,10 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const client = getApolloClient();
+
   // TODO: it is always set here (since it's a dynamic routing prop)
   const productId = context.params!.id as string;
-
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
-  });
-
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
-  };
 
   const { data } = await client.query<ProductSeoQuery>({
     query: ProductSeoDocument,
@@ -75,11 +69,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   });
 
+  const __APOLLO__: NormalizedCacheObject = client.extract();
+
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
+      branding: data.branding,
       productSeo: data.product,
       productId,
+      __APOLLO__,
     },
   };
 }
