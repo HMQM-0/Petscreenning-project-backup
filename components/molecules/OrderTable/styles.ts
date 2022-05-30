@@ -2,7 +2,7 @@ import { media, styled } from "@styles";
 
 export const Wrapper = styled.div``;
 
-export const Row = styled.div`
+export const Row = styled.a`
   display: flex;
   width: 100%;
   flex-direction: row;

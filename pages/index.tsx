@@ -1,60 +1,59 @@
-import type { NextPage, InferGetStaticPropsType } from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
+import { NormalizedCacheObject } from "@apollo/client";
+import { builder } from "@builder.io/react";
+import { BuilderContent } from "@builder.io/sdk";
 
-import {
-  BrandingDocument,
-  BrandingQuery,
-  HomeQuery,
-  HomeDocument,
-} from "@generated";
+import builderConfig from "config/builder";
+import { HomeQuery, HomeDocument } from "@generated";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 
-import client from "../apollo-client";
+import { getApolloClient } from "../apollo-client";
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  branding,
-  homepage,
-}) => {
-  const description = homepage?.shop.description ?? "";
-  const title = homepage?.shop.name ?? "";
+const Home: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ data, builderContent }) => {
+  const description = data?.shop.description ?? "";
+  const title = data?.shop.name ?? "";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    branding: data.branding,
     description,
     title,
     schema,
-    image: homepage.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
+    image: data.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
     url: "", // TODO: Store the canonical URL either as env or in dasboard
   };
 
   return (
+    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
-      <IndexPage data={homepage} />
+      <IndexPage data={data} builderContent={builderContent} />
     </Layout>
   );
 };
 
-export async function getStaticProps() {
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
-  });
-  const { data: homepageData } = await client.query<HomeQuery>({
+export const getServerSideProps = async () => {
+  const client = getApolloClient();
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    content = await builder.get("store", { url: "/store/landing" }).promise();
+  }
+
+  const { data } = await client.query<HomeQuery>({
     query: HomeDocument,
   });
 
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
-  };
+  const __APOLLO__: NormalizedCacheObject = client.extract();
 
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
-      homepage: homepageData,
+      data,
+      builderContent: content,
+      __APOLLO__,
     },
   };
-}
+};
 
 export default Home;

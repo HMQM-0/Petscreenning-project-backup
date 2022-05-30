@@ -7,6 +7,7 @@
   "plugins": ["import"],
   "rules": {
     "import/no-unresolved": "error",
+    // "import/no-relative-parent-imports": "error", // TODO: Determine how to enable this without breaking pages
     "import/order": [
       1,
       {

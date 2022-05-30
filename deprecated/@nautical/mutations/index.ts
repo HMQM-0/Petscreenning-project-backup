@@ -44,8 +44,10 @@ import {
   OrderReturnNotificationVariables,
 } from "./gqlTypes/OrderReturnNotification";
 
-export type MutationOptions<TData, TVariables> = Omit<ApolloMutationOptions<TData, TVariables>,
-  "mutation">;
+export type MutationOptions<TData, TVariables> = Omit<
+  ApolloMutationOptions<TData, TVariables>,
+  "mutation"
+>;
 
 // TODO: Add ability to pass custom fragments to mutations
 export const MUTATIONS = {
@@ -67,48 +69,51 @@ export const MUTATIONS = {
     }),
   AddressTypeUpdate: <TCacheShape>(
     client: ApolloClient<TCacheShape>,
-    options: MutationOptions<SetCustomerDefaultAddress,
-      SetCustomerDefaultAddressVariables>
+    options: MutationOptions<
+      SetCustomerDefaultAddress,
+      SetCustomerDefaultAddressVariables
+    >
   ) =>
     client.mutate({
       mutation: Address.setCustomerDefaultAddress,
       ...options,
     }),
-  AddWishlistProduct: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: MutationOptions<AddWishlistProduct, AddWishlistProductVariables>
-  ) =>
-    client.mutate({
-      mutation: Wishlist.addWishlistProduct,
-      ...options,
-    }),
-  AddWishlistProductVariant: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: MutationOptions<AddWishlistProductVariant,
-      AddWishlistProductVariantVariables>
-  ) =>
-    client.mutate({
-      mutation: Wishlist.addWishlistProductVariant,
-      ...options,
-    }),
-  RemoveWishlistProduct: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: MutationOptions<RemoveWishlistProduct,
-      RemoveWishlistProductVariables>
-  ) =>
-    client.mutate({
-      mutation: Wishlist.removeWishlistProduct,
-      ...options,
-    }),
-  RemoveWishlistProductVariant: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: MutationOptions<RemoveWishlistProductVariant,
-      RemoveWishlistProductVariantVariables>
-  ) =>
-    client.mutate({
-      mutation: Wishlist.removeWishlistProductVariant,
-      ...options,
-    }),
+  // TODO: Ensure these work in new Wishlist Provider
+  // AddWishlistProduct: <TCacheShape>(
+  //   client: ApolloClient<TCacheShape>,
+  //   options: MutationOptions<AddWishlistProduct, AddWishlistProductVariables>
+  // ) =>
+  //   client.mutate({
+  //     mutation: Wishlist.addWishlistProduct,
+  //     ...options,
+  //   }),
+  // AddWishlistProductVariant: <TCacheShape>(
+  //   client: ApolloClient<TCacheShape>,
+  //   options: MutationOptions<AddWishlistProductVariant,
+  //     AddWishlistProductVariantVariables>
+  // ) =>
+  //   client.mutate({
+  //     mutation: Wishlist.addWishlistProductVariant,
+  //     ...options,
+  //   }),
+  // RemoveWishlistProduct: <TCacheShape>(
+  //   client: ApolloClient<TCacheShape>,
+  //   options: MutationOptions<RemoveWishlistProduct,
+  //     RemoveWishlistProductVariables>
+  // ) =>
+  //   client.mutate({
+  //     mutation: Wishlist.removeWishlistProduct,
+  //     ...options,
+  //   }),
+  // RemoveWishlistProductVariant: <TCacheShape>(
+  //   client: ApolloClient<TCacheShape>,
+  //   options: MutationOptions<RemoveWishlistProductVariant,
+  //     RemoveWishlistProductVariantVariables>
+  // ) =>
+  //   client.mutate({
+  //     mutation: Wishlist.removeWishlistProductVariant,
+  //     ...options,
+  //   }),
   CreateUserAddress: <TCacheShape>(
     client: ApolloClient<TCacheShape>,
     options: MutationOptions<CreateUserAddress, CreateUserAddressVariables>
@@ -127,22 +132,26 @@ export const MUTATIONS = {
     }),
   NauticalBulkFulfillmentReturnDashboardNotification: async <TCacheShape>(
     client: ApolloClient<TCacheShape>,
-    options: MutationOptions<NauticalOrderReturnNotification,
-      OrderReturnNotificationVariables>
+    options: MutationOptions<
+      NauticalOrderReturnNotification,
+      OrderReturnNotificationVariables
+    >
   ) =>
     client.mutate({
       mutation:
-      ReturnsNotifications.nauticalBulkFulfillmentReturnDashboardNotification,
+        ReturnsNotifications.nauticalBulkFulfillmentReturnDashboardNotification,
       ...options,
     }),
   VendorBulkFulfillmentReturnDashboardNotification: async <TCacheShape>(
     client: ApolloClient<TCacheShape>,
-    options: MutationOptions<OrderReturnNotification,
-      OrderReturnNotificationVariables>
+    options: MutationOptions<
+      OrderReturnNotification,
+      OrderReturnNotificationVariables
+    >
   ) =>
     client.mutate({
       mutation:
-      ReturnsNotifications.vendorBulkFulfillmentReturnDashboardNotification,
+        ReturnsNotifications.vendorBulkFulfillmentReturnDashboardNotification,
       ...options,
     }),
   DeleteUserAddress: <TCacheShape>(

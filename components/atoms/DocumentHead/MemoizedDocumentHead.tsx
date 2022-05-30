@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
-import { BrandingType } from "@generated";
+import { BrandingFragment } from "@generated";
 
 export type DocumentHeadProps = {
   title: string;
@@ -10,7 +10,7 @@ export type DocumentHeadProps = {
   url: string;
   schema: string;
   type?: string;
-  branding: BrandingType;
+  branding: BrandingFragment;
   custom?: {
     property: string;
     content: string | undefined;
@@ -21,7 +21,7 @@ const DocumentHead = ({
   title,
   description,
   image,
-  type = 'website',
+  type = "website",
   url,
   schema,
   branding,

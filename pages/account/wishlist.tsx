@@ -1,20 +1,20 @@
-import type { NextPage, InferGetStaticPropsType } from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
 
-import { BrandingDocument, BrandingQuery } from "@generated";
+import { WishlistPageDocument, WishlistPageQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-import client from "apollo-client";
+import { getApolloClient } from "apollo-client";
 import { WishlistPage } from "components/templates/WishlistPage";
 import { AccountSettingsLayout } from "components/layouts/AccountSettingsLayout";
 
-const Wishlist: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  branding,
-}) => {
+const Wishlist: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ data }) => {
   const description = "Wishlist";
   const title = "Wishlist";
   const schema = structuredData(description, title);
   const documentHead = {
-    branding,
+    branding: data.branding,
     description,
     title,
     schema,
@@ -22,6 +22,7 @@ const Wishlist: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   };
 
   return (
+    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
         <WishlistPage />
@@ -30,20 +31,17 @@ const Wishlist: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   );
 };
 
-export async function getStaticProps() {
-  const { data: brandingData } = await client.query<BrandingQuery>({
-    query: BrandingDocument,
-  });
+export async function getServerSideProps() {
+  const client = getApolloClient();
 
-  const fallbackBranding: typeof brandingData.branding = {
-    id: "",
-    jsonContent: {},
-    footerText: "",
-  };
+  // TODO: Determine if we can get the JWT for SSR queries
+  const { data } = await client.query<WishlistPageQuery>({
+    query: WishlistPageDocument,
+  });
 
   return {
     props: {
-      branding: brandingData?.branding ?? fallbackBranding,
+      data,
     },
   };
 }

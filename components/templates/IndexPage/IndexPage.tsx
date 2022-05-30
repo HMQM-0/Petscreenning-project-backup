@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import Link from "next/link";
+import { BuilderContent } from "@builder.io/sdk";
 
-import { useShopContext } from "components/providers/ShopProvider";
 import { HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
 
-// import StorePage from "../Builder/StorePage"; // TODO: This has yet to be refactored
 import classes from "./scss/index.module.scss";
+import { Builder } from "./Builder";
 
 export const parseHomePageCollectionJson = (descriptionJson: any): string => {
   if (!descriptionJson) {
@@ -21,23 +21,18 @@ export const parseHomePageCollectionJson = (descriptionJson: any): string => {
 
 type IndexPageProps = {
   data: HomeQuery;
+  builderContent: BuilderContent | null;
 };
 
-const IndexPage = ({ data }: IndexPageProps) => {
-  const intl = useIntl();
-  const shopContext = useShopContext();
-  const { builderKey } = shopContext;
-
+const IndexPage = ({ data, builderContent }: IndexPageProps) => {
   const backgroundImage =
     data?.shop.homepageCollection?.backgroundImage ?? null;
-  const categories = data?.categories?.edges ?? [];
+  const categories = data?.categoryList?.categories ?? [];
 
   return (
     <Box className={classes["home-page"]}>
-      {builderKey ? (
-        // TODO: The StorePage component from builder has not yet been refactored
-        // <StorePage landing={builderLandingData} />
-        <>BUILDER</>
+      {builderContent ? (
+        <Builder content={builderContent} data={data} />
       ) : (
         <>
           <Box
@@ -96,7 +91,7 @@ const IndexPage = ({ data }: IndexPageProps) => {
                 </Box>
 
                 <Box className={classes["home-page-category-blocks"]}>
-                  {categories.map(({ node: category }) => (
+                  {categories.map(({ category }) => (
                     <>{category.name}</>
                     // <CategoryBlock key={category.id} category={category} />
                   ))}

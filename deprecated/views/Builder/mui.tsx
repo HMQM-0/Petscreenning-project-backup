@@ -29,7 +29,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-import { TaxedMoney } from "components/containers/TaxedMoney";
+import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 import {
   AlertIcon,
@@ -369,7 +369,7 @@ Builder.registerComponent(BuilderButton, {
 
 export const BuilderIcon = (props: {
   name: "favorite" | "favoriteFilled" | "plus" | "minus" | "empty";
-  paddingTop;
+  paddingTop: string;
 }) => {
   switch (props.name) {
     case "favorite":

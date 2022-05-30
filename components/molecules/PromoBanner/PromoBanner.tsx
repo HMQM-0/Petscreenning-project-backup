@@ -3,10 +3,12 @@ import * as React from "react";
 import { isEmpty } from "lodash";
 
 import { usePromoBannerQuery } from "@generated";
+import {
+  MessageProp,
+  NotificationBar,
+} from "deprecated/_nautical/components/NotificationBar"; // TODO: This component needs to be refactored
 
 import classes from "./scss/index.module.scss";
-
-import { MessageProp, NotificationBar } from "../NotificationBar";
 
 interface PromoBannerPromotionsData {
   display: string;
@@ -27,7 +29,7 @@ interface IPromoBannerProps {
   content: string;
 }
 
-const PromoBanner = ({ content }: IPromoBannerProps) => {
+export const PromoBanner = ({ content }: IPromoBannerProps) => {
   const { data, loading } = usePromoBannerQuery({
     variables: {
       name: "PromoBanner",
@@ -100,5 +102,3 @@ const PromoBanner = ({ content }: IPromoBannerProps) => {
     </AppBar>
   );
 };
-
-export default PromoBanner;

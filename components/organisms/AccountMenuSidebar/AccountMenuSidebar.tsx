@@ -19,6 +19,11 @@ export const routes: Route[] = [
     label: 'Account',
     intlKeyId: 'account',
   },
+  {
+    path: '/account/order-history',
+    label: 'Order history',
+    intlKeyId: 'orderHistory',
+  }
 ]
 
 export const AccountMenuSidebar = () => {
