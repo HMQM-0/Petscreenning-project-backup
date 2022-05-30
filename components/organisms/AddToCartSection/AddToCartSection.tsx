@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Button } from "@mui/material";
 
 import ProductVariantPicker, { IProductVariantPickerProps } from "components/organisms/ProductVariantPicker";
 import { commonMessages } from "deprecated/intl";
-import { IProductVariantsAttributesSelectedValues } from "@types";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "components/organisms/ViewSizeGuideButton";
 import { useAuth } from "@nautical/react";
@@ -16,7 +15,7 @@ import {
 import { useShopContext } from "components/providers/ShopProvider";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import { IItems } from "@nautical/api/Cart/types";
-import { ProductDetailsFragment, ProductVariantFieldsFragment } from "@generated";
+import { ProductDetailsFragment } from "@generated";
 import { QuantityInput } from "components/molecules/QuantityInput";
 
 import {
@@ -40,8 +39,6 @@ export interface IAddToCartSection {
   variantId: string | undefined;
   sizeGuideUrl?: string;
 
-  setVariantId(variantId: string): void;
-
   onAddToCart(variantId: string, quantity?: number): void;
 
   onVariantChangeHandler: IProductVariantPickerProps["onVariantChangeHandler"];
@@ -59,7 +56,6 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
   productVariants,
   onAddToCart,
   onVariantChangeHandler,
-  setVariantId,
   variantId,
   sizeGuideUrl,
   scrollToRatingsAndReviewsSection,
@@ -70,15 +66,16 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
   const { user } = useAuth();
 
   const [quantity, setQuantity] = useState<number>(1);
-  const [variantStock, setVariantStock] = useState<number>(0);
-  const [variantPricing, setVariantPricing] =
-    useState<ProductVariantFieldsFragment["pricing"] | null | undefined>(null);
 
-  const availableQuantity = getAvailableQuantity(
-    items,
-    variantId,
-    variantStock
+  const selectedVariant = useMemo(
+    () => productVariants?.find((variant) => variant!.id === variantId),
+    [productVariants, variantId]
   );
+
+  const variantStock = selectedVariant?.quantityAvailable || 0;
+  const variantPricing = selectedVariant?.pricing;
+
+  const availableQuantity = getAvailableQuantity(items, variantId, variantStock);
   const isOutOfStock = !!variantId && variantStock === 0;
   const noPurchaseAvailable = !isAvailableForPurchase && !availableForPurchase;
   const purchaseAvailableDate =
@@ -105,23 +102,6 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
   const renderErrorMessage = (message: string, testingContextId: string) => (
     <S.ErrorMessage data-test="stockErrorMessage">{message}</S.ErrorMessage>
   );
-
-  const onVariantPickerChange = (
-    _selectedAttributesValues?: IProductVariantsAttributesSelectedValues,
-    selectedVariant?: ProductVariantFieldsFragment
-  ): undefined => {
-    if (!selectedVariant) {
-      setVariantId("");
-      setVariantPricing(null);
-      setVariantStock(0);
-      return;
-    }
-    setVariantId(selectedVariant.id);
-    // TODO: A BE issue?
-    // @ts-ignore
-    setVariantPricing(selectedVariant?.pricing);
-    setVariantStock(selectedVariant?.quantityAvailable);
-  };
 
   return (
     <S.AddToCartSelection>
@@ -216,7 +196,6 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
             // TODO: A BE issue. productVariants can not contain null
             // @ts-ignore
             productVariants={productVariants}
-            onChange={onVariantPickerChange}
             onVariantChangeHandler={onVariantChangeHandler}
           />
         </S.VariantPicker>

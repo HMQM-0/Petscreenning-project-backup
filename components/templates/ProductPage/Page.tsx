@@ -1,12 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Media from "react-media";
 import { Box } from "@mui/material";
 import { useAlert } from "react-alert";
 import _mapValues from "lodash/mapValues";
 import _keyBy from "lodash/keyBy";
 import { useRouter } from "next/router";
+import _mapKeys from "lodash/mapKeys";
 
-import AddToCartSection, { IAddToCartSection } from "components/organisms/AddToCartSection";
+import AddToCartSection from "components/organisms/AddToCartSection";
 import { ProductDescription } from "components/molecules/ProductDescription";
 import { ProductGallery } from "components/organisms/ProductGallery";
 import {
@@ -36,11 +37,61 @@ const Page = ({
   const productGallery = useRef<HTMLDivElement | undefined>();
   const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
   const router = useRouter();
+  // TODO: There should be a better way
+  const searchQueryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
+
+  const redirectToVariant = useCallback((variantId: string) => {
+    const selectedVariant =
+      // TODO: variant should not be empty here. A BE issue? And variants should not contain null as well
+      product.variants?.find((variant) => variant!.id === variantId);
+
+    return router.replace(
+      {
+        query: {
+          ...router.query,
+          ..._mapValues(
+            _keyBy(selectedVariant?.attributes, 'attribute.slug'),
+            (attributeItem) => attributeItem.values[0]?.value
+          )
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [product.variants, router]);
+
+  useEffect(() => {
+    // Try to find a variant that has all the query param attributes
+    let suitableVariant = product.variants?.find((productVariant) =>
+      // TODO: BE issue. variant should not empty here
+      productVariant!.attributes.every((productVariantAttribute) => {
+        const slug = productVariantAttribute.attribute.slug;
+        // TODO: We expect that there will always be an attribute value (in case DB is consistent)
+        const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
+        // TODO: BE issue. Slug should always be set
+        return productVariantAttributeValue === searchQueryAttributes[slug!];
+      })
+    );
+
+    console.log('suitableVariant', suitableVariant);
+
+    if (!suitableVariant) {
+      if (!product.defaultVariant) {
+        // TODO: Default variant should always be set.
+        //  But adding a check to prevent infinite redirect in case of bad DB state
+        return;
+      }
+      redirectToVariant(product.defaultVariant!.id);
+      return;
+    }
+
+    setVariantId(suitableVariant.id);
+  }, [redirectToVariant, product.variants, searchQueryAttributes, product.defaultVariant]);
 
   const scrollToRatingsAndReviewsSection = () =>
     ratingsAndReviewsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
 
-  const [variantId, setVariantId] = useState(product.defaultVariant?.id);
+  const [variantId, setVariantId] = useState<string | undefined>();
 
   const productCategory = product.category;
 
@@ -90,23 +141,7 @@ const Page = ({
   const onVariantChangeHandler = (variantId: string | undefined) => {
     // TODO: BE issue. Default variant should not be empty
     const selectedVariantId = variantId || product.defaultVariant!.id;
-    const selectedVariant =
-      // TODO: variant should not be empty here. A BE issue? And variants should not contain null as well
-      product.variants?.find((variant) => variant!.id === selectedVariantId);
-
-    router.replace(
-      {
-        query: {
-          ...router.query,
-          ..._mapValues(
-            _keyBy(selectedVariant?.attributes, 'attribute.slug'),
-            (attributeItem) => attributeItem.values[0]?.value
-          )
-        },
-      },
-      undefined,
-      { shallow: true }
-    );
+    return redirectToVariant(selectedVariantId);
   };
 
   const handleAddToCart = (variantId: string, quantity: number) => {
@@ -126,7 +161,6 @@ const Page = ({
       name={product.name}
       productVariants={product.variants}
       productPricing={product.pricing}
-      setVariantId={setVariantId}
       variantId={variantId}
       onAddToCart={handleAddToCart}
       onVariantChangeHandler={onVariantChangeHandler}
