@@ -6,7 +6,7 @@
     "node": ">=16 <17"
   },
   "scripts": {
-    "predev": "yarn generate",
+    "predev": "dotenv-load 'if [ \"$SKIP_GRAPHQL_CODEGEN_ON_PREDEV\" != true ]; then yarn generate; fi'",
     "dev": "next dev",
     "build": "next build",
     "prebuild": "yarn generate",
@@ -89,6 +89,7 @@
     "@types/url-join": "^4.0.1",
     "@typescript-eslint/parser": "^5.20.0",
     "babel-plugin-formatjs": "^10.3.20",
+    "dotenv-load": "^2.0.1",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
     "eslint-import-resolver-typescript": "^2.7.1",
