@@ -2,8 +2,9 @@ import * as React from "react";
 import { Button, CircularProgress } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
-import { useNauticalOrdersByUserQuery } from "@generated";
 import { styled } from "@styles";
+
+import { useNauticalOrdersByUserQuery } from "./queries.graphql.generated";
 
 import { OrderTable } from "../../molecules/OrderTable";
 

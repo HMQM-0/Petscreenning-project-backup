@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { GetShopQuery } from "@generated";
+import { GetShopQuery } from "./queries.graphql.generated";
 
 export const defaultCountry = {
   __typename: "CountryDisplay" as "CountryDisplay",

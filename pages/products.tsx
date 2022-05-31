@@ -6,17 +6,17 @@ import type {
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { default as ProductsPage } from "components/templates/ProductsPage/Products";
-import {
-  ProductsPageDocument,
-  ProductsPageQuery,
-  ProductsPageQueryVariables,
-} from "@generated";
 import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 import { PRODUCTS_PER_PAGE } from "core/config";
 import { getProductQueryVariablesFromContext } from "core/utils";
+import {
+  ProductsPageDocument,
+  ProductsPageQuery,
+  ProductsPageQueryVariables,
+} from "components/templates/ProductsPage/queries.graphql.generated";
 
 const Products: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>

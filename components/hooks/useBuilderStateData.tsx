@@ -17,8 +17,8 @@ import { FilterQuerySet } from "components/templates/ProductsList/View";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
-  WishlistDocument,
-} from "@generated";
+} from "components/providers/Wishlist/mutations.graphql.generated";
+import { WishlistDocument } from "components/providers/Wishlist/queries.graphql.generated";
 
 interface IStorePage {
   category?: any;

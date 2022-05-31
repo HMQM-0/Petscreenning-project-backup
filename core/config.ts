@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 
-import { BrandingFragment } from "@generated";
+import { BrandingFragment } from "queries/branding.graphql.generated";
 
 // import {
 //   generateMicrositeUrl,

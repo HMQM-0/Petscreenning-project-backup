@@ -23,6 +23,7 @@
     "@builder.io/app-context": "^1.0.0",
     "@builder.io/react": "^1.1.52",
     "@builder.io/widgets": "^1.2.21",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.12",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.65",
     "@mui/material": "^5.6.1",

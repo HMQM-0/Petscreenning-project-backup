@@ -2,13 +2,13 @@ import { AppBar } from "@mui/material";
 import * as React from "react";
 import { isEmpty } from "lodash";
 
-import { usePromoBannerQuery } from "@generated";
 import {
   MessageProp,
   NotificationBar,
 } from "deprecated/_nautical/components/NotificationBar"; // TODO: This component needs to be refactored
 
 import classes from "./scss/index.module.scss";
+import { usePromoBannerQuery } from "./queries.graphql.generated";
 
 interface PromoBannerPromotionsData {
   display: string;

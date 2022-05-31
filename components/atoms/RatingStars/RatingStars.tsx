@@ -2,7 +2,7 @@ import * as React from "react";
 import Rating from "@mui/material/Rating";
 
 import "./scss/index.module.scss";
-import { useGetProductRatingsAndReviewsQuery } from "@generated";
+import { useGetProductRatingsAndReviewsQuery } from "./queries.graphql.generated";
 
 interface IRatingStarsProps {
   productId: string;

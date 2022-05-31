@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useThemeFontQuery } from "@generated";
+import { useThemeFontQuery } from "./queries.graphql.generated";
 
 interface IThemeFontProps {
   fontName?: string;

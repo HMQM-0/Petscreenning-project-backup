@@ -9,13 +9,14 @@ import TextArea from "deprecated/components/TextArea";
 import Button from "components/atoms/Button";
 import Form from "deprecated/components/Form/index";
 import TextField from "components/atoms/TextField";
-import { SubmitRatingAndReviewMutation, useSubmitRatingAndReviewMutation } from "@generated";
 import { OverlayContext } from "components/providers/Overlay/context";
 import { FormError } from "deprecated/components/Form/types";
+import {
+  useSubmitRatingAndReviewMutation,
+  SubmitRatingAndReviewMutation,
+} from "deprecated/components/OverlayManager/RatingAndReview/mutations.graphql.generated";
 
 import classes from "./scss/index.module.scss";
-
-
 
 const showSuccessNotification = (
   data: SubmitRatingAndReviewMutation,
@@ -43,24 +44,27 @@ interface RatingAndReviewFormProps {
   productId: string;
 }
 
-const RatingAndReviewForm = ({
-  productId,
-}: RatingAndReviewFormProps) => {
-  const [submitRatingAndReview, { loading, data }] = useSubmitRatingAndReviewMutation({
-    onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
-  });
+const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
+  const [submitRatingAndReview, { loading, data }] =
+    useSubmitRatingAndReviewMutation({
+      onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
+    });
   const alert = useAlert();
   const intl = useIntl();
   const { hide } = React.useContext(OverlayContext);
 
   const [review, setReview] = useState("");
   const [rating, setRating] = useState<number | null>(null);
-  const [noRatingSelected, setNoRatingSelected] = useState<boolean | null>(null);
+  const [noRatingSelected, setNoRatingSelected] = useState<boolean | null>(
+    null
+  );
 
   return (
     <div style={{ padding: "25px" }}>
       <Form
-        errors={maybe(() => data?.submitRatingAndReview?.errors, []) as FormError[]}
+        errors={
+          maybe(() => data?.submitRatingAndReview?.errors, []) as FormError[]
+        }
         onSubmit={(event, data) => {
           // TODO: What should be passed to <Form<...> to fix this?
           const { headline, publicName, emailAddress } = data as any;
@@ -106,8 +110,8 @@ const RatingAndReviewForm = ({
                   fontSize: "0.75rem",
                 }}
               >
-                      Please select rating.
-                    </span>
+                Please select rating.
+              </span>
             )}
           </div>
         </div>
