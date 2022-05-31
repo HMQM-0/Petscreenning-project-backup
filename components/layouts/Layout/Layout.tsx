@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
 
+import { Footer } from "components/molecules/Footer";
 import Button from "components/atoms/Button";
 import { MaterialUIProvider } from "@providers";
 import { DocumentHead, DocumentHeadProps, ThemeFont } from "components/atoms";
-import BottomNav from "deprecated/components/MainMenu/BottomNav";
-import { Footer } from "deprecated/components/Footer";
-import CookieBar from "deprecated/_nautical/components/CookieBar";
+import BottomNav from "components/atoms/BottomNav";
+import CookieBar from "components/atoms/CookieBar";
 import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
 import OverlayManager from "components/organisms/OverlayManager/OverlayManager";
 

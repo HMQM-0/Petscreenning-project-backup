@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -7,11 +8,9 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
-import * as React from "react";
 import Link from "next/link";
 
 import classes from "./scss/index.module.scss";
-interface IBottomNavProps {}
 
 const fabStyle: React.CSSProperties = {
   border: "1px solid #ededed",
@@ -23,8 +22,8 @@ const fabStyle: React.CSSProperties = {
   zIndex: 3,
 };
 
-const BottomNav: React.FunctionComponent<IBottomNavProps> = (props) => {
-  const [value, setValue] = React.useState(0);
+const BottomNav = () => {
+  const [value, setValue] = useState(0);
 
   return (
     <Box className={classes["bottom-nav"]}>
@@ -57,7 +56,7 @@ const BottomNav: React.FunctionComponent<IBottomNavProps> = (props) => {
           disabled
           style={{ zIndex: 3 }}
         />
-        <Link href="wishlist/">
+        <Link href="/account/wishlist/">
           <a>
             <BottomNavigationAction
               showLabel

@@ -3,7 +3,6 @@ import React from "react";
 import {
   generateCategoryUrl,
   generateCollectionUrl,
-  generateMicrositeUrl,
   generatePageUrl,
 } from "core/utils";
 
@@ -13,7 +12,6 @@ import { IProps } from "./types";
 const getLinkUrl = ({
   category,
   collection,
-  microsite,
   page,
 }: IProps["item"]) => {
   if (category) {
@@ -22,40 +20,48 @@ const getLinkUrl = ({
   if (collection) {
     return generateCollectionUrl(collection.id, collection.name);
   }
-  if (microsite) {
-    return generateMicrositeUrl(microsite.id, microsite.name);
-  }
   if (page) {
     return generatePageUrl(page.slug);
   }
+  // TODO: Do we need to track error here?
+  return null;
 };
 
-export const NavLink: React.FC<IProps> = ({
+export const NavLink = ({
   item,
   fullWidth = false,
   ...props
-}) => {
-  const { name, url, category, collection, microsite, page } = item;
+}: IProps) => {
+  const { name, url } = item;
 
   if (url) {
     return (
-      // @ts-ignore
-      <a href={url} {...props}>
+      <a
+        href={url}
+        // TODO: how to fix?
+        // @ts-ignore
+        className={props.className}
+        {...props}
+      >
         {name}
       </a>
     );
   }
 
-  const linkUrl = getLinkUrl({ category, collection, microsite, page });
+  const linkUrl = getLinkUrl(item);
 
-  return linkUrl ? (
-    <S.Link
-      href={linkUrl}
-      activeClassName="navlink-active"
-      fullWidth={fullWidth}
-      {...props}
-    >
-      {name}
-    </S.Link>
-  ) : null;
+  return (
+    <>
+      {linkUrl && (
+        <S.Link
+          href={linkUrl}
+          activeClassName="navlink-active"
+          fullWidth={fullWidth}
+          {...props}
+        >
+          {name}
+        </S.Link>
+      )}
+    </>
+  );
 };

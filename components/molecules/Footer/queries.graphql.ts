@@ -1,8 +1,4 @@
-import { gql } from "graphql-tag";
-
-import { SecondaryMenu } from "./gqlTypes/SecondaryMenu";
-
-import { TypedQuery } from "../../core/queries";
+import { gql } from "@apollo/client";
 
 const secondaryMenu = gql`
   fragment SecondaryMenuSubItem on MenuItem {
@@ -37,7 +33,3 @@ const secondaryMenu = gql`
     }
   }
 `;
-
-export const TypedSecondaryMenuQuery = TypedQuery<SecondaryMenu, {}>(
-  secondaryMenu
-);
