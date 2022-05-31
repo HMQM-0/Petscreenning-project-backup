@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles, createStyles } from "@mui/styles";
 
-import { ProductRatingsAndReviewsFragment } from "@generated";
+import { ProductRatingsAndReviewsFragment } from "components/templates/ProductPage/queries.graphql.generated";
 
 // STYLING
 const useStyles = makeStyles(() =>

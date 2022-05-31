@@ -4,7 +4,8 @@ import { TextField } from "@mui/material";
 
 import { Icon } from "components/atoms/Icon";
 import { SelectSidebar } from "components/organisms/SelectSidebar";
-import { AttributeValue, VariantAttributeFragment } from "@generated";
+import { AttributeValue } from "@generated";
+import { VariantAttributeFragment } from "components/templates/ProductPage/queries.graphql.generated";
 
 import * as S from "./styles";
 import { AttributeOption } from "./ProductAttributePicker";

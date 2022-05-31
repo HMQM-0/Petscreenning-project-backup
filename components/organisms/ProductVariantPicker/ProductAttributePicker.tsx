@@ -1,6 +1,9 @@
 import React, { useMemo } from "react";
 
-import { ProductVariantFieldsFragment, VariantAttributeFragment } from "@generated";
+import {
+  ProductVariantFieldsFragment,
+  VariantAttributeFragment
+} from "components/templates/ProductPage/queries.graphql.generated";
 
 import { ProductVariantAttributeSelect } from "./ProductVariantAttributeSelect";
 import { ProductVariantAttributeButtons } from "./ProductVariantAttributeButtons";

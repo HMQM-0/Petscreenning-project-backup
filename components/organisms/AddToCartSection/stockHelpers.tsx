@@ -3,7 +3,8 @@ import { isEqual } from "lodash";
 
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { IItems } from "@nautical/api/Cart/types";
-import { ProductPricingFieldFragment, ProductVariantPricingFieldFragment } from "@generated";
+import { ProductPricingFieldFragment } from "components/templates/ProductPage/queries.graphql.generated";
+import { ProductVariantPricingFieldFragment } from "components/templates/ProductsList/queries.graphql.generated";
 
 import * as S from "./styles";
 

@@ -15,8 +15,8 @@ import {
 import { useShopContext } from "components/providers/ShopProvider";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import { IItems } from "@nautical/api/Cart/types";
-import { ProductDetailsFragment } from "@generated";
 import { QuantityInput } from "components/molecules/QuantityInput";
+import { ProductDetailsFragment } from "components/templates/ProductPage/queries.graphql.generated";
 
 import {
   getAvailableQuantity,
@@ -46,7 +46,7 @@ export interface IAddToCartSection {
   scrollToRatingsAndReviewsSection: () => void;
 }
 
-const AddToCartSection: React.FC<IAddToCartSection> = ({
+const AddToCartSection = ({
   availableForPurchase,
   isAvailableForPurchase,
   items,
@@ -59,7 +59,7 @@ const AddToCartSection: React.FC<IAddToCartSection> = ({
   variantId,
   sizeGuideUrl,
   scrollToRatingsAndReviewsSection,
-}) => {
+}: IAddToCartSection) => {
   const intl = useIntl();
 
   const { loginForPrice } = useShopContext();

@@ -7,7 +7,7 @@ import { FormattedMessage } from "react-intl";
 
 import RatingAndReviewForm from "components/organisms/OverlayManager/RatingAndReview/RatingAndReviewForm";
 import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
-import { useGetProductRatingsAndReviewsQuery } from "@generated";
+import { useGetProductRatingsAndReviewsQuery } from "components/templates/ProductPage/queries.graphql.generated";
 
 import { decodeEntities, formatDate } from "./utils";
 import { RatingsAndReviewProps } from "./types";

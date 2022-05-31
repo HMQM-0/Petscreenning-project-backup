@@ -1,12 +1,15 @@
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import { ProductDetailsQuery, ProductDetailsDocument } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import NotFound from "components/molecules/NotFound";
 import View from "components/templates/ProductPage/View";
+import {
+  ProductDetailsDocument,
+  ProductDetailsQuery
+} from "components/templates/ProductPage/queries.graphql.generated";
 
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data: {

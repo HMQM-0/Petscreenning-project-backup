@@ -15,12 +15,12 @@ import {
   generateProductUrl,
 } from "core/utils";
 import Breadcrumbs from "components/atoms/Breadcrumbs";
-import { ProductDetailsFragment } from "@generated";
 import { IItems } from "@nautical/api/Cart/types";
 
 import classes from "./scss/index.module.scss";
 import GalleryCarousel from "./GalleryCarousel";
 import OtherProducts from "./Other";
+import { ProductDetailsFragment } from "./queries.graphql.generated";
 
 export interface PageProps {
   product: ProductDetailsFragment;

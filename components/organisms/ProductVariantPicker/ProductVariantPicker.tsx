@@ -6,7 +6,11 @@ import _uniqBy from "lodash/uniqBy";
 import _mapKeys from "lodash/mapKeys";
 import { useRouter } from "next/router";
 
-import { AttributeValue, ProductVariantFieldsFragment, VariantAttributeFragment } from "@generated";
+import { AttributeValue } from "@generated";
+import {
+  ProductVariantFieldsFragment,
+  VariantAttributeFragment
+} from "components/templates/ProductPage/queries.graphql.generated";
 
 import * as S from "./styles";
 import ProductAttributePicker from "./ProductAttributePicker";
