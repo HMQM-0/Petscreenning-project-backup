@@ -2,16 +2,14 @@ export const formatDate = (date: string | null | undefined) => {
   if (!date) {
     return null;
   }
-  const tempDate = new Date(date);
-  // TODO: Wtf is going on here?
-  const newTempDate = tempDate.toString().split(" ").splice(1, 3);
-  newTempDate[1] += ",";
-  return newTempDate.join(" ");
+  const dateObj = new Date(date);
+  // Return date in medium locale format. E.g. `May 31, 2022` for En-us.
+  return dateObj.toLocaleDateString(undefined, { dateStyle: "medium" });
 };
 
 // This function takes in a string that might have HTML Entity Encoding and Decodes it
 export const decodeEntities = (() => {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     // TODO: Tmp fix for SSR until we find out
     //  why this helper function was needed in the first place
     return (str: any) => str;
