@@ -4,11 +4,11 @@ import { FormattedMessage } from "react-intl";
 import Link from "next/link";
 import { BuilderContent } from "@builder.io/sdk";
 
-import { HomeQuery } from "@generated";
 import { generateProductsUrl } from "core/utils";
 
 import classes from "./scss/index.module.scss";
 import { Builder } from "./Builder";
+import { HomeQuery } from "./queries.graphql.generated";
 
 export const parseHomePageCollectionJson = (descriptionJson: any): string => {
   if (!descriptionJson) {

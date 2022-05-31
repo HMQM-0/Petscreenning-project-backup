@@ -1,4 +1,4 @@
-import { ProductsPageAttributeFragment } from "@generated";
+import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
 
 interface Attributes {
   [key: string]: string[];

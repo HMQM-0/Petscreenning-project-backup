@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
-import { BrandingFragment } from "@generated";
+import { BrandingFragment } from "queries/branding.graphql.generated";
 
 export type DocumentHeadProps = {
   title: string;

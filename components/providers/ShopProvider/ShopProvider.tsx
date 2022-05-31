@@ -1,8 +1,7 @@
 import * as React from "react";
 
-import { useGetShopQuery } from "@generated";
-
 import { defaultContext, ShopContext } from "./context";
+import { useGetShopQuery } from "./queries.graphql.generated";
 
 type ShopProviderProps = {
   children: React.ReactNode;

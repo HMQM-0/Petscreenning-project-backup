@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ApolloError } from "@apollo/client";
 
-import { WishlistItemFragment } from "@generated";
+import { WishlistItemFragment } from "./fragments.graphql.generated";
 
 export interface IWishlistContext {
   wishlist: WishlistItemFragment[] | null;

@@ -5,11 +5,6 @@ import type {
 } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import {
-  CollectionPageQuery,
-  CollectionPageDocument,
-  CollectionPageQueryVariables,
-} from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
@@ -18,6 +13,11 @@ import { getProductQueryVariablesFromContext } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
 import NotFound from "components/molecules/NotFound";
 import { default as CollectionProducts } from "components/templates/CollectionPage/CollectionProducts";
+import {
+  CollectionPageDocument,
+  CollectionPageQuery,
+  CollectionPageQueryVariables,
+} from "components/templates/CollectionPage/queries.graphql.generated";
 
 const Collection: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>

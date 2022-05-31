@@ -1,9 +1,12 @@
 import React from "react";
 
-import { BasicCategoryFragment, useProductsQuery } from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
 import { slugify } from "@utils/core";
+
+import { BasicCategoryFragment } from "./queries.graphql.generated";
+
+import { useProductsQuery } from "../ProductsPage/queries.graphql.generated";
 
 type CategoryProductsProps = ChildrenFunctionProps & {
   category: BasicCategoryFragment;

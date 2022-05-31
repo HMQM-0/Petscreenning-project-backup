@@ -6,28 +6,32 @@ import { AddToWishlistButton } from "components/molecules/AddToWishlistButton";
 import { WishlistContext } from "components/providers/Wishlist/context";
 // TODO: Refactor
 import { useAuth } from "@nautical/react";
-import { useAddWishlistProductMutation, useRemoveWishlistProductMutation } from "@generated";
 import { userWishlist } from "components/providers/Wishlist/queries.graphql";
+import {
+  useAddWishlistProductMutation,
+  useRemoveWishlistProductMutation,
+} from "components/providers/Wishlist/mutations.graphql.generated";
 
 import { IProps } from "./types";
 
-
-export const AddToWishlist = ({
-  productId,
-  showButtonText = true,
-}: IProps) => {
+export const AddToWishlist = ({ productId, showButtonText = true }: IProps) => {
   const { wishlist } = useContext(WishlistContext);
   const { user } = useAuth();
   const alert = useAlert();
   const intl = useIntl();
 
   const isAddedToWishlist = useMemo(
-    () => !!wishlist && wishlist.some(({ product }) => product.id === productId),
+    () =>
+      !!wishlist && wishlist.some(({ product }) => product.id === productId),
     [wishlist, productId]
   );
 
-  const [addWishlistProduct] = useAddWishlistProductMutation({ variables: { productId } });
-  const [removeWishlistProduct] = useRemoveWishlistProductMutation({ variables: { productId } });
+  const [addWishlistProduct] = useAddWishlistProductMutation({
+    variables: { productId },
+  });
+  const [removeWishlistProduct] = useRemoveWishlistProductMutation({
+    variables: { productId },
+  });
 
   const addOrRemoveFromWishlist = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -47,15 +51,13 @@ export const AddToWishlist = ({
       );
     }
     if (isAddedToWishlist) {
-      removeWishlistProduct(
-        {
-          variables: { productId },
-          refetchQueries: [
-            userWishlist, // DocumentNode object parsed with gql
-            "Wishlist", // Query name
-          ],
-        }
-      );
+      removeWishlistProduct({
+        variables: { productId },
+        refetchQueries: [
+          userWishlist, // DocumentNode object parsed with gql
+          "Wishlist", // Query name
+        ],
+      });
       alert.show(
         {
           content: `Removed product from your wishlist`,
@@ -69,15 +71,13 @@ export const AddToWishlist = ({
         }
       );
     } else if (!isAddedToWishlist) {
-      addWishlistProduct(
-        {
-          variables: { productId },
-          refetchQueries: [
-            userWishlist, // DocumentNode object parsed with gql
-            "Wishlist", // Query name
-          ],
-        }
-      );
+      addWishlistProduct({
+        variables: { productId },
+        refetchQueries: [
+          userWishlist, // DocumentNode object parsed with gql
+          "Wishlist", // Query name
+        ],
+      });
       alert.show(
         {
           content: `Added product to your wishlist`,

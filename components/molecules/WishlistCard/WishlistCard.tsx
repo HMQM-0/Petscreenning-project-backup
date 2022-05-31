@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  MenuItem,
-  Select,
-  InputLabel,
-  Box,
-  Button,
-} from "@mui/material";
+import { MenuItem, Select, InputLabel, Box, Button } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { useAlert } from "react-alert";
 import Link from "next/link";
@@ -14,11 +8,11 @@ import { useCart } from "@nautical/react";
 import { Trash } from "components/icons/trash";
 import { generateProductUrl } from "core/utils";
 import { WishlistContext } from "components/providers/Wishlist/context";
+import { useRemoveWishlistProductMutation } from "components/providers/Wishlist/mutations.graphql.generated";
 import {
-  useRemoveWishlistProductMutation,
   WishlistItemFragment,
-  WishlistItemVariantFragment
-} from "@generated";
+  WishlistItemVariantFragment,
+} from "components/providers/Wishlist/fragments.graphql.generated";
 
 import ProductPrice from "../../organisms/ProductPrice";
 import ProductVariantPrice from "../../organisms/ProductVariantPrice";
@@ -232,13 +226,11 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
       </Box>
       <Box className={classes.pricing}>
         <Box className={classes.pricing_price}>
-          {
-            variant ? (
-              <ProductVariantPrice pricing={variant.pricing} />
-            ) : (
-              <ProductPrice pricing={product.pricing} />
-            )
-          }
+          {variant ? (
+            <ProductVariantPrice pricing={variant.pricing} />
+          ) : (
+            <ProductPrice pricing={product.pricing} />
+          )}
         </Box>
         <Box className={classes.pricing_trash}>
           <button onClick={handleRemove} className={classes.trash}>

@@ -4,16 +4,16 @@ import type {
   GetServerSidePropsContext,
 } from "next";
 
-import {
-  CategoryPageDocument,
-  CategoryPageQuery,
-  CategoryPageQueryVariables,
-} from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 import { PRODUCTS_PER_PAGE } from "core/config";
+import {
+  CategoryPageDocument,
+  CategoryPageQuery,
+  CategoryPageQueryVariables,
+} from "components/templates/CategoryPage/queries.graphql.generated";
 
 import { getProductQueryVariablesFromContext } from "../../../core/utils";
 import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";

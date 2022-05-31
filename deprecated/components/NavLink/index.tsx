@@ -3,13 +3,13 @@ import * as React from "react";
 import { Box } from "@mui/material";
 import Link from "next/link";
 
-import { MainMenuSubItemFragment } from "@generated";
-
 import {
   generateCategoryUrl,
   generateCollectionUrl,
   generatePageUrl,
 } from "core/utils";
+
+import { MainMenuSubItemFragment } from "../MainMenu/queries.graphql.generated";
 // import {
 //   SecondaryMenu_shop_navigation_secondary_items,
 //   SecondaryMenu_shop_navigation_secondary_items_children,

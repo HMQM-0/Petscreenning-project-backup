@@ -6,12 +6,12 @@ import { useIntl, IntlShape } from "react-intl";
 import { commonMessages } from "deprecated/intl";
 import Button from "components/atoms/Button";
 import Form from "deprecated/components/Form";
-import {
-  RegisterAccountMutation,
-  useRegisterAccountMutation
-} from "@generated";
 import { accountConfirmUrl } from "deprecated/app/routes/paths";
 import { FormError } from "deprecated/components/Form/types";
+import {
+  RegisterAccountMutation,
+  useRegisterAccountMutation,
+} from "deprecated/components/OverlayManager/Login/mutations.graphql.generated";
 
 import classes from "./scss/index.module.scss";
 
@@ -30,9 +30,9 @@ const showSuccessNotification = (
         // @ts-ignore
         title: data.accountRegister.requiresConfirmation
           ? intl.formatMessage({
-            defaultMessage:
-              "Please check your e-mail for further instructions",
-          })
+              defaultMessage:
+                "Please check your e-mail for further instructions",
+            })
           : intl.formatMessage({ defaultMessage: "New user has been created" }),
       },
       { type: "success", timeout: 5000 }
@@ -45,12 +45,10 @@ interface RegisterFormProps {
 }
 
 const RegisterForm = ({ hide }: RegisterFormProps) => {
-  const [registerAccountMutation, {
-    data,
-    loading
-  }] = useRegisterAccountMutation({
-    onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
-  });
+  const [registerAccountMutation, { data, loading }] =
+    useRegisterAccountMutation({
+      onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
+    });
   const alert = useAlert();
   const intl = useIntl();
   const [formData, setFormData] = useState({
@@ -62,7 +60,7 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
   return (
     <Form
       // TODO: RegisterAccount_accountRegister_errors is not in sync with FormError
-      errors={data?.accountRegister?.errors as FormError[] ?? []}
+      errors={(data?.accountRegister?.errors as FormError[]) ?? []}
       onSubmit={(event) => {
         event.preventDefault();
         const redirectUrl = `${window.location.origin}${accountConfirmUrl}`;
