@@ -3,11 +3,11 @@ import { Skeleton, useScrollTrigger } from "@mui/material";
 import Image from "next/image";
 
 import { PromoBanner } from "components/molecules/PromoBanner";
-import TopNav from "deprecated/components/MainMenu/TopNav";
+import TopNav from "components/layouts/MainMenu/TopNav";
 
 type HeaderProps = {
   logo: {
-    src: string;
+    src?: string;
     height?: number;
     width?: number;
   };
@@ -24,8 +24,13 @@ const Header = ({ logo }: HeaderProps) => {
   };
   const emptyStyle: React.CSSProperties = {};
 
-  const _logo = logo ? (
-    <Image {...logo} objectFit="contain" alt="Logo" />
+  const _logo = logo.src ? (
+    <Image
+      {...logo}
+      src={logo.src}
+      objectFit="contain"
+      alt="Logo"
+    />
   ) : (
     <Skeleton />
   );

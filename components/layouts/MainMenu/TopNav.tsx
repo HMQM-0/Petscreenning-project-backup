@@ -20,7 +20,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-// import logoImg from "deprecated/images/crushon.png";
 import { Logout, ImportContacts } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -28,17 +27,16 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { useAuth, useCart } from "@nautical/react";
+import { OverlayTheme, OverlayType, useOverlayContext } from "components/providers/Overlay";
 
 import DrawerMenu from "./DrawerMenu";
-import DrawerLogin from "./DrawerLogin";
 import DrawerCart from "./DrawerCart";
-import { DesignerData, MenuStyle } from "./gqlTypes/MenuStyle";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
 }
 
-const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
+const TopNav = (props: ITopNavProps) => {
   const { logo } = props;
 
   const { user, signOut } = useAuth();
@@ -48,21 +46,15 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
     await signOut();
   };
   const alert = useAlert();
+  const overlayContext = useOverlayContext();
   const [term, setTerm] = React.useState<string>("");
-  const [anchorEl, setAnchorEl] = React.useState<
-    (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
-  >(null);
+  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [loginOpen, setLoginOpen] = React.useState(false);
   const accountMenuOpen = Boolean(anchorEl);
   const [cartOpen, setCartOpen] = React.useState(false);
 
   const handleCartClose = () => {
     setCartOpen(false);
-  };
-
-  const handleLoginClose = () => {
-    setLoginOpen(false);
   };
 
   const handleMenuClose = () => {
@@ -72,14 +64,6 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
   const handleCart = () => {
     setCartOpen(true);
   };
-
-  // const handleLogin = () => {
-  //   if (!user) {
-  //     setLoginOpen(true);
-  //   } else {
-
-  //   }
-  // }
 
   const handleMenu = () => {
     setMenuOpen(true);
@@ -91,7 +75,6 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
     } else {
       alert.show(
         {
-          // @ts-ignore
           content: "Minimum of three letters required",
           title: "Search",
         },
@@ -114,23 +97,6 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
     (items &&
       items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) ||
     0;
-
-  function defaultStyle(data: DesignerData): MenuStyle {
-    let json: MenuStyle = {
-      active: true,
-      barColor: "#FFF",
-      borderColor: "#999",
-      hoverColor: "#26b2e3",
-      textColor: "#000",
-    };
-
-    if (data !== null || data !== undefined) {
-      const parsed: MenuStyle = JSON.parse(data.jsonContent);
-      json = parsed;
-    }
-
-    return json;
-  }
 
   return (
     <>
@@ -226,15 +192,12 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
               aria-haspopup="true"
               aria-expanded={accountMenuOpen ? "true" : undefined}
               onClick={(event) => {
-                if (user) {
-                  if (accountMenuOpen) {
-                    setAnchorEl(null);
-                  } else {
-                    setAnchorEl(event.currentTarget);
-                  }
-                } else {
-                  setLoginOpen(!loginOpen);
+                if (!user) {
+                  overlayContext.show(OverlayType.login, OverlayTheme.right);
+                  return;
                 }
+
+                setAnchorEl(accountMenuOpen ? null : event.currentTarget);
               }}
             >
               {user ? (
@@ -339,6 +302,7 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
           </Box>
         </Toolbar>
       </AppBar>
+      {/* // TODO: Get rid of DrawerMenu and DrawerCart. Use OverlayManager instead */}
       <DrawerMenu
         logo={logo}
         anchor="left"
@@ -346,8 +310,6 @@ const TopNav: React.FunctionComponent<ITopNavProps> = (props) => {
         close={handleMenuClose}
       />
       <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
-      {/* TODO: We need to use Overlay.Login here to reduce code duplication */}
-      <DrawerLogin anchor="right" open={loginOpen} close={handleLoginClose} />
     </>
   );
 };

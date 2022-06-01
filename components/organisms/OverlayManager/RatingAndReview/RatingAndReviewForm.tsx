@@ -11,11 +11,11 @@ import Form from "deprecated/components/Form/index";
 import TextField from "components/atoms/TextField";
 import { OverlayContext } from "components/providers/Overlay/context";
 import { FormError } from "deprecated/components/Form/types";
+
 import {
   useSubmitRatingAndReviewMutation,
   SubmitRatingAndReviewMutation,
-} from "deprecated/components/OverlayManager/RatingAndReview/mutations.graphql.generated";
-
+} from "./mutations.graphql.generated";
 import classes from "./scss/index.module.scss";
 
 const showSuccessNotification = (

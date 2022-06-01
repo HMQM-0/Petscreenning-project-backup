@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Box, TextField } from "@mui/material";
+import React from "react";
+import { Box } from "@mui/material";
 import { useAlert, AlertContainer } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
 
 import { commonMessages } from "deprecated/intl";
 import Button from "components/atoms/Button";
 import Form from "deprecated/components/Form";
-import { accountConfirmUrl } from "deprecated/app/routes/paths";
 import { FormError } from "deprecated/components/Form/types";
+import TextField from "components/atoms/TextField";
+
 import {
   RegisterAccountMutation,
   useRegisterAccountMutation,
-} from "deprecated/components/OverlayManager/Login/mutations.graphql.generated";
-
+} from "./mutations.graphql.generated";
 import classes from "./scss/index.module.scss";
 
 const showSuccessNotification = (
@@ -23,21 +23,21 @@ const showSuccessNotification = (
 ) => {
   const successful = !data.accountRegister?.errors.length;
 
-  if (successful) {
-    hide();
-    alert.show(
-      {
-        // @ts-ignore
-        title: data.accountRegister.requiresConfirmation
-          ? intl.formatMessage({
-              defaultMessage:
-                "Please check your e-mail for further instructions",
-            })
-          : intl.formatMessage({ defaultMessage: "New user has been created" }),
-      },
-      { type: "success", timeout: 5000 }
-    );
+  if (!successful) {
+    return;
   }
+  hide();
+  alert.show(
+    {
+      title: data.accountRegister?.requiresConfirmation
+        ? intl.formatMessage({
+          defaultMessage:
+            "Please check your e-mail for further instructions",
+        })
+        : intl.formatMessage({ defaultMessage: "New user has been created" }),
+    },
+    { type: "success", timeout: 5000 }
+  );
 };
 
 interface RegisterFormProps {
@@ -45,84 +45,56 @@ interface RegisterFormProps {
 }
 
 const RegisterForm = ({ hide }: RegisterFormProps) => {
+  // TODO: loading forever and no data
   const [registerAccountMutation, { data, loading }] =
     useRegisterAccountMutation({
       onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
     });
   const alert = useAlert();
   const intl = useIntl();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    companyName: "",
-  });
 
   return (
-    <Form
-      // TODO: RegisterAccount_accountRegister_errors is not in sync with FormError
+    <Form<{ email: string; password: string; companyName: string; }>
+      // TODO: BE issue. errors should not contain null
       errors={(data?.accountRegister?.errors as FormError[]) ?? []}
-      onSubmit={(event) => {
+      onSubmit={(event, { email, password, companyName }) => {
         event.preventDefault();
-        const redirectUrl = `${window.location.origin}${accountConfirmUrl}`;
+        const redirectUrl = `${window.location.origin}account-confirm/`;
         return registerAccountMutation({
           variables: {
-            email: formData.email,
-            password: formData.password,
+            email,
+            password,
             redirectUrl,
-            companyName: formData.companyName,
+            companyName,
           },
         });
       }}
     >
       <TextField
-        fullWidth
         name="email"
         autoComplete="email"
         label={intl.formatMessage(commonMessages.eMail)}
         type="email"
         required
-        sx={{ marginBottom: 2 }}
-        onChange={(event) =>
-          setFormData({
-            ...formData,
-            email: event.target.value,
-          })
-        }
       />
       <TextField
-        fullWidth
         name="password"
         autoComplete="password"
         label={intl.formatMessage(commonMessages.password)}
         type="password"
         required
-        sx={{ marginBottom: 2 }}
-        onChange={(event) =>
-          setFormData({
-            ...formData,
-            password: event.target.value,
-          })
-        }
       />
       <TextField
-        fullWidth
         name="companyName"
-        helperText="Optional"
         autoComplete="companyName"
         label={intl.formatMessage(commonMessages.companyName)}
         type="text"
-        onChange={(event) =>
-          setFormData({
-            ...formData,
-            companyName: event.target.value,
-          })
-        }
       />
       <Box className={classes.login__content__button}>
         <Button
           testingContext="submitRegisterFormButton"
           type="submit"
-          {...(loading && { disabled: true })}
+          disabled={loading}
         >
           {loading
             ? intl.formatMessage(commonMessages.loading)

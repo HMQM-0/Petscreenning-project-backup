@@ -1,28 +1,5 @@
 @import "deprecated/globalStyles/scss/variables.scss";
 
-.drawer-button {
-  border-radius: 25px !important;
-  border-width: 2px !important;
-  // background-color: #fffcf2 !important;
-  font-weight: 700 !important;
-}
-
-.appbar-nav {
-  z-index: 3 !important;
-  @media (max-width: $small-screen) {
-    z-index: 1 !important;
-  }
-}
-
-.logo-nav {
-  height: 60px;
-  margin-top: 8px;
-  @media (max-width: $small-screen) {
-    height: 36px;
-    margin-top: 0px;
-  }
-}
-
 .bottom-nav {
   display: none;
   @media (max-width: $small-screen) {
@@ -54,6 +31,7 @@
       align-items: center;
       height: 100%;
     }
+
     img {
       margin-left: $spacer;
       width: 8rem;
@@ -82,6 +60,7 @@
     align-self: center;
     display: contents;
     height: 100%;
+
     img {
       width: 8rem;
 
@@ -89,6 +68,7 @@
         width: 10rem;
       }
     }
+
     ul {
       display: flex;
       align-items: center;
@@ -238,6 +218,7 @@
 
     &:hover {
       color: $secondary;
+
       svg * {
         fill: $secondary;
       }
@@ -307,6 +288,7 @@
           margin-bottom: 0px;
           margin-top: 4px;
         }
+
         > ul > li:first-child {
           position: relative;
 

@@ -23,7 +23,7 @@ const OverlayManager = () => (
           return <Notification overlay={overlay} />;
 
         case OverlayType.login:
-          return <Login overlay={overlay} />;
+          return <Login overlay={overlay} active="login" />;
 
         case OverlayType.register:
           return <Login overlay={overlay} active="register" />;
