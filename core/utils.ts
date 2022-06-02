@@ -65,7 +65,7 @@ export const priceToString = (
 export const generateProductsUrl = () => `/products/`;
 
 export const generateProductUrl = (id: string, name: string) =>
-  `/product/${slugify(name)}/${getDBIdFromGraphqlId(id, "Product")}/`;
+  `/product/${slugify(name)}/${id}/`;
 
 export const generateCategoryUrl = (id: string, name: string) =>
   `/category/${slugify(name)}/${id}/`;
@@ -75,20 +75,6 @@ export const generateCollectionUrl = (id: string, name: string) =>
 
 export const generateMicrositeUrl = (id: string, name: string) =>
   `/site/${slugify(name)}/${getDBIdFromGraphqlId(id, "Microsite")}/`;
-
-export const generateDBMicrositeUrl = (id: string, name: string) =>
-  `/site/${slugify(name)}/${id}/`;
-
-export const generateMicrositeProductUrl = (
-  id: string,
-  name: string,
-  micrositeId: string,
-  micrositeName: string
-) =>
-  `/site/${slugify(micrositeName)}/${getDBIdFromGraphqlId(
-    micrositeId,
-    "Microsite"
-  )}/product/${slugify(name)}/${getDBIdFromGraphqlId(id, "Product")}/`;
 
 export function isMicrosite() {
   return IS_SERVER_SIDE

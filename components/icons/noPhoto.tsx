@@ -1,6 +1,6 @@
 import React from "react";
 
-const NoPhoto = ({ title }: { title: string }) => {
+const NoPhoto = ({ title }: { title?: string | undefined }) => {
   return (
     <svg
       width="263"
@@ -8,9 +8,9 @@ const NoPhoto = ({ title }: { title: string }) => {
       viewBox="0 0 263 351"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-labelledby="noPhotoSvgTitle"
+      aria-labelledby={title && "noPhotoSvgTitle"}
     >
-      <title id="noPhotoSvgTitle">{title}</title>
+      {title && <title id="noPhotoSvgTitle">{title}</title>}
       <mask
         id="mask0"
         mask-type="alpha"

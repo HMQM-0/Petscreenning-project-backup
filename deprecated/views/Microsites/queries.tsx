@@ -18,6 +18,8 @@ import {
 import {
   basicProductFragment,
   productPricingFragment,
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved
 } from "../Product/queries";
 import { TypedQuery } from "../../core/queries";
 import { menuTree } from "../../../components/organisms/ProductSideNavbar/queries.graphql";

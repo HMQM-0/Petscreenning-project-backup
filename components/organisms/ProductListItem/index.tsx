@@ -13,9 +13,17 @@ import { ProductsListProductFragment } from "components/templates/ProductsList/q
 
 import classes from "./scss/index.module.scss";
 
-interface ProductListItemProps {
+export interface ProductListItemProps {
   loginForPrice?: boolean;
-  product: ProductsListProductFragment;
+  product: Pick<ProductsListProductFragment,
+    'id'
+    | 'name'
+    | 'variants'
+    | 'seller'
+    | 'category'
+    | 'defaultVariant'
+    | 'thumbnail'
+    | 'thumbnail2x'>;
   style?: number;
   wide?: boolean;
 }
@@ -72,9 +80,7 @@ const ProductListItem = ({
     if (loginForPrice) {
       return (
         <>
-          <Box className={classes["product-list-priceblock"]}>
-            Login for price
-          </Box>
+          <Box className={classes["product-list-priceblock"]}>Login for price</Box>
           <Box className={classes["product-list-cart"]} style={pricecap}>
             <AddCircleIcon />
           </Box>
