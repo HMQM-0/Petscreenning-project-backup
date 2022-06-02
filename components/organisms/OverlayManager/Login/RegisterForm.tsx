@@ -59,7 +59,7 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
       errors={(data?.accountRegister?.errors as FormError[]) ?? []}
       onSubmit={(event, { email, password, companyName }) => {
         event.preventDefault();
-        const redirectUrl = `${window.location.origin}account-confirm/`;
+        const redirectUrl = `${window.location.origin}/account-confirm/`;
         return registerAccountMutation({
           variables: {
             email,

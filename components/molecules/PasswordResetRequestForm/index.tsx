@@ -33,7 +33,7 @@ const PasswordResetRequestForm = () => {
           passwordReset({
             variables: {
               email,
-              redirectUrl: `${window.location.origin}reset-password/`,
+              redirectUrl: `${window.location.origin}/reset-password/`,
             },
           });
         }}
