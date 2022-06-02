@@ -4,7 +4,8 @@ import { BuilderContent } from "@builder.io/sdk";
 
 import builderConfig from "config/builder";
 import useBuilderStateData from "components/hooks/useBuilderStateData";
-import { HomeQuery } from "@generated";
+
+import { HomeQuery } from "./queries.graphql.generated";
 
 const Builder = ({
   content,

@@ -1,8 +1,12 @@
 import React from "react";
 
-import { BasicCollectionFragment, useCollectionPageQuery } from "@generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
+
+import {
+  BasicCollectionFragment,
+  useCollectionPageQuery,
+} from "./queries.graphql.generated";
 
 type CollectionProductsProps = ChildrenFunctionProps & {
   collection: BasicCollectionFragment;

@@ -8,9 +8,9 @@ import { FbIcon } from "components/icons/fbIcon";
 import { IgIcon } from "components/icons/igIcon";
 import { YtIcon } from "components/icons/ytIcon";
 import { TtIcon } from "components/icons/ttIcon";
-import { useSecondaryMenuQuery } from "@generated";
 
 import classes from "./scss/index.module.scss";
+import { useSecondaryMenuQuery } from "./queries.graphql.generated";
 
 
 const StyledIconButton = styled(IconButton)(() => ({

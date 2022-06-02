@@ -35,6 +35,8 @@ type ChildItemProps = {
 export const ChildItem = ({ item, onClick }: ChildItemProps) => {
   return (
     <S.ChildItem>
+      {/*// TODO: fix this. looks like an issue with fields requested via api*/}
+      {/*// @ts-ignore*/}
       <S.NavLink onClick={onClick} fullWidth type="side" item={item} />
     </S.ChildItem>
   );
@@ -49,6 +51,8 @@ export const ListItem = ({ item, onClick }: ListItemProps) => {
   return (
     <>
       <S.ListItem>
+        {/*// TODO: fix this. looks like an issue with fields requested via api*/}
+        {/*// @ts-ignore*/}
         <S.TitleNavButton onClick={onClick} item={item}>
           <S.ListTitle>{item.name}</S.ListTitle>
         </S.TitleNavButton>
@@ -65,12 +69,7 @@ export const ListItem = ({ item, onClick }: ListItemProps) => {
   );
 };
 
-export const ProductSideNavbar = ({
-  show,
-  onHide,
-  items,
-  target,
-}: IProps) => {
+export const ProductSideNavbar = ({ show, onHide, items, target }: IProps) => {
   const handleHide = () => {
     onHide?.(false);
   };

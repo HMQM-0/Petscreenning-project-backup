@@ -6,7 +6,7 @@
     "node": ">=16 <17"
   },
   "scripts": {
-    "predev": "yarn generate",
+    "predev": "dotenv-load 'if [ \"$SKIP_GRAPHQL_CODEGEN_ON_PREDEV\" != true ]; then yarn generate; fi'",
     "dev": "next dev",
     "build": "next build",
     "prebuild": "yarn generate",
@@ -23,6 +23,7 @@
     "@builder.io/app-context": "^1.0.0",
     "@builder.io/react": "^1.1.52",
     "@builder.io/widgets": "^1.2.21",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.12",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.65",
     "@mui/material": "^5.6.1",
@@ -88,6 +89,7 @@
     "@types/url-join": "^4.0.1",
     "@typescript-eslint/parser": "^5.20.0",
     "babel-plugin-formatjs": "^10.3.20",
+    "dotenv-load": "^2.0.1",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
     "eslint-import-resolver-typescript": "^2.7.1",

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
-import { BrandingFragment } from "@generated";
+import { BrandingFragment } from "queries/branding.graphql.generated";
 
 export type DocumentHeadProps = {
   title: string;
@@ -11,6 +11,10 @@ export type DocumentHeadProps = {
   schema: string;
   type?: string;
   branding: BrandingFragment;
+  custom?: {
+    property: string;
+    content: string | undefined;
+  }[];
 };
 
 const DocumentHead = ({
@@ -21,6 +25,7 @@ const DocumentHead = ({
   url,
   schema,
   branding,
+  custom = [],
 }: DocumentHeadProps) => (
   <Head>
     <title>{title}</title>
@@ -76,6 +81,10 @@ color="#5bbad5"
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={title} />
     <meta property="og:url" content="https://yourdomain.com" />
+    <meta property="og:image" content={branding.icon?.url} />
+    {custom.map(({ property, content }) => (
+      <meta key={property} property={property} content={content} />
+    ))}
     <meta property="og:image" content={branding.icon?.url} />
     <script type="application/ld+json">{schema}</script>
   </Head>

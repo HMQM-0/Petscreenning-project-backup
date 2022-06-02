@@ -3,9 +3,8 @@ import * as React from "react";
 import { IconButton, useTheme } from "@mui/material";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-import { MainMenuSubItemFragment } from "@generated";
-
 import { NavLink } from "../NavLink";
+import { MainMenuSubItemFragment } from "../MainMenu/queries.graphql.generated";
 
 interface NavItemProps {
   hideOverlay(): void;

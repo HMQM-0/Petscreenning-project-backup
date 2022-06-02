@@ -23,7 +23,6 @@ interface PasswordProps {
 const Password = ({
   overlay,
 }: PasswordProps) => {
-  console.log('overlayClasses', overlayClasses);
   return (
     <Overlay testingContext="passwordOverlay" context={overlay}>
       <Box className={classes["password-reset"]}>

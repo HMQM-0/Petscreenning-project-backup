@@ -1,7 +1,7 @@
-import { ProductsListProductFragment } from "@generated";
+import { ProductListItemProps } from "../ProductListItem";
 
 export interface IProps {
-  products: ProductsListProductFragment[];
+  products: ProductListItemProps["product"][];
   canLoadMore?: boolean;
   loading?: boolean;
   onLoadMore?: () => void;

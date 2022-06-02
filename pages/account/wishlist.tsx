@@ -1,11 +1,14 @@
 import type { NextPage, InferGetServerSidePropsType } from "next";
 
-import { WishlistPageDocument, WishlistPageQuery } from "@generated";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { WishlistPage } from "components/templates/WishlistPage";
 import { AccountSettingsLayout } from "components/layouts/AccountSettingsLayout";
+import {
+  WishlistPageDocument,
+  WishlistPageQuery,
+} from "components/templates/WishlistPage/queries.graphql.generated";
 
 const Wishlist: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>

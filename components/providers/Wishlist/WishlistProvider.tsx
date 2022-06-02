@@ -1,8 +1,7 @@
 import React from "react";
 
-import { useWishlistQuery } from "@generated";
-
 import { WishlistContext } from "./context";
+import { useWishlistQuery } from "./queries.graphql.generated";
 
 const WISHLIST_ITEMS_PER_API_CALL = 100;
 
