@@ -6,13 +6,7 @@ import Link from "next/link";
 
 import { useCart } from "@nautical/react";
 import { Trash } from "components/icons/trash";
-import {
-  generateMicrositeProductUrl,
-  generateProductUrl,
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "core/utils";
+import { generateProductUrl } from "core/utils";
 import { WishlistContext } from "components/providers/Wishlist/context";
 import { useRemoveWishlistProductMutation } from "components/providers/Wishlist/mutations.graphql.generated";
 import {
@@ -112,16 +106,12 @@ interface WhishlistCardProps {
 
 const WishlistCard = ({ item }: WhishlistCardProps) => {
   const product = item.product;
-  const [variant, setVariant] = useState<WishlistItemVariantFragment | null>(
-    null
-  );
+  const [variant, setVariant] = useState<WishlistItemVariantFragment | null>(null);
   const alert = useAlert();
 
   const { update } = React.useContext(WishlistContext);
 
-  const [removeWishlistProduct] = useRemoveWishlistProductMutation({
-    variables: { productId: product.id },
-  });
+  const [removeWishlistProduct] = useRemoveWishlistProductMutation({ variables: { productId: product.id } });
 
   const classes = useStyles();
 
@@ -181,16 +171,7 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
 
       <Box className={classes.details}>
         <Link
-          href={
-            isMicrosite()
-              ? generateMicrositeProductUrl(
-                  item.product.id,
-                  item.product.name,
-                  getMicrositeId()!,
-                  getMicrositeSlug()
-                )
-              : generateProductUrl(item.product.id, item.product.name)
-          }
+          href={generateProductUrl(item.product.id, item.product.name)}
           passHref
         >
           <a>
@@ -222,19 +203,13 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
               onChange={(event) => {
                 const selectedVariant =
                   // TODO: variantItem can NOT be null. A BE issue
-                  product.variants?.find(
-                    (variantItem) => variantItem!.id === event.target.value
-                  );
+                  product.variants?.find((variantItem) => variantItem!.id === event.target.value);
                 setVariant(selectedVariant || null);
               }}
             >
               {product.variants?.map((variant) => {
                 // TODO: v is not null. a BE issue
-                return (
-                  <MenuItem key={variant!.id} value={variant!.id}>
-                    {variant!.name}
-                  </MenuItem>
-                );
+                return (<MenuItem key={variant!.id} value={variant!.id}>{variant!.name}</MenuItem>);
               })}
             </Select>
           </>

@@ -8,13 +8,7 @@ import { Loader } from "components/atoms/Loader";
 import ProductListItem from "components/organisms/ProductListItem";
 import { useAuth } from "@nautical/react";
 import { useShopContext } from "components/providers/ShopProvider";
-import {
-  generateProductUrl,
-  generateMicrositeProductUrl,
-  isMicrosite,
-  getMicrositeId,
-  getMicrositeSlug,
-} from "core/utils";
+import { generateProductUrl } from "core/utils";
 
 import * as S from "./styles";
 import { IProps } from "./types";
@@ -51,16 +45,7 @@ export const ProductList = ({
             id &&
             name && (
               <Link
-                href={
-                  !isMicrosite()
-                    ? generateProductUrl(id, name)
-                    : generateMicrositeProductUrl(
-                      id,
-                      name,
-                      getMicrositeId()!,
-                      getMicrositeSlug()
-                    )
-                }
+                href={generateProductUrl(id, name)}
                 key={id}
                 passHref
               >

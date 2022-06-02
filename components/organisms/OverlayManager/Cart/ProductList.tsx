@@ -7,13 +7,7 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import { TaxedMoney } from "components/molecules/TaxedMoney/TaxedMoney";
 import { Thumbnail } from "components/molecules/Thumbnail/Thumbnail";
 import { ICheckoutModelLine } from "@nautical/helpers";
-import {
-  generateMicrositeProductUrl,
-  generateProductUrl,
-  getMicrositeId,
-  isMicrosite,
-  getMicrositeSlug,
-} from "core/utils";
+import { generateProductUrl } from "core/utils";
 
 import classes from "./scss/index.module.scss";
 
@@ -25,17 +19,10 @@ type ProductListProps = {
 const ProductList = ({ lines, remove }: ProductListProps) => (
   <ul className={classes.cart__list}>
     {lines.map((line, index) => {
-      const productUrl = isMicrosite()
-        ? generateMicrositeProductUrl(
-          line.variant.product?.id ?? "",
-          line.variant.product?.name ?? "",
-          getMicrositeId()!,
-          getMicrositeSlug()
-        )
-        : generateProductUrl(
-          line.variant.product?.id ?? "",
-          line.variant.product?.name ?? ""
-        );
+      const productUrl = generateProductUrl(
+        line.variant.product?.id ?? "",
+        line.variant.product?.name ?? ""
+      );
       const key = line.id ? `id-${line.id}` : `idx-${index}`;
 
       return (
