@@ -1,11 +1,11 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { BrandingType } from "@generated";
+import { DocumentHeadProps } from "components/atoms";
 
 type MaterialUIProviderProps = {
   children: React.ReactNode;
-  branding?: BrandingType;
+  branding?: DocumentHeadProps["branding"];
 };
 
 const MaterialUIProvider = ({

@@ -15,7 +15,6 @@ export { CartTable } from "./CartTable";
 export { default as ProductsFeatured } from "./ProductsFeatured";
 export { ProductFilters } from "./ProductFilters";
 export type { Filters } from "./ProductFilters";
-export { Footer } from "./Footer";
 export { MobileNavList } from "./MobileNav";
 export type { INavItem } from "./MobileNav";
 export { NavLink } from "./NavLink";
