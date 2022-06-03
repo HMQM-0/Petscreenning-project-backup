@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Button, Grid } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { FormattedMessage } from "react-intl";
+import Image from "next/image";
 
 import RatingAndReviewForm from "components/organisms/OverlayManager/RatingAndReview/RatingAndReviewForm";
 import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
@@ -215,7 +216,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
                     key={index}
                   >
                     <div className={classes.flexContainer}>
-                      <img
+                      <Image
                         className={classes.reviewAvatar}
                         src={
                           // TODO: social image is not present in the API. A BE issue?

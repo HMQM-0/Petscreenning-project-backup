@@ -4,24 +4,20 @@ import type {
   GetServerSidePropsContext,
 } from "next";
 
-import { Layout } from "components/layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
-import { ProductsListView } from "components/templates/ProductsList/View";
-import { PRODUCTS_PER_PAGE } from "core/config";
 import {
   CategoryPageDocument,
   CategoryPageQuery,
   CategoryPageQueryVariables,
 } from "components/templates/CategoryPage/queries.graphql.generated";
+import { Layout } from "components/layouts/Layout";
+import { structuredData } from "components/templates/IndexPage/structuredData";
+import { getApolloClient } from "apollo-client";
+import { ProductsListView } from "components/templates/ProductsList/View";
 
-import { getProductQueryVariablesFromContext } from "../../../core/utils";
 import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";
 import NotFound from "../../../components/molecules/NotFound";
 
-const Category: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data }) => {
+const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const description = data.category?.seoDescription || "Category";
   const title = data.category?.seoTitle || data.category?.name || "Category";
   const schema = structuredData(description, title);
@@ -56,15 +52,8 @@ export async function getServerSideProps(
   const client = getApolloClient();
   const categoryId = context.params?.id ?? "";
 
-  const { sortBy, after, attributes } =
-    getProductQueryVariablesFromContext(context);
-
   const variables: CategoryPageQueryVariables = {
     id: categoryId,
-    after,
-    attributes,
-    sortBy,
-    pageSize: PRODUCTS_PER_PAGE,
   };
 
   const { data } = await client.query<CategoryPageQuery>({

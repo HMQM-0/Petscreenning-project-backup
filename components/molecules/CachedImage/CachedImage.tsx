@@ -46,6 +46,8 @@ export const CachedImage = ({
   }
 
   return (
+    // TODO: <Image ...> does not support srcSet. Refactoring required
+    // eslint-disable-next-line
     <img
       {...props}
       src={url}

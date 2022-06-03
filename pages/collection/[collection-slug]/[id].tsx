@@ -9,8 +9,6 @@ import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
-import { getProductQueryVariablesFromContext } from "core/utils";
-import { PRODUCTS_PER_PAGE } from "core/config";
 import NotFound from "components/molecules/NotFound";
 import { default as CollectionProducts } from "components/templates/CollectionPage/CollectionProducts";
 import {
@@ -19,9 +17,7 @@ import {
   CollectionPageQueryVariables,
 } from "components/templates/CollectionPage/queries.graphql.generated";
 
-const Collection: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data }) => {
+const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const description = data.collection?.seoDescription || "Collection";
   const title =
     data.collection?.seoTitle || data.collection?.name || "Collection";
@@ -56,15 +52,9 @@ export async function getServerSideProps(
 ) {
   const client = getApolloClient();
   const collectionId = context.params?.id ?? "";
-  const { sortBy, after, attributes } =
-    getProductQueryVariablesFromContext(context);
 
   const variables: CollectionPageQueryVariables = {
     id: collectionId,
-    after,
-    attributes,
-    sortBy,
-    pageSize: PRODUCTS_PER_PAGE,
   };
 
   const { data } = await client.query<CollectionPageQuery>({

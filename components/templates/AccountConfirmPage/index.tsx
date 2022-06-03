@@ -41,35 +41,39 @@ const AccountConfirm = ({ email, token }: AccountConfirmProps) => {
   };
 
   React.useEffect(() => {
-    confirmAccount({
-      variables: { email, token },
-    })
-      .then((result) => {
-        const possibleErrors = result.data?.confirmAccount?.errors;
-        if (possibleErrors?.length) {
-          // TODO: Error messages should not be null|undefined. A BE issue?
-          // @ts-ignore
-          showErrors(possibleErrors);
-          return;
-        }
-        alert.show(
-          {
-            content: "You can now log in",
-            title: "Account confirmed",
-          },
-          { type: "success", timeout: 5000 }
-        );
+      confirmAccount({
+        variables: { email, token },
       })
-      .catch(() => {
-        const errors = [{
-          message: "Something went wrong while activating your account.",
-        }];
-        displayConfirmationAlert(errors);
-      })
-      .finally(() => {
-        router.replace('/');
-      });
-  }, []);
+        .then((result) => {
+          const possibleErrors = result.data?.confirmAccount?.errors;
+          if (possibleErrors?.length) {
+            // TODO: Error messages should not be null|undefined. A BE issue?
+            // @ts-ignore
+            showErrors(possibleErrors);
+            return;
+          }
+          alert.show(
+            {
+              content: "You can now log in",
+              title: "Account confirmed",
+            },
+            { type: "success", timeout: 5000 }
+          );
+        })
+        .catch(() => {
+          const errors = [{
+            message: "Something went wrong while activating your account.",
+          }];
+          displayConfirmationAlert(errors);
+        })
+        .finally(() => {
+          router.replace('/');
+        });
+    },
+    // We want this code to be executed only once
+    // eslint-disable-next-line
+    []
+  );
 
   return (<Loader />);
 };

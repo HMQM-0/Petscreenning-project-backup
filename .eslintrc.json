@@ -5,6 +5,9 @@
     "plugin:import/typescript"
   ],
   "plugins": ["import"],
+  "ignorePatterns": [
+    "*.graphql.generated.tsx"
+  ],
   "rules": {
     "import/no-unresolved": "error",
     // "import/no-relative-parent-imports": "error", // TODO: Determine how to enable this without breaking pages
