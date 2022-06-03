@@ -287,6 +287,7 @@ const MuiCheckout = ({
               },
             });
           }
+          // TODO: This can be undefined, let's fix that
           router.push(
             `/order-finalized?token=${response.data?.order?.token}&orderNumber=${response.data?.order?.number}`
           );
