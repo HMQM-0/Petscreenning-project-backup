@@ -27,7 +27,7 @@ export const CircleSelector = ({ available, color, highlight, onClick }: CircleS
 
 type ProductVariantAttributeButtonsProps = {
   attributeOptions: AttributeOption[];
-  selectedValue: AttributeValue["value"];
+  selectedValue: AttributeValue["value"] | undefined;
   onChangeSelection: (value: AttributeValue["value"]) => void;
   type: "Color" | "Size";
 };

@@ -41,7 +41,7 @@ export const categoryPageQuery = gql`
   ${productList}
   query CategoryPage(
     $id: ID!
-    $attributes: [AttributeInput]
+    $attributes: [AttributeInput!]
     $after: String
     $pageSize: Int
     $sortBy: ProductOrder

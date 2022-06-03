@@ -68,8 +68,7 @@ const Page = ({
         const slug = productVariantAttribute.attribute.slug;
         // TODO: We expect that there will always be an attribute value (in case DB is consistent)
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
-        // TODO: BE issue. Slug should always be set
-        return productVariantAttributeValue === searchQueryAttributes[slug!];
+        return productVariantAttributeValue === searchQueryAttributes[slug];
       })
     );
 

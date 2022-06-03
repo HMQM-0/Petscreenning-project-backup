@@ -7,11 +7,8 @@ export interface IProps {
       | null>
     | null;
   attributes?: Array<{
-    // TODO: A BE issue? undefined/null should not be here probably
-    attribute: { name?: string | undefined | null };
-
-    values: Array<// TODO: A BE issue? undefined/null should not be here probably
-      { name?: string | undefined | null }
+    attribute: { name: string };
+    values: Array<{ name: string }
       // TODO: A BE issue. null should not be here
       | null>;
   }>;

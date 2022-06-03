@@ -27,7 +27,7 @@ export const productsQuery = gql`
   query Products(
     $categoryIds: [ID!]
     $collectionIds: [ID!]
-    $attributes: [AttributeInput]
+    $attributes: [AttributeInput!]
     $after: String
     $pageSize: Int
     $sortBy: ProductOrder
@@ -57,7 +57,7 @@ export const productsPageQuery = gql`
   query ProductsPage(
     $categoryIds: [ID!]
     $collectionIds: [ID!]
-    $attributes: [AttributeInput]
+    $attributes: [AttributeInput!]
     $after: String
     $pageSize: Int
     $sortBy: ProductOrder

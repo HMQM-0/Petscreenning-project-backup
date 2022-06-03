@@ -12,13 +12,13 @@ export interface ProductAttributePickerProps {
   attribute: VariantAttributeFragment["attribute"],
   values: VariantAttributeFragment["values"],
   productVariants: ProductVariantFieldsFragment[],
-  selectedAttributeValues: Record<string, string | null | undefined>,
+  selectedAttributeValues: Record<string, string | undefined>,
   onAttributeChange: (attributeId: string, value: string | null | undefined, slug: string) => void;
 }
 
-export type AttributeOption = VariantAttributeFragment["values"][number] & {
+export type AttributeOption = Pick<VariantAttributeFragment["values"][number], 'extra' | 'value'> & {
   disabled: boolean;
-  label: string | null | undefined;
+  label: string;
 };
 
 const ProductAttributePicker = ({
@@ -68,13 +68,13 @@ const ProductAttributePicker = ({
         id: value!.id,
         // TODO: A BE issue. value can not be null
         label: value!.name,
-        value: value!.value!,
-        extra: value!.extra!,
+        value: value!.value,
+        extra: value!.extra,
       };
     });
 
   const onSelectValueHandler = (optionValue: string | undefined | null) => {
-    onAttributeChange(attribute.id, optionValue, attribute.slug!);
+    onAttributeChange(attribute.id, optionValue, attribute.slug);
   };
 
   if (attribute.name === "Size" || attribute.name === "Color") {
