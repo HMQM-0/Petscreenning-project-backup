@@ -73,11 +73,11 @@ const TabPanel: React.FunctionComponent<TabPanelProps> = (props) => {
 };
 
 interface ICheckoutProps {
-  subtotal: ITaxedMoney | null | undefined;
-  promoCode?: ITaxedMoney | null | undefined;
-  shipping?: ITaxedMoney | null | undefined;
-  total?: ITaxedMoney | null | undefined;
-  volumeDiscount?: ICheckoutModelPriceValue | undefined;
+  subtotal?: ITaxedMoney;
+  promoCode?: ITaxedMoney;
+  shipping?: ITaxedMoney;
+  total?: ITaxedMoney;
+  volumeDiscount?: ICheckoutModelPriceValue;
   products?: IProduct[] | null;
   items?: IItems | null;
   logo?: React.ReactNode;

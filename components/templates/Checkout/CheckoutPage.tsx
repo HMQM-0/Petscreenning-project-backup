@@ -8,7 +8,7 @@ import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 
 import Checkout from "./Checkout";
 
-const convertToTaxedMoney = (value: ITaxedMoney | null | undefined) => {
+const convertToTaxedMoney = (value?: ITaxedMoney) => {
   const converted = value;
   return converted;
 };
@@ -80,11 +80,11 @@ const CheckoutPage = ({ logo }: ICheckoutProps) => {
             <Checkout
               items={items}
               logo={logo}
-              subtotal={convertToTaxedMoney(subtotalPrice)}
-              promoCode={convertToTaxedMoney(promoTaxedPrice)}
-              shipping={convertToTaxedMoney(shippingTaxedPrice)}
+              subtotal={convertToTaxedMoney(subtotalPrice ?? undefined)}
+              promoCode={convertToTaxedMoney(promoTaxedPrice ?? undefined)}
+              shipping={convertToTaxedMoney(shippingTaxedPrice ?? undefined)}
               volumeDiscount={applicableVolumeDiscounts}
-              total={convertToTaxedMoney(totalPrice)}
+              total={convertToTaxedMoney(totalPrice ?? undefined)}
               close={() => setModal(false)}
             />
           )}
