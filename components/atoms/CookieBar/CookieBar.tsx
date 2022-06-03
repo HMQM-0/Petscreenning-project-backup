@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 
 import classes from "./scss/index.module.scss";
+
 interface CookieBarProps {
   title: string;
   description?: string;
@@ -9,12 +10,12 @@ interface CookieBarProps {
   action?: React.ReactNode;
 }
 
-const CookieBar: React.FC<CookieBarProps> = ({
+const CookieBar = ({
   title,
   description,
   action,
   hide,
-}) => {
+}: CookieBarProps) => {
   return (
     <Box className={hide ? classes["cookie-hide"] : classes["cookie-root"]}>
       <span>{title}</span>
@@ -38,8 +39,3 @@ const CookieBar: React.FC<CookieBarProps> = ({
 };
 
 export default CookieBar;
-
-/*
-<span className="block md:inline">{title}</span>
-      <span className="block mb-6 md:inline md:mb-0 md:ml-2">
-*/

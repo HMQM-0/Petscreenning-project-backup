@@ -1,5 +1,28 @@
 @import "deprecated/globalStyles/scss/variables.scss";
 
+.drawer-button {
+  border-radius: 25px !important;
+  border-width: 2px !important;
+  // background-color: #fffcf2 !important;
+  font-weight: 700 !important;
+}
+
+.appbar-nav {
+  z-index: 3 !important;
+  @media (max-width: $small-screen) {
+    z-index: 1 !important;
+  }
+}
+
+.logo-nav {
+  height: 60px;
+  margin-top: 8px;
+  @media (max-width: $small-screen) {
+    height: 36px;
+    margin-top: 0px;
+  }
+}
+
 .bottom-nav {
   display: none;
   @media (max-width: $small-screen) {
