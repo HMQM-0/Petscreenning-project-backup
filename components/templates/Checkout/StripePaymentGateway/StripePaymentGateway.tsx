@@ -1,19 +1,19 @@
 import { Elements, PaymentElement } from "@stripe/react-stripe-js";
 import { Stripe, StripeElements } from "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js/pure";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@apollo/client";
 
 import { IFormError } from "@types";
 import { getClientSecretQuery } from "deprecated/app/queries";
 import { useCheckout } from "@nautical/react";
-import Loader from "deprecated/components/Loader";
+import { Loader } from "components/atoms/Loader";
 
 import { IProps } from "./types";
 
 import { StripeCreditCardForm } from "../StripeCreditCardForm";
 
-// import { useLocation } from "react-router";
+let stripe: Stripe | null = null;
 
 /**
  * Stripe payment gateway.
@@ -27,28 +27,29 @@ const StripePaymentGateway: React.FC<IProps> = ({
   errors = [],
   onError,
 }: IProps) => {
+  const hasLoadedStripe = useRef(false);
   const [submitErrors, setSubmitErrors] = useState<IFormError[]>([]);
   const [clientSecret, setClientSecret] = useState("");
   const { checkout } = useCheckout();
-  // const location = useLocation();
-  // console.info("LOCATION")
-  // console.info(location)
-  // console.info(window.location.href)
 
   const apiKey = config.find(({ field }) => field === "api_key")?.value;
 
-  const stripePromise = useMemo(() => {
-    if (apiKey) {
-      return loadStripe(apiKey);
+  useEffect(() => {
+    const load = async (key: string) => {
+      stripe = await loadStripe(key);
+      const stripeApiKeyErrors = [
+        {
+          message: "Stripe gateway misconfigured. Api key not provided.",
+        },
+      ];
+      setSubmitErrors(stripeApiKeyErrors);
+      onError(stripeApiKeyErrors);
+    };
+
+    if (apiKey && !hasLoadedStripe.current) {
+      load(apiKey);
+      hasLoadedStripe.current = true;
     }
-    const stripeApiKeyErrors = [
-      {
-        message: "Stripe gateway misconfigured. Api key not provided.",
-      },
-    ];
-    setSubmitErrors(stripeApiKeyErrors);
-    onError(stripeApiKeyErrors);
-    return null;
   }, [apiKey, onError]);
 
   useQuery(getClientSecretQuery, {
@@ -130,7 +131,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
   return (
     <div data-test="stripeGateway">
       {stripeOptions.clientSecret ? (
-        <Elements stripe={stripePromise} options={stripeOptions}>
+        <Elements stripe={stripe} options={stripeOptions}>
           <StripeCreditCardForm
             formId={formId}
             formRef={formRef}

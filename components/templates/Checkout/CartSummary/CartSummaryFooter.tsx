@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.95rem",
   },
   otherFont: {
-    color: theme.palette.grey[600],
+    // color: theme.palette.grey[600],
     fontSize: "0.875rem",
   },
   footerFlex: {

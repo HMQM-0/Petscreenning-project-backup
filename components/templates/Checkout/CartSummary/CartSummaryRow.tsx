@@ -52,12 +52,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.875rem",
   },
   caption: {
-    color: theme.palette.grey[600],
+    // color: theme.palette.grey[600],
     fontSize: "0.875rem",
     fontWeight: "lighter",
   },
   cost: {
-    color: theme.palette.grey[800],
+    // color: theme.palette.grey[800],
     fontSize: "0.95rem",
     fontWeight: 600,
     textAlign: "right",

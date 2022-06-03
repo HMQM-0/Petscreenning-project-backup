@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Head from "next/head";
 import Script from "next/script";
 
 import { maybe, removeEmptySpaces } from "core/utils";
@@ -129,21 +128,20 @@ const AuthorizeNetPaymentGateway: React.FC<IProps> = ({
 
   return (
     <S.Wrapper data-test="creditCardPaymentGateway">
-      <Head>
-        {sandboxEnabled ? (
-          <Script
-            type="text/javascript"
-            src="https://jstest.authorize.net/v1/Accept.js"
-            charSet="utf-8"
-          ></Script>
-        ) : (
-          <Script
-            type="text/javascript"
-            src="https://js.authorize.net/v1/Accept.js"
-            charSet="utf-8"
-          ></Script>
-        )}
-      </Head>
+      {sandboxEnabled ? (
+        <Script
+          type="text/javascript"
+          src="https://jstest.authorize.net/v1/Accept.js"
+          charSet="utf-8"
+        />
+      ) : (
+        <Script
+          type="text/javascript"
+          src="https://js.authorize.net/v1/Accept.js"
+          charSet="utf-8"
+        />
+      )}
+
       <AuthorizeNetCreditCardForm
         formRef={formRef}
         formId={formId}

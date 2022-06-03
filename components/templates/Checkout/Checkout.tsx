@@ -85,7 +85,6 @@ interface ICheckoutProps {
   close(): void;
 }
 
-// Used in place of React.useState(<initital_value>) to persist state in local storage.
 function usePersistedState(
   key: string,
   defaultValue: unknown
@@ -110,11 +109,7 @@ type FormFields = {
   postalCode?: string;
   countryArea?: string;
   phone?: string;
-  country?: {
-    code?: string;
-    country?: string;
-  };
-
+  country?: string;
   billingAsShipping?: boolean;
   billingFirstName?: string;
   billingLastName?: string;
@@ -125,10 +120,7 @@ type FormFields = {
   billingPostalCode?: string;
   billingCountryArea?: string;
   billingPhone?: string;
-  billingCountry?: {
-    code?: string;
-    country?: string;
-  };
+  billingCountry?: string;
 };
 
 const MuiCheckout = ({
@@ -141,7 +133,6 @@ const MuiCheckout = ({
   volumeDiscount,
   close,
 }: ICheckoutProps) => {
-  // ***** USE_STATE *****
   const [popover, setPopover] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState("customer");
@@ -162,9 +153,7 @@ const MuiCheckout = ({
     loyaltyPointsToBeEarnedOnOrderComplete,
     setLoyaltyPointsToBeEarnedOnOrderComplete,
   ] = usePersistedState("loyaltyPoints", 0);
-  // const [method, setMethod] = React.useState('creditcard');
 
-  // Checkout Info
   const {
     setBillingAddress,
     setShippingAddress,
@@ -177,9 +166,8 @@ const MuiCheckout = ({
     createPayment,
     completeCheckout,
     loaded: checkoutLoaded,
-    // payment
   } = useCheckout();
-  // Products
+
   const products: IProduct[] | null =
     items?.map(({ id, variant, totalPrice, quantity }) => ({
       id: id || "",
@@ -254,10 +242,8 @@ const MuiCheckout = ({
     email: Yup.string().email("Invalid email").required("Required"),
   });
 
-  // ***** USE_REF *****
   const checkoutGatewayFormRef = React.useRef<HTMLFormElement>(null);
 
-  // ***** MUTATIONS *****
   const [createOrUpdateCustomerRecord /*, { data, loading, error }*/] =
     useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord();
 
@@ -301,30 +287,14 @@ const MuiCheckout = ({
               },
             });
           }
-          // Reset checkout for subsequent checkouts
           router.push(
             `/order-finalized?token=${response.data?.order?.token}&orderNumber=${response.data?.order?.number}`
-            // TODO: The only state being used was the token and orderNumber - get this on thank you page from query params
-            // {
-            // state: {
-            //   confirmationData: response.data?.confirmationData,
-            //   confirmationNeeded: response.data?.confirmationNeeded,
-            //   order: response.data?.order,
-            //   errors: response.dataError?.error,
-            // },
-            // }
           );
         } else {
           errors = response.dataError?.error;
           handleErrors(errors);
           setPaymentFormError(errors.length > 0);
         }
-        // return {
-        //     confirmationData: response.data?.confirmationData,
-        //     confirmationNeeded: response.data?.confirmationNeeded,
-        //     order: response.data?.order,
-        //     errors: response.dataError?.error,
-        // };
       } else {
         handleErrors(errors);
         setPaymentFormError(errors.length > 0);
@@ -356,18 +326,6 @@ const MuiCheckout = ({
     checkIfLoyaltyAndReferralsActive();
   }, [checkIfLoyaltyAndReferralsActive]);
 
-  React.useEffect(() => {
-    if (user) {
-      const userInfo = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      };
-      createOrUpdateCustomerRecord({ user: userInfo });
-    }
-  }, [createOrUpdateCustomerRecord, loyaltyAndReferralsActive, user]);
-
-  // ***** EVENT HANDLERS *****
   const handleChange = async (
     event: any,
     newValue: string,
@@ -375,6 +333,9 @@ const MuiCheckout = ({
   ) => {
     if (value === "customer") {
       setLoading(true);
+      const code =
+        countries.find((country) => country.code === values?.country)?.code ??
+        "";
       const shippingSubmission = await setShippingAddress(
         {
           firstName: values?.firstName,
@@ -386,7 +347,11 @@ const MuiCheckout = ({
           postalCode: values?.postalCode,
           countryArea: values?.countryArea,
           phone: values?.phone,
-          country: values?.country,
+          country: {
+            code,
+
+            country: values?.country,
+          },
         },
         values?.email ?? ""
       );
@@ -429,7 +394,12 @@ const MuiCheckout = ({
               postalCode: values?.postalCode,
               countryArea: values?.countryArea,
               phone: values?.phone,
-              country: values?.country,
+              country: {
+                code: values?.country ?? "",
+                country:
+                  countries?.find((country) => country.code === values?.country)
+                    ?.code ?? "",
+              },
             },
             values?.email ?? ""
           );
@@ -454,7 +424,13 @@ const MuiCheckout = ({
               postalCode: values?.billingPostalCode,
               countryArea: values?.billingCountryArea,
               phone: values?.billingPhone,
-              country: values?.billingCountry,
+              country: {
+                code: values?.billingCountry ?? "",
+                country:
+                  countries.find(
+                    (country) => country.code === values?.billingCountry
+                  )?.country ?? "",
+              },
             },
             values?.email
           );
@@ -719,11 +695,8 @@ const MuiCheckout = ({
                 postalCode: checkout?.shippingAddress?.postalCode ?? "",
                 countryArea: checkout?.shippingAddress?.countryArea ?? "",
                 phone: checkout?.shippingAddress?.phone ?? "",
-                country: {
-                  code: checkout?.shippingAddress?.country?.code ?? "",
-                  country: checkout?.shippingAddress?.country?.country ?? "",
-                },
-                // BILLING ADDRESS FIELDS
+                country: checkout?.shippingAddress?.country?.code ?? "",
+
                 billingAsShipping: billingAsShipping || true,
                 billingFirstName: checkout?.billingAddress?.firstName ?? "",
                 billingLastName: checkout?.billingAddress?.lastName ?? "",
@@ -736,12 +709,7 @@ const MuiCheckout = ({
                 billingPostalCode: checkout?.billingAddress?.postalCode ?? "",
                 billingCountryArea: checkout?.billingAddress?.countryArea ?? "",
                 billingPhone: checkout?.billingAddress?.phone ?? "",
-                billingCountry: {
-                  code: checkout?.billingAddress?.country?.code ?? "",
-                  country: checkout?.billingAddress?.country?.country ?? "",
-                },
-                // SHIPPING FIELDS
-                // PAYMENT FIELDS
+                billingCountry: checkout?.billingAddress?.country?.code ?? "",
               }}
               onSubmit={handleSubmit}
             >
@@ -870,8 +838,7 @@ const MuiCheckout = ({
                             select
                           >
                             {countries?.map((option) => (
-                              // @ts-ignore
-                              <MenuItem key={option.code} value={option}>
+                              <MenuItem key={option.code} value={option.code}>
                                 {option.country}
                               </MenuItem>
                             ))}
@@ -1137,8 +1104,7 @@ const MuiCheckout = ({
                               select
                             >
                               {countries.map((option) => (
-                                // @ts-ignore
-                                <MenuItem key={option.code} value={option}>
+                                <MenuItem key={option.code} value={option.code}>
                                   {option.country}
                                 </MenuItem>
                               ))}

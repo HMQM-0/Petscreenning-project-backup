@@ -37,6 +37,7 @@ const Checkout: NextPage<
 export const getServerSideProps = async () => {
   const client = getApolloClient();
 
+  // TODO: USE ACTUAL QUERY
   const { data } = await client.query<CheckoutPageQuery>({
     query: CheckoutPageDocument,
   });

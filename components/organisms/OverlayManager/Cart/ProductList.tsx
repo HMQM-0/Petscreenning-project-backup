@@ -1,8 +1,8 @@
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
 import { Box, IconButton } from "@mui/material";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import Link from "next/link";
 
 import { TaxedMoney } from "components/molecules/TaxedMoney/TaxedMoney";
 import { Thumbnail } from "components/molecules/Thumbnail/Thumbnail";
@@ -32,15 +32,19 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
           data-test="cartRow"
           data-test-id={line.variant.sku}
         >
-          <Link to={productUrl}>
-            <Thumbnail source={line.variant.product ?? {}} />
+          <Link href={productUrl}>
+            <a>
+              <Thumbnail source={line.variant.product ?? {}} />
+            </a>
           </Link>
           <Box className={classes.cart__list__item__details}>
             <p data-test="price">
               <TaxedMoney taxedMoney={line.variant.pricing?.price} />
             </p>
-            <Link to={productUrl}>
-              <p data-test="name">{line.variant.product?.name}</p>
+            <Link href={productUrl}>
+              <a>
+                <p data-test="name">{line.variant.product?.name}</p>
+              </a>
             </Link>
             <Box
               component="span"
