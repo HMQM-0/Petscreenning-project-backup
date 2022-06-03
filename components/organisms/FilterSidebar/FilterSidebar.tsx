@@ -67,16 +67,14 @@ export const FilterSidebar = ({
         </S.Header>
         {attributes
           .sort((a, b) =>
-            // TODO: name can NOT be undefined. A BE issue. Adding `!` as a tmp fix
-            a.name!.localeCompare(b.name!)
+            a.name.localeCompare(b.name)
           )
           .map(({ id, name, slug, values }) => {
             return (
               <AttributeValuesChecklist
                 key={id}
                 title={name}
-                // TODO: slug can NOT be undefined. A BE issue. Adding `!` as a tmp fix
-                name={slug!}
+                name={slug}
                 // TODO: values is [] (not undefined). BE issue
                 values={values!.map((value) => ({
                   // TODO: value can not be null. A BE issue. Adding `!` as a tmp fix
@@ -87,14 +85,13 @@ export const FilterSidebar = ({
                   // TODO: value can NOT be undefined. BE issue
                   id: value!.id,
                   // TODO: value.name can NOT be undefined. A BE issue. Adding `!` as a tmp fix
-                  name: value!.name!,
+                  name: value!.name,
                   // TODO: value.slug can NOT be undefined. A BE issue. Adding `!` as a tmp fix
-                  slug: value!.slug!,
+                  slug: value!.slug,
                 }))}
                 valuesShowLimit
                 onValueClick={(value) =>
-                  // TODO: slug can NOT be undefined. A BE issue. Adding `!` as a tmp fix
-                  onAttributeFiltersChange(slug!, value.slug)
+                  onAttributeFiltersChange(slug, value.slug)
                 }
               />
             );
