@@ -186,8 +186,6 @@ const TopNav = (props: ITopNavProps) => {
             <IconButton
               color="inherit"
               aria-label="account"
-              // size="small"
-              // sx={{ ml: 2 }}
               aria-controls={accountMenuOpen ? "account-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={accountMenuOpen ? "true" : undefined}
@@ -205,90 +203,90 @@ const TopNav = (props: ITopNavProps) => {
               ) : (
                 <PersonOutlineOutlinedIcon color="action" />
               )}
-              <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={accountMenuOpen}
-                onClose={() => setAnchorEl(null)}
-                onClick={(event) => setAnchorEl(event.currentTarget)}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: "visible",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    "& .MuiAvatar-root": {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    "&:before": {
-                      content: '""',
-                      display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: "background.paper",
-                      transform: "translateY(-50%) rotate(45deg)",
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              >
-                <MenuItem>
-                  <Link href="/account">
-                    <a>
-                      <ListItemIcon>
-                        <PersonOutlineOutlinedIcon fontSize="small" />
-                      </ListItemIcon>
-                      My Account
-                    </a>
-                  </Link>
-                </MenuItem>
-                <Divider />
-                <MenuItem>
-                  <Link href="/order-history">
-                    <a>
-                      <ListItemIcon>
-                        <HistoryIcon fontSize="small" />
-                      </ListItemIcon>
-                      Order History
-                    </a>
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link href="/account/wishlist">
-                    <a>
-                      <ListItemIcon>
-                        <FavoriteIcon fontSize="small" />
-                      </ListItemIcon>
-                      Wishlist
-                    </a>
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link href="/address-book">
-                    <a>
-                      <ListItemIcon>
-                        <ImportContacts fontSize="small" />
-                      </ListItemIcon>
-                      Address Book
-                    </a>
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleSignOut}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Logout
-                </MenuItem>
-              </Menu>
             </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={accountMenuOpen}
+              onClose={() => setAnchorEl(null)}
+              onClick={() => setAnchorEl(null)}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem>
+                <Link href="/account">
+                  <a>
+                    <ListItemIcon>
+                      <PersonOutlineOutlinedIcon fontSize="small" />
+                    </ListItemIcon>
+                    My Account
+                  </a>
+                </Link>
+              </MenuItem>
+              <Divider />
+              <MenuItem>
+                <Link href="/order-history">
+                  <a>
+                    <ListItemIcon>
+                      <HistoryIcon fontSize="small" />
+                    </ListItemIcon>
+                    Order History
+                  </a>
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href="/account/wishlist">
+                  <a>
+                    <ListItemIcon>
+                      <FavoriteIcon fontSize="small" />
+                    </ListItemIcon>
+                    Wishlist
+                  </a>
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href="/address-book">
+                  <a>
+                    <ListItemIcon>
+                      <ImportContacts fontSize="small" />
+                    </ListItemIcon>
+                    Address Book
+                  </a>
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleSignOut}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
             {/* </Hidden> */}
             <Badge badgeContent={cartItemsQuantity} color="secondary">
               <IconButton
