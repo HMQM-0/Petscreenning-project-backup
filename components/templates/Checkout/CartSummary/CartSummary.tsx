@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       justifyContent: "space-between",
       width: "100%",
     },
-    marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(1),
+    // marginBottom: theme.spacing(1),
+    // marginTop: theme.spacing(1),
   },
   checkoutWrapper: {
     background: "linear-gradient(90deg, #FFF 50%, #F8FAFB 50%)",
@@ -49,9 +49,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     height: "100%",
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column-reverse",
-    },
+    // [theme.breakpoints.down("sm")]: {
+    //   flexDirection: "column-reverse",
+    // },
   },
   discountChip: {
     marginBottom: "16px",
@@ -59,32 +59,32 @@ const useStyles = makeStyles((theme: Theme) => ({
   priceButton: {
     borderRadius: 8,
     borderWidth: "0.5px !important",
-    borderColor: `${theme.palette.divider}`,
+    // borderColor: `${theme.palette.divider}`,
   },
   promoCodeContainer: {
     display: "grid",
     gridTemplateColumns: "3fr 1fr",
-    gridColumnGap: theme.spacing(1),
+    // gridColumnGap: theme.spacing(1),
     marginBottom: "16px",
     marginTop: "16px",
   },
   root: {
     maxWidth: 500,
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: theme.spacing(0),
-      marginTop: theme.spacing(1),
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-    },
+    // marginBottom: theme.spacing(2),
+    // marginTop: theme.spacing(2),
+    // [theme.breakpoints.down("sm")]: {
+    //   marginBottom: theme.spacing(0),
+    //   marginTop: theme.spacing(1),
+    //   paddingLeft: theme.spacing(2),
+    //   paddingRight: theme.spacing(2),
+    // },
   },
   title: {
-    marginBottom: theme.spacing(2),
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "1.1rem",
-      marginBottom: theme.spacing(0),
-    },
+    // marginBottom: theme.spacing(2),
+    // [theme.breakpoints.down("sm")]: {
+    //   fontSize: "1.1rem",
+    //   marginBottom: theme.spacing(0),
+    // },
   },
 }));
 

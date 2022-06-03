@@ -5,12 +5,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
   backdropWhite: {
     backgroundColor: "#FFF",
     minWidth: 800,
-    padding: theme.spacing(6),
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(2),
-      minWidth: "auto",
-      borderTop: `1px solid ${theme.palette.divider}`,
-    },
+    // padding: theme.spacing(6),
+    // [theme.breakpoints.down("sm")]: {
+    //   padding: theme.spacing(2),
+    //   minWidth: "auto",
+    //   borderTop: `1px solid ${theme.palette.divider}`,
+    // },
   },
   breadcrumb: {
     "& .MuiBreadcrumbs-ol": {
@@ -23,28 +23,28 @@ export const useStyles = makeStyles((theme: Theme) => ({
       fontSize: "1.0rem",
       fontWeight: 400,
     },
-    [theme.breakpoints.down("md")]: {
-      marginBottom: 84,
-    },
+    // [theme.breakpoints.down("md")]: {
+    //   marginBottom: 84,
+    // },
   },
   buttonGroupButton: {
     borderWidth: "1px important",
-    borderColor: `${theme.palette.divider}`,
+    // borderColor: `${theme.palette.divider}`,
     fontSize: "1rem",
   },
   buttonPopover: {
     borderRadius: 8,
     minWidth: 180,
     fontSize: "0.8rem",
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1),
+    // paddingBottom: theme.spacing(1),
+    // paddingTop: theme.spacing(1),
     minHeight: 43,
     marginLeft: "0 !important",
   },
   buttonText: {
     borderRadius: 2,
     "& .MuiButton-label": {
-      color: theme.palette.text.disabled,
+      // color: theme.palette.text.disabled,
       fontSize: "1.0rem",
       fontWeight: 400,
       justifyContent: "start",
@@ -59,8 +59,8 @@ export const useStyles = makeStyles((theme: Theme) => ({
     width: 128,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: `${theme.palette.primary.main}`,
-    color: `${theme.palette.getContrastText(theme.palette.primary.main)}`,
+    // backgroundColor: `${theme.palette.primary.main}`,
+    // color: `${theme.palette.getContrastText(theme.palette.primary.main)}`,
     fontSize: "0.9rem",
   },
   cardButton: {
@@ -83,18 +83,18 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   cartSummary: {
     backgroundColor: "#F8FAFB",
-    borderLeft: `1px solid ${theme.palette.divider}`,
-    padding: theme.spacing(4),
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(0),
-      borderLeft: "none",
-    },
+    // borderLeft: `1px solid ${theme.palette.divider}`,
+    // padding: theme.spacing(4),
+    // [theme.breakpoints.down("sm")]: {
+    //   padding: theme.spacing(0),
+    //   borderLeft: "none",
+    // },
   },
   checkoutBanner: {
     placeContent: "center",
     backgroundColor: "#FFF",
     display: "flex",
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    // borderBottom: `1px solid ${theme.palette.divider}`,
     height: 96,
     width: "100vw",
   },
@@ -104,9 +104,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     height: "100%",
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column-reverse",
-    },
+    // [theme.breakpoints.down("sm")]: {
+    //   flexDirection: "column-reverse",
+    // },
   },
   checkoutGrid: {
     // backgroundColor: 'transparent',
@@ -120,19 +120,19 @@ export const useStyles = makeStyles((theme: Theme) => ({
     gridTemplateColumns: "1fr 1fr",
     gap: 16,
     marginBottom: 16,
-    [theme.breakpoints.down("sm")]: {
-      display: "flex",
-      flexDirection: "column",
-    },
+    // [theme.breakpoints.down("sm")]: {
+    //   display: "flex",
+    //   flexDirection: "column",
+    // },
   },
   buttonsGrid: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gap: 16,
-    [theme.breakpoints.down("sm")]: {
-      display: "flex",
-      flexDirection: "column-reverse",
-    },
+    // [theme.breakpoints.down("sm")]: {
+    //   display: "flex",
+    //   flexDirection: "column-reverse",
+    // },
   },
   gridspan: {
     gridColumn: "1 / span 2",
@@ -156,21 +156,21 @@ export const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     // flex-direction: column;
     gap: 4,
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      gap: theme.spacing(1),
-      marginBottom: theme.spacing(2),
-    },
+    // [theme.breakpoints.down("sm")]: {
+    //   flexDirection: "column",
+    //   gap: theme.spacing(1),
+    //   marginBottom: theme.spacing(2),
+    // },
   },
   quantityText: {
     marginTop: "auto",
     marginBottom: "auto",
   },
   sellerName: {
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "1rem",
-      fontWeight: 600,
-    },
+    // [theme.breakpoints.down("sm")]: {
+    //   fontSize: "1rem",
+    //   fontWeight: 600,
+    // },
   },
   sellerShippingMethodSelect: {
     display: "grid",
@@ -178,7 +178,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   shippingCard: {
     alignItems: "center",
-    border: `1px solid ${theme.palette.divider}`,
+    // border: `1px solid ${theme.palette.divider}`,
     borderRadius: 8,
     display: "flex",
     flexDirection: "row",

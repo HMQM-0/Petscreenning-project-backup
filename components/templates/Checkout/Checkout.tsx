@@ -22,12 +22,11 @@ import * as React from "react";
 import clsx from "clsx";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-mui";
-import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import { useQueryParams, StringParam } from "next-query-params";
+import { useRouter } from "next/router";
 
 import { useAuth, useCheckout } from "@nautical/react";
-import { StripePaymentGateway } from "@components/organisms";
 import Loader from "deprecated/components/Loader";
 import { ICardData, IFormError } from "@types";
 import {
@@ -45,6 +44,7 @@ import {
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 
+import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
 import { IProduct } from "./types";
 import { CartSummary } from "./CartSummary";
@@ -220,7 +220,7 @@ const MuiCheckout = ({
     payment_intent: StringParam,
     payment_intent_client_secret: StringParam,
   });
-  const navigate = useNavigate();
+  const router = useRouter();
   const classes = useStyles({});
   const sellers = checkout?.lines?.map((line) => line.seller);
   const sellerSet = new Set(sellers);
@@ -302,18 +302,18 @@ const MuiCheckout = ({
             });
           }
           // Reset checkout for subsequent checkouts
-          navigate("/order-finalized/", {
-            // navigate("/order-history/" + response.data?.order?.token, {
-            replace: true,
-            state: {
-              confirmationData: response.data?.confirmationData,
-              confirmationNeeded: response.data?.confirmationNeeded,
-              order: response.data?.order,
-              errors: response.dataError?.error,
-              token: response.data?.order?.token,
-              orderNumber: response.data?.order?.number,
-            },
-          });
+          router.push(
+            `/order-finalized?token=${response.data?.order?.token}&orderNumber=${response.data?.order?.number}`
+            // TODO: The only state being used was the token and orderNumber - get this on thank you page from query params
+            // {
+            // state: {
+            //   confirmationData: response.data?.confirmationData,
+            //   confirmationNeeded: response.data?.confirmationNeeded,
+            //   order: response.data?.order,
+            //   errors: response.dataError?.error,
+            // },
+            // }
+          );
         } else {
           errors = response.dataError?.error;
           handleErrors(errors);
@@ -336,7 +336,7 @@ const MuiCheckout = ({
       completeCheckout,
       createPayment,
       loyaltyPointsToBeEarnedOnOrderComplete,
-      navigate,
+      router,
       user,
     ]
   );
@@ -403,7 +403,7 @@ const MuiCheckout = ({
       if (newValue === "payment") {
         if (
           // @ts-ignore
-          JSON.parse(checkout.sellerShippingMethods).length ===
+          JSON.parse(checkout.sellerShippingMethods ?? "{}").length ===
           availableShippingMethodsBySeller?.length
         ) {
           setValue(newValue);
@@ -576,7 +576,7 @@ const MuiCheckout = ({
   };
 
   const handleClose = () => {
-    navigate("/cart/");
+    router.push("/cart/");
     setAnchorEl(null);
     setPopover(false);
     close();

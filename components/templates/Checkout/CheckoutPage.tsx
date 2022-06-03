@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     width: "100vw",
     // @ts-ignore
-    [theme.breakpoints.down("sm")]: {
-      height: "auto",
-    },
+    // [theme.breakpoints.down("sm")]: {
+    //   height: "auto",
+    // },
   },
   modal: {
     overflow: "auto",
