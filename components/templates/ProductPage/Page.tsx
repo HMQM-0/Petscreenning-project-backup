@@ -10,10 +10,7 @@ import _mapKeys from "lodash/mapKeys";
 import AddToCartSection from "components/organisms/AddToCartSection";
 import { ProductDescription } from "components/molecules/ProductDescription";
 import { ProductGallery } from "components/organisms/ProductGallery";
-import {
-  generateCategoryUrl,
-  generateProductUrl,
-} from "core/utils";
+import { generateCategoryUrl, generateProductUrl } from "core/utils";
 import Breadcrumbs from "components/atoms/Breadcrumbs";
 import { IItems } from "@nautical/api/Cart/types";
 
@@ -28,37 +25,38 @@ export interface PageProps {
   items: IItems;
 }
 
-const Page = ({
-  add,
-  product,
-  items,
-}: PageProps) => {
+const Page = ({ add, product, items }: PageProps) => {
   const alert = useAlert();
   const productGallery = useRef<HTMLDivElement | undefined>();
   const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
   const router = useRouter();
   // TODO: There should be a better way
-  const searchQueryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
+  const searchQueryAttributes = _mapKeys(router.query, (value, key) =>
+    key?.toString().toLowerCase()
+  );
 
-  const redirectToVariant = useCallback((variantId: string) => {
-    const selectedVariant =
-      // TODO: variant should not be empty here. A BE issue? And variants should not contain null as well
-      product.variants?.find((variant) => variant!.id === variantId);
+  const redirectToVariant = useCallback(
+    (variantId: string) => {
+      const selectedVariant =
+        // TODO: variant should not be empty here. A BE issue? And variants should not contain null as well
+        product.variants?.find((variant) => variant!.id === variantId);
 
-    return router.replace(
-      {
-        query: {
-          ...router.query,
-          ..._mapValues(
-            _keyBy(selectedVariant?.attributes, 'attribute.slug'),
-            (attributeItem) => attributeItem.values[0]?.value
-          )
+      return router.replace(
+        {
+          query: {
+            ...router.query,
+            ..._mapValues(
+              _keyBy(selectedVariant?.attributes, "attribute.slug"),
+              (attributeItem) => attributeItem.values[0]?.value
+            ),
+          },
         },
-      },
-      undefined,
-      { shallow: true }
-    );
-  }, [product.variants, router]);
+        undefined,
+        { shallow: true }
+      );
+    },
+    [product.variants, router]
+  );
 
   useEffect(() => {
     // Try to find a variant that has all the query param attributes
@@ -67,7 +65,8 @@ const Page = ({
       productVariant!.attributes.every((productVariantAttribute) => {
         const slug = productVariantAttribute.attribute.slug;
         // TODO: We expect that there will always be an attribute value (in case DB is consistent)
-        const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
+        const productVariantAttributeValue =
+          productVariantAttribute.values[0]?.value;
         // TODO: BE issue. Slug should always be set
         return productVariantAttributeValue === searchQueryAttributes[slug!];
       })
@@ -84,7 +83,12 @@ const Page = ({
     }
 
     setVariantId(suitableVariant.id);
-  }, [redirectToVariant, product.variants, searchQueryAttributes, product.defaultVariant]);
+  }, [
+    redirectToVariant,
+    product.variants,
+    searchQueryAttributes,
+    product.defaultVariant,
+  ]);
 
   const scrollToRatingsAndReviewsSection = () =>
     ratingsAndReviewsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -98,20 +102,22 @@ const Page = ({
     value: product.name,
   };
 
-  const breadcrumbs = productCategory ?
-    [
-      {
-        link: generateCategoryUrl(productCategory.id, productCategory.name),
-        value: productCategory.name,
-      },
-      productBreadcrumbItem,
-    ] : [productBreadcrumbItem];
-
+  const breadcrumbs = productCategory
+    ? [
+        {
+          link: generateCategoryUrl(productCategory.id, productCategory.name),
+          value: productCategory.name,
+        },
+        productBreadcrumbItem,
+      ]
+    : [productBreadcrumbItem];
 
   const getSizeGuide = () => {
     const sizeGuide = product.images?.find((image) =>
       // TODO: BE issue. images can not contain null
-      image!.url.substring(image!.url.lastIndexOf("/") + 1).includes("sizeguide-")
+      image!.url
+        .substring(image!.url.lastIndexOf("/") + 1)
+        .includes("sizeguide-")
     );
     return sizeGuide?.url || undefined;
   };
@@ -127,13 +133,15 @@ const Page = ({
 
   // We use variant images (if variant is set and if it has separate images)
   // Use regular images otherwise
-  const images = (variantId ? getVariantImages(variantId) : []) || product.images;
+  const images =
+    (variantId ? getVariantImages(variantId) : []) || product.images;
 
-  const filteredImages = images?.filter((image) =>
-    // TODO: BE issue. image can not be null here
-    !image!.url
-      .substring(image!.url.lastIndexOf("/") + 1)
-      .includes("sizeguide-")
+  const filteredImages = images?.filter(
+    (image) =>
+      // TODO: BE issue. image can not be null here
+      !image!.url
+        .substring(image!.url.lastIndexOf("/") + 1)
+        .includes("sizeguide-")
   );
 
   const onVariantChangeHandler = (variantId: string | undefined) => {
@@ -142,8 +150,9 @@ const Page = ({
     return redirectToVariant(selectedVariantId);
   };
 
-  const handleAddToCart = (variantId: string, quantity: number) => {
-    add(variantId, quantity);
+  const handleAddToCart = async (variantId: string, quantity: number) => {
+    const data = await add(variantId, quantity);
+    //NTODO: Confirm before showing success message
     alert.show(
       {
         title: `Added ${quantity} x ${product.name}`,
@@ -170,12 +179,12 @@ const Page = ({
   );
 
   return (
-    <Box className={classes['product-page']}>
+    <Box className={classes["product-page"]}>
       <Box className="container">
         <Breadcrumbs breadcrumbs={breadcrumbs} />
       </Box>
       <Box className="container">
-        <Box className={classes['product-page__product']}>
+        <Box className={classes["product-page__product"]}>
           <Media query={{ maxWidth: "540px" }}>
             {(matches) =>
               matches ? (
@@ -183,22 +192,24 @@ const Page = ({
                   {/* // TODO: A BE issue. images can not contain null (`[null]`) */}
                   {/* @ts-ignore */}
                   <GalleryCarousel images={filteredImages} />
-                  <Box className={classes['product-page__product__info']}>
+                  <Box className={classes["product-page__product__info"]}>
                     {addToCartSection}
                   </Box>
                 </>
               ) : (
                 <>
                   <Box
-                    className={classes['product-page__product__gallery']}
+                    className={classes["product-page__product__gallery"]}
                     ref={productGallery}
                   >
                     {/* // TODO: A BE issue. images can not contain null (`[null]`) */}
                     {/* @ts-ignore */}
                     <ProductGallery images={filteredImages} />
                   </Box>
-                  <Box className={classes['product-page__product__info']}>
-                    <Box className={classes['product-page__product__info--fixed']}>
+                  <Box className={classes["product-page__product__info"]}>
+                    <Box
+                      className={classes["product-page__product__info--fixed"]}
+                    >
                       {addToCartSection}
                     </Box>
                   </Box>
@@ -209,7 +220,7 @@ const Page = ({
         </Box>
       </Box>
       <Box className="container">
-        <Box className={classes['product-page__product__description']}>
+        <Box className={classes["product-page__product__description"]}>
           <ProductDescription
             descriptionJson={product.descriptionJson}
             attributes={product.attributes}
@@ -220,7 +231,11 @@ const Page = ({
         </Box>
       </Box>
       {/* // TODO: A BE issue. products can not be empty here */}
-      <OtherProducts products={product.category?.products!.edges.map(({ node }) => node) ?? []} />
+      <OtherProducts
+        products={
+          product.category?.products!.edges.map(({ node }) => node) ?? []
+        }
+      />
     </Box>
   );
 };
