@@ -23,6 +23,14 @@
   }
 }
 
+.bottom-nav {
+  display: none;
+  @media (max-width: $small-screen) {
+    display: block;
+    z-index: 2;
+  }
+}
+
 .main-menu {
   align-items: center;
   background-color: $white;

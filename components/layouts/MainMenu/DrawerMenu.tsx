@@ -1,14 +1,14 @@
 import { Drawer, Box } from "@mui/material";
 import * as React from "react";
 
-import { useMainMenuQuery } from "./queries.graphql.generated";
-
-import { MobileNavList } from "../MobileNav";
+import { useMainMenuQuery } from "deprecated/components/MainMenu/queries.graphql.generated";
+import { MobileNavList } from "deprecated/components/MobileNav";
 
 interface IDrawerMenuProps {
   anchor: "left" | "top" | "right" | "bottom";
   open: boolean;
   logo?: React.ReactNode;
+
   close(): void;
 }
 

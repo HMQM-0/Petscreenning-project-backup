@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-import { BrandingType } from "@generated";
+import { DocumentHeadProps } from "./MemoizedDocumentHead";
 
-export default function useManifest(branding: BrandingType) {
+export default function useManifest(branding: DocumentHeadProps["branding"]) {
   useEffect(() => {
     if (branding) {
       const manifestElement = document.getElementById("manifest");
@@ -32,7 +32,7 @@ export default function useManifest(branding: BrandingType) {
       manifestElement?.setAttribute(
         "href",
         "data:application/json;charset=utf-8," +
-          encodeURIComponent(manifestString)
+        encodeURIComponent(manifestString)
       );
     }
   }, [branding]);

@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
+import { useState } from "react";
 
-import LoginForm from "deprecated/components/LoginForm/index";
-import Offline from "deprecated/components/Offline/index";
+import LoginForm from "components/molecules/LoginForm";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
-import Online from "deprecated/components/Online/index";
 import { OverlayContextInterface, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
 import { X as CloseImg } from "components/icons/x";
+import { useNetworkStatus } from "@hooks";
 
 import classes from "./scss/index.module.scss";
 import ForgottenPassword from "./ForgottenPassword";
@@ -22,34 +22,26 @@ interface LoginProps {
   active: "login" | "register";
 }
 
-class Login extends React.Component<LoginProps,
-  { active: "login" | "register" }> {
-  static defaultProps = {
-    active: "login",
+const Login = ({ active: initialActiveState, overlay }: LoginProps) => {
+  const { online: isOnline } = useNetworkStatus();
+  const [active, setActive] = useState(initialActiveState);
+
+  const changeActiveTab = (newTab: "login" | "register") => {
+    setActive(newTab);
   };
 
-  constructor(props: LoginProps) {
-    super(props);
-    this.state = {
-      active: props.active,
-    };
-  }
+  const { show, hide } = overlay;
 
-  changeActiveTab = (active: "login" | "register") => {
-    this.setState({ active });
-  };
+  const isLogin = active === 'login';
 
-  render() {
-    const { overlay } = this.props;
-    const { show, hide } = overlay;
-
-    return (
-      <Overlay testingContext="loginOverlay" context={overlay}>
-        <Box className={classes.login}>
-          <Online>
+  return (
+    <Overlay testingContext="loginOverlay" context={overlay}>
+      <Box className={classes.login}>
+        {isOnline ? (
+          <>
             <Box className={overlayClasses.overlay__header}>
               <p className={overlayClasses["overlay__header-text"]}>
-                <FormattedMessage defaultMessage="Nautical account" />
+                <FormattedMessage defaultMessage="my account" />
               </p>
               <button onClick={hide} className={overlayClasses["overlay__header__close-icon"]}>
                 <CloseImg />
@@ -59,22 +51,22 @@ class Login extends React.Component<LoginProps,
               <Box
                 component="span"
                 data-test="loginTab"
-                onClick={() => this.changeActiveTab("login")}
-                className={this.state.active === "login" ? classes["active-tab"] : ""}
+                onClick={() => changeActiveTab("login")}
+                className={isLogin ? classes["active-tab"] : ""}
               >
                 <FormattedMessage defaultMessage="Sign in to account" />
               </Box>
               <Box
                 component="span"
                 data-test="registerTab"
-                onClick={() => this.changeActiveTab("register")}
-                className={this.state.active === "register" ? classes["active-tab"] : ""}
+                onClick={() => changeActiveTab("register")}
+                className={!isLogin ? classes["active-tab"] : ""}
               >
                 <FormattedMessage defaultMessage="Register new account" />
               </Box>
             </Box>
             <Box className={classes.login__content}>
-              {this.state.active === "login" ? (
+              {isLogin ? (
                 <>
                   <LoginForm hide={hide} />
                   <ForgottenPassword
@@ -87,14 +79,13 @@ class Login extends React.Component<LoginProps,
                 <RegisterForm hide={hide} />
               )}
             </Box>
-          </Online>
-          <Offline>
-            <OfflinePlaceholder />
-          </Offline>
-        </Box>
-      </Overlay>
-    );
-  }
-}
+          </>
+        ) : (
+          <OfflinePlaceholder />
+        )}
+      </Box>
+    </Overlay>
+  );
+};
 
 export default Login;

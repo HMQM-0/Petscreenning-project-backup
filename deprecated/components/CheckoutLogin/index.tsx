@@ -7,12 +7,12 @@ import { Navigate } from "react-router";
 import { useAuth } from "@nautical/react";
 import { generateMicrositeUrl } from "@utils/core";
 import { getMicrositeId, getMicrositeSlug, isMicrosite } from "core/utils";
+import { OverlayType, OverlayTheme } from "components/providers/Overlay/context";
 
 import CheckoutAsGuest from "./CheckoutAsGuest";
 import SignInForm from "./SignInForm";
 
 import { Offline, OfflinePlaceholder, Online, OverlayContext } from "..";
-import { OverlayType, OverlayTheme } from "../Overlay";
 
 const CheckoutLogin: React.FC<{}> = () => {
   const overlay = useContext(OverlayContext);
@@ -29,9 +29,9 @@ const CheckoutLogin: React.FC<{}> = () => {
         to={
           !!isMicrosite()
             ? `${generateMicrositeUrl(
-                getMicrositeId(),
-                getMicrositeSlug()
-              )}checkout/`
+              getMicrositeId(),
+              getMicrositeSlug()
+            )}checkout/`
             : "/checkout/"
         }
       />
@@ -46,9 +46,9 @@ const CheckoutLogin: React.FC<{}> = () => {
             checkoutUrl={
               !!isMicrosite()
                 ? `${generateMicrositeUrl(
-                    getMicrositeId(),
-                    getMicrositeSlug()
-                  )}checkout/`
+                  getMicrositeId(),
+                  getMicrositeSlug()
+                )}checkout/`
                 : "/checkout/"
             }
           />

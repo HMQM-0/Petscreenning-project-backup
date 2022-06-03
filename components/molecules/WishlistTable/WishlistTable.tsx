@@ -117,7 +117,6 @@ export const WishlistTable = ({ wishlist }: IProps) => {
                 <p
                   className={classes.clickMessage}
                   onClick={() =>
-                    // TODO: is it possible to get here when user is not set? Login flow to be fixed?
                     overlayContext.show(OverlayType.login, OverlayTheme.right)
                   }
                 >

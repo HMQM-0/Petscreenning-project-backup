@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
-import { BrandingFragment } from "queries/branding.graphql.generated";
+import { BrandingType } from "@generated";
 
 export type DocumentHeadProps = {
   title: string;
@@ -10,7 +10,7 @@ export type DocumentHeadProps = {
   url: string;
   schema: string;
   type?: string;
-  branding: BrandingFragment;
+  branding: Omit<BrandingType, 'id'>;
   custom?: {
     property: string;
     content: string | undefined;
