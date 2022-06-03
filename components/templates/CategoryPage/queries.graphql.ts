@@ -2,6 +2,8 @@ import { gql } from "@apollo/client";
 
 import { brandingFragment } from "queries/branding.graphql";
 
+import { productList } from "../ProductsPage/queries.graphql";
+
 export const basicCategory = gql`
   fragment BasicCategory on Category {
     seoDescription
@@ -27,14 +29,33 @@ export const basicCategory = gql`
 export const categoryPageQuery = gql`
   ${basicCategory}
   ${brandingFragment}
+  ${productList}
   query CategoryPage(
     $id: ID!
+    $attributes: [AttributeInput!]
+    $after: String
+    $pageSize: Int
+    $sortBy: ProductOrder
+    $priceLte: Float
+    $priceGte: Float
   ) {
     branding {
       ...Branding
     }
     category(id: $id) {
       ...BasicCategory
+    }
+    productList: products(
+      after: $after
+      first: $pageSize
+      sortBy: $sortBy
+      filter: {
+        attributes: $attributes
+        categories: [$id]
+        minimalPrice: { gte: $priceGte, lte: $priceLte }
+      }
+    ) {
+      ...ProductList
     }
   }
 `;
