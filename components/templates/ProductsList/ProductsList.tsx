@@ -165,19 +165,11 @@ const ProductsList = ({
     return {
       attributeSlug,
       valueName:
-      // TODO: adding `ts-ignore` as a tmp fix, since values has incorrect type. To be fixed on BE
-      // @ts-ignore
       attributes
-        .find(
-          // TODO: attributes can not contain null values like [null, {}, ...]. That is a BE error
-          // @ts-ignore
-          ({ slug }) => attributeSlug === slug
-        )
-        ?.values.find(
-        // TODO: values can not contain null values like [null, {}, ...]. That is a BE error
-        // @ts-ignore
-        ({ slug }) => valueSlug === slug
-      )?.name,
+        .find(({ slug }) => attributeSlug === slug)
+        // TODO: values should not be empty. A BE issue?
+        ?.values!.find(({ slug }) => valueSlug === slug)
+        ?.name,
       valueSlug,
     };
   };

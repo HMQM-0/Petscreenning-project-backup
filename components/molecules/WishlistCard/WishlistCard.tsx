@@ -207,14 +207,12 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
               }}
               onChange={(event) => {
                 const selectedVariant =
-                  // TODO: variantItem can NOT be null. A BE issue
-                  product.variants?.find((variantItem) => variantItem!.id === event.target.value);
+                  product.variants?.find((variantItem) => variantItem.id === event.target.value);
                 setVariant(selectedVariant || null);
               }}
             >
               {product.variants?.map((variant) => {
-                // TODO: v is not null. a BE issue
-                return (<MenuItem key={variant!.id} value={variant!.id}>{variant!.name}</MenuItem>);
+                return (<MenuItem key={variant.id} value={variant.id}>{variant.name}</MenuItem>);
               })}
             </Select>
           </>

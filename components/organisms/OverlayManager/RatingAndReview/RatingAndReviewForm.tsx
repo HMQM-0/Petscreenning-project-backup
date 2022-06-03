@@ -29,8 +29,6 @@ const showSuccessNotification = (
     hide();
     alert.show(
       {
-        // TODO: to be fixed in a separate task
-        // @ts-ignore
         title: intl.formatMessage({
           defaultMessage: "Your Rating and Review has been submitted.",
         }),

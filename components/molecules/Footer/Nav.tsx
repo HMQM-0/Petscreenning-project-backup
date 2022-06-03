@@ -72,19 +72,15 @@ const Nav = ({ footerText, icon }: INavProps) => {
           style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
         >
           {secondaryMenuItems?.map((item) => (
-            // TODO: A BE issue, item should not be null
-            <Box className={classes["footer-nav__section"]} key={item!.id}>
+            <Box className={classes["footer-nav__section"]} key={item.id}>
               <h4 className={classes["footer-nav__section-header"]}>
-                {/* // TODO: A BE issue, item should not be null*/}
-                <NavLink item={item!} />
+                <NavLink item={item} />
               </h4>
               <Box className={classes["footer-nav__section-content"]}>
                 {/* // TODO: children can be null? A BE issue? */}
                 {item!.children?.map((subItem) => (
-                  // TODO: A BE issue. subItem can not be null
-                  <p key={subItem!.id}>
-                    {/* // TODO: A BE issue, item should not be null */}
-                    <NavLink item={subItem!} />
+                  <p key={subItem.id}>
+                    <NavLink item={subItem} />
                   </p>
                 ))}
               </Box>

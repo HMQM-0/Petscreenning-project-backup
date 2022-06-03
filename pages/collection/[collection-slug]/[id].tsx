@@ -34,7 +34,6 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
   const collection = data.collection;
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       {collection ? (
         <ProductsListView>

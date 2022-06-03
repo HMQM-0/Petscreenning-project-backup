@@ -3,14 +3,11 @@ export interface IProps {
   descriptionJson?: string;
   features?: Array<{
       description?: string | null | undefined; name?: string | null | undefined;
-    }// TODO: A BE issue. null should not be here
-      | null>
+    }>
     | null;
   attributes?: Array<{
     attribute: { name: string };
-    values: Array<{ name: string }
-      // TODO: A BE issue. null should not be here
-      | null>;
+    values: Array<{ name: string }>;
   }>;
   productId: string;
   ratingsAndReviewsSectionRef?: any;

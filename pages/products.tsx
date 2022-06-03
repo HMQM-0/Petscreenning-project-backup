@@ -28,7 +28,6 @@ const Products: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   };
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <ProductsListView>
         {(props) => <ProductsPage {...props} />}

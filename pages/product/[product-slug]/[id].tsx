@@ -16,14 +16,12 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
     product,
     branding,
   },
-  productId,
 }) => {
   const description = product?.seoDescription || product?.descriptionJson || "Product";
   const title = product?.seoTitle || product?.name || "Product";
   const schema = structuredData(description, title);
   const documentHead = {
-    // TODO: is should NOT be undefined here. BE issue
-    branding: branding!,
+    branding,
     description,
     title,
     schema,
@@ -79,7 +77,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       data,
-      productId,
       __APOLLO__,
     },
   };

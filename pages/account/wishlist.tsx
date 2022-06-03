@@ -10,9 +10,7 @@ import {
   WishlistPageQuery,
 } from "components/templates/WishlistPage/queries.graphql.generated";
 
-const Wishlist: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data }) => {
+const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const description = "Wishlist";
   const title = "Wishlist";
   const schema = structuredData(description, title);
@@ -25,7 +23,6 @@ const Wishlist: NextPage<
   };
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
         <WishlistPage />

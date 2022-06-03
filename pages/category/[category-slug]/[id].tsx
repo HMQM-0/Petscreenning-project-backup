@@ -33,7 +33,6 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   const category = data.category;
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       {category ? (
         <ProductsListView>
