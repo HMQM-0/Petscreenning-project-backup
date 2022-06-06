@@ -1,10 +1,7 @@
-// import { items } from "./fixtures";
-
 export interface IProps {
   onHide?: (show: boolean) => void;
   show?: boolean;
   target?: HTMLElement | null;
-  // TODO: use codegen types
   items: DirectoryItem[];
   width?: string;
 }
@@ -16,7 +13,7 @@ export interface CategoryItem {
 
 export interface PageItem {
   id: string;
-  name: string;
+  slug: string;
 }
 
 export interface CollectionItem {
@@ -37,8 +34,4 @@ export interface DirectoryItem {
   page: PageItem | null;
   parent: ParentItem;
   children: DirectoryItem[] | null;
-}
-
-export interface DirectoryItems {
-  items: DirectoryItem[];
 }

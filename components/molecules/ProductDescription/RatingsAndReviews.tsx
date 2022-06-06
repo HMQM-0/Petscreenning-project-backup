@@ -133,7 +133,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
   const [hasMore, setHasMore] = React.useState(true);
   const [items, setItems] = React.useState(Array.from({ length: 10 }));
 
-  // TODO: NEED TO MODIFY THIS LATER TO DEAL WITH HUGE LISTS OF REVIEWS
+  // NEED TO MODIFY THIS LATER TO DEAL WITH HUGE LISTS OF REVIEWS
   const fetchMoreData = () => {
     if (!reviews?.length || items.length >= reviews.length) {
       setHasMore(false);

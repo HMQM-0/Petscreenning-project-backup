@@ -37,7 +37,7 @@ const Page = ({
   const productGallery = useRef<HTMLDivElement | undefined>();
   const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
   const router = useRouter();
-  // TODO: There should be a better way
+  // There should be a better way
   const searchQueryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
 
   const redirectToVariant = useCallback((variantId: string) => {

@@ -4,7 +4,6 @@ import { useIntl } from "react-intl";
 
 import { AddToWishlistButton } from "components/molecules/AddToWishlistButton";
 import { WishlistContext } from "components/providers/Wishlist/context";
-// TODO: Refactor
 import { useAuth } from "@nautical/react";
 import { userWishlist } from "components/providers/Wishlist/queries.graphql";
 import {

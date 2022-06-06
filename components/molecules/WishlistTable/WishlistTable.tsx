@@ -90,8 +90,6 @@ export const WishlistTable = ({ wishlist }: IProps) => {
           {(!wishlist || wishlist.length === 0) && (
             <Box className={classes.emptyContainer}>
               <Box component="span" className={classes.heartWrapper}>
-                {/* TODO: how to pass classname? */}
-                {/* @ts-ignore */}
                 <Heart className={classes.heartIcon} />
               </Box>
               <h2 className={classes.emptyMessage}>Your wishlist is empty</h2>

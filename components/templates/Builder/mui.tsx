@@ -1,5 +1,5 @@
-// TODO: Try to remove any of these that aren't being actively used
-// TODO: Try to move these to individual files so they can be imported as required, rather than wholesale
+// Remove any of these that aren't being actively used
+// Move these to individual files so they can be imported as required, rather than wholesale
 
 import { Builder } from "@builder.io/react";
 import {

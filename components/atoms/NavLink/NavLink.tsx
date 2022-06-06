@@ -23,7 +23,7 @@ const getLinkUrl = ({
   if (page) {
     return generatePageUrl(page.slug);
   }
-  // TODO: Do we need to track error here?
+  // Do we need to track error here?
   return null;
 };
 
@@ -35,13 +35,22 @@ export const NavLink = ({
   const { name, url } = item;
 
   if (url) {
+    const className = typeof props.className === 'function'
+      // Props are based on NavLink props - so showing `non-active` one
+      // in case className was passed as a function
+      ? props.className({ isActive: false })
+      : props.className;
+    const style = typeof props.style === 'function'
+      // Props are based on NavLink props - so showing `non-active` styles
+      // in case style was passed as a function
+      ? props.style({ isActive: false })
+      : props.style;
     return (
       <a
         href={url}
-        // TODO: how to fix?
-        // @ts-ignore
-        className={props.className}
         {...props}
+        className={className}
+        style={style}
       >
         {name}
       </a>

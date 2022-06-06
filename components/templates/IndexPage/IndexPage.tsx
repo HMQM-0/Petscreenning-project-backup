@@ -10,13 +10,15 @@ import classes from "./scss/index.module.scss";
 import { Builder } from "./Builder";
 import { HomeQuery } from "./queries.graphql.generated";
 
+// Add typed-prop for json
 export const parseHomePageCollectionJson = (descriptionJson: any): string => {
   if (!descriptionJson) {
     return "";
   }
 
+  // Need to type this data
   const object = JSON.parse(descriptionJson);
-  return object?.blocks?.[0]?.text ?? ""; // TODO: Need to type this data
+  return object?.blocks?.[0]?.text ?? "";
 };
 
 type IndexPageProps = {

@@ -22,7 +22,7 @@ export interface IProductVariantPickerProps {
 
 type AttributesById = Record<VariantAttributeFragment["attribute"]["id"], VariantAttributeFragment>;
 
-// TODO: This one is created based on old overcomplicated hooks. Might need to be moved into a hook as well
+// This one is created based on old overcomplicated hooks. Might need to be moved into a hook as well
 const getAttributesByIdFromVariants = (variants: ProductVariantFieldsFragment[]): AttributesById => _mapValues(
   _groupBy(
     _flatMap(variants, 'attributes'),

@@ -46,7 +46,7 @@ const ProductAttributePicker = ({
     [selectedAttributeValues, productVariants, attribute.id]
   );
 
-  // TODO: This looks so complicated. There needs to be a better way
+  // This looks so complicated. There needs to be a better way
   const allowedValues = useMemo(
     () =>
       allowedVariants?.flatMap(
