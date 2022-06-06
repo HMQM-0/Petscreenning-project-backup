@@ -73,8 +73,8 @@ const Page = ({
 
     if (!suitableVariant) {
       if (!product.defaultVariant) {
-        // TODO: Default variant should always be set.
-        //  But adding a check to prevent infinite redirect in case of bad DB state
+        // Default variant should always be set.
+        // But adding a check to prevent infinite redirect in case of bad DB state
         return;
       }
       redirectToVariant(product.defaultVariant!.id);
@@ -133,7 +133,7 @@ const Page = ({
   );
 
   const onVariantChangeHandler = (variantId: string | undefined) => {
-    // TODO: BE issue. Default variant should not be empty
+    // BE issue. Default variant should not be empty
     const selectedVariantId = variantId || product.defaultVariant!.id;
     return redirectToVariant(selectedVariantId);
   };
