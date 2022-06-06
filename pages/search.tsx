@@ -25,7 +25,6 @@ const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> =
   };
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <ProductsListView>
         {(props) => <SearchProducts {...props} />}

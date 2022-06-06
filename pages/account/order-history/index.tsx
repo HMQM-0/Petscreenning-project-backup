@@ -12,9 +12,7 @@ import {
 
 import { AccountSettingsLayout } from "../../../components/layouts/AccountSettingsLayout";
 
-const OrderHistory: NextPage<
-  InferGetStaticPropsType<typeof getStaticProps>
-> = ({ data }) => {
+const OrderHistory: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ data }) => {
   const description = "Order History";
   const title = "Order History";
   const schema = structuredData(description, title);
@@ -27,7 +25,6 @@ const OrderHistory: NextPage<
   };
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
         <OrderHistoryPage />

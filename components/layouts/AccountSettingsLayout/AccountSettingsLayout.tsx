@@ -1,11 +1,12 @@
 import React from "react";
 import { Box } from "@mui/material";
-
-import classes from "./scss/index.module.scss";
 import Media from "react-media";
+
 import { smallScreen } from "@styles/constants";
 import { AccountMenuSidebar } from "components/organisms/AccountMenuSidebar";
 import { AccountMenuMobile } from "components/organisms/AccountMenuMobile";
+
+import classes from "./scss/index.module.scss";
 
 type LayoutProps = {
   children: React.ReactNode;

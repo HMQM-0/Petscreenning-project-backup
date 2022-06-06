@@ -42,8 +42,8 @@ const Page = ({
 
   const redirectToVariant = useCallback((variantId: string) => {
     const selectedVariant =
-      // TODO: variant should not be empty here. A BE issue? And variants should not contain null as well
-      product.variants?.find((variant) => variant!.id === variantId);
+      // TODO: variant should not be empty here. A BE issue?
+      product.variants?.find((variant) => variant.id === variantId);
 
     return router.replace(
       {
@@ -63,8 +63,7 @@ const Page = ({
   useEffect(() => {
     // Try to find a variant that has all the query param attributes
     let suitableVariant = product.variants?.find((productVariant) =>
-      // TODO: BE issue. variant should not empty here
-      productVariant!.attributes.every((productVariantAttribute) => {
+      productVariant.attributes.every((productVariantAttribute) => {
         const slug = productVariantAttribute.attribute.slug;
         // TODO: We expect that there will always be an attribute value (in case DB is consistent)
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
@@ -109,16 +108,14 @@ const Page = ({
 
   const getSizeGuide = () => {
     const sizeGuide = product.images?.find((image) =>
-      // TODO: BE issue. images can not contain null
-      image!.url.substring(image!.url.lastIndexOf("/") + 1).includes("sizeguide-")
+      image.url.substring(image.url.lastIndexOf("/") + 1).includes("sizeguide-")
     );
     return sizeGuide?.url || undefined;
   };
 
   const getVariantImages = (variantId: string) => {
     const variant = product.variants?.find(
-      // TODO: BE issue. variants can not contain null
-      (variant) => variant!.id === variantId
+      (variant) => variant.id === variantId
     );
 
     return variant?.images;
@@ -126,12 +123,12 @@ const Page = ({
 
   // We use variant images (if variant is set and if it has separate images)
   // Use regular images otherwise
-  const images = (variantId ? getVariantImages(variantId) : []) || product.images;
+  // TODO: images should not be empty. A BE issue?
+  const images = variantId && getVariantImages(variantId) || product.images || [];
 
-  const filteredImages = images?.filter((image) =>
-    // TODO: BE issue. image can not be null here
-    !image!.url
-      .substring(image!.url.lastIndexOf("/") + 1)
+  const filteredImages = images.filter((image) =>
+    !image.url
+      .substring(image.url.lastIndexOf("/") + 1)
       .includes("sizeguide-")
   );
 
@@ -179,8 +176,6 @@ const Page = ({
             {(matches) =>
               matches ? (
                 <>
-                  {/* // TODO: A BE issue. images can not contain null (`[null]`) */}
-                  {/* @ts-ignore */}
                   <GalleryCarousel images={filteredImages} />
                   <Box className={classes['product-page__product__info']}>
                     {addToCartSection}
@@ -192,8 +187,6 @@ const Page = ({
                     className={classes['product-page__product__gallery']}
                     ref={productGallery}
                   >
-                    {/* // TODO: A BE issue. images can not contain null (`[null]`) */}
-                    {/* @ts-ignore */}
                     <ProductGallery images={filteredImages} />
                   </Box>
                   <Box className={classes['product-page__product__info']}>

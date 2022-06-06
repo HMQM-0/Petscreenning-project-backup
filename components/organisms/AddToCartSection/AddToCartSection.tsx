@@ -193,8 +193,6 @@ const AddToCartSection = ({
       {!!productVariants?.length && (
         <S.VariantPicker>
           <ProductVariantPicker
-            // TODO: A BE issue. productVariants can not contain null
-            // @ts-ignore
             productVariants={productVariants}
             onVariantChangeHandler={onVariantChangeHandler}
           />

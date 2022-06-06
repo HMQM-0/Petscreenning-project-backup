@@ -77,17 +77,10 @@ export const FilterSidebar = ({
                 name={slug}
                 // TODO: values is [] (not undefined). BE issue
                 values={values!.map((value) => ({
-                  // TODO: value can not be null. A BE issue. Adding `!` as a tmp fix
-                  // TODO: ISingleFilterAttribute is not compatible with value due to BE issues.
-                  //  Adding `ts-ignore` as a tmp solution
-                  // @ts-ignore
-                  selected: checkIfAttributeIsChecked(filters, value!, slug),
-                  // TODO: value can NOT be undefined. BE issue
-                  id: value!.id,
-                  // TODO: value.name can NOT be undefined. A BE issue. Adding `!` as a tmp fix
-                  name: value!.name,
-                  // TODO: value.slug can NOT be undefined. A BE issue. Adding `!` as a tmp fix
-                  slug: value!.slug,
+                  selected: checkIfAttributeIsChecked(filters, value, slug),
+                  id: value.id,
+                  name: value.name,
+                  slug: value.slug,
                 }))}
                 valuesShowLimit
                 onValueClick={(value) =>

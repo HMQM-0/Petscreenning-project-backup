@@ -3,6 +3,7 @@ import { MenuItem, Select, InputLabel, Box, Button } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { useAlert } from "react-alert";
 import Link from "next/link";
+import Image from "next/image";
 
 import { useCart } from "@nautical/react";
 import { Trash } from "components/icons/trash";
@@ -156,17 +157,21 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
 
   const showVariants = product.variants && product.variants.length > 1;
 
+  const imageUrl = product.countableImages?.edges?.[0]?.node.urlOriginal;
+
   return (
     <Box className={classes.root}>
       <Box className={classes.image}>
-        <img
-          src={product.countableImages?.edges?.[0]?.node.urlOriginal}
-          width="100%"
-          height="auto"
-          alt={
-            product.countableImages?.edges?.[0]?.node.altText || "Product Image"
-          }
-        />
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            width="100%"
+            height="auto"
+            alt={
+              product.countableImages?.edges?.[0]?.node.altText || "Product Image"
+            }
+          />
+        )}
       </Box>
 
       <Box className={classes.details}>
@@ -202,14 +207,12 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
               }}
               onChange={(event) => {
                 const selectedVariant =
-                  // TODO: variantItem can NOT be null. A BE issue
-                  product.variants?.find((variantItem) => variantItem!.id === event.target.value);
+                  product.variants?.find((variantItem) => variantItem.id === event.target.value);
                 setVariant(selectedVariant || null);
               }}
             >
               {product.variants?.map((variant) => {
-                // TODO: v is not null. a BE issue
-                return (<MenuItem key={variant!.id} value={variant!.id}>{variant!.name}</MenuItem>);
+                return (<MenuItem key={variant.id} value={variant.id}>{variant.name}</MenuItem>);
               })}
             </Select>
           </>

@@ -70,8 +70,7 @@ const ProductListItem = ({
     () =>
       product.variants?.find(
         (productVariant) =>
-          // TODO: productVariant can not be null here. A BE issue
-          product.defaultVariant?.id === productVariant!.id
+          product.defaultVariant?.id === productVariant.id
       ),
     [product.defaultVariant?.id, product.variants]
   );
