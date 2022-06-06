@@ -48,8 +48,7 @@ export type ChildrenFunctionProps = {
 };
 
 type ProductsListViewProps = {
-  // TODO: is => JSX.Element; is the correct type? (it works, but still not sure)
-  children: (props: ChildrenFunctionProps) => JSX.Element;
+  children: (props: ChildrenFunctionProps) => React.ReactNode;
 };
 
 export const ProductsListView = ({ children }: ProductsListViewProps) => {
@@ -77,13 +76,19 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
     return null;
   }
 
-  return children({
-    variables,
-    filters: {
-      attributes: attributeFilters,
-      sortBy: sort || undefined,
-    },
-  });
+  return (
+    <>
+      {
+        children({
+          variables,
+          filters: {
+            attributes: attributeFilters,
+            sortBy: sort || undefined,
+          },
+        })
+      }
+    </>
+  );
 };
 
 export default ProductsListViewProps;

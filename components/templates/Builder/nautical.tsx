@@ -454,7 +454,7 @@ export const BuilderProductGallery = ({
 }: {
   images: BuilderPageProductVariantImagesFragment["images"];
 }) => {
-  // TODO: This is a BE issue where images has values which are potentially null
+  // This is a BE issue where images has values which are potentially null
   // @ts-ignore
   return <ProductGallery images={images} />;
 };

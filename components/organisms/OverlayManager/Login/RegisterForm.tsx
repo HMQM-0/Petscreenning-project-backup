@@ -54,7 +54,7 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
 
   return (
     <Form<{ email: string; password: string; companyName: string; }>
-      // TODO: BE issue. errors should not contain null
+      // BE issue. errors should not contain null
       errors={(data?.accountRegister?.errors as FormError[]) ?? []}
       onSubmit={(event, { email, password, companyName }) => {
         event.preventDefault();

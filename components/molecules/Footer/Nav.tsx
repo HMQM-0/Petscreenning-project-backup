@@ -77,7 +77,7 @@ const Nav = ({ footerText, icon }: INavProps) => {
                 <NavLink item={item} />
               </h4>
               <Box className={classes["footer-nav__section-content"]}>
-                {/* // TODO: children can be null? A BE issue? */}
+                {/* children can be null? A BE issue? */}
                 {item!.children?.map((subItem) => (
                   <p key={subItem.id}>
                     <NavLink item={subItem} />

@@ -66,7 +66,6 @@ const BuilderProducts = ({ variables }: BuilderProductsProps) => {
         );
 
         if (canDisplayFilters) {
-          // TODO: To be added in future tasks
           // return (
           //   <StorePage
           //     products={builderProductsData}

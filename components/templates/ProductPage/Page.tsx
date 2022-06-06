@@ -42,7 +42,7 @@ const Page = ({
 
   const redirectToVariant = useCallback((variantId: string) => {
     const selectedVariant =
-      // TODO: variant should not be empty here. A BE issue?
+      // variants should not be empty here. A BE issue?
       product.variants?.find((variant) => variant.id === variantId);
 
     return router.replace(
@@ -123,7 +123,7 @@ const Page = ({
 
   // We use variant images (if variant is set and if it has separate images)
   // Use regular images otherwise
-  // TODO: images should not be empty. A BE issue?
+  // images should not be empty. A BE issue?
   const images = variantId && getVariantImages(variantId) || product.images || [];
 
   const filteredImages = images.filter((image) =>
@@ -211,7 +211,7 @@ const Page = ({
           />
         </Box>
       </Box>
-      {/* // TODO: A BE issue. products can not be empty here */}
+      {/* // A BE issue. products can not be empty here */}
       <OtherProducts products={product.category?.products!.edges.map(({ node }) => node) ?? []} />
     </Box>
   );

@@ -4,7 +4,6 @@ import { useAlert } from "react-alert";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useMemo } from "react";
 
-// TODO: Refactor
 import { useCart } from "@nautical/react";
 import { Thumbnail } from "components/molecules/Thumbnail";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
