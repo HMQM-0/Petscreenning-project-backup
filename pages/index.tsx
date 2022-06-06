@@ -22,8 +22,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     description,
     title,
     schema,
-    image: data.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    image: data.shop.homepageCollection?.backgroundImage?.url ?? "",
+    url: "",
   };
 
   return (

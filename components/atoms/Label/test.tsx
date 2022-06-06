@@ -1,4 +1,3 @@
-// TODO: How to?
 // import { shallow } from "enzyme";
 // import "jest-styled-components";
 // import React from "react";

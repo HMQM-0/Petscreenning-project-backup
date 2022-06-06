@@ -10,8 +10,7 @@ export const formatDate = (date: string | null | undefined) => {
 // This function takes in a string that might have HTML Entity Encoding and Decodes it
 export const decodeEntities = (() => {
   if (typeof window === "undefined") {
-    // TODO: Tmp fix for SSR until we find out
-    //  why this helper function was needed in the first place
+    // Tmp fix for SSR until refactored using some 3rd party library
     return (str: any) => str;
   }
 
@@ -22,7 +21,6 @@ export const decodeEntities = (() => {
       return null;
     }
 
-    // TODO: What's going on here??
     str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, "");
     element.innerHTML = str as string;
     str = element.textContent;

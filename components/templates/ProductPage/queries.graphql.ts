@@ -261,7 +261,7 @@ export const GetProductRatingsAndReviewsQuery = gql`
   }
 `;
 
-// TODO: To be uncommented when needed (or moved to appropriate file)
+// To be uncommented when needed (or moved to appropriate file)
 // export const builderProductDetailsQuery = gql`
 //   ${basicProductFragment}
 //   ${selectedAttributeFragment}

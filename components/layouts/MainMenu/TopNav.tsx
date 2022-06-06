@@ -48,7 +48,8 @@ const TopNav = (props: ITopNavProps) => {
   const alert = useAlert();
   const overlayContext = useOverlayContext();
   const [term, setTerm] = React.useState<string>("");
-  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(
+    null);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const accountMenuOpen = Boolean(anchorEl);
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -305,7 +306,6 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </Toolbar>
       </AppBar>
-      {/* // TODO: Get rid of DrawerMenu and DrawerCart. Use OverlayManager instead */}
       <DrawerMenu
         logo={logo}
         anchor="left"

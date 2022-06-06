@@ -60,7 +60,6 @@ const ProductListItem = ({
   };
 
   const pricecap = {
-    // TODO: using svg from the public folder for now. To be refactored later.
     backgroundImage: `url("/images/pricing-cap.svg")`,
     backgroundRepeat: "no-repeat",
     height: 30,

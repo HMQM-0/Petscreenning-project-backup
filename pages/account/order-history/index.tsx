@@ -21,7 +21,7 @@ const OrderHistory: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
     description,
     title,
     schema,
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    url: "",
   };
 
   return (
@@ -36,7 +36,6 @@ const OrderHistory: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 export async function getStaticProps() {
   const client = getApolloClient();
 
-  // TODO: Determine if we can get the JWT for SSR queries
   const { data } = await client.query<OrderHistoryPageQuery>({
     query: OrderHistoryPageDocument,
   });

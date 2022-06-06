@@ -23,7 +23,6 @@ interface BuilderProductsProps {
   variables: any;
 }
 
-// TODO: This component to be refactored during StorePage implementation?
 const BuilderProducts = ({ variables }: BuilderProductsProps) => {
   const [, setAfterFilters] = useQueryParam("after", StringParam);
   const [, setBeforeFilters] = useQueryParam("before", StringParam);

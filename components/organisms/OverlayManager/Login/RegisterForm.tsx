@@ -45,7 +45,6 @@ interface RegisterFormProps {
 }
 
 const RegisterForm = ({ hide }: RegisterFormProps) => {
-  // TODO: loading forever and no data
   const [registerAccountMutation, { data, loading }] =
     useRegisterAccountMutation({
       onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),

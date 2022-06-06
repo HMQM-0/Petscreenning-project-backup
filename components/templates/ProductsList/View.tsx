@@ -74,7 +74,6 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
     return <LoginToViewProducts />;
   }
   if (builderKey) {
-    // TODO: also use `children(...)` here? TBA in Builder related task
     return null;
   }
 

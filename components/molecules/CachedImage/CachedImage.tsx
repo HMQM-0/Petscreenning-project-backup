@@ -17,7 +17,7 @@ export const CachedImage = ({
   const { online } = useNetworkStatus();
 
   React.useEffect(() => {
-    // TODO: Does not work as expected. Infinite re-render is happening
+    // Does not work as expected. Infinite re-render is happening
     // async function updateAvailability() {
     //   let _isUnavailable = false;
     //   if ("caches" in window) {
@@ -46,7 +46,7 @@ export const CachedImage = ({
   }
 
   return (
-    // TODO: <Image ...> does not support srcSet. Refactoring required
+    // <Image ...> does not support srcSet. Refactoring required
     // eslint-disable-next-line
     <img
       {...props}

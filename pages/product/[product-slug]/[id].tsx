@@ -26,7 +26,7 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
     title,
     schema,
     image: product?.thumbnail?.url || undefined,
-    url: "", // TODO: Store the canonical URL either as env or in dashboard
+    url: "",
     type: "product.item",
     custom: [
       {
@@ -62,7 +62,6 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = getApolloClient();
 
-  // TODO: it is always set here (since it's a dynamic routing prop)
   const productId = context.params!.id as string;
 
   const { data } = await client.query<ProductDetailsQuery>({

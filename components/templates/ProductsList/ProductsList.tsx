@@ -241,7 +241,6 @@ const ProductsList = ({
       </Box>
       {!showFeatured && (
         <></>
-        // TODO: To be refactored in future tasks
         // <ProductsFeatured
         //   title={intl.formatMessage(commonMessages.youMightLike)}
         // />

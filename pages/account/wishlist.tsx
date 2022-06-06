@@ -19,7 +19,7 @@ const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     description,
     title,
     schema,
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    url: "",
   };
 
   return (
@@ -34,7 +34,6 @@ const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 export async function getServerSideProps() {
   const client = getApolloClient();
 
-  // TODO: Determine if we can get the JWT for SSR queries
   const { data } = await client.query<WishlistPageQuery>({
     query: WishlistPageDocument,
   });
