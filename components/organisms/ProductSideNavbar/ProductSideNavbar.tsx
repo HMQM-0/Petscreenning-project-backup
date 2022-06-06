@@ -1,31 +1,12 @@
 import React from "react";
 import Media from "react-media";
 
-import { Icon } from "components/atoms/Icon";
 import { IconButton } from "components/molecules/IconButton";
 import { Overlay } from "components/atoms/Overlay";
 import { xLargeScreen } from "@styles/constants";
 
 import * as S from "./styles";
 import { DirectoryItem, IProps } from "./types";
-
-// TODO: not yet used
-// type TopBarProps = {
-//   onHide: VoidFunction;
-//   children: React.ReactNode;
-// };
-//
-// export const TopBar = ({
-//   children,
-//   onHide,
-// }: TopBarProps) => (
-//   <S.Bar>
-//     {children}
-//     <S.CloseIconWrapper onClick={onHide}>
-//       <Icon name="horizontal_line" size={22} />
-//     </S.CloseIconWrapper>
-//   </S.Bar>
-// );
 
 type ChildItemProps = {
   item: DirectoryItem;
@@ -35,8 +16,6 @@ type ChildItemProps = {
 export const ChildItem = ({ item, onClick }: ChildItemProps) => {
   return (
     <S.ChildItem>
-      {/*// TODO: fix this. looks like an issue with fields requested via api*/}
-      {/*// @ts-ignore*/}
       <S.NavLink onClick={onClick} fullWidth type="side" item={item} />
     </S.ChildItem>
   );
@@ -51,8 +30,6 @@ export const ListItem = ({ item, onClick }: ListItemProps) => {
   return (
     <>
       <S.ListItem>
-        {/*// TODO: fix this. looks like an issue with fields requested via api*/}
-        {/*// @ts-ignore*/}
         <S.TitleNavButton onClick={onClick} item={item}>
           <S.ListTitle>{item.name}</S.ListTitle>
         </S.TitleNavButton>

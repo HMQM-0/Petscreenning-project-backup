@@ -52,7 +52,7 @@ export const collectionPageQuery = gql`
   }
 `;
 
-// TODO: To be uncommented when needed in Builder related task
+// To be uncommented when needed in Builder related task
 
 // export const builderCollectionInfoQuery = gql`
 //   ${menuItem}

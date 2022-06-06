@@ -45,7 +45,6 @@ interface RegisterFormProps {
 }
 
 const RegisterForm = ({ hide }: RegisterFormProps) => {
-  // TODO: loading forever and no data
   const [registerAccountMutation, { data, loading }] =
     useRegisterAccountMutation({
       onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
@@ -55,7 +54,7 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
 
   return (
     <Form<{ email: string; password: string; companyName: string; }>
-      // TODO: BE issue. errors should not contain null
+      // BE issue. errors should not contain null
       errors={(data?.accountRegister?.errors as FormError[]) ?? []}
       onSubmit={(event, { email, password, companyName }) => {
         event.preventDefault();

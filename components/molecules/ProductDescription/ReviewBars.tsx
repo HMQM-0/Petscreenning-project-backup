@@ -60,7 +60,6 @@ type ReviewBarsProps = {
 export const ReviewBars = ({ reviewsData }: ReviewBarsProps) => {
   const classes = useStyles();
 
-  // TODO: Is there a better/prettier way?
   const stars = [5, 4, 3, 2, 1];
 
   const renderStar = (star: number) => {

@@ -20,7 +20,7 @@ const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> =
     description,
     title,
     schema,
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    url: "",
     type: "product.search",
   };
 

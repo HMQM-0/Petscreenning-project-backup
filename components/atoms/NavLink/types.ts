@@ -5,5 +5,5 @@ import { SecondaryMenuSubItemFragment } from "components/molecules/Footer/querie
 
 export interface IProps extends PartialBy<NavLinkProps, "to"> {
   fullWidth?: boolean;
-  item: SecondaryMenuSubItemFragment;
+  item: Pick<SecondaryMenuSubItemFragment, 'name' | 'url' | 'page' | 'collection' | 'category'>;
 }

@@ -1,5 +1,4 @@
-// TODO: Rewrite with react-testing-library
-import React from "react";
+// import React from "react";
 
 import { Money } from ".";
 

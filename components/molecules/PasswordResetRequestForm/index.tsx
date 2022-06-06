@@ -14,7 +14,6 @@ import { useResetPasswordRequestMutation } from "./queries.graphql.generated";
 
 const PasswordResetRequestForm = () => {
   const intl = useIntl();
-  // TODO: why it's loading forever (and data empty)?
   const [passwordReset, { loading, data }] = useResetPasswordRequestMutation();
 
   const buttonMessage = (data?.requestPasswordReset?.errors.length === 0)

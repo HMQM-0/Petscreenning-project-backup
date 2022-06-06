@@ -27,7 +27,7 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     description,
     title,
     schema,
-    url: "", // TODO: Store the canonical URL either as env or in dashboard
+    url: "",
     type: "product.collection",
   };
 

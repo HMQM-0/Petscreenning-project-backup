@@ -133,7 +133,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
   const [hasMore, setHasMore] = React.useState(true);
   const [items, setItems] = React.useState(Array.from({ length: 10 }));
 
-  // TODO: NEED TO MODIFY THIS LATER TO DEAL WITH HUGE LISTS OF REVIEWS
+  // NEED TO MODIFY THIS LATER TO DEAL WITH HUGE LISTS OF REVIEWS
   const fetchMoreData = () => {
     if (!reviews?.length || items.length >= reviews.length) {
       setHasMore(false);
@@ -219,7 +219,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
                       <Image
                         className={classes.reviewAvatar}
                         src={
-                          // TODO: social image is not present in the API. A BE issue?
+                          // social image is not present in the API. A BE issue?
                           // @ts-ignore
                           review.user?.socialImage ||
                           "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"

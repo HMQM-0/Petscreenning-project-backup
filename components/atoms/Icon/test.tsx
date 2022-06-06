@@ -1,4 +1,3 @@
-// TODO: How do we run tests now?
 // import { shallow } from "enzyme";
 // import React from "react";
 //

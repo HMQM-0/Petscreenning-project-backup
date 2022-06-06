@@ -40,14 +40,15 @@ const AccountConfirm = ({ email, token }: AccountConfirmProps) => {
     );
   };
 
-  React.useEffect(() => {
+  React.useEffect(
+    () => {
       confirmAccount({
         variables: { email, token },
       })
         .then((result) => {
           const possibleErrors = result.data?.confirmAccount?.errors;
           if (possibleErrors?.length) {
-            // TODO: Error messages should not be null|undefined. A BE issue?
+            // Error messages should not be null|undefined. A BE issue?
             // @ts-ignore
             showErrors(possibleErrors);
             return;
@@ -61,9 +62,11 @@ const AccountConfirm = ({ email, token }: AccountConfirmProps) => {
           );
         })
         .catch(() => {
-          const errors = [{
-            message: "Something went wrong while activating your account.",
-          }];
+          const errors = [
+            {
+              message: "Something went wrong while activating your account.",
+            }
+          ];
           displayConfirmationAlert(errors);
         })
         .finally(() => {

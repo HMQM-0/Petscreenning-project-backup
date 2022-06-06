@@ -147,7 +147,7 @@ const ProductsList = ({
       {
         variables: { after: data?.productList?.pageInfo.endCursor },
       }
-      // TODO: Refactor loadMore into the new fetchMore structure.
+      // Refactor loadMore into the new fetchMore structure.
       //  We need to specify field policy here somehow to merge paginated results
       // (prev, next) => ({
       //   ...prev,
@@ -167,7 +167,7 @@ const ProductsList = ({
       valueName:
       attributes
         .find(({ slug }) => attributeSlug === slug)
-        // TODO: values should not be empty. A BE issue?
+        // values should not be empty. A BE issue?
         ?.values!.find(({ slug }) => valueSlug === slug)
         ?.name,
       valueSlug,
@@ -204,7 +204,7 @@ const ProductsList = ({
         <ProductSideNavbar
           show={showDirectory}
           onHide={() => setShowDirectory(false)}
-          // TODO: items can not contain `null`. e.g. [null, {}, ...]. This is a BE issue
+          // items can not contain `null`. e.g. [null, {}, ...]. This is a BE issue
           // @ts-ignore
           items={menuResult?.items ?? []}
         />
@@ -241,7 +241,6 @@ const ProductsList = ({
       </Box>
       {!showFeatured && (
         <></>
-        // TODO: To be refactored in future tasks
         // <ProductsFeatured
         //   title={intl.formatMessage(commonMessages.youMightLike)}
         // />

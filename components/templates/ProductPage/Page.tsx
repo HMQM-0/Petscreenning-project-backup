@@ -37,12 +37,12 @@ const Page = ({
   const productGallery = useRef<HTMLDivElement | undefined>();
   const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
   const router = useRouter();
-  // TODO: There should be a better way
+  // There should be a better way
   const searchQueryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
 
   const redirectToVariant = useCallback((variantId: string) => {
     const selectedVariant =
-      // TODO: variant should not be empty here. A BE issue?
+      // variants should not be empty here. A BE issue?
       product.variants?.find((variant) => variant.id === variantId);
 
     return router.replace(
@@ -65,7 +65,7 @@ const Page = ({
     let suitableVariant = product.variants?.find((productVariant) =>
       productVariant.attributes.every((productVariantAttribute) => {
         const slug = productVariantAttribute.attribute.slug;
-        // TODO: We expect that there will always be an attribute value (in case DB is consistent)
+        // We expect that there will always be an attribute value (in case DB is consistent)
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
         return productVariantAttributeValue === searchQueryAttributes[slug];
       })
@@ -73,8 +73,8 @@ const Page = ({
 
     if (!suitableVariant) {
       if (!product.defaultVariant) {
-        // TODO: Default variant should always be set.
-        //  But adding a check to prevent infinite redirect in case of bad DB state
+        // Default variant should always be set.
+        // But adding a check to prevent infinite redirect in case of bad DB state
         return;
       }
       redirectToVariant(product.defaultVariant!.id);
@@ -123,7 +123,7 @@ const Page = ({
 
   // We use variant images (if variant is set and if it has separate images)
   // Use regular images otherwise
-  // TODO: images should not be empty. A BE issue?
+  // images should not be empty. A BE issue?
   const images = variantId && getVariantImages(variantId) || product.images || [];
 
   const filteredImages = images.filter((image) =>
@@ -133,7 +133,7 @@ const Page = ({
   );
 
   const onVariantChangeHandler = (variantId: string | undefined) => {
-    // TODO: BE issue. Default variant should not be empty
+    // BE issue. Default variant should not be empty
     const selectedVariantId = variantId || product.defaultVariant!.id;
     return redirectToVariant(selectedVariantId);
   };
@@ -211,7 +211,7 @@ const Page = ({
           />
         </Box>
       </Box>
-      {/* // TODO: A BE issue. products can not be empty here */}
+      {/* // A BE issue. products can not be empty here */}
       <OtherProducts products={product.category?.products!.edges.map(({ node }) => node) ?? []} />
     </Box>
   );

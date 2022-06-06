@@ -59,13 +59,12 @@ const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
 
   return (
     <div style={{ padding: "25px" }}>
-      <Form
+      <Form<{ headline: string; publicName: string; emailAddress: string; }>
         errors={
           maybe(() => data?.submitRatingAndReview?.errors, []) as FormError[]
         }
         onSubmit={(event, data) => {
-          // TODO: What should be passed to <Form<...> to fix this?
-          const { headline, publicName, emailAddress } = data as any;
+          const { headline, publicName, emailAddress } = data;
           event.preventDefault();
           if (!rating) {
             setNoRatingSelected(true);

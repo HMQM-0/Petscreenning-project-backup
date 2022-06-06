@@ -5,7 +5,7 @@ import { isEmpty } from "lodash";
 import {
   MessageProp,
   NotificationBar,
-} from "deprecated/_nautical/components/NotificationBar"; // TODO: This component needs to be refactored
+} from "deprecated/_nautical/components/NotificationBar";
 
 import classes from "./scss/index.module.scss";
 import { usePromoBannerQuery } from "./queries.graphql.generated";

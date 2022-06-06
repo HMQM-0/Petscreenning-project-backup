@@ -1,4 +1,4 @@
-// TODO: To be refactored separately in Builder related task
+// To be refactored separately in Builder related task
 import React from "react";
 import { useParams } from "react-router";
 

@@ -4,7 +4,6 @@ import { useAlert } from "react-alert";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useMemo } from "react";
 
-// TODO: Refactor
 import { useCart } from "@nautical/react";
 import { Thumbnail } from "components/molecules/Thumbnail";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
@@ -45,7 +44,7 @@ const ProductListItem = ({
   ) => {
     event.stopPropagation();
     event.preventDefault();
-    // TODO: Is this an error in addItem typing? or defaultVariant can NOT be empty?
+    // Is this an error in addItem typing? or defaultVariant can NOT be empty?
     // @ts-ignore
     addItem(variantId, quantity);
     // NOTE: DO NOT WANT TO SHOW CART OVERLAY EVERY TIME NEW ITEM IS ADDED, JUST
@@ -60,7 +59,6 @@ const ProductListItem = ({
   };
 
   const pricecap = {
-    // TODO: using svg from the public folder for now. To be refactored later.
     backgroundImage: `url("/images/pricing-cap.svg")`,
     backgroundRepeat: "no-repeat",
     height: 30,

@@ -75,7 +75,7 @@ export const FilterSidebar = ({
                 key={id}
                 title={name}
                 name={slug}
-                // TODO: values is [] (not undefined). BE issue
+                // values is [] (not undefined). BE issue
                 values={values!.map((value) => ({
                   selected: checkIfAttributeIsChecked(filters, value, slug),
                   id: value.id,

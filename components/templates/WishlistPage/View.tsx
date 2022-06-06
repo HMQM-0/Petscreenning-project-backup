@@ -15,7 +15,6 @@ const View: React.FC = () => {
   const { builderKey } = useShopContext();
 
   if (builderKey) {
-    // TODO: To be refactored and uncommented in a separate task
     // return <StorePage wishlist={wishlist} />;
   }
 
