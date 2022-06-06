@@ -60,7 +60,7 @@ const ProductVariantPicker = ({
     let selectedVariant = productVariants.find((productVariant) =>
       productVariant.attributes.every((productVariantAttribute) => {
         const productVariantAttributeId = productVariantAttribute.attribute.id;
-        // TODO: We expect that there will always be an attribute value (in case DB is consistent)
+        // We expect that there will always be an attribute value (in case DB is consistent)
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
         return (productVariantAttributeId === attributeId) ?
           // For the attribute that is changing - check new value

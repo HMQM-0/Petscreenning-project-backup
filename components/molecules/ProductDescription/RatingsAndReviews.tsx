@@ -219,7 +219,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
                       <Image
                         className={classes.reviewAvatar}
                         src={
-                          // TODO: social image is not present in the API. A BE issue?
+                          // social image is not present in the API. A BE issue?
                           // @ts-ignore
                           review.user?.socialImage ||
                           "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
