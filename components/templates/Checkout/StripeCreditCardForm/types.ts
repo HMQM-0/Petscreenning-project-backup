@@ -1,6 +1,6 @@
 import { Stripe, StripeElements } from "@stripe/stripe-js";
 
-import { IFormError } from "@types";
+import { IFormError } from "types";
 
 export interface IProps {
   /**
