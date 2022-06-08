@@ -31,18 +31,15 @@ const Page = ({ add, product, items }: PageProps) => {
   const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
   const router = useRouter();
   // There should be a better way
-  const searchQueryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
-
-  const redirectToVariant = useCallback((variantId: string) => {
-    const selectedVariant =
-      // variants should not be empty here. A BE issue?
-      product.variants?.find((variant) => variant.id === variantId);
+  const searchQueryAttributes = _mapKeys(router.query, (value, key) =>
+    key?.toString().toLowerCase()
+  );
 
   const redirectToVariant = useCallback(
     (variantId: string) => {
       const selectedVariant =
-        // TODO: variant should not be empty here. A BE issue? And variants should not contain null as well
-        product.variants?.find((variant) => variant!.id === variantId);
+        // variants should not be empty here. A BE issue?
+        product.variants?.find((variant) => variant.id === variantId);
 
       return router.replace(
         {
@@ -67,7 +64,8 @@ const Page = ({ add, product, items }: PageProps) => {
       productVariant.attributes.every((productVariantAttribute) => {
         const slug = productVariantAttribute.attribute.slug;
         // We expect that there will always be an attribute value (in case DB is consistent)
-        const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
+        const productVariantAttributeValue =
+          productVariantAttribute.values[0]?.value;
         return productVariantAttributeValue === searchQueryAttributes[slug];
       })
     );
@@ -130,12 +128,14 @@ const Page = ({ add, product, items }: PageProps) => {
   // We use variant images (if variant is set and if it has separate images)
   // Use regular images otherwise
   // images should not be empty. A BE issue?
-  const images = variantId && getVariantImages(variantId) || product.images || [];
+  const images =
+    (variantId && getVariantImages(variantId)) || product.images || [];
 
-  const filteredImages = images.filter((image) =>
-    !image.url
-      .substring(image.url.lastIndexOf("/") + 1)
-      .includes("sizeguide-")
+  const filteredImages = images.filter(
+    (image) =>
+      !image.url
+        .substring(image.url.lastIndexOf("/") + 1)
+        .includes("sizeguide-")
   );
 
   const onVariantChangeHandler = (variantId: string | undefined) => {
@@ -221,7 +221,11 @@ const Page = ({ add, product, items }: PageProps) => {
         </Box>
       </Box>
       {/* // A BE issue. products can not be empty here */}
-      <OtherProducts products={product.category?.products!.edges.map(({ node }) => node) ?? []} />
+      <OtherProducts
+        products={
+          product.category?.products!.edges.map(({ node }) => node) ?? []
+        }
+      />
     </Box>
   );
 };
