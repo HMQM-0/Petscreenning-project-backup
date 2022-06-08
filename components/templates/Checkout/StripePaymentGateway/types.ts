@@ -1,4 +1,4 @@
-import { ICardData, IFormError, IPaymentGatewayConfig } from "@types";
+import { ICardData, IFormError, IPaymentGatewayConfig } from "types";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 
 export interface IProps {
