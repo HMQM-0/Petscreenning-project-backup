@@ -18,23 +18,13 @@ export const basicCollection = gql`
   }
 `;
 
-export const collectionQuery = gql`
-  ${basicCollection}
-  query Collection($id: ID!) {
-    collection(id: $id) {
-      ...BasicCollection
-    }
-  }
-`;
-
 export const collectionPageQuery = gql`
   ${basicCollection}
   ${brandingFragment}
   ${productList}
   query CollectionPage(
     $id: ID!
-    $categoryIds: [ID!]
-    $attributes: [AttributeInput]
+    $attributes: [AttributeInput!]
     $after: String
     $pageSize: Int
     $sortBy: ProductOrder
@@ -53,7 +43,6 @@ export const collectionPageQuery = gql`
       sortBy: $sortBy
       filter: {
         attributes: $attributes
-        categories: $categoryIds
         collections: [$id]
         minimalPrice: { gte: $priceGte, lte: $priceLte }
       }
@@ -63,7 +52,7 @@ export const collectionPageQuery = gql`
   }
 `;
 
-// TODO: To be uncommented when needed in Builder related task
+// To be uncommented when needed in Builder related task
 
 // export const builderCollectionInfoQuery = gql`
 //   ${menuItem}

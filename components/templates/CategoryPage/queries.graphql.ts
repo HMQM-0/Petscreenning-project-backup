@@ -26,22 +26,13 @@ export const basicCategory = gql`
   }
 `;
 
-export const categoryQuery = gql`
-  ${basicCategory}
-  query Category($id: ID!) {
-    category(id: $id) {
-      ...BasicCategory
-    }
-  }
-`;
-
 export const categoryPageQuery = gql`
   ${basicCategory}
   ${brandingFragment}
   ${productList}
   query CategoryPage(
     $id: ID!
-    $attributes: [AttributeInput]
+    $attributes: [AttributeInput!]
     $after: String
     $pageSize: Int
     $sortBy: ProductOrder

@@ -11,12 +11,9 @@ import {
   HomeDocument,
   HomeQuery,
 } from "components/templates/IndexPage/queries.graphql.generated";
+import { getApolloClient } from "apollo-client";
 
-import { getApolloClient } from "../apollo-client";
-
-const Home: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data, builderContent }) => {
+const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
   const schema = structuredData(description, title);
@@ -25,12 +22,11 @@ const Home: NextPage<
     description,
     title,
     schema,
-    image: data.shop.homepageCollection?.backgroundImage?.url ?? "", // TODO: Ensure every page has a valid Image for OG tags
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    image: data.shop.homepageCollection?.backgroundImage?.url ?? "",
+    url: "",
   };
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <IndexPage data={data} builderContent={builderContent} />
     </Layout>

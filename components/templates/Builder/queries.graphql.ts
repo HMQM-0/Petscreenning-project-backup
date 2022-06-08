@@ -1,4 +1,4 @@
-// TODO: These queries will need to be moved out to where they will be used by pages
+// These queries will need to be moved out to where they will be used by pages
 
 import { gql } from "@apollo/client";
 
@@ -102,7 +102,7 @@ export const builderPageProduct = gql`
   }
 `;
 
-// TODO: This query will be used in future work
+// This query will be used in future work
 // export const builderProductsQuery = gql`
 //   ${builderPageProduct}
 //   ${builderMenuItem}
@@ -159,7 +159,7 @@ export const builderPageProduct = gql`
 //   }
 // `;
 
-// TODO: This query will be used in future work
+// This query will be used in future work
 // export const builderCategoryProductsQuery = gql`
 //   ${basicProductFragment}
 //   ${productPricingFragment}

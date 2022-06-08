@@ -1,31 +1,12 @@
 import React from "react";
 import Media from "react-media";
 
-import { Icon } from "components/atoms/Icon";
 import { IconButton } from "components/molecules/IconButton";
 import { Overlay } from "components/atoms/Overlay";
 import { xLargeScreen } from "@styles/constants";
 
 import * as S from "./styles";
 import { DirectoryItem, IProps } from "./types";
-
-// TODO: not yet used
-// type TopBarProps = {
-//   onHide: VoidFunction;
-//   children: React.ReactNode;
-// };
-//
-// export const TopBar = ({
-//   children,
-//   onHide,
-// }: TopBarProps) => (
-//   <S.Bar>
-//     {children}
-//     <S.CloseIconWrapper onClick={onHide}>
-//       <Icon name="horizontal_line" size={22} />
-//     </S.CloseIconWrapper>
-//   </S.Bar>
-// );
 
 type ChildItemProps = {
   item: DirectoryItem;
@@ -65,12 +46,7 @@ export const ListItem = ({ item, onClick }: ListItemProps) => {
   );
 };
 
-export const ProductSideNavbar = ({
-  show,
-  onHide,
-  items,
-  target,
-}: IProps) => {
+export const ProductSideNavbar = ({ show, onHide, items, target }: IProps) => {
   const handleHide = () => {
     onHide?.(false);
   };

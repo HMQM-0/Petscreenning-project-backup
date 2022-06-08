@@ -30,10 +30,13 @@ const Page = ({ add, product, items }: PageProps) => {
   const productGallery = useRef<HTMLDivElement | undefined>();
   const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
   const router = useRouter();
-  // TODO: There should be a better way
-  const searchQueryAttributes = _mapKeys(router.query, (value, key) =>
-    key?.toString().toLowerCase()
-  );
+  // There should be a better way
+  const searchQueryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
+
+  const redirectToVariant = useCallback((variantId: string) => {
+    const selectedVariant =
+      // variants should not be empty here. A BE issue?
+      product.variants?.find((variant) => variant.id === variantId);
 
   const redirectToVariant = useCallback(
     (variantId: string) => {
@@ -61,21 +64,18 @@ const Page = ({ add, product, items }: PageProps) => {
   useEffect(() => {
     // Try to find a variant that has all the query param attributes
     let suitableVariant = product.variants?.find((productVariant) =>
-      // TODO: BE issue. variant should not empty here
-      productVariant!.attributes.every((productVariantAttribute) => {
+      productVariant.attributes.every((productVariantAttribute) => {
         const slug = productVariantAttribute.attribute.slug;
-        // TODO: We expect that there will always be an attribute value (in case DB is consistent)
-        const productVariantAttributeValue =
-          productVariantAttribute.values[0]?.value;
-        // TODO: BE issue. Slug should always be set
-        return productVariantAttributeValue === searchQueryAttributes[slug!];
+        // We expect that there will always be an attribute value (in case DB is consistent)
+        const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
+        return productVariantAttributeValue === searchQueryAttributes[slug];
       })
     );
 
     if (!suitableVariant) {
       if (!product.defaultVariant) {
-        // TODO: Default variant should always be set.
-        //  But adding a check to prevent infinite redirect in case of bad DB state
+        // Default variant should always be set.
+        // But adding a check to prevent infinite redirect in case of bad DB state
         return;
       }
       redirectToVariant(product.defaultVariant!.id);
@@ -114,18 +114,14 @@ const Page = ({ add, product, items }: PageProps) => {
 
   const getSizeGuide = () => {
     const sizeGuide = product.images?.find((image) =>
-      // TODO: BE issue. images can not contain null
-      image!.url
-        .substring(image!.url.lastIndexOf("/") + 1)
-        .includes("sizeguide-")
+      image.url.substring(image.url.lastIndexOf("/") + 1).includes("sizeguide-")
     );
     return sizeGuide?.url || undefined;
   };
 
   const getVariantImages = (variantId: string) => {
     const variant = product.variants?.find(
-      // TODO: BE issue. variants can not contain null
-      (variant) => variant!.id === variantId
+      (variant) => variant.id === variantId
     );
 
     return variant?.images;
@@ -133,19 +129,17 @@ const Page = ({ add, product, items }: PageProps) => {
 
   // We use variant images (if variant is set and if it has separate images)
   // Use regular images otherwise
-  const images =
-    (variantId ? getVariantImages(variantId) : []) || product.images;
+  // images should not be empty. A BE issue?
+  const images = variantId && getVariantImages(variantId) || product.images || [];
 
-  const filteredImages = images?.filter(
-    (image) =>
-      // TODO: BE issue. image can not be null here
-      !image!.url
-        .substring(image!.url.lastIndexOf("/") + 1)
-        .includes("sizeguide-")
+  const filteredImages = images.filter((image) =>
+    !image.url
+      .substring(image.url.lastIndexOf("/") + 1)
+      .includes("sizeguide-")
   );
 
   const onVariantChangeHandler = (variantId: string | undefined) => {
-    // TODO: BE issue. Default variant should not be empty
+    // BE issue. Default variant should not be empty
     const selectedVariantId = variantId || product.defaultVariant!.id;
     return redirectToVariant(selectedVariantId);
   };
@@ -189,8 +183,6 @@ const Page = ({ add, product, items }: PageProps) => {
             {(matches) =>
               matches ? (
                 <>
-                  {/* // TODO: A BE issue. images can not contain null (`[null]`) */}
-                  {/* @ts-ignore */}
                   <GalleryCarousel images={filteredImages} />
                   <Box className={classes["product-page__product__info"]}>
                     {addToCartSection}
@@ -202,8 +194,6 @@ const Page = ({ add, product, items }: PageProps) => {
                     className={classes["product-page__product__gallery"]}
                     ref={productGallery}
                   >
-                    {/* // TODO: A BE issue. images can not contain null (`[null]`) */}
-                    {/* @ts-ignore */}
                     <ProductGallery images={filteredImages} />
                   </Box>
                   <Box className={classes["product-page__product__info"]}>
@@ -230,12 +220,8 @@ const Page = ({ add, product, items }: PageProps) => {
           />
         </Box>
       </Box>
-      {/* // TODO: A BE issue. products can not be empty here */}
-      <OtherProducts
-        products={
-          product.category?.products!.edges.map(({ node }) => node) ?? []
-        }
-      />
+      {/* // A BE issue. products can not be empty here */}
+      <OtherProducts products={product.category?.products!.edges.map(({ node }) => node) ?? []} />
     </Box>
   );
 };

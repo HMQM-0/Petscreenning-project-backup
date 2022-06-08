@@ -3,7 +3,6 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 
-import { TaxedMoney } from "components/containers/TaxedMoney";
 import { Thumbnail } from "components/molecules/Thumbnail";
 // import { ProductVariant } from "@nautical/sdk/lib/fragments/gqlTypes/ProductVariant";
 import { ProductVariant } from "@nautical/fragments/gqlTypes/ProductVariant";
@@ -16,6 +15,7 @@ import {
   getMicrositeSlug,
   isMicrosite,
 } from "core/utils";
+import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 export type ILine = Omit<ProductVariant,
   "__typename" | "sku" | "quantityAvailable" | "isAvailable"> & {

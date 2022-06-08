@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Button, Grid } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { FormattedMessage } from "react-intl";
+import Image from "next/image";
 
 import RatingAndReviewForm from "components/organisms/OverlayManager/RatingAndReview/RatingAndReviewForm";
 import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
@@ -132,7 +133,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
   const [hasMore, setHasMore] = React.useState(true);
   const [items, setItems] = React.useState(Array.from({ length: 10 }));
 
-  // TODO: NEED TO MODIFY THIS LATER TO DEAL WITH HUGE LISTS OF REVIEWS
+  // NEED TO MODIFY THIS LATER TO DEAL WITH HUGE LISTS OF REVIEWS
   const fetchMoreData = () => {
     if (!reviews?.length || items.length >= reviews.length) {
       setHasMore(false);
@@ -215,42 +216,37 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
                     key={index}
                   >
                     <div className={classes.flexContainer}>
-                      <img
+                      <Image
                         className={classes.reviewAvatar}
                         src={
-                          // TODO: social image is not present in the API. A BE issue?
+                          // social image is not present in the API. A BE issue?
                           // @ts-ignore
-                          review!.user?.socialImage ||
+                          review.user?.socialImage ||
                           "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                         }
                         alt="user avatar"
                       />
                       <div className={classes.reviewUserName}>
-                        {/* // TODO: reviews can not contain null (`[null]`) */}
-                        {decodeEntities(review!.user?.displayName)}
+                        {decodeEntities(review.user?.displayName)}
                       </div>
                     </div>
                     <div className={classes.flexContainer}>
                       <div className={classes.reviewStars}>
                         <Rating
                           name="read-only"
-                          // TODO: reviews can not contain null (`[null]`)
-                          value={review!.score}
+                          value={review.score}
                           readOnly
                         />
                       </div>
                       <div className={classes.reviewTitle}>
-                        {/* // TODO: reviews can not contain null (`[null]`) */}
-                        {decodeEntities(review!.title)}
+                        {decodeEntities(review.title)}
                       </div>
                     </div>
                     <div className={classes.reviewDate}>
-                      {/* // TODO: reviews can not contain null (`[null]`) */}
-                      {formatDate(review!.createdAt)}
+                      {formatDate(review.createdAt)}
                     </div>
                     <div className={classes.reviewBody}>
-                      {/* // TODO: reviews can not contain null (`[null]`) */}
-                      {decodeEntities(review!.content)}
+                      {decodeEntities(review.content)}
                     </div>
                   </div>
                 ))}

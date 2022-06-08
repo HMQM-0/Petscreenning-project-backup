@@ -49,8 +49,7 @@ export const ProductDescription = ({
                   <S.AttributeName>
                     {attribute.attribute.name}:{" "}
                   </S.AttributeName>{" "}
-                  {/* // TODO: A BE issue. Adding `!` temporary */}
-                  {attribute.values.map((value) => value!.name).join(", ")}
+                  {attribute.values.map((value) => value.name).join(", ")}
                 </li>
               ))}
             </S.AttributeList>
@@ -68,9 +67,8 @@ export const ProductDescription = ({
             <S.AttributeList>
               {features.map((feature, index) => (
                 <li key={index}>
-                  {/* // TODO: A BE issue. Adding `!` to fix */}
-                  <S.AttributeName>{feature!.name}</S.AttributeName>{" "}
-                  <Box pt={1}>{feature!.description}</Box>
+                  <S.AttributeName>{feature.name}</S.AttributeName>{" "}
+                  <Box pt={1}>{feature.description}</Box>
                 </li>
               ))}
             </S.AttributeList>

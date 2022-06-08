@@ -1,11 +1,13 @@
 import gql from "graphql-tag";
 
-import { TypedQuery } from "../../core/queries";
 import {
   basicProductFragment,
-  productPricingFragment,
-} from "../../views/Product/queries";
+  productPricingFragment
+} from "components/templates/ProductPage/queries.graphql";
+
 import { FeaturedProducts } from "./gqlTypes/FeaturedProducts";
+
+import { TypedQuery } from "../../core/queries";
 
 export const featuredProducts = gql`
   ${basicProductFragment}

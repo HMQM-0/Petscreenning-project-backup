@@ -1,7 +1,9 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
+
+import ForgottenPassword from "components/organisms/OverlayManager/Login/ForgottenPassword";
+
 import { LoginForm } from "../";
-import ForgottenPassword from "../OverlayManager/Login/ForgottenPassword";
 
 const SignInForm: React.FC<{
   onForgottenPasswordClick: () => void;

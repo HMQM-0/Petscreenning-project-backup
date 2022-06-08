@@ -15,12 +15,10 @@ interface CarouselType extends CarouselProps {
 const Carousel = ({ children, ...rest }: CarouselType) => {
   const useStyles = makeStyles((theme: Theme) => ({
     buttonStyle: {
-      // TODO: palette can undefined. Is it a TS issue?
       backgroundColor: theme.palette?.secondary.main,
       placeItems: "center",
       position: "absolute",
       "&:hover": {
-        // TODO: palette can undefined. Is it a TS issue?
         backgroundColor: theme.palette?.primary.main,
       },
     },
@@ -28,7 +26,6 @@ const Carousel = ({ children, ...rest }: CarouselType) => {
       left: -20,
       top: -20,
 
-      // TODO: breakpoints can undefined. Is it a TS issue?
       [theme.breakpoints?.down("sm")]: {
         left: -5,
       },
@@ -37,7 +34,6 @@ const Carousel = ({ children, ...rest }: CarouselType) => {
       left: -24,
       top: -20,
 
-      // TODO: breakpoints can undefined. Is it a TS issue?
       [theme.breakpoints?.down("sm")]: {
         left: -42,
       },
@@ -52,7 +48,6 @@ const Carousel = ({ children, ...rest }: CarouselType) => {
   const classes = useStyles({});
 
   const carousel = (slides: number) => (
-    // TODO: Is it working? children is not in props
     // @ts-ignore
     <NukaCarousel
       className={carouselClasses.carousel}

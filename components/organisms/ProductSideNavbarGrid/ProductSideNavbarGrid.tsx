@@ -16,7 +16,7 @@ export const ProductSideNavbarGrid = ({
         <S.Wrapper>
           <S.Grid>
             <S.Nav>
-              {/* // TODO: A BE issue. items can not contain null like `[null]` */}
+              {/* A BE issue. items can not contain null like `[null]` */}
               {/* @ts-ignore */}
               <ProductSideNavbarList items={menu?.items} />
             </S.Nav>

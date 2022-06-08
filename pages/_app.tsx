@@ -9,8 +9,7 @@ import builderConfig from "config/builder";
 import { defaultTheme, GlobalStyle } from "@styles";
 import { ShopProvider, OverlayProvider } from "@providers";
 
-builderConfig.apiKey && builder.init(builderConfig.apiKey); // TODO: BE no longer stores/manages builder key
-// TODO: Try to reduce bundle size by only loading required custom builder on each page
+builderConfig.apiKey && builder.init(builderConfig.apiKey);
 import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";
 import "deprecated/globalStyles/scss/index.scss";
@@ -59,10 +58,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           </LocaleProvider>
         </AlertProvider>
       </div>
-      {/*
-          TODO: Overlay component uses this div as it's root.
-             Overlay might need to be refactored to get rid of this
-       */}
       <div id="modal-root" />
     </ThemeProvider>
   );

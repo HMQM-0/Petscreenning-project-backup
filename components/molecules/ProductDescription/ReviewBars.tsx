@@ -45,12 +45,12 @@ const formatFloatToPercentage = (float: number) => {
 const getStarReviews = (
   reviews: ProductRatingsAndReviewsFragment["reviews"],
   totalReviews: number | null | undefined,
-  star: number) => {
+  star: number
+) => {
   if (!reviews || !totalReviews) {
     return 0;
   }
-  // TODO: BE issue. reviews can not contain null (`[null]`)
-  return (reviews.filter((review) => review!.score === star).length / totalReviews);
+  return (reviews.filter((review) => review.score === star).length / totalReviews);
 };
 
 type ReviewBarsProps = {
@@ -60,7 +60,6 @@ type ReviewBarsProps = {
 export const ReviewBars = ({ reviewsData }: ReviewBarsProps) => {
   const classes = useStyles();
 
-  // TODO: Is there a better/prettier way?
   const stars = [5, 4, 3, 2, 1];
 
   const renderStar = (star: number) => {

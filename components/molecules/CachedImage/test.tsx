@@ -1,4 +1,3 @@
-// TODO: Rewrite with react-testing-library
 // import { shallow } from "enzyme";
 import React from "react";
 

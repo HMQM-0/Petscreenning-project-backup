@@ -1,4 +1,4 @@
-// TODO: This component to be refactored (and probably combined with BuilderProducts and Collections) in Builder related task
+// This component to be refactored (and probably combined with BuilderProducts and Collections) in Builder related task
 import React from "react";
 import { Box } from "@mui/material";
 import { StringParam, useQueryParam } from "next-query-params";

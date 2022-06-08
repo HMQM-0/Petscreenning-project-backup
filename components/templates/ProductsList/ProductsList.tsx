@@ -18,15 +18,15 @@ import { ProductList } from "components/organisms/ProductList";
 import { xLargeScreen } from "@styles/constants";
 import { ProductSideNavbarGrid } from "components/organisms/ProductSideNavbarGrid";
 import ProductListBanner from "components/atoms/ProductListBanner/ProductListBanner";
+import {
+  ProductsQueryResult,
+  ProductsQueryVariables,
+} from "components/templates/ProductsPage/queries.graphql.generated";
 
 import { FilterQuerySet } from "./View";
 import classes from "./scss/index.module.scss";
 import { useProductsPageMenuAndAttributesQuery } from "./queries.graphql.generated";
-
-import {
-  ProductsQueryResult,
-  ProductsQueryVariables,
-} from "../ProductsPage/queries.graphql.generated";
+import Search from "./Search";
 
 interface ProductsProps {
   variables: ProductsQueryVariables;
@@ -39,6 +39,7 @@ interface ProductsProps {
   fetchMore: ProductsQueryResult["fetchMore"];
   backgroundImageUrl?: string;
   showSidebar?: boolean;
+  showSearch?: boolean;
   showNoResultFeaturedProducts?: boolean;
   breadcrumbs?: Breadcrumb[];
 }
@@ -50,6 +51,7 @@ const ProductsList = ({
   filters,
   backgroundImageUrl,
   showSidebar,
+  showSearch,
   showNoResultFeaturedProducts,
   breadcrumbs,
 }: ProductsProps) => {
@@ -145,7 +147,7 @@ const ProductsList = ({
       {
         variables: { after: data?.productList?.pageInfo.endCursor },
       }
-      // TODO: Refactor loadMore into the new fetchMore structure.
+      // Refactor loadMore into the new fetchMore structure.
       //  We need to specify field policy here somehow to merge paginated results
       // (prev, next) => ({
       //   ...prev,
@@ -163,19 +165,11 @@ const ProductsList = ({
     return {
       attributeSlug,
       valueName:
-        // TODO: adding `ts-ignore` as a tmp fix, since values has incorrect type. To be fixed on BE
-        // @ts-ignore
-        attributes
-          .find(
-            // TODO: attributes can not contain null values like [null, {}, ...]. That is a BE error
-            // @ts-ignore
-            ({ slug }) => attributeSlug === slug
-          )
-          ?.values.find(
-            // TODO: values can not contain null values like [null, {}, ...]. That is a BE error
-            // @ts-ignore
-            ({ slug }) => valueSlug === slug
-          )?.name,
+      attributes
+        .find(({ slug }) => attributeSlug === slug)
+        // values should not be empty. A BE issue?
+        ?.values!.find(({ slug }) => valueSlug === slug)
+        ?.name,
       valueSlug,
     };
   };
@@ -204,12 +198,13 @@ const ProductsList = ({
 
   const productsListComponents = (
     <Box className={classes.category}>
+      {showSearch && (<Search />)}
       <Box className="container">
         <Breadcrumbs breadcrumbs={breadcrumbs ?? []} />
         <ProductSideNavbar
           show={showDirectory}
           onHide={() => setShowDirectory(false)}
-          // TODO: items can not contain `null`. e.g. [null, {}, ...]. This is a BE issue
+          // items can not contain `null`. e.g. [null, {}, ...]. This is a BE issue
           // @ts-ignore
           items={menuResult?.items ?? []}
         />
@@ -246,7 +241,6 @@ const ProductsList = ({
       </Box>
       {!showFeatured && (
         <></>
-        // TODO: To be refactored in future tasks
         // <ProductsFeatured
         //   title={intl.formatMessage(commonMessages.youMightLike)}
         // />

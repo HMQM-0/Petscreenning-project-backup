@@ -1,4 +1,4 @@
-// TODO: This component will be deleted - we will use the useBuilderStateData hook instead and pass the values directly to BuilderComponent from the builder package
+// This component will be deleted - we will use the useBuilderStateData hook instead and pass the values directly to BuilderComponent from the builder package
 
 import "@builder.io/widgets";
 import * as React from "react";
@@ -31,6 +31,7 @@ import { FilterQuerySet } from "../ProductsList/View";
 
 const model = "store";
 var type = "/store/product";
+
 interface IStorePage {
   category?: any;
   collection?: any;
@@ -179,6 +180,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     const clearFilters = () => {
       setAttributeFilters({});
     };
+
     function handleAddToCart(
       name: string,
       variantId: string,
@@ -249,6 +251,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       }
       if (addedToWishlist && user) {
         await setRemoveWishlistProduct(
+          // @ts-ignore
           { productId },
           {
             refetchQueries: [
@@ -272,6 +275,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
         );
       } else if (!addedToWishlist && user) {
         await setAddWishlistProduct(
+          // @ts-ignore
           { productId },
           {
             refetchQueries: [
@@ -403,11 +407,11 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       <BuilderComponent model={model} content={pageJson} data={stateData} />
     );
   }
-  
+
   if (isLoading) {
     return <CircularProgress sx={{ placeSelf: "center" }} />;
   }
-  
+
   return <NoComponent />;
 };
 

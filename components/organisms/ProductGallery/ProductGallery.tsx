@@ -18,7 +18,7 @@ export const ProductGallery = ({ images }: IProps) => {
     if (imageIndex >= images.length) {
       setImageIndex(0);
     }
-  }, [images]);
+  }, [images, imageIndex]);
 
   const bottomImageRef = React.useRef<HTMLDivElement | null>(null);
   const topImageRef = React.useRef<HTMLDivElement | null>(null);

@@ -8,7 +8,6 @@
   li {
     &:not(:last-of-type) {
       &:after {
-        // TODO: Using a copy of SVG from the public folder for now, until the scss is refactored on a later stage
         content: url("/images/breadcrumbs-arrow.svg");
         display: inline-block;
         margin: 0 $spacer / 2;

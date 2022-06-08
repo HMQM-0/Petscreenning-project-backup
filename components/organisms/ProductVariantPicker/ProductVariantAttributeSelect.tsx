@@ -13,7 +13,7 @@ import { AttributeOption } from "./ProductAttributePicker";
 type ProductVariantAttributeSelectProps = {
   attribute: VariantAttributeFragment["attribute"];
   attributeOptions: AttributeOption[];
-  selectedValue: AttributeValue["value"];
+  selectedValue: AttributeValue["value"] | undefined;
   onChangeSelection: (value: AttributeValue["value"]) => void;
 };
 
@@ -36,8 +36,7 @@ export const ProductVariantAttributeSelect = ({
   };
 
   const disabledOptions = useMemo(() =>
-      // TODO: BE issue. value should not be empty here
-      attributeOptions.filter(({ disabled }) => disabled).map(({ value }) => value!),
+      attributeOptions.filter(({ disabled }) => disabled).map(({ value }) => value),
     [attributeOptions]
   );
 
@@ -55,13 +54,10 @@ export const ProductVariantAttributeSelect = ({
             </S.SelectIndicator>
           )
         }}
-        // TODO: slug can not be empty. BE issue
-        name={attribute.slug!}
+        name={attribute.slug}
         data-test="variantPicker"
       />
       <SelectSidebar
-        // TODO: A BE issue? value should not be null|undefined
-        // @ts-ignore
         options={attributeOptions}
         selectedOptions={selectedValuesList}
         disabledOptions={disabledOptions}
@@ -74,7 +70,7 @@ export const ProductVariantAttributeSelect = ({
         show={showSelectSidebar}
         hide={() => setShowSelectSidebar(false)}
         onSelect={handleSelectValueInSidebar}
-        testingContextId={attribute.slug!}
+        testingContextId={attribute.slug}
       />
     </>
   );

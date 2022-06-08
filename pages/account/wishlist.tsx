@@ -10,9 +10,7 @@ import {
   WishlistPageQuery,
 } from "components/templates/WishlistPage/queries.graphql.generated";
 
-const Wishlist: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data }) => {
+const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const description = "Wishlist";
   const title = "Wishlist";
   const schema = structuredData(description, title);
@@ -21,11 +19,10 @@ const Wishlist: NextPage<
     description,
     title,
     schema,
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    url: "",
   };
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
         <WishlistPage />
@@ -37,7 +34,6 @@ const Wishlist: NextPage<
 export async function getServerSideProps() {
   const client = getApolloClient();
 
-  // TODO: Determine if we can get the JWT for SSR queries
   const { data } = await client.query<WishlistPageQuery>({
     query: WishlistPageDocument,
   });

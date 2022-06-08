@@ -1,4 +1,4 @@
-// TODO: This component will be deleted - we will use the useBuilderStateData hook instead and pass the values directly to BuilderComponent from the builder package
+// This component will be deleted - we will use the useBuilderStateData hook instead and pass the values directly to BuilderComponent from the builder package
 
 import "./mui";
 import * as React from "react";
@@ -27,7 +27,7 @@ const ArticlePage: React.FunctionComponent = (props) => {
   /*
   function extractPath(value: string) {
     // any character that is not a word character or whitespace
-    const regex = /\/(article)+\/([A-z|0-9]+\-[A-z|0-9]+)/g;    
+    const regex = /\/(article)+\/([A-z|0-9]+\-[A-z|0-9]+)/g;
     var result = value.match(regex).pop();
 
     var id = Base64.encode('Product:5' + getLastNumberOfString(value));

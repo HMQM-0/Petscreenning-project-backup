@@ -11,11 +11,11 @@ import Form from "deprecated/components/Form/index";
 import TextField from "components/atoms/TextField";
 import { OverlayContext } from "components/providers/Overlay/context";
 import { FormError } from "deprecated/components/Form/types";
+
 import {
   useSubmitRatingAndReviewMutation,
   SubmitRatingAndReviewMutation,
-} from "deprecated/components/OverlayManager/RatingAndReview/mutations.graphql.generated";
-
+} from "./mutations.graphql.generated";
 import classes from "./scss/index.module.scss";
 
 const showSuccessNotification = (
@@ -29,8 +29,6 @@ const showSuccessNotification = (
     hide();
     alert.show(
       {
-        // TODO: to be fixed in a separate task
-        // @ts-ignore
         title: intl.formatMessage({
           defaultMessage: "Your Rating and Review has been submitted.",
         }),
@@ -61,13 +59,12 @@ const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
 
   return (
     <div style={{ padding: "25px" }}>
-      <Form
+      <Form<{ headline: string; publicName: string; emailAddress: string; }>
         errors={
           maybe(() => data?.submitRatingAndReview?.errors, []) as FormError[]
         }
         onSubmit={(event, data) => {
-          // TODO: What should be passed to <Form<...> to fix this?
-          const { headline, publicName, emailAddress } = data as any;
+          const { headline, publicName, emailAddress } = data;
           event.preventDefault();
           if (!rating) {
             setNoRatingSelected(true);

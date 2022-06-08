@@ -22,10 +22,10 @@ export interface IProductVariantPickerProps {
 
 type AttributesById = Record<VariantAttributeFragment["attribute"]["id"], VariantAttributeFragment>;
 
-// TODO: This one is created based on old overcomplicated hooks. Might need to be moved into a hook as well
-const getAttributesByIdFromVariants = (variants: ProductVariantFieldsFragment[]) => _mapValues(
+// This one is created based on old overcomplicated hooks. Might need to be moved into a hook as well
+const getAttributesByIdFromVariants = (variants: ProductVariantFieldsFragment[]): AttributesById => _mapValues(
   _groupBy(
-    _flatMap(variants, 'attributes') as VariantAttributeFragment[],
+    _flatMap(variants, 'attributes'),
     'attribute.id'
   ), (attributeGroup) => ({
     // All the attributes will be the same since those are grouped by ID, so using [0]
@@ -43,14 +43,13 @@ const ProductVariantPicker = ({
   const queryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
 
   const allAttributesById = useMemo<AttributesById>(
-    () => getAttributesByIdFromVariants(productVariants) as AttributesById,
+    () => getAttributesByIdFromVariants(productVariants),
     [productVariants]
   );
 
   const selectedAttributeValues = useMemo(() => (
     _mapValues(allAttributesById, (attributeData) => {
-      // TODO: slug can not be null here. A BE issue
-      const slug = attributeData.attribute.slug!.toLowerCase();
+      const slug = attributeData.attribute.slug.toLowerCase();
       // Attribute should not contain multiple values.
       // So string[] is not used as default value
       return queryAttributes[slug]?.toString();
@@ -61,7 +60,7 @@ const ProductVariantPicker = ({
     let selectedVariant = productVariants.find((productVariant) =>
       productVariant.attributes.every((productVariantAttribute) => {
         const productVariantAttributeId = productVariantAttribute.attribute.id;
-        // TODO: We expect that there will always be an attribute value (in case DB is consistent)
+        // We expect that there will always be an attribute value (in case DB is consistent)
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
         return (productVariantAttributeId === attributeId) ?
           // For the attribute that is changing - check new value

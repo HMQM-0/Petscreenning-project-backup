@@ -16,19 +16,17 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
     product,
     branding,
   },
-  productId,
 }) => {
   const description = product?.seoDescription || product?.descriptionJson || "Product";
   const title = product?.seoTitle || product?.name || "Product";
   const schema = structuredData(description, title);
   const documentHead = {
-    // TODO: is should NOT be undefined here. BE issue
-    branding: branding!,
+    branding,
     description,
     title,
     schema,
     image: product?.thumbnail?.url || undefined,
-    url: "", // TODO: Store the canonical URL either as env or in dashboard
+    url: "",
     type: "product.item",
     custom: [
       {
@@ -64,7 +62,6 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = getApolloClient();
 
-  // TODO: it is always set here (since it's a dynamic routing prop)
   const productId = context.params!.id as string;
 
   const { data } = await client.query<ProductDetailsQuery>({
@@ -79,7 +76,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       data,
-      productId,
       __APOLLO__,
     },
   };

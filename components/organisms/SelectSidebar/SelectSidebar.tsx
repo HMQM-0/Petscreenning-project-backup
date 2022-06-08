@@ -53,11 +53,10 @@ export const SelectSidebar = ({
             return (
               <S.Option key={option.value} disabled={isDisabled}>
                 <OverlayItem
-                  // TODO: BE issue. value (name) can not be null
-                  testingContextId={option.value!}
+                  testingContextId={option.value}
                   selected={isSelected}
                   disabled={isDisabled}
-                  onClick={() => onSelect(option.value!)}
+                  onClick={() => onSelect(option.value)}
                 >
                   {option.label}
                 </OverlayItem>

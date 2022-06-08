@@ -2,10 +2,10 @@ import React from "react";
 
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
+import { useProductsQuery } from "components/templates/ProductsPage/queries.graphql.generated";
 
 import {
   BasicCollectionFragment,
-  useCollectionPageQuery,
 } from "./queries.graphql.generated";
 
 type CollectionProductsProps = ChildrenFunctionProps & {
@@ -17,10 +17,10 @@ const CollectionProducts = ({
   filters,
   collection,
 }: CollectionProductsProps) => {
-  const { loading, data, fetchMore } = useCollectionPageQuery({
+  const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,
-      id: collection.id,
+      collectionIds: [collection.id],
     },
     errorPolicy: "all",
   });
