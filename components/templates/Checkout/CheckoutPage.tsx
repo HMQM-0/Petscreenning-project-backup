@@ -3,8 +3,8 @@ import { makeStyles } from "@mui/styles";
 import { Box, Modal } from "@mui/material";
 
 import { useCart, useCheckout } from "@nautical/react";
-import Loader from "deprecated/components/Loader";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
+import { Loader } from "components/atoms/Loader";
 
 import Checkout from "./Checkout";
 
