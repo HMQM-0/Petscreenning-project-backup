@@ -4,8 +4,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import isEqual from "lodash/isEqual";
 
-import { IImage } from "@types";
-import { commonMessages } from "deprecated/intl";
+import { IImage } from "types";
+import { commonMessages } from "core/intl";
 import { CachedImage } from "components/molecules/CachedImage";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { TaxedMoney } from "components/molecules/TaxedMoney";

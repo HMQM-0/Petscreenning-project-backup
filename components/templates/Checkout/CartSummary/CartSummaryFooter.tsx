@@ -5,7 +5,7 @@ import * as React from "react";
 import { useIntl } from "react-intl";
 
 import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { Money } from "components/atoms/Money";
