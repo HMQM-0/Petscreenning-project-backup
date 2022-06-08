@@ -1,5 +1,5 @@
 import { CardError } from "core/payments/braintree";
-import { ICardData, IFormError, IPaymentGatewayConfig } from "@types";
+import { ICardData, IFormError, IPaymentGatewayConfig } from "types";
 
 import { IFormikProps } from "./cctypes";
 
