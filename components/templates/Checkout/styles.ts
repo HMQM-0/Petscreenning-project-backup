@@ -1,6 +1,7 @@
 import { Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
+// TODO: THIS NEEDS TO BE REPLACED: https://nauticalcommerce.atlassian.net/browse/PROD-1755
 export const useStyles = makeStyles((theme: Theme) => ({
   backdropWhite: {
     backgroundColor: "#FFF",
