@@ -1,13 +1,12 @@
 import { Elements, PaymentElement } from "@stripe/react-stripe-js";
 import { Stripe, StripeElements } from "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js/pure";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useEffect, useRef, useState } from "react";
 
 import { IFormError } from "@types";
-import { getClientSecretQuery } from "deprecated/app/queries";
 import { useCheckout } from "@nautical/react";
 import { Loader } from "components/atoms/Loader";
+import { useGetClientSecretQuery } from "queries/clientSecret.graphql.generated";
 
 import { IProps } from "./types";
 
@@ -52,7 +51,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
     }
   }, [apiKey, onError]);
 
-  useQuery(getClientSecretQuery, {
+  useGetClientSecretQuery({
     fetchPolicy: "cache-and-network",
     variables: {
       gateway: "nautical.payments.stripe",
@@ -69,6 +68,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
           city: checkout?.shippingAddress?.city,
           countryArea: checkout?.shippingAddress?.countryArea,
           postalCode: checkout?.shippingAddress?.postalCode,
+          // @ts-ignore - Needs to be CountryCode defined in generated code - TODO: Refactor NauticalProvider to ensure useCheckout types this as country code
           country: checkout?.shippingAddress?.country?.code,
           phone: checkout?.shippingAddress?.phone,
         },
