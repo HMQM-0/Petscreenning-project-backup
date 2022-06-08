@@ -35,7 +35,7 @@ import {
 } from "deprecated/@nautical/helpers";
 import { IItems } from "deprecated/@nautical/api/Cart/types";
 import { maybe } from "@utils/misc";
-import { LoyaltyPoints } from "@components/organisms/LoyaltyPoints";
+import { LoyaltyPoints } from "components/atoms/LoyaltyPoints";
 import { Plugins } from "deprecated/@nautical";
 import {
   useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints,

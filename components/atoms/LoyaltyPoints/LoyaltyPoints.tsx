@@ -4,8 +4,8 @@ import Slider from "@mui/material/Slider";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
+// TODO: NauticalProvider needs to be refactored to use codegen for types/queries/mutations
 import { useCart, useCheckout } from "deprecated/@nautical/react";
-import { ITaxedMoney } from "@types";
 import { User } from "deprecated/@nautical/fragments/gqlTypes/User";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints } from "@nautical/react/mutations";
 import {
@@ -13,6 +13,7 @@ import {
   useYotpoLoyaltyAndReferralsFetchCustomerDetails,
 } from "@nautical/react/queries";
 import { useShopContext } from "components/providers/ShopProvider";
+import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 
 import { customSliderStyles } from "./styles";
 import * as S from "./styles";
@@ -282,7 +283,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
                 purchases!
               </S.SubTextBottom>
               <S.SubTextBottom>
-                For every dollar spent, you'll earn{" "}
+                For every dollar spent, you&apos;ll earn{" "}
                 {
                   loyaltyAndReferralsData?.loyaltyAndReferralsInfo
                     .pointsGainedPerDollarSpent
