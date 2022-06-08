@@ -27,8 +27,7 @@ import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 
 import { useAuth, useCheckout } from "@nautical/react";
-import Loader from "deprecated/components/Loader";
-import { ICardData, IFormError } from "@types";
+import { ICardData, IFormError } from "types";
 import {
   ICheckoutModelLine,
   ICheckoutModelPriceValue,
@@ -43,6 +42,7 @@ import {
 } from "@nautical/react/mutations";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
+import { Loader } from "components/atoms/Loader";
 
 import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
