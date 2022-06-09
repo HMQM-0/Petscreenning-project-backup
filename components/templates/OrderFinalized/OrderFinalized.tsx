@@ -1,30 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useQueryParams, StringParam } from "next-query-params";
 
-import { useNauticalOrderDetails } from "@nautical/react";
-import { Loader } from "components/atoms/Loader";
-
 import { ThankYou } from "./ThankYou";
-type OrderFinalizedProps = {};
+import { OrderFinalizedPageQuery } from "./queries.graphql.generated";
 
-const OrderFinalized = ({}: OrderFinalizedProps) => {
+type OrderFinalizedProps = {
+  nauticalOrderByToken: OrderFinalizedPageQuery["nauticalOrderByToken"];
+};
+
+const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
   const [{ token, orderNumber }] = useQueryParams({
     token: StringParam,
     orderNumber: StringParam,
   });
-  const { data: order, loading } = useNauticalOrderDetails(
-    { token },
-    { fetchPolicy: "cache-first" }
-  );
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <ThankYou
       orderNumber={orderNumber ?? ""}
-      orderEmail={order?.userEmail}
+      orderEmail={nauticalOrderByToken?.userEmail ?? ""}
       token={token ?? ""}
     />
   );

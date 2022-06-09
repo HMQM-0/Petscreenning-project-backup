@@ -1,13 +1,18 @@
-import type { NextPage, InferGetServerSidePropsType } from "next";
+import type {
+  NextPage,
+  InferGetServerSidePropsType,
+  GetServerSidePropsContext,
+} from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import {
-  CheckoutPageDocument,
-  CheckoutPageQuery,
-} from "components/templates/CheckoutPage/queries.graphql.generated";
 import { OrderFinalized } from "components/templates/OrderFinalized";
+import {
+  OrderFinalizedPageDocument,
+  OrderFinalizedPageQuery,
+  OrderFinalizedPageQueryVariables,
+} from "components/templates/OrderFinalized/queries.graphql.generated";
 
 import { getApolloClient } from "../apollo-client";
 
@@ -28,17 +33,24 @@ const Checkout: NextPage<
 
   return (
     <Layout documentHead={documentHead}>
-      <OrderFinalized />
+      <OrderFinalized nauticalOrderByToken={data.nauticalOrderByToken} />
     </Layout>
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const client = getApolloClient();
 
-  // TODO: USE ACTUAL QUERY
-  const { data } = await client.query<CheckoutPageQuery>({
-    query: CheckoutPageDocument,
+  const token = context.query?.token ?? "";
+  const variables: OrderFinalizedPageQueryVariables = {
+    token,
+  };
+  const { data } = await client.query<OrderFinalizedPageQuery>({
+    query: OrderFinalizedPageDocument,
+    variables,
+    errorPolicy: "all",
   });
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
