@@ -1,18 +1,15 @@
 import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { useQueryParam, BooleanParam } from "next-query-params";
 
 import { useAuth } from "@nautical/react";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import logoImg from "deprecated/images/wine-logo.png";
 import {
   CheckoutPageDocument,
   CheckoutPageQuery,
 } from "components/templates/CheckoutPage/queries.graphql.generated";
-import { CheckoutPage } from "components/templates/CheckoutPage";
+import { LoginPage } from "components/templates/LoginPage/LoginPage";
 
 import { getApolloClient } from "../apollo-client";
 
@@ -21,7 +18,6 @@ const Checkout: NextPage<
 > = ({ data }) => {
   const { push } = useRouter();
   const { user } = useAuth();
-  const [guest] = useQueryParam("guest", BooleanParam);
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
   const schema = structuredData(description, title);
@@ -35,32 +31,14 @@ const Checkout: NextPage<
   };
 
   // TODO: Determine if this can be done Server-Side to improve UX
-  if (!user && !guest) {
-    push("/login");
+  if (user) {
+    push("/checkout");
   }
-
-  const logo = data?.branding?.logo ? (
-    <Image
-      src={data.branding.logo.url}
-      width={data.branding.logoWidth ?? 188}
-      height={data.branding.logoHeight ?? 28}
-      objectFit="contain"
-      alt="Logo"
-    />
-  ) : (
-    <Image
-      width={188}
-      height={28}
-      objectFit="contain"
-      src={logoImg}
-      alt="Default logo"
-    />
-  );
 
   return (
     // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
-      <CheckoutPage logo={logo} />
+      <LoginPage />
     </Layout>
   );
 };
