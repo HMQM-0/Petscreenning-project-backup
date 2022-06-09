@@ -8,8 +8,8 @@ import logoImg from "deprecated/images/wine-logo.png";
 import {
   CheckoutPageDocument,
   CheckoutPageQuery,
-} from "components/templates/Checkout/queries.graphql.generated";
-import { CheckoutPage } from "components/templates/Checkout";
+} from "components/templates/CheckoutPage/queries.graphql.generated";
+import { CheckoutPage } from "components/templates/CheckoutPage";
 
 import { getApolloClient } from "../apollo-client";
 

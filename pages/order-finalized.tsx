@@ -6,7 +6,7 @@ import { Layout } from "@layouts/Layout";
 import {
   CheckoutPageDocument,
   CheckoutPageQuery,
-} from "components/templates/Checkout/queries.graphql.generated";
+} from "components/templates/CheckoutPage/queries.graphql.generated";
 import { OrderFinalized } from "components/templates/OrderFinalized";
 
 import { getApolloClient } from "../apollo-client";
