@@ -73,17 +73,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 const CartSummaryRow: React.FunctionComponent<ICartSummaryRowProps> = (
   props
 ) => {
-  // @ts-ignore
-  const {
-    // index,
-    sku,
-    name,
-    variant,
-    price,
-    priceUndiscounted,
-    quantity,
-    thumbnail,
-  } = props;
+  const { sku, name, variant, price, priceUndiscounted, quantity, thumbnail } =
+    props;
   const classes = useStyles(props);
   return (
     <Box key={sku} className={classes.root}>
