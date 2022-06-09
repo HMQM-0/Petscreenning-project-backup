@@ -46,9 +46,9 @@ export const DiscountAmount = styled.div`
   text-align: center;
 `;
 
-export const FlexCentered = styled.div` 
-  display: "flex", 
-  justify-content: "center" 
+export const FlexCentered = styled.div`
+  display: "flex";
+  justify-content: "center";
 `;
 
 export const SubTextTop = styled.div`
@@ -57,7 +57,7 @@ export const SubTextTop = styled.div`
 `;
 
 export const mainText = styled.div`
-  fontsize: "1.125rem";
+  font-size: "1.125rem";
 `;
 
 export const customSliderStyles = {

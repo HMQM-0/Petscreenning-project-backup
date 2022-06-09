@@ -4,7 +4,7 @@ import Slider from "@mui/material/Slider";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-// TODO: NauticalProvider needs to be refactored to use codegen for types/queries/mutations
+// NauticalProvider needs to be refactored to use codegen for types/queries/mutations https://nauticalcommerce.atlassian.net/browse/PROD-1630
 import { useCart, useCheckout } from "deprecated/@nautical/react";
 import { User } from "deprecated/@nautical/fragments/gqlTypes/User";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints } from "@nautical/react/mutations";
@@ -81,7 +81,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
     if (updatedPointsToRedeem !== pointsToRedeem) {
       setPointsToRedeem(updatedPointsToRedeem);
     }
-  }, [promoCodeDiscount]);
+  }, [pointsToRedeem, promoCodeDiscount]);
 
   React.useEffect(() => {
     loyaltyAndReferralsData &&
@@ -92,7 +92,11 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
             .pointsGainedPerDollarSpent * netOrderPrice
         )
       );
-  }, [loyaltyAndReferralsData, netOrderPrice]);
+  }, [
+    loyaltyAndReferralsData,
+    netOrderPrice,
+    updateLoyaltyPointsToBeEarnedOnOrderComplete,
+  ]);
 
   // EVENT HANDLERS
   const handleRedeemButtonClick = async () => {
