@@ -1,4 +1,3 @@
-export { default as CheckoutLogin } from "./CheckoutLogin";
 export { default as ContentPage } from "./ContentPage";
 export { default as Dropdown } from "./Dropdown";
 export { default as Form } from "./Form";
