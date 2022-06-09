@@ -145,8 +145,8 @@ const Page = ({ add, product, items }: PageProps) => {
   };
 
   const handleAddToCart = async (variantId: string, quantity: number) => {
-    const data = await add(variantId, quantity);
-    //NTODO: Confirm before showing success message
+    await add(variantId, quantity);
+
     alert.show(
       {
         title: `Added ${quantity} x ${product.name}`,
