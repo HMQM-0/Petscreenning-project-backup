@@ -30,7 +30,7 @@ const Checkout: NextPage<
     description,
     title,
     schema,
-    image: "", // TODO: Ensure every page has a valid Image for OG tags
+    image: data.branding?.logo ?? "",
     url: "", // TODO: Store the canonical URL either as env or in dasboard
   };
 
@@ -58,7 +58,6 @@ const Checkout: NextPage<
   );
 
   return (
-    // @ts-ignore TODO: BE issue BrandingFragment cannot be null | undefined
     <Layout documentHead={documentHead}>
       <CheckoutPage logo={logo} />
     </Layout>
