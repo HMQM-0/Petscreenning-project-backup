@@ -277,6 +277,7 @@ const MuiCheckout = ({
 
       if (!errors) {
         const response = await completeCheckout();
+
         if (!response.dataError?.error) {
           if (checkIfLoyaltyAndReferralsActive() && user) {
             awardCustomerLoyaltyPoints({
@@ -287,10 +288,14 @@ const MuiCheckout = ({
               },
             });
           }
-          // TODO: This can be undefined, let's fix that
-          router.push(
-            `/order-finalized?token=${response.data?.order?.token}&orderNumber=${response.data?.order?.number}`
-          );
+          const token = response.data?.order?.token;
+          const orderNumber = response.data?.order?.number;
+
+          if (token && orderNumber) {
+            router.push(
+              `/order-finalized?token=${token}&orderNumber=${orderNumber}`
+            );
+          }
         } else {
           errors = response.dataError?.error;
           handleErrors(errors);
