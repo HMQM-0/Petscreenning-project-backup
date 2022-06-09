@@ -12,7 +12,7 @@ import { IProps } from "./types";
 /**
  * Thank you page after completing the checkout.
  */
-const ThankYou: React.FC<IProps> = ({
+const ThankYou = ({
   orderEmail,
   orderNumber,
   token,
