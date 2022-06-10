@@ -7,12 +7,12 @@ import { useQueryParam, BooleanParam } from "next-query-params";
 import { useAuth } from "@nautical/react";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import logoImg from "deprecated/images/wine-logo.png";
 import {
   CheckoutPageDocument,
   CheckoutPageQuery,
 } from "components/templates/CheckoutPage/queries.graphql.generated";
 import { CheckoutPage } from "components/templates/CheckoutPage";
+import { Logo } from "components/atoms/Logo";
 
 import { getApolloClient } from "../apollo-client";
 
@@ -39,23 +39,7 @@ const Checkout: NextPage<
     push("/login");
   }
 
-  const logo = data?.branding?.logo ? (
-    <Image
-      src={data.branding.logo.url}
-      width={data.branding.logoWidth ?? 188}
-      height={data.branding.logoHeight ?? 28}
-      objectFit="contain"
-      alt="Logo"
-    />
-  ) : (
-    <Image
-      width={188}
-      height={28}
-      objectFit="contain"
-      src={logoImg}
-      alt="Default logo"
-    />
-  );
+  const logo = <Logo branding={data.branding} />;
 
   return (
     <Layout documentHead={documentHead}>
