@@ -9,6 +9,7 @@ import BottomNav from "components/atoms/BottomNav";
 import CookieBar from "components/atoms/CookieBar";
 import { useAcceptCookies } from "deprecated/hooks/useAcceptCookies";
 import OverlayManager from "components/organisms/OverlayManager/OverlayManager";
+import { Logo } from "components/atoms/Logo";
 
 import { Header } from "./Header";
 
@@ -25,11 +26,13 @@ const Layout = ({ children, documentHead }: LayoutProps) => {
   const icon = branding?.icon ? (
     <Image src={branding.icon.url} height="64" width="64" alt="Icon" />
   ) : null;
-  const headerLogo = {
-    src: branding.logo?.url ?? "",
-    height: branding.logoHeight ?? 50,
-    width: branding.logoWidth ?? 100,
-  };
+  const headerLogo = (
+    <Logo
+      logo={branding.logo}
+      logoHeight={branding.logoHeight ?? 50}
+      logoWidth={branding.logoWidth ?? 100}
+    />
+  );
 
   return (
     <MaterialUIProvider branding={branding}>

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { Skeleton } from "@mui/material";
 
 import { BrandingFragment } from "queries/branding.graphql.generated";
 
@@ -19,13 +20,7 @@ const Logo = ({ logo, logoWidth, logoHeight }: LogoProps) => {
       alt="Logo"
     />
   ) : (
-    <Image
-      width={160}
-      height={40}
-      objectFit="contain"
-      src="/nautical_logo.svg"
-      alt="Default Nautical logo"
-    />
+    <Skeleton width={logoWidth ?? 188} height={logoHeight ?? 28} />
   );
 };
 
