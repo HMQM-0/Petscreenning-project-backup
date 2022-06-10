@@ -1,3 +1,5 @@
+import baseStyled, { ThemedStyledInterface } from "styled-components";
+
 import * as C from "./constants";
 
 export const defaultTheme = {
@@ -237,3 +239,4 @@ export function createColorTheme(colors: ThemeColor) {
 }
 
 export type DefaultTheme = typeof defaultTheme;
+export const styled = baseStyled as ThemedStyledInterface<DefaultTheme>;

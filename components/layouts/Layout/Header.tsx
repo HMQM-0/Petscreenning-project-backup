@@ -1,16 +1,11 @@
 import React from "react";
-import { Skeleton, useScrollTrigger } from "@mui/material";
-import Image from "next/image";
+import { useScrollTrigger } from "@mui/material";
 
 import { PromoBanner } from "components/molecules/PromoBanner";
 import TopNav from "components/layouts/MainMenu/TopNav";
 
 type HeaderProps = {
-  logo: {
-    src?: string;
-    height?: number;
-    width?: number;
-  };
+  logo: React.ReactNode;
 };
 
 const Header = ({ logo }: HeaderProps) => {
@@ -24,21 +19,11 @@ const Header = ({ logo }: HeaderProps) => {
   };
   const emptyStyle: React.CSSProperties = {};
 
-  const _logo = logo.src ? (
-    <Image
-      {...logo}
-      src={logo.src}
-      objectFit="contain"
-      alt="Logo"
-    />
-  ) : (
-    <Skeleton />
-  );
   return (
     <>
       <header style={trigger ? stickyStyle : emptyStyle}>
         <PromoBanner content="FREE SHIPPING over $50" />
-        <TopNav logo={_logo} />
+        <TopNav logo={logo} />
       </header>
       {trigger && <div style={{ marginBottom: "104px" }} />}
     </>
