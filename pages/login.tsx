@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 import { useAuth } from "@nautical/react";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import {
-  CheckoutPageDocument,
-  CheckoutPageQuery,
-} from "components/templates/CheckoutPage/queries.graphql.generated";
 import { LoginPage } from "components/templates/LoginPage/LoginPage";
+import {
+  LoginPageDocument,
+  LoginPageQuery,
+} from "components/templates/LoginPage/queries.graphql.generated";
 
 import { getApolloClient } from "../apollo-client";
 
@@ -45,8 +45,8 @@ const Checkout: NextPage<
 export const getServerSideProps = async () => {
   const client = getApolloClient();
 
-  const { data } = await client.query<CheckoutPageQuery>({
-    query: CheckoutPageDocument,
+  const { data } = await client.query<LoginPageQuery>({
+    query: LoginPageDocument,
   });
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
