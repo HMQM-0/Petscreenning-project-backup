@@ -39,7 +39,7 @@ const Checkout: NextPage<
     push("/login");
   }
 
-  const logo = <Logo branding={data.branding} />;
+  const logo = <Logo {...data.branding} />;
 
   return (
     <Layout documentHead={documentHead}>

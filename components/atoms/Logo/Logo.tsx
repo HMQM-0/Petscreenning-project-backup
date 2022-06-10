@@ -4,15 +4,17 @@ import Image from "next/image";
 import { BrandingFragment } from "queries/branding.graphql.generated";
 
 type LogoProps = {
-  branding: BrandingFragment;
+  logo?: BrandingFragment["logo"];
+  logoWidth?: BrandingFragment["logoWidth"];
+  logoHeight?: BrandingFragment["logoHeight"];
 };
 
-const Logo = ({ branding }: LogoProps) => {
-  return branding?.logo ? (
+const Logo = ({ logo, logoWidth, logoHeight }: LogoProps) => {
+  return logo ? (
     <Image
-      src={branding.logo.url}
-      width={branding.logoWidth ?? 188}
-      height={branding.logoHeight ?? 28}
+      src={logo.url}
+      width={logoWidth ?? 188}
+      height={logoHeight ?? 28}
       objectFit="contain"
       alt="Logo"
     />
