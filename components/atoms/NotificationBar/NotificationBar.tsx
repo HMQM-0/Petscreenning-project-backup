@@ -2,23 +2,18 @@ import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import Slider, { Settings as ReactSlickSettings } from "react-slick";
-// TODO: We're adding classes for React Slick, so we can not import them as classes
-import "./scss/index.module.scss";
+
+import slickClasses from "./scss/index.module.scss";
 
 const useStyles = makeStyles(() => ({
-    message: (props: { fontColor?: string; fontSize?: string; }) => ({
-      color: props?.fontColor || "#FFF",
-      fontSize: props?.fontSize || "1rem",
-      paddingBottom: 2,
-      paddingTop: 0,
-      textAlign: "center",
-    }),
-    wrapper: {
-      border: 0,
-      overflow: "hidden",
-    },
-  })
-);
+  message: (props: { fontColor?: string; fontSize?: string }) => ({
+    color: props?.fontColor || "#FFF",
+    fontSize: props?.fontSize || "1rem",
+    paddingBottom: 2,
+    paddingTop: 0,
+    textAlign: "center",
+  }),
+}));
 
 export interface MessageProp {
   content: string;
@@ -44,7 +39,7 @@ const NotificationBar = ({
 
   return (
     <Box
-      className={classes.wrapper}
+      className={slickClasses.wrapper}
       style={{
         backgroundColor: backgroundColor || "#000",
       }}
@@ -52,11 +47,7 @@ const NotificationBar = ({
       <Slider {...sliderSettings}>
         {messages.map(({ content, link }, index) => (
           <Box className={classes.message} key={index}>
-            {link ? (
-              <a href={link}>{content}</a>
-            ) : (
-              <span>{content}</span>
-            )}
+            {link ? <a href={link}>{content}</a> : <span>{content}</span>}
           </Box>
         ))}
       </Slider>
