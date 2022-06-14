@@ -22,7 +22,7 @@ const Header = ({ logo }: HeaderProps) => {
   return (
     <>
       <header style={trigger ? stickyStyle : emptyStyle}>
-        <PromoBanner content="FREE SHIPPING over $50" />
+        <PromoBanner />
         <TopNav logo={logo} />
       </header>
       {trigger && <div style={{ marginBottom: "104px" }} />}

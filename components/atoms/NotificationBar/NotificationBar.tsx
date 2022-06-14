@@ -1,0 +1,67 @@
+import { Box } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import React from "react";
+import Slider, { Settings as ReactSlickSettings } from "react-slick";
+// TODO: We're adding classes for React Slick, so we can not import them as classes
+import "./scss/index.module.scss";
+
+const useStyles = makeStyles(() => ({
+    message: (props: { fontColor?: string; fontSize?: string; }) => ({
+      color: props?.fontColor || "#FFF",
+      fontSize: props?.fontSize || "1rem",
+      paddingBottom: 2,
+      paddingTop: 0,
+      textAlign: "center",
+    }),
+    wrapper: {
+      border: 0,
+      overflow: "hidden",
+    },
+  })
+);
+
+export interface MessageProp {
+  content: string;
+  link?: string;
+}
+
+export interface NotificationProps {
+  backgroundColor?: string;
+  fontColor?: string;
+  fontSize?: string;
+  messages: MessageProp[];
+  sliderSettings: ReactSlickSettings;
+}
+
+const NotificationBar = ({
+  backgroundColor,
+  fontColor,
+  fontSize,
+  messages,
+  sliderSettings,
+}: NotificationProps) => {
+  const classes = useStyles({ fontSize, fontColor });
+
+  return (
+    <Box
+      className={classes.wrapper}
+      style={{
+        backgroundColor: backgroundColor || "#000",
+      }}
+    >
+      <Slider {...sliderSettings}>
+        {messages.map(({ content, link }, index) => (
+          <Box className={classes.message} key={index}>
+            {link ? (
+              <a href={link}>{content}</a>
+            ) : (
+              <span>{content}</span>
+            )}
+          </Box>
+        ))}
+      </Slider>
+    </Box>
+  );
+};
+
+export default NotificationBar;
