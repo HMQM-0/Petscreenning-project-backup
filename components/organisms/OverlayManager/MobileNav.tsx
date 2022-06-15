@@ -1,11 +1,11 @@
-import * as React from "react";
+import React from "react";
 import { Box } from "@mui/material";
 
+import { useMainMenuQuery } from "@layouts/MainMenu/queries.graphql.generated";
 import { isMicrosite } from "core/utils";
-import { Maybe, MenuItem } from "@generated";
 import { OverlayContextInterface } from "components/providers/Overlay/context";
-import mobileNavClasses from "deprecated/components/MobileNav/scss/index.module.scss";
-import MobileNavList from "deprecated/components/MobileNav/NavList";
+import mobileNavClasses from "components/layouts/MainMenu/MobileNav/scss/index.module.scss";
+import MobileNavList from "components/layouts/MainMenu/MobileNav/NavList";
 
 import Overlay from "./Overlay/Overlay";
 
@@ -15,7 +15,8 @@ interface MobileNavProps {
 }
 
 const MobileNav = ({ overlay }: MobileNavProps) => {
-  const items: Maybe<MenuItem>[] = overlay.context?.data;
+  const { data, loading } = useMainMenuQuery();
+  const items = data?.shop.navigation?.main?.items ?? [];
 
   if (isMicrosite()) {
     return null;
@@ -24,7 +25,9 @@ const MobileNav = ({ overlay }: MobileNavProps) => {
   return (
     <Overlay testingContext="mobileNavigationOverlay" context={overlay}>
       <Box className={mobileNavClasses["side-nav"]} onClick={(evt) => evt.stopPropagation()}>
-        <MobileNavList items={items} hideOverlay={overlay.hide} />
+        {!loading && (
+          <MobileNavList items={items} hideOverlay={overlay.hide} logo={overlay.context.logo} />
+        )}
       </Box>
     </Overlay>
   );
