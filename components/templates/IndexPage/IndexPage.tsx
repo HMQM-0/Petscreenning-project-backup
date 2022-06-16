@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import Link from "next/link";
 import { BuilderContent } from "@builder.io/sdk";
 
 import CategoryBlock from "components/atoms/CategoryBlock";
+import ProductsFeatured from "components/organisms/ProductsFeatured";
 import { generateProductsUrl } from "core/utils";
 
 import classes from "./scss/index.module.scss";
@@ -28,6 +29,7 @@ type IndexPageProps = {
 };
 
 const IndexPage = ({ data, builderContent }: IndexPageProps) => {
+  const intl = useIntl();
   const backgroundImage =
     data?.shop.homepageCollection?.backgroundImage ?? null;
   const categories = data?.categoryList?.categories ?? [];
@@ -79,10 +81,10 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
             </Box>
           </Box>
 
-          {/* <ProductsFeatured
-        title={intl.formatMessage({ defaultMessage: "Featured Products" })}
-        caption="New, trending, and on-sale this month"
-      /> */}
+          <ProductsFeatured
+            title={intl.formatMessage({ defaultMessage: "Featured Products" })}
+            caption="New, trending, and on-sale this month"
+          />
           {categories.length > 0 && (
             <Box className={classes["home-page__categories"]}>
               <Box className={"container"}>

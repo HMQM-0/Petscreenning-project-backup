@@ -51,6 +51,7 @@ const CategoryProducts = ({
       variables={variables}
       breadcrumbs={extractBreadcrumbs(category)}
       showSidebar
+      showNoResultFeaturedProducts
     />
   );
 };

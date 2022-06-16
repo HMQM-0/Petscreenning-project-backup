@@ -8,7 +8,10 @@ import { useCart } from "@nautical/react";
 import { Thumbnail } from "components/molecules/Thumbnail";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import ProductVariantPrice from "components/organisms/ProductVariantPrice";
-import { ProductsListProductFragment } from "components/templates/ProductsList/queries.graphql.generated";
+import {
+  BasicVariantFragment,
+  ProductsListProductFragment
+} from "components/templates/ProductsList/queries.graphql.generated";
 
 import classes from "./scss/index.module.scss";
 
@@ -20,9 +23,10 @@ export interface ProductListItemProps {
     | 'variants'
     | 'seller'
     | 'category'
-    | 'defaultVariant'
     | 'thumbnail'
-    | 'thumbnail2x'>;
+    | 'thumbnail2x'> & {
+    defaultVariant?: BasicVariantFragment | null
+  };
   style?: number;
   wide?: boolean;
 }
