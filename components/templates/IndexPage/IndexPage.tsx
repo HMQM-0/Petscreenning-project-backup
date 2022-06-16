@@ -4,6 +4,7 @@ import { FormattedMessage } from "react-intl";
 import Link from "next/link";
 import { BuilderContent } from "@builder.io/sdk";
 
+import CategoryBlock from "components/atoms/CategoryBlock";
 import { generateProductsUrl } from "core/utils";
 
 import classes from "./scss/index.module.scss";
@@ -94,8 +95,7 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
 
                 <Box className={classes["home-page-category-blocks"]}>
                   {categories.map(({ category }) => (
-                    <>{category.name}</>
-                    // <CategoryBlock key={category.id} category={category} />
+                    <CategoryBlock key={category.id} category={category} />
                   ))}
                 </Box>
               </Box>
