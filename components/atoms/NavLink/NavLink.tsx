@@ -57,20 +57,18 @@ export const NavLink = ({
     );
   }
 
-  const linkUrl = getLinkUrl(item);
+  const linkUrl = getLinkUrl(item) || '';
 
   return (
     <>
-      {linkUrl && (
-        <S.Link
-          href={linkUrl}
-          activeClassName="navlink-active"
-          fullWidth={fullWidth}
-          {...props}
-        >
-          {name}
-        </S.Link>
-      )}
+      <S.Link
+        href={linkUrl}
+        activeClassName="navlink-active"
+        fullWidth={fullWidth}
+        {...props}
+      >
+        {name}
+      </S.Link>
     </>
   );
 };
