@@ -25,7 +25,7 @@ const CategoryBlock = ({ category }: ICategoryBlockProps) => (
               category.backgroundImage
                 ? category.backgroundImage.url
                 // Using SVG copy from public folder until refactored
-                : 'images/no-photo.svg'
+                : '/images/no-photo.svg'
             })`,
           }}
         >
