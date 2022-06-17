@@ -1,9 +1,9 @@
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-
 import { Button } from "@mui/material";
+
+import TextField from "components/atoms/TextField";
 import { commonMessages } from "deprecated/intl";
-import { TextField } from "../TextField";
 
 import * as S from "./styles";
 import { IProps } from "./types";
@@ -44,11 +44,11 @@ export const ResetPasswordForm: React.FC<IProps> = ({
             errors={
               errors.password || passwordError
                 ? [
-                    {
-                      field: "password",
-                      message: errors.password || passwordError,
-                    },
-                  ]
+                  {
+                    field: "password",
+                    message: errors.password || passwordError,
+                  },
+                ]
                 : undefined
             }
           />
@@ -62,11 +62,11 @@ export const ResetPasswordForm: React.FC<IProps> = ({
             errors={
               errors.retypedPassword
                 ? [
-                    {
-                      field: "retypedPassword",
-                      message: errors.retypedPassword,
-                    },
-                  ]
+                  {
+                    field: "retypedPassword",
+                    message: errors.retypedPassword,
+                  },
+                ]
                 : undefined
             }
           />
