@@ -6,8 +6,8 @@ import { FormattedMessage } from "react-intl";
 import { commonMessages } from "deprecated/intl";
 import { DropdownSelect } from "components/organisms/DropdownSelect";
 import { smallScreen, xLargeScreen } from "@styles/constants";
-import { Directory } from 'components/icons/directory';
-import { Filter } from 'components/icons/filter';
+import { Directory } from "components/icons/directory";
+import { Filter } from "components/icons/filter";
 import { isMicrosite } from "core/utils";
 
 import * as S from "./styles";
@@ -76,6 +76,7 @@ export const ProductListHeader = ({
                 value={sortOptions.find(
                   (option) => option.value === activeSortOption
                 )}
+                isFieldSpacer={false}
               />
             </S.Sort>
           </S.Element>

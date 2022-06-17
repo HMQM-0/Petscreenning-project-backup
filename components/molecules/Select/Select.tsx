@@ -23,8 +23,8 @@ const optionStyle = (customTheme: any) => ({
       backgroundColor: state.isSelected
         ? customTheme.colors.primaryLight
         : state.isFocused
-          ? customTheme.colors.primaryTransparent
-          : "white",
+        ? customTheme.colors.primaryTransparent
+        : "white",
       color: state.isDisabled
         ? customTheme.colors.lightFont
         : customTheme.colors.dark,
@@ -53,6 +53,7 @@ export const Select: React.FC<IProps> = ({
   optionLabelKey = "label",
   optionValueKey = "value",
   errors,
+  isFieldSpacer = true,
   ...props
 }: IProps) => {
   const customTheme = React.useContext(ThemeContext);
@@ -64,7 +65,7 @@ export const Select: React.FC<IProps> = ({
   };
 
   return (
-    <S.Wrapper>
+    <S.Wrapper isFieldSpacer={isFieldSpacer}>
       <ReactSelect
         defaultValue={defaultValue}
         onChange={handleChange}
