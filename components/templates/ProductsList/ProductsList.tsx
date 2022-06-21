@@ -4,6 +4,8 @@ import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 import Media from "react-media";
 
+import { commonMessages } from "core/intl";
+import ProductsFeatured from "components/organisms/ProductsFeatured";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
 import { useNetworkStatus } from "@hooks";
@@ -239,11 +241,10 @@ const ProductsList = ({
           onLoadMore={handleLoadMore}
         />
       </Box>
-      {!showFeatured && (
-        <></>
-        // <ProductsFeatured
-        //   title={intl.formatMessage(commonMessages.youMightLike)}
-        // />
+      {showFeatured && (
+        <ProductsFeatured
+          title={intl.formatMessage(commonMessages.youMightLike)}
+        />
       )}
     </Box>
   );

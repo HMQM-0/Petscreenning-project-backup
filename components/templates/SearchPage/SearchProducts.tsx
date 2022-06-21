@@ -34,6 +34,7 @@ const SearchProducts = ({
         },
       ]}
       showSearch
+      showNoResultFeaturedProducts
     />
   );
 };

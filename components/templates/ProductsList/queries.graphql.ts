@@ -23,8 +23,15 @@ export const productVariantPricingFragment = gql`
   }
 `;
 
+export const basicVariant = gql`
+  fragment BasicVariant on ProductVariant {
+    id
+  }
+`;
+
 export const productsListProduct = gql`
   ${basicProductFragment}
+  ${basicVariant}
   ${productPricingFragment}
   ${productVariantPricingFragment}
   fragment ProductsListProduct on Product {
@@ -59,7 +66,7 @@ export const productsListProduct = gql`
     }
     brand
     defaultVariant {
-      id
+      ...BasicVariant
       name
       quantityAvailable
     }
