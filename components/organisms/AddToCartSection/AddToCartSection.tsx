@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Button } from "@mui/material";
 
 import ProductVariantPicker, { IProductVariantPickerProps } from "components/organisms/ProductVariantPicker";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "components/organisms/ViewSizeGuideButton";
 import { useAuth } from "@nautical/react";

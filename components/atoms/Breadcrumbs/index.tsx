@@ -5,7 +5,7 @@ import Media from "react-media";
 import Link from 'next/link';
 import { Box } from "@mui/material";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 import classes from "./scss/index.module.scss";
 

@@ -2,11 +2,14 @@ import { Formik } from "formik";
 import React from "react";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
+
 import { ButtonLink } from "@components/atoms";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import { IFormError } from "@types";
-import { TextField } from "../TextField";
+
 import * as S from "./styles";
+
+import { TextField } from "../TextField";
 
 export const PasswordChangeForm: React.FC<{
   handleSubmit: (data: any) => void;

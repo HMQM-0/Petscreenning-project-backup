@@ -6,7 +6,7 @@ import { Box, TextField } from "@mui/material";
 
 import { Icon, IconButton } from "@components/atoms";
 import { CachedImage } from "@components/molecules";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import {
   generateMicrositeProductUrl,
   generateProductUrl,
@@ -97,10 +97,10 @@ export const CartRow: React.FC<IProps> = ({
 
   const quantityErrors = isTooMuch
     ? [
-        {
-          message: intl.formatMessage(commonMessages.maxQtyIs, { maxQuantity }),
-        },
-      ]
+      {
+        message: intl.formatMessage(commonMessages.maxQtyIs, { maxQuantity }),
+      },
+    ]
     : undefined;
 
   const productUrl = generateProductUrl(id, name);
@@ -112,11 +112,11 @@ export const CartRow: React.FC<IProps> = ({
           to={
             !!isMicrosite()
               ? generateMicrositeProductUrl(
-                  id,
-                  name,
-                  getMicrositeId(),
-                  getMicrositeSlug()
-                )
+                id,
+                name,
+                getMicrositeId(),
+                getMicrositeSlug()
+              )
               : productUrl
           }
         >

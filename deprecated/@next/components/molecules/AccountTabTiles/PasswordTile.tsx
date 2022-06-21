@@ -2,10 +2,11 @@ import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { Attribute, IconButton, Tile } from "@components/atoms";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 // import { usePasswordChange } from "@nautical/sdk";
 import { usePasswordChange } from "@nautical/react";
+
 import { PasswordChangeForm } from "./PasswordChangeForm";
 import * as S from "./styles";
 

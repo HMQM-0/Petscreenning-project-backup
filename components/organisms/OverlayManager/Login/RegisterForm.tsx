@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { useAlert, AlertContainer } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import Button from "components/atoms/Button";
 import Form from "deprecated/components/Form";
 import { FormError } from "deprecated/components/Form/types";

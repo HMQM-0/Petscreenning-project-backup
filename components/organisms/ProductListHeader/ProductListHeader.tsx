@@ -3,7 +3,7 @@ import Media from "react-media";
 import { Box, Chip } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import { DropdownSelect } from "components/organisms/DropdownSelect";
 import { smallScreen, xLargeScreen } from "@styles/constants";
 import { Directory } from 'components/icons/directory';

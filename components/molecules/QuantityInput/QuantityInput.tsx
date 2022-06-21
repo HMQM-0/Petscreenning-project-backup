@@ -2,7 +2,7 @@ import React from "react";
 import { useIntl } from "react-intl";
 import { TextField } from "@mui/material";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 export interface IQuantityInput {
   quantity: number;

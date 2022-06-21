@@ -1,35 +1,35 @@
 import React from "react";
-import {FormattedMessage, FormattedDate, useIntl} from "react-intl";
+import { FormattedMessage, FormattedDate, useIntl } from "react-intl";
 import Media from "react-media";
-import {ThemeContext} from "styled-components";
-import {Box} from "@mui/material";
+import { ThemeContext } from "styled-components";
+import { Box } from "@mui/material";
 import Link from "next/link";
 
-import {commonMessages, translateOrderStatus} from "deprecated/intl";
-import {generateProductUrl} from "core/utils";
-import {Thumbnail} from "components/molecules/Thumbnail";
-import {TaxedMoney} from "components/molecules/TaxedMoney";
+import { commonMessages, translateOrderStatus } from "core/intl";
+import { generateProductUrl } from "core/utils";
+import { Thumbnail } from "components/molecules/Thumbnail";
+import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 import * as S from "./styles";
-import {IProps} from "./types";
+import { IProps } from "./types";
 
 type HeaderProps = { matches: boolean };
 
-const Header = ({matches}: HeaderProps) => (
+const Header = ({ matches }: HeaderProps) => (
   <S.HeaderRow>
     <S.IndexNumber>
-      <FormattedMessage defaultMessage="Order Number"/>
+      <FormattedMessage defaultMessage="Order Number" />
     </S.IndexNumber>
     {matches && (
       <>
         <S.ProductsOrdered>
-          <FormattedMessage defaultMessage="Products Ordered"/>
+          <FormattedMessage defaultMessage="Products Ordered" />
         </S.ProductsOrdered>
         <S.DateOfOrder>
-          <FormattedMessage defaultMessage="Order Placed"/>
+          <FormattedMessage defaultMessage="Order Placed" />
         </S.DateOfOrder>
         <S.Value>
-          <FormattedMessage defaultMessage="Total"/>
+          <FormattedMessage defaultMessage="Total" />
         </S.Value>
       </>
     )}
@@ -39,7 +39,7 @@ const Header = ({matches}: HeaderProps) => (
   </S.HeaderRow>
 );
 
-export const OrderTable = ({orders}: IProps) => {
+export const OrderTable = ({ orders }: IProps) => {
   const theme = React.useContext(ThemeContext);
   const intl = useIntl();
 
@@ -53,7 +53,7 @@ export const OrderTable = ({orders}: IProps) => {
         {(matches) => {
           return (
             <>
-              <S.Row><Header matches={matches}/></S.Row>
+              <S.Row><Header matches={matches} /></S.Row>
               {orders?.map((order) => {
                 const date = new Date(order.created);
                 return (
@@ -72,16 +72,16 @@ export const OrderTable = ({orders}: IProps) => {
                                 product.variant.product.name
                               )} passHref>
                                 <Box component="a">
-                                  <Thumbnail source={product}/>
+                                  <Thumbnail source={product} />
                                 </Box>
                               </Link>
                             ))}
                           </S.ProductsOrdered>
                           <S.DateOfOrder>
-                            <FormattedDate value={date}/>
+                            <FormattedDate value={date} />
                           </S.DateOfOrder>
                           <S.Value>
-                            <TaxedMoney taxedMoney={order.total}/>
+                            <TaxedMoney taxedMoney={order.total} />
                           </S.Value>
                         </>
                       )}

@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 
 import { ErrorMessage } from "@components/atoms";
 import { AddressSummary } from "@components/molecules";
-import { checkoutMessages } from "deprecated/intl";
+import { checkoutMessages } from "core/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";
@@ -47,10 +47,10 @@ const CheckoutReview: React.FC<IProps> = ({
           <S.Divider />
           {shippingMethodNames
             ? JSON.parse(shippingMethodNames).map((sellerShippingMethod) => (
-                <S.TextSummary data-test="shippingMethodName">
-                  {sellerShippingMethod["shippingMethod"]["name"]}
-                </S.TextSummary>
-              ))
+              <S.TextSummary data-test="shippingMethodName">
+                {sellerShippingMethod["shippingMethod"]["name"]}
+              </S.TextSummary>
+            ))
             : null}
         </section>
         <section>

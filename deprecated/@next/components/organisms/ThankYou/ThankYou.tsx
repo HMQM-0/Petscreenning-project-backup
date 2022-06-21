@@ -1,10 +1,9 @@
 import React from "react";
-
 import { FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 
 import { Container } from "@components/templates";
-import { checkoutMessages } from "deprecated/intl";
+import { checkoutMessages } from "core/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";

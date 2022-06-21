@@ -4,7 +4,7 @@ import { useIntl } from "react-intl";
 
 import { AddNewTile, ErrorMessage, TileGrid } from "@components/atoms";
 import { AddressTileOption } from "@components/molecules";
-import { checkoutMessages } from "deprecated/intl";
+import { checkoutMessages } from "core/intl";
 
 import { AddressFormModal } from "../AddressFormModal";
 

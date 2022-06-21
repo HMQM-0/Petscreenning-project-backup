@@ -4,7 +4,7 @@ import * as React from "react";
 import { Box } from "@mui/material";
 // import { useIntl } from "react-intl";
 
-// import { commonMessages } from "deprecated/intl";
+// import { commonMessages } from "core/intl";
 import { IFilterAttributes, IFilters } from "@types";
 import ProductListBanner from "deprecated/_nautical/components/ProductListBanner/ProductListBanner";
 import { maybe } from "core/utils";

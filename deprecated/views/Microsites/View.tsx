@@ -17,9 +17,14 @@ import { IFilters } from "@types";
 import { StringParam, useQueryParam } from "use-query-params";
 
 import { Loader } from "@components/atoms";
-import { prodListHeaderCommonMsg } from "deprecated/intl";
+import { prodListHeaderCommonMsg } from "core/intl";
 import { useAuth } from "@nautical/react";
 import { useShopContext } from "components/providers/ShopProvider";
+import {
+  convertSortByFromString,
+  convertToAttributeScalar,
+  getGraphqlIdFromDBId,
+} from "core/utils";
 
 import Page from "./Page";
 import {
@@ -41,11 +46,6 @@ import {
 } from "../../components";
 import NetworkStatus from "../../components/NetworkStatus";
 import { PRODUCTS_PER_PAGE } from "../../core/config";
-import {
-  convertSortByFromString,
-  convertToAttributeScalar,
-  getGraphqlIdFromDBId,
-} from "core/utils";
 
 // import ReactSVG from "react-svg";
 // import logoImg from "../../images/logo.svg";
@@ -318,7 +318,7 @@ export const View: React.FC<any> = ({ logo }) => {
                       <MetaWrapper
                         meta={{
                           description:
-                            micrositeData.data.microsite.seoDescription,
+                          micrositeData.data.microsite.seoDescription,
                           title: micrositeData.data.microsite.seoTitle,
                           type: "microsites.microsite",
                         }}
@@ -397,8 +397,8 @@ export const View: React.FC<any> = ({ logo }) => {
                         }),
                         {
                           after:
-                            micrositeProductsData.data.microsite.products
-                              .pageInfo.endCursor,
+                          micrositeProductsData.data.microsite.products
+                            .pageInfo.endCursor,
                         }
                       );
 
@@ -406,7 +406,7 @@ export const View: React.FC<any> = ({ logo }) => {
                       <MetaWrapper
                         meta={{
                           description:
-                            micrositeData.data.microsite.seoDescription,
+                          micrositeData.data.microsite.seoDescription,
                           title: micrositeData.data.microsite.seoTitle,
                           type: "microsites.microsite",
                         }}

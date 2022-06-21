@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Button } from "@mui/material";
 
 import TextField from "components/atoms/TextField";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";
