@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
+import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import { slugify } from "@utils/core";
 import { useAuth, useCart } from "@nautical/react";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
@@ -32,7 +33,6 @@ interface IStorePage {
   wishlist?: any;
   microsite?: any;
   vendors?: boolean;
-  variantSelect?: any;
 }
 
 function sanitizeModel(model: any) {
@@ -56,7 +56,6 @@ const useBuilderStateData = ({
   wishlist,
   microsite,
   vendors,
-  variantSelect,
 }: IStorePage) => {
   const [, setSearchParams] = useQueryParams({
     q: StringParam,
@@ -67,6 +66,7 @@ const useBuilderStateData = ({
   const theme = useTheme();
   const alert = useAlert();
   const intl = useIntl();
+  const addToCartHandler = useHandleAddToCart();
 
   const [, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
 
@@ -92,13 +92,7 @@ const useBuilderStateData = ({
       variantId: string,
       quantity: number
     ) {
-      addItem(variantId, quantity);
-      alert.show(
-        {
-          title: "Added " + quantity + "x " + name,
-        },
-        { type: "success" }
-      );
+      return addToCartHandler(variantId, quantity, name);
     }
 
     function handleSetSearch(query: string) {
@@ -231,7 +225,6 @@ const useBuilderStateData = ({
       loadMore: () => loadMore(),
       loadNextPage: () => loadNextPage(),
       loadPrevPage: () => loadPrevPage(),
-      variantSelect: variantSelect,
     };
   }, [
     addItem,
@@ -256,7 +249,6 @@ const useBuilderStateData = ({
     setSearchParams,
     theme,
     user,
-    variantSelect,
     wishlist,
     wishlistContext,
   ]);
