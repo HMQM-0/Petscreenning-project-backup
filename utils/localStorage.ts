@@ -28,3 +28,7 @@ export const setCsrfToken = (token: string | null): void => {
     localStorage.removeItem(LocalStorageItems.CSRF_TOKEN);
   }
 };
+
+export const clearLocalStorage = () => {
+  localStorage.clear();
+};
