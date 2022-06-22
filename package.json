@@ -40,6 +40,7 @@
     "formik": "^2.2.9",
     "formik-mui": "^4.0.0-alpha.3",
     "graphql": "^16.3.0",
+    "immer": "^9.0.15",
     "isomorphic-fetch": "^3.0.0",
     "js-base64": "^3.7.2",
     "lodash": "^4.17.21",
@@ -69,6 +70,7 @@
     "sitemap": "^7.1.0",
     "styled-components": "^5.3.5",
     "url-join": "^4.0.1",
+    "use-immer": "^0.7.0",
     "use-query-params": "^1.2.3",
     "yup": "^0.32.11"
   },
