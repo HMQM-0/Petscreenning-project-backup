@@ -5,7 +5,8 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 
-import { IS_SSR } from "./isSSR";
+import { IS_SSR } from "utils/isSSR";
+
 import { authLink, errorLink, httpLink } from "./links";
 
 let client: ApolloClient<NormalizedCacheObject>;

@@ -9,8 +9,8 @@ import { onError } from "@apollo/client/link/error";
 import { GraphQLError } from "graphql";
 
 import { getCsrfToken, setSignInToken } from "utils";
+import { IS_SSR } from "utils/isSSR";
 
-import { IS_SSR } from "../isSSR";
 import {
   RefreshTokenDocument,
   RefreshTokenMutation,
