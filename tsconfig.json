@@ -51,7 +51,8 @@
       "@types": ["./deprecated/@next/types/index.ts"],
       "@types/*": ["./deprecated/@next/types/*"],
       "@app/*": ["./deprecated/@next/*"],
-      "@nautical/*": ["./deprecated/@nautical/*"]
+      "@nautical/*": ["./deprecated/@nautical/*"],
+      "nautical-api": ["./components/providers/Nautical/index.ts"]
     }
   }
 }
