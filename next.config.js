@@ -10,7 +10,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["mediacdn.nauticalcommerce.app"],
+    domains: ["mediacdn.nauticalcommerce.app", "localhost"],
   },
 };
 
@@ -28,7 +28,7 @@ module.exports = withPWA({
   webpack: (config, options) => {
     if (process.env.ANALYZE === "true") {
       try {
-        const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+        const {BundleAnalyzerPlugin} = require("webpack-bundle-analyzer");
         config.plugins.push(
           new BundleAnalyzerPlugin({
             analyzerMode: "static",

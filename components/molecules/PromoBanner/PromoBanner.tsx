@@ -1,11 +1,7 @@
 import { AppBar } from "@mui/material";
 import * as React from "react";
-import { isEmpty } from "lodash";
 
-import {
-  MessageProp,
-  NotificationBar,
-} from "deprecated/_nautical/components/NotificationBar";
+import { NotificationBar } from "components/atoms/NotificationBar";
 
 import classes from "./scss/index.module.scss";
 import { usePromoBannerQuery } from "./queries.graphql.generated";
@@ -18,52 +14,37 @@ interface PromoBannerPromotionsData {
 
 interface PromoBannerData {
   active: boolean;
-  barColor: string;
-  borderColor: string;
+  barColor?: string;
+  borderColor?: string;
   promotions: PromoBannerPromotionsData[];
-  speed: 5000;
-  textColor: string;
+  speed: number;
+  textColor?: string;
 }
 
-interface IPromoBannerProps {
-  content: string;
-}
-
-export const PromoBanner = ({ content }: IPromoBannerProps) => {
+export const PromoBanner = () => {
   const { data, loading } = usePromoBannerQuery({
     variables: {
       name: "PromoBanner",
     },
   });
 
-  type Data = typeof data;
+  const json: Record<string, string> | undefined =
+    data && JSON.parse(data?.designerdata?.jsonContent);
 
-  function resolvePromoBannerData(data: Data) {
-    if (typeof data === "undefined") {
-      return null;
-    }
-    const json = JSON.parse(data?.designerdata?.jsonContent);
-    if (typeof json !== "undefined" || !isEmpty(json) || json !== null) {
-      const _data: PromoBannerData = json;
-      return _data;
-    } else {
-      return null;
-    }
-  }
+  const promo: PromoBannerData = {
+    ...(json || {}),
+    // Convert `active` to boolean
+    active: Boolean(json?.active),
+    // Assuming that if promotions is an array, then it contains proper array items
+    promotions: Array.isArray(json?.promotions)
+      ? (json!.promotions as PromoBannerPromotionsData[])
+      : [],
+    // Speed is hardcoded to 5 sec on Dashboard side for now
+    speed: 5000,
+  };
 
-  const promo = resolvePromoBannerData(data);
-
-  type Promo = typeof promo;
-
-  const hasMultiple = (promo?.promotions.length ?? 0) > 1;
-
-  function mapPromotions(promo: Promo) {
-    const messages: MessageProp[] =
-      promo?.promotions.map((promotion) => ({
-        content: promotion.display,
-        link: promotion.link,
-      })) ?? [];
-    return messages;
+  if (!promo.active || !promo.promotions.length) {
+    return null;
   }
 
   return (
@@ -71,34 +52,29 @@ export const PromoBanner = ({ content }: IPromoBannerProps) => {
       className={classes.promo_banner}
       position="static"
       style={{
-        backgroundColor: loading ? "#000055" : promo?.barColor,
-        color: loading ? "#fff" : promo?.textColor,
-        borderColor: loading ? "#ccc" : promo?.borderColor,
+        backgroundColor: loading ? "#000055" : promo.barColor,
+        color: loading ? "#fff" : promo.textColor,
+        borderColor: loading ? "#ccc" : promo.borderColor,
       }}
     >
-      {hasMultiple ? (
-        <NotificationBar
-          backgroundColor={promo?.barColor}
-          fontColor={promo?.textColor}
-          messages={mapPromotions(promo)}
-          sliderSettings={{
-            arrows: false,
-            autoplay: true,
-            autoplaySpeed: 5000,
-            dots: false,
-            infinite: true,
-            slidesToScroll: 1,
-            slidesToShow: 1,
-            speed: 500,
-          }}
-        />
-      ) : (
-        <>
-          {promo && promo.promotions.length > 0
-            ? promo.promotions[0].display
-            : content}
-        </>
-      )}
+      <NotificationBar
+        backgroundColor={promo.barColor}
+        fontColor={promo.textColor}
+        messages={promo.promotions.map(({ display, link }) => ({
+          content: display,
+          link,
+        }))}
+        sliderSettings={{
+          arrows: false,
+          autoplay: true,
+          autoplaySpeed: promo.speed,
+          dots: false,
+          infinite: true,
+          slidesToScroll: 1,
+          slidesToShow: 1,
+          speed: 500,
+        }}
+      />
     </AppBar>
   );
 };

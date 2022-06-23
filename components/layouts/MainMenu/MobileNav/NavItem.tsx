@@ -1,27 +1,27 @@
 import clsx from "clsx";
-import * as React from "react";
+import React, { useState } from "react";
 import { IconButton, useTheme } from "@mui/material";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-import { NavLink } from "../NavLink";
-import { MainMenuSubItemFragment } from "../MainMenu/queries.graphql.generated";
+import { NavLink } from "components/atoms/NavLink";
+import { MainMenuItemsFragment } from "components/layouts/MainMenu/queries.graphql.generated";
+
+import classes from "./scss/index.module.scss";
 
 interface NavItemProps {
   hideOverlay(): void;
-  showSubItems(item: MainMenuSubItemFragment): void;
-  item:
-    | (MainMenuSubItemFragment & {
-        children?: MainMenuSubItemFragment[];
-      })
-    | null;
+
+  showSubItems(item: MainMenuItemsFragment): void;
+
+  item: MainMenuItemsFragment;
 }
 
-const NavItem: React.FC<NavItemProps> = ({
+const NavItem = ({
   hideOverlay,
   showSubItems,
   item,
-}) => {
-  const [hover, setHover] = React.useState(false);
+}: NavItemProps) => {
+  const [hover, setHover] = useState(false);
   const hasSubNavigation = item?.children && !!item.children.length;
   const theme = useTheme();
 
@@ -36,13 +36,13 @@ const NavItem: React.FC<NavItemProps> = ({
   return (
     <li
       className={clsx({
-        "side-nav__menu-item": true,
-        "side-nav__menu-item--has-subnavigation": hasSubNavigation,
+        [classes["side-nav__menu-item"]]: true,
+        [classes["side-nav__menu-item--has-subnavigation"]]: hasSubNavigation,
       })}
     >
       <NavLink
         item={item}
-        className="side-nav__menu-item-link"
+        className={classes["side-nav__menu-item-link"]}
         onClick={hideOverlay}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -58,11 +58,3 @@ const NavItem: React.FC<NavItemProps> = ({
 };
 
 export default NavItem;
-
-/*
-<ReactSVG
-  src={subcategoriesImg}
-  className="side-nav__menu-item-more"
-  onClick={() => showSubItems(item)}
-/>
-*/

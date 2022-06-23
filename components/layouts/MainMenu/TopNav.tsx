@@ -34,7 +34,6 @@ import {
   useOverlayContext,
 } from "components/providers/Overlay";
 
-import DrawerMenu from "./DrawerMenu";
 import DrawerCart from "./DrawerCart";
 
 interface ITopNavProps {
@@ -56,7 +55,6 @@ const TopNav = (props: ITopNavProps) => {
   const [anchorEl, setAnchorEl] = React.useState<
     (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
   >(null);
-  const [menuOpen, setMenuOpen] = React.useState(false);
   const accountMenuOpen = Boolean(anchorEl);
   const [cartOpen, setCartOpen] = React.useState(false);
 
@@ -67,16 +65,12 @@ const TopNav = (props: ITopNavProps) => {
     setCartOpen(false);
   };
 
-  const handleMenuClose = () => {
-    setMenuOpen(false);
-  };
-
   const handleCart = () => {
     setCartOpen(true);
   };
 
   const handleMenu = () => {
-    setMenuOpen(true);
+    overlayContext.show(OverlayType.sideNav, OverlayTheme.left, { logo });
   };
 
   const handleSearch = () => {
@@ -312,12 +306,6 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </Toolbar>
       </AppBar>
-      <DrawerMenu
-        logo={logo}
-        anchor="left"
-        open={menuOpen}
-        close={handleMenuClose}
-      />
       <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
     </>
   );

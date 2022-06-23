@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const mainMenu = gql`
+const mainMenuSubItemFragment = gql`
   fragment MainMenuSubItem on MenuItem {
     id
     name
@@ -20,13 +20,19 @@ export const mainMenu = gql`
       id
     }
   }
+`;
 
-  query MainMenu {
-    shop {
-      navigation {
-        main {
-          id
-          items {
+const mainMenuItemsFragment = gql`
+  ${mainMenuSubItemFragment}
+  fragment MainMenuItems on MenuItem {
+    ...MainMenuSubItem
+    children {
+      ...MainMenuSubItem
+      children {
+        ...MainMenuSubItem
+        children {
+          ...MainMenuSubItem
+          children {
             ...MainMenuSubItem
             children {
               ...MainMenuSubItem
@@ -38,24 +44,35 @@ export const mainMenu = gql`
                     ...MainMenuSubItem
                     children {
                       ...MainMenuSubItem
-                      children {
-                        ...MainMenuSubItem
-                        children {
-                          ...MainMenuSubItem
-                          children {
-                            ...MainMenuSubItem
-                            children {
-                              ...MainMenuSubItem
-                            }
-                          }
-                        }
-                      }
                     }
                   }
                 }
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+const mainMenuFragment = gql`
+  ${mainMenuItemsFragment}
+  fragment MainMenu on Menu {
+    id
+    items {
+      ...MainMenuItems
+    }
+  }
+`;
+
+export const mainMenu = gql`
+  ${mainMenuFragment}
+  query MainMenu {
+    shop {
+      navigation {
+        main {
+          ...MainMenu
         }
       }
     }

@@ -40,6 +40,7 @@ const CollectionProducts = ({
       ]}
       backgroundImageUrl={collection.backgroundImage?.url}
       showSidebar
+      showNoResultFeaturedProducts
     />
   );
 };
