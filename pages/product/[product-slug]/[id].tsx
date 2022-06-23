@@ -70,7 +70,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/product" }).promise();
+    content = await builder.get("store", { url: "/store/product" }).promise() || null;
   }
 
   const { data } = await client.query<ProductDetailsQuery>({

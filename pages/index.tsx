@@ -37,7 +37,7 @@ export const getServerSideProps = async () => {
   const client = getApolloClient();
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/landing" }).promise();
+    content = await builder.get("store", { url: "/store/landing" }).promise() || null;
   }
 
   const { data } = await client.query<HomeQuery>({

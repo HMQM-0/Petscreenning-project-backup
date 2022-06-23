@@ -3,7 +3,7 @@ import _keyBy from "lodash/keyBy";
 import _mapKeys from "lodash/mapKeys";
 import _mapValues from "lodash/mapValues";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 
 import { useShopContext } from "components/providers/ShopProvider";
 import { Builder } from "components/templates/ProductPage/Builder";
@@ -72,12 +72,11 @@ export const useSelectedVariant = (product: Pick<ProductDetailsFragment, 'varian
 
 type ViewProps = {
   product: ProductDetailsFragment;
-  builderContent: BuilderContent;
+  builderContent: BuilderContent | null;
 };
 
 const View = ({ product, builderContent }: ViewProps) => {
   const { user } = useAuth();
-  const router = useRouter();
   const { loginForProducts } = useShopContext();
   const { online: isOnline } = useNetworkStatus();
 
