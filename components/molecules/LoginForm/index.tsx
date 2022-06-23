@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { commonMessages } from "deprecated/intl";
 import Button from "components/atoms/Button";
 import { Form } from "deprecated/components";
@@ -22,18 +22,18 @@ const LoginForm = ({ hide }: ILoginForm) => {
 
   const handleOnSubmit = async (
     evt: React.FormEvent,
-    { email, password }: { email: string, password: string }
+    { email, password }: { email: string; password: string }
   ) => {
     evt.preventDefault();
     setLoading(true);
-    const { data, dataError } = await signIn(
-      email.toLowerCase(),
-      password
-    );
+    const { errors } = await signIn(email.toLowerCase(), password);
     setLoading(false);
-    if (dataError?.error) {
-      setErrors(dataError.error);
-    } else if (data && hide) {
+    if (errors) {
+      const formErrors: FormError[] = errors.map((error) => ({
+        message: error.message,
+      }));
+      setErrors(formErrors);
+    } else if (hide) {
       setErrors([]);
       hide();
     }

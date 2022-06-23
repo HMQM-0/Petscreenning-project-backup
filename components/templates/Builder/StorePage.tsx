@@ -16,10 +16,10 @@ import { useRouter } from "next/router";
 import { slugify } from "@utils/core";
 import {
   useAddWishlistProduct,
-  useAuth,
   useCart,
   useRemoveWishlistProduct,
 } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
 import { userWishlist } from "components/providers/Wishlist/queries.graphql";
 
@@ -174,7 +174,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
 
   const [setRemoveWishlistProduct] = useRemoveWishlistProduct();
   const [setAddWishlistProduct] = useAddWishlistProduct();
-
 
   const stateData = React.useMemo(() => {
     const clearFilters = () => {
@@ -363,7 +362,6 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     wishlist,
     wishlistContext,
   ]);
-
 
   React.useEffect(() => {
     function getStoreModel() {

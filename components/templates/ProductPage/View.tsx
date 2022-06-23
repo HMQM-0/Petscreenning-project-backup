@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 
-import { useAuth, useCart } from "@nautical/react";
-import {
-  useNetworkStatus,
-} from "@hooks";
+import { useCart } from "@nautical/react";
+import { useAuth } from "nautical-api";
+import { useNetworkStatus } from "@hooks";
 import NotFound from "components/molecules/NotFound";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
@@ -43,13 +42,7 @@ const View = ({ product }: ViewProps) => {
     // return (<BuilderView />);
   }
 
-  return (
-    <Page
-      product={product}
-      add={addItem}
-      items={items}
-    />
-  );
+  return <Page product={product} add={addItem} items={items} />;
 };
 
 export default View;

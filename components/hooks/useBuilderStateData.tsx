@@ -9,7 +9,7 @@ import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { slugify } from "@utils/core";
-import { useAuth, useCart } from "@nautical/react";
+import { useCart } from "@nautical/react";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
 import { micrositesQuery } from "components/templates/Builder/queries.graphql";
 import { FilterQuerySet } from "components/templates/ProductsList/View";
@@ -18,6 +18,7 @@ import {
   useRemoveWishlistProductMutation,
 } from "components/providers/Wishlist/mutations.graphql.generated";
 import { WishlistDocument } from "components/providers/Wishlist/queries.graphql.generated";
+import { useAuth } from "nautical-api";
 
 interface IStorePage {
   category?: any;

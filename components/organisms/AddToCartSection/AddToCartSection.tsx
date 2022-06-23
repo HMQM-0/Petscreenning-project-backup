@@ -2,11 +2,13 @@ import React, { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Button } from "@mui/material";
 
-import ProductVariantPicker, { IProductVariantPickerProps } from "components/organisms/ProductVariantPicker";
+import ProductVariantPicker, {
+  IProductVariantPickerProps,
+} from "components/organisms/ProductVariantPicker";
 import { commonMessages } from "deprecated/intl";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "components/organisms/ViewSizeGuideButton";
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import {
   OverlayContext,
   OverlayTheme,
@@ -24,7 +26,6 @@ import {
   canAddToCart,
 } from "./stockHelpers";
 import * as S from "./styles";
-
 
 const LOW_STOCK_QUANTITY: number = 5;
 
@@ -75,7 +76,11 @@ const AddToCartSection = ({
   const variantStock = selectedVariant?.quantityAvailable || 0;
   const variantPricing = selectedVariant?.pricing;
 
-  const availableQuantity = getAvailableQuantity(items, variantId, variantStock);
+  const availableQuantity = getAvailableQuantity(
+    items,
+    variantId,
+    variantStock
+  );
   const isOutOfStock = !!variantId && variantStock === 0;
   const noPurchaseAvailable = !isAvailableForPurchase && !availableForPurchase;
   const purchaseAvailableDate =
@@ -161,35 +166,35 @@ const AddToCartSection = ({
         </S.ProductPricing>
       )}
       {noPurchaseAvailable &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.noPurchaseAvailable),
-        "notAvailable"
-      )}
+        renderErrorMessage(
+          intl.formatMessage(commonMessages.noPurchaseAvailable),
+          "notAvailable"
+        )}
       {purchaseAvailableDate &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.purchaseAvailableOn, {
-          date: new Intl.DateTimeFormat("default", {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-          }).format(purchaseAvailableDate),
-          time: new Intl.DateTimeFormat("default", {
-            hour: "numeric",
-            minute: "numeric",
-          }).format(purchaseAvailableDate),
-        }),
-        "timeRestrictedAvailability"
-      )}
+        renderErrorMessage(
+          intl.formatMessage(commonMessages.purchaseAvailableOn, {
+            date: new Intl.DateTimeFormat("default", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+            }).format(purchaseAvailableDate),
+            time: new Intl.DateTimeFormat("default", {
+              hour: "numeric",
+              minute: "numeric",
+            }).format(purchaseAvailableDate),
+          }),
+          "timeRestrictedAvailability"
+        )}
       {isLowStock &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.lowStock),
-        "lowStockWarning"
-      )}
+        renderErrorMessage(
+          intl.formatMessage(commonMessages.lowStock),
+          "lowStockWarning"
+        )}
       {isNoItemsAvailable &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.noItemsAvailable),
-        "noItemsAvailable"
-      )}
+        renderErrorMessage(
+          intl.formatMessage(commonMessages.noItemsAvailable),
+          "noItemsAvailable"
+        )}
       {!!productVariants?.length && (
         <S.VariantPicker>
           <ProductVariantPicker

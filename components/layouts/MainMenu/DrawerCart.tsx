@@ -5,7 +5,8 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 
-import { useAuth, useCart, useCheckout } from "@nautical/react";
+import { useCart, useCheckout } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { commonMessages } from "deprecated/intl";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import {
@@ -46,9 +47,9 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
   const shippingTaxedPrice =
     checkout?.shippingMethod?.id && shippingPrice
       ? {
-        gross: shippingPrice,
-        net: shippingPrice,
-      }
+          gross: shippingPrice,
+          net: shippingPrice,
+        }
       : null;
   const promoTaxedPrice = discount && {
     gross: discount,
@@ -112,21 +113,19 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                     </Box>
 
                     {shippingTaxedPrice &&
-                    shippingTaxedPrice.gross.amount !== 0 && (
-                      <Box
-                        className={overlayClasses["cart__footer__price"]}
-                      >
-                        <Box component="span">
-                          <FormattedMessage {...commonMessages.shipping} />
+                      shippingTaxedPrice.gross.amount !== 0 && (
+                        <Box className={overlayClasses["cart__footer__price"]}>
+                          <Box component="span">
+                            <FormattedMessage {...commonMessages.shipping} />
+                          </Box>
+                          <Box component="span">
+                            <TaxedMoney
+                              data-test="shippingPrice"
+                              taxedMoney={shippingTaxedPrice}
+                            />
+                          </Box>
                         </Box>
-                        <Box component="span">
-                          <TaxedMoney
-                            data-test="shippingPrice"
-                            taxedMoney={shippingTaxedPrice}
-                          />
-                        </Box>
-                      </Box>
-                    )}
+                      )}
 
                     {promoTaxedPrice && promoTaxedPrice.gross.amount !== 0 && (
                       <Box className={overlayClasses["cart__footer__price"]}>
