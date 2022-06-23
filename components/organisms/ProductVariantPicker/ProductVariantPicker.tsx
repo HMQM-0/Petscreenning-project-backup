@@ -22,7 +22,6 @@ export interface IProductVariantPickerProps {
 
 type AttributesById = Record<VariantAttributeFragment["attribute"]["id"], VariantAttributeFragment>;
 
-// This one is created based on old overcomplicated hooks. Might need to be moved into a hook as well
 const getAttributesByIdFromVariants = (variants: ProductVariantFieldsFragment[]): AttributesById => _mapValues(
   _groupBy(
     _flatMap(variants, 'attributes'),
@@ -35,10 +34,7 @@ const getAttributesByIdFromVariants = (variants: ProductVariantFieldsFragment[])
   })
 );
 
-const ProductVariantPicker = ({
-  productVariants = [],
-  onVariantChangeHandler,
-}: IProductVariantPickerProps) => {
+export const useProductVariantAttributes = (productVariants: ProductVariantFieldsFragment[]) => {
   const router = useRouter();
   const queryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
 
@@ -55,6 +51,21 @@ const ProductVariantPicker = ({
       return queryAttributes[slug]?.toString();
     }) ?? []
   ), [queryAttributes, allAttributesById]);
+
+  return {
+    allAttributesById,
+    selectedAttributeValues,
+  };
+};
+
+const ProductVariantPicker = ({
+  productVariants = [],
+  onVariantChangeHandler,
+}: IProductVariantPickerProps) => {
+  const {
+    allAttributesById,
+    selectedAttributeValues,
+  } = useProductVariantAttributes(productVariants);
 
   const onAttributeChange = (attributeId: string, value: string | null | undefined, slug: string) => {
     let selectedVariant = productVariants.find((productVariant) =>

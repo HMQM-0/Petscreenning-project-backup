@@ -1,122 +1,24 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Media from "react-media";
 import { Box } from "@mui/material";
 import { useAlert } from "react-alert";
-import _mapValues from "lodash/mapValues";
-import _keyBy from "lodash/keyBy";
-import { useRouter } from "next/router";
-import _mapKeys from "lodash/mapKeys";
 
+import { useCart } from "@nautical/react";
 import AddToCartSection from "components/organisms/AddToCartSection";
 import { ProductDescription } from "components/molecules/ProductDescription";
 import { ProductGallery } from "components/organisms/ProductGallery";
 import { generateCategoryUrl, generateProductUrl } from "core/utils";
 import Breadcrumbs from "components/atoms/Breadcrumbs";
-import { IItems } from "@nautical/api/Cart/types";
 
 import classes from "./scss/index.module.scss";
 import GalleryCarousel from "./GalleryCarousel";
 import OtherProducts from "./Other";
-import { ProductDetailsFragment } from "./queries.graphql.generated";
+import { ProductDetailsFragment, ProductVariantFieldsFragment } from "./queries.graphql.generated";
 
-export interface PageProps {
-  product: ProductDetailsFragment;
-  add: (variantId: string, quantity: number) => void;
-  items: IItems;
-}
-
-const Page = ({ add, product, items }: PageProps) => {
-  const alert = useAlert();
-  const productGallery = useRef<HTMLDivElement | undefined>();
-  const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
-  const router = useRouter();
-  // There should be a better way
-  const searchQueryAttributes = _mapKeys(router.query, (value, key) =>
-    key?.toString().toLowerCase()
-  );
-
-  const redirectToVariant = useCallback(
-    (variantId: string) => {
-      const selectedVariant =
-        // variants should not be empty here. A BE issue?
-        product.variants?.find((variant) => variant.id === variantId);
-
-      return router.replace(
-        {
-          query: {
-            ...router.query,
-            ..._mapValues(
-              _keyBy(selectedVariant?.attributes, "attribute.slug"),
-              (attributeItem) => attributeItem.values[0]?.value
-            ),
-          },
-        },
-        undefined,
-        { shallow: true }
-      );
-    },
-    [product.variants, router]
-  );
-
-  useEffect(() => {
-    // Try to find a variant that has all the query param attributes
-    let suitableVariant = product.variants?.find((productVariant) =>
-      productVariant.attributes.every((productVariantAttribute) => {
-        const slug = productVariantAttribute.attribute.slug;
-        // We expect that there will always be an attribute value (in case DB is consistent)
-        const productVariantAttributeValue =
-          productVariantAttribute.values[0]?.value;
-        return productVariantAttributeValue === searchQueryAttributes[slug];
-      })
-    );
-
-    if (!suitableVariant) {
-      if (!product.defaultVariant) {
-        // Default variant should always be set.
-        // But adding a check to prevent infinite redirect in case of bad DB state
-        return;
-      }
-      redirectToVariant(product.defaultVariant!.id);
-      return;
-    }
-
-    setVariantId(suitableVariant.id);
-  }, [
-    redirectToVariant,
-    product.variants,
-    searchQueryAttributes,
-    product.defaultVariant,
-  ]);
-
-  const scrollToRatingsAndReviewsSection = () =>
-    ratingsAndReviewsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-
-  const [variantId, setVariantId] = useState<string | undefined>();
-
-  const productCategory = product.category;
-
-  const productBreadcrumbItem = {
-    link: generateProductUrl(product.id, product.name),
-    value: product.name,
-  };
-
-  const breadcrumbs = productCategory
-    ? [
-        {
-          link: generateCategoryUrl(productCategory.id, productCategory.name),
-          value: productCategory.name,
-        },
-        productBreadcrumbItem,
-      ]
-    : [productBreadcrumbItem];
-
-  const getSizeGuide = () => {
-    const sizeGuide = product.images?.find((image) =>
-      image.url.substring(image.url.lastIndexOf("/") + 1).includes("sizeguide-")
-    );
-    return sizeGuide?.url || undefined;
-  };
-
+export const useVariantImages = (
+  product: ProductDetailsFragment,
+  selectedVariant: ProductVariantFieldsFragment | undefined
+) => {
   const getVariantImages = (variantId: string) => {
     const variant = product.variants?.find(
       (variant) => variant.id === variantId
@@ -129,45 +31,72 @@ const Page = ({ add, product, items }: PageProps) => {
   // Use regular images otherwise
   // images should not be empty. A BE issue?
   const images =
-    (variantId && getVariantImages(variantId)) || product.images || [];
+    (selectedVariant && getVariantImages(selectedVariant.id)) || product.images || [];
 
-  const filteredImages = images.filter(
+  return images.filter(
     (image) =>
       !image.url
         .substring(image.url.lastIndexOf("/") + 1)
         .includes("sizeguide-")
   );
+};
 
-  const onVariantChangeHandler = (variantId: string | undefined) => {
-    // BE issue. Default variant should not be empty
-    const selectedVariantId = variantId || product.defaultVariant!.id;
-    return redirectToVariant(selectedVariantId);
-  };
-
-  const handleAddToCart = async (variantId: string, quantity: number) => {
-    await add(variantId, quantity);
+export const useHandleAddToCart = (product?: Pick<ProductDetailsFragment, 'name'>) => {
+  const alert = useAlert();
+  const { addItem } = useCart();
+  // Adding 3rd parameter for backwards compatibility with Builder.io helper method
+  return async (variantId: string, quantity: number, name?: string) => {
+    await addItem(variantId, quantity);
 
     alert.show(
       {
-        title: `Added ${quantity} x ${product.name}`,
+        title: `Added ${quantity} x ${name || product?.name || 'product(s)'}`,
       },
       { type: "success" }
     );
   };
+};
+
+export interface PageProps {
+  product: ProductDetailsFragment;
+  selectedVariant: ProductVariantFieldsFragment | undefined;
+  onVariantChange: (variantId: string | undefined) => void;
+}
+
+const Page = ({ product, selectedVariant, onVariantChange }: PageProps) => {
+  const productGallery = useRef<HTMLDivElement | undefined>();
+  const ratingsAndReviewsSectionRef = useRef<HTMLDivElement | undefined>();
+
+  const filteredImages = useVariantImages(product, selectedVariant);
+
+  const handleAddToCart = useHandleAddToCart(product);
+
+  const scrollToRatingsAndReviewsSection = () =>
+    ratingsAndReviewsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+
+  const productCategory = product.category;
+
+  const productBreadcrumbItem = {
+    link: generateProductUrl(product.id, product.name),
+    value: product.name,
+  };
+
+  const breadcrumbs = productCategory
+    ? [
+      {
+        link: generateCategoryUrl(productCategory.id, productCategory.name),
+        value: productCategory.name,
+      },
+      productBreadcrumbItem,
+    ]
+    : [productBreadcrumbItem];
 
   const addToCartSection = (
     <AddToCartSection
-      items={items}
-      productId={product.id}
-      name={product.name}
-      productVariants={product.variants}
-      productPricing={product.pricing}
-      variantId={variantId}
+      selectedVariant={selectedVariant}
+      product={product}
       onAddToCart={handleAddToCart}
-      onVariantChangeHandler={onVariantChangeHandler}
-      isAvailableForPurchase={!!product.isAvailableForPurchase}
-      availableForPurchase={product.availableForPurchase}
-      sizeGuideUrl={getSizeGuide()}
+      onVariantChangeHandler={onVariantChange}
       scrollToRatingsAndReviewsSection={scrollToRatingsAndReviewsSection}
     />
   );

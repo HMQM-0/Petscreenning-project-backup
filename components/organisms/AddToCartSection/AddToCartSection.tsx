@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Box, Button } from "@mui/material";
 
@@ -6,7 +6,7 @@ import ProductVariantPicker, { IProductVariantPickerProps } from "components/org
 import { commonMessages } from "core/intl";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "components/organisms/ViewSizeGuideButton";
-import { useAuth } from "@nautical/react";
+import { useAuth, useCart } from "@nautical/react";
 import {
   OverlayContext,
   OverlayTheme,
@@ -14,9 +14,11 @@ import {
 } from "components/providers/Overlay/context";
 import { useShopContext } from "components/providers/ShopProvider";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
-import { IItems } from "@nautical/api/Cart/types";
 import { QuantityInput } from "components/molecules/QuantityInput";
-import { ProductDetailsFragment } from "components/templates/ProductPage/queries.graphql.generated";
+import {
+  ProductDetailsFragment,
+  ProductVariantFieldsFragment
+} from "components/templates/ProductPage/queries.graphql.generated";
 
 import {
   getAvailableQuantity,
@@ -25,18 +27,58 @@ import {
 } from "./stockHelpers";
 import * as S from "./styles";
 
+export const useAddToCart = (
+  product: Pick<ProductDetailsFragment, 'isAvailableForPurchase' | 'availableForPurchase'>,
+  selectedVariant: ProductVariantFieldsFragment | undefined,
+) => {
+  const { user } = useAuth();
+  const { loginForPrice } = useShopContext();
+  const { items } = useCart();
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const variantStock = selectedVariant?.quantityAvailable || 0;
+  const availableQuantity = getAvailableQuantity(items, selectedVariant?.id, variantStock);
+  const isOutOfStock = !!selectedVariant && variantStock === 0;
+  const isNoItemsAvailable = !!selectedVariant && !isOutOfStock && !availableQuantity;
+  return {
+    disableAddToCart: !canAddToCart(
+        items,
+        !!product.isAvailableForPurchase,
+        selectedVariant?.id,
+        variantStock,
+        quantity
+      ) ||
+      (!user && !!loginForPrice),
+    quantity,
+    setQuantity,
+    isOutOfStock,
+    isLowStock: !!selectedVariant &&
+      !isOutOfStock &&
+      !isNoItemsAvailable &&
+      availableQuantity < LOW_STOCK_QUANTITY,
+    isNoItemsAvailable,
+    availableQuantity,
+    noPurchaseAvailable: !product.isAvailableForPurchase && !product.availableForPurchase,
+    purchaseAvailableDate:
+      !product.isAvailableForPurchase &&
+      product.availableForPurchase &&
+      Date.parse(product.availableForPurchase),
+  };
+};
+
 
 const LOW_STOCK_QUANTITY: number = 5;
 
 export interface IAddToCartSection {
-  productId: string;
-  productVariants: ProductDetailsFragment["variants"];
-  name: string;
-  productPricing: ProductDetailsFragment["pricing"];
-  items: IItems;
-  isAvailableForPurchase: boolean | null;
-  availableForPurchase: string | null;
-  variantId: string | undefined;
+  product: Pick<ProductDetailsFragment,
+    'id'
+    | 'name'
+    | 'images'
+    | 'isAvailableForPurchase'
+    | 'availableForPurchase'
+    | 'variants'
+    | 'pricing'>,
+  selectedVariant: ProductVariantFieldsFragment | undefined;
   sizeGuideUrl?: string;
 
   onAddToCart(variantId: string, quantity?: number): void;
@@ -47,17 +89,10 @@ export interface IAddToCartSection {
 }
 
 const AddToCartSection = ({
-  availableForPurchase,
-  isAvailableForPurchase,
-  items,
-  name,
-  productId,
-  productPricing,
-  productVariants,
+  product,
   onAddToCart,
   onVariantChangeHandler,
-  variantId,
-  sizeGuideUrl,
+  selectedVariant,
   scrollToRatingsAndReviewsSection,
 }: IAddToCartSection) => {
   const intl = useIntl();
@@ -65,39 +100,28 @@ const AddToCartSection = ({
   const { loginForPrice } = useShopContext();
   const { user } = useAuth();
 
-  const [quantity, setQuantity] = useState<number>(1);
+  const productId = product.id;
+  const name = product.name;
+  const productPricing = product.pricing;
+  const productVariants = product.variants;
 
-  const selectedVariant = useMemo(
-    () => productVariants?.find((variant) => variant!.id === variantId),
-    [productVariants, variantId]
-  );
+  const sizeGuideUrl = product.images?.find((image) =>
+    image.url.substring(image.url.lastIndexOf("/") + 1).includes("sizeguide-")
+  )?.url;
 
-  const variantStock = selectedVariant?.quantityAvailable || 0;
+  const {
+    quantity,
+    setQuantity,
+    disableAddToCart,
+    isOutOfStock,
+    isLowStock,
+    availableQuantity,
+    isNoItemsAvailable,
+    noPurchaseAvailable,
+    purchaseAvailableDate
+  } = useAddToCart(product, selectedVariant);
+
   const variantPricing = selectedVariant?.pricing;
-
-  const availableQuantity = getAvailableQuantity(items, variantId, variantStock);
-  const isOutOfStock = !!variantId && variantStock === 0;
-  const noPurchaseAvailable = !isAvailableForPurchase && !availableForPurchase;
-  const purchaseAvailableDate =
-    !isAvailableForPurchase &&
-    availableForPurchase &&
-    Date.parse(availableForPurchase);
-  const isNoItemsAvailable = !!variantId && !isOutOfStock && !availableQuantity;
-  const isLowStock =
-    !!variantId &&
-    !isOutOfStock &&
-    !isNoItemsAvailable &&
-    availableQuantity < LOW_STOCK_QUANTITY;
-
-  const disableButton =
-    !canAddToCart(
-      items,
-      !!isAvailableForPurchase,
-      variantId,
-      variantStock,
-      quantity
-    ) ||
-    (!user && loginForPrice);
 
   const renderErrorMessage = (message: string, testingContextId: string) => (
     <S.ErrorMessage data-test="stockErrorMessage">{message}</S.ErrorMessage>
@@ -204,7 +228,7 @@ const AddToCartSection = ({
           maxQuantity={availableQuantity}
           disabled={isOutOfStock || isNoItemsAvailable}
           onQuantityChange={setQuantity}
-          hideErrors={!variantId || isOutOfStock || isNoItemsAvailable}
+          hideErrors={!selectedVariant || isOutOfStock || isNoItemsAvailable}
           testingContext="addToCartQuantity"
         />
       </S.QuantityInput>
@@ -214,10 +238,10 @@ const AddToCartSection = ({
         fullWidth
         onClick={() => {
           // VariantId is set here since it is checked in disableButton
-          onAddToCart(variantId!, quantity);
+          onAddToCart(selectedVariant!.id, quantity);
           setQuantity(0);
         }}
-        disabled={!!disableButton}
+        disabled={!!disableAddToCart}
       >
         <FormattedMessage defaultMessage="Add to cart" />
       </Button>
