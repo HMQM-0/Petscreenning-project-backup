@@ -8,43 +8,43 @@ import clsx from "clsx";
 
 import carouselClasses from "./scss/index.module.scss";
 
+const useStyles = makeStyles((theme: Theme) => ({
+  buttonStyle: {
+    backgroundColor: theme.palette?.secondary.main,
+    placeItems: "center",
+    position: "absolute",
+    "&:hover": {
+      backgroundColor: theme.palette?.primary.main,
+    },
+  },
+  backStyle: {
+    left: -20,
+    top: -20,
+
+    [theme.breakpoints?.down("sm")]: {
+      left: -5,
+    },
+  },
+  frontStyle: {
+    left: -24,
+    top: -20,
+
+    [theme.breakpoints?.down("sm")]: {
+      left: -42,
+    },
+  },
+  iconStyle: {
+    color: "white",
+    display: "flex",
+    paddingLeft: 4,
+  },
+}));
+
 interface CarouselType extends CarouselProps {
   children: React.ReactNode;
 }
 
 const Carousel = ({ children, ...rest }: CarouselType) => {
-  const useStyles = makeStyles((theme: Theme) => ({
-    buttonStyle: {
-      backgroundColor: theme.palette?.secondary.main,
-      placeItems: "center",
-      position: "absolute",
-      "&:hover": {
-        backgroundColor: theme.palette?.primary.main,
-      },
-    },
-    backStyle: {
-      left: -20,
-      top: -20,
-
-      [theme.breakpoints?.down("sm")]: {
-        left: -5,
-      },
-    },
-    frontStyle: {
-      left: -24,
-      top: -20,
-
-      [theme.breakpoints?.down("sm")]: {
-        left: -42,
-      },
-    },
-    iconStyle: {
-      color: "white",
-      display: "flex",
-      paddingLeft: 4,
-    },
-  }));
-
   const classes = useStyles({});
 
   const carousel = (slides: number) => (
