@@ -13,10 +13,12 @@ let client: ApolloClient<NormalizedCacheObject>;
 
 export const getApolloClient = (initialState?: NormalizedCacheObject) => {
   const cache = new InMemoryCache().restore(initialState || {});
+  const error = errorLink(client);
   client = new ApolloClient({
+    link: ApolloLink.from([error, authLink, httpLink]),
     cache,
     ssrMode: IS_SSR,
   });
-  client.link = ApolloLink.from([errorLink(client), authLink, httpLink]);
+
   return client;
 };
