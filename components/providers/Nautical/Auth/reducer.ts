@@ -1,10 +1,7 @@
 import { Reducer } from "use-immer";
 
-import { AuthActionCreators, AuthActionTypes } from "./actions";
+import { AuthActions, AuthActionTypes } from "./actions";
 import { IAuthContext } from "./context";
-
-type AuthActionKeys = keyof typeof AuthActionCreators;
-type AuthActions = ReturnType<typeof AuthActionCreators[AuthActionKeys]>;
 
 export const reducer: Reducer<IAuthContext, AuthActions> = (draft, action) => {
   switch (action.type) {

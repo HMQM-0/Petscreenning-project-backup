@@ -18,3 +18,6 @@ export const AuthActionCreators = {
     payload: null,
   }),
 } as const;
+
+type AuthActionKeys = keyof typeof AuthActionCreators;
+export type AuthActions = ReturnType<typeof AuthActionCreators[AuthActionKeys]>;

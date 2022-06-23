@@ -22,14 +22,6 @@ export type IAuthContext = {
    * Token used for user authentication.
    */
   token?: string;
-  /**
-   * Indicate if token refreshing is in progress.
-   */
-  tokenRefreshing: boolean; // TODO: Will we need this?
-  /**
-   * Indicate if token verifying is in progress.
-   */
-  tokenVerifying: boolean; // TODO: Will we need this?
   signIn: (
     email: string,
     password: string,
@@ -50,8 +42,6 @@ export type IAuthContext = {
 
 export const INITIAL_STATE: IAuthContext = {
   loaded: false,
-  tokenRefreshing: false,
-  tokenVerifying: false,
   signIn: async (email: string, password: string, autoSignIn?: boolean) => ({
     errors: null,
   }),
