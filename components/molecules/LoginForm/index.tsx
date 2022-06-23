@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 
 import { useAuth } from "@nautical/react";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import Button from "components/atoms/Button";
 import { Form } from "deprecated/components";
 import { FormError } from "deprecated/components/Form/types";

@@ -3,7 +3,7 @@ import { useAlert, AlertContainer } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
 import Rating from "@mui/material/Rating";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import { maybe } from "core/utils";
 import TextArea from "deprecated/components/TextArea";
 import Button from "components/atoms/Button";

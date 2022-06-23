@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {useIntl} from "react-intl";
+import { useIntl } from "react-intl";
 
 import {
   AccountMenuMobile as AccountMenuMobileWrapper,
   AccountMenuMobileItem,
 } from "components/molecules/AccountMenuMobile";
-import {commonMessages} from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 import { routes } from "../AccountMenuSidebar";
 

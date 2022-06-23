@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 
 import { useAuth, useCart, useCheckout } from "@nautical/react";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import {
   cartUrl,

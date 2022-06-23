@@ -2,7 +2,8 @@ import "./scss/index.module.scss";
 
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import { commonMessages } from "deprecated/intl";
+
+import { commonMessages } from "core/intl";
 
 import { FormAddressType } from "./types";
 

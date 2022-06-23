@@ -11,7 +11,7 @@ import NotFound from "components/molecules/NotFound";
 import { useNetworkStatus } from "@hooks";
 import { IProps as FilterSidebarProps } from "components/organisms/FilterSidebar/types";
 import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
-import { prodListHeaderCommonMsg } from "deprecated/intl";
+import { prodListHeaderCommonMsg } from "core/intl";
 import Breadcrumbs, { Breadcrumb } from "components/atoms/Breadcrumbs";
 import { ProductSideNavbar } from "components/organisms/ProductSideNavbar";
 import { FilterSidebar } from "components/organisms/FilterSidebar";

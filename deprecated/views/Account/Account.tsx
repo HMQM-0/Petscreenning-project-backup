@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 // import { RouteComponentProps, withRouter } from "react-router";
 import { useLocation, useNavigate, useParams } from "react-router";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 // import { useAuth } from "@nautical/sdk";
 import { useAuth } from "@nautical/react";
 import { smallScreen } from "@styles/constants";
@@ -88,20 +88,20 @@ const Account: React.FC<any> = () => {
 
   const links = !!isMicrosite()
     ? [
-        `${generateMicrositeUrl(getMicrositeId(), getMicrositeSlug())}account/`,
-        `${generateMicrositeUrl(
-          getMicrositeId(),
-          getMicrositeSlug()
-        )}order-history/`,
-        `${generateMicrositeUrl(
-          getMicrositeId(),
-          getMicrositeSlug()
-        )}wishlist/`,
-        `${generateMicrositeUrl(
-          getMicrositeId(),
-          getMicrositeSlug()
-        )}address-book/`,
-      ]
+      `${generateMicrositeUrl(getMicrositeId(), getMicrositeSlug())}account/`,
+      `${generateMicrositeUrl(
+        getMicrositeId(),
+        getMicrositeSlug()
+      )}order-history/`,
+      `${generateMicrositeUrl(
+        getMicrositeId(),
+        getMicrositeSlug()
+      )}wishlist/`,
+      `${generateMicrositeUrl(
+        getMicrositeId(),
+        getMicrositeSlug()
+      )}address-book/`,
+    ]
     : [accountUrl, orderHistoryUrl, wishlistUrl, addressBookUrl];
 
   if (!loaded) {

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 import { Checkbox } from "@components/atoms";
-import { checkoutMessages } from "deprecated/intl";
+import { checkoutMessages } from "core/intl";
+
+import * as S from "./styles";
+import { IProps } from "./types";
 
 import { DiscountForm } from "../DiscountForm";
 import { IDiscountFormData } from "../DiscountForm/types";
 
-import * as S from "./styles";
-import { IProps } from "./types";
 
 /**
  * Payment options used in checkout.

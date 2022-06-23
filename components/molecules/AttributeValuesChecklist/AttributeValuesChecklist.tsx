@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { ButtonLink } from "components/atoms/ButtonLink";
 import { Checkbox } from "components/atoms/Checkbox";
 import { DebouncedTextField } from "components/molecules/Debounce";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";

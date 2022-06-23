@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 
 import { Container } from "@components/templates/Container";
-import { checkoutMessages } from "deprecated/intl";
+import { checkoutMessages } from "core/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";
