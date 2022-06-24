@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface IProps {
   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
   handleChange?: (e: React.ChangeEvent) => void;

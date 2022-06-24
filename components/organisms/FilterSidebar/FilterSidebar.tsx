@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { IconButton } from "components/molecules/IconButton";
 import { AttributeValuesChecklist } from "components/molecules/AttributeValuesChecklist";
 import { useHandlerWhenClickedOutside } from "@hooks";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import { Overlay } from "components/atoms/Overlay";
 import { ISingleFilterAttribute } from "@types";
 

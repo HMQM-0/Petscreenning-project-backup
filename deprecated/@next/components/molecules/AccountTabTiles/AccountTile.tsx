@@ -1,10 +1,9 @@
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 // import { useAccountUpdate, useAuth } from "@nautical/sdk";
 import { useAccountUpdate, useAuth } from "@nautical/react";
-
 import { Attribute, IconButton, Tile } from "@components/atoms";
 
 import { AccountUpdateForm } from "./AccountUpdateForm";

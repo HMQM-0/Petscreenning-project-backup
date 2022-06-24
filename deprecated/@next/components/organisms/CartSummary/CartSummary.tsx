@@ -5,7 +5,7 @@ import { Icon } from "components/atoms/Icon";
 import { TaxedMoney } from "components/containers/TaxedMoney";
 import { Money } from "components/containers/Money";
 import { CartSummaryRow } from "@components/molecules";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 import * as S from "./styles";
 import { ICostLine, ICosts, IProps } from "./types";

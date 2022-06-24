@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import {useRouter} from "next/router";
-import {useIntl} from "react-intl";
+import { useRouter } from "next/router";
+import { useIntl } from "react-intl";
 
 import { AccountMenu, AccountMenuItem } from "components/molecules/AccountMenu";
-import {commonMessages} from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 
 interface Route {

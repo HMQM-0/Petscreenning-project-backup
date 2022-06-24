@@ -1,6 +1,9 @@
+import { builder } from "@builder.io/react";
+import { BuilderContent } from "@builder.io/sdk";
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
+import builderConfig from "config/builder";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
@@ -16,6 +19,7 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
     product,
     branding,
   },
+  builderContent,
 }) => {
   const description = product?.seoDescription || product?.descriptionJson || "Product";
   const title = product?.seoTitle || product?.name || "Product";
@@ -51,7 +55,7 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
   return (
     <Layout documentHead={documentHead}>
       {product ? (
-        <View product={product} />
+        <View product={product} builderContent={builderContent} />
       ) : (
         <NotFound />
       )}
@@ -63,6 +67,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = getApolloClient();
 
   const productId = context.params!.id as string;
+
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    content = await builder.get("store", { url: "/store/product" }).promise();
+  }
 
   const { data } = await client.query<ProductDetailsQuery>({
     query: ProductDetailsDocument,
@@ -76,6 +85,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       data,
+      builderContent: content,
       __APOLLO__,
     },
   };

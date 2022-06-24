@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
     // gridTemplateColumns: '76px 1fr',
     gap: 8,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints?.down("sm")]: {
       flexDirection: "column-reverse",
     },
   },
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: 4,
   },
   thumbnailActive: {
-    borderColor: theme.palette.divider,
+    borderColor: theme.palette?.divider,
   },
   thumbnailInactive: {
     borderColor: "transparent",
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   thumbnailWrapper: {
     display: "flex",
     flexDirection: "column",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints?.down("sm")]: {
       alignSelf: "center",
       flexDirection: "row",
       gap: 8,
@@ -167,25 +167,25 @@ const ProductGallery: React.FunctionComponent<IProductGalleryProps> = (
       <Box className={classes.galleryWrapper}>
         <Box className={classes.thumbnailWrapper}>
           {images &&
-            images.length > 0 &&
-            images.map((image, index) => {
-              return (
-                <Box
-                  key={index}
-                  className={clsx(
-                    classes.thumbnail,
-                    Boolean(index === imageIndex)
-                      ? classes.thumbnailActive
-                      : classes.thumbnailInactive
-                  )}
-                  ref={setIntersectionObserver(index, images.length)}
-                  onClick={() => setImageIndex(index)}
-                  onMouseEnter={() => setImageIndex(index)}
-                >
-                  <CachedImage alt={image.alt} url={image.url} />
-                </Box>
-              );
-            })}
+          images.length > 0 &&
+          images.map((image, index) => {
+            return (
+              <Box
+                key={index}
+                className={clsx(
+                  classes.thumbnail,
+                  Boolean(index === imageIndex)
+                    ? classes.thumbnailActive
+                    : classes.thumbnailInactive
+                )}
+                ref={setIntersectionObserver(index, images.length)}
+                onClick={() => setImageIndex(index)}
+                onMouseEnter={() => setImageIndex(index)}
+              >
+                <CachedImage alt={image.alt} url={image.url} />
+              </Box>
+            );
+          })}
         </Box>
         <Box className={classes.previewContainer}>
           {images && images.length > 0 && imageIndex < images.length && (
@@ -237,30 +237,30 @@ const ProductGallery: React.FunctionComponent<IProductGalleryProps> = (
           <Box className={classes.thumbnailListWrapper}>
             <List className={classes.thumbnailList}>
               {images &&
-                images.length > 0 &&
-                images.map((image, index) => {
-                  return (
-                    <ListItem
-                      key={index}
-                      data-test="galleryThumbnail"
-                      data-test-id={index}
+              images.length > 0 &&
+              images.map((image, index) => {
+                return (
+                  <ListItem
+                    key={index}
+                    data-test="galleryThumbnail"
+                    data-test-id={index}
+                  >
+                    <Box
+                      className={clsx(
+                        classes.thumbnail,
+                        Boolean(index === imageIndex)
+                          ? classes.thumbnailActive
+                          : classes.thumbnailInactive
+                      )}
+                      ref={setIntersectionObserver(index, images.length)}
+                      onClick={() => setImageIndex(index)}
+                      onMouseEnter={() => setImageIndex(index)}
                     >
-                      <Box
-                        className={clsx(
-                          classes.thumbnail,
-                          Boolean(index === imageIndex)
-                            ? classes.thumbnailActive
-                            : classes.thumbnailInactive
-                        )}
-                        ref={setIntersectionObserver(index, images.length)}
-                        onClick={() => setImageIndex(index)}
-                        onMouseEnter={() => setImageIndex(index)}
-                      >
-                        <CachedImage alt={image.alt} url={image.url} />
-                      </Box>
-                    </ListItem>
-                  );
-                })}
+                      <CachedImage alt={image.alt} url={image.url} />
+                    </Box>
+                  </ListItem>
+                );
+              })}
             </List>
           </Box>
         </Box>

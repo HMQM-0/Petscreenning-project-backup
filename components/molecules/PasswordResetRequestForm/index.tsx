@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import Button from "components/atoms/Button";
 import TextField from "components/atoms/TextField";
 import Form from "deprecated/components/Form";

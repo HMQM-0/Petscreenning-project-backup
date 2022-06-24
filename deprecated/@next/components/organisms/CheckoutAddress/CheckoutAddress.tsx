@@ -2,14 +2,15 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 
 import { Checkbox } from "@components/atoms";
-import { checkoutMessages } from "deprecated/intl";
+import { checkoutMessages } from "core/intl";
 import { filterNotEmptyArrayItems } from "@utils/misc";
+
+import * as S from "./styles";
+import { IProps } from "./types";
 
 import { AddressForm } from "../AddressForm";
 import { AddressGridSelector } from "../AddressGridSelector";
 
-import * as S from "./styles";
-import { IProps } from "./types";
 
 /**
  * Address form used in checkout.

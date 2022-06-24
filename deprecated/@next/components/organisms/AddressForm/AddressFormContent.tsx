@@ -2,12 +2,12 @@ import React, { useCallback } from "react";
 import { useIntl } from "react-intl";
 
 import { InputSelect, TextField } from "@components/molecules";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
+import { ErrorMessage } from "@components/atoms";
+import { IFormError } from "@types";
 
 import * as S from "./styles";
 import { PropsWithFormik } from "./types";
-import { ErrorMessage } from "@components/atoms";
-import { IFormError } from "@types";
 
 export const AddressFormContent: React.FC<PropsWithFormik> = ({
   formRef,

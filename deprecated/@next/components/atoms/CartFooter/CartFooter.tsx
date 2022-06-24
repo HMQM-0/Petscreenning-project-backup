@@ -1,7 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 
 import * as S from "./styles";
 import { IProps } from "./types";

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Icon } from "@components/atoms";
 import { useHandlerWhenClickedOutside } from "@hooks";
-import { commonMessages } from "deprecated/intl";
+import { commonMessages } from "core/intl";
 import { isMicrosite } from "core/utils";
 
 import * as S from "./styles";
@@ -25,11 +25,11 @@ export const AccountMenuMobile: React.FC<IProps> = ({
     link = !!isMicrosite()
       ? link.match(/(?:account|order-history|wishlist|address-book)/g)![0]
       : link
-          .replace(/\//g, "")
-          .replace("-", " ")
-          .split(" ")
-          .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-          .join(" ");
+        .replace(/\//g, "")
+        .replace("-", " ")
+        .split(" ")
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(" ");
     let menuItem = link;
     /* eslint-disable default-case */
     switch (link) {

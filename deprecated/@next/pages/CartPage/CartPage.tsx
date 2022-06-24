@@ -4,10 +4,10 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import { TaxedMoney } from "components/containers/TaxedMoney";
 
 import { useAuth, useCart, useCheckout } from "@nautical/react";
 import { CartFooter, CartHeader } from "@components/atoms";
-import { TaxedMoney } from "components/containers/TaxedMoney";
 import { CartRow } from "@components/organisms";
 import { Cart, CartEmpty } from "@components/templates";
 // import { IItems } from "@nautical/sdk/lib/api/Cart/types";
@@ -15,7 +15,7 @@ import { IItems } from "@nautical/api/Cart/types";
 // import { UserDetails_me } from "@nautical/sdk/lib/queries/gqlTypes/UserDetails";
 import { UserDetails_me } from "@nautical/queries/gqlTypes/UserDetails";
 import { BASE_URL } from "deprecated/core/config";
-import { checkoutMessages } from "deprecated/intl";
+import { checkoutMessages } from "core/intl";
 import { ITaxedMoney } from "@types";
 import {
   generateMicrositeUrl,
