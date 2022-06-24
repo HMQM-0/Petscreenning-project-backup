@@ -3,6 +3,7 @@ import {
   useQueryParam,
   StringParam,
   QueryParamConfig,
+  NumberParam,
 } from "next-query-params";
 
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
@@ -58,7 +59,7 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
 
   const { user } = useAuth();
 
-  const { loginForProducts, builderKey } = useShopContext();
+  const { loginForProducts } = useShopContext();
 
   const variables: ProductsQueryVariables = {
     after: afterFilters,
@@ -71,9 +72,6 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
 
   if (!user && loginForProducts) {
     return <LoginToViewProducts />;
-  }
-  if (builderKey) {
-    return null;
   }
 
   return (

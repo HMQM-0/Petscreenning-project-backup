@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-import { productsListProduct } from "components/templates/ProductsList/queries.graphql";
-import { menuItem } from "components/organisms/ProductSideNavbar/queries.graphql";
+import { productsListProduct, productsPageAttribute } from "components/templates/ProductsList/queries.graphql";
+import { menuTree } from "components/organisms/ProductSideNavbar/queries.graphql";
 import { brandingFragment } from "queries/branding.graphql";
 
 export const productList = gql`
@@ -53,63 +53,22 @@ export const productsQuery = gql`
 `;
 
 export const productsPageQuery = gql`
+  ${productsPageAttribute}
   ${brandingFragment}
-  ${productList}
-  ${menuItem}
-  query ProductsPage(
-    $query: String
-    $categoryIds: [ID!]
-    $collectionIds: [ID!]
-    $attributes: [AttributeInput!]
-    $after: String
-    $pageSize: Int
-    $sortBy: ProductOrder
-    $priceLte: Float
-    $priceGte: Float
-  ) {
+  ${menuTree}
+  query ProductsPage {
     branding {
       ...Branding
-    }
-    productList: products(
-      after: $after
-      first: $pageSize
-      sortBy: $sortBy
-      filter: {
-        search: $query
-        attributes: $attributes
-        categories: $categoryIds
-        collections: $collectionIds
-        minimalPrice: { gte: $priceGte, lte: $priceLte }
-      }
-    ) {
-      ...ProductList
     }
     attributes(first: 100) {
       edges {
         node {
-          id
-          name
-          slug
-          values {
-            id
-            name
-            slug
-          }
+          ...ProductsPageAttribute
         }
       }
     }
     menu(name: "sidenav") {
-      id
-      name
-      items {
-        ...MenuItem
-        children {
-          ...MenuItem
-          children {
-            ...MenuItem
-          }
-        }
-      }
+      ...MenuTree
     }
   }
 `;

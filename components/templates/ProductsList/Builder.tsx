@@ -1,0 +1,116 @@
+import { BuilderContent } from "@builder.io/sdk";
+import { BuilderComponent } from "@builder.io/react";
+import * as React from "react";
+import { useQueryParam, StringParam } from "next-query-params";
+
+import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
+import { SearchPageQueryResult } from "components/templates/SearchPage/queries.graphql.generated";
+import { CollectionPageQueryResult } from "components/templates/CollectionPage/queries.graphql.generated";
+import { CategoryPageQueryResult } from "components/templates/CategoryPage/queries.graphql.generated";
+import useBuilderStateData from "components/hooks/useBuilderStateData";
+import {
+  ProductsPageQueryResult,
+  ProductsQueryResult
+} from "components/templates/ProductsPage/queries.graphql.generated";
+import builderConfig from "config/builder";
+
+interface ProductsPageBuilderProps {
+  type: "products";
+  pageData: ProductsPageQueryResult["data"];
+}
+
+interface CategoryPageBuilderProps {
+  type: "category";
+  pageData: CategoryPageQueryResult["data"];
+}
+
+interface CollectionPageBuilderProps {
+  type: "collection";
+  pageData: CollectionPageQueryResult["data"];
+}
+
+interface SearchPageBuilderProps {
+  type: "search";
+  pageData: SearchPageQueryResult["data"];
+}
+
+type BuilderProductsProps = (
+  ProductsPageBuilderProps
+  | CategoryPageBuilderProps
+  | CollectionPageBuilderProps
+  | SearchPageBuilderProps
+  ) & {
+  content: BuilderContent;
+  productsData: ProductsQueryResult["data"];
+  attributes: ProductsPageAttributeFragment[];
+  loading: boolean;
+}
+
+const BuilderProducts = ({ type, pageData, productsData, content, attributes, loading }: BuilderProductsProps) => {
+  const category = type === 'category' && {
+    category: pageData?.category,
+    // TODO: how to deprecate these ones and force using them directly from state root?
+    productList: productsData?.productList,
+    attributeList: pageData?.attributes,
+    menu: pageData?.menu,
+  };
+
+  const collection = type === 'collection' && {
+    collection: {
+      ...pageData?.collection,
+      // TODO: how to deprecate these ones and force using them directly from state root?
+      productList: productsData?.productList,
+    },
+    // TODO: how to deprecate these ones and force using them directly from state root?
+    attributeList: pageData?.attributes,
+    menu: pageData?.menu,
+  };
+
+  const search = type === 'search' && {
+    // TODO: how to deprecate these ones and force using them directly from state root?
+    productList: productsData?.productList,
+    attributeList: pageData?.attributes,
+    menu: pageData?.menu,
+  };
+
+  const products = type === 'products' && {
+    // TODO: how to deprecate these ones and force using them directly from state root?
+    productList: productsData?.productList,
+    attributes: pageData?.attributes,
+    menu: pageData?.menu,
+  };
+
+  const stateData =
+    useBuilderStateData({
+      products,
+      category,
+      collection,
+      search,
+    });
+
+  const [, setAfterFilters] = useQueryParam("after", StringParam);
+
+  const loadNextPage = () => {
+    setAfterFilters(productsData?.productList?.pageInfo.endCursor);
+  };
+
+  return (
+    <BuilderComponent
+      model={builderConfig.storeModel}
+      content={content}
+      data={{
+        ...stateData,
+        // TODO: how to force users to use these ones instead of legacy data on builder.io side?
+        productsPageInfo: productsData?.productList?.pageInfo || {},
+        productsPageTotalCount: productsData?.productList?.totalCount || 0,
+        productList: productsData?.productList?.products ?? [],
+        attributes,
+        menu: pageData?.menu ?? [],
+        loadNextPage,
+        loading
+      }}
+    />
+  );
+};
+
+export default BuilderProducts;
