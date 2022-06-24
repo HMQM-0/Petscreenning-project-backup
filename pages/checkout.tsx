@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useQueryParam, BooleanParam } from "next-query-params";
 
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import {
