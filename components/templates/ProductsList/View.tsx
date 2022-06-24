@@ -3,7 +3,6 @@ import {
   useQueryParam,
   StringParam,
   QueryParamConfig,
-  NumberParam,
 } from "next-query-params";
 
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
@@ -56,6 +55,7 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
   const [sort] = useQueryParam("sortBy", StringParam);
   const [attributeFilters] = useQueryParam("filters", FilterQuerySet);
   const [afterFilters] = useQueryParam("after", StringParam);
+  const [beforeFilters] = useQueryParam("before", StringParam);
 
   const { user } = useAuth();
 
@@ -63,11 +63,16 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
 
   const variables: ProductsQueryVariables = {
     after: afterFilters,
+    // Prevent sending both `after` and `before` at the same time
+    before: !afterFilters ? beforeFilters : undefined,
+    // For `after` we use `first` (or when there no `after` and no `before`)
+    first: (afterFilters || !beforeFilters) ? PRODUCTS_PER_PAGE : undefined,
+    // For `before` we use `last`
+    last: (!afterFilters && beforeFilters) ? PRODUCTS_PER_PAGE : undefined,
     attributes: attributeFilters
       ? convertToAttributeScalar(attributeFilters)
       : {},
     sortBy: convertSortByFromString(sort),
-    pageSize: PRODUCTS_PER_PAGE,
   };
 
   if (!user && loginForProducts) {

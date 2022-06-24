@@ -1,7 +1,7 @@
 import { BuilderContent } from "@builder.io/sdk";
 import { BuilderComponent } from "@builder.io/react";
 import * as React from "react";
-import { useQueryParam, StringParam } from "next-query-params";
+import { useQueryParam, StringParam, useQueryParams } from "next-query-params";
 
 import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
 import { SearchPageQueryResult } from "components/templates/SearchPage/queries.graphql.generated";
@@ -88,10 +88,22 @@ const BuilderProducts = ({ type, pageData, productsData, content, attributes, lo
       search,
     });
 
-  const [, setAfterFilters] = useQueryParam("after", StringParam);
+  const [, setQueryParams] = useQueryParams({
+    'after': StringParam,
+    'before': StringParam,
+  });
 
   const loadNextPage = () => {
-    setAfterFilters(productsData?.productList?.pageInfo.endCursor);
+    setQueryParams({
+      before: undefined,
+      after: productsData?.productList?.pageInfo.endCursor,
+    });
+  };
+  const loadPrevPage = () => {
+    setQueryParams({
+      before: productsData?.productList?.pageInfo.startCursor,
+      after: undefined,
+    });
   };
 
   return (
@@ -107,6 +119,7 @@ const BuilderProducts = ({ type, pageData, productsData, content, attributes, lo
         attributes,
         menu: pageData?.menu ?? [],
         loadNextPage,
+        loadPrevPage,
         loading
       }}
     />
