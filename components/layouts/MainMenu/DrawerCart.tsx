@@ -5,14 +5,11 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 
-import { useAuth, useCart, useCheckout } from "@nautical/react";
+import { useCart, useCheckout } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { commonMessages } from "core/intl";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
-import {
-  cartUrl,
-  checkoutLoginUrl,
-  checkoutUrl,
-} from "deprecated/app/routes/paths";
+import { cartUrl, checkoutLoginUrl, checkoutUrl } from "deprecated/app/routes/paths";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import ProductList from "components/organisms/OverlayManager/Cart/ProductList";
 import overlayClasses from "components/organisms/OverlayManager/Cart/scss/index.module.scss";
@@ -33,22 +30,15 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
   const { anchor, open, close } = props;
   const { user } = useAuth();
   const { checkout } = useCheckout();
-  const {
-    items,
-    removeItem,
-    subtotalPrice,
-    shippingPrice,
-    discount,
-    totalPrice,
-  } = useCart();
+  const { items, removeItem, subtotalPrice, shippingPrice, discount, totalPrice } = useCart();
   const { online: isOnline } = useNetworkStatus();
 
   const shippingTaxedPrice =
     checkout?.shippingMethod?.id && shippingPrice
       ? {
-        gross: shippingPrice,
-        net: shippingPrice,
-      }
+          gross: shippingPrice,
+          net: shippingPrice,
+        }
       : null;
   const promoTaxedPrice = discount && {
     gross: discount,
@@ -59,24 +49,17 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
     return items?.find((item) => !item.variant || !item.totalPrice);
   };
 
-  const itemsQuantity =
-    items?.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0) || 0;
+  const itemsQuantity = items?.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0) || 0;
 
   return (
     <Drawer anchor={anchor} open={open} ModalProps={{ onBackdropClick: close }}>
       {isOnline ? (
         <Box className={overlayClasses.cart}>
           <Box className={overlayClasses.overlay__header}>
-            <LocalMallIcon
-              className={overlayClasses["overlay__header__cart-icon"]}
-              color="secondary"
-            />
+            <LocalMallIcon className={overlayClasses["overlay__header__cart-icon"]} color="secondary" />
             <Box className={overlayClasses["overlay__header-text"]}>
               <FormattedMessage defaultMessage="My cart," />{" "}
-              <Box
-                component="span"
-                className={overlayClasses["overlay__header-text-items"]}
-              >
+              <Box component="span" className={overlayClasses["overlay__header-text-items"]}>
                 <FormattedMessage
                   defaultMessage="{itemsQuantity,plural,one{{itemsQuantity} item} other{{itemsQuantity} items}}"
                   description="items quantity in cart"
@@ -86,10 +69,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                 />
               </Box>
             </Box>
-            <CloseIcon
-              onClick={close}
-              className={overlayClasses["overlay__header__close-icon"]}
-            />
+            <CloseIcon onClick={close} className={overlayClasses["overlay__header__close-icon"]} />
           </Box>
           {items?.length ? (
             <>
@@ -104,26 +84,17 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                         <FormattedMessage {...commonMessages.subtotal} />
                       </Box>
                       <Box component="span">
-                        <TaxedMoney
-                          data-test="subtotalPrice"
-                          taxedMoney={subtotalPrice}
-                        />
+                        <TaxedMoney data-test="subtotalPrice" taxedMoney={subtotalPrice} />
                       </Box>
                     </Box>
 
-                    {shippingTaxedPrice &&
-                    shippingTaxedPrice.gross.amount !== 0 && (
-                      <Box
-                        className={overlayClasses["cart__footer__price"]}
-                      >
+                    {shippingTaxedPrice && shippingTaxedPrice.gross.amount !== 0 && (
+                      <Box className={overlayClasses["cart__footer__price"]}>
                         <Box component="span">
                           <FormattedMessage {...commonMessages.shipping} />
                         </Box>
                         <Box component="span">
-                          <TaxedMoney
-                            data-test="shippingPrice"
-                            taxedMoney={shippingTaxedPrice}
-                          />
+                          <TaxedMoney data-test="shippingPrice" taxedMoney={shippingTaxedPrice} />
                         </Box>
                       </Box>
                     )}
@@ -134,10 +105,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                           <FormattedMessage {...commonMessages.promoCode} />
                         </Box>
                         <Box component="span">
-                          <TaxedMoney
-                            data-test="promoCodePrice"
-                            taxedMoney={promoTaxedPrice}
-                          />
+                          <TaxedMoney data-test="promoCodePrice" taxedMoney={promoTaxedPrice} />
                         </Box>
                       </Box>
                     )}
@@ -147,10 +115,7 @@ const DrawerCart: React.FunctionComponent<IDrawerCartProps> = (props) => {
                         <FormattedMessage {...commonMessages.total} />
                       </Box>
                       <Box component="span">
-                        <TaxedMoney
-                          data-test="totalPrice"
-                          taxedMoney={totalPrice}
-                        />
+                        <TaxedMoney data-test="totalPrice" taxedMoney={totalPrice} />
                       </Box>
                     </Box>
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Heart } from 'components/icons/heart';
-import { useAuth } from "@nautical/react";
+import { Heart } from "components/icons/heart";
+import { useAuth } from "nautical-api";
 import {
   generateMicrositeUrl,
   getMicrositeId,
@@ -19,7 +19,6 @@ import {
 import WishlistCard from "components/molecules/WishlistCard";
 
 import { IProps } from "./types";
-
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -98,9 +97,9 @@ export const WishlistTable = ({ wishlist }: IProps) => {
                   href={
                     isMicrosite()
                       ? generateMicrositeUrl(
-                        getMicrositeId()!,
-                        getMicrositeSlug()
-                      )
+                          getMicrositeId()!,
+                          getMicrositeSlug()
+                        )
                       : "/products/"
                   }
                   passHref

@@ -8,7 +8,7 @@ import {
 
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
 import { IFilters } from "@types";
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { useShopContext } from "components/providers/ShopProvider";
 import { convertSortByFromString, convertToAttributeScalar } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
@@ -76,15 +76,13 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
 
   return (
     <>
-      {
-        children({
-          variables,
-          filters: {
-            attributes: attributeFilters,
-            sortBy: sort || undefined,
-          },
-        })
-      }
+      {children({
+        variables,
+        filters: {
+          attributes: attributeFilters,
+          sortBy: sort || undefined,
+        },
+      })}
     </>
   );
 };

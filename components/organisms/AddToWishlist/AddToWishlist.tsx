@@ -4,7 +4,7 @@ import { useIntl } from "react-intl";
 
 import { AddToWishlistButton } from "components/molecules/AddToWishlistButton";
 import { WishlistContext } from "components/providers/Wishlist/context";
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { userWishlist } from "components/providers/Wishlist/queries.graphql";
 import {
   useAddWishlistProductMutation,

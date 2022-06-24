@@ -26,8 +26,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { useAuth, useCart } from "@nautical/react";
-import { OverlayTheme, OverlayType, useOverlayContext } from "components/providers/Overlay";
+import { useCart } from "@nautical/react";
+import { useAuth } from "nautical-api";
+import {
+  OverlayTheme,
+  OverlayType,
+  useOverlayContext,
+} from "components/providers/Overlay";
 
 import DrawerCart from "./DrawerCart";
 
@@ -47,13 +52,14 @@ const TopNav = (props: ITopNavProps) => {
   const alert = useAlert();
   const overlayContext = useOverlayContext();
   const [term, setTerm] = React.useState<string>("");
-  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(
-    null);
+  const [anchorEl, setAnchorEl] = React.useState<
+    (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
+  >(null);
   const accountMenuOpen = Boolean(anchorEl);
   const [cartOpen, setCartOpen] = React.useState(false);
 
   // Hide search bar in the top nav since it is present on the page itself
-  const showSearch = router.pathname !== '/search';
+  const showSearch = router.pathname !== "/search";
 
   const handleCartClose = () => {
     setCartOpen(false);
