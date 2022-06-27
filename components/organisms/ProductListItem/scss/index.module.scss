@@ -22,8 +22,7 @@
     justify-content: space-between;
     min-height: 100%;
     height: 438px;
-    margin: 0 auto;
-    margin-bottom: 30px;
+    margin: 0 auto 30px;
     width: 100%;
   }
 
@@ -40,9 +39,11 @@
     height: 300px;
     justify-content: center;
 
-    img {
+    img,
+    svg {
       object-fit: contain;
-      max-width: 100%;
+      width: 100%;
+      height: 100%;
     }
   }
 
@@ -52,9 +53,11 @@
     justify-content: center;
     padding: 24px;
 
-    img {
+    img,
+    svg {
       object-fit: contain;
-      max-width: 100%;
+      width: 100%;
+      height: 100%;
     }
   }
 
@@ -166,61 +169,6 @@
     @media (max-width: $small-screen) {
       height: 90vw;
       width: 90vw;
-    }
-  }
-}
-
-.product-list-old {
-  text-align: center;
-  position: relative;
-
-  &__salebadge {
-    height: 64px;
-    left: 0px;
-    position: absolute;
-    top: 0px;
-    width: 64px;
-  }
-
-  &__title {
-    text-transform: $product-item-title-text-transform;
-    font-weight: $product-item-title-font-weight;
-    margin-top: $spacer;
-    text-align: left;
-  }
-
-  &__undiscounted_price {
-    text-decoration: line-through;
-    color: $gray;
-    font-size: $small-font-size;
-    font-weight: regular;
-  }
-
-  &__category {
-    color: $product-item-category-color;
-    text-align: left;
-  }
-
-  &__price {
-    font-weight: $product-item-price-font-weight;
-    margin: $product-item-price-margin;
-    text-align: left;
-  }
-
-  &__image {
-    // background-color: $turquoise-light;
-    border: 1px solid #ccc;
-    display: flex;
-    height: 350px;
-    justify-content: center;
-
-    img {
-      object-fit: contain;
-      max-width: 100%;
-    }
-
-    @media (max-width: $small-screen) {
-      height: 210px;
     }
   }
 }
