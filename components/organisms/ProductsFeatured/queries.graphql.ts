@@ -1,15 +1,13 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 import {
   basicProductFragment,
   productPricingFragment
 } from "components/templates/ProductPage/queries.graphql";
-
-import { FeaturedProducts } from "./gqlTypes/FeaturedProducts";
-
-import { TypedQuery } from "../../core/queries";
+import { basicVariant } from "components/templates/ProductsList/queries.graphql";
 
 export const featuredProducts = gql`
+  ${basicVariant}
   ${basicProductFragment}
   ${productPricingFragment}
   query FeaturedProducts {
@@ -28,7 +26,7 @@ export const featuredProducts = gql`
                 name
               }
               defaultVariant {
-                id
+                ...BasicVariant
               }
             }
           }
@@ -37,7 +35,3 @@ export const featuredProducts = gql`
     }
   }
 `;
-
-export const TypedFeaturedProductsQuery = TypedQuery<FeaturedProducts, {}>(
-  featuredProducts
-);
