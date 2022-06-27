@@ -76,7 +76,7 @@ export const ProductListHeader = ({
                 value={sortOptions.find(
                   (option) => option.value === activeSortOption
                 )}
-                isFieldSpacer={false}
+                isLastFormField={false}
               />
             </S.Sort>
           </S.Element>

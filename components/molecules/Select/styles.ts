@@ -1,8 +1,8 @@
 import { styled } from "@styles";
 
-export const Wrapper = styled.div<{ isFieldSpacer: boolean }>`
+export const Wrapper = styled.div<{ isLastFormField: boolean }>`
   margin-bottom: ${(props) =>
-    props.isFieldSpacer ? props.theme.spacing.fieldSpacer : 0};
+    props.isLastFormField ? props.theme.spacing.fieldSpacer : 0};
 `;
 
 export const Indicator = styled.div<{ rotate: string }>`

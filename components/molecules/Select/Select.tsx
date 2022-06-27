@@ -53,7 +53,7 @@ export const Select: React.FC<IProps> = ({
   optionLabelKey = "label",
   optionValueKey = "value",
   errors,
-  isFieldSpacer = true,
+  isLastFormField = true,
   ...props
 }: IProps) => {
   const customTheme = React.useContext(ThemeContext);
@@ -65,7 +65,7 @@ export const Select: React.FC<IProps> = ({
   };
 
   return (
-    <S.Wrapper isFieldSpacer={isFieldSpacer}>
+    <S.Wrapper isLastFormField={isLastFormField}>
       <ReactSelect
         defaultValue={defaultValue}
         onChange={handleChange}

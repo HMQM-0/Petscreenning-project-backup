@@ -3,5 +3,5 @@ export interface IProps {
   value: any;
   options: any;
   name?: any;
-  isFieldSpacer?: boolean;
+  isLastFormField?: boolean;
 }

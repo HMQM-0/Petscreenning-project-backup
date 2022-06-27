@@ -21,5 +21,5 @@ export interface IProps {
     Option: (props?: any) => JSX.Element | null;
   };
   errors?: IFormError[];
-  isFieldSpacer?: boolean;
+  isLastFormField?: boolean;
 }

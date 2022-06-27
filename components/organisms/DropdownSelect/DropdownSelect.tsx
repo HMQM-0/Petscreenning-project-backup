@@ -16,7 +16,7 @@ export const DropdownSelect = ({
   name,
   value,
   onChange,
-  isFieldSpacer = true,
+  isLastFormField = true,
 }: IProps) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const { setElementRef } = useHandlerWhenClickedOutside(() => {
@@ -55,7 +55,7 @@ export const DropdownSelect = ({
         name={name}
         menuIsOpen={menuIsOpen}
         customComponents={customComponents}
-        isFieldSpacer={isFieldSpacer}
+        isLastFormField={isLastFormField}
       />
     </S.Wrapper>
   );
