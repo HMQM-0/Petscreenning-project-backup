@@ -14,14 +14,9 @@ import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { slugify } from "@utils/core";
-import {
-  useAddWishlistProduct,
-  useCart,
-  useRemoveWishlistProduct,
-} from "@nautical/react";
-import { useAuth } from "nautical-api";
-import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
-import { userWishlist } from "components/providers/Wishlist/queries.graphql";
+import { useAddWishlistProduct, useCart, useRemoveWishlistProduct } from "@nautical/react";
+import { useAuth, useWishlist } from "nautical-api";
+import { userWishlist } from "components/providers/Nautical/Wishlist/queries.graphql";
 
 import { micrositesQuery } from "./queries.graphql";
 
@@ -89,12 +84,9 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
   const alert = useAlert();
   const intl = useIntl();
 
-  const [attributeFilters, setAttributeFilters] = useQueryParam(
-    "filters",
-    FilterQuerySet
-  );
+  const [attributeFilters, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
 
-  const { wishlist: wishlistContext } = React.useContext(WishlistContext);
+  const { wishlist: wishlistContext } = useWishlist();
 
   const { data: builderMicrositesData } = useQuery(micrositesQuery, {
     fetchPolicy: "cache-and-network",
@@ -107,9 +99,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
 
   // const [productVariantsAttributesSelectedValues, selectProductVariantsAttributesValue] = useProductVariantsAttributesValuesSelection(productVariantAttributes);
 
-  const [selectedVariant, setSelectedVariant] = React.useState(
-    product?.defaultVariant
-  );
+  const [selectedVariant, setSelectedVariant] = React.useState(product?.defaultVariant);
 
   // function getSelectedVariant() {
   //   // attributeSelections
@@ -180,11 +170,7 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       setAttributeFilters({});
     };
 
-    function handleAddToCart(
-      name: string,
-      variantId: string,
-      quantity: number
-    ) {
+    function handleAddToCart(name: string, variantId: string, quantity: number) {
       addItem(variantId, quantity);
       alert.show(
         {
@@ -223,16 +209,11 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
     }
 
     const isAddedToWishlist = async (productId: string) => {
-      return (
-        !!wishlistContext &&
-        wishlistContext.some(({ product }) => product.id === productId)
-      );
+      return !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
     };
 
     const addOrRemoveFromWishlist = async (productId: string) => {
-      const addedToWishlist =
-        !!wishlistContext &&
-        wishlistContext.some(({ product }) => product.id === productId);
+      const addedToWishlist = !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
 
       if (!user) {
         alert.show(
@@ -316,16 +297,12 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       quantity: 1,
       theme: theme,
       cart: items,
-      addToCart: (name: string, variantId: string, quantity: number) =>
-        handleAddToCart(name, variantId, quantity),
+      addToCart: (name: string, variantId: string, quantity: number) => handleAddToCart(name, variantId, quantity),
       searchFor: (query: string) => handleSetSearch(query),
-      navigate: (to: string, replace: boolean) =>
-        replace ? router.replace(to) : router.push(to),
+      navigate: (to: string, replace: boolean) => (replace ? router.replace(to) : router.push(to)),
       navigateById: (id: string, name: string) => handleNavigateById(id, name),
-      navigateByItem: (item: { id: string; name: string }) =>
-        handleNavigateByItem(item),
-      addOrRemoveFromWishlist: (productId: string) =>
-        addOrRemoveFromWishlist(productId),
+      navigateByItem: (item: { id: string; name: string }) => handleNavigateByItem(item),
+      addOrRemoveFromWishlist: (productId: string) => addOrRemoveFromWishlist(productId),
       isAddedToWishlist: (productId: string) => isAddedToWishlist(productId),
       // handleAttributeChange: onAttributeChange,
       decodeId: (id: string) => atob(id).split(":")[1],
@@ -387,23 +364,10 @@ const StorePage: React.FunctionComponent<IStorePage> = (props) => {
       };
       fetchPage();
     }
-  }, [
-    category,
-    collection,
-    isEditingOrPreviewing,
-    landing,
-    microsite,
-    product,
-    products,
-    search,
-    vendors,
-    wishlist,
-  ]);
+  }, [category, collection, isEditingOrPreviewing, landing, microsite, product, products, search, vendors, wishlist]);
 
   if (pageJson || isEditingOrPreviewing) {
-    return (
-      <BuilderComponent model={model} content={pageJson} data={stateData} />
-    );
+    return <BuilderComponent model={model} content={pageJson} data={stateData} />;
   }
 
   if (isLoading) {

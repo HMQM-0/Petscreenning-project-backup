@@ -3,25 +3,23 @@ import { useAlert } from "react-alert";
 import { useIntl } from "react-intl";
 
 import { AddToWishlistButton } from "components/molecules/AddToWishlistButton";
-import { WishlistContext } from "components/providers/Wishlist/context";
-import { useAuth } from "nautical-api";
-import { userWishlist } from "components/providers/Wishlist/queries.graphql";
+import { useAuth, useWishlist } from "nautical-api";
+import { userWishlist } from "components/providers/Nautical/Wishlist/queries.graphql";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
-} from "components/providers/Wishlist/mutations.graphql.generated";
+} from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
 
 import { IProps } from "./types";
 
 export const AddToWishlist = ({ productId, showButtonText = true }: IProps) => {
-  const { wishlist } = useContext(WishlistContext);
+  const { wishlist } = useWishlist();
   const { user } = useAuth();
   const alert = useAlert();
   const intl = useIntl();
 
   const isAddedToWishlist = useMemo(
-    () =>
-      !!wishlist && wishlist.some(({ product }) => product.id === productId),
+    () => !!wishlist && wishlist.some(({ product }) => product.id === productId),
     [wishlist, productId]
   );
 
@@ -92,11 +90,5 @@ export const AddToWishlist = ({ productId, showButtonText = true }: IProps) => {
     }
   };
 
-  return (
-    <AddToWishlistButton
-      added={isAddedToWishlist}
-      onClick={addOrRemoveFromWishlist}
-      showText={showButtonText}
-    />
-  );
+  return <AddToWishlistButton added={isAddedToWishlist} onClick={addOrRemoveFromWishlist} showText={showButtonText} />;
 };

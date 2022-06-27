@@ -5,16 +5,14 @@ import { NauticalProvider as OldNauticalProvider } from "@nautical/react";
 import { getApolloClient } from "apollo-client";
 
 import { AuthProvider } from "./Auth/AuthProvider";
+import { WishlistProvider } from "./Wishlist/WishlistProvider";
 
 type NauticalProviderProps = {
   children: React.ReactNode;
   initialState: NormalizedCacheObject;
 };
 
-const NauticalProvider: FunctionComponent<NauticalProviderProps> = ({
-  children,
-  initialState,
-}) => {
+const NauticalProvider: FunctionComponent<NauticalProviderProps> = ({ children, initialState }) => {
   const client = getApolloClient(initialState);
 
   return (
@@ -24,7 +22,9 @@ const NauticalProvider: FunctionComponent<NauticalProviderProps> = ({
       }}
     >
       <ApolloProvider client={client}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <WishlistProvider>{children}</WishlistProvider>
+        </AuthProvider>
       </ApolloProvider>
     </OldNauticalProvider>
   );

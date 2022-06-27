@@ -11,15 +11,14 @@ import { useRouter } from "next/router";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import { slugify } from "@utils/core";
 import { useCart } from "@nautical/react";
-import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
 import { micrositesQuery } from "components/templates/Builder/queries.graphql";
 import { FilterQuerySet } from "components/templates/ProductsList/View";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
-} from "components/providers/Wishlist/mutations.graphql.generated";
-import { WishlistDocument } from "components/providers/Wishlist/queries.graphql.generated";
-import { useAuth } from "nautical-api";
+} from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
+import { WishlistDocument } from "components/providers/Nautical/Wishlist/queries.graphql.generated";
+import { useAuth, useWishlist } from "nautical-api";
 
 interface IStorePage {
   category?: any;
@@ -71,7 +70,7 @@ const useBuilderStateData = ({
 
   const [, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
 
-  const { wishlist: wishlistContext } = React.useContext(WishlistContext);
+  const { wishlist: wishlistContext } = useWishlist();
 
   const { data: builderMicrositesData } = useQuery(micrositesQuery, {
     fetchPolicy: "cache-and-network",
@@ -88,11 +87,7 @@ const useBuilderStateData = ({
       setAttributeFilters({});
     };
 
-    function handleAddToCart(
-      name: string,
-      variantId: string,
-      quantity: number
-    ) {
+    function handleAddToCart(name: string, variantId: string, quantity: number) {
       return addToCartHandler(variantId, quantity, name);
     }
 
@@ -125,16 +120,11 @@ const useBuilderStateData = ({
     }
 
     const isAddedToWishlist = async (productId: string) => {
-      return (
-        !!wishlistContext &&
-        wishlistContext.some(({ product }) => product.id === productId)
-      );
+      return !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
     };
 
     const addOrRemoveFromWishlist = async (productId: string) => {
-      const addedToWishlist =
-        !!wishlistContext &&
-        wishlistContext.some(({ product }) => product.id === productId);
+      const addedToWishlist = !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
 
       if (!user) {
         alert.show(
@@ -209,16 +199,12 @@ const useBuilderStateData = ({
       quantity: 1,
       theme: theme,
       cart: items,
-      addToCart: (name: string, variantId: string, quantity: number) =>
-        handleAddToCart(name, variantId, quantity),
+      addToCart: (name: string, variantId: string, quantity: number) => handleAddToCart(name, variantId, quantity),
       searchFor: (query: string) => handleSetSearch(query),
-      navigate: (to: string, replace: boolean) =>
-        replace ? router.replace(to) : router.push(to),
+      navigate: (to: string, replace: boolean) => (replace ? router.replace(to) : router.push(to)),
       navigateById: (id: string, name: string) => handleNavigateById(id, name),
-      navigateByItem: (item: { id: string; name: string }) =>
-        handleNavigateByItem(item),
-      addOrRemoveFromWishlist: (productId: string) =>
-        addOrRemoveFromWishlist(productId),
+      navigateByItem: (item: { id: string; name: string }) => handleNavigateByItem(item),
+      addOrRemoveFromWishlist: (productId: string) => addOrRemoveFromWishlist(productId),
       isAddedToWishlist: (productId: string) => isAddedToWishlist(productId),
       // handleAttributeChange: onAttributeChange,
       decodeId: (id: string) => atob(id).split(":")[1],
@@ -228,7 +214,7 @@ const useBuilderStateData = ({
       loadPrevPage: () => loadPrevPage(),
     };
   }, [
-    addItem,
+    addToCartHandler,
     alert,
     builderMicrositesData,
     category,
@@ -240,9 +226,9 @@ const useBuilderStateData = ({
     loadNextPage,
     loadPrevPage,
     microsite,
-    router,
     product,
     products,
+    router,
     search,
     setAddWishlistProduct,
     setAttributeFilters,

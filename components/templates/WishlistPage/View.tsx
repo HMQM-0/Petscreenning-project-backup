@@ -1,17 +1,16 @@
 import React, { useContext } from "react";
 
-import { WishlistContext } from "components/providers/Wishlist/context";
 import { useShopContext } from "components/providers/ShopProvider";
 import { Loader } from "components/atoms/Loader";
 import { WishlistTable } from "components/molecules/WishlistTable/WishlistTable";
+import { useWishlist } from "nautical-api";
 
 import * as S from "./styles";
-
 
 // import StorePage from "../Builder/StorePage";
 
 const View: React.FC = () => {
-  const { wishlist, loading } = useContext(WishlistContext);
+  const { wishlist, loading } = useWishlist();
   const { builderKey } = useShopContext();
 
   if (builderKey) {

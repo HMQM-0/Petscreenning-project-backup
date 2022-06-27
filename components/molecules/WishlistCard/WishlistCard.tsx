@@ -8,12 +8,12 @@ import Image from "next/image";
 import { useCart } from "@nautical/react";
 import { Trash } from "components/icons/trash";
 import { generateProductUrl } from "core/utils";
-import { WishlistContext } from "components/providers/Wishlist/context";
-import { useRemoveWishlistProductMutation } from "components/providers/Wishlist/mutations.graphql.generated";
+import { useRemoveWishlistProductMutation } from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
 import {
   WishlistItemFragment,
   WishlistItemVariantFragment,
-} from "components/providers/Wishlist/fragments.graphql.generated";
+} from "components/providers/Nautical/Wishlist/fragments.graphql.generated";
+import { useWishlist } from "nautical-api";
 
 import ProductPrice from "../../organisms/ProductPrice";
 import ProductVariantPrice from "../../organisms/ProductVariantPrice";
@@ -30,8 +30,7 @@ const useStyles = makeStyles(() =>
       paddingTop: "1.5rem",
       paddingBottom: "1.5rem",
       borderBottom: "1px solid lightgrey",
-      transitionProperty:
-        "background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;",
+      transitionProperty: "background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;",
       transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1);",
       transitionDuration: "150ms;",
     },
@@ -79,8 +78,7 @@ const useStyles = makeStyles(() =>
       border: "1px",
       borderRadius: "0.375rem",
       "--tw-shadow": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-      boxShadow:
-        "var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
+      boxShadow: "var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
       width: "max-content",
     },
     pricing: {
@@ -110,7 +108,7 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
   const [variant, setVariant] = useState<WishlistItemVariantFragment | null>(null);
   const alert = useAlert();
 
-  const { update } = React.useContext(WishlistContext);
+  const { update } = useWishlist();
 
   const [removeWishlistProduct] = useRemoveWishlistProductMutation({ variables: { productId: product.id } });
 
@@ -167,18 +165,13 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
             src={imageUrl}
             width="100%"
             height="auto"
-            alt={
-              product.countableImages?.edges?.[0]?.node.altText || "Product Image"
-            }
+            alt={product.countableImages?.edges?.[0]?.node.altText || "Product Image"}
           />
         )}
       </Box>
 
       <Box className={classes.details}>
-        <Link
-          href={generateProductUrl(item.product.id, item.product.name)}
-          passHref
-        >
+        <Link href={generateProductUrl(item.product.id, item.product.name)} passHref>
           <a>
             <h3 className={classes.productName}>{product.name}</h3>
           </a>
@@ -186,10 +179,7 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
         <Box className={classes.productDescription} />
         {showVariants && (
           <>
-            <InputLabel
-              htmlFor={`variant${product.id}`}
-              className={classes.selectLabel}
-            >
+            <InputLabel htmlFor={`variant${product.id}`} className={classes.selectLabel}>
               {variant ? "Variant" : "Choose Variant"}
             </InputLabel>
             <Select
@@ -206,13 +196,16 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
                 },
               }}
               onChange={(event) => {
-                const selectedVariant =
-                  product.variants?.find((variantItem) => variantItem.id === event.target.value);
+                const selectedVariant = product.variants?.find((variantItem) => variantItem.id === event.target.value);
                 setVariant(selectedVariant || null);
               }}
             >
               {product.variants?.map((variant) => {
-                return (<MenuItem key={variant.id} value={variant.id}>{variant.name}</MenuItem>);
+                return (
+                  <MenuItem key={variant.id} value={variant.id}>
+                    {variant.name}
+                  </MenuItem>
+                );
               })}
             </Select>
           </>
@@ -229,11 +222,7 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
       </Box>
       <Box className={classes.pricing}>
         <Box className={classes.pricing_price}>
-          {variant ? (
-            <ProductVariantPrice pricing={variant.pricing} />
-          ) : (
-            <ProductPrice pricing={product.pricing} />
-          )}
+          {variant ? <ProductVariantPrice pricing={variant.pricing} /> : <ProductPrice pricing={product.pricing} />}
         </Box>
         <Box className={classes.pricing_trash}>
           <button onClick={handleRemove} className={classes.trash}>
