@@ -47,6 +47,8 @@ export async function getServerSideProps() {
 
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
+    // get.promise() may return `undefined`. Setting it to `null` in this case to prevent errors in next.js
+    // https://github.com/vercel/next.js/discussions/11209
     content = await builder.get("store", { url: "/store/products" }).promise() || null;
   }
 
