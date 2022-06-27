@@ -4,8 +4,8 @@ import { ApolloProvider, NormalizedCacheObject } from "@apollo/client";
 import { NauticalProvider as OldNauticalProvider } from "@nautical/react";
 import { getApolloClient } from "apollo-client";
 
-import { AuthProvider } from "./Auth/AuthProvider";
-import { WishlistProvider } from "./Wishlist/WishlistProvider";
+import { AuthProvider } from "./Auth";
+import { WishlistProvider } from "./Wishlist";
 
 type NauticalProviderProps = {
   children: React.ReactNode;

@@ -1,2 +1,2 @@
-export * from "./Auth/useAuth";
-export * from "./Wishlist/useWishlist";
+export { useAuth } from "./Auth";
+export { useWishlist } from "./Wishlist";
