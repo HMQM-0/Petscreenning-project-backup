@@ -7,6 +7,7 @@ import { getApolloClient } from "apollo-client";
 import { AuthProvider } from "./Auth";
 import { WishlistProvider } from "./Wishlist";
 import { CartProvider } from "./Cart";
+import { CheckoutProvider } from "./Checkout";
 
 type NauticalProviderProps = {
   children: React.ReactNode;
@@ -25,7 +26,9 @@ const NauticalProvider: FunctionComponent<NauticalProviderProps> = ({ children, 
       <ApolloProvider client={client}>
         <AuthProvider>
           <CartProvider>
-            <WishlistProvider>{children}</WishlistProvider>
+            <CheckoutProvider>
+              <WishlistProvider>{children}</WishlistProvider>
+            </CheckoutProvider>
           </CartProvider>
         </AuthProvider>
       </ApolloProvider>
