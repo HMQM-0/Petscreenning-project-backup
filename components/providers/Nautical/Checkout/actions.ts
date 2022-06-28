@@ -5,9 +5,11 @@ export const CheckoutActionTypes = {
 } as const;
 
 export const CheckoutActionCreators = {
-  initializeCheckout: () => ({
+  initializeCheckout: (checkout: ICheckoutContext) => ({
     type: CheckoutActionTypes.INITIALIZE_Checkout,
-    payload: {},
+    payload: {
+      checkout,
+    },
   }),
 } as const;
 

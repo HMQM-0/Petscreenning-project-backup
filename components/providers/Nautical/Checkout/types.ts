@@ -1,4 +1,46 @@
-import { CheckoutFragment, ProductVariantFragment, ShippingMethodFragment } from "./fragments.graphql.generated";
+import {
+  CheckoutFragment,
+  PaymentFragment,
+  ProductVariantFragment,
+  ShippingMethodFragment,
+} from "./fragments.graphql.generated";
+
+export interface IPaymentCreditCard {
+  /**
+   * Card brand.
+   */
+  brand: string;
+  /**
+   * First 4 digits of the card number.
+   */
+  firstDigits?: string | null;
+  /**
+   * Last 4 digits of the card number.
+   */
+  lastDigits: string;
+  /**
+   * Two-digit number representing the card’s expiration month.
+   */
+  expMonth?: number | null;
+  /**
+   * Four-digit number representing the card’s expiration year.
+   */
+  expYear?: number | null;
+}
+
+export interface IPaymentModel {
+  id?: string;
+  token?: string;
+  returnUrl?: string;
+  gateway?: string;
+  creditCard?: IPaymentCreditCard | null;
+  total?: PaymentFragment["total"];
+}
+
+export interface IPromoCodeDiscount {
+  voucherCode?: string | null;
+  discountName?: string | null;
+}
 
 export interface ICheckoutAddress {
   id?: string;

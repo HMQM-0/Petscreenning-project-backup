@@ -18,9 +18,7 @@ const useRemoveItem = ({ dispatch, getRefreshedCheckoutLines }: useRemoveItemPro
 
   return useCallback(
     async (variantId: string) => {
-      console.log("variantId", variantId);
       const checkout = getCheckout();
-      console.log("checkout", checkout);
 
       // 1. update local storage
       const lines = checkout?.lines || [];
