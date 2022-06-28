@@ -21,19 +21,13 @@ export const extractBreadcrumbs = (category: BasicCategoryFragment) => {
   let breadcrumbs = [constructLink(category)];
 
   if (category.ancestorList?.categories.length) {
-    const ancestorsList = category.ancestorList.categories.map((edge) =>
-      constructLink(edge.category)
-    );
+    const ancestorsList = category.ancestorList.categories.map((edge) => constructLink(edge.category));
     breadcrumbs = ancestorsList.concat(breadcrumbs);
   }
   return breadcrumbs;
 };
 
-const CategoryProducts = ({
-  variables,
-  filters,
-  category,
-}: CategoryProductsProps) => {
+const CategoryProducts = ({ variables, filters, category }: CategoryProductsProps) => {
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,

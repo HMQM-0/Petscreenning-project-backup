@@ -14,8 +14,8 @@ import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { slugify } from "@utils/core";
-import { useAddWishlistProduct, useCart, useRemoveWishlistProduct } from "@nautical/react";
-import { useAuth, useWishlist } from "nautical-api";
+import { useAddWishlistProduct, useRemoveWishlistProduct } from "@nautical/react";
+import { useAuth, useWishlist, useCart } from "nautical-api";
 import { userWishlist } from "components/providers/Nautical/Wishlist/queries.graphql";
 
 import { micrositesQuery } from "./queries.graphql";

@@ -6,8 +6,8 @@ import Link from "next/link";
 
 import { TaxedMoney } from "components/molecules/TaxedMoney/TaxedMoney";
 import { Thumbnail } from "components/molecules/Thumbnail/Thumbnail";
-import { ICheckoutModelLine } from "@nautical/helpers";
 import { generateProductUrl } from "core/utils";
+import { ICheckoutModelLine } from "components/providers/Nautical/Checkout/types";
 
 import classes from "./scss/index.module.scss";
 
@@ -19,19 +19,11 @@ type ProductListProps = {
 const ProductList = ({ lines, remove }: ProductListProps) => (
   <ul className={classes.cart__list}>
     {lines.map((line, index) => {
-      const productUrl = generateProductUrl(
-        line.variant.product?.id ?? "",
-        line.variant.product?.name ?? ""
-      );
+      const productUrl = generateProductUrl(line.variant.product?.id ?? "", line.variant.product?.name ?? "");
       const key = line.id ? `id-${line.id}` : `idx-${index}`;
 
       return (
-        <li
-          key={key}
-          className={classes.cart__list__item}
-          data-test="cartRow"
-          data-test-id={line.variant.sku}
-        >
+        <li key={key} className={classes.cart__list__item} data-test="cartRow" data-test-id={line.variant.sku}>
           <Link href={productUrl}>
             <a>
               <Thumbnail source={line.variant.product ?? {}} />
@@ -46,23 +38,13 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
                 <p data-test="name">{line.variant.product?.name}</p>
               </a>
             </Link>
-            <Box
-              component="span"
-              className={classes.cart__list__item__details__variant}
-            >
+            <Box component="span" className={classes.cart__list__item__details__variant}>
               <Box component="span">{line.variant.name}</Box>
               <Box component="span" data-test="quantity">
-                <FormattedMessage
-                  defaultMessage="Qty: {quantity}"
-                  values={{ quantity: line.quantity }}
-                />
+                <FormattedMessage defaultMessage="Qty: {quantity}" values={{ quantity: line.quantity }} />
               </Box>
             </Box>
-            <IconButton
-              style={{ marginTop: 4 }}
-              size="small"
-              onClick={() => remove(line.variant.id)}
-            >
+            <IconButton style={{ marginTop: 4 }} size="small" onClick={() => remove(line.variant.id)}>
               <DeleteForeverOutlinedIcon />
             </IconButton>
           </Box>

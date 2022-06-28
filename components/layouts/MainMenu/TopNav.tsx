@@ -26,13 +26,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { useCart } from "@nautical/react";
-import { useAuth } from "nautical-api";
-import {
-  OverlayTheme,
-  OverlayType,
-  useOverlayContext,
-} from "components/providers/Overlay";
+import { useCart, useAuth } from "nautical-api";
+import { OverlayTheme, OverlayType, useOverlayContext } from "components/providers/Overlay";
 
 import DrawerCart from "./DrawerCart";
 
@@ -97,17 +92,11 @@ const TopNav = (props: ITopNavProps) => {
     }
   };
 
-  const cartItemsQuantity =
-    (items &&
-      items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) ||
-    0;
+  const cartItemsQuantity = (items && items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) || 0;
 
   return (
     <>
-      <AppBar
-        position="relative"
-        sx={{ backgroundColor: "#fff", minHeight: 72 }}
-      >
+      <AppBar position="relative" sx={{ backgroundColor: "#fff", minHeight: 72 }}>
         <Toolbar
           sx={{
             display: "flex",
@@ -174,21 +163,14 @@ const TopNav = (props: ITopNavProps) => {
                   inputProps={{ "aria-label": "search" }}
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton
-                  color="primary"
-                  sx={{ p: "10px" }}
-                  onClick={() => handleSearch()}
-                  aria-label="Search"
-                >
+                <IconButton color="primary" sx={{ p: "10px" }} onClick={() => handleSearch()} aria-label="Search">
                   <RocketLaunchIcon />
                 </IconButton>
               </Paper>
             </Box>
           )}
 
-          <Box
-            sx={{ display: "flex", flexBasis: 200, justifyContent: "flex-end" }}
-          >
+          <Box sx={{ display: "flex", flexBasis: 200, justifyContent: "flex-end" }}>
             <IconButton
               color="inherit"
               aria-label="account"
@@ -204,11 +186,7 @@ const TopNav = (props: ITopNavProps) => {
                 setAnchorEl(accountMenuOpen ? null : event.currentTarget);
               }}
             >
-              {user ? (
-                <PersonIcon color="primary" />
-              ) : (
-                <PersonOutlineOutlinedIcon color="action" />
-              )}
+              {user ? <PersonIcon color="primary" /> : <PersonOutlineOutlinedIcon color="action" />}
             </IconButton>
             <Menu
               anchorEl={anchorEl}
@@ -295,11 +273,7 @@ const TopNav = (props: ITopNavProps) => {
             </Menu>
             {/* </Hidden> */}
             <Badge badgeContent={cartItemsQuantity} color="secondary">
-              <IconButton
-                sx={{ backgroundColor: "#F3F5F9" }}
-                onClick={() => handleCart()}
-                aria-label="Cart"
-              >
+              <IconButton sx={{ backgroundColor: "#F3F5F9" }} onClick={() => handleCart()} aria-label="Cart">
                 <ShoppingBagOutlinedIcon htmlColor="#777" />
               </IconButton>
             </Badge>

@@ -5,7 +5,7 @@ import { useAlert } from "react-alert";
 import Link from "next/link";
 import Image from "next/image";
 
-import { useCart } from "@nautical/react";
+import { useCart, useWishlist } from "nautical-api";
 import { Trash } from "components/icons/trash";
 import { generateProductUrl } from "core/utils";
 import { useRemoveWishlistProductMutation } from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
@@ -13,7 +13,6 @@ import {
   WishlistItemFragment,
   WishlistItemVariantFragment,
 } from "components/providers/Nautical/Wishlist/fragments.graphql.generated";
-import { useWishlist } from "nautical-api";
 
 import ProductPrice from "../../organisms/ProductPrice";
 import ProductVariantPrice from "../../organisms/ProductVariantPrice";

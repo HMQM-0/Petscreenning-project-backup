@@ -19,10 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import {
-  InsertMenuConfig,
-  InsertMenuItem,
-} from "@builder.io/sdk/dist/src/builder.class";
+import { InsertMenuConfig, InsertMenuItem } from "@builder.io/sdk/dist/src/builder.class";
 import { Builder } from "@builder.io/react";
 import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
 import { FormattedMessage } from "react-intl";
@@ -32,12 +29,8 @@ import { ReactSVG } from "react-svg";
 import filterImage from "deprecated/images/filter.svg";
 import { IFilters } from "@types";
 import { useVisibility } from "deprecated/_nautical/hooks";
-import {
-  DropdownSelect,
-  AddToWishlist,
-  FilterSidebar,
-} from "components/organisms";
-import { useCart } from "@nautical/react";
+import { DropdownSelect, AddToWishlist, FilterSidebar } from "components/organisms";
+import { useCart } from "nautical-api";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 import ProductGallery from "./components/ProductGallery";
@@ -126,19 +119,11 @@ const cardMenuItem: InsertMenuItem = {
   },
 };
 
-export const BuilderAddToCartQuick = (props: {
-  variantId: string;
-  productName: string;
-  color: string;
-}) => {
+export const BuilderAddToCartQuick = (props: { variantId: string; productName: string; color: string }) => {
   const alert = useAlert();
   const { addItem } = useCart();
 
-  const handleAddToCart = (
-    event: React.MouseEvent,
-    variantId: string,
-    quantity: number
-  ) => {
+  const handleAddToCart = (event: React.MouseEvent, variantId: string, quantity: number) => {
     event.stopPropagation();
     event.preventDefault();
     addItem(variantId, quantity);
@@ -210,10 +195,7 @@ export const BuilderAddToCart = (props: {
     setOpen(true);
   };
 
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -223,19 +205,10 @@ export const BuilderAddToCart = (props: {
 
   const action = (
     <React.Fragment>
-      <Button
-        color="secondary"
-        size="small"
-        onClick={async () => await removeItem(props.variantId)}
-      >
+      <Button color="secondary" size="small" onClick={async () => await removeItem(props.variantId)}>
         UNDO
       </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
@@ -255,13 +228,7 @@ export const BuilderAddToCart = (props: {
       >
         Add to Cart
       </Button>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Added to cart"
-        action={action}
-      />
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} message="Added to cart" action={action} />
     </>
   );
 };
@@ -344,15 +311,9 @@ const makeQueryMenuItem: InsertMenuItem = {
   },
 };
 
-export const BuilderAddToCartSection = ({
-  product,
-}: {
-  product: BuilderPageProductFragment;
-}) => {
+export const BuilderAddToCartSection = ({ product }: { product: BuilderPageProductFragment }) => {
   // const [open, setOpen] = React.useState(false);
-  const [selectedVariant, setSelectedVariant] = React.useState(
-    product?.defaultVariant?.id
-  );
+  const [selectedVariant, setSelectedVariant] = React.useState(product?.defaultVariant?.id);
   const {
     addItem,
     // removeItem
@@ -449,11 +410,7 @@ Builder.registerComponent(BuilderAddToCartSection, {
   docsLink: "https://mui.com/components/alert/",
 });
 
-export const BuilderProductGallery = ({
-  images,
-}: {
-  images: BuilderPageProductVariantImagesFragment["images"];
-}) => {
+export const BuilderProductGallery = ({ images }: { images: BuilderPageProductVariantImagesFragment["images"] }) => {
   // This is a BE issue where images has values which are potentially null
   // @ts-ignore
   return <ProductGallery images={images} />;
@@ -525,9 +482,7 @@ const addToCartQuickMenuItem: InsertMenuItem = {
   },
 };
 
-export const BuilderProductSort = (props: {
-  products: BuilderPageProductFragment[];
-}) => {
+export const BuilderProductSort = (props: { products: BuilderPageProductFragment[] }) => {
   const sortOptions = [
     {
       label: "Clear...",
@@ -611,15 +566,8 @@ const productSortMenuItem: InsertMenuItem = {
   },
 };
 
-export const BuilderProductFilters = ({
-  attributes,
-}: {
-  attributes: BuilderPageAttributeFragment[];
-}) => {
-  const [attributeFilters, setAttributeFilters] = useQueryParam(
-    "filters",
-    FilterQuerySet
-  );
+export const BuilderProductFilters = ({ attributes }: { attributes: BuilderPageAttributeFragment[] }) => {
+  const [attributeFilters, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
 
   const clearFilters = () => {
     setAttributeFilters({});
@@ -637,9 +585,7 @@ export const BuilderProductFilters = ({
         } else {
           setAttributeFilters({
             ...attributeFilters,
-            [`${name}`]: attributeFilters[`${name}`].filter(
-              (item) => item !== value
-            ),
+            [`${name}`]: attributeFilters[`${name}`].filter((item) => item !== value),
           });
         }
       } else {
@@ -660,9 +606,7 @@ export const BuilderProductFilters = ({
     attributes: attributeFilters,
   };
 
-  const activeFilters = filters!.attributes
-    ? Object.keys(filters!.attributes).length
-    : 0;
+  const activeFilters = filters!.attributes ? Object.keys(filters!.attributes).length : 0;
 
   // const [showFilters, setShowFilters] = usePersistedState("filtersOpen", false);
   const [showFilters, setShowFilters] = React.useState(false);
@@ -724,11 +668,7 @@ const productFiltersMenuItem: InsertMenuItem = {
   },
 };
 
-export const BuilderLoadMore = (props: {
-  hasMore: boolean;
-  buttonText: string;
-  onLoadMore: () => void;
-}) => {
+export const BuilderLoadMore = (props: { hasMore: boolean; buttonText: string; onLoadMore: () => void }) => {
   console.info("BUILDER LOAD MORE");
   console.info(props);
   const moreButton = useVisibility(

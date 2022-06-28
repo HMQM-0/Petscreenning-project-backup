@@ -6,8 +6,7 @@ import ProductVariantPicker, { IProductVariantPickerProps } from "components/org
 import { commonMessages } from "core/intl";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "components/organisms/ViewSizeGuideButton";
-import { useAuth } from "nautical-api";
-import { useCart } from "@nautical/react";
+import { useAuth, useCart } from "nautical-api";
 import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
 import { useShopContext } from "components/providers/ShopProvider";
 import { AddToWishlist } from "components/organisms/AddToWishlist";

@@ -3,7 +3,7 @@ import Media from "react-media";
 import { Box } from "@mui/material";
 import { useAlert } from "react-alert";
 
-import { useCart } from "@nautical/react";
+import { useCart } from "nautical-api";
 import AddToCartSection from "components/organisms/AddToCartSection";
 import { ProductDescription } from "components/molecules/ProductDescription";
 import { ProductGallery } from "components/organisms/ProductGallery";
@@ -20,9 +20,7 @@ export const useVariantImages = (
   selectedVariant: ProductVariantFieldsFragment | undefined
 ) => {
   const getVariantImages = (variantId: string) => {
-    const variant = product.variants?.find(
-      (variant) => variant.id === variantId
-    );
+    const variant = product.variants?.find((variant) => variant.id === variantId);
 
     return variant?.images;
   };
@@ -30,18 +28,12 @@ export const useVariantImages = (
   // We use variant images (if variant is set and if it has separate images)
   // Use regular images otherwise
   // images should not be empty. A BE issue?
-  const images =
-    (selectedVariant && getVariantImages(selectedVariant.id)) || product.images || [];
+  const images = (selectedVariant && getVariantImages(selectedVariant.id)) || product.images || [];
 
-  return images.filter(
-    (image) =>
-      !image.url
-        .substring(image.url.lastIndexOf("/") + 1)
-        .includes("sizeguide-")
-  );
+  return images.filter((image) => !image.url.substring(image.url.lastIndexOf("/") + 1).includes("sizeguide-"));
 };
 
-export const useHandleAddToCart = (product?: Pick<ProductDetailsFragment, 'name'>) => {
+export const useHandleAddToCart = (product?: Pick<ProductDetailsFragment, "name">) => {
   const alert = useAlert();
   const { addItem } = useCart();
   // Adding 3rd parameter for backwards compatibility with Builder.io helper method
@@ -50,7 +42,7 @@ export const useHandleAddToCart = (product?: Pick<ProductDetailsFragment, 'name'
 
     alert.show(
       {
-        title: `Added ${quantity} x ${name || product?.name || 'product(s)'}`,
+        title: `Added ${quantity} x ${name || product?.name || "product(s)"}`,
       },
       { type: "success" }
     );
@@ -83,12 +75,12 @@ const Page = ({ product, selectedVariant, onVariantChange }: PageProps) => {
 
   const breadcrumbs = productCategory
     ? [
-      {
-        link: generateCategoryUrl(productCategory.id, productCategory.name),
-        value: productCategory.name,
-      },
-      productBreadcrumbItem,
-    ]
+        {
+          link: generateCategoryUrl(productCategory.id, productCategory.name),
+          value: productCategory.name,
+        },
+        productBreadcrumbItem,
+      ]
     : [productBreadcrumbItem];
 
   const addToCartSection = (
@@ -113,24 +105,15 @@ const Page = ({ product, selectedVariant, onVariantChange }: PageProps) => {
               matches ? (
                 <>
                   <GalleryCarousel images={filteredImages} />
-                  <Box className={classes["product-page__product__info"]}>
-                    {addToCartSection}
-                  </Box>
+                  <Box className={classes["product-page__product__info"]}>{addToCartSection}</Box>
                 </>
               ) : (
                 <>
-                  <Box
-                    className={classes["product-page__product__gallery"]}
-                    ref={productGallery}
-                  >
+                  <Box className={classes["product-page__product__gallery"]} ref={productGallery}>
                     <ProductGallery images={filteredImages} />
                   </Box>
                   <Box className={classes["product-page__product__info"]}>
-                    <Box
-                      className={classes["product-page__product__info--fixed"]}
-                    >
-                      {addToCartSection}
-                    </Box>
+                    <Box className={classes["product-page__product__info--fixed"]}>{addToCartSection}</Box>
                   </Box>
                 </>
               )
@@ -150,11 +133,7 @@ const Page = ({ product, selectedVariant, onVariantChange }: PageProps) => {
         </Box>
       </Box>
       {/* // A BE issue. products can not be empty here */}
-      <OtherProducts
-        products={
-          product.category?.products!.edges.map(({ node }) => node) ?? []
-        }
-      />
+      <OtherProducts products={product.category?.products!.edges.map(({ node }) => node) ?? []} />
     </Box>
   );
 };

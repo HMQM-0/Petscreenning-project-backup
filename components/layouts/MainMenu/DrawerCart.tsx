@@ -5,8 +5,8 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 
-import { useCart, useCheckout } from "@nautical/react";
-import { useAuth } from "nautical-api";
+import { useCheckout } from "@nautical/react";
+import { useAuth, useCart } from "nautical-api";
 import { commonMessages } from "core/intl";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { cartUrl, checkoutLoginUrl, checkoutUrl } from "deprecated/app/routes/paths";

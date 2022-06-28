@@ -1,4 +1,4 @@
-import { PaymentGatewayFragment, ProductVariantFragment, ShippingMethodFragment } from "./fragments.graphql.generated";
+import { CheckoutFragment, ProductVariantFragment, ShippingMethodFragment } from "./fragments.graphql.generated";
 
 export interface ICheckoutAddress {
   id?: string;
@@ -86,21 +86,21 @@ export interface IMultiSellerShippingMethods {
 }
 
 export interface ICheckoutModel {
-  id?: string;
-  token?: any;
-  email?: string;
-  shippingAddress?: ICheckoutAddress | null;
-  billingAddress?: ICheckoutAddress | null;
+  id?: CheckoutFragment["id"];
+  token?: CheckoutFragment["token"];
+  email?: CheckoutFragment["email"];
+  shippingAddress?: CheckoutFragment["shippingAddress"];
+  billingAddress?: CheckoutFragment["billingAddress"];
   selectedShippingAddressId?: string;
   selectedBillingAddressId?: string;
   billingAsShipping?: boolean;
   promoCodeDiscount?: ICheckoutModelPromoCodeDiscount;
   lines?: ICheckoutModelLine[];
-  availableShippingMethods?: ShippingMethodFragment[];
-  availablePaymentGateways?: PaymentGatewayFragment[];
-  availableShippingMethodsBySeller?: IMultiSellerAvailableShippingMethods_mapping[];
-  applicableVolumeDiscounts?: ICheckoutModelPriceValue;
-  applicableVolumeDiscountsBySeller?: IMultiSellerVolumeDiscount[];
-  shippingMethod?: ICheckoutModelShippingMethod | null;
-  sellerShippingMethods?: IMultiSellerShippingMethods[];
+  availableShippingMethods?: CheckoutFragment["availableShippingMethods"];
+  availablePaymentGateways?: CheckoutFragment["availablePaymentGateways"];
+  availableShippingMethodsBySeller?: CheckoutFragment["availableShippingMethodsBySeller"];
+  applicableVolumeDiscounts?: CheckoutFragment["applicableVolumeDiscounts"];
+  applicableVolumeDiscountsBySeller?: CheckoutFragment["applicableVolumeDiscountsBySeller"];
+  shippingMethod?: CheckoutFragment["shippingMethod"];
+  sellerShippingMethods?: CheckoutFragment["sellerShippingMethods"];
 }

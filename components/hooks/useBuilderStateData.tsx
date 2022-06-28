@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import { slugify } from "@utils/core";
-import { useCart } from "@nautical/react";
 import { micrositesQuery } from "components/templates/Builder/queries.graphql";
 import { FilterQuerySet } from "components/templates/ProductsList/View";
 import {
@@ -18,7 +17,7 @@ import {
   useRemoveWishlistProductMutation,
 } from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
 import { WishlistDocument } from "components/providers/Nautical/Wishlist/queries.graphql.generated";
-import { useAuth, useWishlist } from "nautical-api";
+import { useAuth, useWishlist, useCart } from "nautical-api";
 
 interface IStorePage {
   category?: any;

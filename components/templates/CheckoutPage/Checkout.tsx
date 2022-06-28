@@ -29,11 +29,7 @@ import { useRouter } from "next/router";
 import { useCheckout } from "@nautical/react";
 import { useAuth } from "nautical-api";
 import { ICardData, IFormError } from "types";
-import {
-  ICheckoutModelLine,
-  ICheckoutModelPriceValue,
-} from "deprecated/@nautical/helpers";
-import { IItems } from "deprecated/@nautical/api/Cart/types";
+import { ICheckoutModelLine, ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import { maybe } from "@utils/misc";
 import { LoyaltyPoints } from "components/atoms/LoyaltyPoints";
 import { Plugins } from "deprecated/@nautical";
@@ -44,6 +40,7 @@ import {
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { Loader } from "components/atoms/Loader";
+import { IItems } from "components/providers/Nautical/Cart/types";
 
 import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
@@ -86,13 +83,8 @@ interface ICheckoutProps {
   close(): void;
 }
 
-function usePersistedState(
-  key: string,
-  defaultValue: unknown
-): [string, React.Dispatch<React.SetStateAction<string>>] {
-  const [state, setState] = React.useState(
-    () => localStorage.getItem(key) || String(defaultValue)
-  );
+function usePersistedState(key: string, defaultValue: unknown): [string, React.Dispatch<React.SetStateAction<string>>] {
+  const [state, setState] = React.useState(() => localStorage.getItem(key) || String(defaultValue));
   React.useEffect(() => {
     localStorage.setItem(key, state);
   }, [key, state]);
@@ -124,16 +116,7 @@ type FormFields = {
   billingCountry?: string;
 };
 
-const MuiCheckout = ({
-  items,
-  subtotal,
-  promoCode,
-  shipping,
-  total,
-  logo,
-  volumeDiscount,
-  close,
-}: ICheckoutProps) => {
+const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volumeDiscount, close }: ICheckoutProps) => {
   const [popover, setPopover] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState("customer");
@@ -142,18 +125,15 @@ const MuiCheckout = ({
   const [paymentFormError, setPaymentFormError] = React.useState(false);
   const [shippingFormError, setShippingFormError] = React.useState(false);
   const [customerFormError, setCustomerFormError] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(
-    null
-  );
-  const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] =
-    React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
+  const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
 
   const { countries, activePlugins } = useShopContext();
 
-  const [
-    loyaltyPointsToBeEarnedOnOrderComplete,
-    setLoyaltyPointsToBeEarnedOnOrderComplete,
-  ] = usePersistedState("loyaltyPoints", 0);
+  const [loyaltyPointsToBeEarnedOnOrderComplete, setLoyaltyPointsToBeEarnedOnOrderComplete] = usePersistedState(
+    "loyaltyPoints",
+    0
+  );
 
   const {
     setBillingAddress,
@@ -222,18 +202,15 @@ const MuiCheckout = ({
   );
   for (const seller of sellerSet) {
     if (seller) {
-      mappingDict[seller] =
-        checkout?.lines?.filter((line) => line.seller === seller) ?? [];
+      mappingDict[seller] = checkout?.lines?.filter((line) => line.seller === seller) ?? [];
     }
   }
   availableShippingMethodsBySeller?.forEach(
     (data) =>
       (initialSellerValues[data.seller] =
-        parsedInitialSellerMethods.find(
-          (sellerAndMethod: { seller: number }) => {
-            return +sellerAndMethod.seller === data.seller;
-          }
-        )?.shippingMethod?.id || [])
+        parsedInitialSellerMethods.find((sellerAndMethod: { seller: number }) => {
+          return +sellerAndMethod.seller === data.seller;
+        })?.shippingMethod?.id || [])
   );
   const customerValidationSchema = Yup.object().shape({
     firstName: Yup.string().required("Required"),
@@ -253,9 +230,7 @@ const MuiCheckout = ({
 
   const checkIfLoyaltyAndReferralsActive = React.useCallback(() => {
     const yotpoLoyaltyAndReferralsPluginActive = Boolean(
-      activePlugins?.find(
-        (plugin) => plugin?.identifier === Plugins.YOTPO_LOYALTY
-      )
+      activePlugins?.find((plugin) => plugin?.identifier === Plugins.YOTPO_LOYALTY)
     );
     setLoyaltyAndReferralsActive(yotpoLoyaltyAndReferralsPluginActive);
     return yotpoLoyaltyAndReferralsPluginActive;
@@ -293,9 +268,7 @@ const MuiCheckout = ({
           const orderNumber = response.data?.order?.number;
 
           if (token && orderNumber) {
-            router.push(
-              `/order-finalized?token=${token}&orderNumber=${orderNumber}`
-            );
+            router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
           }
         } else {
           errors = response.dataError?.error;
@@ -322,27 +295,16 @@ const MuiCheckout = ({
     if (payment_intent && payment_intent_client_secret && checkout) {
       handleCreatePayment("nautical.payments.stripe", payment_intent);
     }
-  }, [
-    checkout,
-    handleCreatePayment,
-    payment_intent,
-    payment_intent_client_secret,
-  ]);
+  }, [checkout, handleCreatePayment, payment_intent, payment_intent_client_secret]);
 
   React.useEffect(() => {
     checkIfLoyaltyAndReferralsActive();
   }, [checkIfLoyaltyAndReferralsActive]);
 
-  const handleChange = async (
-    event: any,
-    newValue: string,
-    values: FormFields | null = null
-  ) => {
+  const handleChange = async (event: any, newValue: string, values: FormFields | null = null) => {
     if (value === "customer") {
       setLoading(true);
-      const code =
-        countries.find((country) => country.code === values?.country)?.code ??
-        "";
+      const code = countries.find((country) => country.code === values?.country)?.code ?? "";
       const shippingSubmission = await setShippingAddress(
         {
           firstName: values?.firstName,
@@ -375,8 +337,7 @@ const MuiCheckout = ({
       if (newValue === "payment") {
         if (
           // @ts-ignore
-          JSON.parse(checkout.sellerShippingMethods ?? "{}").length ===
-          availableShippingMethodsBySeller?.length
+          JSON.parse(checkout.sellerShippingMethods ?? "{}").length === availableShippingMethodsBySeller?.length
         ) {
           setValue(newValue);
         }
@@ -403,9 +364,7 @@ const MuiCheckout = ({
               phone: values?.phone,
               country: {
                 code: values?.country ?? "",
-                country:
-                  countries?.find((country) => country.code === values?.country)
-                    ?.code ?? "",
+                country: countries?.find((country) => country.code === values?.country)?.code ?? "",
               },
             },
             values?.email ?? ""
@@ -433,10 +392,7 @@ const MuiCheckout = ({
               phone: values?.billingPhone,
               country: {
                 code: values?.billingCountry ?? "",
-                country:
-                  countries.find(
-                    (country) => country.code === values?.billingCountry
-                  )?.country ?? "",
+                country: countries.find((country) => country.code === values?.billingCountry)?.country ?? "",
               },
             },
             values?.email
@@ -455,15 +411,9 @@ const MuiCheckout = ({
     }
   };
 
-  const handleSetSellerShippingMethods = async (
-    seller: number,
-    shippingMethodSelection: string
-  ) => {
+  const handleSetSellerShippingMethods = async (seller: number, shippingMethodSelection: string) => {
     setLoading(true);
-    const { dataError } = await setSellerShippingMethods(
-      seller,
-      shippingMethodSelection
-    );
+    const { dataError } = await setSellerShippingMethods(seller, shippingMethodSelection);
 
     const errors = dataError?.error;
     if (errors) {
@@ -482,35 +432,19 @@ const MuiCheckout = ({
     setErrorMessage(messages.join(" \n"));
   };
 
-  const authNetResponseHandler = (
-    response: any,
-    gateway: string,
-    creditCardData: ICardData
-  ) => {
+  const authNetResponseHandler = (response: any, gateway: string, creditCardData: ICardData) => {
     if (response.messages.resultCode === "Error") {
       let i = 0;
       while (i < response.messages.message.length) {
-        console.error(
-          response.messages.message[i].code +
-            ": " +
-            response.messages.message[i].text
-        );
+        console.error(response.messages.message[i].code + ": " + response.messages.message[i].text);
         i = i + 1;
       }
     } else {
-      handleCreatePayment(
-        gateway,
-        response.opaqueData.dataValue,
-        creditCardData
-      );
+      handleCreatePayment(gateway, response.opaqueData.dataValue, creditCardData);
     }
   };
 
-  const handleProcessPayment = (
-    gateway: string,
-    token?: string,
-    creditCardData?: ICardData
-  ) => {
+  const handleProcessPayment = (gateway: string, token?: string, creditCardData?: ICardData) => {
     if (gateway === "nautical.payments.authorize_net") {
       const publicClientKey = creditCardData?.config?.find(
         (comnfiguration) => comnfiguration.field === "client_key"
@@ -523,8 +457,7 @@ const MuiCheckout = ({
         apiLoginID,
       };
       const cardData = {
-        cardNumber:
-          creditCardData?.fullNumber && creditCardData.fullNumber.toString(),
+        cardNumber: creditCardData?.fullNumber && creditCardData.fullNumber.toString(),
         month: creditCardData?.expMonth && creditCardData.expMonth.toString(),
         year: creditCardData?.expYear && creditCardData.expYear.toString(),
         cardCode: creditCardData?.cvv && creditCardData.cvv.toString(),
@@ -545,9 +478,7 @@ const MuiCheckout = ({
       // Accept is a Javascript Library we imported via a script tag injected into the Head HTML Element of our
       // App via the Helmet React Component.
       // The Helmet component with this script can be found in the AuthorizeNetPaymentGateway(.tsx) component.
-      Accept.dispatchData(secureData, (res) =>
-        authNetResponseHandler(res, gateway, sterilizedCreditCardData)
-      );
+      Accept.dispatchData(secureData, (res) => authNetResponseHandler(res, gateway, sterilizedCreditCardData));
     } else {
       handleCreatePayment(gateway, token, creditCardData);
     }
@@ -598,19 +529,14 @@ const MuiCheckout = ({
       netOrderPrice={total?.net.amount}
       totalPrice={total}
       user={user}
-      updateLoyaltyPointsToBeEarnedOnOrderComplete={
-        updateLoyaltyPointsToBeEarnedOnOrderComplete
-      }
+      updateLoyaltyPointsToBeEarnedOnOrderComplete={updateLoyaltyPointsToBeEarnedOnOrderComplete}
     />
   );
 
   return (
     <>
       <Box className={classes.checkoutBanner}>
-        <Link
-          style={{ alignItems: "center", display: "flex" }}
-          onClick={handlePopover}
-        >
+        <Link style={{ alignItems: "center", display: "flex" }} onClick={handlePopover}>
           {logo}
         </Link>
         <Popover
@@ -629,16 +555,8 @@ const MuiCheckout = ({
         >
           <Card>
             <CardContent>Are you sure you want to exit checkout?</CardContent>
-            <CardActions
-              className={classes.popoverActions}
-              style={{ justifyContent: "space-around" }}
-            >
-              <Button
-                className={classes.buttonPopover}
-                size="small"
-                variant="outlined"
-                onClick={() => handleDismiss()}
-              >
+            <CardActions className={classes.popoverActions} style={{ justifyContent: "space-around" }}>
+              <Button className={classes.buttonPopover} size="small" variant="outlined" onClick={() => handleDismiss()}>
                 Stay in Checkout
               </Button>
               <Button
@@ -658,14 +576,8 @@ const MuiCheckout = ({
         <Box className={classes.checkoutWrapper}>
           <Box className={classes.backdropWhite}>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Breadcrumbs
-                className={classes.breadcrumb}
-                style={{ display: "none" }}
-              >
-                <Box
-                  color={value === "address" ? "secondary" : "inherit"}
-                  onClick={() => handleBreadcrumb("address")}
-                >
+              <Breadcrumbs className={classes.breadcrumb} style={{ display: "none" }}>
+                <Box color={value === "address" ? "secondary" : "inherit"} onClick={() => handleBreadcrumb("address")}>
                   Address
                 </Box>
                 <Box
@@ -674,10 +586,7 @@ const MuiCheckout = ({
                 >
                   Shipping
                 </Box>
-                <Box
-                  color={value === "payment" ? "secondary" : "inherit"}
-                  onClick={() => handleBreadcrumb("payment")}
-                >
+                <Box color={value === "payment" ? "secondary" : "inherit"} onClick={() => handleBreadcrumb("payment")}>
                   Payment
                 </Box>
               </Breadcrumbs>
@@ -708,10 +617,8 @@ const MuiCheckout = ({
                 billingFirstName: checkout?.billingAddress?.firstName ?? "",
                 billingLastName: checkout?.billingAddress?.lastName ?? "",
                 billingCompanyName: checkout?.billingAddress?.companyName ?? "",
-                billingStreetAddress1:
-                  checkout?.billingAddress?.streetAddress1 ?? "",
-                billingStreetAddress2:
-                  checkout?.billingAddress?.streetAddress2 ?? "",
+                billingStreetAddress1: checkout?.billingAddress?.streetAddress1 ?? "",
+                billingStreetAddress2: checkout?.billingAddress?.streetAddress2 ?? "",
                 billingCity: checkout?.billingAddress?.city ?? "",
                 billingPostalCode: checkout?.billingAddress?.postalCode ?? "",
                 billingCountryArea: checkout?.billingAddress?.countryArea ?? "",
@@ -720,26 +627,14 @@ const MuiCheckout = ({
               }}
               onSubmit={handleSubmit}
             >
-              {({
-                errors,
-                touched,
-                validateForm,
-                isSubmitting,
-                values,
-                isValid,
-                setSubmitting,
-              }) => {
+              {({ errors, touched, validateForm, isSubmitting, values, isValid, setSubmitting }) => {
                 const formValidation = (event: any) => {
                   validateForm()
                     .then(() => {
-                      isValid
-                        ? handleChange(event, "shipping", values)
-                        : console.error("Form validation failed.");
+                      isValid ? handleChange(event, "shipping", values) : console.error("Form validation failed.");
                     })
                     .finally(() => {
-                      isValid
-                        ? setCustomerFormError(false)
-                        : setCustomerFormError(true);
+                      isValid ? setCustomerFormError(false) : setCustomerFormError(true);
                     });
                 };
                 return (
@@ -883,9 +778,7 @@ const MuiCheckout = ({
                           className={classes.gridspan}
                         >
                           <Alert severity="error">
-                            {errorMessage
-                              ? errorMessage
-                              : "Please ensure all required fields are entered"}
+                            {errorMessage ? errorMessage : "Please ensure all required fields are entered"}
                           </Alert>
                         </Box>
                         <Box></Box>
@@ -896,9 +789,7 @@ const MuiCheckout = ({
                           variant="contained"
                           onClick={(e) => formValidation(e)}
                         >
-                          <LockIcon
-                            style={{ height: 16, width: 16, marginRight: 12 }}
-                          />{" "}
+                          <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} />{" "}
                           {loading ? <CircularProgress /> : "Continue"}
                         </Button>
                       </Box>
@@ -913,9 +804,7 @@ const MuiCheckout = ({
                         <SellerMethod
                           key={sellerMethod.seller}
                           sellerMethod={sellerMethod}
-                          handleSetSellerShippingMethods={
-                            handleSetSellerShippingMethods
-                          }
+                          handleSetSellerShippingMethods={handleSetSellerShippingMethods}
                           mappingDict={mappingDict}
                         />
                       ))}
@@ -943,10 +832,7 @@ const MuiCheckout = ({
                           variant="contained"
                           onClick={(e) => handleChange(e, "payment", values)}
                         >
-                          <LockIcon
-                            style={{ height: 16, width: 16, marginRight: 12 }}
-                          />{" "}
-                          Continue
+                          <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} /> Continue
                         </Button>
                       </Box>
                     </TabPanel>
@@ -979,9 +865,7 @@ const MuiCheckout = ({
                                 config={config}
                                 formRef={checkoutGatewayFormRef}
                                 formId={checkoutGatewayFormId}
-                                processPayment={(token, cardData) =>
-                                  handleProcessPayment(id, token, cardData)
-                                }
+                                processPayment={(token, cardData) => handleProcessPayment(id, token, cardData)}
                                 errors={[]}
                                 onError={(errors) => handleErrors(errors)}
                               />
@@ -990,11 +874,7 @@ const MuiCheckout = ({
                             return null;
                         }
                       })}
-                      <Box
-                        mb={3}
-                        style={{ display: paymentFormError ? "block" : "none" }}
-                        className={classes.gridspan}
-                      >
+                      <Box mb={3} style={{ display: paymentFormError ? "block" : "none" }} className={classes.gridspan}>
                         <Alert severity="error">{errorMessage}</Alert>
                       </Box>
                       <Box mb={2}>
@@ -1006,11 +886,7 @@ const MuiCheckout = ({
                         control={
                           <Switch
                             checked={billingAsShipping}
-                            onChange={async () =>
-                              await setBillingAsShippingAddress(
-                                !billingAsShipping
-                              )
-                            }
+                            onChange={async () => await setBillingAsShippingAddress(!billingAsShipping)}
                           />
                         }
                         label="Same as shipping address"
@@ -1043,10 +919,7 @@ const MuiCheckout = ({
                             }}
                           />
                           <Field
-                            className={clsx(
-                              classes.textfield,
-                              classes.gridspan
-                            )}
+                            className={clsx(classes.textfield, classes.gridspan)}
                             autoComplete="billing address-line1"
                             component={TextField}
                             required
@@ -1056,10 +929,7 @@ const MuiCheckout = ({
                             InputLabelProps={{ shrink: true }}
                           />
                           <Field
-                            className={clsx(
-                              classes.textfield,
-                              classes.gridspan
-                            )}
+                            className={clsx(classes.textfield, classes.gridspan)}
                             autoComplete="billing address-line2"
                             component={TextField}
                             name="billingStreetAddress2"
@@ -1136,9 +1006,7 @@ const MuiCheckout = ({
                             className={classes.gridspan}
                           >
                             <Alert severity="error">
-                              {errorMessage
-                                ? errorMessage
-                                : "Please ensure all required fields are entered"}
+                              {errorMessage ? errorMessage : "Please ensure all required fields are entered"}
                             </Alert>
                           </Box>
                         </Box>
@@ -1160,14 +1028,8 @@ const MuiCheckout = ({
                           variant="contained"
                           disabled={isSubmitting || !availablePaymentGateways}
                         >
-                          <LockIcon
-                            style={{ height: 16, width: 16, marginRight: 12 }}
-                          />{" "}
-                          {isSubmitting ? (
-                            <CircularProgress />
-                          ) : (
-                            "Confirm Payment"
-                          )}
+                          <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} />{" "}
+                          {isSubmitting ? <CircularProgress /> : "Confirm Payment"}
                         </Button>
                       </Box>
                     </TabPanel>
