@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 import { IItems, ITotalPrice, ISubtotalPrice, IShippingPrice, IDiscount } from "./types";
 import { useAddItem } from "./useAddItem";
+import { useRemoveItem } from "./useRemoveItem";
 
 export type ICartContext = {
   loaded: boolean;
@@ -18,7 +19,7 @@ export type ICartContext = {
 
   addItem: ReturnType<typeof useAddItem>;
 
-  removeItem: () => void;
+  removeItem: ReturnType<typeof useRemoveItem>;
 };
 
 export const INITIAL_STATE: ICartContext = {
@@ -27,8 +28,8 @@ export const INITIAL_STATE: ICartContext = {
   totalPrice: null,
   subtotalPrice: null,
   shippingPrice: null,
-  addItem: async (variantId: string, quantity: number) => {},
-  removeItem: () => {},
+  addItem: async () => {},
+  removeItem: async () => {},
 };
 
 export const CartContext = createContext<ICartContext>(INITIAL_STATE);

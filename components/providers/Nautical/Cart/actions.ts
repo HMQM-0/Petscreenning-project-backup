@@ -2,12 +2,12 @@ import { ICartContext } from "./context";
 
 export const CartActionTypes = {
   INITIALIZE_CART: "INITIALIZE_CART",
-  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEMS: "UPDATE_ITEMS",
 } as const;
 
 export const CartActionCreators = {
-  addItem: (items: ICartContext["items"]) => ({
-    type: CartActionTypes.ADD_ITEM,
+  updateItems: (items: ICartContext["items"]) => ({
+    type: CartActionTypes.UPDATE_ITEMS,
     payload: {
       items,
     },

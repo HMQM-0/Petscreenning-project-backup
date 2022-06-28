@@ -5,7 +5,7 @@ import { ICartContext } from "./context";
 
 export const reducer: Reducer<ICartContext, CartActions> = (draft, action) => {
   switch (action.type) {
-    case CartActionTypes.ADD_ITEM:
+    case CartActionTypes.UPDATE_ITEMS:
       draft.items = action.payload.items;
       break;
     case CartActionTypes.INITIALIZE_CART:
@@ -13,6 +13,6 @@ export const reducer: Reducer<ICartContext, CartActions> = (draft, action) => {
       draft.loaded = true;
       break;
     default:
-      throw new Error(`Auth Reducer had action type with no case ${action}`);
+      throw new Error(`Cart Reducer had action type with no case ${action}`);
   }
 };

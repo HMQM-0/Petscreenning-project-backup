@@ -2,44 +2,35 @@ import { useCallback } from "react";
 
 import { getCheckout, setCheckout } from "utils";
 
-import { useGetRefreshedCheckoutLines } from "./useGetRefreshedCheckoutLines";
 import { CartActionCreators, CartActions } from "./actions";
+import { useGetRefreshedCheckoutLines } from "./useGetRefreshedCheckoutLines";
 import { saveMutationResultToLocalStorage } from "./saveMutationResultToLocalStorage";
 
-import { ICheckoutModel } from "../Checkout/types";
 import { useUpdateCheckoutLineMutation } from "../Checkout/mutations.graphql.generated";
-import { constructCheckoutModel } from "../utils/constructCheckoutModel";
 
-type useAddItemProps = {
+type useRemoveItemProps = {
   dispatch: React.Dispatch<CartActions>;
   getRefreshedCheckoutLines: ReturnType<typeof useGetRefreshedCheckoutLines>;
 };
 
-const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) => {
+const useRemoveItem = ({ dispatch, getRefreshedCheckoutLines }: useRemoveItemProps) => {
   const [updateCheckoutLine] = useUpdateCheckoutLineMutation();
 
   return useCallback(
-    async (variantId: string, quantity: number) => {
+    async (variantId: string) => {
+      console.log("variantId", variantId);
       const checkout = getCheckout();
+      console.log("checkout", checkout);
 
-      // 1. save in local storage
+      // 1. update local storage
       const lines = checkout?.lines || [];
-      let variantInCheckout = lines.find((variant) => variant.variant.id === variantId);
+      const variantInCheckout = lines.find((variant) => variant.variant.id === variantId);
       const alteredLines = lines.filter((variant) => variant.variant.id !== variantId);
-      const newVariantQuantity = variantInCheckout ? variantInCheckout.quantity + quantity : quantity;
       if (variantInCheckout) {
-        variantInCheckout.quantity = newVariantQuantity;
-        alteredLines.push(variantInCheckout);
-      } else {
-        variantInCheckout = {
-          quantity,
-          variant: {
-            id: variantId,
-          },
-        };
+        variantInCheckout.quantity = 0;
         alteredLines.push(variantInCheckout);
       }
-      const alteredCheckout: ICheckoutModel = checkout
+      const alteredCheckout = checkout
         ? {
             ...checkout,
             lines: alteredLines,
@@ -47,13 +38,14 @@ const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) =>
         : {
             lines: alteredLines,
           };
+
       setCheckout(alteredCheckout);
 
-      if (alteredCheckout?.lines) {
-        const { data, error } = await getRefreshedCheckoutLines(alteredCheckout.lines ?? null);
+      // 2. save online if possible (if checkout id available)
+      if (alteredCheckout.lines) {
+        const { data, error } = await getRefreshedCheckoutLines(alteredCheckout.lines);
 
         if (error) {
-          // TODO: Determine what this fireError behaviour accomplishes
           // this.fireError(error, ErrorCartTypes.SET_CART_ITEM);
         } else {
           setCheckout({
@@ -63,6 +55,7 @@ const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) =>
         }
       }
 
+      // TODO: Also ACTUALLY remove item if not logged in
       // 2. save online if possible (if checkout id available)
       if (alteredCheckout?.id) {
         const { lines, id: checkoutId } = alteredCheckout;
@@ -80,6 +73,8 @@ const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) =>
                 lines: alteredLines,
               },
             });
+
+            console.log("data", data);
 
             // TODO: This will likely need to be moved to checkout provider
             if (errors?.length) {
@@ -116,4 +111,4 @@ const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) =>
   );
 };
 
-export { useAddItem };
+export { useRemoveItem };
