@@ -4,6 +4,7 @@ import { useImmerReducer } from "use-immer";
 import { CartContext, ICartContext, INITIAL_STATE } from "./context";
 import { reducer } from "./reducer";
 import { useAddItem } from "./useAddItem";
+import { useCalculateSummaryPrices } from "./useCalculateSummaryPrices";
 import { useGetRefreshedCheckoutLines } from "./useGetRefreshedCheckoutLines";
 import { useInitializeCart } from "./useInitializeCart";
 
@@ -18,9 +19,14 @@ const CartProvider = ({ children }: CartProps) => {
   useInitializeCart({ dispatch, getRefreshedCheckoutLines });
 
   const addItem = useAddItem({ getRefreshedCheckoutLines, dispatch });
+  const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items: cart.items });
 
   const value: ICartContext = {
     ...cart,
+    totalPrice,
+    subtotalPrice,
+    shippingPrice,
+    discount,
     addItem,
   };
 
