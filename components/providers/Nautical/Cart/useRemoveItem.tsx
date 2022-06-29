@@ -10,10 +10,10 @@ import { useUpdateCheckoutLineMutation } from "../Checkout/mutations.graphql.gen
 
 type useRemoveItemProps = {
   dispatch: React.Dispatch<CartActions>;
-  getRefreshedCheckoutLines: ReturnType<typeof useGetRefreshedCheckoutLines>;
 };
 
-const useRemoveItem = ({ dispatch, getRefreshedCheckoutLines }: useRemoveItemProps) => {
+const useRemoveItem = ({ dispatch }: useRemoveItemProps) => {
+  const getRefreshedCheckoutLines = useGetRefreshedCheckoutLines();
   const [updateCheckoutLine] = useUpdateCheckoutLineMutation();
 
   return useCallback(

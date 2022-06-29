@@ -15,12 +15,11 @@ type CartProps = {
 
 const CartProvider = ({ children }: CartProps) => {
   const [cart, dispatch] = useImmerReducer(reducer, INITIAL_STATE);
-  const getRefreshedCheckoutLines = useGetRefreshedCheckoutLines();
 
-  useInitializeCart({ dispatch, getRefreshedCheckoutLines });
+  useInitializeCart({ dispatch });
 
-  const addItem = useAddItem({ getRefreshedCheckoutLines, dispatch });
-  const removeItem = useRemoveItem({ getRefreshedCheckoutLines, dispatch });
+  const addItem = useAddItem({ dispatch });
+  const removeItem = useRemoveItem({ dispatch });
   const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items: cart.items });
 
   const value: ICartContext = {

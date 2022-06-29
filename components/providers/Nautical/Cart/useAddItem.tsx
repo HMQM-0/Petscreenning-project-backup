@@ -12,10 +12,10 @@ import { constructCheckoutModel } from "../utils/constructCheckoutModel";
 
 type useAddItemProps = {
   dispatch: React.Dispatch<CartActions>;
-  getRefreshedCheckoutLines: ReturnType<typeof useGetRefreshedCheckoutLines>;
 };
 
-const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) => {
+const useAddItem = ({ dispatch }: useAddItemProps) => {
+  const getRefreshedCheckoutLines = useGetRefreshedCheckoutLines();
   const [updateCheckoutLine] = useUpdateCheckoutLineMutation();
 
   return useCallback(

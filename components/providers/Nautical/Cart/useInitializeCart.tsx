@@ -7,10 +7,10 @@ import { useGetRefreshedCheckoutLines } from "./useGetRefreshedCheckoutLines";
 
 type useInitializeCartProps = {
   dispatch: React.Dispatch<CartActions>;
-  getRefreshedCheckoutLines: ReturnType<typeof useGetRefreshedCheckoutLines>;
 };
 
-const useInitializeCart = ({ getRefreshedCheckoutLines, dispatch }: useInitializeCartProps) => {
+const useInitializeCart = ({ dispatch }: useInitializeCartProps) => {
+  const getRefreshedCheckoutLines = useGetRefreshedCheckoutLines();
   useEffect(() => {
     const init = async () => {
       const checkout = getCheckout();
