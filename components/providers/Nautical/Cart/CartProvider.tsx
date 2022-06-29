@@ -7,6 +7,8 @@ import { useAddItem } from "./useAddItem";
 import { useCalculateSummaryPrices } from "./useCalculateSummaryPrices";
 import { useInitializeCart } from "./useInitializeCart";
 import { useRemoveItem } from "./useRemoveItem";
+import { useSubtractItem } from "./useSubtractItem";
+import { useUpdateItem } from "./useUpdateItem";
 
 type CartProps = {
   children: React.ReactNode;
@@ -19,7 +21,8 @@ const CartProvider = ({ children }: CartProps) => {
 
   const addItem = useAddItem({ dispatch });
   const removeItem = useRemoveItem({ dispatch });
-  const subtractItem = useRemoveItem({ dispatch });
+  const subtractItem = useSubtractItem({ dispatch });
+  const updateItem = useUpdateItem({ dispatch });
   const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items: cart.items });
 
   const value: ICartContext = {
@@ -31,6 +34,7 @@ const CartProvider = ({ children }: CartProps) => {
     addItem,
     removeItem,
     subtractItem,
+    updateItem,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
