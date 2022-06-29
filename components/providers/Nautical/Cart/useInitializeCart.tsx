@@ -3,35 +3,27 @@ import React, { useEffect } from "react";
 import { getCheckout } from "utils";
 
 import { CartActionCreators, CartActions } from "./actions";
-import { useGetRefreshedCheckoutLines } from "./useGetRefreshedCheckoutLines";
+import { useRefreshCheckoutLines } from "./helpers";
 
 type useInitializeCartProps = {
   dispatch: React.Dispatch<CartActions>;
 };
 
 const useInitializeCart = ({ dispatch }: useInitializeCartProps) => {
-  const getRefreshedCheckoutLines = useGetRefreshedCheckoutLines();
+  const refreshCheckoutLines = useRefreshCheckoutLines();
+
   useEffect(() => {
     const init = async () => {
       const checkout = getCheckout();
 
-      let lines = checkout?.lines || [];
+      if (checkout) {
+        const lines = await refreshCheckoutLines(checkout);
 
-      if (checkout?.lines) {
-        const { data, error } = await getRefreshedCheckoutLines(lines ?? null);
-
-        if (error) {
-          // TODO: Determine what this fireError behaviour accomplishes
-          // this.fireError(error, ErrorCartTypes.SET_CART_ITEM);
-        }
-
-        lines = data ?? [];
+        dispatch(CartActionCreators.initializeCart(lines));
       }
-
-      dispatch(CartActionCreators.initializeCart(lines));
     };
     init();
-  }, [dispatch, getRefreshedCheckoutLines]);
+  }, [dispatch, refreshCheckoutLines]);
 };
 
 export { useInitializeCart };

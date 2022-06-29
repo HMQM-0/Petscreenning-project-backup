@@ -2,21 +2,18 @@ import { useCallback } from "react";
 
 import { getCheckout, setCheckout } from "utils";
 
-import { useGetRefreshedCheckoutLines } from "./useGetRefreshedCheckoutLines";
 import { CartActionCreators, CartActions } from "./actions";
-import { saveMutationResultToLocalStorage } from "./saveMutationResultToLocalStorage";
+import { useUpdateCheckout, useRefreshCheckoutLines } from "./helpers";
 
 import { ICheckoutModel } from "../Checkout/types";
-import { useUpdateCheckoutLineMutation } from "../Checkout/mutations.graphql.generated";
-import { constructCheckoutModel } from "../utils/constructCheckoutModel";
 
 type useAddItemProps = {
   dispatch: React.Dispatch<CartActions>;
 };
 
 const useAddItem = ({ dispatch }: useAddItemProps) => {
-  const getRefreshedCheckoutLines = useGetRefreshedCheckoutLines();
-  const [updateCheckoutLine] = useUpdateCheckoutLineMutation();
+  const updateCheckout = useUpdateCheckout();
+  const refreshCheckoutLines = useRefreshCheckoutLines();
 
   return useCallback(
     async (variantId: string, quantity: number) => {
@@ -49,70 +46,15 @@ const useAddItem = ({ dispatch }: useAddItemProps) => {
           };
       setCheckout(alteredCheckout);
 
-      if (alteredCheckout?.lines) {
-        const { data, error } = await getRefreshedCheckoutLines(alteredCheckout.lines ?? null);
-        if (error) {
-          // TODO: Determine what this fireError behaviour accomplishes
-          // this.fireError(error, ErrorCartTypes.SET_CART_ITEM);
-        } else {
-          lines = data ?? [];
-          setCheckout({
-            ...alteredCheckout,
-            lines: data,
-          });
-        }
-      }
+      lines = await refreshCheckoutLines(alteredCheckout);
 
       // 2. save online if possible (if checkout id available)
-      if (alteredCheckout?.id) {
-        const { lines, id: checkoutId } = alteredCheckout;
-
-        if (checkoutId && lines) {
-          const alteredLines = lines.map((line) => ({
-            quantity: line.quantity,
-            variantId: line.variant.id,
-          }));
-
-          try {
-            const { data, errors } = await updateCheckoutLine({
-              variables: {
-                checkoutId,
-                lines: alteredLines,
-              },
-            });
-
-            // TODO: This will likely need to be moved to checkout provider
-            if (errors?.length) {
-              // return {
-              //   error: errors,
-              // };
-            }
-            if (data?.checkoutLinesUpdate?.errors.length) {
-              // return {
-              //   error: data?.checkoutLinesUpdate?.errors,
-              // };
-            }
-            if (data?.checkoutLinesUpdate?.checkout) {
-              // return {
-              //   data: constructCheckoutModel(data.checkoutLinesUpdate.checkout),
-              // };
-            }
-
-            if (data?.checkoutLinesUpdate) {
-              saveMutationResultToLocalStorage(data);
-            }
-          } catch (error) {
-            // return {
-            //   error,
-            // };
-          }
-        }
-      }
+      updateCheckout(alteredCheckout);
 
       // 3. set new items in state
       dispatch(CartActionCreators.updateItems(lines));
     },
-    [dispatch, getRefreshedCheckoutLines, updateCheckoutLine]
+    [dispatch, refreshCheckoutLines, updateCheckout]
   );
 };
 

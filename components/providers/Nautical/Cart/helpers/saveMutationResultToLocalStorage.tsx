@@ -1,6 +1,6 @@
 import { getCheckout, setCheckout } from "utils";
 
-import { UpdateCheckoutLineMutation } from "../Checkout/mutations.graphql.generated";
+import { UpdateCheckoutLineMutation } from "../../Checkout/mutations.graphql.generated";
 
 export const saveMutationResultToLocalStorage = (data: UpdateCheckoutLineMutation) => {
   const checkoutMutationResult = data.checkoutLinesUpdate?.checkout;

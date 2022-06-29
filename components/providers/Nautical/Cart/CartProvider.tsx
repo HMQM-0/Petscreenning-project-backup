@@ -5,7 +5,6 @@ import { CartContext, ICartContext, INITIAL_STATE } from "./context";
 import { reducer } from "./reducer";
 import { useAddItem } from "./useAddItem";
 import { useCalculateSummaryPrices } from "./useCalculateSummaryPrices";
-import { useGetRefreshedCheckoutLines } from "./useGetRefreshedCheckoutLines";
 import { useInitializeCart } from "./useInitializeCart";
 import { useRemoveItem } from "./useRemoveItem";
 

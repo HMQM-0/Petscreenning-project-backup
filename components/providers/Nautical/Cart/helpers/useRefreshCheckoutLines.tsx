@@ -1,13 +1,18 @@
 import { useApolloClient } from "@apollo/client";
 import { useCallback } from "react";
 
-import { CheckoutProductVariantsDocument, CheckoutProductVariantsQuery } from "../Checkout/queries.graphql.generated";
-import { ICheckoutModelLine } from "../Checkout/types";
+import { setCheckout } from "utils";
 
-const useGetRefreshedCheckoutLines = () => {
+import {
+  CheckoutProductVariantsDocument,
+  CheckoutProductVariantsQuery,
+} from "../../Checkout/queries.graphql.generated";
+import { ICheckoutModel, ICheckoutModelLine } from "../../Checkout/types";
+
+const useRefreshCheckoutLines = () => {
   const client = useApolloClient();
 
-  return useCallback(
+  const getRefreshedCheckoutLines = useCallback(
     async (checkoutlines: ICheckoutModelLine[] | null) => {
       const idsOfMissingVariants = checkoutlines
         ?.filter((line) => !line.variant || !line.totalPrice)
@@ -111,6 +116,26 @@ const useGetRefreshedCheckoutLines = () => {
     },
     [client]
   );
+
+  return useCallback(
+    async (checkout: ICheckoutModel) => {
+      if (checkout?.lines) {
+        const { data, error } = await getRefreshedCheckoutLines(checkout.lines ?? null);
+        if (error) {
+          // TODO: Determine what this fireError behaviour accomplishes
+          // this.fireError(error, ErrorCartTypes.SET_CART_ITEM);
+        } else {
+          setCheckout({
+            ...checkout,
+            lines: data,
+          });
+          return data ?? [];
+        }
+      }
+      return [];
+    },
+    [getRefreshedCheckoutLines]
+  );
 };
 
-export { useGetRefreshedCheckoutLines };
+export { useRefreshCheckoutLines };
