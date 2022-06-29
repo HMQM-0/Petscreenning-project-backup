@@ -6,6 +6,7 @@ import { reducer } from "./reducer";
 import { useAddItem } from "./useAddItem";
 import { useCalculateSummaryPrices } from "./useCalculateSummaryPrices";
 import { useInitializeCart } from "./useInitializeCart";
+import { useItemInCart } from "./useItemInCart";
 import { useRemoveItem } from "./useRemoveItem";
 import { useSubtractItem } from "./useSubtractItem";
 import { useUpdateItem } from "./useUpdateItem";
@@ -23,6 +24,7 @@ const CartProvider = ({ children }: CartProps) => {
   const removeItem = useRemoveItem({ dispatch });
   const subtractItem = useSubtractItem({ dispatch });
   const updateItem = useUpdateItem({ dispatch });
+  const itemInCart = useItemInCart();
   const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items: cart.items });
 
   const value: ICartContext = {
@@ -35,6 +37,7 @@ const CartProvider = ({ children }: CartProps) => {
     removeItem,
     subtractItem,
     updateItem,
+    itemInCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
