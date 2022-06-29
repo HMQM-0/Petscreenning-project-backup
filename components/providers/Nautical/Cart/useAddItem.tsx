@@ -23,7 +23,7 @@ const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) =>
       const checkout = getCheckout();
 
       // 1. save in local storage
-      const lines = checkout?.lines || [];
+      let lines = checkout?.lines || [];
       let variantInCheckout = lines.find((variant) => variant.variant.id === variantId);
       const alteredLines = lines.filter((variant) => variant.variant.id !== variantId);
       const newVariantQuantity = variantInCheckout ? variantInCheckout.quantity + quantity : quantity;
@@ -51,13 +51,13 @@ const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) =>
 
       if (alteredCheckout?.lines) {
         const { data, error } = await getRefreshedCheckoutLines(alteredCheckout.lines ?? null);
-
         if (error) {
           // TODO: Determine what this fireError behaviour accomplishes
           // this.fireError(error, ErrorCartTypes.SET_CART_ITEM);
         } else {
+          lines = data ?? [];
           setCheckout({
-            ...checkout,
+            ...alteredCheckout,
             lines: data,
           });
         }
@@ -110,7 +110,7 @@ const useAddItem = ({ getRefreshedCheckoutLines, dispatch }: useAddItemProps) =>
       }
 
       // 3. set new items in state
-      dispatch(CartActionCreators.updateItems(alteredCheckout.lines));
+      dispatch(CartActionCreators.updateItems(lines));
     },
     [dispatch, getRefreshedCheckoutLines, updateCheckoutLine]
   );
