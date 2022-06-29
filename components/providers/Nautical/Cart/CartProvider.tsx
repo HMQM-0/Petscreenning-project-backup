@@ -19,6 +19,7 @@ const CartProvider = ({ children }: CartProps) => {
 
   const addItem = useAddItem({ dispatch });
   const removeItem = useRemoveItem({ dispatch });
+  const subtractItem = useRemoveItem({ dispatch });
   const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items: cart.items });
 
   const value: ICartContext = {
@@ -29,6 +30,7 @@ const CartProvider = ({ children }: CartProps) => {
     discount,
     addItem,
     removeItem,
+    subtractItem,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

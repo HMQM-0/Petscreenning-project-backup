@@ -3,6 +3,7 @@ import { createContext } from "react";
 import { IItems, ITotalPrice, ISubtotalPrice, IShippingPrice, IDiscount } from "./types";
 import { useAddItem } from "./useAddItem";
 import { useRemoveItem } from "./useRemoveItem";
+import { useSubtractItem } from "./useSubtractItem";
 
 export type ICartContext = {
   loaded: boolean;
@@ -20,6 +21,8 @@ export type ICartContext = {
   addItem: ReturnType<typeof useAddItem>;
 
   removeItem: ReturnType<typeof useRemoveItem>;
+
+  subtractItem: ReturnType<typeof useSubtractItem>;
 };
 
 export const INITIAL_STATE: ICartContext = {
@@ -30,6 +33,7 @@ export const INITIAL_STATE: ICartContext = {
   shippingPrice: null,
   addItem: async () => {},
   removeItem: async () => {},
+  subtractItem: async () => {},
 };
 
 export const CartContext = createContext<ICartContext>(INITIAL_STATE);
