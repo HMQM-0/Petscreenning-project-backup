@@ -1,3 +1,4 @@
+import { useQueryParam, QueryParamConfig } from "next-query-params";
 import React, { useRef } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -6,32 +7,66 @@ import { AttributeValuesChecklist } from "components/molecules/AttributeValuesCh
 import { useHandlerWhenClickedOutside } from "@hooks";
 import { commonMessages } from "core/intl";
 import { Overlay } from "components/atoms/Overlay";
-import { ISingleFilterAttribute } from "@types";
 
 import * as S from "./styles";
 import { IProps } from "./types";
 
+export interface QueryFilters {
+  [key: string]: string[];
+}
 
-const checkIfAttributeIsChecked = (
-  filters: IProps["filters"],
-  value: ISingleFilterAttribute,
-  slug: string
-) => {
-  if (filters!.attributes && filters.attributes.hasOwnProperty(slug)) {
-    return filters.attributes[slug].some((filter) => filter === value.slug);
-  }
-  return false;
+export const FilterQuerySet: QueryParamConfig<QueryFilters> = {
+  encode(valueObj) {
+    const str: string[] = [];
+    Object.keys(valueObj).forEach((value) => {
+      str.push(value + "_" + valueObj[value].join("_"));
+    });
+    return str.join(".");
+  },
+
+  decode(strValue) {
+    const obj: Record<string, string[]> = {};
+    if (typeof strValue !== "string") {
+      return obj;
+    }
+    const propsWithValues = strValue?.split(".").filter((n) => n);
+    propsWithValues?.map((value) => {
+      const propWithValues = value.split("_").filter((n) => n);
+      obj[propWithValues[0]] = propWithValues.slice(1);
+    });
+    return obj;
+  },
+};
+
+export const useQueryFilters = () => {
+  const [attributeFilters, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
+
+  const onQueryFilterChange = (attributeSlug: string, valueSlug: string, enable: boolean) => {
+    const values = attributeFilters[attributeSlug]?.filter((value) => value !== valueSlug) ?? [];
+    if (enable) {
+      values.push(valueSlug);
+    }
+    setAttributeFilters({
+      ...attributeFilters,
+      [attributeSlug]: values,
+    });
+  };
+
+  return {
+    queryFilters: attributeFilters,
+    setQueryFilters: setAttributeFilters,
+    onQueryFilterChange,
+  };
 };
 
 export const FilterSidebar = ({
   hide,
-  filters,
   show,
   attributes,
   target,
-  onAttributeFiltersChange,
 }: IProps) => {
   const topEl = useRef<HTMLElement>(null);
+  const { queryFilters, onQueryFilterChange } = useQueryFilters();
 
   React.useEffect(() => {
     if (show) {
@@ -42,6 +77,16 @@ export const FilterSidebar = ({
   const { setElementRef } = useHandlerWhenClickedOutside(() => {
     hide();
   });
+
+  const checkIfAttributeIsChecked = (
+    attributeSlug: string,
+    valueSlug: string
+  ) => {
+    if (queryFilters && queryFilters[attributeSlug]) {
+      return queryFilters[attributeSlug].some((filter) => filter === valueSlug);
+    }
+    return false;
+  };
 
   return (
     <Overlay
@@ -77,14 +122,14 @@ export const FilterSidebar = ({
                 name={slug}
                 // values is [] (not undefined). BE issue
                 values={values!.map((value) => ({
-                  selected: checkIfAttributeIsChecked(filters, value, slug),
+                  selected: checkIfAttributeIsChecked(slug, value.slug),
                   id: value.id,
                   name: value.name,
                   slug: value.slug,
                 }))}
                 valuesShowLimit
                 onValueClick={(value) =>
-                  onAttributeFiltersChange(slug, value.slug)
+                  onQueryFilterChange(slug, value.slug, !value.selected)
                 }
               />
             );

@@ -1,6 +1,3 @@
-// Remove any of these that aren't being actively used
-// Move these to individual files so they can be imported as required, rather than wholesale
-
 import { Builder } from "@builder.io/react";
 import {
   Alert,
@@ -10,14 +7,14 @@ import {
   Avatar,
   Box,
   Button,
-  ButtonProps,
+  ButtonProps, Card as MaterialCard, CardContent,
   IconButton,
   Rating,
   Slider,
   Stack,
   Switch,
   TextField,
-  TextFieldProps,
+  TextFieldProps, Theme,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -26,13 +23,12 @@ import {
   InsertMenuConfig,
   InsertMenuItem,
 } from "@builder.io/sdk/dist/src/builder.class";
+import { useTheme } from "@mui/styles";
 import React from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-
-import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 import {
   AlertIcon,
@@ -112,24 +108,6 @@ export const enumsIcon = [
 interface AutoCompleteLabelOption {
   label: string;
 }
-
-export const BuilderTaxedMoney = (props: {
-  TaxedMoney: {
-    gross: { currency: string; amount: number };
-    net: { currency: string; amount: number };
-  };
-}) => {
-  return <TaxedMoney taxedMoney={props.TaxedMoney} />;
-};
-
-Builder.registerComponent(BuilderTaxedMoney, {
-  name: "TaxedMoney",
-  friendlyName: "Nautical TaxedMoney",
-  noWrap: false, // Important!
-  image: TextfieldIcon,
-  inputs: [{ name: "TaxedMoney", type: "object" }],
-  docsLink: "https://mui.com/components/autocomplete/",
-});
 
 export const BuilderAutoComplete = (props: {
   label: string | undefined;
@@ -487,6 +465,51 @@ export const BuilderSwitch = (props: {
   <Switch color={props.color ? props.color : "primary"} />
 );
 
+export const BuilderCard = (props: {
+  message: string;
+  fontSize: number;
+  color: string;
+  circle: boolean;
+  size: number;
+}) => {
+  const theme: Theme = useTheme();
+
+  const getColor = () => {
+    switch (props.color) {
+      case "error":
+        return theme.palette.error.main;
+      case "info":
+        return theme.palette.info.main;
+      case "primary":
+        return theme.palette.primary.main;
+      case "secondary":
+        return theme.palette.secondary.main;
+      case "success":
+        return theme.palette.success.main;
+      case "warning":
+        return theme.palette.warning.main;
+      default:
+        return "#FFF";
+    }
+  };
+
+  return (
+    <MaterialCard
+      sx={{
+        backgroundColor: getColor(),
+        borderRadius: props.circle ? "50%" : 4,
+        fontSize: props.fontSize ? props.fontSize : "1rem",
+        width: props.size ? props.size : 100,
+        height: props.size ? props.size : 100,
+        color: (theme) => theme.palette.getContrastText(getColor()),
+        textAlign: "center",
+      }}
+    >
+      <CardContent>{props.message}</CardContent>
+    </MaterialCard>
+  );
+};
+
 Builder.registerComponent(BuilderSwitch, {
   name: "Paper",
   noWrap: false, // Important!
@@ -527,6 +550,24 @@ Builder.registerComponent(BuilderSwitch, {
   name: "List",
   noWrap: false, // Important!
   image: ListIcon,
+});
+
+Builder.registerComponent(BuilderCard, {
+  name: "Card",
+  friendlyName: "Material Card",
+  noWrap: false, // Important!
+  inputs: [
+    { name: "message", type: "string", defaultValue: "Text Field" },
+    { name: "fontSize", type: "string", defaultValue: "1rem" },
+    {
+      name: "color",
+      type: "string",
+      defaultValue: "primary",
+      enum: enumsColor,
+    },
+    { name: "circle", type: "boolean", defaultValue: true },
+    { name: "size", type: "number", defaultValue: 160 },
+  ],
 });
 
 const alertMenuItem: InsertMenuItem = {
@@ -639,6 +680,18 @@ const iconMenuItem: InsertMenuItem = {
   },
 };
 
+const cardMenuItem: InsertMenuItem = {
+  name: "Card",
+  icon: GridIcon,
+  item: {
+    "@type": "@builder.io/sdk:Element",
+    layerLocked: false,
+    component: {
+      name: "Card",
+    },
+  },
+};
+
 const materialInputsMenu: InsertMenuConfig = {
   name: "Material Components",
   items: [
@@ -646,6 +699,7 @@ const materialInputsMenu: InsertMenuConfig = {
     avatarMenuItem,
     autoCompleteMenuItem,
     buttonMenuItem,
+    cardMenuItem,
     checkboxMenuItem,
     ratingMenuItem,
     sliderMenuItem,

@@ -12,13 +12,14 @@ import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import { slugify } from "@utils/core";
 import { useAuth, useCart } from "@nautical/react";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
-import { micrositesQuery } from "components/templates/Builder/queries.graphql";
 import { FilterQuerySet } from "components/templates/ProductsList/View";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
 } from "components/providers/Wishlist/mutations.graphql.generated";
 import { WishlistDocument } from "components/providers/Wishlist/queries.graphql.generated";
+
+import { micrositesQuery } from "./queries.graphql";
 
 interface IStorePage {
   category?: any;

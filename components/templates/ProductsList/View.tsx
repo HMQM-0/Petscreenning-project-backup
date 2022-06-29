@@ -3,7 +3,6 @@ import {
   useQueryParam,
   StringParam,
   QueryParamConfig,
-  NumberParam,
 } from "next-query-params";
 
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
@@ -12,8 +11,6 @@ import { useAuth } from "@nautical/react";
 import { useShopContext } from "components/providers/ShopProvider";
 import { convertSortByFromString, convertToAttributeScalar } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
-import { IProps as FilterSidebarProps } from "components/organisms/FilterSidebar/types";
-import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
 
 import { ProductsQueryVariables } from "../ProductsPage/queries.graphql.generated";
 
@@ -42,10 +39,6 @@ export const FilterQuerySet: QueryParamConfig<IFilters["attributes"]> = {
 
 export type ChildrenFunctionProps = {
   variables: ProductsQueryVariables;
-  filters: {
-    attributes: FilterSidebarProps["filters"]["attributes"];
-    sortBy: ProductListHeaderProps["activeSortOption"];
-  };
 };
 
 type ProductsListViewProps = {
@@ -79,10 +72,6 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
       {
         children({
           variables,
-          filters: {
-            attributes: attributeFilters,
-            sortBy: sort || undefined,
-          },
         })
       }
     </>
