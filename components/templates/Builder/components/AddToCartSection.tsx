@@ -8,12 +8,9 @@ import { useSelectedVariant } from "components/templates/ProductPage/View";
 import { ProductDetailsFragment } from "components/templates/ProductPage/queries.graphql.generated";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 
-interface Props {
-  product: Pick<ProductDetailsFragment, 'variants' | 'pricing' | 'name' | 'isAvailableForPurchase' | 'availableForPurchase'>;
-}
+type Product = Pick<ProductDetailsFragment, 'variants' | 'pricing' | 'name' | 'isAvailableForPurchase' | 'availableForPurchase'>;
 
-
-export const AddToCartSection = ({ product }: Props) => {
+export const AddToCartSection = ({ product }: { product?: Product }) => {
   if (!product || (product.variants?.length ?? 0) === 0) {
     const isEditingOrPreviewing = Builder.isEditing || Builder.isPreviewing;
     return isEditingOrPreviewing ? <Typography>MISSING PRODUCT BINDING</Typography> : null;
@@ -21,7 +18,7 @@ export const AddToCartSection = ({ product }: Props) => {
   return <AddToCartSectionValidated product={product} />;
 };
 
-const AddToCartSectionValidated = ({ product }: Props) => {
+const AddToCartSectionValidated = ({ product }: { product: Product }) => {
   const { selectedVariant, redirectToVariant } = useSelectedVariant(product);
   const handleAddToCart = useHandleAddToCart(product);
   const { disableAddToCart } = useAddToCart(product, selectedVariant);

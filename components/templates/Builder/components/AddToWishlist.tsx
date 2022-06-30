@@ -4,7 +4,7 @@ import React from "react";
 
 import { AddToWishlist as AddToWishlistButton } from "components/organisms";
 
-export const AddToWishlist = (props: { productId: string }) => {
+export const AddToWishlist = (props: { productId?: string }) => {
   const isEditingOrPreviewing = Builder.isEditing || Builder.isPreviewing;
 
   if (!props.productId) {

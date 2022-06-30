@@ -6,12 +6,12 @@ import React from "react";
 import { useCart } from "@nautical/react";
 
 export const AddToCart = (props: {
-  message: string;
-  severity: AlertColor;
-  button: "contained" | "outlined" | "text" | null;
-  color: "primary" | "secondary" | null;
-  width: string;
-  variantId: string;
+  message?: string;
+  severity?: AlertColor;
+  button?: "contained" | "outlined" | "text" | null;
+  color?: "primary" | "secondary" | null;
+  width?: string;
+  variantId?: string;
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -24,7 +24,7 @@ export const AddToCart = (props: {
   }
 
   const handleClick = async () => {
-    await addItem(props.variantId, 1);
+    await addItem(props.variantId!, 1);
     setOpen(true);
   };
 
@@ -44,7 +44,7 @@ export const AddToCart = (props: {
       <Button
         color="secondary"
         size="small"
-        onClick={async () => await removeItem(props.variantId)}
+        onClick={async () => await removeItem(props.variantId!)}
       >
         UNDO
       </Button>

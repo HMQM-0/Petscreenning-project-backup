@@ -5,7 +5,7 @@ import React from "react";
 import { TaxedMoney as TaxedMoneyComponent } from "components/molecules/TaxedMoney";
 
 export const TaxedMoney = (props: {
-  TaxedMoney: {
+  TaxedMoney?: {
     gross: { currency: string; amount: number };
     net: { currency: string; amount: number };
   };

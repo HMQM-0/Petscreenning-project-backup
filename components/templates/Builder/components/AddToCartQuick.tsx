@@ -7,9 +7,9 @@ import React from "react";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 
 export const AddToCartQuick = (props: {
-  variantId: string;
-  productName: string;
-  color: IconButtonTypeMap["props"]["color"];
+  variantId?: string;
+  productName?: string;
+  color?: IconButtonTypeMap["props"]["color"];
 }) => {
   const addToCartHandler = useHandleAddToCart();
 
@@ -22,7 +22,7 @@ export const AddToCartQuick = (props: {
   const handleAddToCart = (event: React.MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
-    return addToCartHandler(props.variantId, 1, props.productName);
+    return addToCartHandler(props.variantId!, 1, props.productName);
   };
 
   return (

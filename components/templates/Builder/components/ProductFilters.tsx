@@ -9,7 +9,7 @@ import { FilterSidebar } from "components/organisms";
 export const ProductFilters = ({
   attributes,
 }: {
-  attributes: ProductsPageAttributeFragment[];
+  attributes?: ProductsPageAttributeFragment[];
 }) => {
   const [showFilters, setShowFilters] = React.useState(false);
 

@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface IProductGalleryProps {
-  images: IImage[];
+  images?: IImage[];
 }
 
 const MINIMAL_NUMBER_OF_IMAGES_FOR_BUTTONS = 4;
