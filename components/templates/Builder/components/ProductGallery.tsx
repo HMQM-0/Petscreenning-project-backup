@@ -115,7 +115,7 @@ const MINIMAL_NUMBER_OF_IMAGES_FOR_BUTTONS = 4;
 const ProductGallery: React.FunctionComponent<IProductGalleryProps> = (
   props
 ) => {
-  const { images } = props;
+  const { images = [] } = props;
   const [imageIndex, setImageIndex] = React.useState<number>(0);
   const classes = useStyles();
   const displayButtons = images.length > MINIMAL_NUMBER_OF_IMAGES_FOR_BUTTONS;
