@@ -42,14 +42,11 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     <Layout documentHead={documentHead}>
       {category ? (
         <ProductsListView>
-          {(props) => (
-            <CategoryProducts
-              {...props}
-              category={category}
-              pageData={data}
-              builderContent={builderContent}
-            />
-          )}
+          <CategoryProducts
+            category={category}
+            pageData={data}
+            builderContent={builderContent}
+          />
         </ProductsListView>
       ) : (
         <NotFound />

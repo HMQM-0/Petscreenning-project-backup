@@ -33,7 +33,7 @@ const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> =
   return (
     <Layout documentHead={documentHead}>
       <ProductsListView>
-        {(props) => <SearchProducts {...props} pageData={data} builderContent={builderContent} />}
+        <SearchProducts pageData={data} builderContent={builderContent} />
       </ProductsListView>
     </Layout>
   );
