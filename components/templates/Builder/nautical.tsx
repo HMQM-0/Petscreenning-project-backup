@@ -311,6 +311,9 @@ const taxedMoneyMenuItem: InsertMenuItem = {
     component: {
       name: "TaxedMoney",
     },
+    bindings: {
+      'component.options.TaxedMoney': "state.product?.pricing?.priceRange?.start",
+    },
   },
 };
 
