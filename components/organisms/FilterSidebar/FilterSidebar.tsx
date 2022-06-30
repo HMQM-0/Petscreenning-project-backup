@@ -17,11 +17,11 @@ export interface QueryFilters {
 
 export const FilterQuerySet: QueryParamConfig<QueryFilters> = {
   encode(valueObj) {
-    const str: string[] = [];
-    Object.keys(valueObj).forEach((value) => {
-      str.push(value + "_" + valueObj[value].join("_"));
-    });
-    return str.join(".");
+    return Object.keys(valueObj)
+      .map((value) =>
+        value + "_" + valueObj[value].join("_")
+      )
+      .join(".");
   },
 
   decode(strValue) {
