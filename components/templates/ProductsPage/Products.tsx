@@ -3,16 +3,17 @@ import React from "react";
 
 import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
-import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
+import { useProductListVariables } from "components/templates/ProductsList/View";
 
 import { ProductsPageQueryResult, useProductsQuery } from "./queries.graphql.generated";
 
-type ProductsProps = ChildrenFunctionProps & {
+type ProductsProps = {
   builderContent: BuilderContent | null;
   pageData: ProductsPageQueryResult["data"];
 };
 
-const Products = ({ pageData, variables, filters, builderContent }: ProductsProps) => {
+const Products = ({ pageData, builderContent }: ProductsProps) => {
+  const variables = useProductListVariables();
   const { loading, data, fetchMore } = useProductsQuery({
     variables,
     errorPolicy: "all",
@@ -38,7 +39,6 @@ const Products = ({ pageData, variables, filters, builderContent }: ProductsProp
       menuResult={pageData?.menu}
       loading={loading}
       fetchMore={fetchMore}
-      filters={filters}
       variables={variables}
       breadcrumbs={[
         {

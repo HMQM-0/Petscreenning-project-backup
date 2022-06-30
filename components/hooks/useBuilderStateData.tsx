@@ -8,11 +8,11 @@ import { useQuery } from "@apollo/client";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
+import { FilterQuerySet } from "components/organisms";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import { slugify } from "@utils/core";
 import { useAuth, useCart } from "@nautical/react";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
-import { FilterQuerySet } from "components/templates/ProductsList/View";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,

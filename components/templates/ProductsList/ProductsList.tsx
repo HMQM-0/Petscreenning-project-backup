@@ -1,17 +1,15 @@
 import { QueryResult } from "@apollo/client";
 import React, { useState } from "react";
-import { useQueryParam, StringParam } from "next-query-params";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 import Media from "react-media";
 
 import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
-import { commonMessages, prodListHeaderCommonMsg } from "core/intl";
+import { commonMessages } from "core/intl";
 import ProductsFeatured from "components/organisms/ProductsFeatured";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
 import { useNetworkStatus } from "@hooks";
-import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
 import Breadcrumbs, { Breadcrumb } from "components/atoms/Breadcrumbs";
 import { ProductSideNavbar } from "components/organisms/ProductSideNavbar";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
@@ -33,7 +31,6 @@ interface ProductsProps {
   variables: ProductsQueryVariables;
   loading: ProductsQueryResult["loading"];
   data: ProductsQueryResult["data"];
-  // TODO: types should be synced between products/category/collection/search pages
   attributes: ProductsPageAttributeFragment[];
   menuResult: ProductsPageQuery["menu"];
   fetchMore: QueryResult["fetchMore"];
