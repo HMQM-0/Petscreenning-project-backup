@@ -62,14 +62,14 @@ export const AddToCart = (props: {
   return (
     <>
       <Button
-        color={props.color ? props.color : "primary"}
+        color={props.color || "primary"}
         style={{
           alignSelf: "center",
           width: props.width ? `${props.width}px` : "100%",
           marginBottom: 24,
         }}
         onClick={handleClick}
-        variant={props.button ? props.button : "contained"}
+        variant={props.button || "contained"}
       >
         Add to Cart
       </Button>
