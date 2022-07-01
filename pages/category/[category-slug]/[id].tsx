@@ -1,9 +1,12 @@
+import { builder } from "@builder.io/react";
+import { BuilderContent } from "@builder.io/sdk";
 import type {
   NextPage,
   InferGetServerSidePropsType,
   GetServerSidePropsContext,
 } from "next";
 
+import builderConfig from "config/builder";
 import {
   CategoryPageDocument,
   CategoryPageQuery,
@@ -17,7 +20,10 @@ import { ProductsListView } from "components/templates/ProductsList/View";
 import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";
 import NotFound from "../../../components/molecules/NotFound";
 
-const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
+const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  builderContent,
+}) => {
   const description = data.category?.seoDescription || "Category";
   const title = data.category?.seoTitle || data.category?.name || "Category";
   const schema = structuredData(description, title);
@@ -36,7 +42,14 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     <Layout documentHead={documentHead}>
       {category ? (
         <ProductsListView>
-          {(props) => <CategoryProducts {...props} category={category} />}
+          {(props) => (
+            <CategoryProducts
+              {...props}
+              category={category}
+              pageData={data}
+              builderContent={builderContent}
+            />
+          )}
         </ProductsListView>
       ) : (
         <NotFound />
@@ -50,6 +63,11 @@ export async function getServerSideProps(
 ) {
   const client = getApolloClient();
   const categoryId = context.params?.id ?? "";
+
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    content = await builder.get("store", { url: "/store/category" }).promise() || null;
+  }
 
   const variables: CategoryPageQueryVariables = {
     id: categoryId,
@@ -66,6 +84,7 @@ export async function getServerSideProps(
   return {
     props: {
       data,
+      builderContent: content,
       __APOLLO__,
     },
   };
