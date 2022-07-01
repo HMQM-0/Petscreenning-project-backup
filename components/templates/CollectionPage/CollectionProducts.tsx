@@ -3,26 +3,25 @@ import React from "react";
 
 import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
-import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
+import { useProductListVariables } from "components/templates/ProductsList/View";
 import { useProductsQuery } from "components/templates/ProductsPage/queries.graphql.generated";
 
 import {
   BasicCollectionFragment, CollectionPageQueryResult,
 } from "./queries.graphql.generated";
 
-type CollectionProductsProps = ChildrenFunctionProps & {
+type CollectionProductsProps = {
   collection: BasicCollectionFragment;
   builderContent: BuilderContent | null;
   pageData: CollectionPageQueryResult["data"];
 };
 
 const CollectionProducts = ({
-  variables,
-  filters,
   collection,
   builderContent,
   pageData,
 }: CollectionProductsProps) => {
+  const variables = useProductListVariables();
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,
@@ -51,7 +50,6 @@ const CollectionProducts = ({
       menuResult={pageData?.menu}
       loading={loading}
       fetchMore={fetchMore}
-      filters={filters}
       variables={variables}
       breadcrumbs={[
         {

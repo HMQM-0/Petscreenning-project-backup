@@ -5,21 +5,20 @@ import { StringParam, useQueryParam } from "next-query-params";
 import Builder from "components/templates/ProductsList/Builder";
 import { SearchPageQueryResult } from "components/templates/SearchPage/queries.graphql.generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
-import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
+import { useProductListVariables } from "components/templates/ProductsList/View";
 import { useProductsQuery } from "components/templates/ProductsPage/queries.graphql.generated";
 
-type SearchProductsProps = ChildrenFunctionProps & {
+type SearchProductsProps = {
   builderContent: BuilderContent | null;
   pageData: SearchPageQueryResult["data"];
 };
 
 const SearchProducts = ({
-  variables,
-  filters,
   pageData,
   builderContent,
 }: SearchProductsProps) => {
   const [search] = useQueryParam("q", StringParam);
+  const variables = useProductListVariables();
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
       ...variables,
@@ -48,7 +47,6 @@ const SearchProducts = ({
       menuResult={pageData?.menu}
       loading={loading}
       fetchMore={fetchMore}
-      filters={filters}
       variables={variables}
       breadcrumbs={[
         {
