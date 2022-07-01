@@ -7,10 +7,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useShopContext } from "components/providers/ShopProvider";
 import { Builder } from "components/templates/ProductPage/Builder";
-import { useAuth } from "@nautical/react";
-import {
-  useNetworkStatus,
-} from "@hooks";
+import { useAuth } from "nautical-api";
+import { useNetworkStatus } from "@hooks";
 import NotFound from "components/molecules/NotFound";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
@@ -18,7 +16,7 @@ import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginT
 import Page from "./Page";
 import { ProductDetailsFragment } from "./queries.graphql.generated";
 
-export const useSelectedVariant = (product: Pick<ProductDetailsFragment, 'variants'>) => {
+export const useSelectedVariant = (product: Pick<ProductDetailsFragment, "variants">) => {
   const router = useRouter();
 
   const redirectToVariant = useCallback(
@@ -44,29 +42,23 @@ export const useSelectedVariant = (product: Pick<ProductDetailsFragment, 'varian
     [product.variants, router]
   );
 
-  const selectedVariant = useMemo(
-    () => {
-      // There should be a better way
-      const searchQueryAttributes = _mapKeys(router.query, (value, key) =>
-        key?.toString().toLowerCase()
-      );
+  const selectedVariant = useMemo(() => {
+    // There should be a better way
+    const searchQueryAttributes = _mapKeys(router.query, (value, key) => key?.toString().toLowerCase());
 
-      return product.variants?.find((productVariant) =>
-        productVariant.attributes.every((productVariantAttribute) => {
-          const slug = productVariantAttribute.attribute.slug;
-          // We expect that there will always be an attribute value (in case DB is consistent)
-          const productVariantAttributeValue =
-            productVariantAttribute.values[0]?.value;
-          return productVariantAttributeValue === searchQueryAttributes[slug];
-        })
-      );
-    },
-    [product.variants, router.query]
-  );
+    return product.variants?.find((productVariant) =>
+      productVariant.attributes.every((productVariantAttribute) => {
+        const slug = productVariantAttribute.attribute.slug;
+        // We expect that there will always be an attribute value (in case DB is consistent)
+        const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
+        return productVariantAttributeValue === searchQueryAttributes[slug];
+      })
+    );
+  }, [product.variants, router.query]);
 
   return {
     selectedVariant,
-    redirectToVariant
+    redirectToVariant,
   };
 };
 
@@ -93,11 +85,7 @@ const View = ({ product, builderContent }: ViewProps) => {
       redirectToVariant(product.defaultVariant!.id);
       return;
     }
-  }, [
-    redirectToVariant,
-    selectedVariant,
-    product.defaultVariant,
-  ]);
+  }, [redirectToVariant, selectedVariant, product.defaultVariant]);
 
   if (!user && loginForProducts) {
     return <LoginToViewProducts />;
@@ -128,13 +116,7 @@ const View = ({ product, builderContent }: ViewProps) => {
     );
   }
 
-  return (
-    <Page
-      product={product}
-      selectedVariant={selectedVariant}
-      onVariantChange={onVariantChangeHandler}
-    />
-  );
+  return <Page product={product} selectedVariant={selectedVariant} onVariantChange={onVariantChangeHandler} />;
 };
 
 export default View;

@@ -25,7 +25,6 @@ export const AddToWishlistButton = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* S.WishlistIcon component is repeated for two icons - it should to prevent flashing css */}
       {added || hover ? (
         <S.WishlistIcon addRightMargin={showText}>
           <Icon name="heart_filled" size={28} />

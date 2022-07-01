@@ -4,6 +4,7 @@ export const Wrapper = styled.div<{ added: boolean }>`
   align-items: center;
   text-transform: uppercase;
   cursor: pointer;
+  overflow: hidden;
   svg {
     position: relative;
     top: ${(props) => (props.added ? `0.5` : `0.8`)}rem;

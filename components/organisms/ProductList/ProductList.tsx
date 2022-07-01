@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { useVisibility } from "deprecated/_nautical/hooks/useVisibility";
 import { Loader } from "components/atoms/Loader";
 import ProductListItem from "components/organisms/ProductListItem";
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { useShopContext } from "components/providers/ShopProvider";
 import { generateProductUrl } from "core/utils";
 
@@ -44,11 +44,7 @@ export const ProductList = ({
           return (
             id &&
             name && (
-              <Link
-                href={generateProductUrl(id, name)}
-                key={id}
-                passHref
-              >
+              <Link href={generateProductUrl(id, name)} key={id} passHref>
                 <a>
                   <ProductListItem
                     wide

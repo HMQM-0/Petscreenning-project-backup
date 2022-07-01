@@ -30,14 +30,18 @@ export const productsQuery = gql`
     $collectionIds: [ID!]
     $attributes: [AttributeInput!]
     $after: String
-    $pageSize: Int
+    $before: String
+    $first: Int
+    $last: Int
     $sortBy: ProductOrder
     $priceLte: Float
     $priceGte: Float
   ) {
     productList: products(
       after: $after
-      first: $pageSize
+      before: $before
+      first: $first
+      last: $last
       sortBy: $sortBy
       filter: {
         search: $query

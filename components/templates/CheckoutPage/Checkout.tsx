@@ -26,7 +26,8 @@ import * as Yup from "yup";
 import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 
-import { useAuth, useCheckout } from "@nautical/react";
+import { useCheckout } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { ICardData, IFormError } from "types";
 import {
   ICheckoutModelLine,
