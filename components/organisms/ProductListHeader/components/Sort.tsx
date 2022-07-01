@@ -66,6 +66,7 @@ export const Sort = () => {
         value={sortOptions.find(
           (option) => option.value === sort
         )}
+        isLastFormField={false}
       />
     </S.Sort>
   );

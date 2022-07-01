@@ -11,13 +11,14 @@ import { useRouter } from "next/router";
 import { FilterQuerySet } from "components/organisms";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import { slugify } from "@utils/core";
-import { useAuth, useCart } from "@nautical/react";
+import { useCart } from "@nautical/react";
 import { WishlistContext } from "@nautical/react/components/WishlistProvider/context";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
 } from "components/providers/Wishlist/mutations.graphql.generated";
 import { WishlistDocument } from "components/providers/Wishlist/queries.graphql.generated";
+import { useAuth } from "nautical-api";
 
 import { micrositesQuery } from "./queries.graphql";
 

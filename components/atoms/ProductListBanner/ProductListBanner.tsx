@@ -7,10 +7,9 @@ interface ProductListBannerProps {
 }
 
 const ProductListBanner = ({ image }: ProductListBannerProps) => {
-
   return (
     <Box>
-      <Image src={image} width="100%" alt="product list banner" />
+      <Image src={image} width="100%" layout="fill" alt="product list banner" />
     </Box>
   );
 };

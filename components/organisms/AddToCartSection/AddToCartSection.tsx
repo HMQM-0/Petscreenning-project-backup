@@ -6,30 +6,23 @@ import ProductVariantPicker, { IProductVariantPickerProps } from "components/org
 import { commonMessages } from "core/intl";
 import RatingStars from "components/atoms/RatingStars";
 import { ViewSizeGuideButton } from "components/organisms/ViewSizeGuideButton";
-import { useAuth, useCart } from "@nautical/react";
-import {
-  OverlayContext,
-  OverlayTheme,
-  OverlayType,
-} from "components/providers/Overlay/context";
+import { useAuth } from "nautical-api";
+import { useCart } from "@nautical/react";
+import { OverlayContext, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
 import { useShopContext } from "components/providers/ShopProvider";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import { QuantityInput } from "components/molecules/QuantityInput";
 import {
   ProductDetailsFragment,
-  ProductVariantFieldsFragment
+  ProductVariantFieldsFragment,
 } from "components/templates/ProductPage/queries.graphql.generated";
 
-import {
-  getAvailableQuantity,
-  getProductPrice,
-  canAddToCart,
-} from "./stockHelpers";
+import { getAvailableQuantity, getProductPrice, canAddToCart } from "./stockHelpers";
 import * as S from "./styles";
 
 export const useAddToCart = (
-  product: Pick<ProductDetailsFragment, 'isAvailableForPurchase' | 'availableForPurchase'>,
-  selectedVariant: ProductVariantFieldsFragment | undefined,
+  product: Pick<ProductDetailsFragment, "isAvailableForPurchase" | "availableForPurchase">,
+  selectedVariant: ProductVariantFieldsFragment | undefined
 ) => {
   const { user } = useAuth();
   const { loginForPrice } = useShopContext();
@@ -41,43 +34,28 @@ export const useAddToCart = (
   const isOutOfStock = !!selectedVariant && variantStock === 0;
   const isNoItemsAvailable = !!selectedVariant && !isOutOfStock && !availableQuantity;
   return {
-    disableAddToCart: !canAddToCart(
-        items,
-        !!product.isAvailableForPurchase,
-        selectedVariant?.id,
-        variantStock,
-        quantity
-      ) ||
+    disableAddToCart:
+      !canAddToCart(items, !!product.isAvailableForPurchase, selectedVariant?.id, variantStock, quantity) ||
       (!user && !!loginForPrice),
     quantity,
     setQuantity,
     isOutOfStock,
-    isLowStock: !!selectedVariant &&
-      !isOutOfStock &&
-      !isNoItemsAvailable &&
-      availableQuantity < LOW_STOCK_QUANTITY,
+    isLowStock: !!selectedVariant && !isOutOfStock && !isNoItemsAvailable && availableQuantity < LOW_STOCK_QUANTITY,
     isNoItemsAvailable,
     availableQuantity,
     noPurchaseAvailable: !product.isAvailableForPurchase && !product.availableForPurchase,
     purchaseAvailableDate:
-      !product.isAvailableForPurchase &&
-      product.availableForPurchase &&
-      Date.parse(product.availableForPurchase),
+      !product.isAvailableForPurchase && product.availableForPurchase && Date.parse(product.availableForPurchase),
   };
 };
-
 
 const LOW_STOCK_QUANTITY: number = 5;
 
 export interface IAddToCartSection {
-  product: Pick<ProductDetailsFragment,
-    'id'
-    | 'name'
-    | 'images'
-    | 'isAvailableForPurchase'
-    | 'availableForPurchase'
-    | 'variants'
-    | 'pricing'>,
+  product: Pick<
+    ProductDetailsFragment,
+    "id" | "name" | "images" | "isAvailableForPurchase" | "availableForPurchase" | "variants" | "pricing"
+  >;
   selectedVariant: ProductVariantFieldsFragment | undefined;
   sizeGuideUrl?: string;
 
@@ -118,7 +96,7 @@ const AddToCartSection = ({
     availableQuantity,
     isNoItemsAvailable,
     noPurchaseAvailable,
-    purchaseAvailableDate
+    purchaseAvailableDate,
   } = useAddToCart(product, selectedVariant);
 
   const variantPricing = selectedVariant?.pricing;
@@ -130,19 +108,11 @@ const AddToCartSection = ({
   return (
     <S.AddToCartSelection>
       <S.RatingsWrapper>
-        <S.ProductNameHeader data-test="productName">
-          {name}
-        </S.ProductNameHeader>
-        <RatingStars
-          productId={productId}
-          scrollToRatingsAndReviewsSection={scrollToRatingsAndReviewsSection}
-        />
+        <S.ProductNameHeader data-test="productName">{name}</S.ProductNameHeader>
+        <RatingStars productId={productId} scrollToRatingsAndReviewsSection={scrollToRatingsAndReviewsSection} />
       </S.RatingsWrapper>
       {isOutOfStock ? (
-        renderErrorMessage(
-          intl.formatMessage(commonMessages.outOfStock),
-          "outOfStock"
-        )
+        renderErrorMessage(intl.formatMessage(commonMessages.outOfStock), "outOfStock")
       ) : (
         <S.ProductPricing>
           {!user && loginForPrice ? (
@@ -151,9 +121,7 @@ const AddToCartSection = ({
                 <Box style={{ marginBottom: "20px" }}>
                   <button
                     className="products-login-button"
-                    onClick={() =>
-                      overlayContext.show(OverlayType.login, OverlayTheme.right)
-                    }
+                    onClick={() => overlayContext.show(OverlayType.login, OverlayTheme.right)}
                   >
                     <Box component="span" className="text">
                       Login for price
@@ -185,41 +153,28 @@ const AddToCartSection = ({
         </S.ProductPricing>
       )}
       {noPurchaseAvailable &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.noPurchaseAvailable),
-        "notAvailable"
-      )}
+        renderErrorMessage(intl.formatMessage(commonMessages.noPurchaseAvailable), "notAvailable")}
       {purchaseAvailableDate &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.purchaseAvailableOn, {
-          date: new Intl.DateTimeFormat("default", {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-          }).format(purchaseAvailableDate),
-          time: new Intl.DateTimeFormat("default", {
-            hour: "numeric",
-            minute: "numeric",
-          }).format(purchaseAvailableDate),
-        }),
-        "timeRestrictedAvailability"
-      )}
-      {isLowStock &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.lowStock),
-        "lowStockWarning"
-      )}
+        renderErrorMessage(
+          intl.formatMessage(commonMessages.purchaseAvailableOn, {
+            date: new Intl.DateTimeFormat("default", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+            }).format(purchaseAvailableDate),
+            time: new Intl.DateTimeFormat("default", {
+              hour: "numeric",
+              minute: "numeric",
+            }).format(purchaseAvailableDate),
+          }),
+          "timeRestrictedAvailability"
+        )}
+      {isLowStock && renderErrorMessage(intl.formatMessage(commonMessages.lowStock), "lowStockWarning")}
       {isNoItemsAvailable &&
-      renderErrorMessage(
-        intl.formatMessage(commonMessages.noItemsAvailable),
-        "noItemsAvailable"
-      )}
+        renderErrorMessage(intl.formatMessage(commonMessages.noItemsAvailable), "noItemsAvailable")}
       {!!productVariants?.length && (
         <S.VariantPicker>
-          <ProductVariantPicker
-            productVariants={productVariants}
-            onVariantChangeHandler={onVariantChangeHandler}
-          />
+          <ProductVariantPicker productVariants={productVariants} onVariantChangeHandler={onVariantChangeHandler} />
         </S.VariantPicker>
       )}
       <S.QuantityInput>

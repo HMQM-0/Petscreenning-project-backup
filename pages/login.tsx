@@ -2,7 +2,7 @@ import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 import { useRouter } from "next/router";
 
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { LoginPage } from "components/templates/LoginPage/LoginPage";

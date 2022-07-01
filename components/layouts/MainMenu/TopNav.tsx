@@ -27,8 +27,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { useAuth, useCart } from "@nautical/react";
-import { OverlayTheme, OverlayType, useOverlayContext } from "components/providers/Overlay";
+import { useCart } from "@nautical/react";
+import { useAuth } from "nautical-api";
+import {
+  OverlayTheme,
+  OverlayType,
+  useOverlayContext,
+} from "components/providers/Overlay";
 
 import DrawerCart from "./DrawerCart";
 
