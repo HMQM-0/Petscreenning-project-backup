@@ -1,17 +1,18 @@
+import { QueryResult } from "@apollo/client";
 import React, { useState } from "react";
 import { useQueryParam, StringParam } from "next-query-params";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 import Media from "react-media";
 
-import { commonMessages } from "core/intl";
+import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
+import { commonMessages, prodListHeaderCommonMsg } from "core/intl";
 import ProductsFeatured from "components/organisms/ProductsFeatured";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
 import { useNetworkStatus } from "@hooks";
 import { IProps as FilterSidebarProps } from "components/organisms/FilterSidebar/types";
 import { IProps as ProductListHeaderProps } from "components/organisms/ProductListHeader/types";
-import { prodListHeaderCommonMsg } from "core/intl";
 import Breadcrumbs, { Breadcrumb } from "components/atoms/Breadcrumbs";
 import { ProductSideNavbar } from "components/organisms/ProductSideNavbar";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
@@ -21,13 +22,13 @@ import { xLargeScreen } from "@styles/constants";
 import { ProductSideNavbarGrid } from "components/organisms/ProductSideNavbarGrid";
 import ProductListBanner from "components/atoms/ProductListBanner/ProductListBanner";
 import {
+  ProductsPageQuery,
   ProductsQueryResult,
   ProductsQueryVariables,
 } from "components/templates/ProductsPage/queries.graphql.generated";
 
 import { FilterQuerySet } from "./View";
 import classes from "./scss/index.module.scss";
-import { useProductsPageMenuAndAttributesQuery } from "./queries.graphql.generated";
 import Search from "./Search";
 
 interface ProductsProps {
@@ -38,7 +39,10 @@ interface ProductsProps {
   };
   loading: ProductsQueryResult["loading"];
   data: ProductsQueryResult["data"];
-  fetchMore: ProductsQueryResult["fetchMore"];
+  // TODO: types should be synced between products/category/collection/search pages
+  attributes: ProductsPageAttributeFragment[];
+  menuResult: ProductsPageQuery["menu"];
+  fetchMore: QueryResult["fetchMore"];
   backgroundImageUrl?: string;
   showSidebar?: boolean;
   showSearch?: boolean;
@@ -49,6 +53,8 @@ interface ProductsProps {
 const ProductsList = ({
   loading,
   data,
+  attributes,
+  menuResult,
   fetchMore,
   filters,
   backgroundImageUrl,
@@ -65,9 +71,6 @@ const ProductsList = ({
     "filters",
     FilterQuerySet
   );
-
-  const { data: { attributes: attributesResult, menu: menuResult } = {} } =
-    useProductsPageMenuAndAttributesQuery();
 
   const { online } = useNetworkStatus();
 
@@ -160,8 +163,6 @@ const ProductsList = ({
       //   },
       // }),
     );
-
-  const attributes = attributesResult?.edges.map((edge) => edge.node) ?? [];
 
   const getAttribute = (attributeSlug: string, valueSlug: string) => {
     return {

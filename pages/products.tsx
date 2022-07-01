@@ -1,9 +1,12 @@
+import { builder } from "@builder.io/react";
+import { BuilderContent } from "@builder.io/sdk";
 import type {
   NextPage,
   InferGetServerSidePropsType,
 } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
+import builderConfig from "config/builder";
 import {
   ProductsPageDocument,
   ProductsPageQuery,
@@ -14,7 +17,10 @@ import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 
-const Products: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
+const Products: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  builderContent,
+}) => {
   const description = "All Products";
   const title = "All Products";
   const schema = structuredData(description, title);
@@ -30,7 +36,7 @@ const Products: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   return (
     <Layout documentHead={documentHead}>
       <ProductsListView>
-        {(props) => <ProductsPage {...props} />}
+        {(props) => <ProductsPage {...props} pageData={data} builderContent={builderContent} />}
       </ProductsListView>
     </Layout>
   );
@@ -38,6 +44,13 @@ const Products: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
 export async function getServerSideProps() {
   const client = getApolloClient();
+
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    // get.promise() may return `undefined`. Setting it to `null` in this case to prevent errors in next.js
+    // https://github.com/vercel/next.js/discussions/11209
+    content = await builder.get("store", { url: "/store/products" }).promise() || null;
+  }
 
   const { data } = await client.query<ProductsPageQuery>({
     query: ProductsPageDocument,
@@ -49,6 +62,7 @@ export async function getServerSideProps() {
   return {
     props: {
       data,
+      builderContent: content,
       __APOLLO__,
     },
   };
