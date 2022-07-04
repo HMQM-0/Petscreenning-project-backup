@@ -4,9 +4,7 @@ import Slider from "@mui/material/Slider";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-// NauticalProvider needs to be refactored to use codegen for types/queries/mutations https://nauticalcommerce.atlassian.net/browse/PROD-1630
-import { useCheckout } from "deprecated/@nautical/react";
-import { useCart } from "nautical-api";
+import { useCart, useCheckout } from "nautical-api";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints } from "@nautical/react/mutations";
 import {
   useFetchLoyaltyAndReferralsInfo,

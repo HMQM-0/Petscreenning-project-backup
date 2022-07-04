@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js/pure";
 import React, { useEffect, useRef, useState } from "react";
 
 import { IFormError } from "@types";
-import { useCheckout } from "@nautical/react";
+import { useCheckout } from "nautical-api";
 import { Loader } from "components/atoms/Loader";
 import { useGetClientSecretQuery } from "queries/clientSecret.graphql.generated";
 
@@ -90,10 +90,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
     },
   });
 
-  const handleFormSubmit = async (
-    stripe: Stripe | null,
-    elements: StripeElements | null
-  ) => {
+  const handleFormSubmit = async (stripe: Stripe | null, elements: StripeElements | null) => {
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
@@ -132,12 +129,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
     <div data-test="stripeGateway">
       {stripeOptions.clientSecret ? (
         <Elements stripe={stripe} options={stripeOptions}>
-          <StripeCreditCardForm
-            formId={formId}
-            formRef={formRef}
-            errors={allErrors}
-            onSubmit={handleFormSubmit}
-          />
+          <StripeCreditCardForm formId={formId} formRef={formRef} errors={allErrors} onSubmit={handleFormSubmit} />
         </Elements>
       ) : (
         <Loader />

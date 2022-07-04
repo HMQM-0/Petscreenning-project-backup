@@ -2,8 +2,7 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, Modal } from "@mui/material";
 
-import { useCheckout } from "@nautical/react";
-import { useCart } from "nautical-api";
+import { useCart, useCheckout } from "nautical-api";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { Loader } from "components/atoms/Loader";
 
@@ -71,7 +70,7 @@ const CheckoutPage = ({ logo }: ICheckoutProps) => {
               subtotal={convertToTaxedMoney(subtotalPrice ?? undefined)}
               promoCode={convertToTaxedMoney(promoTaxedPrice ?? undefined)}
               shipping={convertToTaxedMoney(shippingTaxedPrice ?? undefined)}
-              volumeDiscount={applicableVolumeDiscounts}
+              volumeDiscount={applicableVolumeDiscounts ?? undefined}
               total={convertToTaxedMoney(totalPrice ?? undefined)}
               close={() => setModal(false)}
             />

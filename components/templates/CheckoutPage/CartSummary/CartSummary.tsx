@@ -19,7 +19,7 @@ import {
 import { useAlert } from "react-alert";
 
 import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
-import { useCheckout } from "@nautical/react";
+import { useCheckout } from "nautical-api";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 
@@ -137,9 +137,7 @@ const CartSummary = ({
 
   const handleRemovePromoCode = async () => {
     console.info("HANDLING REMOVE PROMO CODE");
-    const promoResult = await removePromoCode(
-      promoCodeDiscount?.voucherCode ?? ""
-    );
+    const promoResult = await removePromoCode(promoCodeDiscount?.voucherCode ?? "");
     console.info(promoResult);
     if (promoResult?.dataError?.error) {
       alert.show(
@@ -165,11 +163,7 @@ const CartSummary = ({
           <Fragment>
             {matches.small ? (
               <>
-                <Accordion
-                  elevation={0}
-                  disableGutters
-                  className={classes.accordion}
-                >
+                <Accordion elevation={0} disableGutters className={classes.accordion}>
                   <AccordionSummary className={classes.accordionSummary}>
                     <Typography className={classes.title} variant="h6">
                       Shopping Cart
@@ -178,9 +172,7 @@ const CartSummary = ({
                       className={classes.priceButton}
                       color="inherit"
                       variant="outlined"
-                      startIcon={
-                        <ShoppingCartIcon style={{ height: 16, width: 16 }} />
-                      }
+                      startIcon={<ShoppingCartIcon style={{ height: 16, width: 16 }} />}
                     >
                       <TaxedMoney taxedMoney={total} />
                     </Button>
@@ -209,22 +201,16 @@ const CartSummary = ({
                       </Box>
                       {onPaymentStep &&
                         (loyaltyPoints ? (
-                          <Box style={{ marginTop: "30px " }}>
-                            {loyaltyPoints}
-                          </Box>
+                          <Box style={{ marginTop: "30px " }}>{loyaltyPoints}</Box>
                         ) : (
                           <Box>
                             <Box className={classes.promoCodeContainer}>
                               <TextField
-                                onChange={(event) =>
-                                  setCode(event.target.value)
-                                }
+                                onChange={(event) => setCode(event.target.value)}
                                 placeholder="Promo code"
                                 value={code}
                               />
-                              <Button onClick={handleAddPromoCode}>
-                                APPLY
-                              </Button>
+                              <Button onClick={handleAddPromoCode}>APPLY</Button>
                             </Box>
                             {promoCodeDiscount?.voucherCode && (
                               <Chip
@@ -285,20 +271,14 @@ const CartSummary = ({
                             placeholder="Promo code"
                             value={code}
                           />
-                          <Button onClick={() => addPromoCode(code)}>
-                            APPLY
-                          </Button>
+                          <Button onClick={() => addPromoCode(code)}>APPLY</Button>
                         </Box>
                         {promoCodeDiscount?.voucherCode && (
                           <Chip
                             className={classes.discountChip}
                             label={promoCodeDiscount.discountName}
                             // onClick={handleClick}
-                            onDelete={() =>
-                              removePromoCode(
-                                promoCodeDiscount?.voucherCode ?? ""
-                              )
-                            }
+                            onDelete={() => removePromoCode(promoCodeDiscount?.voucherCode ?? "")}
                           />
                         )}
                         <Divider />

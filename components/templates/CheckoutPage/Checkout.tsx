@@ -25,11 +25,10 @@ import { TextField } from "formik-mui";
 import * as Yup from "yup";
 import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
+import { isArray } from "lodash";
 
-import { useCheckout } from "@nautical/react";
-import { useAuth } from "nautical-api";
+import { useAuth, useCheckout } from "nautical-api";
 import { ICardData, IFormError } from "types";
-import { ICheckoutModelLine, ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import { maybe } from "@utils/misc";
 import { LoyaltyPoints } from "components/atoms/LoyaltyPoints";
 import { Plugins } from "deprecated/@nautical";
@@ -48,6 +47,8 @@ import { IProduct } from "./types";
 import { CartSummary } from "./CartSummary";
 import { SellerMethod } from "./SellerMethod";
 import { useStyles } from "./styles";
+
+import { ICheckoutModelLine, ICheckoutModelPriceValue } from "../../providers/Nautical/Checkout/types";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -207,7 +208,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   }
   availableShippingMethodsBySeller?.forEach(
     (data) =>
-      (initialSellerValues[data.seller] =
+      (initialSellerValues[data.seller ?? ""] =
         parsedInitialSellerMethods.find((sellerAndMethod: { seller: number }) => {
           return +sellerAndMethod.seller === data.seller;
         })?.shippingMethod?.id || [])
@@ -249,7 +250,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           lastDigits: creditCardData?.lastDigits ?? "",
         },
       });
-      errors = dataError?.error;
+      if (dataError?.error && isArray(dataError?.error)) {
+        errors = dataError.error;
+      }
 
       if (!errors) {
         const response = await completeCheckout();
@@ -271,7 +274,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
             router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
           }
         } else {
-          errors = response.dataError?.error;
+          if (isArray(response.dataError.error)) {
+            errors = response.dataError.error;
+          }
           handleErrors(errors);
           setPaymentFormError(errors.length > 0);
         }
@@ -327,7 +332,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       setLoading(false);
       if (shippingSubmission.dataError?.error) {
         setCustomerFormError(true);
-        handleErrors(shippingSubmission.dataError.error);
+        if (isArray(shippingSubmission.dataError.error)) {
+          handleErrors(shippingSubmission.dataError.error);
+        }
         return;
       } else {
         setCustomerFormError(false);
@@ -376,7 +383,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
             }
           } else {
             setBillingFormError(true);
-            handleErrors(billingSubmission.dataError.error);
+            if (isArray(billingSubmission.dataError.error)) {
+              handleErrors(billingSubmission.dataError.error);
+            }
           }
         } else {
           const billingSubmission = await setBillingAddress(
@@ -404,7 +413,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
             }
           } else {
             setBillingFormError(true);
-            handleErrors(billingSubmission.dataError.error);
+            if (isArray(billingSubmission.dataError.error)) {
+              handleErrors(billingSubmission.dataError.error);
+            }
           }
         }
       }
@@ -418,7 +429,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     const errors = dataError?.error;
     if (errors) {
       setShippingFormError(true);
-      handleErrors(errors);
+      if (isArray(errors)) {
+        handleErrors(errors);
+      }
     }
     setLoading(false);
   };
