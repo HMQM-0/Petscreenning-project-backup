@@ -1,14 +1,11 @@
+import { AttributeValue } from "@generated";
 import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
 
-interface Attributes {
-  [key: string]: string[];
-}
-
 export interface IProps {
-  attributes: ProductsPageAttributeFragment[];
-  filters: { attributes: Attributes };
+  attributes: Array<Pick<ProductsPageAttributeFragment, 'id' | 'name' | 'slug'> & {
+    values?: Array<Pick<AttributeValue, 'id' | 'name' | 'slug'>> | null;
+  }>;
   hide: () => void;
-  onAttributeFiltersChange: (attributeSlug: string, values: string) => void;
   show: boolean;
   target?: HTMLElement | null;
 }

@@ -1,23 +1,8 @@
-interface SortOptions {
-  value?: string | null;
-  label: string;
-}
-
-interface ActiveFiltersAttribute {
-  attributeSlug: string;
-  valueSlug: string;
-  valueName: string;
-}
+import { ActiveProductFiltersProps } from "./components/ActiveProductFilters";
 
 export interface IProps {
-  activeSortOption?: string;
-  activeFilters: number;
-  activeFiltersAttributes: ActiveFiltersAttribute[];
+  attributes: ActiveProductFiltersProps["attributes"];
   numberOfProducts: number;
-  sortOptions: SortOptions[];
-  onChange: (order: { value?: string; label: string }) => void;
-  onCloseFilterAttribute: (attributeSlug: string, valueSlug: string) => void;
   openDirectoryMenu: () => void;
   openFiltersMenu: () => void;
-  clearFilters: () => void;
 }

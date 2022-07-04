@@ -12,7 +12,8 @@ import {
   MenuItem,
   ListItemIcon,
 } from "@mui/material";
-import React from "react";
+import { useQueryParam, StringParam } from "next-query-params";
+import React, { useEffect } from "react";
 import { useAlert } from "react-alert";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -46,15 +47,18 @@ const TopNav = (props: ITopNavProps) => {
   };
   const alert = useAlert();
   const overlayContext = useOverlayContext();
-  const [term, setTerm] = React.useState<string>("");
+  const [search] = useQueryParam("q", StringParam);
+  const [term, setTerm] = React.useState<string>(search || "");
   const [anchorEl, setAnchorEl] = React.useState<
     (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
   >(null);
   const accountMenuOpen = Boolean(anchorEl);
   const [cartOpen, setCartOpen] = React.useState(false);
 
-  // Hide search bar in the top nav since it is present on the page itself
-  const showSearch = router.pathname !== "/search";
+  useEffect(() => {
+    // Sync local state with query param, anytime it is changed
+    setTerm(search || "");
+  }, [search]);
 
   const handleCartClose = () => {
     setCartOpen(false);
@@ -139,36 +143,35 @@ const TopNav = (props: ITopNavProps) => {
             </Button>
           </Box>
 
-          {showSearch && (
-            <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Paper
-                elevation={0}
-                sx={{
-                  padding: "2px 4px",
-                  display: "flex",
-                  alignItems: "center",
-                  width: 400,
-                  border: (theme) => `1px solid ${theme.palette.divider}`,
-                  borderRadius: 25,
-                }}
-              >
-                <IconButton sx={{ p: "10px" }} aria-label="Search">
-                  <SearchIcon htmlColor="#777" />
-                </IconButton>
-                <InputBase
-                  onChange={handleChange}
-                  onKeyPress={handleKeyPress}
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="Search Products"
-                  inputProps={{ "aria-label": "search" }}
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton color="primary" sx={{ p: "10px" }} onClick={() => handleSearch()} aria-label="Search">
-                  <RocketLaunchIcon />
-                </IconButton>
-              </Paper>
-            </Box>
-          )}
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <Paper
+              elevation={0}
+              sx={{
+                padding: "2px 4px",
+                display: "flex",
+                alignItems: "center",
+                width: 400,
+                border: (theme) => `1px solid ${theme.palette.divider}`,
+                borderRadius: 25,
+              }}
+            >
+              <IconButton sx={{ p: "10px" }} aria-label="Search">
+                <SearchIcon htmlColor="#777" />
+              </IconButton>
+              <InputBase
+                value={term}
+                onChange={handleChange}
+                onKeyPress={handleKeyPress}
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="Search Products"
+                inputProps={{ "aria-label": "search" }}
+              />
+              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+              <IconButton color="primary" sx={{ p: "10px" }} onClick={() => handleSearch()} aria-label="Search">
+                <RocketLaunchIcon />
+              </IconButton>
+            </Paper>
+          </Box>
 
           <Box sx={{ display: "flex", flexBasis: 200, justifyContent: "flex-end" }}>
             <IconButton

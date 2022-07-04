@@ -1,24 +1,44 @@
+import { BuilderContent } from "@builder.io/sdk";
 import React from "react";
 
+import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
-import { ChildrenFunctionProps } from "components/templates/ProductsList/View";
+import { useProductListVariables } from "components/templates/ProductsList/View";
 
-import { useProductsPageQuery } from "./queries.graphql.generated";
+import { ProductsPageQueryResult, useProductsQuery } from "./queries.graphql.generated";
 
-type ProductsProps = ChildrenFunctionProps & {};
+type ProductsProps = {
+  builderContent: BuilderContent | null;
+  pageData: ProductsPageQueryResult["data"];
+};
 
-const Products = ({ variables, filters }: ProductsProps) => {
-  const { loading, data, fetchMore } = useProductsPageQuery({
+const Products = ({ pageData, builderContent }: ProductsProps) => {
+  const variables = useProductListVariables();
+  const { loading, data, fetchMore } = useProductsQuery({
     variables,
     errorPolicy: "all",
   });
 
+  const attributes = pageData?.attributes?.edges.map(({ node }) => node) ?? [];
+
+  if (builderContent) {
+    return <Builder
+      type="products"
+      pageData={pageData}
+      productsData={data}
+      attributes={attributes}
+      loading={loading}
+      content={builderContent}
+    />;
+  }
+
   return (
     <ProductsList
       data={data}
+      attributes={attributes}
+      menuResult={pageData?.menu}
       loading={loading}
       fetchMore={fetchMore}
-      filters={filters}
       variables={variables}
       breadcrumbs={[
         {

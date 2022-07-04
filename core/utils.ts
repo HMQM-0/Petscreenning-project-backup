@@ -1,22 +1,6 @@
-// import { History, LocationState } from "history";
-// import { History } from "history";
 import { Base64 } from "js-base64";
-import { GetServerSidePropsContext } from "next";
-import { isString } from "lodash";
 
 import { Attribute, OrderDirection, ProductOrderField } from "@generated";
-import { FilterQuerySet } from "components/templates/ProductsList/View";
-// import { each } from "lodash";
-// import {
-//   parse as parseQs,
-//   stringify as stringifyQs,
-//   ParsedQuery,
-// } from "query-string";
-// import { FetchResult } from "@apollo/client";
-
-// import { FormError } from "./types";
-
-// import { OrderDirection, ProductOrderField } from "../../gqlTypes/globalTypes";
 
 const IS_SERVER_SIDE = typeof window === "undefined";
 
@@ -30,6 +14,10 @@ export const slugify = (text: string | number): string =>
     .replace(/[^\w\-]+/g, "") // Remove all non-word chars
     .replace(/\-\-+/g, "-"); // Replace multiple - with single -
 
+/**
+ * @deprecated
+ * we do not expect DB IDs to be used directly anymore
+ */
 export const getDBIdFromGraphqlId = (
   graphqlId: string,
   schema?: string
@@ -44,23 +32,13 @@ export const getDBIdFromGraphqlId = (
   return parseInt(arr?.[2] ?? "", 10);
 };
 
+/**
+ * @deprecated
+ * we do not expect DB IDs to be used directly anymore
+ */
 export const getGraphqlIdFromDBId = (id: string, schema: string): string =>
   // This is temporary solution, we will use slugs in the future
   Base64.encode(`${schema}:${id}`);
-
-export const priceToString = (
-  price: { amount: number; currency: string },
-  locale?: string
-): string => {
-  const { amount } = price;
-  if (locale) {
-    return amount.toLocaleString(locale, {
-      currency: price.currency,
-      style: "currency",
-    });
-  }
-  return `${price.currency} ${amount.toFixed(2)}`;
-};
 
 export const generateProductsUrl = () => `/products/`;
 
@@ -113,21 +91,11 @@ export const convertToAttributeScalar = (
     )
     .reduce((prev, curr) => [...prev, ...curr], []);
 
-interface QueryString {
-  [key: string]: string[] | string | null | undefined;
-}
-
-export const getAttributesFromQs = (qs: QueryString) =>
-  Object.keys(qs)
-    .filter(
-      (key) =>
-        !["pageSize", "priceGte", "priceLte", "sortBy", "q"].includes(key)
-    )
-    .reduce((prev: any, curr: any) => {
-      prev[curr] = typeof qs[curr] === "string" ? [qs[curr]] : qs[curr];
-      return prev;
-    }, {});
-
+/**
+ * @deprecated
+ * Does not make sense to have this as a separate util.
+ * Use `typeof ... === 'undefined'`, `??`, `||` etc. instead
+ */
 export const getValueOrEmpty = <T>(value: T): T | string =>
   value === undefined || value === null ? "" : value;
 
@@ -159,6 +127,11 @@ export const convertSortByFromString = (sortBy: string | undefined | null) => {
   return { field, direction };
 };
 
+/**
+ * @deprecated
+ * NEVER USE THIS ONE.
+ * Use `?.`, `||`, `??` etc. instead
+ */
 export const maybe = <T>(exp: () => T, d?: T) => {
   try {
     const result = exp();
@@ -168,65 +141,4 @@ export const maybe = <T>(exp: () => T, d?: T) => {
   }
 };
 
-// export const parseQueryString = (
-//   // location: LocationState
-//   location: any
-// ): ParsedQuery<string> => {
-//   let query: ParsedQuery<string> = parseQs(window.location.search.substr(1));
-
-//   each(query, (value, key) => {
-//     if (Array.isArray(value)) {
-//       query = {
-//         ...query,
-//         [key]: value[0],
-//       };
-//     }
-//   });
-//   return query;
-// };
-
-// export const updateQueryString = (
-//   // location: LocationState,
-//   location: any,
-//   history: History
-// ) => {
-//   const querystring = parseQueryString(location);
-
-//   return (key: string, value?: any) => {
-//     if (value === "") {
-//       delete querystring[key];
-//     } else {
-//       querystring[key] = value || key;
-//     }
-//     history.replace(`?${stringifyQs(querystring)}`);
-//   };
-// };
-
-// export const findFormErrors = (result: void | FetchResult): FormError[] => {
-//   if (result) {
-//     const data = Object.values(maybe(() => result.data) as object);
-
-//     return data.reduce((prevVal: any, currVal: any) => {
-//       const errors = currVal.errors || [];
-
-//       return [...prevVal, ...errors];
-//     }, []);
-//   }
-//   return [];
-// };
-
 export const removeEmptySpaces = (text: string) => text.replace(/\s+/g, "");
-
-export const getProductQueryVariablesFromContext = (
-  context: GetServerSidePropsContext
-) => {
-  const { sortBy, filters, after } = context.query;
-  const attributeFilters = FilterQuerySet.decode(filters);
-  return {
-    sortBy: convertSortByFromString(isString(sortBy) ? sortBy : null),
-    attributes: attributeFilters
-      ? convertToAttributeScalar(attributeFilters)
-      : {},
-    after: isString(after) ? after : undefined,
-  };
-};

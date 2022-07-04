@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 
-import { productList } from "@nautical/queries/products";
+import { menuTree } from "components/organisms/ProductSideNavbar/queries.graphql";
+import { productsPageAttribute } from "components/templates/ProductsList/queries.graphql";
 import { brandingFragment } from "queries/branding.graphql";
 
 export const basicCollection = gql`
@@ -20,16 +21,11 @@ export const basicCollection = gql`
 
 export const collectionPageQuery = gql`
   ${basicCollection}
+  ${productsPageAttribute}
   ${brandingFragment}
-  ${productList}
+  ${menuTree}
   query CollectionPage(
     $id: ID!
-    $attributes: [AttributeInput!]
-    $after: String
-    $pageSize: Int
-    $sortBy: ProductOrder
-    $priceLte: Float
-    $priceGte: Float
   ) {
     branding {
       ...Branding
@@ -37,67 +33,18 @@ export const collectionPageQuery = gql`
     collection(id: $id) {
       ...BasicCollection
     }
-    productList: products(
-      after: $after
-      first: $pageSize
-      sortBy: $sortBy
-      filter: {
-        attributes: $attributes
-        collections: [$id]
-        minimalPrice: { gte: $priceGte, lte: $priceLte }
-      }
+    attributes(
+      filter: { inCollection: $id, filterableInStorefront: true }
+      first: 100
     ) {
-      ...ProductList
+      attributes: edges {
+        attribute: node {
+          ...ProductsPageAttribute
+        }
+      }
+    }
+    menu(name: "sidenav") {
+      ...MenuTree
     }
   }
 `;
-
-// To be uncommented when needed in Builder related task
-
-// export const builderCollectionInfoQuery = gql`
-//   ${menuItem}
-//   query Collection($id: ID!) {
-//     collection(id: $id) {
-//       id
-//       slug
-//       name
-//       seoDescription
-//       seoTitle
-//       description
-//       descriptionJson
-//       backgroundImage {
-//         url
-//       }
-//     }
-//     menu(name: "sidenav") {
-//       id
-//       name
-//       items {
-//         ...MenuItem
-//         children {
-//           ...MenuItem
-//           children {
-//             ...MenuItem
-//           }
-//         }
-//       }
-//     }
-//     attributeList: attributes(
-//       filter: { inCollection: $id, filterableInStorefront: true }
-//       first: 100
-//     ) {
-//       attributes: edges {
-//         attribute: node {
-//           id
-//           name
-//           slug
-//           values {
-//             id
-//             name
-//             slug
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;

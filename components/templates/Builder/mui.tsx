@@ -1,6 +1,3 @@
-// Remove any of these that aren't being actively used
-// Move these to individual files so they can be imported as required, rather than wholesale
-
 import { Builder } from "@builder.io/react";
 import {
   Alert,
@@ -11,6 +8,8 @@ import {
   Box,
   Button,
   ButtonProps,
+  Card as MaterialCard,
+  CardContent,
   IconButton,
   Rating,
   Slider,
@@ -18,21 +17,18 @@ import {
   Switch,
   TextField,
   TextFieldProps,
+  Theme,
   Toolbar,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  InsertMenuConfig,
-  InsertMenuItem,
-} from "@builder.io/sdk/dist/src/builder.class";
+import { InsertMenuConfig, InsertMenuItem } from "@builder.io/sdk/dist/src/builder.class";
+import { useTheme } from "@mui/styles";
 import React from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-
-import { TaxedMoney } from "components/molecules/TaxedMoney";
 
 import {
   AlertIcon,
@@ -113,24 +109,6 @@ interface AutoCompleteLabelOption {
   label: string;
 }
 
-export const BuilderTaxedMoney = (props: {
-  TaxedMoney: {
-    gross: { currency: string; amount: number };
-    net: { currency: string; amount: number };
-  };
-}) => {
-  return <TaxedMoney taxedMoney={props.TaxedMoney} />;
-};
-
-Builder.registerComponent(BuilderTaxedMoney, {
-  name: "TaxedMoney",
-  friendlyName: "Nautical TaxedMoney",
-  noWrap: false, // Important!
-  image: TextfieldIcon,
-  inputs: [{ name: "TaxedMoney", type: "object" }],
-  docsLink: "https://mui.com/components/autocomplete/",
-});
-
 export const BuilderAutoComplete = (props: {
   label: string | undefined;
   options: AutoCompleteLabelOption[] | any[];
@@ -143,9 +121,7 @@ export const BuilderAutoComplete = (props: {
     id="combo-box-demo"
     options={props.options ? props.options : []}
     sx={{ width: props.width ? props.width : 300 }}
-    renderInput={(params) => (
-      <TextField {...params} label={props.label ? props.label : "Label"} />
-    )}
+    renderInput={(params) => <TextField {...params} label={props.label ? props.label : "Label"} />}
   />
 );
 
@@ -165,10 +141,7 @@ Builder.registerComponent(BuilderAutoComplete, {
   docsLink: "https://mui.com/components/autocomplete/",
 });
 
-export const BuilderAlert = (props: {
-  message: string;
-  severity: AlertColor;
-}) => (
+export const BuilderAlert = (props: { message: string; severity: AlertColor }) => (
   <Alert severity={props.severity ? props.severity : "error"}>
     {props.message ? props.message : "This is an error message!"}
   </Alert>
@@ -195,11 +168,7 @@ Builder.registerComponent(BuilderAlert, {
   docsLink: "https://mui.com/components/alert/",
 });
 
-export const BuilderAvatar = (props: {
-  alt: string;
-  image: string;
-  size: number;
-}) => {
+export const BuilderAvatar = (props: { alt: string; image: string; size: number }) => {
   const sizeStyle = props.size ? props.size : 48;
   return (
     <Avatar
@@ -228,9 +197,7 @@ export const BuilderRating = (props: { label: string; value: number }) => {
 
   return (
     <>
-      <Typography component="legend">
-        {props.label ? props.label : "Label"}
-      </Typography>
+      <Typography component="legend">{props.label ? props.label : "Label"}</Typography>
       <Rating
         name="simple-controlled"
         value={value ? value : props.value}
@@ -254,25 +221,15 @@ Builder.registerComponent(BuilderRating, {
   docsLink: "https://mui.com/components/rating/",
 });
 
-export const BuilderSlider = (props: {
-  label: string;
-  value: number;
-  showValue: boolean;
-}) => {
+export const BuilderSlider = (props: { label: string; value: number; showValue: boolean }) => {
   const [value, setValue] = React.useState<number>(props.value);
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number);
   };
   return (
     <Stack spacing={2} direction="row">
-      <Slider
-        aria-label={props.label ? props.label : "label"}
-        value={value}
-        onChange={handleChange}
-      />
-      <Typography sx={{ display: props.showValue ? "block" : "none" }}>
-        {value}
-      </Typography>
+      <Slider aria-label={props.label ? props.label : "label"} value={value} onChange={handleChange} />
+      <Typography sx={{ display: props.showValue ? "block" : "none" }}>{value}</Typography>
     </Stack>
   );
 };
@@ -322,15 +279,7 @@ Builder.registerComponent(BuilderTextField, {
 });
 
 export const BuilderButton = (props: {
-  color:
-    | "inherit"
-    | "error"
-    | "primary"
-    | "secondary"
-    | "info"
-    | "success"
-    | "warning"
-    | undefined;
+  color: "inherit" | "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
   variant: "text" | "contained" | "outlined" | undefined;
   label: string;
   attributes: JSX.IntrinsicAttributes & ButtonProps;
@@ -401,31 +350,16 @@ Builder.registerComponent(BuilderIcon, {
 });
 
 export const BuilderAppBar = (props: {
-  color:
-    | "inherit"
-    | "primary"
-    | "secondary"
-    | "default"
-    | "transparent"
-    | undefined;
+  color: "inherit" | "primary" | "secondary" | "default" | "transparent" | undefined;
   position: "fixed" | "static" | "absolute" | "sticky" | "relative" | undefined;
   attributes: JSX.IntrinsicAttributes & TextFieldProps;
 }) => (
   // Important! Builder.io must add a couple classes and attributes via props.attributes
   // Important! If you add your own classes do it after ...props.attributes
   <Box sx={{ flexGrow: 1 }}>
-    <AppBar
-      position={props.position ? props.position : "static"}
-      color={props.color ? props.color : "primary"}
-    >
+    <AppBar position={props.position ? props.position : "static"} color={props.color ? props.color : "primary"}>
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
+        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
           <MenuIcon />
         </IconButton>
         <Typography>LOGO</Typography>
@@ -472,20 +406,57 @@ Builder.registerComponent(BuilderAppBar, {
 
 export const BuilderSwitch = (props: {
   "@type": "@builder.io/sdk:Element";
-  color:
-    | "primary"
-    | "secondary"
-    | "default"
-    | "error"
-    | "info"
-    | "success"
-    | "warning"
-    | undefined;
+  color: "primary" | "secondary" | "default" | "error" | "info" | "success" | "warning" | undefined;
 }) => (
   // Important! Builder.io must add a couple classes and attributes via props.attributes
   // Important! If you add your own classes do it after ...props.attributes
   <Switch color={props.color ? props.color : "primary"} />
 );
+
+export const BuilderCard = (props: {
+  message: string;
+  fontSize: number;
+  color: string;
+  circle: boolean;
+  size: number;
+}) => {
+  const theme: Theme = useTheme();
+
+  const getColor = () => {
+    switch (props.color) {
+      case "error":
+        return theme.palette.error.main;
+      case "info":
+        return theme.palette.info.main;
+      case "primary":
+        return theme.palette.primary.main;
+      case "secondary":
+        return theme.palette.secondary.main;
+      case "success":
+        return theme.palette.success.main;
+      case "warning":
+        return theme.palette.warning.main;
+      default:
+        return "#FFF";
+    }
+  };
+
+  return (
+    <MaterialCard
+      sx={{
+        backgroundColor: getColor(),
+        borderRadius: props.circle ? "50%" : 4,
+        fontSize: props.fontSize ? props.fontSize : "1rem",
+        width: props.size ? props.size : 100,
+        height: props.size ? props.size : 100,
+        color: (theme) => theme.palette.getContrastText(getColor()),
+        textAlign: "center",
+      }}
+    >
+      <CardContent>{props.message}</CardContent>
+    </MaterialCard>
+  );
+};
 
 Builder.registerComponent(BuilderSwitch, {
   name: "Paper",
@@ -527,6 +498,24 @@ Builder.registerComponent(BuilderSwitch, {
   name: "List",
   noWrap: false, // Important!
   image: ListIcon,
+});
+
+Builder.registerComponent(BuilderCard, {
+  name: "Card",
+  friendlyName: "Material Card",
+  noWrap: false, // Important!
+  inputs: [
+    { name: "message", type: "string", defaultValue: "Text Field" },
+    { name: "fontSize", type: "string", defaultValue: "1rem" },
+    {
+      name: "color",
+      type: "string",
+      defaultValue: "primary",
+      enum: enumsColor,
+    },
+    { name: "circle", type: "boolean", defaultValue: true },
+    { name: "size", type: "number", defaultValue: 160 },
+  ],
 });
 
 const alertMenuItem: InsertMenuItem = {
@@ -639,6 +628,18 @@ const iconMenuItem: InsertMenuItem = {
   },
 };
 
+const cardMenuItem: InsertMenuItem = {
+  name: "Card",
+  icon: GridIcon,
+  item: {
+    "@type": "@builder.io/sdk:Element",
+    layerLocked: false,
+    component: {
+      name: "Card",
+    },
+  },
+};
+
 const materialInputsMenu: InsertMenuConfig = {
   name: "Material Components",
   items: [
@@ -646,6 +647,7 @@ const materialInputsMenu: InsertMenuConfig = {
     avatarMenuItem,
     autoCompleteMenuItem,
     buttonMenuItem,
+    cardMenuItem,
     checkboxMenuItem,
     ratingMenuItem,
     sliderMenuItem,

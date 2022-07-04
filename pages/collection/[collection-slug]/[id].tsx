@@ -1,3 +1,5 @@
+import { builder } from "@builder.io/react";
+import { BuilderContent } from "@builder.io/sdk";
 import type {
   NextPage,
   InferGetServerSidePropsType,
@@ -5,6 +7,7 @@ import type {
 } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
+import builderConfig from "config/builder";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
@@ -17,7 +20,10 @@ import {
   CollectionPageQueryVariables,
 } from "components/templates/CollectionPage/queries.graphql.generated";
 
-const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
+const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  builderContent,
+}) => {
   const description = data.collection?.seoDescription || "Collection";
   const title =
     data.collection?.seoTitle || data.collection?.name || "Collection";
@@ -37,7 +43,11 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     <Layout documentHead={documentHead}>
       {collection ? (
         <ProductsListView>
-          {(props) => <CollectionProducts {...props} collection={collection} />}
+          <CollectionProducts
+            collection={collection}
+            pageData={data}
+            builderContent={builderContent}
+          />
         </ProductsListView>
       ) : (
         <NotFound />
@@ -51,6 +61,11 @@ export async function getServerSideProps(
 ) {
   const client = getApolloClient();
   const collectionId = context.params?.id ?? "";
+
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    content = await builder.get("store", { url: "/store/collection" }).promise() || null;
+  }
 
   const variables: CollectionPageQueryVariables = {
     id: collectionId,
@@ -67,6 +82,7 @@ export async function getServerSideProps(
   return {
     props: {
       data,
+      builderContent: content,
       __APOLLO__,
     },
   };
