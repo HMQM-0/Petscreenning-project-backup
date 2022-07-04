@@ -41,6 +41,20 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.applicableVolumeDiscountsBySeller = action.payload.applicableVolumeDiscountsBySeller;
       draft.availablePaymentGateways = action.payload.availablePaymentGateways;
       draft.payment = action.payload.payment;
+      break;
+    case CheckoutActionTypes.SET_BILLING_ADDRESS:
+      draft.availablePaymentGateways = action.payload.availablePaymentGateways;
+      draft.billingAddress = action.payload.billingAddress;
+      draft.billingAsShipping = action.payload.billingAsShipping;
+      draft.selectedBillingAddressId = action.payload.selectedBillingAddressId;
+      break;
+    case CheckoutActionTypes.SET_BILLING_ADDRESS_WITH_EMAIL:
+      draft.availablePaymentGateways = action.payload.availablePaymentGateways;
+      draft.billingAddress = action.payload.billingAddress;
+      draft.billingAsShipping = action.payload.billingAsShipping;
+      draft.email = action.payload.email;
+      draft.selectedBillingAddressId = action.payload.selectedBillingAddressId;
+      break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);
   }

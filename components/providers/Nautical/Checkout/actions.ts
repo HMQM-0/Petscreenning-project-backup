@@ -4,6 +4,8 @@ export const CheckoutActionTypes = {
   INITIALIZE_CHECKOUT: "INITIALIZE_CHECKOUT",
   UPDATE_SHIPPING_ADDRESS: "UPDATE_SHIPPING_ADDRESS",
   CREATE_CHECKOUT: "CREATE_CHECKOUT",
+  SET_BILLING_ADDRESS: "SET_BILLING_ADDRESS",
+  SET_BILLING_ADDRESS_WITH_EMAIL: "SET_BILLING_ADDRESS_WITH_EMAIL",
 } as const;
 
 export const CheckoutActionCreators = {
@@ -25,6 +27,25 @@ export const CheckoutActionCreators = {
   }),
   createCheckout: (payload: Partial<ICheckoutContext>) => ({
     type: CheckoutActionTypes.CREATE_CHECKOUT,
+    payload,
+  }),
+  setBillingAddress: (payload: {
+    availablePaymentGateways: ICheckoutContext["availablePaymentGateways"];
+    billingAddress: ICheckoutContext["billingAddress"];
+    billingAsShipping: ICheckoutContext["billingAsShipping"];
+    selectedBillingAddressId: ICheckoutContext["selectedBillingAddressId"];
+  }) => ({
+    type: CheckoutActionTypes.SET_BILLING_ADDRESS,
+    payload,
+  }),
+  setBillingAddressWithEmail: (payload: {
+    availablePaymentGateways: ICheckoutContext["availablePaymentGateways"];
+    billingAddress: ICheckoutContext["billingAddress"];
+    billingAsShipping: ICheckoutContext["billingAsShipping"];
+    email: ICheckoutContext["email"];
+    selectedBillingAddressId: ICheckoutContext["selectedBillingAddressId"];
+  }) => ({
+    type: CheckoutActionTypes.SET_BILLING_ADDRESS_WITH_EMAIL,
     payload,
   }),
 } as const;
