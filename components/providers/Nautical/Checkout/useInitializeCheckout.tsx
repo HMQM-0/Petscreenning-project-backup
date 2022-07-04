@@ -21,7 +21,6 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
       const checkout = getCheckout();
       const payment = getPayment();
 
-      console.log("authenticated", authenticated);
       const { data, error } = await getUserCheckout(Boolean(authenticated), checkout?.token);
 
       if (error) {
@@ -35,7 +34,7 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
       }
       setCheckout(data || checkout);
 
-      const initializedCheckout: ICheckoutContext = {
+      const initializedCheckout: Partial<ICheckoutContext> = {
         checkout: data || checkout || undefined,
         promoCodeDiscount: checkout?.promoCodeDiscount,
         billingAsShipping: checkout?.billingAsShipping,

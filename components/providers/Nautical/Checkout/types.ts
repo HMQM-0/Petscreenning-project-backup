@@ -146,3 +146,21 @@ export interface ICheckoutModel {
   shippingMethod?: CheckoutFragment["shippingMethod"];
   sellerShippingMethods?: CheckoutFragment["sellerShippingMethods"];
 }
+
+export enum FunctionErrorCheckoutTypes {
+  "SHIPPING_ADDRESS_NOT_SET",
+  "ITEMS_NOT_ADDED_TO_CART",
+  "EMAIL_NOT_SET",
+}
+
+export enum DataErrorCheckoutTypes {
+  "SET_SHIPPING_ADDRESS",
+  "SET_BILLING_ADDRESS",
+  "SET_SHIPPING_METHOD",
+  "ADD_PROMO_CODE",
+  "REMOVE_PROMO_CODE",
+  "CREATE_PAYMENT",
+  "COMPLETE_CHECKOUT",
+  "GET_CHECKOUT",
+  "GET_PAYMENT_GATEWAYS",
+}
