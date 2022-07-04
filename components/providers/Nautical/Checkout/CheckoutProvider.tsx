@@ -7,6 +7,7 @@ import { useAddPromoCode } from "./useAddPromoCode";
 import { useCompleteCheckout } from "./useCompleteCheckout";
 import { useCreatePayment } from "./useCreatePayment";
 import { useInitializeCheckout } from "./useInitializeCheckout";
+import { useOnSignOut } from "./useOnSignOut";
 import { useRemovePromoCode } from "./useRemovePromoCode";
 import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
@@ -22,6 +23,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const [checkout, dispatch] = useImmerReducer(reducer, INITIAL_STATE);
 
   useInitializeCheckout({ dispatch });
+  useOnSignOut({ dispatch });
   const setShippingAddress = useSetShippingAddress({ dispatch });
   const setBillingAddress = useSetBillingAddress({ dispatch });
   const setBillingAsShippingAddress = useSetBillingAsShippingAddress({ checkout, dispatch });

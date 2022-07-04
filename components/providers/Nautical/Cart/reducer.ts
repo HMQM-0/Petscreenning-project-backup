@@ -12,6 +12,9 @@ export const reducer: Reducer<ICartContext, CartActions> = (draft, action) => {
       draft.items = action.payload.items;
       draft.loaded = true;
       break;
+    case CartActionTypes.CLEAR_CART:
+      draft.items = [];
+      break;
     default:
       throw new Error(`Cart Reducer had action type with no case ${action}`);
   }

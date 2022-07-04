@@ -7,6 +7,7 @@ import { useAddItem } from "./useAddItem";
 import { useCalculateSummaryPrices } from "./useCalculateSummaryPrices";
 import { useInitializeCart } from "./useInitializeCart";
 import { useItemInCart } from "./useItemInCart";
+import { useOnSignOut } from "./useOnSignOut";
 import { useRemoveItem } from "./useRemoveItem";
 import { useSubtractItem } from "./useSubtractItem";
 import { useUpdateItem } from "./useUpdateItem";
@@ -19,7 +20,7 @@ const CartProvider = ({ children }: CartProps) => {
   const [cart, dispatch] = useImmerReducer(reducer, INITIAL_STATE);
 
   useInitializeCart({ dispatch });
-
+  useOnSignOut({ dispatch });
   const addItem = useAddItem({ dispatch });
   const removeItem = useRemoveItem({ dispatch });
   const subtractItem = useSubtractItem({ dispatch });

@@ -3,6 +3,7 @@ import { ICartContext } from "./context";
 export const CartActionTypes = {
   INITIALIZE_CART: "INITIALIZE_CART",
   UPDATE_ITEMS: "UPDATE_ITEMS",
+  CLEAR_CART: "CLEAR_CART",
 } as const;
 
 export const CartActionCreators = {
@@ -17,6 +18,10 @@ export const CartActionCreators = {
     payload: {
       items,
     },
+  }),
+  clearCart: () => ({
+    type: CartActionTypes.CLEAR_CART,
+    payload: null,
   }),
 } as const;
 

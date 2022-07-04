@@ -22,7 +22,9 @@ export type IAuthContext = {
    * Token used for user authentication.
    */
   token?: string;
-
+  /**
+   * Indicates if a user was authenticated, but has signed out
+   */
   signedOut: boolean;
   signIn: (
     email: string,
