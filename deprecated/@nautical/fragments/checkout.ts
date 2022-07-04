@@ -105,7 +105,9 @@ export const checkoutLineFragment = gql`
     variant {
       ...ProductVariant
     }
-    seller
+    seller {
+      id
+    }
   }
 `;
 
