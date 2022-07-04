@@ -6,6 +6,7 @@ import { CheckoutFragment } from "./fragments.graphql.generated";
 import { ICheckoutAddress, ICheckoutModel, IPaymentModel, IPromoCodeDiscount } from "./types";
 import { useSetShippingAddress } from "./useSetShippingAddress";
 import { useSetBillingAddress } from "./useSetBillingAddress";
+import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
 
 export type ICheckoutContext = {
   loaded: boolean;
@@ -25,6 +26,7 @@ export type ICheckoutContext = {
   payment?: IPaymentModel;
   setShippingAddress: ReturnType<typeof useSetShippingAddress>;
   setBillingAddress: ReturnType<typeof useSetBillingAddress>;
+  setBillingAsShippingAddress: ReturnType<typeof useSetBillingAsShippingAddress>;
 };
 
 export const INITIAL_STATE: ICheckoutContext = {
@@ -35,6 +37,11 @@ export const INITIAL_STATE: ICheckoutContext = {
     pending: false,
   }),
   setBillingAddress: async (billingAddress: ICheckoutAddress, email?: string) => ({
+    data: undefined,
+    dataError: undefined,
+    pending: false,
+  }),
+  setBillingAsShippingAddress: async (billingAsShipping: boolean) => ({
     data: undefined,
     dataError: undefined,
     pending: false,
