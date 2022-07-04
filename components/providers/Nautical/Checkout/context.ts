@@ -12,6 +12,7 @@ import { useSetSellerShippingMethods } from "./useSetSellerShippingMethods";
 import { useAddPromoCode } from "./useAddPromoCode";
 import { useRemovePromoCode } from "./useRemovePromoCode";
 import { CreatePaymentInput, useCreatePayment } from "./useCreatePayment";
+import { CompleteCheckoutInput, useCompleteCheckout } from "./useCompleteCheckout";
 
 export type ICheckoutContext = {
   loaded: boolean;
@@ -40,6 +41,7 @@ export type ICheckoutContext = {
   addPromoCode: ReturnType<typeof useAddPromoCode>;
   removePromoCode: ReturnType<typeof useRemovePromoCode>;
   createPayment: ReturnType<typeof useCreatePayment>;
+  completeCheckout: ReturnType<typeof useCompleteCheckout>;
 };
 
 export const INITIAL_STATE: ICheckoutContext = {
@@ -80,6 +82,11 @@ export const INITIAL_STATE: ICheckoutContext = {
     pending: false,
   }),
   createPayment: async (input: CreatePaymentInput) => ({
+    data: undefined,
+    dataError: undefined,
+    pending: false,
+  }),
+  completeCheckout: async (input?: CompleteCheckoutInput) => ({
     data: undefined,
     dataError: undefined,
     pending: false,

@@ -73,6 +73,25 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
     case CheckoutActionTypes.CREATE_PAYMENT:
       draft.payment = action.payload.payment;
       break;
+    case CheckoutActionTypes.COMPLETE_CHECKOUT:
+      draft.checkout = undefined;
+      draft.email = undefined;
+      draft.promoCodeDiscount = undefined;
+      draft.billingAsShipping = undefined;
+      draft.shippingAddress = undefined;
+      draft.billingAddress = undefined;
+      draft.selectedShippingAddressId = undefined;
+      draft.selectedBillingAddressId = undefined;
+      draft.availableShippingMethods = undefined;
+      draft.availableShippingMethodsBySeller = undefined;
+      draft.applicableVolumeDiscounts = undefined;
+      draft.applicableVolumeDiscountsBySeller = undefined;
+      draft.availablePaymentGateways = undefined;
+      draft.payment = undefined;
+      draft.shippingMethod = undefined;
+      draft.lines = undefined;
+      draft.sellerShippingMethods = undefined;
+      break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);
   }

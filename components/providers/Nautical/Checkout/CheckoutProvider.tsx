@@ -4,6 +4,7 @@ import { useImmerReducer } from "use-immer";
 import { CheckoutContext, ICheckoutContext, INITIAL_STATE } from "./context";
 import { reducer } from "./reducer";
 import { useAddPromoCode } from "./useAddPromoCode";
+import { useCompleteCheckout } from "./useCompleteCheckout";
 import { useCreatePayment } from "./useCreatePayment";
 import { useInitializeCheckout } from "./useInitializeCheckout";
 import { useRemovePromoCode } from "./useRemovePromoCode";
@@ -29,6 +30,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const addPromoCode = useAddPromoCode({ dispatch });
   const removePromoCode = useRemovePromoCode({ dispatch });
   const createPayment = useCreatePayment({ dispatch });
+  const completeCheckout = useCompleteCheckout({ dispatch });
 
   const value: ICheckoutContext = {
     ...checkout,
@@ -40,6 +42,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
     addPromoCode,
     removePromoCode,
     createPayment,
+    completeCheckout,
   };
 
   return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;
