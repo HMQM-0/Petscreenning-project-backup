@@ -5,6 +5,7 @@ import {
   OverlayType,
 } from "components/providers/Overlay/context";
 
+import Cart from "./Cart/Cart";
 import Overlay from "./Overlay/Overlay";
 import Login from "./Login/Login";
 import MobileNav from "./MobileNav";
@@ -36,6 +37,9 @@ const OverlayManager = () => (
 
         case OverlayType.mainMenuNav:
           return <Overlay testingContext="mainMenuOverlay" context={overlay} />;
+
+        case OverlayType.cart:
+          return <Cart overlay={overlay} />;
 
         default:
           return null;
