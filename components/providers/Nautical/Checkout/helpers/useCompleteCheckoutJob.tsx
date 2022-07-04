@@ -137,7 +137,7 @@ const useCompleteCheckoutJob = ({ dispatch }: useCompleteCheckoutJobProps) => {
         localStorage.removeItem("nauticalPaymentId");
       }
 
-      dispatch(CheckoutActionCreators.completeCheckout());
+      dispatch(CheckoutActionCreators.clearCheckout());
 
       return { data };
     },

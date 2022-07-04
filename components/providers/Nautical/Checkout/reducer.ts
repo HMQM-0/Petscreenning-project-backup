@@ -73,7 +73,7 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
     case CheckoutActionTypes.CREATE_PAYMENT:
       draft.payment = action.payload.payment;
       break;
-    case CheckoutActionTypes.COMPLETE_CHECKOUT:
+    case CheckoutActionTypes.CLEAR_CHECKOUT:
       draft.checkout = undefined;
       draft.email = undefined;
       draft.promoCodeDiscount = undefined;

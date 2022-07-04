@@ -12,7 +12,7 @@ export const CheckoutActionTypes = {
   ADD_PROMO_CODE: "ADD_PROMO_CODE",
   REMOVE_PROMO_CODE: "REMOVE_PROMO_CODE",
   CREATE_PAYMENT: "CREATE_PAYMENT",
-  COMPLETE_CHECKOUT: "COMPLETE_CHECKOUT",
+  CLEAR_CHECKOUT: "CLEAR_CHECKOUT",
 } as const;
 
 export const CheckoutActionCreators = {
@@ -84,8 +84,8 @@ export const CheckoutActionCreators = {
       payment,
     },
   }),
-  completeCheckout: () => ({
-    type: CheckoutActionTypes.COMPLETE_CHECKOUT,
+  clearCheckout: () => ({
+    type: CheckoutActionTypes.CLEAR_CHECKOUT,
     payload: {},
   }),
 } as const;

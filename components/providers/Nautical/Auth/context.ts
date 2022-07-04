@@ -22,6 +22,8 @@ export type IAuthContext = {
    * Token used for user authentication.
    */
   token?: string;
+
+  signedOut: boolean;
   signIn: (
     email: string,
     password: string,
@@ -42,6 +44,7 @@ export type IAuthContext = {
 
 export const INITIAL_STATE: IAuthContext = {
   loaded: false,
+  signedOut: false,
   signIn: async (email: string, password: string, autoSignIn?: boolean) => ({
     errors: null,
   }),
