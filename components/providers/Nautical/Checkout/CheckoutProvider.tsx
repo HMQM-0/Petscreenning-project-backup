@@ -5,6 +5,7 @@ import { CheckoutContext, ICheckoutContext, INITIAL_STATE } from "./context";
 import { reducer } from "./reducer";
 import { useAddPromoCode } from "./useAddPromoCode";
 import { useInitializeCheckout } from "./useInitializeCheckout";
+import { useRemovePromoCode } from "./useRemovePromoCode";
 import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
 import { useSetSellerShippingMethods } from "./useSetSellerShippingMethods";
@@ -25,6 +26,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const setShippingMethod = useSetShippingMethod({ dispatch });
   const setSellerShippingMethods = useSetSellerShippingMethods({ dispatch });
   const addPromoCode = useAddPromoCode({ dispatch });
+  const removePromoCode = useRemovePromoCode({ dispatch });
 
   const value: ICheckoutContext = {
     ...checkout,
@@ -34,6 +36,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
     setShippingMethod,
     setSellerShippingMethods,
     addPromoCode,
+    removePromoCode,
   };
 
   return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;

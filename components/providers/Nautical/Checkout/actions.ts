@@ -9,6 +9,7 @@ export const CheckoutActionTypes = {
   SET_SHIPPING_METHOD: "SET_SHIPPING_METHOD",
   SET_SELLER_SHIPPING_METHODS: "SET_SELLER_SHIPPING_METHODS",
   ADD_PROMO_CODE: "ADD_PROMO_CODE",
+  REMOVE_PROMO_CODE: "REMOVE_PROMO_CODE",
 } as const;
 
 export const CheckoutActionCreators = {
@@ -68,6 +69,10 @@ export const CheckoutActionCreators = {
   }),
   addPromoCode: (payload: { promoCodeDiscount: ICheckoutContext["promoCodeDiscount"] }) => ({
     type: CheckoutActionTypes.ADD_PROMO_CODE,
+    payload,
+  }),
+  removePromoCode: (payload: { promoCodeDiscount: ICheckoutContext["promoCodeDiscount"] }) => ({
+    type: CheckoutActionTypes.REMOVE_PROMO_CODE,
     payload,
   }),
 } as const;

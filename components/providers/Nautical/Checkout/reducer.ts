@@ -67,6 +67,9 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
     case CheckoutActionTypes.ADD_PROMO_CODE:
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;
       break;
+    case CheckoutActionTypes.REMOVE_PROMO_CODE:
+      draft.promoCodeDiscount = action.payload.promoCodeDiscount;
+      break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);
   }
