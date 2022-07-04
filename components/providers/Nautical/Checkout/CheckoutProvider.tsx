@@ -7,6 +7,7 @@ import { useInitializeCheckout } from "./useInitializeCheckout";
 import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
 import { useSetShippingAddress } from "./useSetShippingAddress";
+import { useSetShippingMethod } from "./useSetShippingMethod";
 
 type CheckoutProps = {
   children: React.ReactNode;
@@ -19,12 +20,14 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const setShippingAddress = useSetShippingAddress({ dispatch });
   const setBillingAddress = useSetBillingAddress({ dispatch });
   const setBillingAsShippingAddress = useSetBillingAsShippingAddress({ checkout, dispatch });
+  const setShippingMethod = useSetShippingMethod({ dispatch });
 
   const value: ICheckoutContext = {
     ...checkout,
     setShippingAddress,
     setBillingAddress,
     setBillingAsShippingAddress,
+    setShippingMethod,
   };
 
   return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;

@@ -6,6 +6,7 @@ export const CheckoutActionTypes = {
   CREATE_CHECKOUT: "CREATE_CHECKOUT",
   SET_BILLING_ADDRESS: "SET_BILLING_ADDRESS",
   SET_BILLING_ADDRESS_WITH_EMAIL: "SET_BILLING_ADDRESS_WITH_EMAIL",
+  SET_SHIPPING_METHOD: "SET_SHIPPING_METHOD",
 } as const;
 
 export const CheckoutActionCreators = {
@@ -46,6 +47,13 @@ export const CheckoutActionCreators = {
     selectedBillingAddressId: ICheckoutContext["selectedBillingAddressId"];
   }) => ({
     type: CheckoutActionTypes.SET_BILLING_ADDRESS_WITH_EMAIL,
+    payload,
+  }),
+  setShippingMethod: (payload: {
+    promoCodeDiscount: ICheckoutContext["promoCodeDiscount"];
+    shippingMethod: ICheckoutContext["shippingMethod"];
+  }) => ({
+    type: CheckoutActionTypes.SET_SHIPPING_METHOD,
     payload,
   }),
 } as const;
