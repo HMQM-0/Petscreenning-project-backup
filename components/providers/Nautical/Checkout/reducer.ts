@@ -55,6 +55,15 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.email = action.payload.email;
       draft.selectedBillingAddressId = action.payload.selectedBillingAddressId;
       break;
+    case CheckoutActionTypes.SET_SHIPPING_METHOD:
+      draft.promoCodeDiscount = action.payload.promoCodeDiscount;
+      draft.shippingMethod = action.payload.shippingMethod;
+      break;
+    case CheckoutActionTypes.SET_SELLER_SHIPPING_METHODS:
+      draft.lines = action.payload.lines;
+      draft.promoCodeDiscount = action.payload.promoCodeDiscount;
+      draft.sellerShippingMethods = action.payload.sellerShippingMethods;
+      break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);
   }

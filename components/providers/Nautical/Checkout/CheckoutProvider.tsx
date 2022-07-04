@@ -6,6 +6,7 @@ import { reducer } from "./reducer";
 import { useInitializeCheckout } from "./useInitializeCheckout";
 import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
+import { useSetSellerShippingMethods } from "./useSetSellerShippingMethods";
 import { useSetShippingAddress } from "./useSetShippingAddress";
 import { useSetShippingMethod } from "./useSetShippingMethod";
 
@@ -21,6 +22,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const setBillingAddress = useSetBillingAddress({ dispatch });
   const setBillingAsShippingAddress = useSetBillingAsShippingAddress({ checkout, dispatch });
   const setShippingMethod = useSetShippingMethod({ dispatch });
+  const setSellerShippingMethods = useSetSellerShippingMethods({ dispatch });
 
   const value: ICheckoutContext = {
     ...checkout,
@@ -28,6 +30,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
     setBillingAddress,
     setBillingAsShippingAddress,
     setShippingMethod,
+    setSellerShippingMethods,
   };
 
   return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;

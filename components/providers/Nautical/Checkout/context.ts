@@ -8,6 +8,7 @@ import { useSetShippingAddress } from "./useSetShippingAddress";
 import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
 import { useSetShippingMethod } from "./useSetShippingMethod";
+import { useSetSellerShippingMethods } from "./useSetSellerShippingMethods";
 
 export type ICheckoutContext = {
   loaded: boolean;
@@ -26,10 +27,13 @@ export type ICheckoutContext = {
   availablePaymentGateways?: PaymentGateway[];
   payment?: IPaymentModel;
   shippingMethod?: CheckoutFragment["shippingMethod"];
+  lines?: ICheckoutModel["lines"];
+  sellerShippingMethods?: CheckoutFragment["sellerShippingMethods"];
   setShippingAddress: ReturnType<typeof useSetShippingAddress>;
   setBillingAddress: ReturnType<typeof useSetBillingAddress>;
   setBillingAsShippingAddress: ReturnType<typeof useSetBillingAsShippingAddress>;
   setShippingMethod: ReturnType<typeof useSetShippingMethod>;
+  setSellerShippingMethods: ReturnType<typeof useSetSellerShippingMethods>;
 };
 
 export const INITIAL_STATE: ICheckoutContext = {
@@ -50,6 +54,11 @@ export const INITIAL_STATE: ICheckoutContext = {
     pending: false,
   }),
   setShippingMethod: async (shippingMethodId: string) => ({
+    data: undefined,
+    dataError: undefined,
+    pending: false,
+  }),
+  setSellerShippingMethods: async (seller: number, shippingMethodSelection: string) => ({
     data: undefined,
     dataError: undefined,
     pending: false,
