@@ -70,6 +70,9 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
     case CheckoutActionTypes.REMOVE_PROMO_CODE:
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;
       break;
+    case CheckoutActionTypes.CREATE_PAYMENT:
+      draft.payment = action.payload.payment;
+      break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);
   }

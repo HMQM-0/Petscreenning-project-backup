@@ -1,4 +1,5 @@
 import { ICheckoutContext } from "./context";
+import { IPaymentModel } from "./types";
 
 export const CheckoutActionTypes = {
   INITIALIZE_CHECKOUT: "INITIALIZE_CHECKOUT",
@@ -10,6 +11,7 @@ export const CheckoutActionTypes = {
   SET_SELLER_SHIPPING_METHODS: "SET_SELLER_SHIPPING_METHODS",
   ADD_PROMO_CODE: "ADD_PROMO_CODE",
   REMOVE_PROMO_CODE: "REMOVE_PROMO_CODE",
+  CREATE_PAYMENT: "CREATE_PAYMENT",
 } as const;
 
 export const CheckoutActionCreators = {
@@ -74,6 +76,12 @@ export const CheckoutActionCreators = {
   removePromoCode: (payload: { promoCodeDiscount: ICheckoutContext["promoCodeDiscount"] }) => ({
     type: CheckoutActionTypes.REMOVE_PROMO_CODE,
     payload,
+  }),
+  createPayment: (payment: IPaymentModel) => ({
+    type: CheckoutActionTypes.CREATE_PAYMENT,
+    payload: {
+      payment,
+    },
   }),
 } as const;
 
