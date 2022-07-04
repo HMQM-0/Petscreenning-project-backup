@@ -3,14 +3,7 @@ import { createContext } from "react";
 import { PaymentGateway } from "@generated";
 
 import { CheckoutFragment } from "./fragments.graphql.generated";
-import {
-  ICheckoutAddress,
-  ICheckoutModel,
-  ICheckoutModelPriceValue,
-  IMultiSellerVolumeDiscount,
-  IPaymentModel,
-  IPromoCodeDiscount,
-} from "./types";
+import { ICheckoutAddress, ICheckoutModel, IPaymentModel, IPromoCodeDiscount } from "./types";
 import { useSetShippingAddress } from "./useSetShippingAddress";
 
 export type ICheckoutContext = {
@@ -24,8 +17,8 @@ export type ICheckoutContext = {
   selectedBillingAddressId?: string;
   availableShippingMethods?: CheckoutFragment["availableShippingMethods"];
   availableShippingMethodsBySeller?: CheckoutFragment["availableShippingMethodsBySeller"];
-  applicableVolumeDiscounts?: ICheckoutModelPriceValue;
-  applicableVolumeDiscountsBySeller?: IMultiSellerVolumeDiscount[];
+  applicableVolumeDiscounts?: CheckoutFragment["applicableVolumeDiscounts"];
+  applicableVolumeDiscountsBySeller?: CheckoutFragment["applicableVolumeDiscountsBySeller"];
   availablePaymentGateways?: PaymentGateway[];
   payment?: IPaymentModel;
   setShippingAddress: ReturnType<typeof useSetShippingAddress>;

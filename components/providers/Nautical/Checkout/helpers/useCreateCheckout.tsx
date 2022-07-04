@@ -6,6 +6,7 @@ import { setCheckout } from "utils";
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { useCreateCheckoutMutation } from "../mutations.graphql.generated";
 import { DataErrorCheckoutTypes, ICheckoutAddress } from "../types";
+import { CheckoutActionCreators, CheckoutActions } from "../actions";
 
 export interface CreateCheckoutInput {
   email: string;
@@ -86,7 +87,11 @@ const useHandleCreateCheckoutMutation = () => {
   );
 };
 
-const useCreateCheckout = () => {
+type UseCreateCheckoutProps = {
+  dispatch: React.Dispatch<CheckoutActions>;
+};
+
+const useCreateCheckout = ({ dispatch }: UseCreateCheckoutProps) => {
   const createCheckout = useHandleCreateCheckoutMutation();
   return useCallback(
     async ({
@@ -112,16 +117,20 @@ const useCreateCheckout = () => {
         };
       }
 
-      setCheckout({
+      const newCheckout = {
         ...data,
         selectedBillingAddressId,
         selectedShippingAddressId,
-      });
+      };
+
+      setCheckout(newCheckout);
+      dispatch(CheckoutActionCreators.createCheckout(newCheckout));
+
       return {
         data,
       };
     },
-    [createCheckout]
+    [createCheckout, dispatch]
   );
 };
 

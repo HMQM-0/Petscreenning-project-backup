@@ -20,7 +20,7 @@ type SetShippingAddressProps = {
 
 const useSetShippingAddress = ({ dispatch }: SetShippingAddressProps) => {
   const updateCheckoutShippingAddress = useUpdateCheckoutShippingAddress({ dispatch });
-  const createCheckout = useCreateCheckout();
+  const createCheckout = useCreateCheckout({ dispatch });
 
   return useCallback(
     async (shippingAddress: ICheckoutAddress, email: string) => {

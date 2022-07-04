@@ -3,6 +3,7 @@ import { ICheckoutContext } from "./context";
 export const CheckoutActionTypes = {
   INITIALIZE_CHECKOUT: "INITIALIZE_CHECKOUT",
   UPDATE_SHIPPING_ADDRESS: "UPDATE_SHIPPING_ADDRESS",
+  CREATE_CHECKOUT: "CREATE_CHECKOUT",
 } as const;
 
 export const CheckoutActionCreators = {
@@ -20,6 +21,10 @@ export const CheckoutActionCreators = {
     shippingAddress: ICheckoutContext["shippingAddress"];
   }) => ({
     type: CheckoutActionTypes.UPDATE_SHIPPING_ADDRESS,
+    payload,
+  }),
+  createCheckout: (payload: Partial<ICheckoutContext>) => ({
+    type: CheckoutActionTypes.CREATE_CHECKOUT,
     payload,
   }),
 } as const;
