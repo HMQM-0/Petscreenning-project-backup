@@ -3,6 +3,7 @@ import { useImmerReducer } from "use-immer";
 
 import { CheckoutContext, ICheckoutContext, INITIAL_STATE } from "./context";
 import { reducer } from "./reducer";
+import { useAddPromoCode } from "./useAddPromoCode";
 import { useInitializeCheckout } from "./useInitializeCheckout";
 import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
@@ -23,6 +24,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const setBillingAsShippingAddress = useSetBillingAsShippingAddress({ checkout, dispatch });
   const setShippingMethod = useSetShippingMethod({ dispatch });
   const setSellerShippingMethods = useSetSellerShippingMethods({ dispatch });
+  const addPromoCode = useAddPromoCode({ dispatch });
 
   const value: ICheckoutContext = {
     ...checkout,
@@ -31,6 +33,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
     setBillingAsShippingAddress,
     setShippingMethod,
     setSellerShippingMethods,
+    addPromoCode,
   };
 
   return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;

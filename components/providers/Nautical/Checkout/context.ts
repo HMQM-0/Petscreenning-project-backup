@@ -9,6 +9,7 @@ import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
 import { useSetShippingMethod } from "./useSetShippingMethod";
 import { useSetSellerShippingMethods } from "./useSetSellerShippingMethods";
+import { useAddPromoCode } from "./useAddPromoCode";
 
 export type ICheckoutContext = {
   loaded: boolean;
@@ -34,6 +35,7 @@ export type ICheckoutContext = {
   setBillingAsShippingAddress: ReturnType<typeof useSetBillingAsShippingAddress>;
   setShippingMethod: ReturnType<typeof useSetShippingMethod>;
   setSellerShippingMethods: ReturnType<typeof useSetSellerShippingMethods>;
+  addPromoCode: ReturnType<typeof useAddPromoCode>;
 };
 
 export const INITIAL_STATE: ICheckoutContext = {
@@ -59,6 +61,11 @@ export const INITIAL_STATE: ICheckoutContext = {
     pending: false,
   }),
   setSellerShippingMethods: async (seller: number, shippingMethodSelection: string) => ({
+    data: undefined,
+    dataError: undefined,
+    pending: false,
+  }),
+  addPromoCode: async (promoCode: string) => ({
     data: undefined,
     dataError: undefined,
     pending: false,
