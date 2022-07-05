@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 
-import { CountryCode } from "@generated";
 import { setCheckout } from "utils";
+import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { useCreateCheckoutMutation } from "../mutations.graphql.generated";
@@ -32,7 +32,7 @@ const useHandleCreateCheckoutMutation = () => {
             billingAddress: billingAddress && {
               city: billingAddress.city,
               companyName: billingAddress.companyName,
-              country: CountryCode[billingAddress?.country?.code as keyof typeof CountryCode],
+              country: getCountryCode(billingAddress?.country?.code ?? ""),
               countryArea: billingAddress.countryArea,
               firstName: billingAddress.firstName,
               lastName: billingAddress.lastName,
@@ -46,7 +46,7 @@ const useHandleCreateCheckoutMutation = () => {
             shippingAddress: shippingAddress && {
               city: shippingAddress.city,
               companyName: shippingAddress.companyName,
-              country: CountryCode[shippingAddress?.country?.code as keyof typeof CountryCode],
+              country: getCountryCode(shippingAddress?.country?.code ?? ""),
               countryArea: shippingAddress.countryArea,
               firstName: shippingAddress.firstName,
               lastName: shippingAddress.lastName,

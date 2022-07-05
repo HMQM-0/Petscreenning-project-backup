@@ -32,14 +32,14 @@ import { ICardData, IFormError } from "types";
 import { maybe } from "@utils/misc";
 import { LoyaltyPoints } from "components/atoms/LoyaltyPoints";
 import { Plugins } from "deprecated/@nautical";
-import {
-  useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints,
-  useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord,
-} from "@nautical/react/mutations";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { Loader } from "components/atoms/Loader";
 import { IItems } from "components/providers/Nautical/Cart/types";
+import {
+  useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation,
+  useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecordsMutation,
+} from "components/providers/Nautical/Auth/mutations.graphql.generated";
 
 import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
@@ -145,6 +145,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     billingAsShipping,
     setBillingAsShippingAddress,
     checkout,
+    sellerShippingMethods,
     createPayment,
     completeCheckout,
     loaded: checkoutLoaded,
@@ -224,10 +225,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const checkoutGatewayFormRef = React.useRef<HTMLFormElement>(null);
 
   const [createOrUpdateCustomerRecord /*, { data, loading, error }*/] =
-    useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord();
+    useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecordsMutation();
 
   const [awardCustomerLoyaltyPoints /*, { data, loading, error }*/] =
-    useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints();
+    useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation();
 
   const checkIfLoyaltyAndReferralsActive = React.useCallback(() => {
     const yotpoLoyaltyAndReferralsPluginActive = Boolean(
@@ -260,10 +261,12 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         if (!response.dataError?.error) {
           if (checkIfLoyaltyAndReferralsActive() && user) {
             awardCustomerLoyaltyPoints({
-              input: {
-                customerEmail: user.email,
-                pointAdjustmentAmount: loyaltyPointsToBeEarnedOnOrderComplete,
-                applyAdjustmentToPointsEarned: true,
+              variables: {
+                input: {
+                  customerEmail: user.email,
+                  pointAdjustmentAmount: Number(loyaltyPointsToBeEarnedOnOrderComplete),
+                  applyAdjustmentToPointsEarned: true,
+                },
               },
             });
           }
@@ -309,7 +312,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const handleChange = async (event: any, newValue: string, values: FormFields | null = null) => {
     if (value === "customer") {
       setLoading(true);
-      const code = countries.find((country) => country.code === values?.country)?.code ?? "";
+      const country = countries.find((country) => country.code === values?.country)?.country ?? "";
       const shippingSubmission = await setShippingAddress(
         {
           firstName: values?.firstName,
@@ -322,9 +325,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           countryArea: values?.countryArea,
           phone: values?.phone,
           country: {
-            code,
-
-            country: values?.country,
+            code: values?.country,
+            country,
           },
         },
         values?.email ?? ""
@@ -344,7 +346,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       if (newValue === "payment") {
         if (
           // @ts-ignore
-          JSON.parse(checkout.sellerShippingMethods ?? "{}").length === availableShippingMethodsBySeller?.length
+          JSON.parse(sellerShippingMethods ?? "{}").length === availableShippingMethodsBySeller?.length
         ) {
           setValue(newValue);
         }
@@ -425,6 +427,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const handleSetSellerShippingMethods = async (seller: number, shippingMethodSelection: string) => {
     setLoading(true);
     const { dataError } = await setSellerShippingMethods(seller, shippingMethodSelection);
+    console.log("error", dataError);
 
     const errors = dataError?.error;
     if (errors) {

@@ -140,12 +140,24 @@ export const checkoutLineFragment = gql`
   }
 `;
 
+export const availableShippingMethodsBySellerFragment = gql`
+  fragment MultiSellerShippingMethod on ShippingMethod {
+    id
+    name
+    price {
+      currency
+      amount
+    }
+  }
+`;
+
 export const checkoutFragment = gql`
   ${checkoutLineFragment}
   ${checkoutAddressFragment}
   ${checkoutPriceFragment}
   ${checkoutShippingMethodFragment}
   ${paymentGatewayFragment}
+  ${availableShippingMethodsBySellerFragment}
   fragment Checkout on Checkout {
     token
     id
@@ -168,12 +180,7 @@ export const checkoutFragment = gql`
     availableShippingMethodsBySeller {
       seller
       value {
-        id
-        name
-        price {
-          currency
-          amount
-        }
+        ...MultiSellerShippingMethod
       }
     }
     applicableVolumeDiscounts {

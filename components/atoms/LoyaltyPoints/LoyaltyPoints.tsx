@@ -5,7 +5,6 @@ import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import { useCart, useCheckout } from "nautical-api";
-import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints } from "@nautical/react/mutations";
 import {
   useFetchLoyaltyAndReferralsInfo,
   useYotpoLoyaltyAndReferralsFetchCustomerDetails,
@@ -13,6 +12,7 @@ import {
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IAuthContext } from "components/providers/Nautical/Auth/context";
+import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
 
 import { customSliderStyles } from "./styles";
 import * as S from "./styles";
@@ -58,7 +58,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
 
   // MUTATIONS
   const [awardCustomerLoyaltyPoints, { /* data, error, */ loading: loadingAwardCustomerLoyaltyPoints }] =
-    useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints();
+    useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation();
 
   // USE EFFECT
   React.useEffect(() => {
@@ -99,10 +99,12 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
       const oneTimeVoucherCode = `loyaltyDiscount|${user?.firstName}|${user?.lastName}|${user?.email}|${date} ${timeUTC}|pointsRedeemed:${pointsToRedeem}|discount:${discountAmount}`;
       const { dataError } = await addPromoCode(oneTimeVoucherCode);
       awardCustomerLoyaltyPoints({
-        input: {
-          customerEmail: user?.email,
-          pointAdjustmentAmount: -pointsToRedeem,
-          applyAdjustmentToPointsEarned: false,
+        variables: {
+          input: {
+            customerEmail: user?.email,
+            pointAdjustmentAmount: -pointsToRedeem,
+            applyAdjustmentToPointsEarned: false,
+          },
         },
       });
       setLoyaltyPointsAvailable(loyaltyPointsAvailable - pointsToRedeem);
@@ -114,10 +116,12 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
       setPointsToRedeem(1);
       removePromoCode(promoCodeDiscount?.voucherCode || "");
       await awardCustomerLoyaltyPoints({
-        input: {
-          customerEmail: user?.email,
-          pointAdjustmentAmount: pointsToRedeem,
-          applyAdjustmentToPointsEarned: false,
+        variables: {
+          input: {
+            customerEmail: user?.email,
+            pointAdjustmentAmount: pointsToRedeem,
+            applyAdjustmentToPointsEarned: false,
+          },
         },
       });
     }

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
-import { CountryCode } from "@generated";
 import { getCheckout, setCheckout } from "utils";
+import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { useUpdateCheckoutShippingAddressMutation } from "../mutations.graphql.generated";
@@ -27,7 +27,7 @@ const useSetShippingAddressMutation = () => {
           shippingAddress: {
             city: shippingAddress.city,
             companyName: shippingAddress.companyName,
-            country: CountryCode[shippingAddress?.country?.code as keyof typeof CountryCode],
+            country: getCountryCode(shippingAddress?.country?.code ?? ""),
             countryArea: shippingAddress.countryArea,
             firstName: shippingAddress.firstName,
             lastName: shippingAddress.lastName,
