@@ -1,6 +1,6 @@
 import { IImage } from "@types";
-import { ICheckoutModelPriceValue } from "@nautical/helpers";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
+import { ICheckoutModelPriceValue } from "components/providers/Nautical/Checkout/types";
 
 export interface ICostLine {
   name: string;

@@ -1,12 +1,11 @@
 import { useCallback } from "react";
 
 import { CountryCode } from "@generated";
-import { ICheckoutAddress } from "@nautical/helpers";
 import { getCheckout, setCheckout } from "utils";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { useUpdateCheckoutShippingAddressMutation } from "../mutations.graphql.generated";
-import { DataErrorCheckoutTypes } from "../types";
+import { DataErrorCheckoutTypes, ICheckoutAddress } from "../types";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
 
 export interface UpdateShippingAddressInput {

@@ -6,10 +6,9 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import _sumBy from "lodash/sumBy";
 
-import { useCart, useCheckout } from "@nautical/react";
+import { useCart, useCheckout, useAuth } from "nautical-api";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { commonMessages } from "core/intl";
-import { useAuth } from "nautical-api";
 import { OverlayContextInterface } from "components/providers/Overlay/context";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import { useNetworkStatus } from "@hooks";
@@ -20,7 +19,6 @@ import classes from "./scss/index.module.scss";
 
 import overlayClasses from "../Overlay/scss/index.module.scss";
 import Overlay from "../Overlay/Overlay";
-
 
 interface CartProps {
   overlay: OverlayContextInterface;
@@ -37,9 +35,9 @@ const Cart = ({ overlay }: CartProps) => {
   const shippingTaxedPrice =
     checkout?.shippingMethod?.id && shippingPrice
       ? {
-        gross: shippingPrice,
-        net: shippingPrice,
-      }
+          gross: shippingPrice,
+          net: shippingPrice,
+        }
       : null;
   const promoTaxedPrice = discount && {
     gross: discount,
@@ -116,11 +114,7 @@ const Cart = ({ overlay }: CartProps) => {
                   <Box className={classes["cart__footer__button"]}>
                     <Link href="/cart">
                       <a>
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          onClick={hide}
-                        >
+                        <Button variant="outlined" color="secondary" onClick={hide}>
                           <FormattedMessage defaultMessage="Go to my cart" />
                         </Button>
                       </a>
@@ -129,11 +123,7 @@ const Cart = ({ overlay }: CartProps) => {
                   <Box className={classes["cart__footer__button"]}>
                     <Link href={user ? "/checkout" : "/login"}>
                       <a>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={hide}
-                        >
+                        <Button variant="contained" color="secondary" onClick={hide}>
                           <FormattedMessage {...commonMessages.checkout} />
                         </Button>
                       </a>

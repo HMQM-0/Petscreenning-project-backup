@@ -3,28 +3,23 @@ import { Box, Divider, MenuItem, Typography } from "@mui/material";
 import { Field } from "formik";
 import { TextField } from "formik-mui";
 
-import { IMultiSellerAvailableShippingMethods_mapping } from "@nautical/api/Checkout/types";
 import { Money } from "components/atoms/Money";
-import { ICheckoutModelLine } from "@nautical/helpers";
 import { CachedImage } from "components/molecules/CachedImage";
+import {
+  ICheckoutModelLine,
+  IMultiSellerAvailableShippingMethods_mapping,
+} from "components/providers/Nautical/Checkout/types";
 
 import { useStyles } from "./styles";
 import { useSellerNameQuery } from "./queries.graphql.generated";
 
 type SellerMethodProps = {
   sellerMethod: IMultiSellerAvailableShippingMethods_mapping;
-  handleSetSellerShippingMethods: (
-    seller: number,
-    shippingMethodSelection: string
-  ) => Promise<void>;
+  handleSetSellerShippingMethods: (seller: number, shippingMethodSelection: string) => Promise<void>;
   mappingDict: Record<string, ICheckoutModelLine[]>;
 };
 
-const SellerMethod = ({
-  sellerMethod,
-  handleSetSellerShippingMethods,
-  mappingDict,
-}: SellerMethodProps) => {
+const SellerMethod = ({ sellerMethod, handleSetSellerShippingMethods, mappingDict }: SellerMethodProps) => {
   const { data } = useSellerNameQuery({
     variables: { id: String(sellerMethod.seller) },
   });
@@ -51,9 +46,7 @@ const SellerMethod = ({
               <MenuItem
                 key={option.name}
                 value={option.id}
-                onClick={(event) =>
-                  handleSetSellerShippingMethods(sellerMethod.seller, option.id)
-                }
+                onClick={(event) => handleSetSellerShippingMethods(sellerMethod.seller, option.id)}
               >
                 <Box className={classes.shippingMethodSelectMenuOption}>
                   <Box className={classes.shippingMethodSelectMenuName}>
@@ -73,13 +66,9 @@ const SellerMethod = ({
             <CachedImage {...sellerMapping.variant?.product?.thumbnail} />
             <Box className={classes.stackedText}>
               <Typography>{sellerMapping.variant?.product?.name}</Typography>
-              <Typography variant="caption">
-                {sellerMapping.variant?.name}
-              </Typography>
+              <Typography variant="caption">{sellerMapping.variant?.name}</Typography>
             </Box>
-            <Typography className={classes.quantityText}>
-              {"Qty: " + sellerMapping.quantity}
-            </Typography>
+            <Typography className={classes.quantityText}>{"Qty: " + sellerMapping.quantity}</Typography>
           </Box>
         ))}
       </Box>
