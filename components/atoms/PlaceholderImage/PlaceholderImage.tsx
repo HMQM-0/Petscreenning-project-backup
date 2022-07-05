@@ -6,6 +6,7 @@ import { IProps } from "./types";
 
 export const PlaceholderImage: React.FC<IProps> = ({
   alt = "placeholder",
+  className,
 }: IProps) => {
-  return <NoPhoto title={alt} />;
+  return <NoPhoto title={alt} className={className} />;
 };

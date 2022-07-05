@@ -1,6 +1,6 @@
 import React from "react";
 
-const NoPhoto = ({ title }: { title?: string | undefined }) => {
+const NoPhoto = ({ title, className }: { title?: string | undefined; className?: string | undefined }) => {
   return (
     <svg
       width="263"
@@ -9,6 +9,7 @@ const NoPhoto = ({ title }: { title?: string | undefined }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-labelledby={title && "noPhotoSvgTitle"}
+      className={className}
     >
       {title && <title id="noPhotoSvgTitle">{title}</title>}
       <mask
