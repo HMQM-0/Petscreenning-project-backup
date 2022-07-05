@@ -34,7 +34,9 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
         >
           <Link href={productUrl}>
             <a>
-              <Thumbnail source={line.variant.product ?? {}} />
+              <Thumbnail
+                className={classes.cart__list__item__img}
+                source={line.variant.product ?? {}} />
             </a>
           </Link>
           <Box className={classes.cart__list__item__details}>
