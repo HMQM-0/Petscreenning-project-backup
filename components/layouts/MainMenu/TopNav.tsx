@@ -30,8 +30,6 @@ import Link from "next/link";
 import { useCart, useAuth } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "components/providers/Overlay";
 
-import DrawerCart from "./DrawerCart";
-
 interface ITopNavProps {
   logo?: React.ReactNode;
 }
@@ -53,19 +51,14 @@ const TopNav = (props: ITopNavProps) => {
     (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
   >(null);
   const accountMenuOpen = Boolean(anchorEl);
-  const [cartOpen, setCartOpen] = React.useState(false);
 
   useEffect(() => {
     // Sync local state with query param, anytime it is changed
     setTerm(search || "");
   }, [search]);
 
-  const handleCartClose = () => {
-    setCartOpen(false);
-  };
-
   const handleCart = () => {
-    setCartOpen(true);
+    overlayContext.show(OverlayType.cart, OverlayTheme.right);
   };
 
   const handleMenu = () => {
@@ -283,7 +276,6 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </Toolbar>
       </AppBar>
-      <DrawerCart anchor="right" open={cartOpen} close={handleCartClose} />
     </>
   );
 };

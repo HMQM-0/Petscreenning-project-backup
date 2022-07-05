@@ -1,3 +1,4 @@
+import { ImageProps } from "next/image";
 import React from "react";
 
 import { BasicProductFieldsFragment } from "components/templates/ProductPage/queries.graphql.generated";
@@ -7,11 +8,9 @@ interface ISource {
   thumbnail2x?: BasicProductFieldsFragment["thumbnail2x"] | null;
 }
 
-export interface IProps {
+export interface IProps extends Omit<ImageProps, 'src'> {
   source: ISource;
   noPhotoDefault?: boolean;
   children?: any;
   style?: React.CSSProperties;
-  height?: string;
-  width?: string;
 }

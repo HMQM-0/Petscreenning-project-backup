@@ -1,57 +1,39 @@
-// @ts-nocheck
 import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Box, TextField } from "@mui/material";
 
-import { Icon, IconButton } from "@components/atoms";
-import { CachedImage } from "@components/molecules";
+import { TaxedMoney } from "components/molecules/TaxedMoney";
+import { useCart } from "@nautical/react";
+import { ICheckoutModelLine } from "@nautical/helpers";
+import { IconButton } from "components/molecules/IconButton";
+import { CachedImage } from "components/molecules/CachedImage";
+import { Icon } from "components/atoms/Icon";
 import { commonMessages } from "core/intl";
-import {
-  generateMicrositeProductUrl,
-  generateProductUrl,
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "core/utils";
+import { generateProductUrl } from "core/utils";
 
 import * as S from "./styles";
-import { IProps } from "./types";
 
-const QuantityButtons = (
-  add: () => void,
-  subtract: () => void,
-  index?: number
-) => (
-  <S.QuantityButtons data-test="quantityControls">
-    <Box mr={1} onClick={subtract} data-test="subtractButton">
-      <Icon size={16} name="horizontal_line" />
-    </Box>
-    <Box ml={1} onClick={add} data-test="increaseButton">
-      <Icon size={16} name="plus" />
-    </Box>
-  </S.QuantityButtons>
-);
+interface CartRowProps {
+  item: ICheckoutModelLine;
+}
 
 /**
  * Product row displayed on cart page
  */
-export const CartRow: React.FC<IProps> = ({
-  index,
-  totalPrice,
-  unitPrice,
-  name,
-  sku,
-  quantity,
-  maxQuantity,
-  onQuantityChange,
-  thumbnail,
-  attributes = [],
-  onRemove,
-  id,
-}: IProps) => {
+export const CartRow = ({ item }: CartRowProps) => {
+  const { removeItem, updateItem } = useCart();
+
+  const { variant, quantity, totalPrice } = item;
+  const id = variant?.product?.id || "";
+  const name = variant?.product?.name || "";
+  const maxQuantity = variant.quantityAvailable || quantity;
+  const thumbnail = {
+    ...variant?.product?.thumbnail,
+    alt: variant?.product?.thumbnail?.alt || "",
+  };
+
   const [tempQuantity, setTempQuantity] = useState<string>(quantity.toString());
-  const [isTooMuch, setIsTooMuch] = useState(false);
   const intl = useIntl();
 
   const handleBlurQuantityInput = () => {
@@ -64,84 +46,57 @@ export const CartRow: React.FC<IProps> = ({
     }
 
     if (quantity !== newQuantity) {
-      onQuantityChange(newQuantity);
+      updateItem(variant.id, newQuantity);
     }
 
     const newTempQuantity = newQuantity.toString();
     if (tempQuantity !== newTempQuantity) {
       setTempQuantity(newTempQuantity);
     }
-
-    setIsTooMuch(false);
   };
 
   useEffect(() => {
     setTempQuantity(quantity.toString());
   }, [quantity]);
 
-  const add = React.useCallback(
-    () => quantity < maxQuantity && onQuantityChange(quantity + 1),
-    [quantity]
-  );
-  const subtract = React.useCallback(
-    () => quantity > 1 && onQuantityChange(quantity - 1),
-    [quantity]
-  );
+  const add = () => quantity < maxQuantity && updateItem(variant.id, quantity + 1);
+  const subtract = () => quantity > 1 && updateItem(variant.id, quantity - 1);
   const handleQuantityChange = (evt: React.ChangeEvent<any>) => {
-    const newQuantity = parseInt(evt.target.value, 10);
-
     setTempQuantity(evt.target.value);
-
-    setIsTooMuch(!isNaN(newQuantity) && newQuantity > maxQuantity);
   };
-
-  const quantityErrors = isTooMuch
-    ? [
-      {
-        message: intl.formatMessage(commonMessages.maxQtyIs, { maxQuantity }),
-      },
-    ]
-    : undefined;
 
   const productUrl = generateProductUrl(id, name);
 
   return (
-    <S.Wrapper data-test="cartRow" data-test-id={sku}>
+    <S.Wrapper data-test="cartRow" data-test-id={variant.sku}>
       <S.Photo>
-        <Link
-          to={
-            !!isMicrosite()
-              ? generateMicrositeProductUrl(
-                id,
-                name,
-                getMicrositeId(),
-                getMicrositeSlug()
-              )
-              : productUrl
-          }
-        >
-          <CachedImage data-test="itemImage" {...thumbnail} />
+        <Link href={productUrl}>
+          <a>
+            <CachedImage data-test="itemImage" {...thumbnail} />
+          </a>
         </Link>
       </S.Photo>
       <S.Description>
-        <Link to={productUrl}>
-          <S.Name data-test="itemName">{name}</S.Name>
+        <Link href={productUrl}>
+          <a>
+            <S.Name data-test="itemName">{name}</S.Name>
+          </a>
         </Link>
         <S.Sku>
           <S.LightFont>
             <FormattedMessage {...commonMessages.sku} />:{" "}
-            <span data-test="itemSKU">{sku || "-"}</span>
+            <span data-test="itemSKU">{variant.sku || "-"}</span>
           </S.LightFont>
         </S.Sku>
         <S.Attributes data-test="itemAttributes">
-          {attributes.map(({ attribute, values }, attributeIndex) => (
+          {variant.attributes?.map(({ attribute, values }, attributeIndex) => (
             <S.SingleAttribute key={attribute.id}>
               <span
                 data-test="itemSingleAttribute"
                 data-test-id={attributeIndex}
               >
                 <S.LightFont>{attribute.name}:</S.LightFont>{" "}
-                {values.map((value) => value.name).join(", ")}
+                {values.map((value) => value?.name || "").join(", ")}
               </span>
             </S.SingleAttribute>
           ))}
@@ -155,19 +110,26 @@ export const CartRow: React.FC<IProps> = ({
           onBlur={handleBlurQuantityInput}
           onChange={handleQuantityChange}
           InputProps={{
-            endAdornment: QuantityButtons(add, subtract, index),
+            endAdornment: (
+              <S.QuantityButtons data-test="quantityControls">
+                <Box mr={1} onClick={subtract} data-test="subtractButton">
+                  <Icon size={16} name="horizontal_line" />
+                </Box>
+                <Box ml={1} onClick={add} data-test="increaseButton">
+                  <Icon size={16} name="plus" />
+                </Box>
+              </S.QuantityButtons>
+            ),
           }}
-          // contentRight={QuantityButtons(add, subtract, index)}
-          // errors={quantityErrors}
         />
       </S.Quantity>
       <S.Trash>
         <IconButton
           testingContext="removeButton"
-          testingContextId={sku}
+          testingContextId={variant.sku}
           size={22}
           name="trash"
-          onClick={onRemove}
+          onClick={() => removeItem(variant.id)}
         />
       </S.Trash>
 
@@ -177,7 +139,9 @@ export const CartRow: React.FC<IProps> = ({
             <FormattedMessage {...commonMessages.totalPrice} />:
           </S.LightFont>
         </S.PriceLabel>
-        <p data-test="totalPrice">{totalPrice}</p>
+        <p data-test="totalPrice">
+          <TaxedMoney taxedMoney={totalPrice} />
+        </p>
       </S.TotalPrice>
       <S.UnitPrice>
         <S.PriceLabel>
@@ -185,7 +149,9 @@ export const CartRow: React.FC<IProps> = ({
             <FormattedMessage {...commonMessages.price} />:
           </S.LightFont>
         </S.PriceLabel>
-        <p data-test="unitPrice">{unitPrice}</p>
+        <p data-test="unitPrice">
+          <TaxedMoney taxedMoney={variant?.pricing?.price} />
+        </p>
       </S.UnitPrice>
     </S.Wrapper>
   );

@@ -26,7 +26,9 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
         <li key={key} className={classes.cart__list__item} data-test="cartRow" data-test-id={line.variant.sku}>
           <Link href={productUrl}>
             <a>
-              <Thumbnail source={line.variant.product ?? {}} />
+              <Thumbnail
+                className={classes.cart__list__item__img}
+                source={line.variant.product ?? {}} />
             </a>
           </Link>
           <Box className={classes.cart__list__item__details}>

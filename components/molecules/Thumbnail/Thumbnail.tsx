@@ -17,7 +17,7 @@ export const Thumbnail = ({
   const { thumbnail, thumbnail2x } = source;
 
   if (!thumbnail && !thumbnail2x) {
-    return (<PlaceholderImage />);
+    return (<PlaceholderImage className={props.className} alt={props.alt} />);
   }
 
   if (
@@ -25,7 +25,7 @@ export const Thumbnail = ({
       .substring(thumbnail?.url.lastIndexOf("/") + 1)
       .includes("sizeguide-")
   ) {
-    return (<PlaceholderImage />);
+    return (<PlaceholderImage className={props.className} alt={props.alt} />);
   }
 
   return (
@@ -34,8 +34,6 @@ export const Thumbnail = ({
       url={maybe(() => thumbnail!.url)}
       url2x={maybe(() => thumbnail2x!.url)}
       alt={maybe(() => (thumbnail!.alt ? thumbnail!.alt : ""), "")}
-      height={maybe(() => height)}
-      width={maybe(() => width)}
     >
       {children}
     </CachedImage>

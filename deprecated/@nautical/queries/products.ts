@@ -2,11 +2,7 @@ import { gql } from "graphql-tag";
 
 import { checkoutPriceFragment } from "../fragments/checkout";
 import { pageInfo } from "../fragments/pageInfo";
-import {
-  baseProduct,
-  productVariantFragment,
-  selectedAttributeFragment,
-} from "../fragments/products";
+import { baseProduct, productVariantFragment, selectedAttributeFragment } from "../fragments/products";
 
 export const productPricingFragment = gql`
   ${checkoutPriceFragment}
@@ -37,12 +33,7 @@ export const productList = gql`
   ${baseProduct}
   ${productPricingFragment}
   ${pageInfo}
-  query ProductList(
-    $after: String
-    $first: Int!
-    $sortBy: ProductOrder
-    $filter: ProductFilterInput
-  ) {
+  query ProductList($after: String, $first: Int!, $sortBy: ProductOrder, $filter: ProductFilterInput) {
     products(after: $after, first: $first, sortBy: $sortBy, filter: $filter) {
       edges {
         node {
@@ -105,7 +96,7 @@ export const productDetails = gql`
 `;
 
 export const variantsProducts = gql`
-  query VariantsProducts($ids: [ID]) {
+  query VariantsProducts($ids: [ID!]) {
     productVariants(ids: $ids, first: 100) {
       edges {
         node {
@@ -121,4 +112,3 @@ export const variantsProducts = gql`
     }
   }
 `;
-
