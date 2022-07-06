@@ -1,13 +1,67 @@
 import { StringParam, useQueryParams } from "next-query-params";
-import React from "react";
-import { useIntl } from "react-intl";
+import React, { useCallback, useEffect } from "react";
+import { IntlShape, useIntl } from "react-intl";
 
 import { DropdownSelect } from "components/organisms/DropdownSelect";
 import { prodListHeaderCommonMsg } from "core/intl";
 
 import * as S from "../styles";
 
-export const Sort = () => {
+/**
+ * Accepting `intl` as an optional prop,
+ * since this method is also used in Builder.io components UI `enum`
+ * where `intl` is not available
+ */
+export const getSortOptions = (intl?: IntlShape): { label: string; value: string | null }[] => [
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsClear)
+      : "Clear...",
+    value: null,
+  },
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPrice)
+      : "Price Low-High",
+    value: "price",
+  },
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPriceDsc)
+      : "Price High-Low",
+    value: "-price",
+  },
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsName)
+      : "Name Increasing",
+    value: "name",
+  },
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsNameDsc)
+      : "Name Decreasing",
+    value: "-name",
+  },
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsUpdatedAt)
+      : prodListHeaderCommonMsg.sortOptionsUpdatedAt.defaultMessage,
+    value: "Last updated Ascending",
+  },
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc)
+      : "Last updated Descending",
+    value: "-updated_at",
+  },
+];
+
+interface SortProps {
+  defaultSort?: string | undefined;
+}
+
+export const Sort = ({ defaultSort }: SortProps) => {
   const intl = useIntl();
   const [queryParams, setQueryParams] = useQueryParams({
     sortBy: StringParam,
@@ -15,48 +69,27 @@ export const Sort = () => {
     before: StringParam,
   });
 
-  const sortOptions = [
-    {
-      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsClear),
-      value: null,
-    },
-    {
-      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPrice),
-      value: "price",
-    },
-    {
-      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPriceDsc),
-      value: "-price",
-    },
-    {
-      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsName),
-      value: "name",
-    },
-    {
-      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsNameDsc),
-      value: "-name",
-    },
-    {
-      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsUpdatedAt),
-      value: "updated_at",
-    },
-    {
-      label: intl.formatMessage(
-        prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc
-      ),
-      value: "-updated_at",
-    },
-  ];
+  const sortOptions = getSortOptions(intl);
 
   const { sortBy: sort } = queryParams;
+  // TODO: sort is still undefined after `handleSortChange` in `useEffect` for some reason
 
-  const handleSortChange = (value: any) => {
+  const handleSortChange = useCallback((value: any) => {
     setQueryParams({
       sortBy: value.value,
       after: null,
       before: null,
     });
-  };
+  }, [setQueryParams]);
+
+  useEffect(
+    () => {
+      if (typeof sort === 'undefined' && defaultSort) {
+        handleSortChange({ value: defaultSort });
+      }
+    },
+    [sort, defaultSort, handleSortChange]
+  );
 
   return (
     <S.Sort>
