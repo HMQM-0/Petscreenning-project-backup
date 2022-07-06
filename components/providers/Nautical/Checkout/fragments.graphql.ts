@@ -140,12 +140,24 @@ export const checkoutLineFragment = gql`
   }
 `;
 
+export const availableShippingMethodsBySellerFragment = gql`
+  fragment MultiSellerShippingMethod on ShippingMethod {
+    id
+    name
+    price {
+      currency
+      amount
+    }
+  }
+`;
+
 export const checkoutFragment = gql`
   ${checkoutLineFragment}
   ${checkoutAddressFragment}
   ${checkoutPriceFragment}
   ${checkoutShippingMethodFragment}
   ${paymentGatewayFragment}
+  ${availableShippingMethodsBySellerFragment}
   fragment Checkout on Checkout {
     token
     id
@@ -168,12 +180,7 @@ export const checkoutFragment = gql`
     availableShippingMethodsBySeller {
       seller
       value {
-        id
-        name
-        price {
-          currency
-          amount
-        }
+        ...MultiSellerShippingMethod
       }
     }
     applicableVolumeDiscounts {
@@ -207,6 +214,138 @@ export const checkoutFragment = gql`
     voucherCode
     availablePaymentGateways {
       ...PaymentGateway
+    }
+  }
+`;
+
+export const orderPriceFragment = gql`
+  fragment OrderPrice on TaxedMoney {
+    gross {
+      amount
+      currency
+    }
+    net {
+      amount
+      currency
+    }
+  }
+`;
+
+export const orderDetailFragment = gql`
+  ${orderPriceFragment}
+  ${checkoutAddressFragment}
+  ${checkoutProductVariantFragment}
+  fragment OrderDetail on Order {
+    userEmail
+    paymentStatus
+    paymentStatusDisplay
+    status
+    statusDisplay
+    id
+    token
+    number
+    shippingAddress {
+      ...Address
+    }
+    discount {
+      currency
+      amount
+    }
+    discountName
+    lines {
+      productName
+      quantity
+      variant {
+        ...ProductVariant
+      }
+      unitPrice {
+        currency
+        ...OrderPrice
+      }
+      totalPrice {
+        currency
+        ...OrderPrice
+      }
+    }
+    subtotal {
+      ...OrderPrice
+    }
+    total {
+      ...OrderPrice
+    }
+    shippingPrice {
+      ...OrderPrice
+    }
+  }
+`;
+
+export const nauticalOrderDetailFragment = gql`
+  ${orderPriceFragment}
+  ${checkoutAddressFragment}
+  ${checkoutProductVariantFragment}
+  fragment NauticalOrderDetail on NauticalOrder {
+    userEmail
+    paymentStatus
+    paymentStatusDisplay
+    status
+    statusDisplay
+    id
+    token
+    number
+    shippingAddress {
+      ...Address
+    }
+    discount {
+      currency
+      amount
+    }
+    discountName
+    lines {
+      productName
+      productSku
+      quantity
+      variant {
+        ...ProductVariant
+      }
+      unitPrice {
+        currency
+        ...OrderPrice
+      }
+      totalPrice {
+        currency
+        ...OrderPrice
+      }
+    }
+    subtotal {
+      ...OrderPrice
+    }
+    total {
+      ...OrderPrice
+    }
+    shippingPrice {
+      ...OrderPrice
+    }
+    volumeDiscount {
+      ...OrderPrice
+    }
+    sellerFulfillments {
+      id
+      status
+      relatedTo {
+        id
+      }
+      lines {
+        id
+        quantity
+        orderLine {
+          id
+          productName
+          productSku
+          variantName
+          quantity
+          quantityFulfilled
+        }
+      }
     }
   }
 `;

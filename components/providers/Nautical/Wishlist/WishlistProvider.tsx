@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { WishlistContext } from "./context";
 import { useWishlistQuery } from "./queries.graphql.generated";
@@ -36,20 +36,16 @@ const WishlistProvider = ({ children }: IProps) => {
     });
   };
 
-  const wishlist = data?.me?.wishlist?.edges.map(({ node }) => node) ?? [];
+  const wishlist = useMemo(() => data?.me?.wishlist?.edges.map(({ node }) => node) ?? [], [data]);
 
-  const getContext = () => ({
+  const value = {
     error: error ?? null,
     loading,
     update,
     wishlist,
-  });
+  };
 
-  return (
-    <WishlistContext.Provider value={getContext()}>
-      {children}
-    </WishlistContext.Provider>
-  );
+  return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>;
 };
 
-export default WishlistProvider;
+export { WishlistProvider };

@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { AlertColor, Button, IconButton, Snackbar, Typography } from "@mui/material";
 import React from "react";
 
-import { useCart } from "@nautical/react";
+import { useCart } from "nautical-api";
 
 export const AddToCart = (props: {
   message?: string;
@@ -28,10 +28,7 @@ export const AddToCart = (props: {
     setOpen(true);
   };
 
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -41,19 +38,10 @@ export const AddToCart = (props: {
 
   const action = (
     <React.Fragment>
-      <Button
-        color="secondary"
-        size="small"
-        onClick={async () => await removeItem(props.variantId!)}
-      >
+      <Button color="secondary" size="small" onClick={async () => await removeItem(props.variantId!)}>
         UNDO
       </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
@@ -73,13 +61,7 @@ export const AddToCart = (props: {
       >
         Add to Cart
       </Button>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Added to cart"
-        action={action}
-      />
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} message="Added to cart" action={action} />
     </>
   );
 };

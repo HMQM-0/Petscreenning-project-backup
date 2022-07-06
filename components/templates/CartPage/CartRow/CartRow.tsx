@@ -4,13 +4,13 @@ import Link from "next/link";
 import { Box, TextField } from "@mui/material";
 
 import { TaxedMoney } from "components/molecules/TaxedMoney";
-import { useCart } from "@nautical/react";
-import { ICheckoutModelLine } from "@nautical/helpers";
+import { useCart } from "nautical-api";
 import { IconButton } from "components/molecules/IconButton";
 import { CachedImage } from "components/molecules/CachedImage";
 import { Icon } from "components/atoms/Icon";
 import { commonMessages } from "core/intl";
 import { generateProductUrl } from "core/utils";
+import { ICheckoutModelLine } from "components/providers/Nautical/Checkout/types";
 
 import * as S from "./styles";
 
@@ -84,19 +84,14 @@ export const CartRow = ({ item }: CartRowProps) => {
         </Link>
         <S.Sku>
           <S.LightFont>
-            <FormattedMessage {...commonMessages.sku} />:{" "}
-            <span data-test="itemSKU">{variant.sku || "-"}</span>
+            <FormattedMessage {...commonMessages.sku} />: <span data-test="itemSKU">{variant.sku || "-"}</span>
           </S.LightFont>
         </S.Sku>
         <S.Attributes data-test="itemAttributes">
           {variant.attributes?.map(({ attribute, values }, attributeIndex) => (
             <S.SingleAttribute key={attribute.id}>
-              <span
-                data-test="itemSingleAttribute"
-                data-test-id={attributeIndex}
-              >
-                <S.LightFont>{attribute.name}:</S.LightFont>{" "}
-                {values.map((value) => value?.name || "").join(", ")}
+              <span data-test="itemSingleAttribute" data-test-id={attributeIndex}>
+                <S.LightFont>{attribute.name}:</S.LightFont> {values.map((value) => value?.name || "").join(", ")}
               </span>
             </S.SingleAttribute>
           ))}

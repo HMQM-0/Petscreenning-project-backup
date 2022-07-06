@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useFeaturedProductsQuery } from "components/organisms/ProductsFeatured/queries.graphql.generated";
 import Carousel from "components/atoms/Carousel";
 import { ProductListItem } from "components/organisms/index";
-import { useAuth } from "@nautical/react";
+import { useAuth } from "nautical-api";
 import { generateProductUrl } from "core/utils";
 import { useShopContext } from "components/providers/ShopProvider";
 
@@ -17,10 +17,7 @@ interface ProductsFeaturedProps {
   title?: string;
 }
 
-const ProductsFeatured: React.FC<ProductsFeaturedProps> = ({
-  caption,
-  title,
-}) => {
+const ProductsFeatured: React.FC<ProductsFeaturedProps> = ({ caption, title }) => {
   const { loginForProducts } = useShopContext();
   const { user } = useAuth();
 
@@ -45,15 +42,9 @@ const ProductsFeatured: React.FC<ProductsFeaturedProps> = ({
         {caption ? <Box className="caption">{caption}</Box> : null}
         <Carousel>
           {products.map(({ node: product }) => (
-            <Link
-              href={generateProductUrl(product.id, product.name)}
-              key={product.id}
-            >
+            <Link href={generateProductUrl(product.id, product.name)} key={product.id}>
               <a>
-                <ProductListItem
-                  product={product}
-                  loginForPrice={!user && !!data?.shop?.loginForPrice}
-                />
+                <ProductListItem product={product} loginForPrice={!user && !!data?.shop?.loginForPrice} />
               </a>
             </Link>
           ))}

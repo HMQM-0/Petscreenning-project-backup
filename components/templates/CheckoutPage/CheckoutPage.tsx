@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, Modal } from "@mui/material";
 
-import { useCart, useCheckout } from "@nautical/react";
+import { useCart, useCheckout } from "nautical-api";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { Loader } from "components/atoms/Loader";
 
@@ -42,24 +42,11 @@ const CheckoutPage = ({ logo }: ICheckoutProps) => {
   const classes = useStyles();
   const [modal, setModal] = React.useState(true);
 
-  const {
-    loaded: cartLoaded,
-    shippingPrice,
-    discount,
-    subtotalPrice,
-    totalPrice,
-    items,
-  } = useCart();
-  const {
-    loaded: checkoutLoaded,
-    checkout,
-    applicableVolumeDiscounts,
-  } = useCheckout();
+  const { loaded: cartLoaded, shippingPrice, discount, subtotalPrice, totalPrice, items } = useCart();
+  const { loaded: checkoutLoaded, checkout, applicableVolumeDiscounts } = useCheckout();
 
   const shippingTaxedPrice =
-    checkout?.sellerShippingMethods &&
-    checkout?.sellerShippingMethods.length > 5 &&
-    shippingPrice
+    checkout?.sellerShippingMethods && checkout?.sellerShippingMethods.length > 5 && shippingPrice
       ? {
           gross: shippingPrice,
           net: shippingPrice,
@@ -83,7 +70,7 @@ const CheckoutPage = ({ logo }: ICheckoutProps) => {
               subtotal={convertToTaxedMoney(subtotalPrice ?? undefined)}
               promoCode={convertToTaxedMoney(promoTaxedPrice ?? undefined)}
               shipping={convertToTaxedMoney(shippingTaxedPrice ?? undefined)}
-              volumeDiscount={applicableVolumeDiscounts}
+              volumeDiscount={applicableVolumeDiscounts ?? undefined}
               total={convertToTaxedMoney(totalPrice ?? undefined)}
               close={() => setModal(false)}
             />

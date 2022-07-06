@@ -25,19 +25,13 @@ export const extractBreadcrumbs = (category: BasicCategoryFragment) => {
   let breadcrumbs = [constructLink(category)];
 
   if (category.ancestorList?.categories.length) {
-    const ancestorsList = category.ancestorList.categories.map((edge) =>
-      constructLink(edge.category)
-    );
+    const ancestorsList = category.ancestorList.categories.map((edge) => constructLink(edge.category));
     breadcrumbs = ancestorsList.concat(breadcrumbs);
   }
   return breadcrumbs;
 };
 
-const CategoryProducts = ({
-  category,
-  pageData,
-  builderContent
-}: CategoryProductsProps) => {
+const CategoryProducts = ({ category, pageData, builderContent }: CategoryProductsProps) => {
   const variables = useProductListVariables();
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
@@ -50,14 +44,16 @@ const CategoryProducts = ({
   const attributes = pageData?.attributes?.attributes.map(({ attribute }) => attribute) ?? [];
 
   if (builderContent) {
-    return <Builder
-      type="category"
-      pageData={pageData}
-      productsData={data}
-      attributes={attributes}
-      loading={loading}
-      content={builderContent}
-    />;
+    return (
+      <Builder
+        type="category"
+        pageData={pageData}
+        productsData={data}
+        attributes={attributes}
+        loading={loading}
+        content={builderContent}
+      />
+    );
   }
 
   return (

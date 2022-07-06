@@ -1,9 +1,6 @@
 import { gql } from "graphql-tag";
 
-import {
-  checkoutAddressFragment,
-  checkoutProductVariantFragment,
-} from "./checkout";
+import { checkoutAddressFragment, checkoutProductVariantFragment } from "./checkout";
 
 export const orderPriceFragment = gql`
   fragment OrderPrice on TaxedMoney {

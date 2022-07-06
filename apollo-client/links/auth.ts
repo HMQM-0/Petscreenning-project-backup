@@ -1,7 +1,6 @@
 import { setContext } from "@apollo/client/link/context";
 
-import { getSignInToken } from "utils";
-import { IS_SSR } from "utils/isSSR";
+import { getSignInToken, IS_SSR } from "utils";
 
 export const authLink = setContext((_, { headers }) => {
   let authToken: string | null = null;

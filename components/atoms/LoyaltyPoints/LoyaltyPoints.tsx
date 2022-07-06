@@ -4,16 +4,15 @@ import Slider from "@mui/material/Slider";
 import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
-// NauticalProvider needs to be refactored to use codegen for types/queries/mutations https://nauticalcommerce.atlassian.net/browse/PROD-1630
-import { useCart, useCheckout } from "deprecated/@nautical/react";
-import { User } from "deprecated/@nautical/fragments/gqlTypes/User";
-import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints } from "@nautical/react/mutations";
+import { useCart, useCheckout } from "nautical-api";
 import {
   useFetchLoyaltyAndReferralsInfo,
   useYotpoLoyaltyAndReferralsFetchCustomerDetails,
 } from "@nautical/react/queries";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
+import { IAuthContext } from "components/providers/Nautical/Auth/context";
+import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
 
 import { customSliderStyles } from "./styles";
 import * as S from "./styles";
@@ -22,7 +21,7 @@ interface LoyaltyPointsProps {
   // activeStepIndex: number;
   netOrderPrice: number | null | undefined;
   totalPrice: ITaxedMoney | null | undefined;
-  user: User;
+  user: IAuthContext["user"];
   updateLoyaltyPointsToBeEarnedOnOrderComplete: (points: number) => void;
 }
 
@@ -50,10 +49,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
     refetch: refetchCustomerPointsData,
     loading: loadingCustomerPointsData,
     error: customerPointsDataError,
-  } = useYotpoLoyaltyAndReferralsFetchCustomerDetails(
-    { email: user.email },
-    { fetchPolicy: "network-only" }
-  );
+  } = useYotpoLoyaltyAndReferralsFetchCustomerDetails({ email: user?.email ?? "" }, { fetchPolicy: "network-only" });
   const {
     data: loyaltyAndReferralsData,
     loading: loadingLoyaltyAndReferralsData,
@@ -61,22 +57,17 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
   } = useFetchLoyaltyAndReferralsInfo({ fetchPolicy: "network-only" });
 
   // MUTATIONS
-  const [
-    awardCustomerLoyaltyPoints,
-    { /* data, error, */ loading: loadingAwardCustomerLoyaltyPoints },
-  ] = useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints();
+  const [awardCustomerLoyaltyPoints, { /* data, error, */ loading: loadingAwardCustomerLoyaltyPoints }] =
+    useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation();
 
   // USE EFFECT
   React.useEffect(() => {
-    setLoyaltyPointsAvailable(
-      customerPointsData?.customerLoyaltyAndReferralsDetails?.pointsBalance || 0
-    );
+    setLoyaltyPointsAvailable(customerPointsData?.customerLoyaltyAndReferralsDetails?.pointsBalance || 0);
   }, [customerPointsData]);
 
   React.useEffect(() => {
     const updatedPointsToRedeem = parseInt(
-      promoCodeDiscount?.voucherCode?.split("|")[5].split(":")[1] ||
-        pointsToRedeem.toString()
+      promoCodeDiscount?.voucherCode?.split("|")[5].split(":")[1] || pointsToRedeem.toString()
     );
     if (updatedPointsToRedeem !== pointsToRedeem) {
       setPointsToRedeem(updatedPointsToRedeem);
@@ -87,16 +78,9 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
     loyaltyAndReferralsData &&
       netOrderPrice &&
       updateLoyaltyPointsToBeEarnedOnOrderComplete(
-        Math.round(
-          loyaltyAndReferralsData.loyaltyAndReferralsInfo
-            .pointsGainedPerDollarSpent * netOrderPrice
-        )
+        Math.round(loyaltyAndReferralsData.loyaltyAndReferralsInfo.pointsGainedPerDollarSpent * netOrderPrice)
       );
-  }, [
-    loyaltyAndReferralsData,
-    netOrderPrice,
-    updateLoyaltyPointsToBeEarnedOnOrderComplete,
-  ]);
+  }, [loyaltyAndReferralsData, netOrderPrice, updateLoyaltyPointsToBeEarnedOnOrderComplete]);
 
   // EVENT HANDLERS
   const handleRedeemButtonClick = async () => {
@@ -109,18 +93,18 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
       });
       const discountAmount = loyaltyAndReferralsData
         ? convertToCurrencyWithCommas(
-            pointsToRedeem /
-              loyaltyAndReferralsData.loyaltyAndReferralsInfo
-                .pointsUsedPerDollarSaved
+            pointsToRedeem / loyaltyAndReferralsData.loyaltyAndReferralsInfo.pointsUsedPerDollarSaved
           )
         : "Error calculating discount amount.";
-      const oneTimeVoucherCode = `loyaltyDiscount|${user.firstName}|${user.lastName}|${user.email}|${date} ${timeUTC}|pointsRedeemed:${pointsToRedeem}|discount:${discountAmount}`;
+      const oneTimeVoucherCode = `loyaltyDiscount|${user?.firstName}|${user?.lastName}|${user?.email}|${date} ${timeUTC}|pointsRedeemed:${pointsToRedeem}|discount:${discountAmount}`;
       const { dataError } = await addPromoCode(oneTimeVoucherCode);
       awardCustomerLoyaltyPoints({
-        input: {
-          customerEmail: user.email,
-          pointAdjustmentAmount: -pointsToRedeem,
-          applyAdjustmentToPointsEarned: false,
+        variables: {
+          input: {
+            customerEmail: user?.email,
+            pointAdjustmentAmount: -pointsToRedeem,
+            applyAdjustmentToPointsEarned: false,
+          },
         },
       });
       setLoyaltyPointsAvailable(loyaltyPointsAvailable - pointsToRedeem);
@@ -132,10 +116,12 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
       setPointsToRedeem(1);
       removePromoCode(promoCodeDiscount?.voucherCode || "");
       await awardCustomerLoyaltyPoints({
-        input: {
-          customerEmail: user.email,
-          pointAdjustmentAmount: pointsToRedeem,
-          applyAdjustmentToPointsEarned: false,
+        variables: {
+          input: {
+            customerEmail: user?.email,
+            pointAdjustmentAmount: pointsToRedeem,
+            applyAdjustmentToPointsEarned: false,
+          },
         },
       });
     }
@@ -161,9 +147,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
 
   const convertToCurrencyWithCommas = (num: number) => {
     let numWithCommas = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const numWithCommasToTwoDecimalPoints = parseFloat(numWithCommas)
-      .toFixed(2)
-      .toString();
+    const numWithCommasToTwoDecimalPoints = parseFloat(numWithCommas).toFixed(2).toString();
     return numWithCommasToTwoDecimalPoints;
   };
 
@@ -176,59 +160,38 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
   };
 
   // CONSTANTS
-  const pointsUsedPerDollarSaved =
-    loyaltyAndReferralsData?.loyaltyAndReferralsInfo.pointsUsedPerDollarSaved;
+  const pointsUsedPerDollarSaved = loyaltyAndReferralsData?.loyaltyAndReferralsInfo.pointsUsedPerDollarSaved;
 
   const onReviewStep = true;
 
-  const orderTotal = displayGrossPrices
-    ? totalPrice?.gross.amount
-    : totalPrice?.net.amount;
+  const orderTotal = displayGrossPrices ? totalPrice?.gross.amount : totalPrice?.net.amount;
 
-  const maxPointsCanUseBasedOnTotal =
-    orderTotal &&
-    pointsUsedPerDollarSaved &&
-    orderTotal * pointsUsedPerDollarSaved;
+  const maxPointsCanUseBasedOnTotal = orderTotal && pointsUsedPerDollarSaved && orderTotal * pointsUsedPerDollarSaved;
 
   const maxPointsCanUseBasedOnPoints = loyaltyPointsAvailable;
 
-  const maxPointsThatCanBeUsed = Math.min(
-    maxPointsCanUseBasedOnTotal || 1,
-    maxPointsCanUseBasedOnPoints
-  );
+  const maxPointsThatCanBeUsed = Math.min(maxPointsCanUseBasedOnTotal || 1, maxPointsCanUseBasedOnPoints);
 
   if (!user) {
     return (
       <>
-        <Box style={{ marginBottom: "16px", marginTop: "16px" }}>
-          Must be logged in to use loyalty rewards
-        </Box>
+        <Box style={{ marginBottom: "16px", marginTop: "16px" }}>Must be logged in to use loyalty rewards</Box>
         <Divider />
       </>
     );
   }
 
-  return onReviewStep &&
-    !customerPointsDataError &&
-    !loyaltyAndReferralsDataError ? (
+  return onReviewStep && !customerPointsDataError && !loyaltyAndReferralsDataError ? (
     <>
-      {!loadingAwardCustomerLoyaltyPoints &&
-      !loadingCustomerPointsData &&
-      !loadingLoyaltyAndReferralsData ? (
+      {!loadingAwardCustomerLoyaltyPoints && !loadingCustomerPointsData && !loadingLoyaltyAndReferralsData ? (
         <>
-          <S.mainText>
-            You have {convertToNumberWithCommas(loyaltyPointsAvailable)} loyalty
-            point&#40;s&#41;
-          </S.mainText>
-          {customerPointsData?.customerLoyaltyAndReferralsDetails
-            ?.pointsBalance || discount?.amount !== 0 ? (
+          <S.mainText>You have {convertToNumberWithCommas(loyaltyPointsAvailable)} loyalty point&#40;s&#41;</S.mainText>
+          {customerPointsData?.customerLoyaltyAndReferralsDetails?.pointsBalance || discount?.amount !== 0 ? (
             <>
               {discount?.amount === 0 ? (
                 <>
                   <S.SubTextTop>
-                    Redeem{" "}
-                    {convertToNumberWithCommas(Math.floor(pointsToRedeem))}{" "}
-                    point&#40;s&#41;
+                    Redeem {convertToNumberWithCommas(Math.floor(pointsToRedeem))} point&#40;s&#41;
                   </S.SubTextTop>
                   <S.FlexCentered>
                     <Box sx={{ width: "95%" }}>
@@ -248,16 +211,12 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
                   <S.DiscountAmount>
                     &#36;
                     {pointsUsedPerDollarSaved &&
-                      convertToCurrencyWithCommas(
-                        pointsToRedeem / pointsUsedPerDollarSaved
-                      )}{" "}
+                      convertToCurrencyWithCommas(pointsToRedeem / pointsUsedPerDollarSaved)}{" "}
                     off
                   </S.DiscountAmount>
                 </>
               ) : (
-                <S.CongratulatoryText>
-                  Congrats! Your award has been applied to the cart.
-                </S.CongratulatoryText>
+                <S.CongratulatoryText>Congrats! Your award has been applied to the cart.</S.CongratulatoryText>
               )}
               <S.Button>
                 <Button
@@ -273,8 +232,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
                 {loyaltyAndReferralsData &&
                   netOrderPrice &&
                   Math.round(
-                    loyaltyAndReferralsData?.loyaltyAndReferralsInfo
-                      .pointsGainedPerDollarSpent * netOrderPrice
+                    loyaltyAndReferralsData?.loyaltyAndReferralsInfo.pointsGainedPerDollarSpent * netOrderPrice
                   )}{" "}
                 points with this purchase!
               </S.SubTextBottom>
@@ -282,17 +240,13 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
           ) : (
             <>
               <S.SubTextBottom>
-                Start earning points today! You accumulate points with each
-                purchase. These points can be used toward discounts in future
-                purchases!
+                Start earning points today! You accumulate points with each purchase. These points can be used toward
+                discounts in future purchases!
               </S.SubTextBottom>
               <S.SubTextBottom>
                 For every dollar spent, you&apos;ll earn{" "}
-                {
-                  loyaltyAndReferralsData?.loyaltyAndReferralsInfo
-                    .pointsGainedPerDollarSpent
-                }{" "}
-                point&#40;s&#41; towards future purchases!
+                {loyaltyAndReferralsData?.loyaltyAndReferralsInfo.pointsGainedPerDollarSpent} point&#40;s&#41; towards
+                future purchases!
               </S.SubTextBottom>
             </>
           )}

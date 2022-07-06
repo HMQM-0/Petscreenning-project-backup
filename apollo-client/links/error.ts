@@ -1,15 +1,9 @@
-import {
-  ApolloClient,
-  fromPromise,
-  NormalizedCacheObject,
-  ServerError,
-} from "@apollo/client";
+import { ApolloClient, fromPromise, NormalizedCacheObject, ServerError } from "@apollo/client";
 import { NetworkError } from "@apollo/client/errors";
 import { onError } from "@apollo/client/link/error";
 import { GraphQLError } from "graphql";
 
-import { getCsrfToken, setSignInToken } from "utils";
-import { IS_SSR } from "utils/isSSR";
+import { getCsrfToken, setSignInToken, IS_SSR } from "utils";
 
 import {
   RefreshTokenDocument,
@@ -37,10 +31,7 @@ const isUnathenticatedError = (error?: NetworkError) => {
   } else return false;
 };
 
-function findValueInEnum<TEnum extends object>(
-  needle: string,
-  haystack: TEnum
-): TEnum[keyof TEnum] {
+function findValueInEnum<TEnum extends object>(needle: string, haystack: TEnum): TEnum[keyof TEnum] {
   const match = Object.entries(haystack).find(([, value]) => value === needle);
 
   if (!match) {
@@ -83,15 +74,10 @@ const getNewToken = async (
   const csrfToken = getCsrfToken();
 
   if (!csrfToken || !refreshToken) {
-    throw new Error(
-      "Refresh sign in token impossible. No refresh token received."
-    );
+    throw new Error("Refresh sign in token impossible. No refresh token received.");
   }
 
-  const { data, errors } = await client.mutate<
-    RefreshTokenMutation,
-    RefreshTokenMutationVariables
-  >({
+  const { data, errors } = await client.mutate<RefreshTokenMutation, RefreshTokenMutationVariables>({
     fetchPolicy: "no-cache",
     mutation: RefreshTokenDocument,
     variables: {

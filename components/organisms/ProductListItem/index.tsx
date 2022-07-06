@@ -4,48 +4,36 @@ import { useAlert } from "react-alert";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useMemo } from "react";
 
-import { useCart } from "@nautical/react";
+import { useCart } from "nautical-api";
 import { Thumbnail } from "components/molecules/Thumbnail";
 import { AddToWishlist } from "components/organisms/AddToWishlist";
 import ProductVariantPrice from "components/organisms/ProductVariantPrice";
 import {
   BasicVariantFragment,
-  ProductsListProductFragment
+  ProductsListProductFragment,
 } from "components/templates/ProductsList/queries.graphql.generated";
 
 import classes from "./scss/index.module.scss";
 
 export interface ProductListItemProps {
   loginForPrice?: boolean;
-  product: Pick<ProductsListProductFragment,
-    'id'
-    | 'name'
-    | 'variants'
-    | 'seller'
-    | 'category'
-    | 'thumbnail'
-    | 'thumbnail2x'> & {
-    defaultVariant?: BasicVariantFragment | null
+  product: Pick<
+    ProductsListProductFragment,
+    "id" | "name" | "variants" | "seller" | "category" | "thumbnail" | "thumbnail2x"
+  > & {
+    defaultVariant?: BasicVariantFragment | null;
   };
   style?: number;
   wide?: boolean;
 }
 
-const ProductListItem = ({
-  loginForPrice,
-  product,
-  wide,
-}: ProductListItemProps) => {
+const ProductListItem = ({ loginForPrice, product, wide }: ProductListItemProps) => {
   const { category } = product;
   const seller = product.seller?.companyName;
   const alert = useAlert();
   const { addItem } = useCart();
 
-  const handleAddToCart = (
-    event: React.MouseEvent,
-    variantId: string | undefined,
-    quantity: number
-  ) => {
+  const handleAddToCart = (event: React.MouseEvent, variantId: string | undefined, quantity: number) => {
     event.stopPropagation();
     event.preventDefault();
     // Is this an error in addItem typing? or defaultVariant can NOT be empty?
@@ -69,11 +57,7 @@ const ProductListItem = ({
   };
 
   const defaultVariant = useMemo(
-    () =>
-      product.variants?.find(
-        (productVariant) =>
-          product.defaultVariant?.id === productVariant.id
-      ),
+    () => product.variants?.find((productVariant) => product.defaultVariant?.id === productVariant.id),
     [product.defaultVariant?.id, product.variants]
   );
 
@@ -91,11 +75,7 @@ const ProductListItem = ({
 
     return (
       <>
-        <Box
-          className={classes["product-list-priceblock"]}
-          mt={1}
-          style={{ textAlign: "left" }}
-        >
+        <Box className={classes["product-list-priceblock"]} mt={1} style={{ textAlign: "left" }}>
           <ProductVariantPrice pricing={defaultVariant?.pricing} />
         </Box>
         <Box>
@@ -118,23 +98,11 @@ const ProductListItem = ({
   return (
     <>
       <Card variant="outlined">
-        <Box
-          className={
-            wide
-              ? classes["product-list-wrapper-wide"]
-              : classes["product-list-wrapper"]
-          }
-        >
+        <Box className={wide ? classes["product-list-wrapper-wide"] : classes["product-list-wrapper"]}>
           <Box style={{ position: "absolute" }}>
             <AddToWishlist productId={product.id} showButtonText={false} />
           </Box>
-          <Box
-            className={
-              wide
-                ? classes["product-list-image-wide"]
-                : classes["product-list-image"]
-            }
-          >
+          <Box className={wide ? classes["product-list-image-wide"] : classes["product-list-image"]}>
             <Thumbnail source={product} height="255" width="255" />
           </Box>
           <h4 className={classes["product-list-title"]}>{product.name}</h4>

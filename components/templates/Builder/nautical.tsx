@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  InsertMenuConfig,
-  InsertMenuItem,
-} from "@builder.io/sdk/dist/src/builder.class";
+import { InsertMenuConfig, InsertMenuItem } from "@builder.io/sdk/dist/src/builder.class";
 import { Builder } from "@builder.io/react";
 
 import { ProductFilters } from "./components/ProductFilters";
@@ -192,7 +189,7 @@ Builder.registerComponent(AddToCartSection, {
         },
       ],
       helperText: "You can add binding `state.product` here",
-    }
+    },
   ],
 });
 
@@ -206,7 +203,7 @@ const addToCartSectionMenuItem: InsertMenuItem = {
       name: "AddToCartSection",
     },
     bindings: {
-      'component.options.product': "state.product",
+      "component.options.product": "state.product",
     },
   },
 };
@@ -233,7 +230,7 @@ Builder.registerComponent(ProductGallery, {
       ],
       defaultValue: [],
       helperText: "You can add binding `product.images` here",
-    }
+    },
   ],
 });
 
@@ -247,7 +244,7 @@ const productGalleryMenuItem: InsertMenuItem = {
       name: "ProductGallery",
     },
     bindings: {
-      'component.options.images': "state.product?.images",
+      "component.options.images": "state.product?.images",
     },
   },
 };
@@ -299,7 +296,7 @@ Builder.registerComponent(TaxedMoney, {
         },
       ],
       helperText: "You can add binding `product.pricing.priceRange.start`, `variant.pricing.price`, etc.",
-    }
+    },
   ],
 });
 
@@ -312,7 +309,7 @@ const taxedMoneyMenuItem: InsertMenuItem = {
       name: "TaxedMoney",
     },
     bindings: {
-      'component.options.TaxedMoney': "state.product?.pricing?.priceRange?.start",
+      "component.options.TaxedMoney": "state.product?.pricing?.priceRange?.start",
     },
   },
 };
@@ -385,7 +382,7 @@ Builder.registerComponent(ProductFilters, {
       required: true,
       helperText: "You can add binding `state.attributes` here",
       defaultValue: [],
-    }
+    },
   ],
 });
 
@@ -399,7 +396,7 @@ const productFiltersMenuItem: InsertMenuItem = {
       name: "ProductFilters",
     },
     bindings: {
-      'component.options.attributes': "state.attributes",
+      "component.options.attributes": "state.attributes",
     },
   },
 };

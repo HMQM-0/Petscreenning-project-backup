@@ -2,12 +2,11 @@ import React from "react";
 import { isEqual } from "lodash";
 
 import { TaxedMoney } from "components/molecules/TaxedMoney";
-import { IItems } from "@nautical/api/Cart/types";
 import { ProductPricingFieldFragment } from "components/templates/ProductPage/queries.graphql.generated";
 import { ProductVariantPricingFieldFragment } from "components/templates/ProductsList/queries.graphql.generated";
+import { IItems } from "components/providers/Nautical/Cart/types";
 
 import * as S from "./styles";
-
 
 /**
  * Renders formatted price for chosen variant or product.
@@ -15,7 +14,7 @@ import * as S from "./styles";
  */
 export const getProductPrice = (
   productPricingRange: ProductPricingFieldFragment["pricing"],
-  variantPricing: ProductVariantPricingFieldFragment["pricing"],
+  variantPricing: ProductVariantPricingFieldFragment["pricing"]
 ) => {
   if (variantPricing) {
     if (isEqual(variantPricing.priceUndiscounted, variantPricing.price)) {
@@ -55,25 +54,14 @@ export const canAddToCart = (
   quantity: number
 ): boolean => {
   const cartItem = items?.find((item) => item.variant.id === variantId);
-  const syncedQuantityWithCart = cartItem
-    ? quantity + (cartItem?.quantity || 0)
-    : quantity;
-  return (
-    isAvailableForPurchase &&
-    quantity > 0 &&
-    !!variantId &&
-    variantStock >= syncedQuantityWithCart
-  );
+  const syncedQuantityWithCart = cartItem ? quantity + (cartItem?.quantity || 0) : quantity;
+  return isAvailableForPurchase && quantity > 0 && !!variantId && variantStock >= syncedQuantityWithCart;
 };
 
 /**
  * Returns how many items you can add to the cart. Takes in account quantity already in cart.
  */
-export const getAvailableQuantity = (
-  items: IItems,
-  variantId: string | undefined,
-  variantStock: number
-): number => {
+export const getAvailableQuantity = (items: IItems, variantId: string | undefined, variantStock: number): number => {
   const cartItem = items?.find((item) => item.variant.id === variantId);
   const quantityInCart = cartItem?.quantity || 0;
   return variantStock - quantityInCart;

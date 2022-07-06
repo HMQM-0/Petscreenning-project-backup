@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 
 import { Loader } from "components/atoms/Loader";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
-import { useAuth, useCart, useCheckout } from "@nautical/react";
+import { useAuth, useCart, useCheckout } from "nautical-api";
 import { checkoutMessages, commonMessages } from "core/intl";
 
 import { CartRow } from "./CartRow";
@@ -15,27 +15,18 @@ export const CartPage = () => {
   const router = useRouter();
   const { user } = useAuth();
   const { checkout, loaded: checkoutLoaded } = useCheckout();
-  const {
-    loaded: cartLoaded,
-    items,
-    totalPrice,
-    subtotalPrice,
-    shippingPrice,
-    discount,
-  } = useCart();
+  const { loaded: cartLoaded, items, totalPrice, subtotalPrice, shippingPrice, discount } = useCart();
 
   if (!checkoutLoaded || !cartLoaded) {
     return <Loader />;
   }
 
   const shippingTaxedPrice =
-    checkout?.sellerShippingMethods &&
-    checkout?.sellerShippingMethods.length > 5 &&
-    shippingPrice
+    checkout?.sellerShippingMethods && checkout?.sellerShippingMethods.length > 5 && shippingPrice
       ? {
-        gross: shippingPrice,
-        net: shippingPrice,
-      }
+          gross: shippingPrice,
+          net: shippingPrice,
+        }
       : null;
   const promoTaxedPrice = discount && {
     gross: discount,
@@ -112,13 +103,7 @@ export const CartPage = () => {
             </S.FooterWrapper>
           </S.CartFooter>
           <S.ProceedButton>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() =>
-                router.push(user ? `/checkout/` : `/login/`)
-              }
-            >
+            <Button variant="contained" color="secondary" onClick={() => router.push(user ? `/checkout/` : `/login/`)}>
               <FormattedMessage defaultMessage="PROCEED TO CHECKOUT" />
             </Button>
           </S.ProceedButton>
@@ -140,7 +125,7 @@ export const CartPage = () => {
           <FormattedMessage defaultMessage="Maybe you haven’t made your choices yet" />
         </S.Subtitle>
         <S.ContinueButton>
-          <Button onClick={() => router.push('/')}>
+          <Button onClick={() => router.push("/")}>
             <FormattedMessage {...checkoutMessages.continueShopping} />
           </Button>
         </S.ContinueButton>
