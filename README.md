@@ -14,25 +14,29 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-## Learn More
+## Git Flow
 
-To learn more about Next.js, take a look at the following resources:
+This project uses the Git branching model outlined by Vincent Driessen here: https://nvie.com/posts/a-successful-git-branching-model/
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Long story short new features will flow to main through the following branches:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+`new-feature` -> `dev` -> `release` -> `main`
 
-## Deploy on Vercel
+## Vercel Deployments
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+There are vercel deployments which correspond to each branch
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+`dev` == `[foo](https://vercel.com/nautical-commerce/nautical-next-foo)`
 
+`release` == `[staging](https://vercel.com/nautical-commerce/nautical-next-staging)`
+
+`main` == `[makewaves](https://vercel.com/nautical-commerce/nautical-next-makewaves)`
+
+Every PR will create a preview deployment as well, which must successfully deploy before being merged into the next branch in the git flow.
 
 ## Env File Setup
 
 You might want to extend or replace some behaviour, so you can do that by adding a `.env.local` file to your project.
 
 - `SKIP_GRAPHQL_CODEGEN_ON_PREDEV` is a boolean that can be set to `true` to skip the graphql codegen step on the pre-start phase.
-Keep in mind that when this env is set, then you have to always generate graphql schema with `yarn generate` each time when schema is changed.
+  Keep in mind that when this env is set, then you have to always generate graphql schema with `yarn generate` each time when schema is changed.
