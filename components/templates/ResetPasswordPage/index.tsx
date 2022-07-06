@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import * as Yup from "yup";
 
-import { useSetPassword } from "@nautical/react";
 import { BASE_URL } from "deprecated/core/config";
 import { setSignInToken } from "utils";
+import { useSetPasswordMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
 
 import { ResetPasswordForm } from "./ResetPasswordForm";
 import * as S from "./styles";
@@ -30,13 +30,21 @@ interface ResetPasswordPageProps {
   token: string;
 }
 
+type UserInputError = {
+  field?: string;
+};
+
 export const ResetPasswordPage = ({ email, token }: ResetPasswordPageProps) => {
   const router = useRouter();
 
-  const [setPassword, { data, error: graphqlErrors }] = useSetPassword();
+  const [setPassword, { data, error: graphqlErrors }] = useSetPasswordMutation();
 
-  const tokenError = graphqlErrors?.extraInfo?.userInputErrors?.some(({ field }) => field === "token");
-  const passwordError = graphqlErrors?.extraInfo?.userInputErrors?.find(({ field }) => field === "password")?.message;
+  const tokenError = graphqlErrors?.extraInfo?.userInputErrors?.some(
+    (error: UserInputError) => error?.field === "token"
+  );
+  const passwordError = graphqlErrors?.extraInfo?.userInputErrors?.find(
+    (error: UserInputError) => error?.field === "password"
+  )?.message;
 
   React.useEffect(() => {
     if (data && data.setPassword && data.setPassword.token) {
@@ -47,9 +55,11 @@ export const ResetPasswordPage = ({ email, token }: ResetPasswordPageProps) => {
 
   const onSubmit = (values: FormikProps) =>
     setPassword({
-      email,
-      password: values.password,
-      token,
+      variables: {
+        email,
+        password: values.password,
+        token,
+      },
     });
 
   return (

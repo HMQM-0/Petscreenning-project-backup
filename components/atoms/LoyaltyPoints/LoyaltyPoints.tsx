@@ -5,14 +5,14 @@ import { Button, Divider } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import { useCart, useCheckout } from "nautical-api";
-import {
-  useFetchLoyaltyAndReferralsInfo,
-  useYotpoLoyaltyAndReferralsFetchCustomerDetails,
-} from "@nautical/react/queries";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IAuthContext } from "components/providers/Nautical/Auth/context";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
+import {
+  useGetYotpoLoyaltyAndReferralsCustomerDetailsQuery,
+  useGetLoyaltyAndReferralsInfoQuery,
+} from "components/providers/Nautical/Auth/queries.graphql.generated";
 
 import { customSliderStyles } from "./styles";
 import * as S from "./styles";
@@ -49,12 +49,15 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
     refetch: refetchCustomerPointsData,
     loading: loadingCustomerPointsData,
     error: customerPointsDataError,
-  } = useYotpoLoyaltyAndReferralsFetchCustomerDetails({ email: user?.email ?? "" }, { fetchPolicy: "network-only" });
+  } = useGetYotpoLoyaltyAndReferralsCustomerDetailsQuery({
+    variables: { email: user?.email ?? "" },
+    fetchPolicy: "network-only",
+  });
   const {
     data: loyaltyAndReferralsData,
     loading: loadingLoyaltyAndReferralsData,
     error: loyaltyAndReferralsDataError,
-  } = useFetchLoyaltyAndReferralsInfo({ fetchPolicy: "network-only" });
+  } = useGetLoyaltyAndReferralsInfoQuery({ fetchPolicy: "network-only" });
 
   // MUTATIONS
   const [awardCustomerLoyaltyPoints, { /* data, error, */ loading: loadingAwardCustomerLoyaltyPoints }] =
@@ -78,7 +81,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
     loyaltyAndReferralsData &&
       netOrderPrice &&
       updateLoyaltyPointsToBeEarnedOnOrderComplete(
-        Math.round(loyaltyAndReferralsData.loyaltyAndReferralsInfo.pointsGainedPerDollarSpent * netOrderPrice)
+        Math.round(loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent ?? 0 * netOrderPrice)
       );
   }, [loyaltyAndReferralsData, netOrderPrice, updateLoyaltyPointsToBeEarnedOnOrderComplete]);
 
@@ -93,7 +96,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
       });
       const discountAmount = loyaltyAndReferralsData
         ? convertToCurrencyWithCommas(
-            pointsToRedeem / loyaltyAndReferralsData.loyaltyAndReferralsInfo.pointsUsedPerDollarSaved
+            pointsToRedeem / (loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsUsedPerDollarSaved ?? 1)
           )
         : "Error calculating discount amount.";
       const oneTimeVoucherCode = `loyaltyDiscount|${user?.firstName}|${user?.lastName}|${user?.email}|${date} ${timeUTC}|pointsRedeemed:${pointsToRedeem}|discount:${discountAmount}`;
@@ -160,7 +163,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
   };
 
   // CONSTANTS
-  const pointsUsedPerDollarSaved = loyaltyAndReferralsData?.loyaltyAndReferralsInfo.pointsUsedPerDollarSaved;
+  const pointsUsedPerDollarSaved = loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsUsedPerDollarSaved;
 
   const onReviewStep = true;
 
@@ -232,7 +235,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
                 {loyaltyAndReferralsData &&
                   netOrderPrice &&
                   Math.round(
-                    loyaltyAndReferralsData?.loyaltyAndReferralsInfo.pointsGainedPerDollarSpent * netOrderPrice
+                    (loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent ?? 0) * netOrderPrice
                   )}{" "}
                 points with this purchase!
               </S.SubTextBottom>
@@ -245,7 +248,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
               </S.SubTextBottom>
               <S.SubTextBottom>
                 For every dollar spent, you&apos;ll earn{" "}
-                {loyaltyAndReferralsData?.loyaltyAndReferralsInfo.pointsGainedPerDollarSpent} point&#40;s&#41; towards
+                {loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent} point&#40;s&#41; towards
                 future purchases!
               </S.SubTextBottom>
             </>
