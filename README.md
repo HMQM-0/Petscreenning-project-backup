@@ -26,11 +26,11 @@ Long story short new features will flow to main through the following branches:
 
 There are vercel deployments which correspond to each branch
 
-`dev` == `[foo](https://vercel.com/nautical-commerce/nautical-next-foo)`
+`dev` == [foo](https://vercel.com/nautical-commerce/nautical-next-foo)
 
-`release` == `[staging](https://vercel.com/nautical-commerce/nautical-next-staging)`
+`release` == [staging](https://vercel.com/nautical-commerce/nautical-next-staging)
 
-`main` == `[makewaves](https://vercel.com/nautical-commerce/nautical-next-makewaves)`
+`main` == [makewaves](https://vercel.com/nautical-commerce/nautical-next-makewaves)
 
 Every PR will create a preview deployment as well, which must successfully deploy before being merged into the next branch in the git flow.
 
