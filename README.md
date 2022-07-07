@@ -22,6 +22,8 @@ Long story short new features will flow to main through the following branches:
 
 `new-feature` -> `dev` -> `release` -> `main`
 
+## Preview Deployments
+
 ## Vercel Deployments
 
 There are vercel deployments which correspond to each branch
