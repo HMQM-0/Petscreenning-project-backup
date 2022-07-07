@@ -40,6 +40,13 @@ export const getGraphqlIdFromDBId = (id: string, schema: string): string =>
   // This is temporary solution, we will use slugs in the future
   Base64.encode(`${schema}:${id}`);
 
+export const generateUrlByGraphqlId = (graphqlId: string, name: string) => {
+  const rawId = Base64.decode(graphqlId).split(":");
+  let schema = rawId[0];
+  const id = rawId[1];
+  return `/${schema.toLowerCase()}/${slugify(name)}/${id}/`;
+};
+
 export const generateProductsUrl = () => `/products/`;
 
 export const generateProductUrl = (id: string, name: string) =>

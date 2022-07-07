@@ -3,14 +3,12 @@ import * as React from "react";
 import { useTheme } from "@mui/material";
 import { useAlert } from "react-alert";
 import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
-import { Base64 } from "js-base64";
-import { useQuery } from "@apollo/client";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
+import { generateUrlByGraphqlId, getDBIdFromGraphqlId } from "core/utils";
+import { FilterQuerySet } from "components/organisms";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
-import { slugify } from "@utils/core";
-import { FilterQuerySet } from "components/templates/ProductsList/View";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
@@ -18,7 +16,7 @@ import {
 import { WishlistDocument } from "components/providers/Nautical/Wishlist/queries.graphql.generated";
 import { useAuth, useWishlist, useCart } from "nautical-api";
 
-import { micrositesQuery } from "./queries.graphql";
+import { useMicrositesQuery } from "./queries.graphql.generated";
 
 interface IStorePage {
   category?: any;
@@ -32,7 +30,6 @@ interface IStorePage {
   search?: any;
   wishlist?: any;
   microsite?: any;
-  vendors?: boolean;
 }
 
 function sanitizeModel(model: any) {
@@ -55,14 +52,13 @@ const useBuilderStateData = ({
   search,
   wishlist,
   microsite,
-  vendors,
 }: IStorePage) => {
   const [, setSearchParams] = useQueryParams({
     q: StringParam,
   });
   const router = useRouter();
   const { user } = useAuth();
-  const { addItem, items } = useCart();
+  const { items } = useCart();
   const theme = useTheme();
   const alert = useAlert();
   const intl = useIntl();
@@ -72,7 +68,8 @@ const useBuilderStateData = ({
 
   const { wishlist: wishlistContext } = useWishlist();
 
-  const { data: builderMicrositesData } = useQuery(micrositesQuery, {
+  // TODO: Do we need this to be executed for anything expect `/store/vendors` page?
+  const { data: builderMicrositesData } = useMicrositesQuery({
     fetchPolicy: "cache-and-network",
     variables: {
       first: 100,
@@ -98,31 +95,18 @@ const useBuilderStateData = ({
     }
 
     function handleNavigateById(id: string, name: string) {
-      const rawId = Base64.decode(id).split(":");
-      let schema = rawId[0];
-      const primaryKey = rawId[1];
-      const slug = slugify(name);
-      if (schema.toLowerCase() === "microsite") {
-        schema = "site";
-      }
-      router.push("/" + schema.toLowerCase() + "/" + slug + "/" + primaryKey);
+      router.push(generateUrlByGraphqlId(id, name));
     }
 
     function handleNavigateByItem(item: { id: string; name: string }) {
-      const rawId = Base64.decode(item.id).split(":");
-      let schema = rawId[0];
-      const primaryKey = rawId[1];
-      const slug = slugify(item.name);
-      if (schema.toLowerCase() === "microsite") {
-        schema = "site";
-      }
-      router.push("/" + schema.toLowerCase() + "/" + slug + "/" + primaryKey);
+      return handleNavigateById(item.id, item.name);
     }
 
     const isAddedToWishlist = async (productId: string) => {
       return !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
     };
 
+    // TODO: make it DRY and re-use AddToWishlist component logic instead
     const addOrRemoveFromWishlist = async (productId: string) => {
       const addedToWishlist = !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
 
@@ -199,19 +183,18 @@ const useBuilderStateData = ({
       quantity: 1,
       theme: theme,
       cart: items,
-      addToCart: (name: string, variantId: string, quantity: number) => handleAddToCart(name, variantId, quantity),
-      searchFor: (query: string) => handleSetSearch(query),
+      addToCart: handleAddToCart,
+      searchFor: handleSetSearch,
       navigate: (to: string, replace: boolean) => (replace ? router.replace(to) : router.push(to)),
-      navigateById: (id: string, name: string) => handleNavigateById(id, name),
-      navigateByItem: (item: { id: string; name: string }) => handleNavigateByItem(item),
-      addOrRemoveFromWishlist: (productId: string) => addOrRemoveFromWishlist(productId),
-      isAddedToWishlist: (productId: string) => isAddedToWishlist(productId),
-      // handleAttributeChange: onAttributeChange,
-      decodeId: (id: string) => atob(id).split(":")[1],
-      clearFilters: clearFilters,
-      loadMore: () => loadMore(),
-      loadNextPage: () => loadNextPage(),
-      loadPrevPage: () => loadPrevPage(),
+      navigateById: handleNavigateById,
+      navigateByItem: handleNavigateByItem,
+      addOrRemoveFromWishlist,
+      isAddedToWishlist,
+      decodeId: getDBIdFromGraphqlId,
+      clearFilters,
+      loadMore,
+      loadNextPage,
+      loadPrevPage,
     };
   }, [
     addToCartHandler,
