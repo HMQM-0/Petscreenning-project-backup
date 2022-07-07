@@ -10,7 +10,7 @@ import nProgress from "nprogress";
 
 import builderConfig from "config/builder";
 import { defaultTheme, GlobalStyle } from "@styles";
-import { ShopProvider, OverlayProvider } from "@providers";
+import { ShopProvider, OverlayProvider, MaterialUIProvider } from "@providers";
 builderConfig.apiKey && builder.init(builderConfig.apiKey);
 import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";
@@ -31,27 +31,29 @@ const notificationOptions = {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { __APOLLO__ } = pageProps;
+  const { __APOLLO__, data } = pageProps;
   return (
     <ThemeProvider theme={defaultTheme}>
-      <GlobalStyles styles={(theme) => nprogress(theme.palette.secondary.main)} />
-      <div id="root">
-        <AlertProvider template={NotificationTemplate as any} {...notificationOptions}>
-          <LocaleProvider>
-            <NextQueryParamProvider>
-              <NauticalProvider initialState={__APOLLO__}>
-                <ShopProvider>
-                  <OverlayProvider>
-                    <GlobalStyle />
-                    <Component {...pageProps} />
-                  </OverlayProvider>
-                </ShopProvider>
-              </NauticalProvider>
-            </NextQueryParamProvider>
-          </LocaleProvider>
-        </AlertProvider>
-      </div>
-      <div id="modal-root" />
+      <MaterialUIProvider>
+        <GlobalStyles styles={(theme) => nprogress(theme.palette.secondary.main)} />
+        <div id="root">
+          <AlertProvider template={NotificationTemplate as any} {...notificationOptions}>
+            <LocaleProvider>
+              <NextQueryParamProvider>
+                <NauticalProvider initialState={__APOLLO__}>
+                  <ShopProvider>
+                    <OverlayProvider>
+                      <GlobalStyle />
+                      <Component {...pageProps} />
+                    </OverlayProvider>
+                  </ShopProvider>
+                </NauticalProvider>
+              </NextQueryParamProvider>
+            </LocaleProvider>
+          </AlertProvider>
+        </div>
+        <div id="modal-root" />
+      </MaterialUIProvider>
     </ThemeProvider>
   );
 }

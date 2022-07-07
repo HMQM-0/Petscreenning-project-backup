@@ -1,6 +1,8 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { json } from "stream/consumers";
+
 import { DocumentHeadProps } from "components/atoms";
 
 type MaterialUIProviderProps = {
@@ -8,16 +10,11 @@ type MaterialUIProviderProps = {
   branding?: DocumentHeadProps["branding"];
 };
 
-const MaterialUIProvider = ({
-  children,
-  branding,
-}: MaterialUIProviderProps) => {
+const MaterialUIProvider = ({ children, branding }: MaterialUIProviderProps) => {
   const jsonContent = JSON.parse(branding?.jsonContent ?? "{}");
   const brandingActive = jsonContent.active;
   const primaryColor = brandingActive ? jsonContent.primaryColor : "#003563";
-  const secondaryColor = brandingActive
-    ? jsonContent.secondaryColor
-    : "#B00631";
+  const secondaryColor = brandingActive ? jsonContent.secondaryColor : "#B00631";
 
   const theme = {
     palette: {
