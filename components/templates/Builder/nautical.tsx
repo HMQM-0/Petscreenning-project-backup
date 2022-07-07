@@ -325,7 +325,7 @@ Builder.registerComponent(ProductSort, {
       name: "defaultSort",
       type: "string",
       enum: getSortOptions(),
-      defaultValue: "-updated_at",
+      defaultValue: "-created_at",
     },
   ],
 });

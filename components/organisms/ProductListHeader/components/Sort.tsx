@@ -21,6 +21,18 @@ export const getSortOptions = (intl?: IntlShape): { label: string; value: string
   },
   {
     label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsCreatedAtDsc)
+      : "Newest",
+    value: "-created_at",
+  },
+  {
+    label: intl
+      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsCreatedAt)
+      : "Oldest",
+    value: "created_at",
+  },
+  {
+    label: intl
       ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPrice)
       : "Price Low-High",
     value: "price",
