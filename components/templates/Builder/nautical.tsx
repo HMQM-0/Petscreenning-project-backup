@@ -2,6 +2,8 @@ import React from "react";
 import { InsertMenuConfig, InsertMenuItem } from "@builder.io/sdk/dist/src/builder.class";
 import { Builder } from "@builder.io/react";
 
+import { getSortOptions } from "components/organisms/ProductListHeader/components/Sort";
+
 import { ProductFilters } from "./components/ProductFilters";
 import { TaxedMoney } from "./components/TaxedMoney";
 import { AddToCartSection } from "./components/AddToCartSection";
@@ -318,6 +320,14 @@ Builder.registerComponent(ProductSort, {
   name: "ProductSort",
   friendlyName: "Nautical Product Sort",
   image: SliderIcon,
+  inputs: [
+    {
+      name: "defaultSort",
+      type: "string",
+      enum: getSortOptions(),
+      defaultValue: "-created_at",
+    },
+  ],
 });
 
 const productSortMenuItem: InsertMenuItem = {
