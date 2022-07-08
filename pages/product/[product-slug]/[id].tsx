@@ -3,6 +3,7 @@ import { BuilderContent } from "@builder.io/sdk";
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
+import { getGraphqlIdFromDBId } from "core/utils";
 import builderConfig from "config/builder";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
@@ -76,7 +77,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data } = await client.query<ProductDetailsQuery>({
     query: ProductDetailsDocument,
     variables: {
-      id: productId,
+      id: getGraphqlIdFromDBId(productId, "Product"),
     },
   });
 

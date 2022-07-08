@@ -7,6 +7,7 @@ import type {
 } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
+import { getGraphqlIdFromDBId } from "core/utils";
 import builderConfig from "config/builder";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
@@ -68,7 +69,7 @@ export async function getServerSideProps(
   }
 
   const variables: CollectionPageQueryVariables = {
-    id: collectionId,
+    id: getGraphqlIdFromDBId(collectionId, "Collection"),
   };
 
   const { data } = await client.query<CollectionPageQuery>({

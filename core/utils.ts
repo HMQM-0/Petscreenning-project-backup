@@ -14,10 +14,6 @@ export const slugify = (text: string | number): string =>
     .replace(/[^\w\-]+/g, "") // Remove all non-word chars
     .replace(/\-\-+/g, "-"); // Replace multiple - with single -
 
-/**
- * @deprecated
- * we do not expect DB IDs to be used directly anymore
- */
 export const getDBIdFromGraphqlId = (
   graphqlId: string,
   schema?: string
@@ -32,24 +28,26 @@ export const getDBIdFromGraphqlId = (
   return parseInt(arr?.[2] ?? "", 10);
 };
 
-/**
- * @deprecated
- * we do not expect DB IDs to be used directly anymore
- */
 export const getGraphqlIdFromDBId = (id: string, schema: string): string =>
-  // This is temporary solution, we will use slugs in the future
   Base64.encode(`${schema}:${id}`);
+
+export const generateUrlByGraphqlId = (graphqlId: string, name: string) => {
+  const rawId = Base64.decode(graphqlId).split(":");
+  let schema = rawId[0];
+  const id = rawId[1];
+  return `/${schema.toLowerCase()}/${slugify(name)}/${id}/`;
+};
 
 export const generateProductsUrl = () => `/products/`;
 
 export const generateProductUrl = (id: string, name: string) =>
-  `/product/${slugify(name)}/${id}/`;
+  `/product/${slugify(name)}/${getDBIdFromGraphqlId(id, "Product")}/`;
 
 export const generateCategoryUrl = (id: string, name: string) =>
-  `/category/${slugify(name)}/${id}/`;
+  `/category/${slugify(name)}/${getDBIdFromGraphqlId(id, "Category")}/`;
 
 export const generateCollectionUrl = (id: string, name: string) =>
-  `/collection/${slugify(name)}/${id}/`;
+  `/collection/${slugify(name)}/${getDBIdFromGraphqlId(id, "Collection")}/`;
 
 export const generateMicrositeUrl = (id: string, name: string) =>
   `/site/${slugify(name)}/${getDBIdFromGraphqlId(id, "Microsite")}/`;
