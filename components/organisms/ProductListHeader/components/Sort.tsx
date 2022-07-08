@@ -84,7 +84,6 @@ export const Sort = ({ defaultSort }: SortProps) => {
   const sortOptions = getSortOptions(intl);
 
   const { sortBy: sort } = queryParams;
-  // TODO: sort is still undefined after `handleSortChange` in `useEffect` for some reason
 
   const handleSortChange = useCallback((value: any) => {
     setQueryParams({
