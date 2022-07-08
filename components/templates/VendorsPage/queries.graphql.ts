@@ -1,26 +1,62 @@
 import { gql } from "@apollo/client";
 
-import { productsPageAttribute } from "components/templates/ProductsList/queries.graphql";
-import { menuTree } from "components/organisms/ProductSideNavbar/queries.graphql";
 import { brandingFragment } from "queries/branding.graphql";
 
-export const vendorsPageQuery = gql`
-  ${productsPageAttribute}
-  ${brandingFragment}
-  ${menuTree}
-  query VendorsPage {
-    branding {
-      ...Branding
+export const micrositesFragment = gql`
+  fragment Microsite on Microsite {
+    seoTitle
+    seoDescription
+    description
+    descriptionJson
+    id
+    name
+    slug
+    description
+    affiliate {
+      id
+      firstName
+      lastName
+      companyName
+      email
     }
-    attributes(first: 100) {
+    seller {
+      id
+      companyName
+      logo {
+        url
+      }
+    }
+    logoImage {
+      url
+    }
+    bannerImage {
+      url
+    }
+  }
+`;
+
+
+export const micrositesQuery = gql`
+  ${micrositesFragment}
+  query Microsites($first: Int, $search: String) {
+    microsites(
+      first: $first
+      filter: { published: PUBLISHED, search: $search }
+    ) {
       edges {
         node {
-          ...ProductsPageAttribute
+          ...Microsite
         }
       }
     }
-    menu(name: "sidenav") {
-      ...MenuTree
+  }
+`;
+
+export const vendorsPageQuery = gql`
+  ${brandingFragment}
+  query VendorsPage {
+    branding {
+      ...Branding
     }
   }
 `;

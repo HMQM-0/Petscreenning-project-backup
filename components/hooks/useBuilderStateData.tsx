@@ -6,6 +6,9 @@ import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
+import {
+  MicrositesQueryResult,
+} from "components/templates/VendorsPage/queries.graphql.generated";
 import { generateUrlByGraphqlId, getDBIdFromGraphqlId } from "core/utils";
 import { FilterQuerySet } from "components/organisms";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
@@ -15,8 +18,6 @@ import {
 } from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
 import { WishlistDocument } from "components/providers/Nautical/Wishlist/queries.graphql.generated";
 import { useAuth, useWishlist, useCart } from "nautical-api";
-
-import { useMicrositesQuery } from "./queries.graphql.generated";
 
 interface IStorePage {
   category?: any;
@@ -30,6 +31,7 @@ interface IStorePage {
   search?: any;
   wishlist?: any;
   microsite?: any;
+  vendors?: MicrositesQueryResult["data"];
 }
 
 function sanitizeModel(model: any) {
@@ -52,6 +54,7 @@ const useBuilderStateData = ({
   search,
   wishlist,
   microsite,
+  vendors,
 }: IStorePage) => {
   const [, setSearchParams] = useQueryParams({
     q: StringParam,
@@ -67,14 +70,6 @@ const useBuilderStateData = ({
   const [, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
 
   const { wishlist: wishlistContext } = useWishlist();
-
-  // TODO: Do we need this to be executed for anything expect `/store/vendors` page?
-  const { data: builderMicrositesData } = useMicrositesQuery({
-    fetchPolicy: "cache-and-network",
-    variables: {
-      first: 100,
-    },
-  });
 
   const [setRemoveWishlistProduct] = useRemoveWishlistProductMutation();
   const [setAddWishlistProduct] = useAddWishlistProductMutation();
@@ -179,7 +174,7 @@ const useBuilderStateData = ({
       wishlist: sanitizeModel(wishlist),
       user: sanitizeModel(user),
       microsite: sanitizeModel(microsite),
-      vendors: sanitizeModel(builderMicrositesData),
+      vendors: sanitizeModel(vendors),
       quantity: 1,
       theme: theme,
       cart: items,
@@ -199,7 +194,7 @@ const useBuilderStateData = ({
   }, [
     addToCartHandler,
     alert,
-    builderMicrositesData,
+    vendors,
     category,
     collection,
     intl,

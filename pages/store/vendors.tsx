@@ -7,7 +7,7 @@ import type {
 import { NormalizedCacheObject } from "@apollo/client";
 
 import NotFound from "components/molecules/NotFound";
-import VendorProducts from "components/templates/VendorsPage/VendorProducts";
+import VendorsList from "components/templates/VendorsPage/Vendors";
 import builderConfig from "config/builder";
 import {
   VendorsPageDocument,
@@ -16,14 +16,13 @@ import {
 import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
-import { ProductsListView } from "components/templates/ProductsList/View";
 
 const Vendors: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,
   builderContent,
 }) => {
-  const description = "All Sellers";
-  const title = "All Sellers";
+  const description = "All Vendors";
+  const title = "All Vendors";
   const schema = structuredData(description, title);
   const documentHead = {
     branding: data.branding,
@@ -31,15 +30,12 @@ const Vendors: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
     title,
     schema,
     url: "",
-    type: "product.products",
   };
 
   return (
     <Layout documentHead={documentHead}>
       {builderContent ? (
-        <ProductsListView>
-          <VendorProducts pageData={data} builderContent={builderContent} />
-        </ProductsListView>
+        <VendorsList builderContent={builderContent} />
       ) : (
         <NotFound />
       )}
