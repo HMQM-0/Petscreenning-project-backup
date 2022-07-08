@@ -6,6 +6,7 @@ import type {
   GetServerSidePropsContext,
 } from "next";
 
+import { getGraphqlIdFromDBId } from "core/utils";
 import builderConfig from "config/builder";
 import {
   CategoryPageDocument,
@@ -67,7 +68,7 @@ export async function getServerSideProps(
   }
 
   const variables: CategoryPageQueryVariables = {
-    id: categoryId,
+    id: getGraphqlIdFromDBId(categoryId, "Category"),
   };
 
   const { data } = await client.query<CategoryPageQuery>({
