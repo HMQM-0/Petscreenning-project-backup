@@ -13,10 +13,11 @@ import { useAddPromoCode } from "./useAddPromoCode";
 import { useRemovePromoCode } from "./useRemovePromoCode";
 import { CreatePaymentInput, useCreatePayment } from "./useCreatePayment";
 import { CompleteCheckoutInput, useCompleteCheckout } from "./useCompleteCheckout";
+import { useUpdateLines } from "./useUpdateLines";
 
 export type ICheckoutContext = {
   loaded: boolean;
-  checkout?: ICheckoutModel;
+  id?: ICheckoutModel["id"];
   email?: string;
   promoCodeDiscount?: IPromoCodeDiscount;
   billingAsShipping?: boolean;
@@ -42,6 +43,7 @@ export type ICheckoutContext = {
   removePromoCode: ReturnType<typeof useRemovePromoCode>;
   createPayment: ReturnType<typeof useCreatePayment>;
   completeCheckout: ReturnType<typeof useCompleteCheckout>;
+  updateLines: ReturnType<typeof useUpdateLines>;
 };
 
 export const INITIAL_STATE: ICheckoutContext = {
@@ -91,6 +93,7 @@ export const INITIAL_STATE: ICheckoutContext = {
     dataError: undefined,
     pending: false,
   }),
+  updateLines: (lines: ICheckoutContext["lines"]) => {},
 };
 
 export const CheckoutContext = createContext<ICheckoutContext>(INITIAL_STATE);

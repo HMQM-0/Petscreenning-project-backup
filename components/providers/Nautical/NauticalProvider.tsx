@@ -19,11 +19,11 @@ const NauticalProvider: FunctionComponent<NauticalProviderProps> = ({ children, 
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <CartProvider>
-          <CheckoutProvider>
+        <CheckoutProvider>
+          <CartProvider>
             <WishlistProvider>{children}</WishlistProvider>
-          </CheckoutProvider>
-        </CartProvider>
+          </CartProvider>
+        </CheckoutProvider>
       </AuthProvider>
     </ApolloProvider>
   );

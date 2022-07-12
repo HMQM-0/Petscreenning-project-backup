@@ -1,19 +1,19 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 
 import { saveMutationResultToLocalStorage } from "./saveMutationResultToLocalStorage";
 
-import { ICheckoutModel } from "../../Checkout/types";
 import { useUpdateCheckoutLineMutation } from "../../Checkout/mutations.graphql.generated";
+import { useCheckout } from "../../Checkout";
+import { ICheckoutContext } from "../../Checkout/context";
 
 const useUpdateCheckout = () => {
+  const { id } = useCheckout();
   const [updateCheckoutLine] = useUpdateCheckoutLineMutation();
 
   return useCallback(
-    async (checkout: ICheckoutModel) => {
-      if (checkout?.id) {
-        const { lines, id: checkoutId } = checkout;
-
-        if (checkoutId && lines) {
+    async (lines: ICheckoutContext["lines"]) => {
+      if (id) {
+        if (id && lines) {
           const linesToUpdate = lines.map((line) => ({
             quantity: line.quantity,
             variantId: line.variant.id,
@@ -22,7 +22,7 @@ const useUpdateCheckout = () => {
           try {
             const { data, errors } = await updateCheckoutLine({
               variables: {
-                checkoutId,
+                checkoutId: id,
                 lines: linesToUpdate,
               },
             });
@@ -55,7 +55,7 @@ const useUpdateCheckout = () => {
         }
       }
     },
-    [updateCheckoutLine]
+    [id, updateCheckoutLine]
   );
 };
 

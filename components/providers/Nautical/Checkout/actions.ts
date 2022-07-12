@@ -13,6 +13,7 @@ export const CheckoutActionTypes = {
   REMOVE_PROMO_CODE: "REMOVE_PROMO_CODE",
   CREATE_PAYMENT: "CREATE_PAYMENT",
   CLEAR_CHECKOUT: "CLEAR_CHECKOUT",
+  UPDATE_LINES: "UPDATE_LINES",
 } as const;
 
 export const CheckoutActionCreators = {
@@ -87,6 +88,12 @@ export const CheckoutActionCreators = {
   clearCheckout: () => ({
     type: CheckoutActionTypes.CLEAR_CHECKOUT,
     payload: {},
+  }),
+  updateLines: (lines: ICheckoutContext["lines"]) => ({
+    type: CheckoutActionTypes.UPDATE_LINES,
+    payload: {
+      lines,
+    },
   }),
 } as const;
 

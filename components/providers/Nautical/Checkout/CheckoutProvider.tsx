@@ -14,6 +14,8 @@ import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress
 import { useSetSellerShippingMethods } from "./useSetSellerShippingMethods";
 import { useSetShippingAddress } from "./useSetShippingAddress";
 import { useSetShippingMethod } from "./useSetShippingMethod";
+import { useSyncLocalStorage } from "./useSyncLocalStorage";
+import { useUpdateLines } from "./useUpdateLines";
 
 type CheckoutProps = {
   children: React.ReactNode;
@@ -33,6 +35,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const removePromoCode = useRemovePromoCode({ dispatch });
   const createPayment = useCreatePayment({ dispatch });
   const completeCheckout = useCompleteCheckout({ dispatch });
+  const updateLines = useUpdateLines({ dispatch });
 
   const value: ICheckoutContext = {
     ...checkout,
@@ -45,7 +48,10 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
     removePromoCode,
     createPayment,
     completeCheckout,
+    updateLines,
   };
+
+  useSyncLocalStorage({ checkout: value });
 
   return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;
 };

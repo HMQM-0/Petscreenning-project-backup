@@ -1,35 +1,35 @@
-import React from "react";
-import { useImmerReducer } from "use-immer";
+import React, { useState } from "react";
 
-import { CartContext, ICartContext, INITIAL_STATE } from "./context";
-import { reducer } from "./reducer";
+import { CartContext, ICartContext } from "./context";
 import { useAddItem } from "./useAddItem";
 import { useCalculateSummaryPrices } from "./useCalculateSummaryPrices";
 import { useInitializeCart } from "./useInitializeCart";
 import { useItemInCart } from "./useItemInCart";
-import { useOnSignOut } from "./useOnSignOut";
 import { useRemoveItem } from "./useRemoveItem";
 import { useSubtractItem } from "./useSubtractItem";
 import { useUpdateItem } from "./useUpdateItem";
+
+import { useCheckout } from "../Checkout";
 
 type CartProps = {
   children: React.ReactNode;
 };
 
 const CartProvider = ({ children }: CartProps) => {
-  const [cart, dispatch] = useImmerReducer(reducer, INITIAL_STATE);
+  const [loaded, setLoaded] = useState(false);
+  const { lines: items } = useCheckout();
 
-  useInitializeCart({ dispatch });
-  useOnSignOut({ dispatch });
-  const addItem = useAddItem({ dispatch });
-  const removeItem = useRemoveItem({ dispatch });
-  const subtractItem = useSubtractItem({ dispatch });
-  const updateItem = useUpdateItem({ dispatch });
+  useInitializeCart({ items, loaded, setLoaded });
+  const addItem = useAddItem();
+  const removeItem = useRemoveItem();
+  const subtractItem = useSubtractItem();
+  const updateItem = useUpdateItem();
   const itemInCart = useItemInCart();
-  const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items: cart.items });
+  const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items });
 
   const value: ICartContext = {
-    ...cart,
+    items,
+    loaded,
     totalPrice,
     subtotalPrice,
     shippingPrice,

@@ -7,7 +7,9 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
   switch (action.type) {
     case CheckoutActionTypes.INITIALIZE_CHECKOUT:
       draft.loaded = true;
-      draft.checkout = action.payload.checkout;
+      draft.id = action.payload.checkout?.id;
+      draft.shippingAddress = action.payload.checkout.shippingAddress;
+      draft.billingAddress = action.payload.checkout.billingAddress;
       draft.promoCodeDiscount = action.payload.checkout?.promoCodeDiscount;
       draft.billingAsShipping = action.payload.checkout?.billingAsShipping;
       draft.selectedShippingAddressId = action.payload.checkout?.selectedShippingAddressId;
@@ -19,6 +21,9 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.availablePaymentGateways = action.payload.checkout?.availablePaymentGateways;
       draft.payment = action.payload.checkout?.payment;
       draft.email = action.payload.checkout?.email;
+      draft.shippingMethod = action.payload.checkout.shippingMethod;
+      draft.lines = action.payload.checkout.lines;
+      draft.sellerShippingMethods = action.payload.checkout.sellerShippingMethods;
       break;
     case CheckoutActionTypes.UPDATE_SHIPPING_ADDRESS:
       draft.availableShippingMethods = action.payload.availableShippingMethods;
@@ -28,7 +33,7 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.shippingAddress = action.payload.shippingAddress;
       break;
     case CheckoutActionTypes.CREATE_CHECKOUT:
-      draft.checkout = action.payload.checkout;
+      draft.id = action.payload.id;
       draft.email = action.payload.email;
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;
       draft.billingAsShipping = action.payload.billingAsShipping;
@@ -74,7 +79,7 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.payment = action.payload.payment;
       break;
     case CheckoutActionTypes.CLEAR_CHECKOUT:
-      draft.checkout = undefined;
+      draft.id = undefined;
       draft.email = undefined;
       draft.promoCodeDiscount = undefined;
       draft.billingAsShipping = undefined;
@@ -91,6 +96,9 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.shippingMethod = undefined;
       draft.lines = undefined;
       draft.sellerShippingMethods = undefined;
+      break;
+    case CheckoutActionTypes.UPDATE_LINES:
+      draft.lines = action.payload.lines;
       break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);
