@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
+import { getCheckout } from "utils";
 import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
@@ -101,11 +101,6 @@ const useUpdateCheckoutShippingAddress = ({ dispatch }: UseUpdateCheckoutShippin
         selectedShippingAddressId,
         shippingAddress: data?.shippingAddress,
       };
-
-      setCheckout({
-        ...checkout,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.updateShippingAddress(updates));
 

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
+import { getCheckout } from "utils";
 import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
@@ -99,11 +99,6 @@ const useUpdateCheckoutBillingAddressWithEmail = ({ dispatch }: useUpdateCheckou
         email: data?.email,
         selectedBillingAddressId,
       };
-
-      setCheckout({
-        ...checkout,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.setBillingAddressWithEmail(updates));
 

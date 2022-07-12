@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 
-import { setCheckout } from "utils";
 import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
@@ -123,7 +122,6 @@ const useCreateCheckout = ({ dispatch }: UseCreateCheckoutProps) => {
         selectedShippingAddressId,
       };
 
-      setCheckout(newCheckout);
       dispatch(CheckoutActionCreators.createCheckout(newCheckout));
 
       return {

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
+import { getCheckout } from "utils";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
@@ -72,11 +72,6 @@ const useUpdatePromoCode = ({ dispatch }: useUpdatePromoCodeProps) => {
       const updates = {
         promoCodeDiscount: data?.promoCodeDiscount,
       };
-
-      setCheckout({
-        ...checkout,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.addPromoCode(updates));
 

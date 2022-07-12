@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
+import { getCheckout } from "utils";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
@@ -78,11 +78,6 @@ const useUpdateSellerShippingMethods = ({ dispatch }: useUpdateSellerShippingMet
         promoCodeDiscount: data?.promoCodeDiscount,
         sellerShippingMethods: data?.sellerShippingMethods,
       };
-
-      setCheckout({
-        ...checkout,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.setSellerShippingMethods(updates));
 

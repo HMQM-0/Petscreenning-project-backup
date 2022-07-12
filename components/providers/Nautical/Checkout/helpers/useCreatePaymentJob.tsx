@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { getCountryCode } from "types/CountryCode";
-import { getCheckout, getPayment, setPayment } from "utils";
+import { getCheckout, getPayment } from "utils";
 
 import { useCreateCheckoutPaymentMutation } from "../mutations.graphql.generated";
 import { DataErrorCheckoutTypes, ICheckoutAddress, IPaymentCreditCard } from "../types";
@@ -128,11 +128,6 @@ const useCreatePaymentJob = ({ dispatch }: useCreatePaymentJobProps) => {
         total: data?.total,
         returnUrl: data?.returnUrl,
       };
-
-      setPayment({
-        ...payment,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.createPayment(updates));
 
