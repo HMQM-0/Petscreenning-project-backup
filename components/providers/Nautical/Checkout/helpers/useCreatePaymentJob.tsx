@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 
 import { getCountryCode } from "types/CountryCode";
-import { getCheckout, getPayment } from "utils";
 
 import { useCreateCheckoutPaymentMutation } from "../mutations.graphql.generated";
 import { DataErrorCheckoutTypes, ICheckoutAddress, IPaymentCreditCard } from "../types";
 import { constructPaymentModel } from "../../utils/constructPaymentModel";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
+import { ICheckoutContext } from "../context";
 
 interface CheckoutCreatePaymentMutationHandlerInput {
   amount: number;
@@ -15,6 +15,7 @@ interface CheckoutCreatePaymentMutationHandlerInput {
   billingAddress: ICheckoutAddress;
   token?: string;
   returnUrl?: string;
+  applicableVolumeDiscounts: ICheckoutContext["applicableVolumeDiscounts"];
 }
 
 const useCreateCheckoutPaymentMutationHandler = () => {
@@ -27,9 +28,9 @@ const useCreateCheckoutPaymentMutationHandler = () => {
       billingAddress,
       token,
       returnUrl,
+      applicableVolumeDiscounts,
     }: CheckoutCreatePaymentMutationHandlerInput) => {
       try {
-        const checkout = getCheckout();
         const variables = {
           checkoutId,
           paymentInput: {
@@ -49,7 +50,7 @@ const useCreateCheckoutPaymentMutationHandler = () => {
             gateway,
             returnUrl,
             token,
-            volumeDiscount: checkout?.applicableVolumeDiscounts?.amount,
+            volumeDiscount: applicableVolumeDiscounts?.amount,
           },
         };
         const { data, errors } = await createCheckoutPaymentMutation({
@@ -94,14 +95,22 @@ interface CreatePaymentJobInput {
   billingAddress: ICheckoutAddress;
   creditCard?: IPaymentCreditCard;
   returnUrl?: string;
+  applicableVolumeDiscounts: ICheckoutContext["applicableVolumeDiscounts"];
 }
 
 const useCreatePaymentJob = ({ dispatch }: useCreatePaymentJobProps) => {
   const createCheckoutPaymentMutationHandler = useCreateCheckoutPaymentMutationHandler();
   return useCallback(
-    async ({ checkoutId, amount, gateway, token, billingAddress, creditCard, returnUrl }: CreatePaymentJobInput) => {
-      const payment = getPayment();
-
+    async ({
+      checkoutId,
+      amount,
+      gateway,
+      token,
+      billingAddress,
+      creditCard,
+      returnUrl,
+      applicableVolumeDiscounts,
+    }: CreatePaymentJobInput) => {
       const { data, error } = await createCheckoutPaymentMutationHandler({
         amount,
         billingAddress,
@@ -109,6 +118,7 @@ const useCreatePaymentJob = ({ dispatch }: useCreatePaymentJobProps) => {
         gateway,
         returnUrl,
         token,
+        applicableVolumeDiscounts,
       });
 
       if (error) {

@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 
-import { getCheckout } from "utils";
 import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
@@ -79,8 +78,6 @@ const useUpdateCheckoutBillingAddressWithEmail = ({ dispatch }: useUpdateCheckou
   const setBillingAddressWithEmail = useSetBillingAddressWithEmail();
   return useCallback(
     async ({ checkoutId, email, billingAddress, selectedBillingAddressId }: SetBillingAddressWithEmailJobInput) => {
-      const checkout = getCheckout();
-
       const { data, error } = await setBillingAddressWithEmail(billingAddress, email, checkoutId);
 
       if (error) {

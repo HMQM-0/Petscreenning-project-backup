@@ -1,25 +1,22 @@
 import { useCallback } from "react";
 
-import { getCheckout } from "utils";
-
 import { CheckoutActions } from "./actions";
+import { ICheckoutContext } from "./context";
 import { useUpdateSellerShippingMethods } from "./helpers/useUpdateSellerShippingMethods";
 import { FunctionErrorCheckoutTypes } from "./types";
 
 type useSetSellerShippingMethodsProps = {
+  id: ICheckoutContext["id"];
   dispatch: React.Dispatch<CheckoutActions>;
 };
 
-const useSetSellerShippingMethods = ({ dispatch }: useSetSellerShippingMethodsProps) => {
+const useSetSellerShippingMethods = ({ dispatch, id }: useSetSellerShippingMethodsProps) => {
   const setSellerShippingMethods = useUpdateSellerShippingMethods({ dispatch });
   return useCallback(
     async (seller: number, shippingMethodSelection: string) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-
-      if (checkoutId) {
+      if (id) {
         const { data, dataError } = await setSellerShippingMethods({
-          checkoutId,
+          checkoutId: id,
           seller,
           shippingMethodSelection,
         });
@@ -37,7 +34,7 @@ const useSetSellerShippingMethods = ({ dispatch }: useSetSellerShippingMethodsPr
         pending: false,
       };
     },
-    [setSellerShippingMethods]
+    [id, setSellerShippingMethods]
   );
 };
 

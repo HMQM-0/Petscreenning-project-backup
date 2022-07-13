@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
 
-import { getCheckout } from "utils";
-
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
 import { useUpdateCheckoutSellerShippingMethodsMutation } from "../mutations.graphql.generated";
@@ -60,8 +58,6 @@ const useUpdateSellerShippingMethods = ({ dispatch }: useUpdateSellerShippingMet
   const setSellerShippingMethods = useSetSellerShippingMethodsMutation();
   return useCallback(
     async ({ checkoutId, seller, shippingMethodSelection }: SetSellerShippingMethodsJobInput) => {
-      const checkout = getCheckout();
-
       const { data, error } = await setSellerShippingMethods(checkoutId, seller, shippingMethodSelection);
 
       if (error) {

@@ -26,15 +26,30 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
 
   useInitializeCheckout({ dispatch });
   useOnSignOut({ dispatch });
-  const setShippingAddress = useSetShippingAddress({ dispatch });
+  const setShippingAddress = useSetShippingAddress({
+    dispatch,
+    id: checkout.id,
+    lines: checkout.lines,
+    billingAsShipping: checkout.billingAsShipping,
+  });
   const setBillingAddress = useSetBillingAddress({ dispatch });
   const setBillingAsShippingAddress = useSetBillingAsShippingAddress({ checkout, dispatch });
   const setShippingMethod = useSetShippingMethod({ dispatch });
-  const setSellerShippingMethods = useSetSellerShippingMethods({ dispatch });
+  const setSellerShippingMethods = useSetSellerShippingMethods({ dispatch, id: checkout.id });
   const addPromoCode = useAddPromoCode({ dispatch });
   const removePromoCode = useRemovePromoCode({ dispatch });
-  const createPayment = useCreatePayment({ dispatch });
-  const completeCheckout = useCompleteCheckout({ dispatch });
+  const createPayment = useCreatePayment({
+    dispatch,
+    id: checkout.id,
+    billingAddress: checkout.billingAddress,
+    applicableVolumeDiscounts: checkout.applicableVolumeDiscounts,
+  });
+  const completeCheckout = useCompleteCheckout({
+    dispatch,
+    id: checkout.id,
+    applicableVolumeDiscounts: checkout.applicableVolumeDiscounts,
+    applicableVolumeDiscountsBySeller: checkout.applicableVolumeDiscountsBySeller,
+  });
   const updateLines = useUpdateLines({ dispatch });
 
   const value: ICheckoutContext = {

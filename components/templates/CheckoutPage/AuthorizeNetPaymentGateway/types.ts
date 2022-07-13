@@ -1,5 +1,6 @@
+import { GatewayConfigLine } from "@generated";
 import { CardError } from "core/payments/braintree";
-import { ICardData, IFormError, IPaymentGatewayConfig } from "types";
+import { ICardData, IFormError } from "types";
 
 import { IFormikProps } from "./cctypes";
 
@@ -7,7 +8,7 @@ export interface IProps {
   /**
    * Payment gateway client configuration.
    */
-  config: IPaymentGatewayConfig[];
+  config: GatewayConfigLine[];
   /**
    * Form reference on which payment might be submitted.
    */

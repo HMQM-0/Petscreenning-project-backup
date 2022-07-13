@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 
-import { getCheckout } from "utils";
 import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
@@ -13,6 +12,7 @@ export interface UpdateShippingAddressInput {
   shippingAddress: ICheckoutAddress;
   email: string;
   selectedShippingAddressId?: string;
+  billingAsShipping?: boolean;
 }
 
 const useSetShippingAddressMutation = () => {
@@ -80,9 +80,13 @@ const useUpdateCheckoutShippingAddress = ({ dispatch }: UseUpdateCheckoutShippin
   const setShippingAddressMutation = useSetShippingAddressMutation();
 
   return useCallback(
-    async ({ checkoutId, shippingAddress, email, selectedShippingAddressId }: UpdateShippingAddressInput) => {
-      const checkout = getCheckout();
-
+    async ({
+      checkoutId,
+      shippingAddress,
+      email,
+      selectedShippingAddressId,
+      billingAsShipping,
+    }: UpdateShippingAddressInput) => {
       const { data, error } = await setShippingAddressMutation(shippingAddress, email, checkoutId);
 
       if (error) {
@@ -96,7 +100,7 @@ const useUpdateCheckoutShippingAddress = ({ dispatch }: UseUpdateCheckoutShippin
 
       const updates = {
         availableShippingMethods: data?.availableShippingMethods,
-        billingAsShipping: false,
+        billingAsShipping: billingAsShipping || false,
         email: data?.email ?? "",
         selectedShippingAddressId,
         shippingAddress: data?.shippingAddress,
