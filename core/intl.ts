@@ -190,6 +190,12 @@ export const prodListHeaderCommonMsg = defineMessages({
   sortOptionsClear: {
     defaultMessage: "Clear...",
   },
+  sortOptionsCreatedAt: {
+    defaultMessage: "Oldest",
+  },
+  sortOptionsCreatedAtDsc: {
+    defaultMessage: "Newest",
+  },
   sortOptionsPrice: {
     defaultMessage: "Price Low-High",
   },

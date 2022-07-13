@@ -5,28 +5,28 @@ import type {
   InferGetServerSidePropsType,
   GetServerSidePropsContext,
 } from "next";
+import { NormalizedCacheObject } from "@apollo/client";
 
 import { getGraphqlIdFromDBId } from "core/utils";
-import builderConfig from "config/builder";
+import MicrositeProducts from "components/templates/MicrositePage/MicrositeProducts";
 import {
-  CategoryPageDocument,
-  CategoryPageQuery,
-  CategoryPageQueryVariables,
-} from "components/templates/CategoryPage/queries.graphql.generated";
+  MicrositePageDocument,
+  MicrositePageQuery
+} from "components/templates/MicrositePage/queries.graphql.generated";
+import builderConfig from "config/builder";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
+import NotFound from "components/molecules/NotFound";
 
-import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";
-import NotFound from "../../../components/molecules/NotFound";
-
-const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+const Microsite: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,
   builderContent,
 }) => {
-  const description = data.category?.seoDescription || "Category";
-  const title = data.category?.seoTitle || data.category?.name || "Category";
+  const description = data.microsite?.seoDescription || "Microsite";
+  const title =
+    data.microsite?.seoTitle || data.microsite?.name || "Microsite";
   const schema = structuredData(description, title);
   const documentHead = {
     branding: data.branding,
@@ -34,17 +34,17 @@ const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     title,
     schema,
     url: "",
-    type: "product.category",
+    type: "microsites.microsite",
   };
 
-  const category = data.category;
+  const microsite = data.microsite;
 
   return (
     <Layout documentHead={documentHead}>
-      {category ? (
+      {microsite ? (
         <ProductsListView>
-          <CategoryProducts
-            category={category}
+          <MicrositeProducts
+            microsite={microsite}
             pageData={data}
             builderContent={builderContent}
           />
@@ -60,24 +60,22 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<{ id: string }>
 ) {
   const client = getApolloClient();
-  const categoryId = context.params?.id ?? "";
+  const micrositeId = context.params?.id ?? "";
 
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/category" }).promise() || null;
+    content = await builder.get("store", { url: "/store/microsite" }).promise() || null;
   }
 
-  const variables: CategoryPageQueryVariables = {
-    id: getGraphqlIdFromDBId(categoryId, "Category"),
-  };
-
-  const { data } = await client.query<CategoryPageQuery>({
-    query: CategoryPageDocument,
-    variables,
+  const { data } = await client.query<MicrositePageQuery>({
+    query: MicrositePageDocument,
+    variables: {
+      id: getGraphqlIdFromDBId(micrositeId, "Microsite"),
+    },
     errorPolicy: "all",
   });
 
-  const __APOLLO__ = client.extract();
+  const __APOLLO__: NormalizedCacheObject = client.extract();
 
   return {
     props: {
@@ -88,4 +86,4 @@ export async function getServerSideProps(
   };
 }
 
-export default Category;
+export default Microsite;
