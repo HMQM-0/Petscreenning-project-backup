@@ -24,14 +24,14 @@ const useSetShippingAddress = ({ dispatch, billingAsShipping, id, lines }: SetSh
   const updateCheckoutShippingAddress = useUpdateCheckoutShippingAddress({ dispatch });
   const createCheckout = useCreateCheckout({ dispatch });
 
+  const checkoutId = id;
+  const alteredLines = lines?.map((item) => ({
+    quantity: item!.quantity,
+    variantId: item?.variant!.id,
+  }));
+
   return useCallback(
     async (shippingAddress: ICheckoutAddress, email: string) => {
-      const checkoutId = id;
-      const alteredLines = lines?.map((item) => ({
-        quantity: item!.quantity,
-        variantId: item?.variant!.id,
-      }));
-
       if (alteredLines && checkoutId) {
         const { data, dataError } = await updateCheckoutShippingAddress({
           checkoutId,
@@ -70,7 +70,7 @@ const useSetShippingAddress = ({ dispatch, billingAsShipping, id, lines }: SetSh
         pending: false,
       };
     },
-    [billingAsShipping, createCheckout, updateCheckoutShippingAddress]
+    [alteredLines, billingAsShipping, checkoutId, createCheckout, updateCheckoutShippingAddress]
   );
 };
 

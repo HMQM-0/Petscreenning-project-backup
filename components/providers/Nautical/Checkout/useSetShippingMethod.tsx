@@ -3,20 +3,20 @@ import React, { useCallback } from "react";
 import { getCheckout } from "utils";
 
 import { CheckoutActions } from "./actions";
+import { ICheckoutContext } from "./context";
 import { useUpdateShippingMethod } from "./helpers/useUpdateShippingMethod";
 import { FunctionErrorCheckoutTypes } from "./types";
 
 type useSetShippingMethodProps = {
   dispatch: React.Dispatch<CheckoutActions>;
+  id: ICheckoutContext["id"];
 };
 
-const useSetShippingMethod = ({ dispatch }: useSetShippingMethodProps) => {
+const useSetShippingMethod = ({ dispatch, id }: useSetShippingMethodProps) => {
   const updateShippingMethod = useUpdateShippingMethod({ dispatch });
+  const checkoutId = id;
   return useCallback(
     async (shippingMethodId: string) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-
       if (checkoutId) {
         const { data, dataError } = await updateShippingMethod({
           checkoutId,
@@ -36,7 +36,7 @@ const useSetShippingMethod = ({ dispatch }: useSetShippingMethodProps) => {
         pending: false,
       };
     },
-    [updateShippingMethod]
+    [checkoutId, updateShippingMethod]
   );
 };
 

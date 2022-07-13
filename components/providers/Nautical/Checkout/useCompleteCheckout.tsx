@@ -27,12 +27,12 @@ const useCompleteCheckout = ({
   applicableVolumeDiscountsBySeller,
 }: useCompleteCheckoutProps) => {
   const completeCheckoutJob = useCompleteCheckoutJob({ dispatch });
+  const checkoutId = id;
+  const volumeDiscount = applicableVolumeDiscounts?.amount;
+  const volumeDiscountsBySeller = applicableVolumeDiscountsBySeller;
+
   return useCallback(
     async (input?: CompleteCheckoutInput) => {
-      const checkoutId = id;
-      const volumeDiscount = applicableVolumeDiscounts?.amount;
-      const volumeDiscountsBySeller = applicableVolumeDiscountsBySeller;
-
       if (checkoutId) {
         const { data, dataError } = await completeCheckoutJob({
           ...input,
@@ -60,7 +60,7 @@ const useCompleteCheckout = ({
         pending: false,
       };
     },
-    [completeCheckoutJob]
+    [checkoutId, completeCheckoutJob, volumeDiscount, volumeDiscountsBySeller]
   );
 };
 

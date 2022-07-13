@@ -24,12 +24,11 @@ export interface CreatePaymentInput {
 const useCreatePayment = ({ dispatch, applicableVolumeDiscounts, id, billingAddress }: useCreatePaymentProps) => {
   const { totalPrice } = useCart();
   const createPaymentJob = useCreatePaymentJob({ dispatch });
+  const checkoutId = id;
+  const amount = totalPrice?.gross.amount;
 
   return useCallback(
     async (input: CreatePaymentInput) => {
-      const checkoutId = id;
-      const amount = totalPrice?.gross.amount;
-
       if (checkoutId && billingAddress && amount !== null && amount !== undefined) {
         const { data, dataError } = await createPaymentJob({
           ...input,
@@ -52,7 +51,7 @@ const useCreatePayment = ({ dispatch, applicableVolumeDiscounts, id, billingAddr
         pending: false,
       };
     },
-    [createPaymentJob, totalPrice]
+    [amount, applicableVolumeDiscounts, billingAddress, checkoutId, createPaymentJob]
   );
 };
 

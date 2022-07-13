@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { getCheckout, setCheckout } from "utils";
 
 import { CheckoutActionCreators, CheckoutActions } from "./actions";
-import { useGetUserCheckout } from "./useGetUserCheckout";
+import { useGetUserCheckout } from "./helpers/useGetUserCheckout";
 import { ICheckoutContext } from "./context";
 
 import { useAuth } from "../Auth";
@@ -31,12 +31,15 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
         //   },
         // };
       }
-      if (data) {
-        setCheckout(data);
+
+      const newCheckout = data || checkout;
+
+      if (newCheckout) {
+        setCheckout(newCheckout);
       }
 
       const initializedCheckout: Partial<ICheckoutContext> = {
-        ...checkout,
+        ...newCheckout,
         loaded: true,
       };
 

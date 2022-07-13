@@ -23,32 +23,46 @@ type CheckoutProps = {
 
 const CheckoutProvider = ({ children }: CheckoutProps) => {
   const [checkout, dispatch] = useImmerReducer(reducer, INITIAL_STATE);
+  const {
+    id,
+    lines,
+    billingAddress,
+    shippingAddress,
+    billingAsShipping,
+    applicableVolumeDiscounts,
+    applicableVolumeDiscountsBySeller,
+  } = checkout;
 
   useInitializeCheckout({ dispatch });
   useOnSignOut({ dispatch });
   const setShippingAddress = useSetShippingAddress({
     dispatch,
-    id: checkout.id,
-    lines: checkout.lines,
-    billingAsShipping: checkout.billingAsShipping,
+    id,
+    lines,
+    billingAsShipping,
   });
-  const setBillingAddress = useSetBillingAddress({ dispatch });
-  const setBillingAsShippingAddress = useSetBillingAsShippingAddress({ checkout, dispatch });
-  const setShippingMethod = useSetShippingMethod({ dispatch });
-  const setSellerShippingMethods = useSetSellerShippingMethods({ dispatch, id: checkout.id });
+  const setBillingAddress = useSetBillingAddress({ dispatch, id, shippingAddress, lines });
+  const setBillingAsShippingAddress = useSetBillingAsShippingAddress({
+    id,
+    shippingAddress,
+    billingAddress,
+    dispatch,
+  });
+  const setShippingMethod = useSetShippingMethod({ dispatch, id });
+  const setSellerShippingMethods = useSetSellerShippingMethods({ dispatch, id });
   const addPromoCode = useAddPromoCode({ dispatch });
-  const removePromoCode = useRemovePromoCode({ dispatch });
+  const removePromoCode = useRemovePromoCode({ dispatch, id });
   const createPayment = useCreatePayment({
     dispatch,
-    id: checkout.id,
-    billingAddress: checkout.billingAddress,
-    applicableVolumeDiscounts: checkout.applicableVolumeDiscounts,
+    id,
+    billingAddress,
+    applicableVolumeDiscounts,
   });
   const completeCheckout = useCompleteCheckout({
     dispatch,
-    id: checkout.id,
-    applicableVolumeDiscounts: checkout.applicableVolumeDiscounts,
-    applicableVolumeDiscountsBySeller: checkout.applicableVolumeDiscountsBySeller,
+    id,
+    applicableVolumeDiscounts,
+    applicableVolumeDiscountsBySeller,
   });
   const updateLines = useUpdateLines({ dispatch });
 
