@@ -63,10 +63,18 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
   const [awardCustomerLoyaltyPoints, { /* data, error, */ loading: loadingAwardCustomerLoyaltyPoints }] =
     useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation();
 
+  const pointsGainedPerDollarSpent = Number(
+    loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent
+  );
+  const pointsUsedPerDollarSaved = Number(loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsUsedPerDollarSaved);
+  const pointsBalance = Number(customerPointsData?.customerLoyaltyAndReferralsDetails?.pointsBalance);
+
   // USE EFFECT
   React.useEffect(() => {
-    setLoyaltyPointsAvailable(customerPointsData?.customerLoyaltyAndReferralsDetails?.pointsBalance || 0);
-  }, [customerPointsData]);
+    if (pointsBalance) {
+      setLoyaltyPointsAvailable(pointsBalance);
+    }
+  }, [pointsBalance]);
 
   React.useEffect(() => {
     const updatedPointsToRedeem = parseInt(
@@ -78,12 +86,10 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
   }, [pointsToRedeem, promoCodeDiscount]);
 
   React.useEffect(() => {
-    loyaltyAndReferralsData &&
+    pointsGainedPerDollarSpent &&
       netOrderPrice &&
-      updateLoyaltyPointsToBeEarnedOnOrderComplete(
-        Math.round(loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent ?? 0 * netOrderPrice)
-      );
-  }, [loyaltyAndReferralsData, netOrderPrice, updateLoyaltyPointsToBeEarnedOnOrderComplete]);
+      updateLoyaltyPointsToBeEarnedOnOrderComplete(Math.round(pointsGainedPerDollarSpent * netOrderPrice));
+  }, [pointsGainedPerDollarSpent, netOrderPrice, updateLoyaltyPointsToBeEarnedOnOrderComplete]);
 
   // EVENT HANDLERS
   const handleRedeemButtonClick = async () => {
@@ -94,10 +100,9 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
         timeZone: "UTC",
         timeZoneName: "short",
       });
-      const discountAmount = loyaltyAndReferralsData
-        ? convertToCurrencyWithCommas(
-            pointsToRedeem / (loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsUsedPerDollarSaved ?? 1)
-          )
+
+      const discountAmount = pointsUsedPerDollarSaved
+        ? convertToCurrencyWithCommas(pointsToRedeem / pointsUsedPerDollarSaved)
         : "Error calculating discount amount.";
       const oneTimeVoucherCode = `loyaltyDiscount|${user?.firstName}|${user?.lastName}|${user?.email}|${date} ${timeUTC}|pointsRedeemed:${pointsToRedeem}|discount:${discountAmount}`;
       const { dataError } = await addPromoCode(oneTimeVoucherCode);
@@ -163,8 +168,6 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
   };
 
   // CONSTANTS
-  const pointsUsedPerDollarSaved = loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsUsedPerDollarSaved;
-
   const onReviewStep = true;
 
   const orderTotal = displayGrossPrices ? totalPrice?.gross.amount : totalPrice?.net.amount;
@@ -230,15 +233,11 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
                   {discount?.amount === 0 ? "Redeem" : "Undo"}
                 </Button>
               </S.Button>
-              <S.SubTextBottom>
-                You will earn{" "}
-                {loyaltyAndReferralsData &&
-                  netOrderPrice &&
-                  Math.round(
-                    (loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent ?? 0) * netOrderPrice
-                  )}{" "}
-                points with this purchase!
-              </S.SubTextBottom>
+              {pointsGainedPerDollarSpent && netOrderPrice && (
+                <S.SubTextBottom>
+                  You will earn {Math.round(pointsGainedPerDollarSpent * netOrderPrice)} points with this purchase!
+                </S.SubTextBottom>
+              )}
             </>
           ) : (
             <>
