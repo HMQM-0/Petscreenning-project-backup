@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { getCheckout, setCheckout } from "utils";
+import { getCheckout, setCheckout, getPayment, setPayment } from "utils";
 
 import { CheckoutActionCreators, CheckoutActions } from "./actions";
 import { useGetUserCheckout } from "./helpers/useGetUserCheckout";
@@ -19,6 +19,7 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
   useEffect(() => {
     const init = async () => {
       const checkout = getCheckout();
+      const payment = getCheckout();
 
       const { data, error } = await getUserCheckout(Boolean(authenticated), checkout?.token);
 
@@ -38,8 +39,13 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
         setCheckout(newCheckout);
       }
 
+      if (payment) {
+        setPayment(payment);
+      }
+
       const initializedCheckout: Partial<ICheckoutContext> = {
         ...newCheckout,
+        payment: payment || undefined,
         loaded: true,
       };
 
