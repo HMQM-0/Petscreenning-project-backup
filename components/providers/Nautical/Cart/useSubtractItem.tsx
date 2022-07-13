@@ -1,7 +1,5 @@
 import { useCallback } from "react";
 
-import { getCheckout } from "utils";
-
 import { useRefreshCheckoutLines, useUpdateCheckout } from "./helpers";
 
 import { useCheckout } from "../Checkout";
