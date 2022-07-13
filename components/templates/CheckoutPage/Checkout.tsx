@@ -121,6 +121,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const [popover, setPopover] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState("customer");
+  const [completeCheckoutRunnning, setCompleteCheckoutRunning] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [billingFormError, setBillingFormError] = React.useState(false);
   const [paymentFormError, setPaymentFormError] = React.useState(false);
@@ -256,6 +257,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       }
 
       if (!errors || errors.length === 0) {
+        setCompleteCheckoutRunning(true);
         const response = await completeCheckout();
 
         if (!response.dataError?.error) {
@@ -283,6 +285,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           handleErrors(errors);
           setPaymentFormError(errors.length > 0);
         }
+        setCompleteCheckoutRunning(false);
       } else {
         handleErrors(errors);
         setPaymentFormError(errors.length > 0);
@@ -1067,10 +1070,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           </Box>
         </Box>
       ) : (
-        <>
+        <Box p={3}>
           <Typography variant="h4">Confirming your payment...</Typography>
-          <Loader />
-        </>
+          {completeCheckoutRunnning && <Loader />}
+          {errorMessage && (
+            <Alert sx={{ marginTop: "8px" }} severity="error">
+              {errorMessage}
+            </Alert>
+          )}
+        </Box>
       )}
     </>
   );
