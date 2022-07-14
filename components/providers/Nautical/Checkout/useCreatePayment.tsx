@@ -5,13 +5,11 @@ import { CheckoutActions } from "./actions";
 import { useCreatePaymentJob } from "./helpers/useCreatePaymentJob";
 import { ICheckoutContext } from "./context";
 
-import { useCart } from "../Cart";
+import { calculateSummaryPrices } from "../Cart/useCalculateSummaryPrices";
 
 type useCreatePaymentProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  id: ICheckoutContext["id"];
-  billingAddress: ICheckoutContext["billingAddress"];
-  applicableVolumeDiscounts: ICheckoutContext["applicableVolumeDiscounts"];
+  checkout: ICheckoutContext;
 };
 
 export interface CreatePaymentInput {
@@ -21,10 +19,10 @@ export interface CreatePaymentInput {
   returnUrl?: string;
 }
 
-const useCreatePayment = ({ dispatch, applicableVolumeDiscounts, id, billingAddress }: useCreatePaymentProps) => {
-  const { totalPrice } = useCart();
+const useCreatePayment = ({ dispatch, checkout }: useCreatePaymentProps) => {
+  const { totalPrice } = calculateSummaryPrices(checkout);
   const createPaymentJob = useCreatePaymentJob({ dispatch });
-  const checkoutId = id;
+  const { id: checkoutId, billingAddress, applicableVolumeDiscounts } = checkout;
   const amount = totalPrice?.gross.amount;
 
   return useCallback(

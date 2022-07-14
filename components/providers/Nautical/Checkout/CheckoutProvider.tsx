@@ -54,9 +54,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const removePromoCode = useRemovePromoCode({ dispatch, id });
   const createPayment = useCreatePayment({
     dispatch,
-    id,
-    billingAddress,
-    applicableVolumeDiscounts,
+    checkout,
   });
   const completeCheckout = useCompleteCheckout({
     dispatch,

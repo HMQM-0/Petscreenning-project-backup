@@ -118,6 +118,7 @@ type FormFields = {
 };
 
 const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volumeDiscount, close }: ICheckoutProps) => {
+  const creatingPayment = React.useRef(false);
   const [popover, setPopover] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState("customer");
@@ -241,54 +242,58 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const handleCreatePayment = React.useCallback(
     async (gateway: string, token?: string, creditCardData?: ICardData) => {
-      let errors: any[] = [];
+      if (!creatingPayment.current) {
+        creatingPayment.current = true;
+        let errors: any[] = [];
 
-      const { dataError } = await createPayment({
-        gateway,
-        token,
-        creditCard: {
-          ...creditCardData,
-          brand: creditCardData?.brand ?? "",
-          lastDigits: creditCardData?.lastDigits ?? "",
-        },
-      });
-      if (dataError?.error && isArray(dataError?.error)) {
-        errors = dataError.error;
-      }
+        const { dataError } = await createPayment({
+          gateway,
+          token,
+          creditCard: {
+            ...creditCardData,
+            brand: creditCardData?.brand ?? "",
+            lastDigits: creditCardData?.lastDigits ?? "",
+          },
+        });
+        if (dataError?.error && isArray(dataError?.error)) {
+          errors = dataError.error;
+        }
 
-      if (!errors || errors.length === 0) {
-        setCompleteCheckoutRunning(true);
-        const response = await completeCheckout();
+        if (!errors || errors.length === 0) {
+          setCompleteCheckoutRunning(true);
+          const response = await completeCheckout();
 
-        if (!response.dataError?.error) {
-          if (checkIfLoyaltyAndReferralsActive() && user) {
-            awardCustomerLoyaltyPoints({
-              variables: {
-                input: {
-                  customerEmail: user.email,
-                  pointAdjustmentAmount: Number(loyaltyPointsToBeEarnedOnOrderComplete),
-                  applyAdjustmentToPointsEarned: true,
+          if (!response.dataError?.error) {
+            if (checkIfLoyaltyAndReferralsActive() && user) {
+              awardCustomerLoyaltyPoints({
+                variables: {
+                  input: {
+                    customerEmail: user.email,
+                    pointAdjustmentAmount: Number(loyaltyPointsToBeEarnedOnOrderComplete),
+                    applyAdjustmentToPointsEarned: true,
+                  },
                 },
-              },
-            });
-          }
-          const token = response.data?.order?.token;
-          const orderNumber = response.data?.order?.number;
+              });
+            }
+            const token = response.data?.order?.token;
+            const orderNumber = response.data?.order?.number;
 
-          if (token && orderNumber) {
-            router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
+            if (token && orderNumber) {
+              router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
+            }
+          } else {
+            if (isArray(response.dataError.error)) {
+              errors = response.dataError.error;
+            }
+            handleErrors(errors);
+            setPaymentFormError(errors.length > 0);
           }
+          setCompleteCheckoutRunning(false);
         } else {
-          if (isArray(response.dataError.error)) {
-            errors = response.dataError.error;
-          }
           handleErrors(errors);
           setPaymentFormError(errors.length > 0);
         }
-        setCompleteCheckoutRunning(false);
-      } else {
-        handleErrors(errors);
-        setPaymentFormError(errors.length > 0);
+        creatingPayment.current = false;
       }
     },
     [

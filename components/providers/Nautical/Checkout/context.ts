@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { PaymentGateway } from "@generated";
 
 import { CheckoutFragment } from "./fragments.graphql.generated";
-import { ICheckoutAddress, ICheckoutModel, IPaymentModel, IPromoCodeDiscount } from "./types";
+import { ICheckoutAddress, ICheckoutModel, IPaymentModel } from "./types";
 import { useSetShippingAddress } from "./useSetShippingAddress";
 import { useSetBillingAddress } from "./useSetBillingAddress";
 import { useSetBillingAsShippingAddress } from "./useSetBillingAsShippingAddress";
@@ -19,7 +19,7 @@ export type ICheckoutContext = {
   loaded: boolean;
   id?: ICheckoutModel["id"];
   email?: string;
-  promoCodeDiscount?: IPromoCodeDiscount;
+  promoCodeDiscount?: ICheckoutModel["promoCodeDiscount"];
   billingAsShipping?: boolean;
   shippingAddress?: CheckoutFragment["shippingAddress"];
   billingAddress?: CheckoutFragment["billingAddress"];

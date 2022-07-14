@@ -19,7 +19,7 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
   useEffect(() => {
     const init = async () => {
       const checkout = getCheckout();
-      const payment = getCheckout();
+      const payment = getPayment();
 
       const { data, error } = await getUserCheckout(Boolean(authenticated), checkout?.token);
 

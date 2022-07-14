@@ -25,7 +25,7 @@ const CartProvider = ({ children }: CartProps) => {
   const subtractItem = useSubtractItem();
   const updateItem = useUpdateItem();
   const itemInCart = useItemInCart();
-  const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices({ items });
+  const { discount, shippingPrice, subtotalPrice, totalPrice } = useCalculateSummaryPrices();
 
   const value: ICartContext = {
     items,
