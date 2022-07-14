@@ -14,7 +14,7 @@ const useAddItem = () => {
     async (variantId: string, quantity: number) => {
       const { variantToModify, linesWithoutVariant } = prepareLinesForUpdate(variantId, lines);
 
-      // Modify lines
+      // 1. Modify lines
       const newVariantQuantity = variantToModify ? variantToModify.quantity + quantity : quantity;
       let newLines: ICheckoutContext["lines"] = [];
       if (variantToModify) {
@@ -30,10 +30,10 @@ const useAddItem = () => {
         newLines = [...linesWithoutVariant, newVariant];
       }
 
-      // 1. Ensure lines are up-to-date with DB and set in state
+      // 2. Ensure lines are up-to-date with DB and set in state
       await refreshCheckoutLines(newLines);
 
-      // 2. save online if possible (if checkout id available)
+      // 3. save online if possible (if checkout id available)
       updateCheckout(newLines);
     },
     [lines, refreshCheckoutLines, updateCheckout]
