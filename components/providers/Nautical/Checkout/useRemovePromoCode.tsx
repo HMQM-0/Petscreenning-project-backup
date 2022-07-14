@@ -1,18 +1,17 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { CheckoutStateContext } from "./context";
 import { useRemovePromoCodeJob } from "./helpers/useRemovePromoCodeJob";
 import { FunctionErrorCheckoutTypes } from "./types";
 
 type useRemovePromoCodeProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  id: ICheckoutContext["id"];
 };
 
-const useRemovePromoCode = ({ dispatch, id }: useRemovePromoCodeProps) => {
+const useRemovePromoCode = ({ dispatch }: useRemovePromoCodeProps) => {
+  const { id: checkoutId } = useContext(CheckoutStateContext);
   const removePromoCodeJob = useRemovePromoCodeJob({ dispatch });
-  const checkoutId = id;
   return useCallback(
     async (promoCode: string) => {
       if (checkoutId) {

@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 
 import { CheckoutActionCreators, CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { ICheckoutStateContext } from "./context";
 
 type useUpdateLinesProps = {
   dispatch: React.Dispatch<CheckoutActions>;
@@ -9,7 +9,7 @@ type useUpdateLinesProps = {
 
 const useUpdateLines = ({ dispatch }: useUpdateLinesProps) => {
   return useCallback(
-    (lines: ICheckoutContext["lines"]) => {
+    (lines: ICheckoutStateContext["lines"]) => {
       dispatch(CheckoutActionCreators.updateLines(lines));
     },
     [dispatch]

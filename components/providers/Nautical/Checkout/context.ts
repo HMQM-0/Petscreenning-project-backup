@@ -15,7 +15,7 @@ import { CreatePaymentInput, useCreatePayment } from "./useCreatePayment";
 import { CompleteCheckoutInput, useCompleteCheckout } from "./useCompleteCheckout";
 import { useUpdateLines } from "./useUpdateLines";
 
-export type ICheckoutContext = {
+export type ICheckoutStateContext = {
   loaded: boolean;
   id?: ICheckoutModel["id"];
   email?: string;
@@ -34,6 +34,9 @@ export type ICheckoutContext = {
   shippingMethod?: CheckoutFragment["shippingMethod"];
   lines?: ICheckoutModel["lines"];
   sellerShippingMethods?: CheckoutFragment["sellerShippingMethods"];
+};
+
+export type ICheckoutDispatchContext = {
   setShippingAddress: ReturnType<typeof useSetShippingAddress>;
   setBillingAddress: ReturnType<typeof useSetBillingAddress>;
   setBillingAsShippingAddress: ReturnType<typeof useSetBillingAsShippingAddress>;
@@ -46,8 +49,11 @@ export type ICheckoutContext = {
   updateLines: ReturnType<typeof useUpdateLines>;
 };
 
-export const INITIAL_STATE: ICheckoutContext = {
+export const CHECKOUT_STATE_CONTEXT_INITIAL_STATE: ICheckoutStateContext = {
   loaded: false,
+};
+
+export const CHECKOUT_DISPATCH_CONTECT_INITIAL_STATE: ICheckoutDispatchContext = {
   setShippingAddress: async (shippingAddress: ICheckoutAddress, email: string) => ({
     data: undefined,
     dataError: undefined,
@@ -93,7 +99,8 @@ export const INITIAL_STATE: ICheckoutContext = {
     dataError: undefined,
     pending: false,
   }),
-  updateLines: (lines: ICheckoutContext["lines"]) => {},
+  updateLines: (lines: ICheckoutStateContext["lines"]) => {},
 };
 
-export const CheckoutContext = createContext<ICheckoutContext>(INITIAL_STATE);
+export const CheckoutStateContext = createContext<ICheckoutStateContext>(CHECKOUT_STATE_CONTEXT_INITIAL_STATE);
+export const CheckoutDispatchContext = createContext<ICheckoutDispatchContext>(CHECKOUT_DISPATCH_CONTECT_INITIAL_STATE);

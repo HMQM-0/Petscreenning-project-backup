@@ -118,6 +118,7 @@ const useCreateCheckout = ({ dispatch }: UseCreateCheckoutProps) => {
 
       const newCheckout = {
         ...data,
+        loaded: true,
         selectedBillingAddressId,
         selectedShippingAddressId,
       };

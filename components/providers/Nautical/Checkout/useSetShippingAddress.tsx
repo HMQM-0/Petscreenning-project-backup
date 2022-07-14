@@ -1,7 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { CheckoutStateContext } from "./context";
 import { useCreateCheckout } from "./helpers/useCreateCheckout";
 import { useUpdateCheckoutShippingAddress } from "./helpers/useUpdateCheckoutShippingAddress";
 import { FunctionErrorCheckoutTypes, ICheckoutAddress } from "./types";
@@ -15,12 +15,10 @@ export interface SetBillingAddressJobInput {
 
 type SetShippingAddressProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  id: ICheckoutContext["id"];
-  lines: ICheckoutContext["lines"];
-  billingAsShipping: ICheckoutContext["billingAsShipping"];
 };
 
-const useSetShippingAddress = ({ dispatch, billingAsShipping, id, lines }: SetShippingAddressProps) => {
+const useSetShippingAddress = ({ dispatch }: SetShippingAddressProps) => {
+  const { billingAsShipping, id, lines } = useContext(CheckoutStateContext);
   const updateCheckoutShippingAddress = useUpdateCheckoutShippingAddress({ dispatch });
   const createCheckout = useCreateCheckout({ dispatch });
 

@@ -1,23 +1,16 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { CheckoutStateContext } from "./context";
 import { useUpdateCheckoutBillingAddress } from "./helpers/useUpdateCheckoutBillingAddress";
 import { FunctionErrorCheckoutTypes } from "./types";
 
 type useSetBillingAsShippingAddressProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  id: ICheckoutContext["id"];
-  shippingAddress: ICheckoutContext["shippingAddress"];
-  billingAddress: ICheckoutContext["billingAddress"];
 };
 
-const useSetBillingAsShippingAddress = ({
-  id,
-  shippingAddress,
-  billingAddress,
-  dispatch,
-}: useSetBillingAsShippingAddressProps) => {
+const useSetBillingAsShippingAddress = ({ dispatch }: useSetBillingAsShippingAddressProps) => {
+  const { id, shippingAddress, billingAddress } = useContext(CheckoutStateContext);
   const setBillingAddress = useUpdateCheckoutBillingAddress({ dispatch });
   return useCallback(
     async (billingAsShipping: boolean) => {

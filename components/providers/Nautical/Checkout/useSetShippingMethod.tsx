@@ -1,18 +1,16 @@
-import React, { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import React, { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { CheckoutStateContext } from "./context";
 import { useUpdateShippingMethod } from "./helpers/useUpdateShippingMethod";
 import { FunctionErrorCheckoutTypes } from "./types";
 
 type useSetShippingMethodProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  id: ICheckoutContext["id"];
 };
 
-const useSetShippingMethod = ({ dispatch, id }: useSetShippingMethodProps) => {
+const useSetShippingMethod = ({ dispatch }: useSetShippingMethodProps) => {
+  const { id } = useContext(CheckoutStateContext);
   const updateShippingMethod = useUpdateShippingMethod({ dispatch });
   const checkoutId = id;
   return useCallback(

@@ -1,9 +1,7 @@
-import React, { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import React, { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { CheckoutStateContext } from "./context";
 import { useCreateCheckout } from "./helpers/useCreateCheckout";
 import { useUpdateCheckoutBillingAddress } from "./helpers/useUpdateCheckoutBillingAddress";
 import { useUpdateCheckoutBillingAddressWithEmail } from "./helpers/useUpdateCheckoutBillingAddressWithEmail";
@@ -11,12 +9,10 @@ import { FunctionErrorCheckoutTypes, ICheckoutAddress } from "./types";
 
 type useSetBillingAddressProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  id: ICheckoutContext["id"];
-  lines: ICheckoutContext["lines"];
-  shippingAddress: ICheckoutContext["shippingAddress"];
 };
 
-const useSetBillingAddress = ({ dispatch, id, lines, shippingAddress }: useSetBillingAddressProps) => {
+const useSetBillingAddress = ({ dispatch }: useSetBillingAddressProps) => {
+  const { id, lines, shippingAddress } = useContext(CheckoutStateContext);
   const setBillingAddress = useUpdateCheckoutBillingAddress({ dispatch });
   const setBillingAddressWithEmail = useUpdateCheckoutBillingAddressWithEmail({ dispatch });
   const createCheckout = useCreateCheckout({ dispatch });

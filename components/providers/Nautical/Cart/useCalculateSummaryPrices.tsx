@@ -4,9 +4,9 @@ import { round } from "lodash";
 import { INauticalStateSummaryPrices } from "./types";
 
 import { useCheckout } from "../Checkout";
-import { ICheckoutContext } from "../Checkout/context";
+import { ICheckoutStateContext } from "../Checkout/context";
 
-export function calculateSummaryPrices(checkout: ICheckoutContext): INauticalStateSummaryPrices {
+export function calculateSummaryPrices(checkout: ICheckoutStateContext): INauticalStateSummaryPrices {
   const items = checkout?.lines;
   const shippingMethod = checkout?.shippingMethod;
   const promoCodeDiscount = checkout?.promoCodeDiscount?.discount;

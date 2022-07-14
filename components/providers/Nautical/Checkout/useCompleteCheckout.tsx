@@ -1,15 +1,12 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { CheckoutStateContext } from "./context";
 import { useCompleteCheckoutJob } from "./helpers/useCompleteCheckoutJob";
 import { FunctionErrorCheckoutTypes } from "./types";
 
 type useCompleteCheckoutProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  id: ICheckoutContext["id"];
-  applicableVolumeDiscounts: ICheckoutContext["applicableVolumeDiscounts"];
-  applicableVolumeDiscountsBySeller: ICheckoutContext["applicableVolumeDiscountsBySeller"];
 };
 
 export interface CompleteCheckoutInput {
@@ -20,12 +17,9 @@ export interface CompleteCheckoutInput {
   microsite?: string;
 }
 
-const useCompleteCheckout = ({
-  dispatch,
-  id,
-  applicableVolumeDiscounts,
-  applicableVolumeDiscountsBySeller,
-}: useCompleteCheckoutProps) => {
+const useCompleteCheckout = ({ dispatch }: useCompleteCheckoutProps) => {
+  const { id, applicableVolumeDiscounts, applicableVolumeDiscountsBySeller } = useContext(CheckoutStateContext);
+
   const completeCheckoutJob = useCompleteCheckoutJob({ dispatch });
   const checkoutId = id;
   const volumeDiscount = applicableVolumeDiscounts?.amount;

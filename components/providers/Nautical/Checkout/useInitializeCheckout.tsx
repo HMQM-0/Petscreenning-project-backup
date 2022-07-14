@@ -4,7 +4,7 @@ import { getCheckout, setCheckout, getPayment, setPayment } from "utils";
 
 import { CheckoutActionCreators, CheckoutActions } from "./actions";
 import { useGetUserCheckout } from "./helpers/useGetUserCheckout";
-import { ICheckoutContext } from "./context";
+import { ICheckoutStateContext } from "./context";
 
 import { useAuth } from "../Auth";
 
@@ -43,7 +43,7 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
         setPayment(payment);
       }
 
-      const initializedCheckout: Partial<ICheckoutContext> = {
+      const initializedCheckout: ICheckoutStateContext = {
         ...newCheckout,
         payment: payment || undefined,
         loaded: true,

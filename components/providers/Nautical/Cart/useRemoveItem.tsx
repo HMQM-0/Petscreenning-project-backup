@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { prepareLinesForUpdate, useRefreshCheckoutLines, useUpdateCheckout } from "./helpers";
 
 import { useCheckout } from "../Checkout";
-import { ICheckoutContext } from "../Checkout/context";
+import { ICheckoutStateContext } from "../Checkout/context";
 
 const useRemoveItem = () => {
   const { lines } = useCheckout();
@@ -15,7 +15,7 @@ const useRemoveItem = () => {
       const { variantToModify, linesWithoutVariant } = prepareLinesForUpdate(variantId, lines);
 
       // 1. Modify lines
-      let newLines: ICheckoutContext["lines"] = [...linesWithoutVariant];
+      let newLines: ICheckoutStateContext["lines"] = [...linesWithoutVariant];
 
       // 2. Ensure lines are up-to-date with DB and set in state
       await refreshCheckoutLines(newLines);

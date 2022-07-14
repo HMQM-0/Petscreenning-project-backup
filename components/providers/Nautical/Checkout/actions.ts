@@ -1,4 +1,4 @@
-import { ICheckoutContext } from "./context";
+import { ICheckoutStateContext } from "./context";
 import { IPaymentModel } from "./types";
 
 export const CheckoutActionTypes = {
@@ -17,65 +17,65 @@ export const CheckoutActionTypes = {
 } as const;
 
 export const CheckoutActionCreators = {
-  initializeCheckout: (checkout: Partial<ICheckoutContext>) => ({
+  initializeCheckout: (checkout: ICheckoutStateContext) => ({
     type: CheckoutActionTypes.INITIALIZE_CHECKOUT,
     payload: {
       checkout,
     },
   }),
   updateShippingAddress: (payload: {
-    availableShippingMethods: ICheckoutContext["availableShippingMethods"];
-    billingAsShipping: ICheckoutContext["billingAsShipping"];
+    availableShippingMethods: ICheckoutStateContext["availableShippingMethods"];
+    billingAsShipping: ICheckoutStateContext["billingAsShipping"];
     email: string;
-    selectedShippingAddressId: ICheckoutContext["selectedShippingAddressId"];
-    shippingAddress: ICheckoutContext["shippingAddress"];
+    selectedShippingAddressId: ICheckoutStateContext["selectedShippingAddressId"];
+    shippingAddress: ICheckoutStateContext["shippingAddress"];
   }) => ({
     type: CheckoutActionTypes.UPDATE_SHIPPING_ADDRESS,
     payload,
   }),
-  createCheckout: (payload: Partial<ICheckoutContext>) => ({
+  createCheckout: (payload: ICheckoutStateContext) => ({
     type: CheckoutActionTypes.CREATE_CHECKOUT,
     payload,
   }),
   setBillingAddress: (payload: {
-    availablePaymentGateways: ICheckoutContext["availablePaymentGateways"];
-    billingAddress: ICheckoutContext["billingAddress"];
-    billingAsShipping: ICheckoutContext["billingAsShipping"];
-    selectedBillingAddressId: ICheckoutContext["selectedBillingAddressId"];
+    availablePaymentGateways: ICheckoutStateContext["availablePaymentGateways"];
+    billingAddress: ICheckoutStateContext["billingAddress"];
+    billingAsShipping: ICheckoutStateContext["billingAsShipping"];
+    selectedBillingAddressId: ICheckoutStateContext["selectedBillingAddressId"];
   }) => ({
     type: CheckoutActionTypes.SET_BILLING_ADDRESS,
     payload,
   }),
   setBillingAddressWithEmail: (payload: {
-    availablePaymentGateways: ICheckoutContext["availablePaymentGateways"];
-    billingAddress: ICheckoutContext["billingAddress"];
-    billingAsShipping: ICheckoutContext["billingAsShipping"];
-    email: ICheckoutContext["email"];
-    selectedBillingAddressId: ICheckoutContext["selectedBillingAddressId"];
+    availablePaymentGateways: ICheckoutStateContext["availablePaymentGateways"];
+    billingAddress: ICheckoutStateContext["billingAddress"];
+    billingAsShipping: ICheckoutStateContext["billingAsShipping"];
+    email: ICheckoutStateContext["email"];
+    selectedBillingAddressId: ICheckoutStateContext["selectedBillingAddressId"];
   }) => ({
     type: CheckoutActionTypes.SET_BILLING_ADDRESS_WITH_EMAIL,
     payload,
   }),
   setShippingMethod: (payload: {
-    promoCodeDiscount: ICheckoutContext["promoCodeDiscount"];
-    shippingMethod: ICheckoutContext["shippingMethod"];
+    promoCodeDiscount: ICheckoutStateContext["promoCodeDiscount"];
+    shippingMethod: ICheckoutStateContext["shippingMethod"];
   }) => ({
     type: CheckoutActionTypes.SET_SHIPPING_METHOD,
     payload,
   }),
   setSellerShippingMethods: (payload: {
-    lines: ICheckoutContext["lines"];
-    promoCodeDiscount: ICheckoutContext["promoCodeDiscount"];
-    sellerShippingMethods: ICheckoutContext["sellerShippingMethods"];
+    lines: ICheckoutStateContext["lines"];
+    promoCodeDiscount: ICheckoutStateContext["promoCodeDiscount"];
+    sellerShippingMethods: ICheckoutStateContext["sellerShippingMethods"];
   }) => ({
     type: CheckoutActionTypes.SET_SELLER_SHIPPING_METHODS,
     payload,
   }),
-  addPromoCode: (payload: { promoCodeDiscount: ICheckoutContext["promoCodeDiscount"] }) => ({
+  addPromoCode: (payload: { promoCodeDiscount: ICheckoutStateContext["promoCodeDiscount"] }) => ({
     type: CheckoutActionTypes.ADD_PROMO_CODE,
     payload,
   }),
-  removePromoCode: (payload: { promoCodeDiscount: ICheckoutContext["promoCodeDiscount"] }) => ({
+  removePromoCode: (payload: { promoCodeDiscount: ICheckoutStateContext["promoCodeDiscount"] }) => ({
     type: CheckoutActionTypes.REMOVE_PROMO_CODE,
     payload,
   }),
@@ -89,7 +89,7 @@ export const CheckoutActionCreators = {
     type: CheckoutActionTypes.CLEAR_CHECKOUT,
     payload: {},
   }),
-  updateLines: (lines: ICheckoutContext["lines"]) => ({
+  updateLines: (lines: ICheckoutStateContext["lines"]) => ({
     type: CheckoutActionTypes.UPDATE_LINES,
     payload: {
       lines,

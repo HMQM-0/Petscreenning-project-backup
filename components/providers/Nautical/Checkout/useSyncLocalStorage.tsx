@@ -1,9 +1,9 @@
 import { setCheckout, setPayment } from "utils";
 
-import { ICheckoutContext } from "./context";
+import { ICheckoutStateContext } from "./context";
 
 type useSyncLocalStorageProps = {
-  checkout: ICheckoutContext;
+  checkout: ICheckoutStateContext;
 };
 
 const useSyncLocalStorage = ({ checkout }: useSyncLocalStorageProps) => {

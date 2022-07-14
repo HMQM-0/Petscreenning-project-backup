@@ -1,9 +1,9 @@
 import { Reducer } from "use-immer";
 
 import { CheckoutActions, CheckoutActionTypes } from "./actions";
-import { ICheckoutContext } from "./context";
+import { ICheckoutStateContext } from "./context";
 
-export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, action) => {
+export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, action) => {
   switch (action.type) {
     case CheckoutActionTypes.INITIALIZE_CHECKOUT:
       draft.loaded = true;

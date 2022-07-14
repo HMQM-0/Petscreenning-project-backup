@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import { useUpdateCheckoutLineMutation } from "../../Checkout/mutations.graphql.generated";
 import { useCheckout } from "../../Checkout";
-import { ICheckoutContext } from "../../Checkout/context";
+import { ICheckoutStateContext } from "../../Checkout/context";
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 
 const useUpdateCheckout = () => {
@@ -10,7 +10,7 @@ const useUpdateCheckout = () => {
   const [updateCheckoutLine] = useUpdateCheckoutLineMutation();
 
   return useCallback(
-    async (lines: ICheckoutContext["lines"]) => {
+    async (lines: ICheckoutStateContext["lines"]) => {
       if (id && lines) {
         const linesToUpdate = lines.map((line) => ({
           quantity: line.quantity,

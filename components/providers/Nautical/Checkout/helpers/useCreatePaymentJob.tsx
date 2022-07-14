@@ -6,7 +6,7 @@ import { useCreateCheckoutPaymentMutation } from "../mutations.graphql.generated
 import { DataErrorCheckoutTypes, ICheckoutAddress, IPaymentCreditCard } from "../types";
 import { constructPaymentModel } from "../../utils/constructPaymentModel";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
-import { ICheckoutContext } from "../context";
+import { ICheckoutStateContext } from "../context";
 
 interface CheckoutCreatePaymentMutationHandlerInput {
   amount: number;
@@ -15,7 +15,7 @@ interface CheckoutCreatePaymentMutationHandlerInput {
   billingAddress: ICheckoutAddress;
   token?: string;
   returnUrl?: string;
-  applicableVolumeDiscounts: ICheckoutContext["applicableVolumeDiscounts"];
+  applicableVolumeDiscounts: ICheckoutStateContext["applicableVolumeDiscounts"];
 }
 
 const useCreateCheckoutPaymentMutationHandler = () => {
@@ -95,7 +95,7 @@ interface CreatePaymentJobInput {
   billingAddress: ICheckoutAddress;
   creditCard?: IPaymentCreditCard;
   returnUrl?: string;
-  applicableVolumeDiscounts: ICheckoutContext["applicableVolumeDiscounts"];
+  applicableVolumeDiscounts: ICheckoutStateContext["applicableVolumeDiscounts"];
 }
 
 const useCreatePaymentJob = ({ dispatch }: useCreatePaymentJobProps) => {
