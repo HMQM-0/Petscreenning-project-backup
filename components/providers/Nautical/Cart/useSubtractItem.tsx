@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 
-import { useRefreshCheckoutLines, useUpdateCheckout } from "./helpers";
+import { prepareLinesForUpdate, useRefreshCheckoutLines, useUpdateCheckout } from "./helpers";
 
 import { useCheckout } from "../Checkout";
+import { ICheckoutContext } from "../Checkout/context";
 
 const useSubtractItem = () => {
   const { lines } = useCheckout();
@@ -11,20 +12,21 @@ const useSubtractItem = () => {
 
   return useCallback(
     async (variantId: string) => {
-      // 1. save in local storage
-      let _lines = lines?.map((line) => ({ ...line })) ?? [];
-      const variantFromCart = _lines.find((variant) => variant.variant.id === variantId);
-      const alteredLines = _lines.filter((variant) => variant.variant.id !== variantId);
-      const newVariantQuantity = variantFromCart ? variantFromCart.quantity - 1 : 0;
-      if (variantFromCart) {
-        variantFromCart.quantity = newVariantQuantity;
-        alteredLines.push(variantFromCart);
+      const { variantToModify, linesWithoutVariant } = prepareLinesForUpdate(variantId, lines);
+
+      let newLines: ICheckoutContext["lines"] = [...linesWithoutVariant];
+      // 1. Modify lines
+      const newVariantQuantity = variantToModify ? variantToModify.quantity - 1 : 0;
+      if (variantToModify) {
+        variantToModify.quantity = newVariantQuantity;
+        newLines = [...newLines, variantToModify];
       }
 
-      await refreshCheckoutLines(alteredLines);
+      // 2. Ensure lines are up-to-date with DB and set in state
+      await refreshCheckoutLines(newLines);
 
-      // 2. save online if possible (if checkout id available)
-      updateCheckout(alteredLines);
+      // 3. save online if possible (if checkout id available)
+      updateCheckout(newLines);
     },
     [lines, refreshCheckoutLines, updateCheckout]
   );

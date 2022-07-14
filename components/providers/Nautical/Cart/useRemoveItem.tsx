@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 
-import { useRefreshCheckoutLines, useUpdateCheckout } from "./helpers";
+import { prepareLinesForUpdate, useRefreshCheckoutLines, useUpdateCheckout } from "./helpers";
 
 import { useCheckout } from "../Checkout";
+import { ICheckoutContext } from "../Checkout/context";
 
 const useRemoveItem = () => {
   const { lines } = useCheckout();
@@ -11,19 +12,21 @@ const useRemoveItem = () => {
 
   return useCallback(
     async (variantId: string) => {
-      // 1. update local storage
-      let _lines = lines?.map((line) => ({ ...line })) ?? [];
-      const variantInCheckout = _lines.find((variant) => variant.variant.id === variantId);
-      const alteredLines = _lines.filter((variant) => variant.variant.id !== variantId);
+      const { variantToModify, linesWithoutVariant } = prepareLinesForUpdate(variantId, lines);
 
-      await refreshCheckoutLines(alteredLines);
+      // 1. Modify lines
+      let newLines: ICheckoutContext["lines"] = [...linesWithoutVariant];
 
-      // 2. save online if possible (if checkout id available)
-      if (variantInCheckout) {
-        variantInCheckout.quantity = 0;
-        alteredLines.push(variantInCheckout);
+      // 2. Ensure lines are up-to-date with DB and set in state
+      await refreshCheckoutLines(newLines);
+
+      // 3. save online if possible (if checkout id available)
+      // NOTE: BE issue arises if the variant is removed, instead need to set quantity to 0 before db update
+      if (variantToModify) {
+        variantToModify.quantity = 0;
+        newLines = [variantToModify];
       }
-      updateCheckout(alteredLines);
+      updateCheckout(newLines);
     },
     [lines, refreshCheckoutLines, updateCheckout]
   );

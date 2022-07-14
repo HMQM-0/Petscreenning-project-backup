@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 
-import { useUpdateCheckout, useRefreshCheckoutLines } from "./helpers";
+import { useUpdateCheckout, useRefreshCheckoutLines, prepareLinesForUpdate } from "./helpers";
 
 import { useCheckout } from "../Checkout";
+import { ICheckoutContext } from "../Checkout/context";
 
 const useAddItem = () => {
   const { lines } = useCheckout();
@@ -11,28 +12,29 @@ const useAddItem = () => {
 
   return useCallback(
     async (variantId: string, quantity: number) => {
-      // 1. save in local storage
-      const _lines = lines?.map((line) => ({ ...line })) ?? [];
-      let variantInCheckout = _lines.find((variant) => variant.variant.id === variantId);
-      const alteredLines = _lines.filter((variant) => variant.variant.id !== variantId);
-      const newVariantQuantity = variantInCheckout ? variantInCheckout.quantity + quantity : quantity;
-      if (variantInCheckout) {
-        variantInCheckout.quantity = newVariantQuantity;
-        alteredLines.push(variantInCheckout);
+      const { variantToModify, linesWithoutVariant } = prepareLinesForUpdate(variantId, lines);
+
+      // Modify lines
+      const newVariantQuantity = variantToModify ? variantToModify.quantity + quantity : quantity;
+      let newLines: ICheckoutContext["lines"] = [];
+      if (variantToModify) {
+        variantToModify.quantity = newVariantQuantity;
+        newLines = [...linesWithoutVariant, variantToModify];
       } else {
-        variantInCheckout = {
+        const newVariant = {
           quantity,
           variant: {
             id: variantId,
           },
         };
-        alteredLines.push(variantInCheckout);
+        newLines = [...linesWithoutVariant, newVariant];
       }
 
-      await refreshCheckoutLines(alteredLines);
+      // 1. Ensure lines are up-to-date with DB and set in state
+      await refreshCheckoutLines(newLines);
 
       // 2. save online if possible (if checkout id available)
-      updateCheckout(alteredLines);
+      updateCheckout(newLines);
     },
     [lines, refreshCheckoutLines, updateCheckout]
   );
