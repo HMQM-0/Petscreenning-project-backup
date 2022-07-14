@@ -7,7 +7,7 @@ import { IProps } from "./types";
 /**
  * Stripe payment form.
  */
-const StripeCreditCardForm: React.FC<IProps> = ({ formRef, formId, errors = [], onSubmit }: IProps) => {
+const StripeCreditCardForm = ({ formRef, formId, errors = [], onSubmit }: IProps) => {
   const stripe = useStripe();
   const elements = useElements();
   return (
