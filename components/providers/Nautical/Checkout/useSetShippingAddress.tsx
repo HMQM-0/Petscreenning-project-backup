@@ -1,8 +1,7 @@
-import { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
+import { CheckoutStateContext } from "./context";
 import { useCreateCheckout } from "./helpers/useCreateCheckout";
 import { useUpdateCheckoutShippingAddress } from "./helpers/useUpdateCheckoutShippingAddress";
 import { FunctionErrorCheckoutTypes, ICheckoutAddress } from "./types";
@@ -19,24 +18,25 @@ type SetShippingAddressProps = {
 };
 
 const useSetShippingAddress = ({ dispatch }: SetShippingAddressProps) => {
+  const { billingAsShipping, id, lines } = useContext(CheckoutStateContext);
   const updateCheckoutShippingAddress = useUpdateCheckoutShippingAddress({ dispatch });
   const createCheckout = useCreateCheckout({ dispatch });
 
+  const checkoutId = id;
+  const alteredLines = lines?.map((item) => ({
+    quantity: item!.quantity,
+    variantId: item?.variant!.id,
+  }));
+
   return useCallback(
     async (shippingAddress: ICheckoutAddress, email: string) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-      const alteredLines = checkout?.lines?.map((item) => ({
-        quantity: item!.quantity,
-        variantId: item?.variant!.id,
-      }));
-
       if (alteredLines && checkoutId) {
         const { data, dataError } = await updateCheckoutShippingAddress({
           checkoutId,
           email,
           selectedShippingAddressId: shippingAddress.id,
           shippingAddress,
+          billingAsShipping,
         });
 
         return {
@@ -68,7 +68,7 @@ const useSetShippingAddress = ({ dispatch }: SetShippingAddressProps) => {
         pending: false,
       };
     },
-    [createCheckout, updateCheckoutShippingAddress]
+    [alteredLines, billingAsShipping, checkoutId, createCheckout, updateCheckoutShippingAddress]
   );
 };
 

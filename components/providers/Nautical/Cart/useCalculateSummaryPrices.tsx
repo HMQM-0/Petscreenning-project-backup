@@ -1,18 +1,12 @@
 import { useMemo } from "react";
 import { round } from "lodash";
 
-import { getCheckout } from "utils";
-
 import { INauticalStateSummaryPrices } from "./types";
-import { ICartContext } from "./context";
 
-import { ICheckoutModel } from "../Checkout/types";
+import { useCheckout } from "../Checkout";
+import { ICheckoutStateContext } from "../Checkout/context";
 
-type useCalculateSummaryPricesProps = {
-  items: ICartContext["items"];
-};
-
-function calculateSummaryPrices(checkout: ICheckoutModel | null): INauticalStateSummaryPrices {
+export function calculateSummaryPrices(checkout: ICheckoutStateContext): INauticalStateSummaryPrices {
   const items = checkout?.lines;
   const shippingMethod = checkout?.shippingMethod;
   const promoCodeDiscount = checkout?.promoCodeDiscount?.discount;
@@ -104,11 +98,11 @@ function calculateSummaryPrices(checkout: ICheckoutModel | null): INauticalState
   return {};
 }
 
-const useCalculateSummaryPrices = ({ items }: useCalculateSummaryPricesProps) =>
-  useMemo(() => {
-    const checkout = getCheckout();
+const useCalculateSummaryPrices = () => {
+  const checkout = useCheckout();
+  return useMemo(() => {
     return calculateSummaryPrices(checkout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]); // NOTE: We want items in here so that the summary prices update when items change
+  }, [checkout]);
+};
 
 export { useCalculateSummaryPrices };

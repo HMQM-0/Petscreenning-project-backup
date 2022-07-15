@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
 import { getCountryCode } from "types/CountryCode";
 
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
@@ -73,8 +72,6 @@ const useUpdateCheckoutBillingAddress = ({ dispatch }: useUpdateCheckoutBillingA
   const setBillingAddress = useSetBillingAddressMutation();
   return useCallback(
     async ({ checkoutId, billingAddress, billingAsShipping, selectedBillingAddressId }: SetBillingAddressJobInput) => {
-      const checkout = getCheckout();
-
       const { data, error } = await setBillingAddress(billingAddress ?? {}, checkoutId);
 
       if (error) {
@@ -92,11 +89,6 @@ const useUpdateCheckoutBillingAddress = ({ dispatch }: useUpdateCheckoutBillingA
         billingAsShipping: !!billingAsShipping,
         selectedBillingAddressId,
       };
-
-      setCheckout({
-        ...checkout,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.setBillingAddress(updates));
 

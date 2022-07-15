@@ -1,15 +1,14 @@
 import { useApolloClient } from "@apollo/client";
 import { useCallback } from "react";
 
-import { CheckoutFragment } from "./fragments.graphql.generated";
+import { CheckoutFragment } from "../fragments.graphql.generated";
 import {
   CheckoutDetailsDocument,
   CheckoutDetailsQuery,
   UserCheckoutDetailsDocument,
   UserCheckoutDetailsQuery,
-} from "./queries.graphql.generated";
-
-import { constructCheckoutModel } from "../utils/constructCheckoutModel";
+} from "../queries.graphql.generated";
+import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 
 const useGetUserCheckout = () => {
   const client = useApolloClient();

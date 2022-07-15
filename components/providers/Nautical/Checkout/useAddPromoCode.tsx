@@ -1,8 +1,7 @@
-import React, { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import React, { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
+import { CheckoutStateContext } from "./context";
 import { useUpdatePromoCode } from "./helpers/useUpdatePromoCode";
 import { FunctionErrorCheckoutTypes } from "./types";
 
@@ -11,12 +10,10 @@ type useAddPromoCodeProps = {
 };
 
 const useAddPromoCode = ({ dispatch }: useAddPromoCodeProps) => {
+  const { id: checkoutId } = useContext(CheckoutStateContext);
   const addPromoCode = useUpdatePromoCode({ dispatch });
   return useCallback(
     async (promoCode: string) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-
       if (checkoutId) {
         const { data, dataError } = await addPromoCode({
           checkoutId,
@@ -37,7 +34,7 @@ const useAddPromoCode = ({ dispatch }: useAddPromoCodeProps) => {
         };
       }
     },
-    [addPromoCode]
+    [addPromoCode, checkoutId]
   );
 };
 

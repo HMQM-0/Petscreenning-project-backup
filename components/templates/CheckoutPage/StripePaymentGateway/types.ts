@@ -1,11 +1,12 @@
-import { ICardData, IFormError, IPaymentGatewayConfig } from "types";
+import { ICardData, IFormError } from "types";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
+import { GatewayConfigLine } from "@generated";
 
 export interface IProps {
   /**
    * Payment gateway client configuration.
    */
-  config: IPaymentGatewayConfig[];
+  config: GatewayConfigLine[];
   /**
    * Form reference on which payment might be submitted.
    */
