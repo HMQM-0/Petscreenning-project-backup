@@ -255,7 +255,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         errors = dataError.error;
       }
 
-      if (!errors) {
+      if (!errors || errors.length === 0) {
         const response = await completeCheckout();
 
         if (!response.dataError?.error) {
@@ -373,7 +373,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               phone: values?.phone,
               country: {
                 code: values?.country ?? "",
-                country: countries?.find((country) => country.code === values?.country)?.code ?? "",
+                country: countries?.find((country) => country.code === values?.country)?.country ?? "",
               },
             },
             values?.email ?? ""
