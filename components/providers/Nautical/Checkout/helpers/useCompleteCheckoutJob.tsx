@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
+import { CheckoutKeys } from "../constants";
 import { useCompleteCheckoutMutation } from "../mutations.graphql.generated";
 import { DataErrorCheckoutTypes, IMultiSellerVolumeDiscount } from "../types";
 
@@ -130,7 +131,8 @@ const useCompleteCheckoutJob = ({ dispatch }: useCompleteCheckoutJobProps) => {
       }
 
       if (!data?.confirmationNeeded) {
-        localStorage.removeItem("nauticalPaymentId");
+        localStorage.removeItem(CheckoutKeys.nauticalPaymentId);
+        localStorage.removeItem(CheckoutKeys.nautcialClientSecret);
       }
 
       dispatch(CheckoutActionCreators.clearCheckout());
