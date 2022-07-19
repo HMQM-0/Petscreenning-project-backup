@@ -1,31 +1,26 @@
-import React, { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import React, { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
-import { ICheckoutContext } from "./context";
+import { CheckoutStateContext } from "./context";
 import { useUpdateCheckoutBillingAddress } from "./helpers/useUpdateCheckoutBillingAddress";
 import { FunctionErrorCheckoutTypes } from "./types";
 
 type useSetBillingAsShippingAddressProps = {
   dispatch: React.Dispatch<CheckoutActions>;
-  checkout: ICheckoutContext;
 };
 
-const useSetBillingAsShippingAddress = ({ checkout, dispatch }: useSetBillingAsShippingAddressProps) => {
+const useSetBillingAsShippingAddress = ({ dispatch }: useSetBillingAsShippingAddressProps) => {
+  const { id, shippingAddress, billingAddress } = useContext(CheckoutStateContext);
   const setBillingAddress = useUpdateCheckoutBillingAddress({ dispatch });
   return useCallback(
     async (billingAsShipping: boolean) => {
-      const localStorageCheckout = getCheckout();
-      const checkoutId = localStorageCheckout?.id;
-
-      if (checkoutId && checkout?.shippingAddress) {
+      if (id && shippingAddress) {
         if (billingAsShipping) {
           const { data, dataError } = await setBillingAddress({
-            billingAddress: checkout.shippingAddress,
+            billingAddress: shippingAddress,
             billingAsShipping: true,
-            checkoutId,
-            selectedBillingAddressId: checkout?.shippingAddress.id,
+            checkoutId: id,
+            selectedBillingAddressId: shippingAddress.id,
           });
 
           return {
@@ -35,10 +30,10 @@ const useSetBillingAsShippingAddress = ({ checkout, dispatch }: useSetBillingAsS
           };
         } else {
           const { data, dataError } = await setBillingAddress({
-            billingAddress: checkout?.billingAddress ?? undefined,
+            billingAddress: billingAddress ?? undefined,
             billingAsShipping: false,
-            checkoutId,
-            selectedBillingAddressId: checkout.billingAddress?.id ?? undefined,
+            checkoutId: id,
+            selectedBillingAddressId: billingAddress?.id ?? undefined,
           });
 
           return {
@@ -56,7 +51,7 @@ const useSetBillingAsShippingAddress = ({ checkout, dispatch }: useSetBillingAsS
         pending: false,
       };
     },
-    [checkout.billingAddress, checkout.shippingAddress, setBillingAddress]
+    [billingAddress, id, setBillingAddress, shippingAddress]
   );
 };
 

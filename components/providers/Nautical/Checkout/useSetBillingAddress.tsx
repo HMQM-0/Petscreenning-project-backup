@@ -1,8 +1,7 @@
-import React, { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import React, { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
+import { CheckoutStateContext } from "./context";
 import { useCreateCheckout } from "./helpers/useCreateCheckout";
 import { useUpdateCheckoutBillingAddress } from "./helpers/useUpdateCheckoutBillingAddress";
 import { useUpdateCheckoutBillingAddressWithEmail } from "./helpers/useUpdateCheckoutBillingAddressWithEmail";
@@ -13,23 +12,22 @@ type useSetBillingAddressProps = {
 };
 
 const useSetBillingAddress = ({ dispatch }: useSetBillingAddressProps) => {
+  const { id, lines, shippingAddress } = useContext(CheckoutStateContext);
   const setBillingAddress = useUpdateCheckoutBillingAddress({ dispatch });
   const setBillingAddressWithEmail = useUpdateCheckoutBillingAddressWithEmail({ dispatch });
   const createCheckout = useCreateCheckout({ dispatch });
+  const checkoutId = id;
+  const isShippingRequiredForProducts = lines
+    ?.filter((line) => line.quantity > 0)
+    .some(({ variant }) => variant.product?.productType.isShippingRequired);
+  const alteredLines = lines?.map((item) => ({
+    quantity: item!.quantity,
+    variantId: item?.variant!.id,
+  }));
 
   return useCallback(
     async (billingAddress: ICheckoutAddress, email?: string) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-      const isShippingRequiredForProducts = checkout?.lines
-        ?.filter((line) => line.quantity > 0)
-        .some(({ variant }) => variant.product?.productType.isShippingRequired);
-      const alteredLines = checkout?.lines?.map((item) => ({
-        quantity: item!.quantity,
-        variantId: item?.variant!.id,
-      }));
-
-      if (isShippingRequiredForProducts && checkoutId && checkout?.shippingAddress) {
+      if (isShippingRequiredForProducts && checkoutId && shippingAddress) {
         const { data, dataError } = await setBillingAddress({
           billingAddress,
           billingAsShipping: false,
@@ -99,7 +97,15 @@ const useSetBillingAddress = ({ dispatch }: useSetBillingAddressProps) => {
         pending: false,
       };
     },
-    [createCheckout, setBillingAddress, setBillingAddressWithEmail]
+    [
+      alteredLines,
+      checkoutId,
+      createCheckout,
+      isShippingRequiredForProducts,
+      setBillingAddress,
+      setBillingAddressWithEmail,
+      shippingAddress,
+    ]
   );
 };
 

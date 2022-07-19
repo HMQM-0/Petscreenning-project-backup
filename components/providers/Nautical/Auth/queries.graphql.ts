@@ -10,3 +10,26 @@ const getUserDetailsQuery = gql`
     }
   }
 `;
+
+const getYotpoLoyaltyAndReferralsCustomerDetails = gql`
+  query GetYotpoLoyaltyAndReferralsCustomerDetails($email: String!) {
+    customerLoyaltyAndReferralsDetails(email: $email) {
+      firstName
+      lastName
+      email
+      pointsBalance
+      pointsEarned
+    }
+  }
+`;
+
+const getLoyaltyAndReferralsInfo = gql`
+  query GetLoyaltyAndReferralsInfo {
+    loyaltyAndReferralsInfo {
+      awardLoyaltyPointsEnabled
+      pointsForMakingPurchaseEnabled
+      pointsUsedPerDollarSaved
+      pointsGainedPerDollarSpent
+    }
+  }
+`;

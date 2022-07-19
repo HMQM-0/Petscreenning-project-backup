@@ -28,6 +28,7 @@ export const productsQuery = gql`
     $query: String
     $categoryIds: [ID!]
     $collectionIds: [ID!]
+    $micrositeId: ID
     $attributes: [AttributeInput!]
     $after: String
     $before: String
@@ -43,6 +44,7 @@ export const productsQuery = gql`
       first: $first
       last: $last
       sortBy: $sortBy
+      microsite: $micrositeId
       filter: {
         search: $query
         attributes: $attributes

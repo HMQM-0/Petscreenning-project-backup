@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
-
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
 import { useAddCheckoutPromoCodeMutation } from "../mutations.graphql.generated";
@@ -56,8 +54,6 @@ const useUpdatePromoCode = ({ dispatch }: useUpdatePromoCodeProps) => {
   const addPromoCode = useAddPromoCodeMutation();
   return useCallback(
     async ({ checkoutId, promoCode }: AddPromoCodeJobInput) => {
-      const checkout = getCheckout();
-
       const { data, error } = await addPromoCode(promoCode, checkoutId);
 
       if (error) {
@@ -72,11 +68,6 @@ const useUpdatePromoCode = ({ dispatch }: useUpdatePromoCodeProps) => {
       const updates = {
         promoCodeDiscount: data?.promoCodeDiscount,
       };
-
-      setCheckout({
-        ...checkout,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.addPromoCode(updates));
 

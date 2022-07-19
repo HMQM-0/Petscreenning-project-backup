@@ -14,7 +14,7 @@ import * as S from "./styles";
 export const CartPage = () => {
   const router = useRouter();
   const { user } = useAuth();
-  const { checkout, loaded: checkoutLoaded } = useCheckout();
+  const { sellerShippingMethods, loaded: checkoutLoaded } = useCheckout();
   const { loaded: cartLoaded, items, totalPrice, subtotalPrice, shippingPrice, discount } = useCart();
 
   if (!checkoutLoaded || !cartLoaded) {
@@ -22,7 +22,7 @@ export const CartPage = () => {
   }
 
   const shippingTaxedPrice =
-    checkout?.sellerShippingMethods && checkout?.sellerShippingMethods.length > 5 && shippingPrice
+    sellerShippingMethods && sellerShippingMethods.length > 5 && shippingPrice
       ? {
           gross: shippingPrice,
           net: shippingPrice,

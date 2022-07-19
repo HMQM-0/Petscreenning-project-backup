@@ -54,13 +54,6 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
 
       const { data: userData, error: userDataError } = await userDetailsQuery();
 
-      // TODO: Initialize Checkout once that provider exists
-      // if (this.config.loadOnStart.checkout) {
-      //   await this.jobsManager.run("checkout", "provideCheckout", {
-      //     isUserSignedIn: !!data?.user,
-      //   });
-      // }
-
       if (userDataError) {
         return {
           errors: [userDataError],

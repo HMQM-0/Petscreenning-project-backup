@@ -1,12 +1,11 @@
-import { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import { useCallback, useContext } from "react";
 
 import { FunctionErrorCheckoutTypes, IPaymentCreditCard } from "./types";
 import { CheckoutActions } from "./actions";
 import { useCreatePaymentJob } from "./helpers/useCreatePaymentJob";
+import { CheckoutStateContext } from "./context";
 
-import { useCart } from "../Cart";
+import { calculateSummaryPrices } from "../Cart/useCalculateSummaryPrices";
 
 type useCreatePaymentProps = {
   dispatch: React.Dispatch<CheckoutActions>;
@@ -20,22 +19,21 @@ export interface CreatePaymentInput {
 }
 
 const useCreatePayment = ({ dispatch }: useCreatePaymentProps) => {
-  const { totalPrice } = useCart();
+  const checkout = useContext(CheckoutStateContext);
+  const { totalPrice } = calculateSummaryPrices(checkout);
   const createPaymentJob = useCreatePaymentJob({ dispatch });
+  const { id: checkoutId, billingAddress, applicableVolumeDiscounts } = checkout;
+  const amount = totalPrice?.gross.amount;
 
   return useCallback(
     async (input: CreatePaymentInput) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-      const billingAddress = checkout?.billingAddress;
-      const amount = totalPrice?.gross.amount;
-
       if (checkoutId && billingAddress && amount !== null && amount !== undefined) {
         const { data, dataError } = await createPaymentJob({
           ...input,
           amount,
           billingAddress,
           checkoutId,
+          applicableVolumeDiscounts,
         });
         return {
           data,
@@ -51,7 +49,7 @@ const useCreatePayment = ({ dispatch }: useCreatePaymentProps) => {
         pending: false,
       };
     },
-    [createPaymentJob, totalPrice]
+    [amount, applicableVolumeDiscounts, billingAddress, checkoutId, createPaymentJob]
   );
 };
 

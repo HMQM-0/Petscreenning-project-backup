@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
-
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
 import { CheckoutActionCreators, CheckoutActions } from "../actions";
 import { useUpdateCheckoutShippingMethodMutation } from "../mutations.graphql.generated";
@@ -58,8 +56,6 @@ const useUpdateShippingMethod = ({ dispatch }: useUpdateShippingMethodProps) => 
   const setShippingMethod = useSetShippingMethodMutation();
   return useCallback(
     async ({ checkoutId, shippingMethodId }: SetShippingMethodJobInput) => {
-      const checkout = getCheckout();
-
       const { data, error } = await setShippingMethod(shippingMethodId, checkoutId);
 
       if (error) {
@@ -75,11 +71,6 @@ const useUpdateShippingMethod = ({ dispatch }: useUpdateShippingMethodProps) => 
         promoCodeDiscount: data?.promoCodeDiscount,
         shippingMethod: data?.shippingMethod,
       };
-
-      setCheckout({
-        ...checkout,
-        ...updates,
-      });
 
       dispatch(CheckoutActionCreators.setShippingMethod(updates));
 

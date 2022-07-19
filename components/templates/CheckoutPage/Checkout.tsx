@@ -118,9 +118,11 @@ type FormFields = {
 };
 
 const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volumeDiscount, close }: ICheckoutProps) => {
+  const creatingPayment = React.useRef(false);
   const [popover, setPopover] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState("customer");
+  const [completeCheckoutRunnning, setCompleteCheckoutRunning] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [billingFormError, setBillingFormError] = React.useState(false);
   const [paymentFormError, setPaymentFormError] = React.useState(false);
@@ -137,6 +139,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   );
 
   const {
+    billingAddress,
+    shippingAddress,
     setBillingAddress,
     setShippingAddress,
     setSellerShippingMethods,
@@ -144,10 +148,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     availablePaymentGateways,
     billingAsShipping,
     setBillingAsShippingAddress,
-    checkout,
     sellerShippingMethods,
     createPayment,
     completeCheckout,
+    lines,
+    email,
     loaded: checkoutLoaded,
   } = useCheckout();
 
@@ -193,18 +198,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   });
   const router = useRouter();
   const classes = useStyles({});
-  const sellers = checkout?.lines?.map((line) => line.seller);
+  const sellers = lines?.map((line) => line.seller);
   const sellerSet = new Set(sellers);
   const mappingDict: Record<string, ICheckoutModelLine[]> = {};
   const onPaymentStep = value === "payment";
   const initialSellerValues: Record<string, unknown> = {};
-  const parsedInitialSellerMethods = JSON.parse(
-    // @ts-ignore
-    checkout?.sellerShippingMethods ? checkout.sellerShippingMethods : "[]"
-  );
+  const parsedInitialSellerMethods = JSON.parse(sellerShippingMethods || "[]");
   for (const seller of sellerSet) {
     if (seller) {
-      mappingDict[seller] = checkout?.lines?.filter((line) => line.seller === seller) ?? [];
+      mappingDict[seller] = lines?.filter((line) => line.seller === seller) ?? [];
     }
   }
   availableShippingMethodsBySeller?.forEach(
@@ -240,52 +242,58 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const handleCreatePayment = React.useCallback(
     async (gateway: string, token?: string, creditCardData?: ICardData) => {
-      let errors: any[] = [];
+      if (!creatingPayment.current) {
+        creatingPayment.current = true;
+        let errors: any[] = [];
 
-      const { dataError } = await createPayment({
-        gateway,
-        token,
-        creditCard: {
-          ...creditCardData,
-          brand: creditCardData?.brand ?? "",
-          lastDigits: creditCardData?.lastDigits ?? "",
-        },
-      });
-      if (dataError?.error && isArray(dataError?.error)) {
-        errors = dataError.error;
-      }
+        const { dataError } = await createPayment({
+          gateway,
+          token,
+          creditCard: {
+            ...creditCardData,
+            brand: creditCardData?.brand ?? "",
+            lastDigits: creditCardData?.lastDigits ?? "",
+          },
+        });
+        if (dataError?.error && isArray(dataError?.error)) {
+          errors = dataError.error;
+        }
 
-      if (!errors || errors.length === 0) {
-        const response = await completeCheckout();
+        if (!errors || errors.length === 0) {
+          setCompleteCheckoutRunning(true);
+          const response = await completeCheckout();
 
-        if (!response.dataError?.error) {
-          if (checkIfLoyaltyAndReferralsActive() && user) {
-            awardCustomerLoyaltyPoints({
-              variables: {
-                input: {
-                  customerEmail: user.email,
-                  pointAdjustmentAmount: Number(loyaltyPointsToBeEarnedOnOrderComplete),
-                  applyAdjustmentToPointsEarned: true,
+          if (!response.dataError?.error) {
+            if (checkIfLoyaltyAndReferralsActive() && user) {
+              awardCustomerLoyaltyPoints({
+                variables: {
+                  input: {
+                    customerEmail: user.email,
+                    pointAdjustmentAmount: Number(loyaltyPointsToBeEarnedOnOrderComplete),
+                    applyAdjustmentToPointsEarned: true,
+                  },
                 },
-              },
-            });
-          }
-          const token = response.data?.order?.token;
-          const orderNumber = response.data?.order?.number;
+              });
+            }
+            const token = response.data?.order?.token;
+            const orderNumber = response.data?.order?.number;
 
-          if (token && orderNumber) {
-            router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
+            if (token && orderNumber) {
+              router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
+            }
+          } else {
+            if (isArray(response.dataError.error)) {
+              errors = response.dataError.error;
+            }
+            handleErrors(errors);
+            setPaymentFormError(errors.length > 0);
           }
+          setCompleteCheckoutRunning(false);
         } else {
-          if (isArray(response.dataError.error)) {
-            errors = response.dataError.error;
-          }
           handleErrors(errors);
           setPaymentFormError(errors.length > 0);
         }
-      } else {
-        handleErrors(errors);
-        setPaymentFormError(errors.length > 0);
+        creatingPayment.current = false;
       }
     },
     [
@@ -300,10 +308,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   );
 
   React.useEffect(() => {
-    if (payment_intent && payment_intent_client_secret && checkout) {
+    if (payment_intent && payment_intent_client_secret) {
       handleCreatePayment("nautical.payments.stripe", payment_intent);
     }
-  }, [checkout, handleCreatePayment, payment_intent, payment_intent_client_secret]);
+  }, [handleCreatePayment, payment_intent, payment_intent_client_secret]);
 
   React.useEffect(() => {
     checkIfLoyaltyAndReferralsActive();
@@ -427,7 +435,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const handleSetSellerShippingMethods = async (seller: number, shippingMethodSelection: string) => {
     setLoading(true);
     const { dataError } = await setSellerShippingMethods(seller, shippingMethodSelection);
-    console.log("error", dataError);
 
     const errors = dataError?.error;
     if (errors) {
@@ -616,30 +623,30 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               validationSchema={customerValidationSchema}
               initialValues={{
                 // CUSTOMER FIELDS
-                email: checkout?.email ?? "",
+                email: email ?? "",
                 // SHIPPING ADDRESS FIELDS
-                firstName: checkout?.shippingAddress?.firstName ?? "",
-                lastName: checkout?.shippingAddress?.lastName ?? "",
-                companyName: checkout?.shippingAddress?.companyName ?? "",
-                streetAddress1: checkout?.shippingAddress?.streetAddress1 ?? "",
-                streetAddress2: checkout?.shippingAddress?.streetAddress2 ?? "",
-                city: checkout?.shippingAddress?.city ?? "",
-                postalCode: checkout?.shippingAddress?.postalCode ?? "",
-                countryArea: checkout?.shippingAddress?.countryArea ?? "",
-                phone: checkout?.shippingAddress?.phone ?? "",
-                country: checkout?.shippingAddress?.country?.code ?? "",
+                firstName: shippingAddress?.firstName ?? "",
+                lastName: shippingAddress?.lastName ?? "",
+                companyName: shippingAddress?.companyName ?? "",
+                streetAddress1: shippingAddress?.streetAddress1 ?? "",
+                streetAddress2: shippingAddress?.streetAddress2 ?? "",
+                city: shippingAddress?.city ?? "",
+                postalCode: shippingAddress?.postalCode ?? "",
+                countryArea: shippingAddress?.countryArea ?? "",
+                phone: shippingAddress?.phone ?? "",
+                country: shippingAddress?.country?.code ?? "",
 
                 billingAsShipping: billingAsShipping || true,
-                billingFirstName: checkout?.billingAddress?.firstName ?? "",
-                billingLastName: checkout?.billingAddress?.lastName ?? "",
-                billingCompanyName: checkout?.billingAddress?.companyName ?? "",
-                billingStreetAddress1: checkout?.billingAddress?.streetAddress1 ?? "",
-                billingStreetAddress2: checkout?.billingAddress?.streetAddress2 ?? "",
-                billingCity: checkout?.billingAddress?.city ?? "",
-                billingPostalCode: checkout?.billingAddress?.postalCode ?? "",
-                billingCountryArea: checkout?.billingAddress?.countryArea ?? "",
-                billingPhone: checkout?.billingAddress?.phone ?? "",
-                billingCountry: checkout?.billingAddress?.country?.code ?? "",
+                billingFirstName: billingAddress?.firstName ?? "",
+                billingLastName: billingAddress?.lastName ?? "",
+                billingCompanyName: billingAddress?.companyName ?? "",
+                billingStreetAddress1: billingAddress?.streetAddress1 ?? "",
+                billingStreetAddress2: billingAddress?.streetAddress2 ?? "",
+                billingCity: billingAddress?.city ?? "",
+                billingPostalCode: billingAddress?.postalCode ?? "",
+                billingCountryArea: billingAddress?.countryArea ?? "",
+                billingPhone: billingAddress?.phone ?? "",
+                billingCountry: billingAddress?.country?.code ?? "",
               }}
               onSubmit={handleSubmit}
             >
@@ -1068,10 +1075,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           </Box>
         </Box>
       ) : (
-        <>
+        <Box p={3}>
           <Typography variant="h4">Confirming your payment...</Typography>
-          <Loader />
-        </>
+          {completeCheckoutRunnning && <Loader />}
+          {errorMessage && (
+            <Alert sx={{ marginTop: "8px" }} severity="error">
+              {errorMessage}
+            </Alert>
+          )}
+        </Box>
       )}
     </>
   );
