@@ -5,9 +5,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 import { IFormError } from "@types";
-import { useCheckout, CheckoutKeys } from "nautical-api";
+import { useCheckout, useAuth } from "nautical-api";
 import { Loader } from "components/atoms/Loader";
 import { useGetClientSecretQuery } from "queries/clientSecret.graphql.generated";
+import { getNauticalClientSecret, getNauticalPaymentId, setNauticalClientSecret, setNauticalPaymentId } from "utils";
 
 import { IProps } from "./types";
 
@@ -30,9 +31,10 @@ const StripePaymentGateway: React.FC<IProps> = ({
 }: IProps) => {
   const hasLoadedStripe = useRef(false);
   const router = useRouter();
+  const { authenticated } = useAuth();
   const [initialized, setInitialized] = useState(false);
   const [submitErrors, setSubmitErrors] = useState<IFormError[]>([]);
-  const [clientSecret, setClientSecret] = useState(() => localStorage.getItem(CheckoutKeys.nautcialClientSecret) || "");
+  const [clientSecret, setClientSecret] = useState(() => getNauticalClientSecret() || "");
   const { shippingAddress } = useCheckout();
 
   const apiKey = config.find(({ field }) => field === "api_key")?.value;
@@ -58,8 +60,8 @@ const StripePaymentGateway: React.FC<IProps> = ({
 
   useEffect(() => {
     const checkInterruptedPayment = async () => {
-      const paymentId = localStorage.getItem(CheckoutKeys.nauticalPaymentId);
-      const clientSecret = localStorage.getItem(CheckoutKeys.nautcialClientSecret);
+      const paymentId = getNauticalPaymentId();
+      const clientSecret = getNauticalClientSecret();
 
       if (initialized && stripe && paymentId && clientSecret) {
         // Check payment intent to see if it was already complete
@@ -70,13 +72,15 @@ const StripePaymentGateway: React.FC<IProps> = ({
         ) {
           const status = paymentIntent.paymentIntent.status;
           // payment is complete in stripe - redirect to complete in nautical
-          const successUrl = `${window.location.href}??guest=1&payment_intent=${paymentId}&payment_intent_client_secret=${clientSecret}&redirect_status=${status}`;
+          const successUrl = `${window.location.href}?${
+            authenticated ? "" : `guest=1&`
+          }payment_intent=${paymentId}&payment_intent_client_secret=${clientSecret}&redirect_status=${status}`;
           router.push(successUrl);
         }
       }
     };
     checkInterruptedPayment();
-  }, [initialized, router]);
+  }, [authenticated, initialized, router]);
 
   useGetClientSecretQuery({
     fetchPolicy: "cache-and-network",
@@ -85,7 +89,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
       paymentInformation: {
         amount: total?.gross?.amount,
         currency: total?.gross?.currency?.toLowerCase(),
-        token: localStorage.getItem(CheckoutKeys.nauticalPaymentId),
+        token: getNauticalPaymentId(),
         shipping: {
           firstName: shippingAddress?.firstName,
           lastName: shippingAddress?.lastName,
@@ -107,16 +111,16 @@ const StripePaymentGateway: React.FC<IProps> = ({
         return;
       }
       if (data?.getClientSecret?.id) {
-        const existingId = localStorage.getItem(CheckoutKeys.nauticalPaymentId);
+        const existingId = getNauticalPaymentId();
         if (existingId !== data.getClientSecret.id) {
-          localStorage.setItem(CheckoutKeys.nauticalPaymentId, data.getClientSecret.id);
+          setNauticalPaymentId(data.getClientSecret.id);
         }
       }
       if (data?.getClientSecret?.client_secret) {
         const existingSecret = clientSecret;
         if (existingSecret !== data.getClientSecret.client_secret) {
           setClientSecret(data.getClientSecret.client_secret);
-          localStorage.setItem(CheckoutKeys.nautcialClientSecret, data.getClientSecret.client_secret);
+          setNauticalClientSecret(data.getClientSecret.client_secret);
         }
       }
     },

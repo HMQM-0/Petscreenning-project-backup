@@ -1,3 +1,5 @@
+import { setNauticalPaymentId } from "utils";
+
 import {
   CompleteCheckoutJobInput,
   CreatePaymentJobInput,
@@ -12,42 +14,29 @@ import {
   SetSellerShippingMethodsJobInput,
 } from "./types";
 
-import {
-  DataErrorCheckoutTypes,
-  FunctionErrorCheckoutTypes,
-} from "../../api/Checkout/types";
+import { DataErrorCheckoutTypes, FunctionErrorCheckoutTypes } from "../../api/Checkout/types";
 import { ApolloClientManager } from "../../data/ApolloClientManager";
 import { LocalStorageHandler } from "../../helpers/LocalStorageHandler";
 import { JobRunResponse } from "../types";
 import { JobsHandler } from "../JobsHandler";
 
-export type PromiseCheckoutJobRunResponse = Promise<
-  JobRunResponse<DataErrorCheckoutTypes, FunctionErrorCheckoutTypes>
->;
+export type PromiseCheckoutJobRunResponse = Promise<JobRunResponse<DataErrorCheckoutTypes, FunctionErrorCheckoutTypes>>;
 
 class CheckoutJobs extends JobsHandler<{}> {
   private apolloClientManager: ApolloClientManager;
 
   private localStorageHandler: LocalStorageHandler;
 
-  constructor(
-    localStorageHandler: LocalStorageHandler,
-    apolloClientManager: ApolloClientManager
-  ) {
+  constructor(localStorageHandler: LocalStorageHandler, apolloClientManager: ApolloClientManager) {
     super();
     this.apolloClientManager = apolloClientManager;
     this.localStorageHandler = localStorageHandler;
   }
 
-  provideCheckout = async ({
-    isUserSignedIn,
-  }: ProvideCheckoutJobInput): PromiseCheckoutJobRunResponse => {
+  provideCheckout = async ({ isUserSignedIn }: ProvideCheckoutJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } = await this.apolloClientManager.getCheckout(
-      isUserSignedIn,
-      checkout?.token
-    );
+    const { data, error } = await this.apolloClientManager.getCheckout(isUserSignedIn, checkout?.token);
 
     if (error) {
       return {
@@ -110,11 +99,7 @@ class CheckoutJobs extends JobsHandler<{}> {
   }: SetShippingAddressJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } = await this.apolloClientManager.setShippingAddress(
-      shippingAddress,
-      email,
-      checkoutId
-    );
+    const { data, error } = await this.apolloClientManager.setShippingAddress(shippingAddress, email, checkoutId);
 
     if (error) {
       return {
@@ -144,10 +129,7 @@ class CheckoutJobs extends JobsHandler<{}> {
   }: SetBillingAddressJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } = await this.apolloClientManager.setBillingAddress(
-      billingAddress ?? {},
-      checkoutId
-    );
+    const { data, error } = await this.apolloClientManager.setBillingAddress(billingAddress ?? {}, checkoutId);
 
     if (error) {
       return {
@@ -176,12 +158,11 @@ class CheckoutJobs extends JobsHandler<{}> {
   }: SetBillingAddressWithEmailJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } =
-      await this.apolloClientManager.setBillingAddressWithEmail(
-        billingAddress,
-        email,
-        checkoutId
-      );
+    const { data, error } = await this.apolloClientManager.setBillingAddressWithEmail(
+      billingAddress,
+      email,
+      checkoutId
+    );
 
     if (error) {
       return {
@@ -209,10 +190,7 @@ class CheckoutJobs extends JobsHandler<{}> {
   }: SetShippingMethodJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } = await this.apolloClientManager.setShippingMethod(
-      shippingMethodId,
-      checkoutId
-    );
+    const { data, error } = await this.apolloClientManager.setShippingMethod(shippingMethodId, checkoutId);
 
     if (error) {
       return {
@@ -238,12 +216,11 @@ class CheckoutJobs extends JobsHandler<{}> {
   }: SetSellerShippingMethodsJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } =
-      await this.apolloClientManager.setSellerShippingMethods(
-        checkoutId,
-        seller,
-        shippingMethodSelection
-      );
+    const { data, error } = await this.apolloClientManager.setSellerShippingMethods(
+      checkoutId,
+      seller,
+      shippingMethodSelection
+    );
 
     if (error) {
       return {
@@ -266,16 +243,10 @@ class CheckoutJobs extends JobsHandler<{}> {
     return { data };
   };
 
-  addPromoCode = async ({
-    checkoutId,
-    promoCode,
-  }: AddPromoCodeJobInput): PromiseCheckoutJobRunResponse => {
+  addPromoCode = async ({ checkoutId, promoCode }: AddPromoCodeJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } = await this.apolloClientManager.addPromoCode(
-      promoCode,
-      checkoutId
-    );
+    const { data, error } = await this.apolloClientManager.addPromoCode(promoCode, checkoutId);
 
     if (error) {
       return {
@@ -293,16 +264,10 @@ class CheckoutJobs extends JobsHandler<{}> {
     return { data };
   };
 
-  removePromoCode = async ({
-    checkoutId,
-    promoCode,
-  }: RemovePromoCodeJobInput): PromiseCheckoutJobRunResponse => {
+  removePromoCode = async ({ checkoutId, promoCode }: RemovePromoCodeJobInput): PromiseCheckoutJobRunResponse => {
     const checkout = LocalStorageHandler.getCheckout();
 
-    const { data, error } = await this.apolloClientManager.removePromoCode(
-      promoCode,
-      checkoutId
-    );
+    const { data, error } = await this.apolloClientManager.removePromoCode(promoCode, checkoutId);
 
     if (error) {
       return {
@@ -393,7 +358,7 @@ class CheckoutJobs extends JobsHandler<{}> {
     if (!data?.confirmationNeeded) {
       this.localStorageHandler.setCheckout({});
       this.localStorageHandler.setPayment({});
-      localStorage.removeItem("nauticalPaymentId");
+      setNauticalPaymentId(null);
     }
 
     return { data };
