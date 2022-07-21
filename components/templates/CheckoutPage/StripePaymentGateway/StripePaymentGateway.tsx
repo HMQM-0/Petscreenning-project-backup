@@ -1,12 +1,14 @@
 import { Elements, PaymentElement } from "@stripe/react-stripe-js";
-import { Stripe, StripeElements } from "@stripe/stripe-js";
+import { Stripe, StripeElements, PaymentIntentResult } from "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js/pure";
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 import { IFormError } from "@types";
-import { useCheckout } from "nautical-api";
+import { useCheckout, useAuth } from "nautical-api";
 import { Loader } from "components/atoms/Loader";
 import { useGetClientSecretQuery } from "queries/clientSecret.graphql.generated";
+import { getNauticalClientSecret, getNauticalPaymentId, setNauticalClientSecret, setNauticalPaymentId } from "utils";
 
 import { IProps } from "./types";
 
@@ -25,10 +27,14 @@ const StripePaymentGateway: React.FC<IProps> = ({
   total,
   errors = [],
   onError,
+  setPaymentAlreadySubmitted,
 }: IProps) => {
   const hasLoadedStripe = useRef(false);
+  const router = useRouter();
+  const { authenticated } = useAuth();
+  const [initialized, setInitialized] = useState(false);
   const [submitErrors, setSubmitErrors] = useState<IFormError[]>([]);
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState(() => getNauticalClientSecret() || "");
   const { shippingAddress } = useCheckout();
 
   const apiKey = config.find(({ field }) => field === "api_key")?.value;
@@ -36,6 +42,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
   useEffect(() => {
     const load = async (key: string) => {
       stripe = await loadStripe(key);
+      setInitialized(true);
       const stripeApiKeyErrors = [
         {
           message: "Stripe gateway misconfigured. Api key not provided.",
@@ -51,6 +58,30 @@ const StripePaymentGateway: React.FC<IProps> = ({
     }
   }, [apiKey, onError]);
 
+  useEffect(() => {
+    const checkInterruptedPayment = async () => {
+      const paymentId = getNauticalPaymentId();
+      const clientSecret = getNauticalClientSecret();
+
+      if (initialized && stripe && paymentId && clientSecret) {
+        // Check payment intent to see if it was already complete
+        const paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
+        if (
+          paymentIntent.paymentIntent?.status === "requires_capture" ||
+          paymentIntent.paymentIntent?.status === "succeeded"
+        ) {
+          const status = paymentIntent.paymentIntent.status;
+          // payment is complete in stripe - redirect to complete in nautical
+          const successUrl = `${window.location.href}?${
+            authenticated ? "" : `guest=1&`
+          }payment_intent=${paymentId}&payment_intent_client_secret=${clientSecret}&redirect_status=${status}`;
+          router.push(successUrl);
+        }
+      }
+    };
+    checkInterruptedPayment();
+  }, [authenticated, initialized, router]);
+
   useGetClientSecretQuery({
     fetchPolicy: "cache-and-network",
     variables: {
@@ -58,7 +89,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
       paymentInformation: {
         amount: total?.gross?.amount,
         currency: total?.gross?.currency?.toLowerCase(),
-        token: localStorage.getItem("nauticalPaymentId"),
+        token: getNauticalPaymentId(),
         shipping: {
           firstName: shippingAddress?.firstName,
           lastName: shippingAddress?.lastName,
@@ -75,16 +106,21 @@ const StripePaymentGateway: React.FC<IProps> = ({
       },
     },
     onCompleted: (data) => {
+      if (data?.getClientSecret?.payment_method_already_provided) {
+        setPaymentAlreadySubmitted(true);
+        return;
+      }
       if (data?.getClientSecret?.id) {
-        const existingId = localStorage.getItem("nauticalPaymentId");
+        const existingId = getNauticalPaymentId();
         if (existingId !== data.getClientSecret.id) {
-          localStorage.setItem("nauticalPaymentId", data.getClientSecret.id);
+          setNauticalPaymentId(data.getClientSecret.id);
         }
       }
       if (data?.getClientSecret?.client_secret) {
         const existingSecret = clientSecret;
         if (existingSecret !== data.getClientSecret.client_secret) {
           setClientSecret(data.getClientSecret.client_secret);
+          setNauticalClientSecret(data.getClientSecret.client_secret);
         }
       }
     },

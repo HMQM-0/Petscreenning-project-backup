@@ -1,3 +1,5 @@
+import React from "react";
+
 import { ICardData, IFormError } from "types";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { GatewayConfigLine } from "@generated";
@@ -29,4 +31,5 @@ export interface IProps {
    * Method called when gateway error occured.
    */
   onError: (errors: IFormError[]) => void;
+  setPaymentAlreadySubmitted: React.Dispatch<boolean>;
 }
