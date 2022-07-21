@@ -31,6 +31,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.email = action.payload.email;
       draft.selectedShippingAddressId = action.payload.selectedShippingAddressId;
       draft.shippingAddress = action.payload.shippingAddress;
+      draft.availableShippingMethodsBySeller = action.payload.availableShippingMethodsBySeller;
       break;
     case CheckoutActionTypes.CREATE_CHECKOUT:
       draft.id = action.payload?.id;

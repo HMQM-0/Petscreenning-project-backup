@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Divider, MenuItem, Typography } from "@mui/material";
 import { Field } from "formik";
 import { TextField } from "formik-mui";
+import { useIntl } from "react-intl";
 
 import { Money } from "components/atoms/Money";
 import { CachedImage } from "components/molecules/CachedImage";
@@ -9,6 +10,7 @@ import {
   ICheckoutModelLine,
   IMultiSellerAvailableShippingMethods_mapping,
 } from "components/providers/Nautical/Checkout/types";
+import { checkoutMessages } from "core/intl";
 
 import { useStyles } from "./styles";
 import { useSellerNameQuery } from "./queries.graphql.generated";
@@ -20,6 +22,7 @@ type SellerMethodProps = {
 };
 
 const SellerMethod = ({ sellerMethod, handleSetSellerShippingMethods, mappingDict }: SellerMethodProps) => {
+  const intl = useIntl();
   const { data } = useSellerNameQuery({
     variables: { id: String(sellerMethod.seller) },
   });
@@ -36,11 +39,13 @@ const SellerMethod = ({ sellerMethod, handleSetSellerShippingMethods, mappingDic
             className={classes.textfield}
             component={TextField}
             name={"shippingMethod" + String(sellerMethod.seller)}
-            label="Shipping Method"
+            label={intl.formatMessage(checkoutMessages.shippingMethod)}
             variant="outlined"
             InputLabelProps={{ shrink: true }}
             select
             required
+            disabled={!sellerMethod.value.length}
+            helperText={!sellerMethod.value.length && "No available shipping methods. Please contact support."}
           >
             {sellerMethod.value.map((option) => (
               <MenuItem
