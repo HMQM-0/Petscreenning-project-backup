@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
-import { getCheckout, getPayment, setCheckout } from "utils";
+import { getCheckout, setCheckout, getPayment, setPayment } from "utils";
 
 import { CheckoutActionCreators, CheckoutActions } from "./actions";
-import { useGetUserCheckout } from "./useGetUserCheckout";
-import { ICheckoutContext } from "./context";
+import { useGetUserCheckout } from "./helpers/useGetUserCheckout";
+import { ICheckoutStateContext } from "./context";
 
 import { useAuth } from "../Auth";
 
@@ -32,24 +32,19 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
         //   },
         // };
       }
-      setCheckout(data || checkout);
 
-      const initializedCheckout: Partial<ICheckoutContext> = {
-        checkout: data || checkout || undefined,
-        promoCodeDiscount: checkout?.promoCodeDiscount,
-        billingAsShipping: checkout?.billingAsShipping,
-        selectedShippingAddressId: checkout?.selectedShippingAddressId,
-        selectedBillingAddressId: checkout?.selectedBillingAddressId,
-        availableShippingMethods: checkout?.availableShippingMethods,
-        availableShippingMethodsBySeller: checkout?.availableShippingMethodsBySeller,
-        applicableVolumeDiscounts: checkout?.applicableVolumeDiscounts ?? undefined,
-        applicableVolumeDiscountsBySeller:
-          checkout?.applicableVolumeDiscountsBySeller?.map((item) => ({
-            ...item,
-            volumeDiscount: item.volumeDiscount,
-            seller: Number(item?.seller),
-          })) ?? undefined,
-        availablePaymentGateways: checkout?.availablePaymentGateways,
+      const newCheckout = data || checkout;
+
+      if (newCheckout) {
+        setCheckout(newCheckout);
+      }
+
+      if (payment) {
+        setPayment(payment);
+      }
+
+      const initializedCheckout: ICheckoutStateContext = {
+        ...newCheckout,
         payment: payment || undefined,
         loaded: true,
       };

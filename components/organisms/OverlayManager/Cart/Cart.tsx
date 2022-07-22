@@ -26,14 +26,14 @@ interface CartProps {
 
 const Cart = ({ overlay }: CartProps) => {
   const { user } = useAuth();
-  const { checkout } = useCheckout();
+  const { shippingMethod } = useCheckout();
   const { items, removeItem, subtotalPrice, shippingPrice, discount, totalPrice } = useCart();
   const { online: isOnline } = useNetworkStatus();
 
   const { hide } = overlay;
 
   const shippingTaxedPrice =
-    checkout?.shippingMethod?.id && shippingPrice
+    shippingMethod?.id && shippingPrice
       ? {
           gross: shippingPrice,
           net: shippingPrice,

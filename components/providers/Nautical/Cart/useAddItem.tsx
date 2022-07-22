@@ -1,60 +1,42 @@
 import { useCallback } from "react";
 
-import { getCheckout, setCheckout } from "utils";
+import { useUpdateCheckout, useRefreshCheckoutLines, prepareLinesForUpdate } from "./helpers";
 
-import { CartActionCreators, CartActions } from "./actions";
-import { useUpdateCheckout, useRefreshCheckoutLines } from "./helpers";
+import { useCheckout } from "../Checkout";
+import { ICheckoutStateContext } from "../Checkout/context";
 
-import { ICheckoutModel } from "../Checkout/types";
-
-type useAddItemProps = {
-  dispatch: React.Dispatch<CartActions>;
-};
-
-const useAddItem = ({ dispatch }: useAddItemProps) => {
+const useAddItem = () => {
+  const { lines } = useCheckout();
   const updateCheckout = useUpdateCheckout();
   const refreshCheckoutLines = useRefreshCheckoutLines();
 
   return useCallback(
     async (variantId: string, quantity: number) => {
-      const checkout = getCheckout();
+      const { variantToModify, linesWithoutVariant } = prepareLinesForUpdate(variantId, lines);
 
-      // 1. save in local storage
-      let lines = checkout?.lines || [];
-      let variantInCheckout = lines.find((variant) => variant.variant.id === variantId);
-      const alteredLines = lines.filter((variant) => variant.variant.id !== variantId);
-      const newVariantQuantity = variantInCheckout ? variantInCheckout.quantity + quantity : quantity;
-      if (variantInCheckout) {
-        variantInCheckout.quantity = newVariantQuantity;
-        alteredLines.push(variantInCheckout);
+      // 1. Modify lines
+      const newVariantQuantity = variantToModify ? variantToModify.quantity + quantity : quantity;
+      let newLines: ICheckoutStateContext["lines"] = [];
+      if (variantToModify) {
+        variantToModify.quantity = newVariantQuantity;
+        newLines = [...linesWithoutVariant, variantToModify];
       } else {
-        variantInCheckout = {
+        const newVariant = {
           quantity,
           variant: {
             id: variantId,
           },
         };
-        alteredLines.push(variantInCheckout);
+        newLines = [...linesWithoutVariant, newVariant];
       }
-      const alteredCheckout: ICheckoutModel = checkout
-        ? {
-            ...checkout,
-            lines: alteredLines,
-          }
-        : {
-            lines: alteredLines,
-          };
-      setCheckout(alteredCheckout);
 
-      lines = await refreshCheckoutLines(alteredCheckout);
+      // 2. Ensure lines are up-to-date with DB and set in state
+      await refreshCheckoutLines(newLines);
 
-      // 2. save online if possible (if checkout id available)
-      updateCheckout(alteredCheckout);
-
-      // 3. set new items in state
-      dispatch(CartActionCreators.updateItems(lines));
+      // 3. save online if possible (if checkout id available)
+      updateCheckout(newLines);
     },
-    [dispatch, refreshCheckoutLines, updateCheckout]
+    [lines, refreshCheckoutLines, updateCheckout]
   );
 };
 

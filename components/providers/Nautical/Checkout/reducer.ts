@@ -1,13 +1,15 @@
 import { Reducer } from "use-immer";
 
 import { CheckoutActions, CheckoutActionTypes } from "./actions";
-import { ICheckoutContext } from "./context";
+import { ICheckoutStateContext } from "./context";
 
-export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, action) => {
+export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, action) => {
   switch (action.type) {
     case CheckoutActionTypes.INITIALIZE_CHECKOUT:
       draft.loaded = true;
-      draft.checkout = action.payload.checkout;
+      draft.id = action.payload.checkout?.id;
+      draft.shippingAddress = action.payload.checkout.shippingAddress;
+      draft.billingAddress = action.payload.checkout.billingAddress;
       draft.promoCodeDiscount = action.payload.checkout?.promoCodeDiscount;
       draft.billingAsShipping = action.payload.checkout?.billingAsShipping;
       draft.selectedShippingAddressId = action.payload.checkout?.selectedShippingAddressId;
@@ -19,6 +21,9 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.availablePaymentGateways = action.payload.checkout?.availablePaymentGateways;
       draft.payment = action.payload.checkout?.payment;
       draft.email = action.payload.checkout?.email;
+      draft.shippingMethod = action.payload.checkout.shippingMethod;
+      draft.lines = action.payload.checkout.lines;
+      draft.sellerShippingMethods = action.payload.checkout.sellerShippingMethods;
       break;
     case CheckoutActionTypes.UPDATE_SHIPPING_ADDRESS:
       draft.availableShippingMethods = action.payload.availableShippingMethods;
@@ -28,11 +33,11 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.shippingAddress = action.payload.shippingAddress;
       break;
     case CheckoutActionTypes.CREATE_CHECKOUT:
-      draft.checkout = action.payload.checkout;
-      draft.email = action.payload.email;
+      draft.id = action.payload?.id;
+      draft.shippingAddress = action.payload.shippingAddress;
+      draft.billingAddress = action.payload.billingAddress;
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;
       draft.billingAsShipping = action.payload.billingAsShipping;
-      draft.shippingAddress = action.payload.shippingAddress;
       draft.selectedShippingAddressId = action.payload.selectedShippingAddressId;
       draft.selectedBillingAddressId = action.payload.selectedBillingAddressId;
       draft.availableShippingMethods = action.payload.availableShippingMethods;
@@ -41,6 +46,10 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.applicableVolumeDiscountsBySeller = action.payload.applicableVolumeDiscountsBySeller;
       draft.availablePaymentGateways = action.payload.availablePaymentGateways;
       draft.payment = action.payload.payment;
+      draft.email = action.payload.email;
+      draft.shippingMethod = action.payload.shippingMethod;
+      draft.lines = action.payload.lines;
+      draft.sellerShippingMethods = action.payload.sellerShippingMethods;
       break;
     case CheckoutActionTypes.SET_BILLING_ADDRESS:
       draft.availablePaymentGateways = action.payload.availablePaymentGateways;
@@ -74,7 +83,7 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.payment = action.payload.payment;
       break;
     case CheckoutActionTypes.CLEAR_CHECKOUT:
-      draft.checkout = undefined;
+      draft.id = undefined;
       draft.email = undefined;
       draft.promoCodeDiscount = undefined;
       draft.billingAsShipping = undefined;
@@ -91,6 +100,9 @@ export const reducer: Reducer<ICheckoutContext, CheckoutActions> = (draft, actio
       draft.shippingMethod = undefined;
       draft.lines = undefined;
       draft.sellerShippingMethods = undefined;
+      break;
+    case CheckoutActionTypes.UPDATE_LINES:
+      draft.lines = action.payload.lines;
       break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);

@@ -29,7 +29,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
   const hasLoadedStripe = useRef(false);
   const [submitErrors, setSubmitErrors] = useState<IFormError[]>([]);
   const [clientSecret, setClientSecret] = useState("");
-  const { checkout } = useCheckout();
+  const { shippingAddress } = useCheckout();
 
   const apiKey = config.find(({ field }) => field === "api_key")?.value;
 
@@ -60,17 +60,17 @@ const StripePaymentGateway: React.FC<IProps> = ({
         currency: total?.gross?.currency?.toLowerCase(),
         token: localStorage.getItem("nauticalPaymentId"),
         shipping: {
-          firstName: checkout?.shippingAddress?.firstName,
-          lastName: checkout?.shippingAddress?.lastName,
-          companyName: checkout?.shippingAddress?.companyName,
-          streetAddress1: checkout?.shippingAddress?.streetAddress1,
-          streetAddress2: checkout?.shippingAddress?.streetAddress2,
-          city: checkout?.shippingAddress?.city,
-          countryArea: checkout?.shippingAddress?.countryArea,
-          postalCode: checkout?.shippingAddress?.postalCode,
+          firstName: shippingAddress?.firstName,
+          lastName: shippingAddress?.lastName,
+          companyName: shippingAddress?.companyName,
+          streetAddress1: shippingAddress?.streetAddress1,
+          streetAddress2: shippingAddress?.streetAddress2,
+          city: shippingAddress?.city,
+          countryArea: shippingAddress?.countryArea,
+          postalCode: shippingAddress?.postalCode,
           // @ts-ignore - Needs to be CountryCode defined in generated code - TODO: Refactor NauticalProvider to ensure useCheckout types this as country code
-          country: checkout?.shippingAddress?.country?.code,
-          phone: checkout?.shippingAddress?.phone,
+          country: shippingAddress?.country?.code,
+          phone: shippingAddress?.phone,
         },
       },
     },

@@ -1,8 +1,9 @@
 import { BuilderContent } from "@builder.io/sdk";
 import { BuilderComponent } from "@builder.io/react";
 import * as React from "react";
-import { useQueryParam, StringParam, useQueryParams } from "next-query-params";
+import { StringParam, useQueryParams } from "next-query-params";
 
+import { MicrositePageQueryResult } from "components/templates/MicrositePage/queries.graphql.generated";
 import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
 import { SearchPageQueryResult } from "components/templates/SearchPage/queries.graphql.generated";
 import { CollectionPageQueryResult } from "components/templates/CollectionPage/queries.graphql.generated";
@@ -34,11 +35,17 @@ interface SearchPageBuilderProps {
   pageData: SearchPageQueryResult["data"];
 }
 
+interface MicrositePageBuilderProps {
+  type: "microsite";
+  pageData: MicrositePageQueryResult["data"];
+}
+
 type BuilderProductsProps = (
   ProductsPageBuilderProps
   | CategoryPageBuilderProps
   | CollectionPageBuilderProps
   | SearchPageBuilderProps
+  | MicrositePageBuilderProps
   ) & {
   content: BuilderContent;
   productsData: ProductsQueryResult["data"];
@@ -80,12 +87,24 @@ const BuilderProducts = ({ type, pageData, productsData, content, attributes, lo
     menu: pageData?.menu,
   };
 
+  const microsite = type === 'microsite' && {
+    microsite: {
+      ...pageData?.microsite,
+      // TODO: how to deprecate these ones and force using them directly from state root?
+      productList: productsData?.productList,
+    },
+    // TODO: how to deprecate these ones and force using them directly from state root?
+    attributeList: pageData?.attributes,
+    menu: pageData?.menu,
+  };
+
   const stateData =
     useBuilderStateData({
       products,
       category,
       collection,
       search,
+      microsite,
     });
 
   const [, setQueryParams] = useQueryParams({

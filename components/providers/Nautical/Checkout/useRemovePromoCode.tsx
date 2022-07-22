@@ -1,8 +1,7 @@
-import { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
+import { CheckoutStateContext } from "./context";
 import { useRemovePromoCodeJob } from "./helpers/useRemovePromoCodeJob";
 import { FunctionErrorCheckoutTypes } from "./types";
 
@@ -11,12 +10,10 @@ type useRemovePromoCodeProps = {
 };
 
 const useRemovePromoCode = ({ dispatch }: useRemovePromoCodeProps) => {
+  const { id: checkoutId } = useContext(CheckoutStateContext);
   const removePromoCodeJob = useRemovePromoCodeJob({ dispatch });
   return useCallback(
     async (promoCode: string) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-
       if (checkoutId) {
         const { data, dataError } = await removePromoCodeJob({
           checkoutId,
@@ -37,7 +34,7 @@ const useRemovePromoCode = ({ dispatch }: useRemovePromoCodeProps) => {
         pending: false,
       };
     },
-    [removePromoCodeJob]
+    [checkoutId, removePromoCodeJob]
   );
 };
 

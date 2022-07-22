@@ -1,29 +1,29 @@
 import React, { useEffect } from "react";
 
-import { getCheckout } from "utils";
-
-import { CartActionCreators, CartActions } from "./actions";
+import { ICartContext } from "./context";
 import { useRefreshCheckoutLines } from "./helpers";
 
 type useInitializeCartProps = {
-  dispatch: React.Dispatch<CartActions>;
+  items: ICartContext["items"];
+  loaded: ICartContext["loaded"];
+  setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const useInitializeCart = ({ dispatch }: useInitializeCartProps) => {
+const useInitializeCart = ({ items, loaded, setLoaded }: useInitializeCartProps) => {
   const refreshCheckoutLines = useRefreshCheckoutLines();
 
   useEffect(() => {
     const init = async () => {
-      const checkout = getCheckout();
-
-      if (checkout) {
-        const lines = await refreshCheckoutLines(checkout);
-
-        dispatch(CartActionCreators.initializeCart(lines));
+      if (items) {
+        await refreshCheckoutLines(items);
+        setLoaded(true);
       }
     };
-    init();
-  }, [dispatch, refreshCheckoutLines]);
+
+    if (!loaded) {
+      init();
+    }
+  }, [items, refreshCheckoutLines, loaded, setLoaded]);
 };
 
 export { useInitializeCart };

@@ -43,10 +43,10 @@ const CheckoutPage = ({ logo }: ICheckoutProps) => {
   const [modal, setModal] = React.useState(true);
 
   const { loaded: cartLoaded, shippingPrice, discount, subtotalPrice, totalPrice, items } = useCart();
-  const { loaded: checkoutLoaded, checkout, applicableVolumeDiscounts } = useCheckout();
+  const { loaded: checkoutLoaded, applicableVolumeDiscounts, sellerShippingMethods } = useCheckout();
 
   const shippingTaxedPrice =
-    checkout?.sellerShippingMethods && checkout?.sellerShippingMethods.length > 5 && shippingPrice
+    sellerShippingMethods && sellerShippingMethods.length > 5 && shippingPrice
       ? {
           gross: shippingPrice,
           net: shippingPrice,

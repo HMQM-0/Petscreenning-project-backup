@@ -1,8 +1,7 @@
-import { useCallback } from "react";
-
-import { getCheckout } from "utils";
+import { useCallback, useContext } from "react";
 
 import { CheckoutActions } from "./actions";
+import { CheckoutStateContext } from "./context";
 import { useCompleteCheckoutJob } from "./helpers/useCompleteCheckoutJob";
 import { FunctionErrorCheckoutTypes } from "./types";
 
@@ -19,14 +18,15 @@ export interface CompleteCheckoutInput {
 }
 
 const useCompleteCheckout = ({ dispatch }: useCompleteCheckoutProps) => {
+  const { id, applicableVolumeDiscounts, applicableVolumeDiscountsBySeller } = useContext(CheckoutStateContext);
+
   const completeCheckoutJob = useCompleteCheckoutJob({ dispatch });
+  const checkoutId = id;
+  const volumeDiscount = applicableVolumeDiscounts?.amount;
+  const volumeDiscountsBySeller = applicableVolumeDiscountsBySeller;
+
   return useCallback(
     async (input?: CompleteCheckoutInput) => {
-      const checkout = getCheckout();
-      const checkoutId = checkout?.id;
-      const volumeDiscount = checkout?.applicableVolumeDiscounts?.amount;
-      const volumeDiscountsBySeller = checkout?.applicableVolumeDiscountsBySeller;
-
       if (checkoutId) {
         const { data, dataError } = await completeCheckoutJob({
           ...input,
@@ -39,6 +39,7 @@ const useCompleteCheckout = ({ dispatch }: useCompleteCheckoutProps) => {
               seller: Number(volumeDiscountBySeller.seller),
             })) ?? [],
         });
+
         return {
           data,
           dataError,
@@ -53,7 +54,7 @@ const useCompleteCheckout = ({ dispatch }: useCompleteCheckoutProps) => {
         pending: false,
       };
     },
-    [completeCheckoutJob]
+    [checkoutId, completeCheckoutJob, volumeDiscount, volumeDiscountsBySeller]
   );
 };
 

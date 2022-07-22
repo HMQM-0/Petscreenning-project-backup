@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 
-import { getCheckout, getPayment, setCheckout, setPayment } from "utils";
+import { setCheckout, setPayment } from "utils";
 
 import { CheckoutActionCreators, CheckoutActions } from "./actions";
-import { useGetUserCheckout } from "./useGetUserCheckout";
-import { ICheckoutContext } from "./context";
 
 import { useAuth } from "../Auth";
 

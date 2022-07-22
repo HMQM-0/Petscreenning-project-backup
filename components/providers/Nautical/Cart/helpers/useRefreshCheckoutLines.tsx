@@ -1,8 +1,7 @@
 import { useApolloClient } from "@apollo/client";
 import { useCallback } from "react";
 
-import { setCheckout } from "utils";
-
+import { useCheckout } from "../../Checkout";
 import {
   CheckoutProductVariantsDocument,
   CheckoutProductVariantsQuery,
@@ -10,6 +9,7 @@ import {
 import { ICheckoutModel, ICheckoutModelLine } from "../../Checkout/types";
 
 const useRefreshCheckoutLines = () => {
+  const { updateLines } = useCheckout();
   const client = useApolloClient();
 
   const getRefreshedCheckoutLines = useCallback(
@@ -118,23 +118,23 @@ const useRefreshCheckoutLines = () => {
   );
 
   return useCallback(
-    async (checkout: ICheckoutModel) => {
-      if (checkout?.lines) {
-        const { data, error } = await getRefreshedCheckoutLines(checkout.lines ?? null);
+    async (lines: ICheckoutModel["lines"]) => {
+      let newLines: ICheckoutModel["lines"] = [];
+      if (lines) {
+        const { data, error } = await getRefreshedCheckoutLines(lines ?? null);
         if (error) {
           // TODO: Determine what this fireError behaviour accomplishes
           // this.fireError(error, ErrorCartTypes.SET_CART_ITEM);
         } else {
-          setCheckout({
-            ...checkout,
-            lines: data,
-          });
-          return data ?? [];
+          newLines = data ?? [];
+          updateLines(newLines);
+          return newLines;
         }
       }
-      return [];
+      updateLines(newLines);
+      return newLines;
     },
-    [getRefreshedCheckoutLines]
+    [getRefreshedCheckoutLines, updateLines]
   );
 };
 
