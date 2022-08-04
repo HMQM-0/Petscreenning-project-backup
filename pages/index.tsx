@@ -37,25 +37,9 @@ export const getServerSideProps = async () => {
     content = (await builder.get("store", { url: "/store/landing" }).promise()) || null;
   }
 
-  let data: HomeQuery = {
-    branding: {
-      id: "",
-      jsonContent: "{}",
-      footerText: "",
-    },
-    shop: {
-      name: "",
-    },
-  };
-
-  try {
-    const { data: response } = await client.query<HomeQuery>({
-      query: HomeDocument,
-    });
-    data = response;
-  } catch (e) {
-    console.log("GraphQL Error: ", e);
-  }
+  const { data } = await client.query<HomeQuery>({
+    query: HomeDocument,
+  });
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
