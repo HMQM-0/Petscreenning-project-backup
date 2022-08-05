@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 import { brandingFragment } from "../../../queries/branding.graphql";
 
-export const loginPageQuery = gql`
+export const errorPageQuery = gql`
   ${brandingFragment}
   query ErrorPage {
     branding {
