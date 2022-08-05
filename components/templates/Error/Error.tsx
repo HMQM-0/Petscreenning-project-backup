@@ -22,7 +22,7 @@ const sx: SxProps = {
 
 const Error = ({ builderContent, data, is404 }: ErrorProps) => {
   if (builderContent) {
-    return <Builder content={builderContent} data={data} />;
+    return <Builder content={builderContent} data={data} is404={is404} />;
   }
 
   if (is404) {

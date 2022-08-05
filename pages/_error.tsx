@@ -36,10 +36,15 @@ const ErrorPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const is404 = res.statusCode === 404;
   const client = getApolloClient();
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = (await builder.get("store", { url: "/store/error" }).promise()) || null;
+    if (is404) {
+      content = (await builder.get("store", { url: "/store/notFound" }).promise()) || null;
+    } else {
+      content = (await builder.get("store", { url: "/store/error" }).promise()) || null;
+    }
   }
 
   let data: ErrorPageQuery = {
@@ -58,7 +63,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     });
     data = response;
   } catch (e) {
-    console.log("Error Page Query - GraphQL Error:", e);
+    // This is useful for Vercel logs. May want to add Sentry/DataDog logging here in the future.
+    console.error("GraphQL Error (ErrorPageQuery):", e);
   }
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
@@ -67,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     props: {
       data,
       builderContent: content,
-      is404: res.statusCode === 404,
+      is404,
       __APOLLO__,
     },
   };

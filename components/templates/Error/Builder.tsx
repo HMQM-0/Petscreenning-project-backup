@@ -7,8 +7,9 @@ import useBuilderStateData from "components/hooks/useBuilderStateData";
 
 import { ErrorPageQuery } from "./queries.graphql.generated";
 
-const Builder = ({ content, data }: { content: BuilderContent; data: ErrorPageQuery }) => {
-  const stateData = useBuilderStateData({ landing: data });
+const Builder = ({ content, data, is404 }: { content: BuilderContent; data: ErrorPageQuery; is404: boolean }) => {
+  const builderProps = is404 ? { notFound: data } : { error: data };
+  const stateData = useBuilderStateData(builderProps);
 
   return <BuilderComponent model={builderConfig.storeModel} content={content} data={stateData} />;
 };
