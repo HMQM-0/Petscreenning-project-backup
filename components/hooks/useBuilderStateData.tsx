@@ -6,9 +6,7 @@ import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
-import {
-  MicrositesQueryResult,
-} from "components/templates/VendorsPage/queries.graphql.generated";
+import { MicrositesQueryResult } from "components/templates/VendorsPage/queries.graphql.generated";
 import { generateUrlByGraphqlId, getDBIdFromGraphqlId } from "core/utils";
 import { FilterQuerySet } from "components/organisms";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
@@ -32,6 +30,8 @@ interface IStorePage {
   wishlist?: any;
   microsite?: any;
   vendors?: MicrositesQueryResult["data"];
+  error?: any;
+  notFound?: any;
 }
 
 function sanitizeModel(model: any) {
@@ -55,6 +55,8 @@ const useBuilderStateData = ({
   wishlist,
   microsite,
   vendors,
+  error,
+  notFound,
 }: IStorePage) => {
   const [, setSearchParams] = useQueryParams({
     q: StringParam,
@@ -175,6 +177,8 @@ const useBuilderStateData = ({
       user: sanitizeModel(user),
       microsite: sanitizeModel(microsite),
       vendors: sanitizeModel(vendors),
+      error: sanitizeModel(error),
+      notFound: sanitizeModel(notFound),
       quantity: 1,
       theme: theme,
       cart: items,
@@ -192,30 +196,32 @@ const useBuilderStateData = ({
       loadPrevPage,
     };
   }, [
-    addToCartHandler,
-    alert,
-    vendors,
     category,
     collection,
-    intl,
-    items,
+    product,
     landing,
+    products,
+    search,
+    wishlist,
+    user,
+    microsite,
+    vendors,
+    error,
+    notFound,
+    theme,
+    items,
     loadMore,
     loadNextPage,
     loadPrevPage,
-    microsite,
-    product,
-    products,
-    router,
-    search,
-    setAddWishlistProduct,
     setAttributeFilters,
-    setRemoveWishlistProduct,
+    addToCartHandler,
     setSearchParams,
-    theme,
-    user,
-    wishlist,
+    router,
     wishlistContext,
+    alert,
+    intl,
+    setRemoveWishlistProduct,
+    setAddWishlistProduct,
   ]);
 };
 

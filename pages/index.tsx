@@ -7,10 +7,7 @@ import builderConfig from "config/builder";
 import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import {
-  HomeDocument,
-  HomeQuery,
-} from "components/templates/IndexPage/queries.graphql.generated";
+import { HomeDocument, HomeQuery } from "components/templates/IndexPage/queries.graphql.generated";
 import { getApolloClient } from "apollo-client";
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
@@ -37,7 +34,7 @@ export const getServerSideProps = async () => {
   const client = getApolloClient();
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/landing" }).promise() || null;
+    content = (await builder.get("store", { url: "/store/landing" }).promise()) || null;
   }
 
   const { data } = await client.query<HomeQuery>({
