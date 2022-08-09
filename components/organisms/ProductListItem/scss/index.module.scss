@@ -2,7 +2,7 @@
 
 .product-list {
   &-item {
-    background: #fff;
+    background: $white;
     border: 1px solid rgb(204, 204, 204);
     display: flex;
     flex-direction: column;
@@ -15,8 +15,8 @@
   }
 
   &-item-wide {
-    background: #fff;
-    border: 1px solid #ebebeb;
+    background: $white;
+    border: 1px solid $divider;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -88,7 +88,7 @@
     grid-template-columns: 60% 40%;
     text-align: left;
     width: 100%;
-    background: #ebebeb;
+    background: $divider;
     margin-bottom: 10px;
     height: 30px;
   }

@@ -25,10 +25,13 @@ export const CartHeader = styled.div`
     display: none;
   `};
 `;
+
 export const CartFooter = styled.div``;
+
 export const Cart = styled.div`
   border-top: 1px solid rgba(50, 50, 50, 0.1);
 `;
+
 export const ProceedButton = styled.div`
   text-align: right;
   margin-top: 40px;
@@ -78,6 +81,7 @@ export const FooterWrapper = styled.div<{
 export const SubtotalText = styled.div`
   grid-area: subtotalText;
 `;
+
 export const SubtotalPrice = styled.div`
   grid-area: subtotalPrice;
   ${media.mediumScreen`
@@ -88,6 +92,7 @@ export const SubtotalPrice = styled.div`
 export const ShippingText = styled.div`
   grid-area: shippingText;
 `;
+
 export const ShippingPrice = styled.div`
   grid-area: shippingPrice;
   ${media.mediumScreen`
@@ -98,6 +103,7 @@ export const ShippingPrice = styled.div`
 export const DiscountText = styled.div`
   grid-area: discountText;
 `;
+
 export const DiscountPrice = styled.div`
   grid-area: discountPrice;
   ${media.mediumScreen`
@@ -109,6 +115,7 @@ export const TotalText = styled.div`
   grid-area: totalText;
   font-weight: bold;
 `;
+
 export const TotalPrice = styled.div`
   grid-area: totalPrice;
   font-weight: bold;
@@ -148,8 +155,7 @@ export const HR = styled.hr`
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid
-    ${(props) => props.theme.colors.baseFontColorTransparent};
+  border-top: 1px solid ${(props) => props.theme.colors.baseFontColorTransparent};
   margin: 40px 0;
   padding: 0;
 
@@ -167,4 +173,3 @@ export const Subtitle = styled.p`
 `;
 
 export const ContinueButton = styled.div``;
-

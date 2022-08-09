@@ -1,15 +1,15 @@
 import { styled } from "@styles";
 
 export const Wrapper = styled.div`
-  overflow: scroll;
+  overflow: auto;
   width: 410px;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
-
-  box-shadow: 6px 0px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.15);
 `;
+
 export const Header = styled.div`
   display: flex;
   width: 80%;
@@ -18,7 +18,6 @@ export const Header = styled.div`
   margin-top: 1.5rem;
   margin-bottom: 4rem;
   padding: 0;
-
   font-weight: ${(props) => props.theme.typography.boldFontWeight};
   font-size: ${(props) => props.theme.typography.h3FontSize};
 `;
