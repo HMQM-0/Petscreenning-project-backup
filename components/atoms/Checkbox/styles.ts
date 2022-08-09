@@ -17,11 +17,13 @@ export const Label = styled.label`
   justify-content: flex-start;
   align-items: center;
   padding-right: 1.25rem;
+
   input[type="checkbox"] {
     display: none;
     position: relative;
     right: -999em;
   }
+
   div {
     display: flex;
     justify-content: center;

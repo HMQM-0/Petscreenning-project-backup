@@ -1,15 +1,18 @@
 import { styled } from "@styles";
+
 export const Wrapper = styled.div<{ added: boolean }>`
   display: flex;
   align-items: center;
   text-transform: uppercase;
   cursor: pointer;
   overflow: hidden;
+
   svg {
     position: relative;
     top: ${(props) => (props.added ? `0.5` : `0.8`)}rem;
     left: ${(props) => (props.added ? `0.4` : `0.6`)}rem;
   }
+
   :hover {
     svg {
       top: 0.5rem;
@@ -34,6 +37,7 @@ export const WishlistIcon = styled.div<{ addRightMargin: boolean }>`
   border-width: 0;
   background-color: ${(props) => props.theme.colors.light};
   ${(props) => props.addRightMargin && `margin-right: 0.5rem;`}
+
   svg {
     display: block;
   }

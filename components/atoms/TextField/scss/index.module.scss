@@ -21,7 +21,6 @@
     border-radius: 0;
     padding: 0.8rem 1rem;
     font-size: $base-font-size;
-    // color: $base-font-color;
     border: 1px solid $blue;
     outline: none;
     box-shadow: 0 0 0 1px $white;
@@ -29,7 +28,6 @@
 
     &:focus,
     &:not([value=""]) {
-      // box-shadow: 0 0 0 1px $blue;
       & + .input__label {
         background-color: $white;
         @include focusedLabel();
@@ -37,7 +35,6 @@
     }
 
     &:-webkit-autofill {
-      // box-shadow: 0 0 0 1px $blue;
       & + .input__label {
         @include focusedLabel();
       }
@@ -68,7 +65,6 @@
       }
     }
     &:hover {
-      // box-shadow: 0 0 0 1px $blue;
       color: $primary-dark;
       transition: all 0.3s ease;
       & + .input__label {
@@ -103,6 +99,7 @@
     z-index: 1;
     pointer-events: none;
     transition: all 0.4s ease;
+
     &--focus {
       background-color: $white;
       @include focusedLabel();

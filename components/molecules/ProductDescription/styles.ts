@@ -6,13 +6,13 @@ export const AttributeList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 36px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 
   ${media.largeScreen`
     grid-template-columns: 1fr;
   `};
-  width: 100%;
-  padding: 0;
-  margin: 0;
 
   li {
     margin-bottom: 30px;
@@ -63,11 +63,3 @@ export const AttributeName = styled.span`
   font-weight: ${(props) => props.theme.typography.boldFontWeight};
   padding-bottom: 8px;
 `;
-
-/*
-li::before {
-    content: "•";
-    margin-right: 20px;
-    color: ${props => props.theme.colors.listBullet};
-  }
-  */
