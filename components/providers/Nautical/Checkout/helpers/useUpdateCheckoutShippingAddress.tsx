@@ -104,6 +104,7 @@ const useUpdateCheckoutShippingAddress = ({ dispatch }: UseUpdateCheckoutShippin
         email: data?.email ?? "",
         selectedShippingAddressId,
         shippingAddress: data?.shippingAddress,
+        availableShippingMethodsBySeller: data?.availableShippingMethodsBySeller,
       };
 
       dispatch(CheckoutActionCreators.updateShippingAddress(updates));

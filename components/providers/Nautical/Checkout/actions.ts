@@ -29,6 +29,7 @@ export const CheckoutActionCreators = {
     email: string;
     selectedShippingAddressId: ICheckoutStateContext["selectedShippingAddressId"];
     shippingAddress: ICheckoutStateContext["shippingAddress"];
+    availableShippingMethodsBySeller: ICheckoutStateContext["availableShippingMethodsBySeller"];
   }) => ({
     type: CheckoutActionTypes.UPDATE_SHIPPING_ADDRESS,
     payload,
