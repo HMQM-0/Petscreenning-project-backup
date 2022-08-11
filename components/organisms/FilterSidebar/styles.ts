@@ -2,6 +2,7 @@ import { styled } from "@styles";
 
 export const Wrapper = styled.div`
   overflow: auto;
+  overscroll-behavior: contain;
   width: 410px;
   display: flex;
   justify-content: flex-start;
@@ -11,13 +12,19 @@ export const Wrapper = styled.div`
 `;
 
 export const Header = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   width: 80%;
   justify-content: space-between;
   align-items: center;
   margin-top: 1.5rem;
-  margin-bottom: 4rem;
-  padding: 0;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  background-color: #fff;
+  box-shadow: -15px 0 0 #fff;
   font-weight: ${(props) => props.theme.typography.boldFontWeight};
   font-size: ${(props) => props.theme.typography.h3FontSize};
 `;
