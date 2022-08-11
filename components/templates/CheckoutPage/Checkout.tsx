@@ -109,7 +109,7 @@ function usePersistedState(key: string, defaultValue: unknown): [string, React.D
 const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volumeDiscount, close }: ICheckoutProps) => {
   const creatingPayment = React.useRef(false);
   const [popover, setPopover] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+
   const [currentTab, setCurrentTab] = React.useState<CheckoutTabs>(CheckoutTabs.CUSTOMER);
   const [completeCheckoutRunnning, setCompleteCheckoutRunning] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -198,7 +198,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const sellerSet = new Set(sellers);
   const mappingDict: Record<string, ICheckoutModelLine[]> = {};
   const onPaymentStep = currentTab === CheckoutTabs.PAYMENT;
-  const initialSellerValues: Record<string, unknown> = {};
+  const initialSellerValues: Record<string, string> = {};
   const parsedInitialSellerMethods = JSON.parse(sellerShippingMethods || "[]");
   for (const seller of sellerSet) {
     if (seller) {
@@ -379,7 +379,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   };
 
   const handleSetSellerShippingMethods = async (seller: number, shippingMethodSelection: string) => {
-    setLoading(true);
     const { dataError } = await setSellerShippingMethods(seller, shippingMethodSelection);
 
     const errors = dataError?.error;
@@ -389,7 +388,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         handleErrors(errors);
       }
     }
-    setLoading(false);
   };
 
   const handleBreadcrumb = (nextTab: CheckoutTabs) => {
@@ -566,7 +564,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         <Box
           sx={{
             background: "linear-gradient(90deg, #FFF 50%, #F8FAFB 50%)",
-            display: "flex",
+            display: {
+              xs: "flex",
+            },
+            gridTemplateColumns: "1.5fr 1fr",
             flexDirection: {
               xs: "column-reverse",
               sm: "row",
@@ -578,14 +579,16 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           <Box
             sx={{
               backgroundColor: "#FFF",
-              padding: 2,
-              minWidth: "auto",
+              padding: {
+                xs: 2,
+                sm: 6,
+              },
               borderTop: 1,
               borderTopColor: "divider",
               width: "100%",
-              "@media sm": {
-                minWidth: 800,
-                padding: 6,
+              maxWidth: {
+                xs: "auto",
+                sm: 800,
               },
             }}
           >
@@ -645,6 +648,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   sellerMethod={sellerMethod}
                   handleSetSellerShippingMethods={handleSetSellerShippingMethods}
                   mappingDict={mappingDict}
+                  shippingMethod={initialSellerValues[Number(sellerMethod.seller)]}
                 />
               ))}
               <Box
@@ -796,9 +800,19 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           </Box>
         </Box>
       ) : (
-        <Box p={3}>
-          <Typography variant="h4">Confirming your payment...</Typography>
-          {completeCheckoutRunnning && <Loader />}
+        <Box
+          sx={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Typography variant="h4">Confirming your payment...</Typography>
+            {completeCheckoutRunnning && <CircularProgress />}
+          </Box>
           {errorMessage && (
             <Alert sx={{ marginTop: "8px" }} severity="error">
               {errorMessage}

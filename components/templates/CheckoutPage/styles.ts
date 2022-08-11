@@ -23,8 +23,8 @@ export const button: SxProps = {
     fontWeight: 400,
   },
   marginBottom: {
-    xs: "84px",
-    md: 0,
+    xs: 1,
+    sm: 0,
   },
 };
 
@@ -78,10 +78,7 @@ export const cardGroup: SxProps = {
 };
 export const cartSummary: SxProps = {
   backgroundColor: "#F8FAFB",
-  borderLeft: {
-    xs: 1,
-    sm: "none",
-  },
+  maxWidth: "410px",
   borderColor: "divider",
   padding: {
     xs: 0,
@@ -117,10 +114,10 @@ export const buttonsGrid: SxProps = {
   },
   gridTemplateColumns: "1fr 1fr",
   gap: "16px",
-  flexDirection: {
-    xs: "unset",
-    sm: "column-reverse",
-  },
+  flexDirection: "column-reverse",
+  borderTop: 1,
+  borderColor: "divider",
+  pt: 1,
 };
 export const gridspan: SxProps = {
   gridColumn: "1 / span 2",
@@ -176,6 +173,8 @@ export const shippingMethodSelectMenuOption: SxProps = {
   justifyContent: "space-between",
   gridTemplateColumns: "1fr 1fr",
   gridColumnGap: "0.2fr",
+  width: "100%",
+  overflow: "hidden",
 };
 export const shippingMethodSelectMenuPrice: SxProps = {
   width: "100%",

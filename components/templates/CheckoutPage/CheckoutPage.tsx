@@ -56,6 +56,8 @@ const CheckoutPage = ({ logo }: ICheckoutProps) => {
               xs: "auto",
               sm: "100vh",
             },
+            display: "flex",
+            flexDirection: "column",
             width: "100vw",
           }}
         >
