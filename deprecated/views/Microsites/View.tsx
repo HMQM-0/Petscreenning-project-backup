@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Media from "react-media";
 import { useIntl } from "react-intl";
 import { useParams } from "react-router";
@@ -20,11 +20,7 @@ import { Loader } from "@components/atoms";
 import { prodListHeaderCommonMsg } from "core/intl";
 import { useAuth } from "@nautical/react";
 import { useShopContext } from "components/providers/ShopProvider";
-import {
-  convertSortByFromString,
-  convertToAttributeScalar,
-  getGraphqlIdFromDBId,
-} from "core/utils";
+import { convertSortByFromString, convertToAttributeScalar, getGraphqlIdFromDBId } from "core/utils";
 
 import Page from "./Page";
 import {
@@ -36,14 +32,7 @@ import {
   TypedMicrositeProductsQuery,
 } from "./queries";
 
-import {
-  MetaWrapper,
-  NotFound,
-  OfflinePlaceholder,
-  OverlayContext,
-  OverlayTheme,
-  OverlayType,
-} from "../../components";
+import { MetaWrapper, NotFound, OfflinePlaceholder, OverlayContext, OverlayTheme, OverlayType } from "../../components";
 import NetworkStatus from "../../components/NetworkStatus";
 import { PRODUCTS_PER_PAGE } from "../../core/config";
 
@@ -81,10 +70,7 @@ export const FilterQuerySet = {
 export const View: React.FC<any> = ({ logo }) => {
   const params = useParams();
   const [sort, setSort] = useQueryParam("sortBy", StringParam);
-  const [attributeFilters, setAttributeFilters] = useQueryParam(
-    "filters",
-    FilterQuerySet
-  );
+  const [attributeFilters, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
   const intl = useIntl();
 
   const { user } = useAuth();
@@ -107,9 +93,7 @@ export const View: React.FC<any> = ({ logo }) => {
         } else {
           setAttributeFilters({
             ...attributeFilters,
-            [`${name}`]: attributeFilters[`${name}`].filter(
-              (item) => item !== value
-            ),
+            [`${name}`]: attributeFilters[`${name}`].filter((item) => item !== value),
           });
         }
       } else {
@@ -122,6 +106,14 @@ export const View: React.FC<any> = ({ logo }) => {
       setAttributeFilters({ ...attributeFilters, [`${name}`]: [value] });
     }
   };
+
+  useEffect(
+    () => {
+      window.scrollTo(0, 0);
+    },
+    // Anytime attribute filters are changed in URL params - trigger scroll to top
+    [attributeFilters]
+  );
 
   const [afterFilters, setAfterFilters] = useQueryParam("after");
   const [beforeFilters, setBeforeFilters] = useQueryParam("before");
@@ -141,9 +133,7 @@ export const View: React.FC<any> = ({ logo }) => {
     before: beforeFilters,
     first: !lastFilters && !firstFilters ? PRODUCTS_PER_PAGE : firstFilters,
     last: lastFilters,
-    attributes: filters.attributes
-      ? convertToAttributeScalar(filters.attributes)
-      : {},
+    attributes: filters.attributes ? convertToAttributeScalar(filters.attributes) : {},
     id: getGraphqlIdFromDBId(params.micrositeId, "Microsite"),
     sortBy: convertSortByFromString(filters.sortBy),
   };
@@ -174,9 +164,7 @@ export const View: React.FC<any> = ({ logo }) => {
       value: "updated_at",
     },
     {
-      label: intl.formatMessage(
-        prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc
-      ),
+      label: intl.formatMessage(prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc),
       value: "-updated_at",
     },
   ];
@@ -201,15 +189,11 @@ export const View: React.FC<any> = ({ logo }) => {
               {/* <ReactSVG path={logoImg} className="products-hidden-logo" /> */}
               {/* <ReactSVG path={logoImg} style={{ width: 400 }} /> */}
             </Box>
-            <Box className="products-hidden-text">
-              Login required to view products
-            </Box>
+            <Box className="products-hidden-text">Login required to view products</Box>
             <Box>
               <button
                 className="products-login-button"
-                onClick={() =>
-                  overlayContext.show(OverlayType.login, OverlayTheme.right)
-                }
+                onClick={() => overlayContext.show(OverlayType.login, OverlayTheme.right)}
               >
                 <span className="text">Login</span>
                 <span className="icon">
@@ -238,11 +222,7 @@ export const View: React.FC<any> = ({ logo }) => {
   ) : builderKey ? (
     <NetworkStatus>
       {(isOnline) => (
-        <TypedBuilderMicrositeProductsDataQuery
-          variables={variables}
-          errorPolicy="all"
-          loaderFull
-        >
+        <TypedBuilderMicrositeProductsDataQuery variables={variables} errorPolicy="all" loaderFull>
           {(micrositeData) => {
             if (micrositeData.loading) {
               return <Loader />;
@@ -257,8 +237,7 @@ export const View: React.FC<any> = ({ logo }) => {
             }
 
             const canDisplayFilters =
-              !!micrositeData.data?.attributeList?.attributes &&
-              !!micrositeData.data?.microsite?.name;
+              !!micrositeData.data?.attributeList?.attributes && !!micrositeData.data?.microsite?.name;
 
             return (
               <TypedBuilderMicrositeProductsQuery
@@ -297,28 +276,21 @@ export const View: React.FC<any> = ({ logo }) => {
                     const loadNextPage = () => {
                       setBeforeFilters(null);
                       setLastFilters(null);
-                      setAfterFilters(
-                        micrositeProductsData.data.microsite.productList
-                          .pageInfo.endCursor
-                      );
+                      setAfterFilters(micrositeProductsData.data.microsite.productList.pageInfo.endCursor);
                       setFirstFilters(PRODUCTS_PER_PAGE);
                     };
 
                     const loadPrevPage = () => {
                       setAfterFilters(null);
                       setFirstFilters(null);
-                      setBeforeFilters(
-                        micrositeProductsData.data.microsite.productList
-                          .pageInfo.startCursor
-                      );
+                      setBeforeFilters(micrositeProductsData.data.microsite.productList.pageInfo.startCursor);
                       setLastFilters(PRODUCTS_PER_PAGE);
                     };
 
                     return (
                       <MetaWrapper
                         meta={{
-                          description:
-                          micrositeData.data.microsite.seoDescription,
+                          description: micrositeData.data.microsite.seoDescription,
                           title: micrositeData.data.microsite.seoTitle,
                           type: "microsites.microsite",
                         }}
@@ -346,11 +318,7 @@ export const View: React.FC<any> = ({ logo }) => {
   ) : (
     <NetworkStatus>
       {(isOnline) => (
-        <TypedMicrositeProductsDataQuery
-          variables={variables}
-          errorPolicy="all"
-          loaderFull
-        >
+        <TypedMicrositeProductsDataQuery variables={variables} errorPolicy="all" loaderFull>
           {(micrositeData) => {
             if (micrositeData.loading) {
               return <Loader />;
@@ -364,9 +332,7 @@ export const View: React.FC<any> = ({ logo }) => {
               return <OfflinePlaceholder />;
             }
 
-            const canDisplayFilters =
-              !!micrositeData.data?.attributes?.edges &&
-              !!micrositeData.data?.microsite?.name;
+            const canDisplayFilters = !!micrositeData.data?.attributes?.edges && !!micrositeData.data?.microsite?.name;
 
             return (
               <TypedMicrositeProductsQuery
@@ -387,26 +353,20 @@ export const View: React.FC<any> = ({ logo }) => {
                             ...prev.microsite,
                             products: {
                               ...prev.microsite.products,
-                              edges: [
-                                ...prev.microsite.products.edges,
-                                ...next.microsite.products.edges,
-                              ],
+                              edges: [...prev.microsite.products.edges, ...next.microsite.products.edges],
                               pageInfo: next.microsite.products.pageInfo,
                             },
                           },
                         }),
                         {
-                          after:
-                          micrositeProductsData.data.microsite.products
-                            .pageInfo.endCursor,
+                          after: micrositeProductsData.data.microsite.products.pageInfo.endCursor,
                         }
                       );
 
                     return (
                       <MetaWrapper
                         meta={{
-                          description:
-                          micrositeData.data.microsite.seoDescription,
+                          description: micrositeData.data.microsite.seoDescription,
                           title: micrositeData.data.microsite.seoTitle,
                           type: "microsites.microsite",
                         }}
@@ -424,30 +384,18 @@ export const View: React.FC<any> = ({ logo }) => {
                               > */
                               <Page
                                 clearFilters={clearFilters}
-                                attributes={micrositeData.data.attributes.edges.map(
-                                  (edge) => edge.node
-                                )}
+                                attributes={micrositeData.data.attributes.edges.map((edge) => edge.node)}
                                 menu={micrositeData.data.menu}
                                 microsite={micrositeData.data.microsite}
                                 displayLoader={micrositeData.loading}
-                                hasNextPage={
-                                  micrositeProductsData.data?.microsite
-                                    ?.products?.pageInfo?.hasNextPage
-                                }
+                                hasNextPage={micrositeProductsData.data?.microsite?.products?.pageInfo?.hasNextPage}
                                 sortOptions={sortOptions}
                                 activeSortOption={filters.sortBy}
                                 filters={filters}
-                                products={
-                                  micrositeProductsData?.data?.microsite
-                                    ?.products
-                                }
+                                products={micrositeProductsData?.data?.microsite?.products}
                                 onAttributeFiltersChange={onFiltersChange}
                                 onLoadMore={handleLoadMore}
-                                activeFilters={
-                                  filters!.attributes
-                                    ? Object.keys(filters!.attributes).length
-                                    : 0
-                                }
+                                activeFilters={filters!.attributes ? Object.keys(filters!.attributes).length : 0}
                                 onOrder={(value) => {
                                   setSort(value.value);
                                 }}
