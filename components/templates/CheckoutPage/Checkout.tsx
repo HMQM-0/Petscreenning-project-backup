@@ -30,7 +30,6 @@ import { LoyaltyPoints } from "components/atoms/LoyaltyPoints";
 import { Plugins } from "deprecated/@nautical";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
-import { Loader } from "components/atoms/Loader";
 import { IItems } from "components/providers/Nautical/Cart/types";
 import {
   useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation,
@@ -308,68 +307,38 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     checkIfLoyaltyAndReferralsActive();
   }, [checkIfLoyaltyAndReferralsActive]);
 
-  const handleSubmitShippingAddress = async (values: AddressFormValues) => {
-    const country = countries.find((country) => country.code === values.country)?.country ?? "";
-    const shippingSubmission = await setShippingAddress(
-      {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        companyName: values.companyName,
-        streetAddress1: values.streetAddress1,
-        streetAddress2: values.streetAddress2,
-        city: values.city,
-        postalCode: values.postalCode,
-        countryArea: values.countryArea,
-        phone: values.phone,
-        country: {
-          code: values.country,
-          country,
+  const handleSubmitAddress =
+    (checkoutMethod: typeof setShippingAddress | typeof setBillingAddress, errorHandler: React.Dispatch<string>) =>
+    async (values: AddressFormValues) => {
+      const country = countries.find((country) => country.code === values.country)?.country ?? "";
+      const submission = await checkoutMethod(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          companyName: values.companyName,
+          streetAddress1: values.streetAddress1,
+          streetAddress2: values.streetAddress2,
+          city: values.city,
+          postalCode: values.postalCode,
+          countryArea: values.countryArea,
+          phone: values.phone,
+          country: {
+            code: values.country,
+            country,
+          },
         },
-      },
-      values?.email ?? ""
-    );
-    if (shippingSubmission.dataError?.error) {
-      if (isArray(shippingSubmission.dataError.error)) {
-        const error = parseErrors(shippingSubmission.dataError.error);
-        setShippingAddressError(error);
+        values?.email ?? (email || "")
+      );
+      if (submission.dataError?.error) {
+        if (isArray(submission.dataError.error)) {
+          const error = parseErrors(submission.dataError.error);
+          errorHandler(error);
+        }
+        return;
+      } else {
+        errorHandler("");
       }
-      return;
-    } else {
-      setCurrentTab(CheckoutTabs.SHIPPING);
-      setShippingAddressError("");
-    }
-  };
-
-  const handleSubmitBillingAddress = async (values: AddressFormValues) => {
-    const country = countries.find((country) => country.code === values.country)?.country ?? "";
-    const billingSubmission = await setBillingAddress(
-      {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        companyName: values.companyName,
-        streetAddress1: values.streetAddress1,
-        streetAddress2: values.streetAddress2,
-        city: values.city,
-        postalCode: values.postalCode,
-        countryArea: values.countryArea,
-        phone: values.phone,
-        country: {
-          code: values.country,
-          country,
-        },
-      },
-      email
-    );
-    if (billingSubmission.dataError?.error) {
-      if (isArray(billingSubmission.dataError.error)) {
-        const error = parseErrors(billingSubmission.dataError.error);
-        setBillingAddressError(error);
-      }
-      return;
-    } else {
-      setBillingAddressError("");
-    }
-  };
+    };
 
   const confirmAndPurchase = async () => {
     setSubmittingPayment(true);
@@ -632,7 +601,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
-                onSubmit={handleSubmitShippingAddress}
+                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError)}
                 errorMessage={shippingAddressError}
               />
             </TabPanel>
@@ -659,7 +628,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               >
                 <Alert severity="error">{errorMessage}</Alert>
               </Box>
-              <Box sx={fieldsGrid}>
+              <Box sx={buttonsGrid}>
                 <Button
                   disableRipple
                   disableElevation
@@ -758,7 +727,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                     ...billingAddress,
                     country: billingAddress?.country.code,
                   }}
-                  onSubmit={handleSubmitBillingAddress}
+                  onSubmit={handleSubmitAddress(setBillingAddress, setBillingAddressError)}
                   errorMessage={billingAddressError}
                 />
               )}

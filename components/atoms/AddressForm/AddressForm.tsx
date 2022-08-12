@@ -150,7 +150,6 @@ const AddressForm = ({
                     borderRadius: "2px",
                     mb: {
                       sm: 0,
-                      xs: 1,
                     },
                     "& .MuiButton-label": {
                       fontSize: "1.0rem",

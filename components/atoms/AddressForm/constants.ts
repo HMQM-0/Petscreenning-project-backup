@@ -10,7 +10,7 @@ export const fields: {
 }[] = [
   { name: "firstName", label: "first name", required: true, autoComplete: "given-name", span: false },
   { name: "lastName", label: "last name", required: true, autoComplete: "family-name", span: false },
-  { name: "companyName", label: "companyName", required: false, autoComplete: "companyName", span: true },
+  { name: "companyName", label: "company name", required: false, autoComplete: "companyName", span: true },
   { name: "streetAddress1", label: "address line 1", required: true, autoComplete: "address-line1", span: false },
   { name: "streetAddress2", label: "address line 2", required: false, autoComplete: "address-line2", span: false },
   { name: "city", label: "city", required: true, autoComplete: "address-level2", span: false },
