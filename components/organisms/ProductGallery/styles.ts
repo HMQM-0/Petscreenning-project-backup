@@ -14,18 +14,17 @@ export const Thumbnail = styled.div<{ activeThumbnail: boolean }>`
   border-radius: 4px;
   border-width: 1px;
   border-style: solid;
-  border-color: ${(props) =>
-    props.activeThumbnail === true ? "#eaeaea" : "transparent"};
+  border-color: ${(props) => (props.activeThumbnail === true ? "#eaeaea" : "transparent")};
   justify-content: center;
   height: 100px;
   overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
   img {
     width: 100%;
     object-fit: contain;
   }
-
-  margin-top: 20px;
-  margin-bottom: 20px;
 `;
 
 export const Button = styled.div`
@@ -41,13 +40,12 @@ export const Button = styled.div`
 `;
 
 export const TopButton = styled(Button)`
-  top: 0%;
-
+  top: 0;
   transform: rotate(180deg);
 `;
 
 export const BottomButton = styled(Button)`
-  bottom: 0%;
+  bottom: 0;
 `;
 
 export const ThumbnailsContainer = styled.div`
@@ -60,8 +58,9 @@ export const ThumbnailList = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
+
   ::-webkit-scrollbar {
-    width: 0px;
+    width: 0;
   }
 
   ul {
@@ -82,6 +81,3 @@ export const Preview = styled.div`
     object-fit: contain;
   }
 `;
-
-// overflow: hidden;
-// props.theme.colors.thumbnailBorder

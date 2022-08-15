@@ -5,7 +5,6 @@ const RatingEmpty: FunctionComponent = () => {
     <svg
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
-      // xmlns:serif="http://www.serif.com/"
       fillRule="evenodd"
       clipRule="evenodd"
       strokeLinejoin="round"

@@ -3,7 +3,6 @@ import { styled } from "@styles";
 export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.colors.light};
   height: 100%;
-  /* height: auto; */
   padding-left: 3rem;
   padding-top: 2.5rem;
 `;
@@ -21,6 +20,5 @@ export const MenuItem = styled.a<{
   display: block;
   cursor: pointer;
   padding-bottom: 1.5rem;
-  color: ${(props) =>
-    props.active ? props.theme.colors.activeMenuOption : ""};
+  color: ${(props) => (props.active ? props.theme.colors.activeMenuOption : "")};
 `;

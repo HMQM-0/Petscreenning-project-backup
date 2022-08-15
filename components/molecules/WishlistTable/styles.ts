@@ -12,7 +12,6 @@ export const Row = styled.div`
   align-items: center;
   height: 5rem;
   cursor: pointer;
-
   border-bottom: 1px solid ${(props) => props.theme.colors.tableDivider};
 `;
 
@@ -23,10 +22,12 @@ export const HeaderRow = styled(Row)`
 
 export const IndexNumber = styled.div`
   width: 15%;
+
   ${media.smallScreen`
      width: 50%;
   `}
 `;
+
 export const ProductsOrdered = styled.div`
   width: 25%;
   display: flex;
@@ -38,20 +39,23 @@ export const ProductsOrdered = styled.div`
     height: auto;
   }
 `;
+
 export const DateOfOrder = styled.div`
   width: 25%;
 `;
+
 export const Value = styled.div`
   width: 10%;
 `;
+
 export const Status = styled.div`
   width: 40%;
+
   ${media.smallScreen`
      width: 50%;
   `}
 `;
 
-//////////////////////////////////////////
 export const WishlistProductName = styled.div`
   text-align: left;
   width: 50%;

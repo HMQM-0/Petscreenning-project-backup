@@ -18,11 +18,10 @@
       h1 {
         display: inline-block;
         transform: skew(45deg);
-        font-weight: $bold-font-weight;
         text-transform: uppercase;
         color: $blue;
         font-size: 8vw;
-        font-weight: 900;
+        font-weight: $extra-bold-font-weight;
 
         @media (min-width: $small-screen) {
           font-size: 4vw;
@@ -34,7 +33,6 @@
 
 .search-page {
   &__header {
-    // background-color: $secondary;
     padding: $spacer * 2 0;
 
     &__input {

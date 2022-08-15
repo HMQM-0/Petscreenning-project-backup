@@ -13,33 +13,11 @@ const convertToTaxedMoney = (value?: ITaxedMoney) => {
   return converted;
 };
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    height: "100vh",
-    width: "100vw",
-    // @ts-ignore
-    // [theme.breakpoints.down("sm")]: {
-    //   height: "auto",
-    // },
-  },
-  modal: {
-    overflow: "auto",
-    display: "block",
-    width: "100vw",
-    height: "100vh",
-    // @ts-ignore
-    "& .MuiBackdrop-root": {
-      backgroundColor: "white",
-    },
-  },
-}));
-
 interface ICheckoutProps {
   logo: React.ReactNode;
 }
 
 const CheckoutPage = ({ logo }: ICheckoutProps) => {
-  const classes = useStyles();
   const [modal, setModal] = React.useState(true);
 
   const { loaded: cartLoaded, shippingPrice, discount, subtotalPrice, totalPrice, items } = useCart();
@@ -59,8 +37,30 @@ const CheckoutPage = ({ logo }: ICheckoutProps) => {
 
   return (
     <>
-      <Modal open={modal} className={classes.modal}>
-        <Box className={classes.backdrop}>
+      <Modal
+        open={modal}
+        sx={{
+          overflow: "auto",
+          display: "block",
+          width: "100vw",
+          height: "100vh",
+
+          "& .MuiBackdrop-root": {
+            backgroundColor: "white",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            height: {
+              xs: "auto",
+              sm: "100vh",
+            },
+            display: "flex",
+            flexDirection: "column",
+            width: "100vw",
+          }}
+        >
           {!checkoutLoaded || !cartLoaded ? (
             <Loader />
           ) : (

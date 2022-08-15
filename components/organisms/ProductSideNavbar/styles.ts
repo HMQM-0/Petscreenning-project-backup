@@ -64,14 +64,14 @@ const ListItemStyles = css`
 `;
 
 export const Wrapper = styled.div`
-  overflow: scroll;
+  overflow: auto;
   width: 410px;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
 
-  box-shadow: 6px 0px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.15);
 `;
 
 export const Header = styled.div`
@@ -111,7 +111,6 @@ export const NavButton = styled.button`
   ${ListItemStyles};
 `;
 
-// export const TitleNavButton = styled.button`
 export const TitleNavButton = styled(_NavLink)`
   ${ListTitleItemStyles};
 `;
@@ -141,15 +140,6 @@ export const IconWrapper = styled.span`
 export const SubcategoryIcon = styled.div`
   margin-left: auto;
 `;
-
-/* export const BackButton = styled(NavButton)`
-  color: #7d7d7d;
-  padding: 0;
-
-  &:hover {
-    background-color: transparent;
-  }
-`; */
 
 export const CloseIconWrapper = styled.button`
   padding: 5px;

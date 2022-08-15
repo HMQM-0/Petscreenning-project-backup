@@ -267,7 +267,6 @@ const TopNav = (props: ITopNavProps) => {
                 Logout
               </MenuItem>
             </Menu>
-            {/* </Hidden> */}
             <Badge badgeContent={cartItemsQuantity} color="secondary">
               <IconButton sx={{ backgroundColor: "#F3F5F9" }} onClick={() => handleCart()} aria-label="Cart">
                 <ShoppingBagOutlinedIcon htmlColor="#777" />

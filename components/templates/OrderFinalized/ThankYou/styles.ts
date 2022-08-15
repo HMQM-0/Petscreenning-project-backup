@@ -12,17 +12,16 @@ export const ThankYouHeader = styled.p`
   font-size: ${(props) => props.theme.typography.ultraBigFontSize};
   margin: 0;
   line-height: 110%;
+  padding-bottom: 40px;
+  border-bottom: 1px solid ${(props) => props.theme.colors.baseFontColorTransparent};
+  margin-bottom: 40px;
+
   span {
     font-weight: ${(props) => props.theme.typography.boldFontWeight};
   }
-  padding-bottom: 40px;
-  border-bottom: 1px solid
-    ${(props) => props.theme.colors.baseFontColorTransparent};
-  margin-bottom: 40px;
 
   ${media.smallScreen`
-    font-size: ${(props: { theme: DefaultTheme }) =>
-      props.theme.typography.h1FontSize};
+    font-size: ${(props: { theme: DefaultTheme }) => props.theme.typography.h1FontSize};
   `}
 `;
 
@@ -42,6 +41,7 @@ export const Buttons = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 30px;
+
   button {
     padding-left: 0;
     padding-right: 0;

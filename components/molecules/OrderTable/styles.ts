@@ -11,7 +11,6 @@ export const Row = styled.a`
   align-items: center;
   height: 5rem;
   cursor: pointer;
-
   border-bottom: 1px solid ${(props) => props.theme.colors.tableDivider};
 `;
 
@@ -26,6 +25,7 @@ export const IndexNumber = styled.div`
      width: 50%;
   `}
 `;
+
 export const ProductsOrdered = styled.div`
   width: 25%;
   display: flex;
@@ -37,12 +37,15 @@ export const ProductsOrdered = styled.div`
     height: auto;
   }
 `;
+
 export const DateOfOrder = styled.div`
   width: 25%;
 `;
+
 export const Value = styled.div`
   width: 10%;
 `;
+
 export const Status = styled.div`
   width: 25%;
   ${media.smallScreen`
