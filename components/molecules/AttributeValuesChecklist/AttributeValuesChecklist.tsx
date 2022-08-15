@@ -9,7 +9,6 @@ import { commonMessages } from "core/intl";
 import * as S from "./styles";
 import { IProps } from "./types";
 
-
 export const AttributeValuesChecklist = ({
   title,
   name,
@@ -33,34 +32,24 @@ export const AttributeValuesChecklist = ({
       {values && values.length > valuesShowLimitNumber && (
         <DebouncedTextField
           onChange={(evt) => handleValueSearch(evt)}
-          autoFocus
           style={{ textTransform: "capitalize", borderRadius: "8px" }}
           placeholder={intl.formatMessage(commonMessages.search)}
         />
       )}
       {values &&
-      values.map((value, index) => {
-        if (
-          !value.name
-            .toLocaleLowerCase()
-            .includes(valueSearch.toLocaleLowerCase())
-        ) {
-          return (<></>);
-        }
-        if (!viewAllOptions && index > valuesShowLimitNumber - 1) {
-          return (<></>);
-        }
-        return (
-          <Checkbox
-            name={name}
-            checked={!!value.selected}
-            onChange={() => onValueClick(value)}
-            key={value.id}
-          >
-            {value && value.name}
-          </Checkbox>
-        );
-      })}
+        values.map((value, index) => {
+          if (!value.name.toLocaleLowerCase().includes(valueSearch.toLocaleLowerCase())) {
+            return <></>;
+          }
+          if (!viewAllOptions && index > valuesShowLimitNumber - 1) {
+            return <></>;
+          }
+          return (
+            <Checkbox name={name} checked={!!value.selected} onChange={() => onValueClick(value)} key={value.id}>
+              {value && value.name}
+            </Checkbox>
+          );
+        })}
       {!viewAllOptions && values.length > valuesShowLimitNumber && (
         <S.ViewMoreButton>
           <ButtonLink

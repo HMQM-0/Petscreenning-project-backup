@@ -39,7 +39,7 @@ const ProductsFeatured: React.FC<ProductsFeaturedProps> = ({ caption, title }) =
         <Typography variant="h3" sx={{ fontSize: "1.5rem" }}>
           {title || <FormattedMessage defaultMessage="Featured Products" />}
         </Typography>
-        {caption ? <Box className="caption">{caption}</Box> : null}
+        {caption ? <Box className={classes.caption}>{caption}</Box> : null}
         <Carousel>
           {products.map(({ node: product }) => (
             <Link href={generateProductUrl(product.id, product.name)} key={product.id}>
