@@ -26,6 +26,7 @@ import * as Yup from "yup";
 import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 import { isArray } from "lodash";
+import { useIntl } from "react-intl";
 
 import { useAuth, useCheckout } from "nautical-api";
 import { ICardData, IFormError } from "types";
@@ -130,6 +131,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const [customerFormError, setCustomerFormError] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
+  const [paymentAlreadySubmitted, setPaymentAlreadySubmitted] = React.useState<boolean>(false);
 
   const { countries, activePlugins } = useShopContext();
 
@@ -153,8 +155,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     completeCheckout,
     lines,
     email,
+    payment,
     loaded: checkoutLoaded,
   } = useCheckout();
+
+  const intl = useIntl();
 
   const products: IProduct[] | null =
     items?.map(({ id, variant, totalPrice, quantity }) => ({
@@ -308,10 +313,12 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   );
 
   React.useEffect(() => {
-    if (payment_intent && payment_intent_client_secret) {
-      handleCreatePayment("nautical.payments.stripe", payment_intent);
+    const haveNeededPayment = (payment_intent && payment_intent_client_secret) || payment?.token;
+    const paymentToken = payment_intent || payment?.token;
+    if (haveNeededPayment) {
+      handleCreatePayment("nautical.payments.stripe", paymentToken);
     }
-  }, [handleCreatePayment, payment_intent, payment_intent_client_secret]);
+  }, [handleCreatePayment, payment, payment_intent, payment_intent_client_secret]);
 
   React.useEffect(() => {
     checkIfLoyaltyAndReferralsActive();
@@ -513,7 +520,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   };
 
   const handleClose = () => {
-    router.push("/cart/");
     setAnchorEl(null);
     setPopover(false);
     close();
@@ -566,7 +572,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           id={"simple-popover"}
           open={popover}
           anchorEl={anchorEl}
-          onClose={handleClose}
+          onClose={handleDismiss}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "center",
@@ -587,7 +593,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 size="small"
                 variant="contained"
                 color="primary"
-                onClick={() => handleClose()}
+                onClick={() => {
+                  router.push("/cart/");
+                  handleClose();
+                }}
               >
                 Return to Cart
               </Button>
@@ -865,38 +874,51 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                           Payment Information
                         </Typography>
                       </Box>
-
-                      {availablePaymentGateways?.map(({ id, name, config }) => {
-                        switch (name) {
-                          case "Stripe":
-                            return (
-                              <StripePaymentGateway
-                                config={config}
-                                formRef={checkoutGatewayFormRef}
-                                formId={checkoutGatewayFormId}
-                                processPayment={(token, cardData) => {
-                                  handleProcessPayment(id, token, cardData);
-                                }}
-                                errors={[]}
-                                onError={(errors) => handleErrors(errors)}
-                                total={total}
-                              />
-                            );
-                          case "Authorize.Net":
-                            return (
-                              <AuthorizeNetPaymentGateway
-                                config={config}
-                                formRef={checkoutGatewayFormRef}
-                                formId={checkoutGatewayFormId}
-                                processPayment={(token, cardData) => handleProcessPayment(id, token, cardData)}
-                                errors={[]}
-                                onError={(errors) => handleErrors(errors)}
-                              />
-                            );
-                          default:
-                            return null;
-                        }
-                      })}
+                      {paymentAlreadySubmitted && !payment?.token && !isSubmitting ? (
+                        <Box mb={2}>
+                          <Typography>
+                            {intl.formatMessage({
+                              defaultMessage:
+                                "Your checkout was interrupted, however the payment method was already provided. We are attempting to finalize the previous payment...",
+                            })}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <>
+                          {availablePaymentGateways?.map(({ id, name, config }) => {
+                            switch (name) {
+                              case "Stripe":
+                                return (
+                                  <StripePaymentGateway
+                                    config={config}
+                                    formRef={checkoutGatewayFormRef}
+                                    formId={checkoutGatewayFormId}
+                                    processPayment={(token, cardData) => {
+                                      handleProcessPayment(id, token, cardData);
+                                    }}
+                                    errors={[]}
+                                    onError={(errors) => handleErrors(errors)}
+                                    total={total}
+                                    setPaymentAlreadySubmitted={setPaymentAlreadySubmitted}
+                                  />
+                                );
+                              case "Authorize.Net":
+                                return (
+                                  <AuthorizeNetPaymentGateway
+                                    config={config}
+                                    formRef={checkoutGatewayFormRef}
+                                    formId={checkoutGatewayFormId}
+                                    processPayment={(token, cardData) => handleProcessPayment(id, token, cardData)}
+                                    errors={[]}
+                                    onError={(errors) => handleErrors(errors)}
+                                  />
+                                );
+                              default:
+                                return null;
+                            }
+                          })}
+                        </>
+                      )}
                       <Box mb={3} style={{ display: paymentFormError ? "block" : "none" }} className={classes.gridspan}>
                         <Alert severity="error">{errorMessage}</Alert>
                       </Box>

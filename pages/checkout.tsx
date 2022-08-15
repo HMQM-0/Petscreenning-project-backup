@@ -9,6 +9,7 @@ import { Layout } from "@layouts/Layout";
 import { CheckoutPageDocument, CheckoutPageQuery } from "components/templates/CheckoutPage/queries.graphql.generated";
 import { CheckoutPage } from "components/templates/CheckoutPage";
 import { Logo } from "components/atoms/Logo";
+import { getPayment } from "utils";
 
 import { getApolloClient } from "../apollo-client";
 
@@ -21,6 +22,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     payment_intent_client_secret: StringParam,
     guest: BooleanParam,
   });
+  const payment = getPayment();
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
   const schema = structuredData(description, title);
@@ -33,7 +35,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     url: "", // TODO: Store the canonical URL either as env or in dasboard
   };
 
-  const isFinalizingPayment = payment_intent && payment_intent_client_secret;
+  const isFinalizingPayment = (payment_intent && payment_intent_client_secret) || payment?.token;
   // TODO: Determine if this can be done Server-Side to improve UX
   if (!user && !guest && !isFinalizingPayment) {
     push("/login");
