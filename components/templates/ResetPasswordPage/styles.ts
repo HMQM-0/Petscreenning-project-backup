@@ -15,6 +15,5 @@ export const InputFields = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 10.5rem;
   margin: 1rem auto;
 `;
