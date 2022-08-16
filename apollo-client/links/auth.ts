@@ -12,7 +12,6 @@ export const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      origin: process.env.NEXT_PUBLIC_APOLLO_LINK_ORIGIN, // TODO: We need to sync with BE work to switch to a custom header
       Authorization: authToken ? `JWT ${authToken}` : null,
     },
   };

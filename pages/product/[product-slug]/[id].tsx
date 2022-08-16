@@ -7,7 +7,7 @@ import { getGraphqlIdFromDBId } from "core/utils";
 import builderConfig from "config/builder";
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
+import { getSsrApolloClient } from "apollo-client";
 import NotFound from "components/molecules/NotFound";
 import View from "components/templates/ProductPage/View";
 import {
@@ -65,7 +65,7 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const client = getApolloClient();
+  const client = getSsrApolloClient(context);
 
   const productId = context.params!.id as string;
 
