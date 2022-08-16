@@ -184,6 +184,7 @@ const useBuilderStateData = ({
       cart: items,
       addToCart: handleAddToCart,
       searchFor: handleSetSearch,
+      searchVendor: handleSetSearch,
       navigate: (to: string, replace: boolean) => (replace ? router.replace(to) : router.push(to)),
       navigateById: handleNavigateById,
       navigateByItem: handleNavigateByItem,
