@@ -28,7 +28,7 @@ const CookieBar = ({ title, description, action, hide }: CookieBarProps) => {
           About Cookies
         </a>
       </span>
-      <div className={classes["cookie-action"]}>{action && action}</div>
+      {action && (<div className={classes["cookie-action"]}>{action}</div>)}
     </Box>
   );
 };
