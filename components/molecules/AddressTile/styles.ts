@@ -1,4 +1,4 @@
-import { styled } from "@styles";
+import { styled } from "styles";
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -12,6 +12,7 @@ export const HeaderContent = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 export const FooterContent = styled.div`
   > div {
     display: inline-block;
