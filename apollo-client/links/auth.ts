@@ -2,7 +2,7 @@ import { setContext } from "@apollo/client/link/context";
 
 import { getSignInToken, IS_SSR } from "utils";
 
-export const authLink = (origin?: string) =>
+export const getAuthLink = (origin?: string) =>
   setContext((_, { headers }) => {
     let authToken: string | null = null;
     if (!IS_SSR) {

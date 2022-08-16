@@ -3,15 +3,16 @@ import { GetServerSidePropsContext } from "next";
 
 import { IS_SSR } from "utils/isSSR";
 
-import { authLink, errorLink, httpLink } from "./links";
+import { getAuthLink, getErrorLink, httpLink } from "./links";
 
 let client: ApolloClient<NormalizedCacheObject>;
 
 export const getApolloClient = (initialState?: NormalizedCacheObject, headers?: Record<string, string>) => {
   const cache = new InMemoryCache().restore(initialState || {});
-  const error = errorLink(client);
+  const errorLink = getErrorLink(client);
+  const authLink = getAuthLink(headers?.origin);
   client = new ApolloClient({
-    link: ApolloLink.from([error, authLink(headers?.origin), httpLink]),
+    link: ApolloLink.from([errorLink, authLink, httpLink]),
     cache,
     ssrMode: IS_SSR,
   });
