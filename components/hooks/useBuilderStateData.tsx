@@ -1,4 +1,5 @@
 import "@builder.io/widgets";
+import { Base64 } from "js-base64";
 import * as React from "react";
 import { useTheme } from "@mui/material";
 import { useAlert } from "react-alert";
@@ -7,7 +8,7 @@ import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { MicrositesQueryResult } from "components/templates/VendorsPage/queries.graphql.generated";
-import { generateUrlByGraphqlId, getDBIdFromGraphqlId } from "core/utils";
+import { getDBIdFromGraphqlId, slugify } from "core/utils";
 import { FilterQuerySet } from "components/organisms";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import {
@@ -91,8 +92,12 @@ const useBuilderStateData = ({
       });
     }
 
-    function handleNavigateById(id: string, name: string) {
-      router.push(generateUrlByGraphqlId(id, name));
+    function handleNavigateById(graphqlId: string, name: string) {
+      const rawId = Base64.decode(graphqlId).split(":");
+      // entity name equals route, except for microsite
+      const schema = rawId[0] === "Microsite" ? "site" : rawId[0];
+      const id = rawId[1];
+      router.push(`/${schema.toLowerCase()}/${slugify(name)}/${id}/`);
     }
 
     function handleNavigateByItem(item: { id: string; name: string }) {
