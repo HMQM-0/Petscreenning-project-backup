@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 
+import { AccountError } from "@generated";
 import { useAuth } from "nautical-api";
 import { commonMessages } from "core/intl";
 import Button from "components/atoms/Button";
@@ -27,6 +28,7 @@ const LoginForm = ({ hide }: ILoginForm) => {
     setLoading(false);
     if (errors) {
       const formErrors: FormError[] = errors.map((error) => ({
+        field: (error as AccountError).field || undefined,
         message: error.message,
       }));
       setErrors(formErrors);
