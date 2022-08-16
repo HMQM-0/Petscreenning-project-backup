@@ -42,3 +42,11 @@ You might want to extend or replace some behaviour, so you can do that by adding
 
 - `SKIP_GRAPHQL_CODEGEN_ON_PREDEV` is a boolean that can be set to `true` to skip the graphql codegen step on the pre-start phase.
   Keep in mind that when this env is set, then you have to always generate graphql schema with `yarn generate` each time when schema is changed.
+
+#### Social Links
+To configure social links in footer, you have to set next environment variables:
+- `FACEBOOK_LINK` for Facebook
+- `INSTAGRAM_LINK` for Instagram
+- `YOUTUBE_LINK` for YouTube
+- `TIKTOK_LINK` for TikTok
+- `TWITTER_LINK` for Twitter
