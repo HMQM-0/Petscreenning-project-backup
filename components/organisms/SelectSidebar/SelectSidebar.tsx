@@ -3,7 +3,7 @@ import React from "react";
 import { ButtonLink } from "components/atoms/ButtonLink";
 import { CardHeader } from "components/molecules/CardHeader";
 import { OverlayItem } from "components/molecules/OverlayItem";
-import { useHandlerWhenClickedOutside } from "@hooks";
+import { useHandlerWhenClickedOutside } from "components/hooks";
 import { Overlay } from "components/atoms/Overlay";
 
 import * as S from "./styles";
@@ -43,12 +43,8 @@ export const SelectSidebar = ({
         </CardHeader>
         <S.Content>
           {options.map((option) => {
-            const isSelected = selectedOptions.some(
-              (value) => value === option.value
-            );
-            const isDisabled = disabledOptions.some(
-              (value) => value === option.value
-            );
+            const isSelected = selectedOptions.some((value) => value === option.value);
+            const isDisabled = disabledOptions.some((value) => value === option.value);
 
             return (
               <S.Option key={option.value} disabled={isDisabled}>

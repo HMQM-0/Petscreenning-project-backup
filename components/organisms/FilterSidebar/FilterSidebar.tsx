@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 
 import { IconButton } from "components/molecules/IconButton";
 import { AttributeValuesChecklist } from "components/molecules/AttributeValuesChecklist";
-import { useHandlerWhenClickedOutside } from "@hooks";
+import { useHandlerWhenClickedOutside } from "components/hooks";
 import { commonMessages } from "core/intl";
 import { Overlay } from "components/atoms/Overlay";
 
@@ -18,9 +18,7 @@ export interface QueryFilters {
 export const FilterQuerySet: QueryParamConfig<QueryFilters> = {
   encode(valueObj) {
     return Object.keys(valueObj)
-      .map((value) =>
-        value + "_" + valueObj[value].join("_")
-      )
+      .map((value) => value + "_" + valueObj[value].join("_"))
       .join(".");
   },
 
@@ -59,12 +57,7 @@ export const useQueryFilters = () => {
   };
 };
 
-export const FilterSidebar = ({
-  hide,
-  show,
-  attributes,
-  target,
-}: IProps) => {
+export const FilterSidebar = ({ hide, show, attributes, target }: IProps) => {
   const topEl = useRef<HTMLElement>(null);
   const { queryFilters, onQueryFilterChange } = useQueryFilters();
 
@@ -78,10 +71,7 @@ export const FilterSidebar = ({
     hide();
   });
 
-  const checkIfAttributeIsChecked = (
-    attributeSlug: string,
-    valueSlug: string
-  ) => {
+  const checkIfAttributeIsChecked = (attributeSlug: string, valueSlug: string) => {
     if (queryFilters && queryFilters[attributeSlug]) {
       return queryFilters[attributeSlug].some((filter) => filter === valueSlug);
     }
@@ -89,31 +79,16 @@ export const FilterSidebar = ({
   };
 
   return (
-    <Overlay
-      duration={0}
-      position="left"
-      show={show}
-      hide={hide}
-      transparent
-      target={target}
-    >
+    <Overlay duration={0} position="left" show={show} hide={hide} transparent target={target}>
       <S.Wrapper ref={setElementRef()} data-test="filterSidebar">
         <S.Header>
           <span ref={topEl}>
             <FormattedMessage {...commonMessages.filterHeader} />
           </span>
-          <IconButton
-            testingContext="hideFilters"
-            onClick={hide}
-            name="x"
-            size={18}
-            color="000"
-          />
+          <IconButton testingContext="hideFilters" onClick={hide} name="x" size={18} color="000" />
         </S.Header>
         {attributes
-          .sort((a, b) =>
-            a.name.localeCompare(b.name)
-          )
+          .sort((a, b) => a.name.localeCompare(b.name))
           .map(({ id, name, slug, values }) => {
             return (
               <AttributeValuesChecklist
@@ -128,9 +103,7 @@ export const FilterSidebar = ({
                   slug: value.slug,
                 }))}
                 valuesShowLimit
-                onValueClick={(value) =>
-                  onQueryFilterChange(slug, value.slug, !value.selected)
-                }
+                onValueClick={(value) => onQueryFilterChange(slug, value.slug, !value.selected)}
               />
             );
           })}
