@@ -1,5 +1,6 @@
-import { styled } from "@styles";
 import { css } from "styled-components";
+
+import { styled } from "@styles";
 
 interface WrapperProps {
   readonly tileType?: "hover" | "addNew";
@@ -17,16 +18,16 @@ export const Wrapper = styled.div<WrapperProps>`
   flex-direction: column;
   align-items: left;
   ${(props) => {
-    if (props.tileType === "hover") {
-      return css`
+  if (props.tileType === "hover") {
+    return css`
         :hover {
           cursor: pointer;
           border-color: ${props.theme.tile.hoverBorder};
         }
       `;
-    }
-    if (props.tileType === "addNew") {
-      return css`
+  }
+  if (props.tileType === "addNew") {
+    return css`
         color: ${props.theme.colors.secondary};
         align-items: center;
         justify-content: center;
@@ -39,8 +40,8 @@ export const Wrapper = styled.div<WrapperProps>`
           }
         }
       `;
-    }
-  }};
+  }
+}};
 `;
 
 Wrapper.displayName = "Tile";

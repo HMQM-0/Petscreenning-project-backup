@@ -3,16 +3,15 @@ import React from "react";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 
-import { ButtonLink } from "@components/atoms";
+import { ButtonLink } from "components/atoms/ButtonLink";
 import { commonMessages } from "core/intl";
+import TextField from "components/atoms/TextField";
 import { IFormError } from "@types";
 
 import * as S from "./styles";
 
-import { TextField } from "../TextField";
-
 export const PasswordChangeForm: React.FC<{
-  handleSubmit: (data: any) => void;
+  handleSubmit: (data: { newPassword: string; oldPassword: string; }) => void;
   hide: () => void;
   error?: IFormError[];
 }> = ({ handleSubmit, hide, error }) => {

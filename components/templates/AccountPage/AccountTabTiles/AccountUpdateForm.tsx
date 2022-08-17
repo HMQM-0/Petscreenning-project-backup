@@ -3,16 +3,15 @@ import React from "react";
 import { useIntl, FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 
-import { ButtonLink } from "@components/atoms";
+import { ButtonLink } from "components/atoms/ButtonLink";
 import { commonMessages } from "core/intl";
+import TextField from "components/atoms/TextField";
 
 import * as S from "./styles";
 
-import { TextField } from "../TextField";
-
 
 export const AccountUpdateForm: React.FC<{
-  handleSubmit: (data: any) => void;
+  handleSubmit: (data: { firstName: string; lastName: string; companyName: string; }) => void;
   hide: () => void;
   initialValues: {
     firstName: string;

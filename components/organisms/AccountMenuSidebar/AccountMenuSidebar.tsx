@@ -15,7 +15,7 @@ interface Route {
 
 export const routes: Route[] = [
   {
-    path: '/account/general',
+    path: '/account',
     label: 'Account',
     intlKeyId: 'account',
   },
@@ -24,7 +24,7 @@ export const routes: Route[] = [
     label: 'Order history',
     intlKeyId: 'orderHistory',
   }
-]
+];
 
 export const AccountMenuSidebar = () => {
   const router = useRouter();
