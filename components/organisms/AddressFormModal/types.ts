@@ -1,4 +1,4 @@
-import { IAddressWithEmail } from "@types";
+import { AddressFragment } from "components/providers/Nautical/Checkout/fragments.graphql.generated";
 
 export interface IProps {
   hideModal: () => void;
@@ -8,7 +8,7 @@ export interface IProps {
   title: string;
   userId?: string;
   address?: {
-    address: IAddressWithEmail;
+    address: AddressFragment;
     id: string;
   };
   countriesOptions?: Array<{
