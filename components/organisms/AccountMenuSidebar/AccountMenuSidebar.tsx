@@ -23,6 +23,11 @@ export const routes: Route[] = [
     label: "Order history",
     intlKeyId: "orderHistory",
   },
+  {
+    path: "/account/wishlist",
+    label: "Wishlist",
+    intlKeyId: "wishlist",
+  },
 ];
 
 export const AccountMenuSidebar = () => {
