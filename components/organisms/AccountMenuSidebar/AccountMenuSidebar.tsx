@@ -6,7 +6,6 @@ import { useIntl } from "react-intl";
 import { AccountMenu, AccountMenuItem } from "components/molecules/AccountMenu";
 import { commonMessages } from "core/intl";
 
-
 interface Route {
   path: string;
   label: string;
@@ -15,16 +14,21 @@ interface Route {
 
 export const routes: Route[] = [
   {
-    path: '/account/general',
-    label: 'Account',
-    intlKeyId: 'account',
+    path: "/account/general",
+    label: "Account",
+    intlKeyId: "account",
   },
   {
-    path: '/account/order-history',
-    label: 'Order history',
-    intlKeyId: 'orderHistory',
-  }
-]
+    path: "/account/order-history",
+    label: "Order history",
+    intlKeyId: "orderHistory",
+  },
+  {
+    path: "/account/address-book",
+    label: "Address Book",
+    intlKeyId: "addressBook",
+  },
+];
 
 export const AccountMenuSidebar = () => {
   const router = useRouter();
@@ -32,14 +36,10 @@ export const AccountMenuSidebar = () => {
 
   return (
     <AccountMenu>
-      {routes.map(route => (
+      {routes.map((route) => (
         <Link href={route.path} key={route.path} passHref>
-          <AccountMenuItem
-            active={router.pathname === route.path}
-          >
-            {
-              intl.formatMessage(commonMessages[route.intlKeyId])
-            }
+          <AccountMenuItem active={router.pathname === route.path}>
+            {intl.formatMessage(commonMessages[route.intlKeyId])}
           </AccountMenuItem>
         </Link>
       ))}
