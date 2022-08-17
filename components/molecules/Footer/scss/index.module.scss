@@ -122,4 +122,19 @@
       }
     }
   }
+
+  &-social-icon {
+    background-color: $white;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    place-items: center;
+    padding: 0 !important;
+
+    svg {
+      fill: currentColor;
+      height: 32px;
+      width: 32px;
+    }
+  }
 }
