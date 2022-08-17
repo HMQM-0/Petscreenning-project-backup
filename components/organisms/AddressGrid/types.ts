@@ -7,6 +7,7 @@ declare type Address = {
   setDefault: () => void;
   address: IAddressWithAddressType;
 };
+
 export interface IProps {
   addresses: Address[];
   addNewAddress: () => void;
