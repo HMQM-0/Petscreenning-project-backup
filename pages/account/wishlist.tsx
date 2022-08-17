@@ -6,10 +6,7 @@ import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getSsrApolloClient } from "apollo-client";
 import { WishlistPage } from "components/templates/WishlistPage";
 import { AccountSettingsLayout } from "components/layouts/AccountSettingsLayout";
-import {
-  WishlistPageDocument,
-  WishlistPageQuery,
-} from "components/templates/WishlistPage/queries.graphql.generated";
+import { WishlistPageDocument, WishlistPageQuery } from "components/templates/WishlistPage/queries.graphql.generated";
 
 const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const description = "Wishlist";

@@ -11,7 +11,7 @@ import { IFormError } from "@types";
 import * as S from "./styles";
 
 export const PasswordChangeForm: React.FC<{
-  handleSubmit: (data: { newPassword: string; oldPassword: string; }) => void;
+  handleSubmit: (data: { newPassword: string; oldPassword: string }) => void;
   hide: () => void;
   error?: IFormError[];
 }> = ({ handleSubmit, hide, error }) => {
@@ -21,9 +21,7 @@ export const PasswordChangeForm: React.FC<{
   if (error) {
     error.map(({ field, message }: { field?: string; message?: string }) => {
       if (field && message) {
-        fieldErrors[field] = fieldErrors[field]
-          ? [...fieldErrors[field], { message }]
-          : [{ message }];
+        fieldErrors[field] = fieldErrors[field] ? [...fieldErrors[field], { message }] : [{ message }];
       }
     });
   }
@@ -75,16 +73,7 @@ export const PasswordChangeForm: React.FC<{
           return errors;
         }}
       >
-        {({
-          handleChange,
-          handleSubmit,
-          handleBlur,
-          values,
-          errors,
-          touched,
-          isSubmitting,
-          isValid,
-        }) => {
+        {({ handleChange, handleSubmit, handleBlur, values, errors, touched, isSubmitting, isValid }) => {
           return (
             <S.Form onSubmit={handleSubmit} data-test="changePasswordForm">
               <TextField
@@ -129,12 +118,7 @@ export const PasswordChangeForm: React.FC<{
                 }
               />
               <S.FormButtons>
-                <ButtonLink
-                  testingContext="cancelButton"
-                  type="button"
-                  color="secondary"
-                  onClick={hide}
-                >
+                <ButtonLink testingContext="cancelButton" type="button" color="secondary" onClick={hide}>
                   <FormattedMessage {...commonMessages.cancel} />
                 </ButtonLink>
                 <Button

@@ -9,9 +9,8 @@ import TextField from "components/atoms/TextField";
 
 import * as S from "./styles";
 
-
 export const AccountUpdateForm: React.FC<{
-  handleSubmit: (data: { firstName: string; lastName: string; companyName: string; }) => void;
+  handleSubmit: (data: { firstName: string; lastName: string; companyName: string }) => void;
   hide: () => void;
   initialValues: {
     firstName: string;
@@ -33,14 +32,7 @@ export const AccountUpdateForm: React.FC<{
           setSubmitting(false);
         }}
       >
-        {({
-          handleChange,
-          handleSubmit,
-          handleBlur,
-          values,
-          isSubmitting,
-          isValid,
-        }) => {
+        {({ handleChange, handleSubmit, handleBlur, values, isSubmitting, isValid }) => {
           return (
             <S.Form onSubmit={handleSubmit} data-test="accountUpdateForm">
               <S.ContentEditOneLine>
@@ -76,12 +68,7 @@ export const AccountUpdateForm: React.FC<{
                 </S.ContentExtendInput>
               </S.ContentEditOneLine>
               <S.FormButtons>
-                <ButtonLink
-                  testingContext="cancelButton"
-                  type="button"
-                  color="secondary"
-                  onClick={hide}
-                >
+                <ButtonLink testingContext="cancelButton" type="button" color="secondary" onClick={hide}>
                   <FormattedMessage {...commonMessages.cancel} />
                 </ButtonLink>
                 <Button

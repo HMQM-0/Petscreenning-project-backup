@@ -7,11 +7,7 @@ import { IProps } from "./types";
 /**
  * The attribute
  */
-export const Attribute: React.FC<IProps> = ({
-  description,
-  attributeValue,
-  testingContext,
-}: IProps) => {
+export const Attribute: React.FC<IProps> = ({ description, attributeValue, testingContext }: IProps) => {
   return (
     <S.Wrapper>
       <S.Description>{description}</S.Description>
