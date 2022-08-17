@@ -40,7 +40,7 @@ const AddressForm = ({
 
   return (
     <Formik
-      validationSchema={addressValidationSchema}
+      validationSchema={addressValidationSchema(email)}
       initialValues={{
         email,
         firstName,
@@ -113,7 +113,7 @@ const AddressForm = ({
                     </>
                   )
                 )}
-                {typeof email !== undefined && (
+                {typeof email !== "undefined" && (
                   <>
                     <Field
                       sx={textField}
