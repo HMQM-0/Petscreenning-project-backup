@@ -24,8 +24,9 @@ export const FooterContent = styled.div`
 
 export const MenuItem = styled.div`
   border-radius: 8px;
-  padding: 0.25rem;
+  padding: 0.5rem;
   :hover {
-    background-color: ${(props) => props.theme.colors.primaryLight};
+    color: ${(props) => props.theme.colors.white};
+    background-color: ${(props) => props.theme.colors.secondary};
   }
 `;
