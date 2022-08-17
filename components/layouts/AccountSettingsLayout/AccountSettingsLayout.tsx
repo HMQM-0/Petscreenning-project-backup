@@ -1,18 +1,32 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Media from "react-media";
 
-import { smallScreen } from "@styles/constants";
+import { smallScreen } from "styles/constants";
 import { AccountMenuSidebar } from "components/organisms/AccountMenuSidebar";
 import { AccountMenuMobile } from "components/organisms/AccountMenuMobile";
+import { useAuth } from "nautical-api";
 
 import classes from "./scss/index.module.scss";
+import { notAuthenticatedHeader, notAuthenticatedWrapper } from "./styles";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 const AccountSettingsLayout = ({ children }: LayoutProps) => {
+  const { user } = useAuth();
+
+  if (!user) {
+    return (
+      <Box sx={notAuthenticatedWrapper}>
+        <Typography variant="h1" sx={notAuthenticatedHeader}>
+          Not Authenticated
+        </Typography>
+        <Typography variant="body1">Please login to access your account</Typography>
+      </Box>
+    );
+  }
   return (
     <div className="container">
       <div className={classes.account}>
