@@ -15,9 +15,9 @@ type LayoutProps = {
 };
 
 const AccountSettingsLayout = ({ children }: LayoutProps) => {
-  const { user } = useAuth();
+  const { user, loaded } = useAuth();
 
-  if (!user) {
+  if (!user && loaded) {
     return (
       <Box sx={notAuthenticatedWrapper}>
         <Typography variant="h1" sx={notAuthenticatedHeader}>
