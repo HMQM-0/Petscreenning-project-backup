@@ -8,6 +8,7 @@ import {
 } from "components/templates/AddressBookPage/mutations.graphql.generated";
 import { CountryCode } from "@generated";
 import { useShopContext } from "components/providers/ShopProvider";
+import { UserDetailsDocument } from "components/providers/Nautical/Auth/queries.graphql.generated";
 
 import { IProps } from "./types";
 
@@ -16,9 +17,25 @@ export const AddressFormModal = ({ hideModal, submitBtnText, target, title, user
   const [errorMessage, setErrorMessage] = React.useState("");
   const { countries } = useShopContext();
 
-  const [setCreatUserAddress, { data: createData, error: addressCreateErrors }] = useCreateUserAddressMutation();
+  const [setCreatUserAddress, { data: createData, error: addressCreateErrors }] = useCreateUserAddressMutation({
+    refetchQueries: () => {
+      return [
+        {
+          query: UserDetailsDocument,
+        },
+      ];
+    },
+  });
 
-  const [setUpdateUserAddress, { data: updateData, error: addressUpdateErrors }] = useUpdateUserAddressMutation();
+  const [setUpdateUserAddress, { data: updateData, error: addressUpdateErrors }] = useUpdateUserAddressMutation({
+    refetchQueries: () => {
+      return [
+        {
+          query: UserDetailsDocument,
+        },
+      ];
+    },
+  });
 
   const handleErrors = (errors: any[]) => {
     const messages = errors?.flatMap((error) => error.message) ?? [];
@@ -41,7 +58,15 @@ export const AddressFormModal = ({ hideModal, submitBtnText, target, title, user
     }
   }, [createData, updateData, addressCreateErrors, addressUpdateErrors, hideModal]);
 
-  const values = address?.address || {};
+  const values = {
+    ...(address
+      ? {
+          ...address.address,
+          country: address.address.country.code,
+        }
+      : {}),
+    email: undefined,
+  };
 
   return (
     <Modal
@@ -56,14 +81,13 @@ export const AddressFormModal = ({ hideModal, submitBtnText, target, title, user
       disabled={false}
       show={show}
       target={target}
-      submitBtnText={submitBtnText}
     >
       <AddressForm
         values={values}
         errorMessage={errorMessage}
         submitText={userId ? "Add New Address" : "Update Address"}
         onSubmit={async (values) => {
-          const country = countries.find((country) => country.code === values.country)?.country ?? "";
+          const country = countries.find((country) => country.code === values.country)?.code ?? "";
           if (userId) {
             setCreatUserAddress({
               variables: {

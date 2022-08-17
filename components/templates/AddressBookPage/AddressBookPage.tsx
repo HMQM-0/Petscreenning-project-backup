@@ -20,31 +20,21 @@ const AddressBookPage = () => {
   const [displayEditModal, setDisplayEditModal] = React.useState(false);
   const [addressData, setAddressData] = React.useState<AddressFormModalProps["address"]>();
   const [setDefaultUserAddress] = useSetCustomerDefaultAddressMutation({
-    refetchQueries: (result) => {
-      if (result?.data?.accountSetDefaultAddress?.errors?.length ?? 0 > 0) {
-        if (result?.data?.accountSetDefaultAddress?.errors?.find((err) => err.code === AccountErrorCode.NotFound)) {
-          return [
-            {
-              query: UserDetailsDocument,
-            },
-          ];
-        }
-      }
-      return [];
+    refetchQueries: () => {
+      return [
+        {
+          query: UserDetailsDocument,
+        },
+      ];
     },
   });
   const [setDeleteUserAddress] = useDeleteUserAddressMutation({
-    refetchQueries: (result) => {
-      if (result?.data?.accountAddressDelete?.errors?.length ?? 0 > 0) {
-        if (result?.data?.accountAddressDelete?.errors.find((err) => err.code === AccountErrorCode.NotFound)) {
-          return [
-            {
-              query: UserDetailsDocument,
-            },
-          ];
-        }
-      }
-      return [];
+    refetchQueries: () => {
+      return [
+        {
+          query: UserDetailsDocument,
+        },
+      ];
     },
   });
   const intl = useIntl();
