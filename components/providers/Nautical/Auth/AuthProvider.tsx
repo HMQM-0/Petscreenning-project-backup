@@ -7,6 +7,7 @@ import { useAutoSignIn } from "./useAutoSignIn";
 import { useSignIn } from "./useSignIn";
 import { useSignOut } from "./useSignOut";
 import { useVerifyToken } from "./useVerifyToken";
+import { useWatchUserQuery } from "./useWatchUserQuery";
 
 type AuthProps = {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ const AuthProvider = ({ children }: AuthProps) => {
   const signOut = useSignOut({ dispatch });
   useAutoSignIn({ signIn });
   useVerifyToken({ signOut, dispatch });
+  useWatchUserQuery({ dispatch });
 
   const value: IAuthContext = {
     ...auth,
