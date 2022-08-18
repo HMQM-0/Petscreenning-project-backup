@@ -1,4 +1,4 @@
-type NotificationTypes = "neutral" | "success" | "error";
+import { AlertType } from "react-alert";
 
 interface IMessage {
   actionText?: string;
@@ -7,7 +7,7 @@ interface IMessage {
 }
 
 interface IOptions {
-  type: NotificationTypes;
+  type: AlertType;
 }
 
 export interface IProps {
