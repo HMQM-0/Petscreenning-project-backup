@@ -12,8 +12,7 @@ interface IClassNameArgs {
   styleType?: Style;
 }
 
-export interface TextAreaFieldProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaFieldProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   errors?: FormError[];
   helpText?: string;
   label?: string;
@@ -27,8 +26,6 @@ const generateClassName = ({ errors, iconLeft, styleType }: IClassNameArgs) => {
   const errorsClass = errors && errors.length ? " input__field--error" : "";
   const iconLeftClass = iconLeft ? " input__field--left-icon" : "";
   const styleTypeClass = styleType === "grey" ? " input__field--grey" : "";
-
-  console.log("errorsClass: ", errorsClass);
 
   return baseClass.concat(errorsClass, iconLeftClass, styleTypeClass);
 };
@@ -55,11 +52,7 @@ const TextArea: React.FC<TextAreaFieldProps> = ({
       />
       {label ? <span className="input__label">{label}</span> : null}
     </div>
-    {errors && (
-      <span className="input__error">
-        {errors.map((error) => error.message).join(" ")}
-      </span>
-    )}
+    {errors && <span className="input__error">{errors.map((error) => error.message).join(" ")}</span>}
     {helpText && <span className="input__help-text">{helpText}</span>}
   </div>
 );
