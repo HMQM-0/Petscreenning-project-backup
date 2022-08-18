@@ -1,3 +1,4 @@
+import { GetServerSidePropsContext } from "next";
 import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 import { builder } from "@builder.io/react";
@@ -8,7 +9,7 @@ import { IndexPage } from "components/templates/IndexPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { HomeDocument, HomeQuery } from "components/templates/IndexPage/queries.graphql.generated";
-import { getApolloClient } from "apollo-client";
+import { getSsrApolloClient } from "apollo-client";
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
   const description = data?.shop.description ?? "";
@@ -30,8 +31,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   );
 };
 
-export const getServerSideProps = async () => {
-  const client = getApolloClient();
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const client = getSsrApolloClient(context);
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
     content = (await builder.get("store", { url: "/store/landing" }).promise()) || null;
