@@ -1,4 +1,5 @@
-import { AddressInterface } from "../../core/types";
+// TODO: refactor
+import { AddressInterface } from "deprecated/core/types";
 
 export interface AddressType extends Partial<AddressInterface> {
   email?: string;

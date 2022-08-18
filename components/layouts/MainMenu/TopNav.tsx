@@ -47,9 +47,8 @@ const TopNav = (props: ITopNavProps) => {
   const overlayContext = useOverlayContext();
   const [search] = useQueryParam("q", StringParam);
   const [term, setTerm] = React.useState<string>(search || "");
-  const [anchorEl, setAnchorEl] = React.useState<
-    (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
-  >(null);
+  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(
+    null);
   const accountMenuOpen = Boolean(anchorEl);
 
   useEffect(() => {
@@ -231,7 +230,7 @@ const TopNav = (props: ITopNavProps) => {
               </MenuItem>
               <Divider />
               <MenuItem>
-                <Link href="/order-history">
+                <Link href="/account/order-history">
                   <a>
                     <ListItemIcon>
                       <HistoryIcon fontSize="small" />
@@ -251,7 +250,7 @@ const TopNav = (props: ITopNavProps) => {
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link href="/address-book">
+                <Link href="/account/address-book">
                   <a>
                     <ListItemIcon>
                       <ImportContacts fontSize="small" />

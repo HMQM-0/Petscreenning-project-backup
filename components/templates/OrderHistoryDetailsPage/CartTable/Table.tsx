@@ -2,6 +2,7 @@ import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Media from "react-media";
 
+import { NauticalOrderDetailFragment } from "components/providers/Nautical/Checkout/fragments.graphql.generated";
 import { commonMessages } from "core/intl";
 
 import CostRow from "./CostRow";
@@ -10,7 +11,7 @@ import ProductRow, { EditableProductRowProps, ILine } from "./ProductRow";
 import "./scss/index.module.scss";
 
 interface TableProps extends EditableProductRowProps {
-  lines: ILine[];
+  lines: Array<ILine & Pick<NauticalOrderDetailFragment["lines"][number], "productSku">>;
   subtotal: React.ReactNode;
   deliveryCost?: React.ReactNode;
   totalCost?: React.ReactNode;
@@ -64,7 +65,7 @@ const Table: React.FC<TableProps> = ({
           <tbody>
           {lines.map((line) => (
             <ProductRow
-              key={line?.id}
+              key={line.productSku}
               line={line}
               mediumScreen={mediumScreen}
               {...rowProps}
