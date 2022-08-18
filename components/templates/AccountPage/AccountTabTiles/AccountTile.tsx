@@ -1,17 +1,19 @@
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
+import { useAccountUpdateMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
+import { Tile } from "components/atoms/Tile";
+import { IconButton } from "components/molecules/IconButton";
 import { commonMessages } from "core/intl";
-// import { useAccountUpdate, useAuth } from "@nautical/sdk";
-import { useAccountUpdate, useAuth } from "@nautical/react";
-import { Attribute, IconButton, Tile } from "@components/atoms";
+import { useAuth } from "nautical-api";
 
+import { Attribute } from "./Attribute";
 import { AccountUpdateForm } from "./AccountUpdateForm";
 import * as S from "./styles";
 
 export const AccountTile: React.FC = () => {
   const [isEditing, setIsEditing] = React.useState(false);
-  const [setAccountUpdate, { data, error }] = useAccountUpdate();
+  const [setAccountUpdate, { data, error }] = useAccountUpdateMutation();
   const intl = useIntl();
   const { user } = useAuth();
 
@@ -47,7 +49,7 @@ export const AccountTile: React.FC = () => {
                   companyName: (user && user.companyName) || "",
                 }}
                 handleSubmit={(data) => {
-                  setAccountUpdate({ input: data });
+                  setAccountUpdate({ variables: { input: data } });
                 }}
                 hide={() => {
                   setIsEditing(false);

@@ -6,14 +6,8 @@ export const useDeleteUserAddresss = mutationFactory("setDeleteUserAddress");
 export const useCreateUserAddress = mutationFactory("setCreateUserAddress");
 export const useUpdateUserAddress = mutationFactory("setUpdateuserAddress");
 
-// User mutations
-export const usePasswordChange = mutationFactory("setPasswordChange");
-export const useAccountUpdate = mutationFactory("setAccountUpdate");
-
 // Affiliate mutations
 export const useAffiliateCode = mutationFactory("setAffiliateCodeUse");
-
-export const useSetPassword = mutationFactory("setPassword");
 
 // Wishlist mutation
 export const useAddWishlistProduct = mutationFactory("setAddWishlistProduct");
@@ -26,18 +20,3 @@ export const useAddWishlistProductVariant = mutationFactory(
 export const useAddRemoveWishlistProductVariant = mutationFactory(
   "setRemoveWishlistProductVariant"
 );
-
-// Fulfillment mutations
-export const useBulkFulfillmentReturn = mutationFactory(
-  "setBulkFulfillmentReturn"
-);
-export const useNauticalBulkFulfillmentReturnDashboardNotification =
-  mutationFactory("setNauticalBulkFulfillmentReturnDashboardNotification");
-export const useVendorBulkFulfillmentReturnDashboardNotification =
-  mutationFactory("setVendorBulkFulfillmentReturnDashboardNotification");
-
-// Yotpo Loyalty & Referrals mutations
-export const useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord =
-  mutationFactory("setYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord");
-export const useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints =
-  mutationFactory("setYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints");

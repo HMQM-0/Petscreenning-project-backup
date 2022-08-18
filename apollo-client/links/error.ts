@@ -101,7 +101,7 @@ const getNewToken = async (
   };
 };
 
-export const errorLink = (client: ApolloClient<NormalizedCacheObject>) =>
+export const getErrorLink = (client: ApolloClient<NormalizedCacheObject>) =>
   onError(({ graphQLErrors, networkError, operation, forward }) => {
     if (!IS_SSR && graphQLErrors) {
       const isTokenExpired = graphQLErrors?.some(isJwtError);
