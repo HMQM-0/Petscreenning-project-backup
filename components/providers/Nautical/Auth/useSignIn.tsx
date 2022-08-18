@@ -25,13 +25,15 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
      * @param autoSignIn Indicates if SDK should try to sign in user with given credentials in future without explicitly calling this method. True by default.
      */
     async (email: string, password: string, autoSignIn: boolean = true) => {
-      const { data, errors } = await signInMutation({
+      const { data, errors: graphqlErrors } = await signInMutation({
         variables: { email, password },
       });
 
+      const errors = data?.tokenCreate?.errors || graphqlErrors || [];
+
       try {
         // @ts-ignore
-        if (!IS_SSR && autoSignIn && !errors && window.PasswordCredential) {
+        if (!IS_SSR && autoSignIn && !errors.length && window.PasswordCredential) {
           // @ts-ignore
           const passwordCredential = new window.PasswordCredential({
             id: email,
@@ -43,7 +45,7 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
         console.warn(BROWSER_NO_CREDENTIAL_API_MESSAGE, credentialsError);
       }
 
-      if (errors) {
+      if (errors.length) {
         return {
           errors,
         };
