@@ -14,10 +14,7 @@ export const slugify = (text: string | number): string =>
     .replace(/[^\w\-]+/g, "") // Remove all non-word chars
     .replace(/\-\-+/g, "-"); // Replace multiple - with single -
 
-export const getDBIdFromGraphqlId = (
-  graphqlId: string,
-  schema?: string
-): number => {
+export const getDBIdFromGraphqlId = (graphqlId: string, schema?: string): number => {
   // This is temporary solution, we will use slugs in the future
   const rawId = Base64.decode(graphqlId);
   const regexp = /(\w+):(\d+)?/;
@@ -28,15 +25,7 @@ export const getDBIdFromGraphqlId = (
   return parseInt(arr?.[2] ?? "", 10);
 };
 
-export const getGraphqlIdFromDBId = (id: string, schema: string): string =>
-  Base64.encode(`${schema}:${id}`);
-
-export const generateUrlByGraphqlId = (graphqlId: string, name: string) => {
-  const rawId = Base64.decode(graphqlId).split(":");
-  let schema = rawId[0];
-  const id = rawId[1];
-  return `/${schema.toLowerCase()}/${slugify(name)}/${id}/`;
-};
+export const getGraphqlIdFromDBId = (id: string, schema: string): string => Base64.encode(`${schema}:${id}`);
 
 export const generateProductsUrl = () => `/products/`;
 
@@ -53,18 +42,13 @@ export const generateMicrositeUrl = (id: string, name: string) =>
   `/site/${slugify(name)}/${getDBIdFromGraphqlId(id, "Microsite")}/`;
 
 export function isMicrosite() {
-  return IS_SERVER_SIDE
-    ? false
-    : Boolean(window.location.pathname.match(/\/site\/[^/]+\/[0-9]+/g));
+  return IS_SERVER_SIDE ? false : Boolean(window.location.pathname.match(/\/site\/[^/]+\/[0-9]+/g));
 }
 
 export function getMicrositeId() {
   if (!IS_SERVER_SIDE) {
     const href = window.location.href;
-    return getGraphqlIdFromDBId(
-      /\/site\/[^/]+\/([0-9]+)/.exec(href)?.[1] ?? "".trim().replace(/\//g, ""),
-      "Microsite"
-    );
+    return getGraphqlIdFromDBId(/\/site\/[^/]+\/([0-9]+)/.exec(href)?.[1] ?? "".trim().replace(/\//g, ""), "Microsite");
   }
   return "";
 }
@@ -80,13 +64,9 @@ interface AttributeDict {
   [attributeSlug: string]: string[];
 }
 
-export const convertToAttributeScalar = (
-  attributes: AttributeDict | Attribute
-) =>
+export const convertToAttributeScalar = (attributes: AttributeDict | Attribute) =>
   Object.entries(attributes)
-    .map(([key, value]) =>
-      value.map((attribute: any) => ({ slug: key, value: attribute }))
-    )
+    .map(([key, value]) => value.map((attribute: any) => ({ slug: key, value: attribute })))
     .reduce((prev, curr) => [...prev, ...curr], []);
 
 /**
@@ -94,16 +74,13 @@ export const convertToAttributeScalar = (
  * Does not make sense to have this as a separate util.
  * Use `typeof ... === 'undefined'`, `??`, `||` etc. instead
  */
-export const getValueOrEmpty = <T>(value: T): T | string =>
-  value === undefined || value === null ? "" : value;
+export const getValueOrEmpty = <T>(value: T): T | string => (value === undefined || value === null ? "" : value);
 
 export const convertSortByFromString = (sortBy: string | undefined | null) => {
   if (!sortBy) {
     return null;
   }
-  const direction = sortBy.startsWith("-")
-    ? OrderDirection.Desc
-    : OrderDirection.Asc;
+  const direction = sortBy.startsWith("-") ? OrderDirection.Desc : OrderDirection.Asc;
 
   let field;
   switch (sortBy.replace(/^-/, "")) {
