@@ -1,18 +1,18 @@
-import type { NextPage, InferGetStaticPropsType } from "next";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import type { NextPage } from "next";
 import * as React from "react";
 
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { OrderHistoryPage } from "components/templates/OrderHistoryPage";
-import { getApolloClient } from "apollo-client";
+import { getSsrApolloClient } from "apollo-client";
 import {
   OrderHistoryPageDocument,
   OrderHistoryPageQuery,
 } from "components/templates/OrderHistoryPage/queries.graphql.generated";
+import { AccountSettingsLayout } from "@layouts/AccountSettingsLayout";
 
-import { AccountSettingsLayout } from "../../../components/layouts/AccountSettingsLayout";
-
-const OrderHistory: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ data }) => {
+const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const description = "Order History";
   const title = "Order History";
   const schema = structuredData(description, title);
@@ -33,8 +33,8 @@ const OrderHistory: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
   );
 };
 
-export async function getStaticProps() {
-  const client = getApolloClient();
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const client = getSsrApolloClient(context);
 
   const { data } = await client.query<OrderHistoryPageQuery>({
     query: OrderHistoryPageDocument,

@@ -14,7 +14,7 @@ interface Route {
 
 export const routes: Route[] = [
   {
-    path: "/account/general",
+    path: "/account",
     label: "Account",
     intlKeyId: "account",
   },
@@ -27,6 +27,11 @@ export const routes: Route[] = [
     path: "/account/address-book",
     label: "Address Book",
     intlKeyId: "addressBook",
+  },
+  {
+    path: "/account/wishlist",
+    label: "Wishlist",
+    intlKeyId: "wishlist",
   },
 ];
 

@@ -6,7 +6,6 @@ import {
 import * as Address from "./address";
 import * as Returns from "./returns";
 import * as ReturnsNotifications from "./returnsNotification";
-import * as User from "./user";
 import * as Affiliate from "./affiliates";
 import {
   DeleteUserAddress,
@@ -44,10 +43,8 @@ import {
   OrderReturnNotificationVariables,
 } from "./gqlTypes/OrderReturnNotification";
 
-export type MutationOptions<TData, TVariables> = Omit<
-  ApolloMutationOptions<TData, TVariables>,
-  "mutation"
->;
+export type MutationOptions<TData, TVariables> = Omit<ApolloMutationOptions<TData, TVariables>,
+  "mutation">;
 
 // TODO: Add ability to pass custom fragments to mutations
 export const MUTATIONS = {
@@ -59,20 +56,10 @@ export const MUTATIONS = {
       mutation: Affiliate.useAffiliateCodeMutation,
       ...options,
     }),
-  AccountUpdate: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: MutationOptions<AccountUpdate, AccountUpdateVariables>
-  ) =>
-    client.mutate({
-      mutation: User.accountUpdate,
-      ...options,
-    }),
   AddressTypeUpdate: <TCacheShape>(
     client: ApolloClient<TCacheShape>,
-    options: MutationOptions<
-      SetCustomerDefaultAddress,
-      SetCustomerDefaultAddressVariables
-    >
+    options: MutationOptions<SetCustomerDefaultAddress,
+      SetCustomerDefaultAddressVariables>
   ) =>
     client.mutate({
       mutation: Address.setCustomerDefaultAddress,
@@ -132,26 +119,22 @@ export const MUTATIONS = {
     }),
   NauticalBulkFulfillmentReturnDashboardNotification: async <TCacheShape>(
     client: ApolloClient<TCacheShape>,
-    options: MutationOptions<
-      NauticalOrderReturnNotification,
-      OrderReturnNotificationVariables
-    >
+    options: MutationOptions<NauticalOrderReturnNotification,
+      OrderReturnNotificationVariables>
   ) =>
     client.mutate({
       mutation:
-        ReturnsNotifications.nauticalBulkFulfillmentReturnDashboardNotification,
+      ReturnsNotifications.nauticalBulkFulfillmentReturnDashboardNotification,
       ...options,
     }),
   VendorBulkFulfillmentReturnDashboardNotification: async <TCacheShape>(
     client: ApolloClient<TCacheShape>,
-    options: MutationOptions<
-      OrderReturnNotification,
-      OrderReturnNotificationVariables
-    >
+    options: MutationOptions<OrderReturnNotification,
+      OrderReturnNotificationVariables>
   ) =>
     client.mutate({
       mutation:
-        ReturnsNotifications.vendorBulkFulfillmentReturnDashboardNotification,
+      ReturnsNotifications.vendorBulkFulfillmentReturnDashboardNotification,
       ...options,
     }),
   DeleteUserAddress: <TCacheShape>(
@@ -160,38 +143,6 @@ export const MUTATIONS = {
   ) =>
     client.mutate({
       mutation: Address.deleteUserAddress,
-      ...options,
-    }),
-  PasswordChange: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: MutationOptions<PasswordChange, PasswordChangeVariables>
-  ) =>
-    client.mutate({
-      mutation: User.changeUserPassword,
-      ...options,
-    }),
-  SetPassword: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: MutationOptions<SetPassword, SetPasswordVariables>
-  ) =>
-    client.mutate({
-      mutation: User.setPassword,
-      ...options,
-    }),
-  YotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: any
-  ) =>
-    client.mutate({
-      mutation: User.yotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord,
-      ...options,
-    }),
-  YotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: any
-  ) =>
-    client.mutate({
-      mutation: User.yotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints,
       ...options,
     }),
   UpdateUserAddress: <TCacheShape>(
