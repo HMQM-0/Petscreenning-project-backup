@@ -12,8 +12,16 @@ import { UserDetailsDocument } from "components/providers/Nautical/Auth/queries.
 
 import { IProps } from "./types";
 
-export const AddressFormModal = ({ hideModal, submitBtnText, target, title, userId, address, formId }: IProps) => {
-  const [show, setShow] = React.useState(true);
+export const AddressFormModal = ({
+  hideModal,
+  show,
+  submitBtnText,
+  target,
+  title,
+  userId,
+  address,
+  formId,
+}: IProps) => {
   const [errorMessage, setErrorMessage] = React.useState("");
   const { countries } = useShopContext();
 
@@ -75,7 +83,6 @@ export const AddressFormModal = ({ hideModal, submitBtnText, target, title, user
       title={title}
       hide={() => {
         hideModal();
-        setShow(false);
       }}
       formId={formId}
       disabled={false}
@@ -85,7 +92,7 @@ export const AddressFormModal = ({ hideModal, submitBtnText, target, title, user
       <AddressForm
         values={values}
         errorMessage={errorMessage}
-        submitText={userId ? "Add New Address" : "Update Address"}
+        submitText={submitBtnText}
         onSubmit={async (values) => {
           const country = countries.find((country) => country.code === values.country)?.code ?? "";
           if (userId) {
