@@ -1,23 +1,22 @@
 import React from "react";
 import { useIntl } from "react-intl";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import { AddressGrid, AddressGridProps } from "components/organisms/AddressGrid";
 import { AddressFormModal, AddressFormModalProps } from "components/organisms/AddressFormModal";
 import { checkoutMessages, commonMessages } from "core/intl";
 import { useShopContext } from "components/providers/ShopProvider";
-import { AccountErrorCode, AddressTypeEnum } from "@generated";
+import { AddressTypeEnum } from "@generated";
 import { UserDetailsDocument } from "components/providers/Nautical/Auth/queries.graphql.generated";
 import { useAuth } from "nautical-api";
 
 import { useDeleteUserAddressMutation, useSetCustomerDefaultAddressMutation } from "./mutations.graphql.generated";
-import { container } from "./styles";
+import { container, notAuthenticatedHeader, notAuthenticatedWrapper } from "./styles";
 
 const AddressBookPage = () => {
-  const { user } = useAuth();
+  const { user, loaded } = useAuth();
   const { defaultCountry, countries } = useShopContext();
-  const [displayNewModal, setDisplayNewModal] = React.useState(false);
-  const [displayEditModal, setDisplayEditModal] = React.useState(false);
+  const [modal, setModal] = React.useState<"new" | "edit" | null>(null);
   const [addressData, setAddressData] = React.useState<AddressFormModalProps["address"]>();
   const [setDefaultUserAddress] = useSetCustomerDefaultAddressMutation({
     refetchQueries: () => {
@@ -28,7 +27,7 @@ const AddressBookPage = () => {
       ];
     },
   });
-  const [setDeleteUserAddress] = useDeleteUserAddressMutation({
+  const [deleteUserAddressMutation] = useDeleteUserAddressMutation({
     refetchQueries: () => {
       return [
         {
@@ -40,48 +39,64 @@ const AddressBookPage = () => {
   const intl = useIntl();
 
   const userAddresses: AddressGridProps["addresses"] =
-    user?.addresses?.map((address) => {
-      const addressToDisplay: any = { address: { ...address } };
-
-      addressToDisplay.onEdit = () => {
-        setDisplayEditModal(true);
+    user?.addresses?.map((address) => ({
+      id: address.id,
+      address: {
+        ...address,
+        isDefaultBillingAddress: !!address.isDefaultBillingAddress,
+        isDefaultShippingAddress: !!address.isDefaultShippingAddress,
+      },
+      onEdit: () => {
+        setModal("edit");
         setAddressData({
           address,
           id: address.id,
         });
-      };
-
-      addressToDisplay.onRemove = () =>
-        setDeleteUserAddress({
+      },
+      onRemove: () =>
+        deleteUserAddressMutation({
           variables: {
             addressId: address.id,
           },
-        });
-
-      addressToDisplay.setDefault = (type: string) => {
+        }),
+      setDefault: (type: string) => {
         setDefaultUserAddress({
           variables: {
             id: address.id,
             type: type === "BILLING" ? AddressTypeEnum.Billing : AddressTypeEnum.Shipping,
           },
         });
-      };
-      return addressToDisplay;
-    }) ?? [];
+      },
+    })) ?? [];
+
+  if (!user && loaded) {
+    return (
+      <Box sx={notAuthenticatedWrapper}>
+        <Typography variant="h1" sx={notAuthenticatedHeader}>
+          Not Authenticated
+        </Typography>
+        <Typography variant="body1">Please login to access your address book</Typography>
+      </Box>
+    );
+  }
+
+  const showNewModal = modal === "new";
+  const showEditModal = modal === "edit";
 
   return (
     <Box sx={container}>
       <AddressGrid
         addresses={userAddresses}
         addNewAddress={() => {
-          setDisplayNewModal(true);
+          setModal("new");
         }}
       />
-      {displayNewModal && (
+      {showNewModal && (
         <AddressFormModal
           hideModal={() => {
-            setDisplayNewModal(false);
+            setModal(null);
           }}
+          show={showNewModal}
           userId={user?.id}
           {...{ defaultValue: defaultCountry || {} }}
           submitBtnText={intl.formatMessage(commonMessages.add)}
@@ -90,11 +105,12 @@ const AddressBookPage = () => {
           formId="address-form"
         />
       )}
-      {displayEditModal && (
+      {showEditModal && (
         <AddressFormModal
           hideModal={() => {
-            setDisplayEditModal(false);
+            setModal(null);
           }}
+          show={showEditModal}
           address={addressData}
           submitBtnText={intl.formatMessage(commonMessages.save)}
           title={intl.formatMessage({ defaultMessage: "Edit address" })}

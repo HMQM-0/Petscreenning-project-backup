@@ -4,7 +4,7 @@ declare type Address = {
   id: string;
   onEdit: () => void;
   onRemove: () => void;
-  setDefault: () => void;
+  setDefault: (s: string) => void;
   address: IAddressWithAddressType;
 };
 
