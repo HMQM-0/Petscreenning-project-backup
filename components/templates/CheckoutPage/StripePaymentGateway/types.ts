@@ -24,10 +24,6 @@ export interface IProps {
   // balance for the paymentIntent
   total?: ITaxedMoney;
   /**
-   * Method called after the form is submitted. Passed token attribute will be used to create payment.
-   */
-  processPayment: (token: string, cardData?: ICardData) => void;
-  /**
    * Method called when gateway error occured.
    */
   onError: (errors: IFormError[]) => void;
