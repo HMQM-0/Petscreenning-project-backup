@@ -12,11 +12,7 @@ import { IProps } from "./types";
 /**
  * Thank you page after completing the checkout.
  */
-const ThankYou = ({
-  orderEmail,
-  orderNumber,
-  token,
-}: IProps) => {
+const ThankYou = ({ orderEmail, orderNumber, token }: IProps) => {
   return (
     <Container data-test="thankYouView">
       <S.Wrapper>
@@ -28,14 +24,12 @@ const ThankYou = ({
           </span>
         </S.ThankYouHeader>
         <S.Paragraph>
-          <FormattedMessage defaultMessage="Your order number is" />{" "}
-          <span>{orderNumber}</span>
+          <FormattedMessage defaultMessage="Your order number is" /> <span>{orderNumber}</span>
           <FormattedMessage defaultMessage="." />
         </S.Paragraph>
         {orderEmail ? (
           <S.Paragraph>
-            <FormattedMessage defaultMessage="We’ve emailed your order confirmation to" />{" "}
-            <span>{orderEmail}</span>
+            <FormattedMessage defaultMessage="We’ve emailed your order confirmation to" /> <span>{orderEmail}</span>
             <FormattedMessage defaultMessage=". We’ll notify you when your order has shipped." />
           </S.Paragraph>
         ) : (
@@ -56,7 +50,7 @@ const ThankYou = ({
               </Button>
             </a>
           </Link>
-          <Link href={`/order-details/${token}`}>
+          <Link href={`/account/order-history/${token}`}>
             <a>
               <Button
                 // testingContext="gotoOrderDetailsButton"
