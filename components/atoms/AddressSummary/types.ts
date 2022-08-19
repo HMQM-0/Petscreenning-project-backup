@@ -1,6 +1,6 @@
-import { AddressInterface } from "../../core/types";
+import { NauticalOrderDetailFragment } from "components/providers/Nautical/Checkout/fragments.graphql.generated";
 
-export interface AddressType extends Partial<AddressInterface> {
+export type AddressType = Partial<NauticalOrderDetailFragment["shippingAddress"]> & {
   email?: string;
 }
 
