@@ -18,8 +18,6 @@ type ViewProps = {
 export const View = ({ token }: ViewProps) => {
   const { user } = useAuth();
 
-  const guest = !user;
-
   const { data, loading } = useNauticalOrderByTokenQuery({
     variables: { token: token },
   });
@@ -27,8 +25,6 @@ export const View = ({ token }: ViewProps) => {
   if (loading) {
     return <CircularProgress />;
   }
-
-  console.log('data', data);
 
   const order = data?.nauticalOrderByToken;
   const invoices = data?.nauticalOrderByToken?.invoices;
@@ -39,7 +35,7 @@ export const View = ({ token }: ViewProps) => {
 
   return (
     <>
-      {!guest && (
+      {!!user && (
         <Link
           href="/account/order-history/"
           passHref
