@@ -21,8 +21,7 @@ const Builder = ({
   selectedVariant: ProductVariantFieldsFragment | undefined;
   onVariantChange: (variantId: string | undefined) => void;
 }) => {
-  const stateData =
-    useBuilderStateData({ product });
+  const stateData = useBuilderStateData({ product });
   const {
     quantity,
     setQuantity,
@@ -31,27 +30,12 @@ const Builder = ({
     isLowStock,
     isNoItemsAvailable,
     purchaseAvailableDate,
-    noPurchaseAvailable
+    noPurchaseAvailable,
   } = useAddToCart(product, selectedVariant);
 
   const variantImages = useVariantImages(product, selectedVariant);
 
-  const {
-    allAttributesById,
-    selectedAttributeValues,
-  } = useProductVariantAttributes(product.variants ?? []);
-
-  console.log('props', {
-    quantity,
-    setQuantity,
-    disableAddToCart,
-    noPurchaseAvailable,
-    purchaseAvailableDate,
-    outOfStock: isOutOfStock,
-    lowStock: isLowStock,
-    noItemsAvailable: isNoItemsAvailable,
-    selectedVariant,
-  });
+  const { allAttributesById, selectedAttributeValues } = useProductVariantAttributes(product.variants ?? []);
 
   return (
     <BuilderComponent

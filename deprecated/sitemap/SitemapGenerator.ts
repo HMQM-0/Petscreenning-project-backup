@@ -1,11 +1,13 @@
 /* eslint-disable no-console */
 
-import fs from "fs";
 import { chunk } from "lodash";
+import { buildSitemapIndex, createSitemap } from "sitemap";
+
+import fs from "fs";
 import path from "path";
+
 /* eslint-disable-next-line import/no-extraneous-dependencies */
 // @ts-ignore
-import { buildSitemapIndex, createSitemap } from "sitemap";
 
 class SitemapGenerator {
   urls: [object?];
@@ -48,15 +50,10 @@ class SitemapGenerator {
       }).toString(),
       filename
     );
-
-    // tslint:disable-next-line: no-console
-    console.log("DONE");
   }
 
   generateSitemapIndex(filename: string) {
-    const urls = this.sitemaps.map(
-      (filename) => `${this.hostname}/${filename}`
-    );
+    const urls = this.sitemaps.map((filename) => `${this.hostname}/${filename}`);
     this.saveToFile(buildSitemapIndex({ urls }).toString(), filename);
   }
 
