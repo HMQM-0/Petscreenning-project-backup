@@ -18,7 +18,6 @@ const useWatchUserQuery = ({ dispatch }: useWatchUserQueryProps) => {
       })
       .subscribe({
         next: ({ data }) => {
-          console.log("subscription", data);
           if (data?.me) {
             dispatch(AuthActionCreators.update(data.me));
           }
