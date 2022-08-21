@@ -8,6 +8,8 @@ export const addressValidationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
 });
 
+export const noValidationSchema = Yup.object().shape({});
+
 export const validateEmail = (value: string) => {
   let error;
   if (!value) {

@@ -728,38 +728,30 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 label="Same as shipping address"
                 style={{ marginBottom: "16px" }}
               />
-              {!billingAsShipping && (
-                <AddressForm
-                  values={{
-                    ...billingAddress,
-                    country: billingAddress?.country.code,
-                  }}
-                  onSubmit={handleSubmitAddress(setBillingAddress, setBillingAddressError)}
-                  errorMessage={billingAddressError}
-                />
-              )}
-              <Box sx={buttonsGrid}>
-                <Button
-                  disableRipple
-                  disableElevation
-                  sx={buttonText}
-                  onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
-                >
-                  <KeyboardBackspaceIcon /> Back to shipping
-                </Button>
-                <Button
-                  color="primary"
-                  type="button"
-                  disableElevation
-                  sx={button}
-                  variant="contained"
-                  disabled={submittingPayment || !availablePaymentGateways}
-                  onClick={confirmAndPurchase}
-                >
-                  <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} />{" "}
-                  {submittingPayment ? <CircularProgress /> : "Confirm Payment"}
-                </Button>
-              </Box>
+
+              <AddressForm
+                values={{
+                  ...billingAddress,
+                  country: billingAddress?.country.code,
+                }}
+                onSubmit={async (values) => {
+                  if (!billingAsShipping) {
+                    handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
+                  }
+                  confirmAndPurchase();
+                }}
+                errorMessage={billingAddressError}
+                submitText={submittingPayment ? <CircularProgress /> : "Confirm Payment"}
+                secondaryButton={{
+                  text: (
+                    <>
+                      <KeyboardBackspaceIcon /> Back to shipping
+                    </>
+                  ),
+                  onClick: () => setCurrentTab(CheckoutTabs.SHIPPING),
+                }}
+                hideFields={billingAsShipping}
+              />
             </TabPanel>
           </Box>
           <Box sx={cartSummary}>
