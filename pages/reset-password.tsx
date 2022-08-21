@@ -4,18 +4,20 @@ import { GetServerSidePropsContext } from "next";
 
 import {
   ResetPasswordPageDocument,
-  ResetPasswordPageQuery
+  ResetPasswordPageQuery,
 } from "components/templates/ResetPasswordPage/queries.graphql.generated";
 import { ResetPasswordPage } from "components/templates/ResetPasswordPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { getApolloClient } from "apollo-client";
 import NotFound from "components/molecules/NotFound";
+import { IS_SSR } from "utils";
 
 const ResetPassword: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ email, token, data }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = "Reset Password";
   const title = "Reset Password";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,
@@ -25,22 +27,17 @@ const ResetPassword: NextPage<InferGetServerSidePropsType<typeof getServerSidePr
     url: "",
   };
 
-  const showResetPassword = email && token && typeof email === 'string' && typeof token === 'string';
+  const showResetPassword = email && token && typeof email === "string" && typeof token === "string";
 
   return (
     <Layout documentHead={documentHead}>
-      {showResetPassword ? (
-        <ResetPasswordPage email={email} token={token} />
-      ) : (
-        <NotFound />
-      )}
+      {showResetPassword ? <ResetPasswordPage email={email} token={token} /> : <NotFound />}
     </Layout>
   );
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const client = getApolloClient();
-
 
   const { data } = await client.query<ResetPasswordPageQuery>({
     query: ResetPasswordPageDocument,

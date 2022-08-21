@@ -6,21 +6,18 @@ import { useAuth } from "nautical-api";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { LoginPage } from "components/templates/LoginPage/LoginPage";
-import {
-  LoginPageDocument,
-  LoginPageQuery,
-} from "components/templates/LoginPage/queries.graphql.generated";
+import { LoginPageDocument, LoginPageQuery } from "components/templates/LoginPage/queries.graphql.generated";
+import { IS_SSR } from "utils";
 
 import { getApolloClient } from "../apollo-client";
 
-const Checkout: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data }) => {
+const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const { push } = useRouter();
   const { user } = useAuth();
+  const URL = IS_SSR ? "" : location.href;
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,

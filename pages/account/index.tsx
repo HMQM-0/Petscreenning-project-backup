@@ -8,11 +8,13 @@ import { AccountPage } from "components/templates/AccountPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { getSsrApolloClient } from "apollo-client";
+import { IS_SSR } from "utils";
 
 const Account: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = "Account Page";
   const title = "Account";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,

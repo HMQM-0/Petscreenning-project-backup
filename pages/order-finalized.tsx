@@ -1,8 +1,4 @@
-import type {
-  NextPage,
-  InferGetServerSidePropsType,
-  GetServerSidePropsContext,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { structuredData } from "components/templates/IndexPage/structuredData";
@@ -13,15 +9,15 @@ import {
   OrderFinalizedPageQuery,
   OrderFinalizedPageQueryVariables,
 } from "components/templates/OrderFinalized/queries.graphql.generated";
+import { IS_SSR } from "utils";
 
 import { getApolloClient } from "../apollo-client";
 
-const Checkout: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data }) => {
+const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,
@@ -38,9 +34,7 @@ const Checkout: NextPage<
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const client = getApolloClient();
 
   const token = context.query?.token ?? "";

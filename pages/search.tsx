@@ -1,9 +1,6 @@
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
-import type {
-  NextPage,
-  InferGetServerSidePropsType,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import builderConfig from "config/builder";
@@ -13,14 +10,13 @@ import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 import SearchProducts from "components/templates/SearchPage/SearchProducts";
 import { SearchPageDocument, SearchPageQuery } from "components/templates/SearchPage/queries.graphql.generated";
+import { IS_SSR } from "utils";
 
-const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  data,
-  builderContent,
-}) => {
+const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = "Search Products";
   const title = "Search Products";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,
@@ -44,7 +40,7 @@ export async function getServerSideProps() {
 
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/search" }).promise() || null;
+    content = (await builder.get("store", { url: "/store/search" }).promise()) || null;
   }
 
   const { data } = await client.query<SearchPageQuery>({

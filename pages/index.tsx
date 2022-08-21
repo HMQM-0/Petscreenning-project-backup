@@ -10,11 +10,13 @@ import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { HomeDocument, HomeQuery } from "components/templates/IndexPage/queries.graphql.generated";
 import { getSsrApolloClient } from "apollo-client";
+import { IS_SSR } from "utils";
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,

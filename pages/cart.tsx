@@ -1,7 +1,4 @@
-import type {
-  NextPage,
-  InferGetServerSidePropsType,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { CartPage } from "components/templates/CartPage/CartPage";
@@ -9,11 +6,13 @@ import { CartPageDocument, CartPageQuery } from "components/templates/CartPage/q
 import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
+import { IS_SSR } from "utils";
 
 const Cart: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = "Cart";
   const title = "Cart";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,

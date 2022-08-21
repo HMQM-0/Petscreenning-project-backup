@@ -3,6 +3,7 @@ import { useScrollTrigger } from "@mui/material";
 
 import { PromoBanner } from "components/molecules/PromoBanner";
 import TopNav from "components/layouts/MainMenu/TopNav";
+import { IS_SSR } from "utils";
 
 type HeaderProps = {
   logo: React.ReactNode;
@@ -11,7 +12,7 @@ type HeaderProps = {
 const Header = ({ logo }: HeaderProps) => {
   const trigger = useScrollTrigger({
     // The header should always be visible on the mobile device
-    disableHysteresis: window.innerWidth <= 768,
+    disableHysteresis: IS_SSR ? false : window.innerWidth <= 768,
   });
   const stickyStyle: React.CSSProperties = {
     position: "fixed",

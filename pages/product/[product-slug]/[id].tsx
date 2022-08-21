@@ -12,19 +12,18 @@ import NotFound from "components/molecules/NotFound";
 import View from "components/templates/ProductPage/View";
 import {
   ProductDetailsDocument,
-  ProductDetailsQuery
+  ProductDetailsQuery,
 } from "components/templates/ProductPage/queries.graphql.generated";
+import { IS_SSR } from "utils";
 
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  data: {
-    product,
-    branding,
-  },
+  data: { product, branding },
   builderContent,
 }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = product?.seoDescription || product?.descriptionJson || "Product";
   const title = product?.seoTitle || product?.name || "Product";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding,
     description,
@@ -55,11 +54,7 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 
   return (
     <Layout documentHead={documentHead}>
-      {product ? (
-        <View product={product} builderContent={builderContent} />
-      ) : (
-        <NotFound />
-      )}
+      {product ? <View product={product} builderContent={builderContent} /> : <NotFound />}
     </Layout>
   );
 };
@@ -71,7 +66,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/product" }).promise() || null;
+    content = (await builder.get("store", { url: "/store/product" }).promise()) || null;
   }
 
   const { data } = await client.query<ProductDetailsQuery>({

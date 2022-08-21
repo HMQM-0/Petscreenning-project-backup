@@ -9,7 +9,7 @@ import { Layout } from "@layouts/Layout";
 import { CheckoutPageDocument, CheckoutPageQuery } from "components/templates/CheckoutPage/queries.graphql.generated";
 import { CheckoutPage } from "components/templates/CheckoutPage";
 import { Logo } from "components/atoms/Logo";
-import { getPayment } from "utils";
+import { getPayment, IS_SSR } from "utils";
 
 import { getApolloClient } from "../apollo-client";
 
@@ -22,10 +22,11 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     payment_intent_client_secret: StringParam,
     guest: BooleanParam,
   });
+  const URL = IS_SSR ? "" : location.href;
   const payment = getPayment();
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,

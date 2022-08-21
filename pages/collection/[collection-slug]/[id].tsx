@@ -1,10 +1,6 @@
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
-import type {
-  NextPage,
-  InferGetServerSidePropsType,
-  GetServerSidePropsContext,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { getGraphqlIdFromDBId } from "core/utils";
@@ -20,15 +16,13 @@ import {
   CollectionPageQuery,
   CollectionPageQueryVariables,
 } from "components/templates/CollectionPage/queries.graphql.generated";
+import { IS_SSR } from "utils";
 
-const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  data,
-  builderContent,
-}) => {
+const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = data.collection?.seoDescription || "Collection";
-  const title =
-    data.collection?.seoTitle || data.collection?.name || "Collection";
-  const schema = structuredData(description, title);
+  const title = data.collection?.seoTitle || data.collection?.name || "Collection";
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,
@@ -44,11 +38,7 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     <Layout documentHead={documentHead}>
       {collection ? (
         <ProductsListView>
-          <CollectionProducts
-            collection={collection}
-            pageData={data}
-            builderContent={builderContent}
-          />
+          <CollectionProducts collection={collection} pageData={data} builderContent={builderContent} />
         </ProductsListView>
       ) : (
         <NotFound />
@@ -57,15 +47,13 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
   );
 };
 
-export async function getServerSideProps(
-  context: GetServerSidePropsContext<{ id: string }>
-) {
+export async function getServerSideProps(context: GetServerSidePropsContext<{ id: string }>) {
   const client = getApolloClient();
   const collectionId = context.params?.id ?? "";
 
   let content: BuilderContent | null = null;
   if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/collection" }).promise() || null;
+    content = (await builder.get("store", { url: "/store/collection" }).promise()) || null;
   }
 
   const variables: CollectionPageQueryVariables = {

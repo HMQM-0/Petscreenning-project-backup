@@ -16,10 +16,9 @@ import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";
 import "deprecated/globalStyles/scss/index.scss";
 import { nprogress } from "styles/nprogress";
-
-const NotificationTemplate = dynamic(() => import("components/atoms/NotificationTemplate/NotificationTemplate"));
-const NauticalProvider = dynamic(() => import("components/providers/Nautical/NauticalProvider"));
-const LocaleProvider = dynamic(() => import("components/providers/Locale/Locale"), { ssr: false });
+import NotificationTemplate from "components/atoms/NotificationTemplate/NotificationTemplate";
+import NauticalProvider from "components/providers/Nautical/NauticalProvider";
+import { LocaleProvider } from "components/providers/Locale/Locale";
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);

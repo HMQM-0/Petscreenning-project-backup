@@ -11,11 +11,13 @@ import {
   OrderHistoryPageQuery,
 } from "components/templates/OrderHistoryPage/queries.graphql.generated";
 import { AccountSettingsLayout } from "@layouts/AccountSettingsLayout";
+import { IS_SSR } from "utils";
 
 const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = "Order History";
   const title = "Order History";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,
