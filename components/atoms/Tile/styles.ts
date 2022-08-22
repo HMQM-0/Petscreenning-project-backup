@@ -1,6 +1,6 @@
 import { css } from "styled-components";
 
-import { styled } from "@styles";
+import { styled } from "styles";
 
 interface WrapperProps {
   readonly tileType?: "hover" | "addNew";
