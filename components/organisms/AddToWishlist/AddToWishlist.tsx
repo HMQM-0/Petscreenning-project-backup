@@ -1,5 +1,5 @@
-import React, { useContext, useMemo } from "react";
-import { useAlert } from "react-alert";
+import React from "react";
+import { AlertType, useAlert } from "react-alert";
 import { useIntl } from "react-intl";
 
 import { AddToWishlistButton } from "components/molecules/AddToWishlistButton";
@@ -9,86 +9,95 @@ import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
 } from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
+import { IProps as NotificationProps } from "components/atoms/NotificationTemplate/types";
 
 import { IProps } from "./types";
 
-export const AddToWishlist = ({ productId, showButtonText = true }: IProps) => {
+export const useIsAddedToWishlist = () => {
   const { wishlist } = useWishlist();
+  return (productId: string) =>
+    !!wishlist && wishlist.some(({ product }) => product.id === productId);
+};
+
+export const useAddOrRemoveToWishlist = () => {
   const { user } = useAuth();
   const alert = useAlert();
   const intl = useIntl();
 
-  const isAddedToWishlist = useMemo(
-    () => !!wishlist && wishlist.some(({ product }) => product.id === productId),
-    [wishlist, productId]
-  );
+  const isAddedToWishlist = useIsAddedToWishlist();
 
-  const [addWishlistProduct] = useAddWishlistProductMutation({
-    variables: { productId },
-  });
-  const [removeWishlistProduct] = useRemoveWishlistProductMutation({
-    variables: { productId },
-  });
+  const [addWishlistProduct] = useAddWishlistProductMutation({});
+  const [removeWishlistProduct] = useRemoveWishlistProductMutation({});
 
-  const addOrRemoveFromWishlist = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!user) {
-      alert.show(
-        {
-          content: `Please log in to add the product to your wishlist`,
-          title: intl.formatMessage({
-            defaultMessage: "Login required",
-          }),
-        },
-        {
-          timeout: 7500,
-          type: "error",
-        }
-      );
-    }
-    if (isAddedToWishlist) {
-      removeWishlistProduct({
-        variables: { productId },
-        refetchQueries: [
-          userWishlist, // DocumentNode object parsed with gql
-          "Wishlist", // Query name
-        ],
-      });
-      alert.show(
-        {
-          content: `Removed product from your wishlist`,
-          title: intl.formatMessage({
-            defaultMessage: "Product removed",
-          }),
-        },
-        {
-          timeout: 7500,
-          type: "success",
-        }
-      );
-    } else if (!isAddedToWishlist) {
-      addWishlistProduct({
-        variables: { productId },
-        refetchQueries: [
-          userWishlist, // DocumentNode object parsed with gql
-          "Wishlist", // Query name
-        ],
-      });
-      alert.show(
-        {
-          content: `Added product to your wishlist`,
-          title: intl.formatMessage({
-            defaultMessage: "Product added",
-          }),
-        },
-        {
-          timeout: 7500,
-          type: "success",
-        }
-      );
-    }
+  const showAlert = (message: NotificationProps["message"], type: AlertType = "success") => {
+    alert.show(
+      message,
+      {
+        timeout: 7500,
+        type,
+      }
+    );
   };
 
-  return <AddToWishlistButton added={isAddedToWishlist} onClick={addOrRemoveFromWishlist} showText={showButtonText} />;
+  return (productId: string) =>
+    (event: React.MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!user) {
+        showAlert(
+          {
+            content: `Please log in to add the product to your wishlist`,
+            title: intl.formatMessage({
+              defaultMessage: "Login required",
+            }),
+          },
+          "error",
+        );
+        return;
+      }
+      if (isAddedToWishlist(productId)) {
+        removeWishlistProduct({
+          variables: { productId },
+          refetchQueries: [
+            userWishlist, // DocumentNode object parsed with gql
+            "Wishlist", // Query name
+          ],
+        });
+        showAlert(
+          {
+            content: `Removed product from your wishlist`,
+            title: intl.formatMessage({
+              defaultMessage: "Product removed",
+            }),
+          },
+        );
+      } else {
+        addWishlistProduct({
+          variables: { productId },
+          refetchQueries: [
+            userWishlist, // DocumentNode object parsed with gql
+            "Wishlist", // Query name
+          ],
+        });
+        showAlert(
+          {
+            content: `Added product to your wishlist`,
+            title: intl.formatMessage({
+              defaultMessage: "Product added",
+            }),
+          }
+        );
+      }
+    };
+};
+
+export const AddToWishlist = ({ productId, showButtonText = true }: IProps) => {
+  const isAddedToWishlist = useIsAddedToWishlist();
+  const addOrRemoveFromWishlist = useAddOrRemoveToWishlist();
+  const addOrRemoveFromWishlistHandler = addOrRemoveFromWishlist(productId);
+  return <AddToWishlistButton
+    added={isAddedToWishlist(productId)}
+    onClick={addOrRemoveFromWishlistHandler}
+    showText={showButtonText}
+  />;
 };

@@ -64,7 +64,7 @@ const Table: React.FC<TableProps> = ({
           <tbody>
           {lines.map((line) => (
             <ProductRow
-              key={line?.id}
+              key={line.variant?.product.id}
               line={line}
               mediumScreen={mediumScreen}
               {...rowProps}
