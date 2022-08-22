@@ -308,7 +308,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   }, [checkIfLoyaltyAndReferralsActive]);
 
   const handleSubmitAddress =
-    (checkoutMethod: typeof setShippingAddress | typeof setBillingAddress, errorHandler: React.Dispatch<string>) =>
+    (
+      checkoutMethod: typeof setShippingAddress | typeof setBillingAddress,
+      errorHandler: React.Dispatch<string>,
+      nextStep?: CheckoutTabs
+    ) =>
     async (values: AddressFormValues) => {
       const country = countries.find((country) => country.code === values.country)?.country ?? "";
       const submission = await checkoutMethod(
@@ -337,6 +341,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         return;
       } else {
         errorHandler("");
+        if (nextStep) {
+          setCurrentTab(nextStep);
+        }
       }
     };
 
@@ -601,7 +608,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
-                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError)}
+                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING)}
                 errorMessage={shippingAddressError}
               />
             </TabPanel>

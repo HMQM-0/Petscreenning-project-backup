@@ -39,3 +39,9 @@
     flex-direction: column;
   }
 }
+
+.cookie-action {
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}

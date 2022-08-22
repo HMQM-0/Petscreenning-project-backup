@@ -5,17 +5,7 @@ import Link from "next/link";
 
 import { Heart } from "components/icons/heart";
 import { useAuth } from "nautical-api";
-import {
-  generateMicrositeUrl,
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "core/utils";
-import {
-  OverlayContext,
-  OverlayType,
-  OverlayTheme,
-} from "components/providers/Overlay/context";
+import { OverlayContext, OverlayType, OverlayTheme } from "components/providers/Overlay/context";
 import WishlistCard from "components/molecules/WishlistCard";
 
 import { IProps } from "./types";
@@ -93,29 +83,15 @@ export const WishlistTable = ({ wishlist }: IProps) => {
               </Box>
               <h2 className={classes.emptyMessage}>Your wishlist is empty</h2>
               {user ? (
-                <Link
-                  href={
-                    isMicrosite()
-                      ? generateMicrositeUrl(
-                          getMicrositeId()!,
-                          getMicrositeSlug()
-                        )
-                      : "/products/"
-                  }
-                  passHref
-                >
+                <Link href="/products/" passHref>
                   <a>
-                    <p className={classes.clickMessage}>
-                      Browse to start adding products to your wishlist
-                    </p>
+                    <p className={classes.clickMessage}>Browse to start adding products to your wishlist</p>
                   </a>
                 </Link>
               ) : (
                 <p
                   className={classes.clickMessage}
-                  onClick={() =>
-                    overlayContext.show(OverlayType.login, OverlayTheme.right)
-                  }
+                  onClick={() => overlayContext.show(OverlayType.login, OverlayTheme.right)}
                 >
                   <a>Sign in to start adding products to your wishlist</a>
                 </p>

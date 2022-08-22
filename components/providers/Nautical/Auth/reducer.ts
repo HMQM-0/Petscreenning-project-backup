@@ -19,8 +19,12 @@ export const reducer: Reducer<IAuthContext, AuthActions> = (draft, action) => {
       draft.loaded = true;
       draft.signedOut = true;
       break;
+    case AuthActionTypes.UPDATE:
+      draft.user = action.payload.user;
+      break;
     default:
-      throw new Error(`Auth Reducer had action type with no case ${action}`);
+      // @ts-ignore - this will never happen, but is useful when adding a new action and debugging
+      throw new Error(`Auth Reducer had action type with no case ${action.type}`);
       break;
   }
 };

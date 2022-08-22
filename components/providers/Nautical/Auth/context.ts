@@ -3,6 +3,8 @@ import { GraphQLError } from "graphql";
 import { noop } from "lodash";
 import { createContext } from "react";
 
+import { AccountError } from "@generated";
+
 import { UserDetailsQuery } from "./queries.graphql.generated";
 
 export type IAuthContext = {
@@ -30,17 +32,18 @@ export type IAuthContext = {
     email: string,
     password: string,
     autoSignIn?: boolean
-  ) => Promise<
+  ) => Promise<| {
+    errors: readonly GraphQLError[];
+  }
     | {
-        errors: readonly GraphQLError[];
-      }
+    errors: ApolloError[];
+  }
     | {
-        errors: ApolloError[];
-      }
+    errors: AccountError[];
+  }
     | {
-        errors: null;
-      }
-  >;
+    errors: null;
+  }>;
   signOut: () => void;
 };
 
