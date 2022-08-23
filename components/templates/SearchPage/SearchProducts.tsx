@@ -2,11 +2,11 @@ import { BuilderContent } from "@builder.io/sdk";
 import React from "react";
 import { StringParam, useQueryParam } from "next-query-params";
 
+import { useProductsQuery } from "components/templates/ProductsList/queries.graphql.generated";
 import Builder from "components/templates/ProductsList/Builder";
 import { SearchPageQueryResult } from "components/templates/SearchPage/queries.graphql.generated";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { useProductListVariables } from "components/templates/ProductsList/View";
-import { useProductsQuery } from "components/templates/ProductsPage/queries.graphql.generated";
 
 type SearchProductsProps = {
   builderContent: BuilderContent | null;

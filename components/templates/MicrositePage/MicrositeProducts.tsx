@@ -1,10 +1,10 @@
 import { BuilderContent } from "@builder.io/sdk";
 import React from "react";
 
+import { useProductsQuery } from "components/templates/ProductsList/queries.graphql.generated";
 import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { useProductListVariables } from "components/templates/ProductsList/View";
-import { useProductsQuery } from "components/templates/ProductsPage/queries.graphql.generated";
 
 import { BasicMicrositeFragment, MicrositePageQueryResult } from "./queries.graphql.generated";
 
