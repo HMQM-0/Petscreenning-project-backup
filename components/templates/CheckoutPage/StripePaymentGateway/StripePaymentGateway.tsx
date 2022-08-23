@@ -21,7 +21,6 @@ let stripe: Stripe | null = null;
  */
 const StripePaymentGateway: React.FC<IProps> = ({
   config,
-  processPayment,
   formRef,
   formId,
   total,
