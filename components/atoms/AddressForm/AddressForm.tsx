@@ -16,10 +16,7 @@ type AddressFormProps = {
   onSubmit: (values: AddressFormValues) => Promise<void>;
   errorMessage: string;
   submitText?: string | React.ReactNode;
-  secondaryButton?: {
-    text: string | React.ReactNode;
-    onClick: () => void;
-  };
+  secondaryButton?: React.ReactNode;
   hideFields?: boolean;
 };
 
@@ -153,18 +150,7 @@ const AddressForm = ({
                   </>
                 )}
 
-                {secondaryButton ? (
-                  <Button
-                    disableRipple
-                    disableElevation
-                    // sx={buttonText}
-                    onClick={secondaryButton.onClick}
-                  >
-                    {secondaryButton.text}
-                  </Button>
-                ) : (
-                  <Box />
-                )}
+                {secondaryButton ? secondaryButton : <Box />}
                 <Button
                   color="primary"
                   type="submit"

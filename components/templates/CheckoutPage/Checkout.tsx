@@ -742,14 +742,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 }}
                 errorMessage={billingAddressError}
                 submitText={submittingPayment ? <CircularProgress /> : "Confirm Payment"}
-                secondaryButton={{
-                  text: (
-                    <>
-                      <KeyboardBackspaceIcon /> Back to shipping
-                    </>
-                  ),
-                  onClick: () => setCurrentTab(CheckoutTabs.SHIPPING),
-                }}
+                secondaryButton={
+                  <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
+                    <KeyboardBackspaceIcon /> Back to shipping
+                  </Button>
+                }
                 hideFields={billingAsShipping}
               />
             </TabPanel>
