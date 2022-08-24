@@ -4,7 +4,7 @@ export interface IProps {
   hide: () => void;
   cancelBtnText?: string;
   children: React.ReactNode;
-  submitBtnText: string;
+  submitBtnText?: string;
   submitButtonTestingContext: string;
   testingContext: string;
   disabled: boolean;

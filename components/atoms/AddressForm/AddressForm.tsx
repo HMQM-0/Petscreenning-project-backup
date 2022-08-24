@@ -119,7 +119,7 @@ const AddressForm = ({
                         </>
                       )
                     )}
-                    {typeof email !== undefined && (
+                    {typeof email !== "undefined" && (
                       <>
                         <Field
                           sx={textField}

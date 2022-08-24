@@ -3,6 +3,7 @@ import { IAuthContext } from "./context";
 export const AuthActionTypes = {
   SIGN_IN: "SIGN_IN",
   SIGN_OUT: "SIGN_OUT",
+  UPDATE: "UPDATE",
 } as const;
 
 export const AuthActionCreators = {
@@ -16,6 +17,12 @@ export const AuthActionCreators = {
   signOut: () => ({
     type: AuthActionTypes.SIGN_OUT,
     payload: null,
+  }),
+  update: (user: IAuthContext["user"]) => ({
+    type: AuthActionTypes.UPDATE,
+    payload: {
+      user,
+    },
   }),
 } as const;
 

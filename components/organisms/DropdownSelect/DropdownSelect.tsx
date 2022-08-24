@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { components } from "react-select";
 import { ThemeContext } from "styled-components";
 
-import { useHandlerWhenClickedOutside } from "@hooks";
+import { useHandlerWhenClickedOutside } from "components/hooks";
 import { Label } from "components/atoms/Label";
 import { Select } from "components/molecules/Select";
 import { Icon } from "components/atoms/Icon";
@@ -11,13 +11,7 @@ import { Icon } from "components/atoms/Icon";
 import { IProps } from "./types";
 import * as S from "./styles";
 
-export const DropdownSelect = ({
-  options,
-  name,
-  value,
-  onChange,
-  isLastFormField = true,
-}: IProps) => {
+export const DropdownSelect = ({ options, name, value, onChange, isLastFormField = true }: IProps) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const { setElementRef } = useHandlerWhenClickedOutside(() => {
     setMenuIsOpen(false);

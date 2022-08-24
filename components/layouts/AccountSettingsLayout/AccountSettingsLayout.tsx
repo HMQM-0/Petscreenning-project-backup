@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import Media from "react-media";
 
-import { smallScreen } from "@styles/constants";
+import { smallScreen } from "styles/constants";
 import { AccountMenuSidebar } from "components/organisms/AccountMenuSidebar";
 import { AccountMenuMobile } from "components/organisms/AccountMenuMobile";
 
