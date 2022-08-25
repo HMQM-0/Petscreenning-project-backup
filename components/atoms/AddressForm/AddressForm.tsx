@@ -14,7 +14,7 @@ import { validateEmail, addressValidationSchema, noValidationSchema } from "./va
 type AddressFormProps = {
   values: AddressFormValues;
   onSubmit: (values: AddressFormValues) => Promise<void>;
-  errorMessage: string;
+  errorMessage: string | React.ReactNode;
   submitText?: string | React.ReactNode;
   secondaryButton?: React.ReactNode;
   hideFields?: boolean;

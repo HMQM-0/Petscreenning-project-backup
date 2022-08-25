@@ -639,7 +639,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   }
                   confirmAndPurchase();
                 }}
-                errorMessage={billingAddressError}
+                errorMessage={errorMessage || billingAddressError}
                 submitText={submittingPayment ? <CircularProgress /> : "Confirm Payment"}
                 secondaryButton={
                   <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
