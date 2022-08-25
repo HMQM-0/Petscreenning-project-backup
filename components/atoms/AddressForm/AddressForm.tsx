@@ -9,13 +9,15 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { AddressFormValues } from "./types";
 import { fields } from "./constants";
 import { gridSpan, textField } from "./styles";
-import { validateEmail, addressValidationSchema } from "./validators";
+import { validateEmail, addressValidationSchema, noValidationSchema } from "./validators";
 
 type AddressFormProps = {
   values: AddressFormValues;
   onSubmit: (values: AddressFormValues) => Promise<void>;
-  errorMessage: string;
-  submitText?: string;
+  errorMessage: string | React.ReactNode;
+  submitText?: string | React.ReactNode;
+  secondaryButton?: React.ReactNode;
+  hideFields?: boolean;
 };
 
 const AddressForm = ({
@@ -35,12 +37,14 @@ const AddressForm = ({
   onSubmit,
   errorMessage,
   submitText,
+  secondaryButton,
+  hideFields,
 }: AddressFormProps) => {
   const { countries } = useShopContext();
 
   return (
     <Formik
-      validationSchema={addressValidationSchema(email)}
+      validationSchema={hideFields ? noValidationSchema : addressValidationSchema}
       initialValues={{
         email,
         firstName,
@@ -72,76 +76,81 @@ const AddressForm = ({
               }}
             >
               <>
-                {fields.map(({ name, label, autoComplete, required, span, type }) =>
-                  name !== "country" ? (
-                    <>
-                      <Field
-                        key={name}
-                        sx={{ ...textField, ...(span ? gridSpan : {}) }}
-                        autoComplete={autoComplete}
-                        component={TextField}
-                        required={required}
-                        name={name}
-                        label={label}
-                        variant="outlined"
-                        InputLabelProps={{
-                          shrink: true,
-                          helperText: touched[name] ? errors[name] : null,
-                        }}
-                        type={type}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Field
-                        sx={textField}
-                        component={TextField}
-                        name="country"
-                        label="country"
-                        variant="outlined"
-                        required
-                        autoComplete="country"
-                        InputLabelProps={{ shrink: true, helperText: touched[name] ? errors[name] : null }}
-                        select
-                      >
-                        {countries?.map((option) => (
-                          <MenuItem key={option.code} value={option.code}>
-                            {option.country}
-                          </MenuItem>
-                        ))}
-                      </Field>
-                    </>
-                  )
-                )}
-                {typeof email !== "undefined" && (
+                {!hideFields && (
                   <>
-                    <Field
-                      sx={textField}
-                      component={TextField}
-                      required
-                      name="email"
-                      label="email"
-                      type="email"
-                      autoComplete="email"
-                      variant="outlined"
-                      InputLabelProps={{
-                        shrink: true,
-                        helperText: touched.email ? validateEmail("email") : null,
+                    {fields.map(({ name, label, autoComplete, required, span, type }) =>
+                      name !== "country" ? (
+                        <>
+                          <Field
+                            key={name}
+                            sx={{ ...textField, ...(span ? gridSpan : {}) }}
+                            autoComplete={autoComplete}
+                            component={TextField}
+                            required={required}
+                            name={name}
+                            label={label}
+                            variant="outlined"
+                            InputLabelProps={{
+                              shrink: true,
+                              helperText: touched[name] ? errors[name] : null,
+                            }}
+                            type={type}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <Field
+                            sx={textField}
+                            component={TextField}
+                            name="country"
+                            label="country"
+                            variant="outlined"
+                            required
+                            autoComplete="country"
+                            InputLabelProps={{ shrink: true, helperText: touched[name] ? errors[name] : null }}
+                            select
+                          >
+                            {countries?.map((option) => (
+                              <MenuItem key={option.code} value={option.code}>
+                                {option.country}
+                              </MenuItem>
+                            ))}
+                          </Field>
+                        </>
+                      )
+                    )}
+                    {typeof email !== "undefined" && (
+                      <>
+                        <Field
+                          sx={textField}
+                          component={TextField}
+                          required
+                          name="email"
+                          label="email"
+                          type="email"
+                          autoComplete="email"
+                          variant="outlined"
+                          InputLabelProps={{
+                            shrink: true,
+                            helperText: touched.email ? validateEmail("email") : null,
+                          }}
+                        />
+                      </>
+                    )}
+                    <Box
+                      style={{
+                        display: errorMessage ? "block" : "none",
                       }}
-                    />
+                      sx={gridSpan}
+                    >
+                      <Alert severity="error">
+                        {errorMessage ? errorMessage : "Please ensure all required fields are entered"}
+                      </Alert>
+                    </Box>
                   </>
                 )}
-                <Box
-                  style={{
-                    display: errorMessage ? "block" : "none",
-                  }}
-                  sx={gridSpan}
-                >
-                  <Alert severity="error">
-                    {errorMessage ? errorMessage : "Please ensure all required fields are entered"}
-                  </Alert>
-                </Box>
-                <Box></Box>
+
+                {secondaryButton ? secondaryButton : <Box />}
                 <Button
                   color="primary"
                   type="submit"
