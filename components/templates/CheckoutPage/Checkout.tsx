@@ -147,6 +147,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     email,
     payment,
     loaded: checkoutLoaded,
+    invalidate,
   } = useCheckout();
 
   const products: IProduct[] | null =
@@ -330,6 +331,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         if (isArray(submission.dataError.error)) {
           const error = parseErrors(submission.dataError.error);
           errorHandler(error);
+          invalidate();
         }
         return;
       } else {
@@ -384,6 +386,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const handleErrors = (errors: IFormError[]) => {
     const messages = maybe(() => errors.flatMap((error) => error.message), []);
     setErrorMessage(messages.join(" \n"));
+    invalidate();
   };
 
   const parseErrors = (errors: IFormError[]) => {
