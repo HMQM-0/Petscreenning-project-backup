@@ -1,14 +1,13 @@
 import { BuilderContent } from "@builder.io/sdk";
 import React from "react";
 
+import { useProductsQuery } from "components/templates/ProductsList/queries.graphql.generated";
 import { useProductListVariables } from "components/templates/ProductsList/View";
 import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { slugify } from "@utils/core";
 
 import { BasicCategoryFragment, CategoryPageQueryResult } from "./queries.graphql.generated";
-
-import { useProductsQuery } from "../ProductsPage/queries.graphql.generated";
 
 type CategoryProductsProps = {
   category: BasicCategoryFragment;

@@ -4,7 +4,6 @@ import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 import Media from "react-media";
 
-import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
 import { commonMessages } from "core/intl";
 import ProductsFeatured from "components/organisms/ProductsFeatured";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
@@ -20,10 +19,13 @@ import { ProductSideNavbarGrid } from "components/organisms/ProductSideNavbarGri
 import ProductListBanner from "components/atoms/ProductListBanner/ProductListBanner";
 import {
   ProductsPageQuery,
-  ProductsQueryResult,
-  ProductsQueryVariables,
 } from "components/templates/ProductsPage/queries.graphql.generated";
 
+import {
+  ProductsPageAttributeFragment,
+  ProductsQueryResult,
+  ProductsQueryVariables
+} from "./queries.graphql.generated";
 import classes from "./scss/index.module.scss";
 import Search from "./Search";
 
