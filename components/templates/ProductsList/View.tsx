@@ -11,7 +11,7 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { convertSortByFromString, convertToAttributeScalar } from "core/utils";
 import { PRODUCTS_PER_PAGE } from "core/config";
 
-import { ProductsQueryVariables } from "../ProductsPage/queries.graphql.generated";
+import { ProductsQueryVariables } from "./queries.graphql.generated";
 
 type ProductsListViewProps = {
   children: React.ReactNode;

@@ -95,6 +95,63 @@ export const productsListProduct = gql`
   }
 `;
 
+
+export const productList = gql`
+  ${productsListProduct}
+  fragment ProductList on ProductCountableConnection {
+    totalCount
+    products: edges {
+      product: node {
+        ...ProductsListProduct
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  }
+`;
+
+export const productsQuery = gql`
+  ${productList}
+  query Products(
+    $query: String
+    $categoryIds: [ID!]
+    $collectionIds: [ID!]
+    $micrositeId: ID
+    $attributes: [AttributeInput!]
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $sortBy: ProductOrder
+    $priceLte: Float
+    $priceGte: Float
+  ) {
+    productList: products(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      sortBy: $sortBy
+      microsite: $micrositeId
+      filter: {
+        isPublished: true
+        search: $query
+        attributes: $attributes
+        categories: $categoryIds
+        collections: $collectionIds
+        minimalPrice: { gte: $priceGte, lte: $priceLte }
+        stockAvailability: IN_STOCK
+      }
+    ) {
+      ...ProductList
+    }
+  }
+`;
+
 export const productsPageAttribute = gql`
   fragment ProductsPageAttribute on Attribute {
     id
