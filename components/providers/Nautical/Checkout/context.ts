@@ -34,6 +34,7 @@ export type ICheckoutStateContext = {
   shippingMethod?: CheckoutFragment["shippingMethod"];
   lines?: ICheckoutModel["lines"];
   sellerShippingMethods?: CheckoutFragment["sellerShippingMethods"];
+  token?: CheckoutFragment["token"];
 };
 
 export type ICheckoutDispatchContext = {
@@ -47,6 +48,7 @@ export type ICheckoutDispatchContext = {
   createPayment: ReturnType<typeof useCreatePayment>;
   completeCheckout: ReturnType<typeof useCompleteCheckout>;
   updateLines: ReturnType<typeof useUpdateLines>;
+  invalidate: () => void;
 };
 
 export const CHECKOUT_STATE_CONTEXT_INITIAL_STATE: ICheckoutStateContext = {
@@ -100,6 +102,7 @@ export const CHECKOUT_DISPATCH_CONTECT_INITIAL_STATE: ICheckoutDispatchContext =
     pending: false,
   }),
   updateLines: (lines: ICheckoutStateContext["lines"]) => {},
+  invalidate: () => {},
 };
 
 export const CheckoutStateContext = createContext<ICheckoutStateContext>(CHECKOUT_STATE_CONTEXT_INITIAL_STATE);
