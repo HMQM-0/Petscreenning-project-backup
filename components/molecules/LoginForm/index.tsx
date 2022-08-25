@@ -24,18 +24,27 @@ const LoginForm = ({ hide }: ILoginForm) => {
   const handleOnSubmit = async (evt: React.FormEvent, { email, password }: { email: string; password: string }) => {
     evt.preventDefault();
     setLoading(true);
-    const { errors } = await signIn(email.toLowerCase(), password);
-    setLoading(false);
-    if (errors) {
-      const formErrors: FormError[] = errors.map((error) => ({
-        field: (error as AccountError).field || undefined,
-        message: error.message,
-      }));
-      setErrors(formErrors);
-    } else if (hide) {
-      setErrors([]);
-      hide();
+    try {
+      const { errors } = await signIn(email.toLowerCase(), password);
+      if (errors) {
+        const formErrors: FormError[] = errors.map((error) => ({
+          field: (error as AccountError).field || undefined,
+          message: error.message,
+        }));
+        setErrors(formErrors);
+      } else if (hide) {
+        setErrors([]);
+        hide();
+      }
+    } catch {
+      setErrors([
+        {
+          field: "email",
+          message: "There was an unexpected error while signing in. Please try again.",
+        },
+      ]);
     }
+    setLoading(false);
   };
 
   const intl = useIntl();
