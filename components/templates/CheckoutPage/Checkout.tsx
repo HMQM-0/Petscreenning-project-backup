@@ -31,9 +31,7 @@ import { Plugins } from "deprecated/@nautical";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IItems } from "components/providers/Nautical/Cart/types";
-import {
-  useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation,
-} from "components/providers/Nautical/Auth/mutations.graphql.generated";
+import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
 import { AddressForm, AddressFormValues } from "components/atoms";
 
 import Payment from "./Payment";
@@ -75,13 +73,12 @@ const TabPanel: React.FunctionComponent<TabPanelProps> = (props) => {
   );
 };
 
-const Errors = ({ errorMessage }: { errorMessage?: React.ReactNode | undefined }) => (
+const Errors = ({ errorMessage }: { errorMessage?: React.ReactNode | undefined }) =>
   errorMessage ? (
     <Alert sx={{ marginTop: "8px" }} severity="error">
       {errorMessage}
     </Alert>
-  ) : null
-);
+  ) : null;
 
 enum CheckoutTabs {
   CUSTOMER = "customer",
@@ -308,39 +305,39 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       errorHandler: React.Dispatch<string>,
       nextStep?: CheckoutTabs
     ) =>
-      async (values: AddressFormValues) => {
-        const country = countries.find((country) => country.code === values.country)?.country ?? "";
-        const submission = await checkoutMethod(
-          {
-            firstName: values.firstName,
-            lastName: values.lastName,
-            companyName: values.companyName,
-            streetAddress1: values.streetAddress1,
-            streetAddress2: values.streetAddress2,
-            city: values.city,
-            postalCode: values.postalCode,
-            countryArea: values.countryArea,
-            phone: values.phone,
-            country: {
-              code: values.country,
-              country,
-            },
+    async (values: AddressFormValues) => {
+      const country = countries.find((country) => country.code === values.country)?.country ?? "";
+      const submission = await checkoutMethod(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          companyName: values.companyName,
+          streetAddress1: values.streetAddress1,
+          streetAddress2: values.streetAddress2,
+          city: values.city,
+          postalCode: values.postalCode,
+          countryArea: values.countryArea,
+          phone: values.phone,
+          country: {
+            code: values.country,
+            country,
           },
-          values?.email ?? (email || "")
-        );
-        if (submission.dataError?.error) {
-          if (isArray(submission.dataError.error)) {
-            const error = parseErrors(submission.dataError.error);
-            errorHandler(error);
-          }
-          return;
-        } else {
-          errorHandler("");
-          if (nextStep) {
-            setCurrentTab(nextStep);
-          }
+        },
+        values?.email ?? (email || "")
+      );
+      if (submission.dataError?.error) {
+        if (isArray(submission.dataError.error)) {
+          const error = parseErrors(submission.dataError.error);
+          errorHandler(error);
         }
-      };
+        return;
+      } else {
+        errorHandler("");
+        if (nextStep) {
+          setCurrentTab(nextStep);
+        }
+      }
+    };
 
   const confirmAndPurchase = async () => {
     const orderTotal = Number(total?.gross.amount);
@@ -354,7 +351,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
     if (orderTotal < minOrderTotal) {
       setErrorMessage(
-        <>Minimum order is <Money money={{ amount: minOrderTotal, currency: total?.gross.currency || "" }} /></>
+        <>
+          Minimum order is <Money money={{ amount: minOrderTotal, currency: total?.gross.currency || "" }} />
+        </>
       );
       return;
     }
@@ -612,9 +611,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.PAYMENT}>
-              <Payment
-                handleCreatePayment={handleCreatePayment}
-              />
+              <Payment handleCreatePayment={handleCreatePayment} />
               <Box mb={2}>
                 <Typography sx={title} variant="h6">
                   Billing Address
@@ -630,43 +627,27 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 label="Same as shipping address"
                 style={{ marginBottom: "16px" }}
               />
-              {!billingAsShipping && (
-                <AddressForm
-                  values={{
-                    ...billingAddress,
-                    country: billingAddress?.country.code,
-                  }}
-                  onSubmit={handleSubmitAddress(setBillingAddress, setBillingAddressError)}
-                  errorMessage={billingAddressError}
-                />
-              )}
-              {errorMessage && (
-                <Box style={{ display: "block" }} sx={gridspan}>
-                  <Errors errorMessage={errorMessage} />
-                </Box>
-              )}
-              <Box sx={buttonsGrid}>
-                <Button
-                  disableRipple
-                  disableElevation
-                  sx={buttonText}
-                  onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
-                >
-                  <KeyboardBackspaceIcon /> Back to shipping
-                </Button>
-                <Button
-                  color="primary"
-                  type="button"
-                  disableElevation
-                  sx={button}
-                  variant="contained"
-                  disabled={submittingPayment || !availablePaymentGateways}
-                  onClick={confirmAndPurchase}
-                >
-                  <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} />{" "}
-                  {submittingPayment ? <CircularProgress /> : "Confirm Payment"}
-                </Button>
-              </Box>
+
+              <AddressForm
+                values={{
+                  ...billingAddress,
+                  country: billingAddress?.country.code,
+                }}
+                onSubmit={async (values) => {
+                  if (!billingAsShipping) {
+                    handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
+                  }
+                  confirmAndPurchase();
+                }}
+                errorMessage={errorMessage || billingAddressError}
+                submitText={submittingPayment ? <CircularProgress /> : "Confirm Payment"}
+                secondaryButton={
+                  <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
+                    <KeyboardBackspaceIcon /> Back to shipping
+                  </Button>
+                }
+                hideFields={billingAsShipping}
+              />
             </TabPanel>
           </Box>
           <Box sx={cartSummary}>
