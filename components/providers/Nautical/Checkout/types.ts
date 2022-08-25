@@ -90,7 +90,7 @@ export interface ICheckoutModelLineVariant {
   quantityAvailable?: number;
   id: string;
   name?: string;
-  sku?: string;
+  sku?: string | null;
   pricing?: ProductVariantFragment["pricing"] | null;
   product?: ProductVariantFragment["product"];
   isAvailable?: boolean | null;
