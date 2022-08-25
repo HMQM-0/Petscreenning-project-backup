@@ -277,11 +277,12 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         }
 
         if (!errors || errors.length === 0) {
-          onCompleteCheckout();
+          await onCompleteCheckout();
         } else {
           handleErrors(errors);
         }
         creatingPayment.current = false;
+        setSubmittingPayment(false);
       }
     },
     [onCompleteCheckout, createPayment]
@@ -340,12 +341,12 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     };
 
   const confirmAndPurchase = async () => {
+    setSubmittingPayment(true);
     const orderTotal = Number(total?.gross.amount);
     const minOrderTotal = Number(minCheckoutAmount);
 
     if (orderTotal === 0) {
-      setSubmittingPayment(true);
-      onCompleteCheckout();
+      await onCompleteCheckout();
       return;
     }
 
@@ -355,10 +356,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           Minimum order is <Money money={{ amount: minOrderTotal, currency: total?.gross.currency || "" }} />
         </>
       );
+      setSubmittingPayment(false);
       return;
     }
 
-    setSubmittingPayment(true);
     if (typeof document !== "undefined") {
       document.getElementById("gatewayButton")?.click();
     }
@@ -558,7 +559,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
               <AddressForm
                 values={{
-                  email,
+                  email: email ?? "",
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
@@ -611,7 +612,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.PAYMENT}>
-              <Payment handleCreatePayment={handleCreatePayment} />
+              <Payment
+                handleCreatePayment={handleCreatePayment}
+                submittingPayment={submittingPayment}
+                setSubmittingPayment={setSubmittingPayment}
+              />
               <Box mb={2}>
                 <Typography sx={title} variant="h6">
                   Billing Address
@@ -637,16 +642,17 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   if (!billingAsShipping) {
                     handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
                   }
-                  confirmAndPurchase();
+                  await confirmAndPurchase();
                 }}
                 errorMessage={errorMessage || billingAddressError}
-                submitText={submittingPayment ? <CircularProgress /> : "Confirm Payment"}
+                submitText={"Confirm Payment"}
                 secondaryButton={
                   <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
                     <KeyboardBackspaceIcon /> Back to shipping
                   </Button>
                 }
                 hideFields={billingAsShipping}
+                submitting={submittingPayment}
               />
             </TabPanel>
           </Box>

@@ -1,5 +1,5 @@
 import { Alert, Box, Button, CircularProgress, MenuItem } from "@mui/material";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { TextField } from "formik-mui";
 import Lock from "@mui/icons-material/Lock";
 import React from "react";
@@ -13,11 +13,12 @@ import { validateEmail, addressValidationSchema, noValidationSchema } from "./va
 
 type AddressFormProps = {
   values: AddressFormValues;
-  onSubmit: (values: AddressFormValues) => Promise<void>;
+  onSubmit: (values: AddressFormValues, actions: FormikHelpers<any>) => Promise<void>;
   errorMessage: string | React.ReactNode;
   submitText?: string | React.ReactNode;
   secondaryButton?: React.ReactNode;
   hideFields?: boolean;
+  submitting?: boolean;
 };
 
 const AddressForm = ({
@@ -39,6 +40,7 @@ const AddressForm = ({
   submitText,
   secondaryButton,
   hideFields,
+  submitting,
 }: AddressFormProps) => {
   const { countries } = useShopContext();
 
@@ -166,9 +168,10 @@ const AddressForm = ({
                     },
                   }}
                   variant="contained"
+                  disabled={submitting || isSubmitting}
                 >
                   <Lock style={{ height: 16, width: 16, marginRight: 12 }} />{" "}
-                  {isSubmitting ? <CircularProgress /> : submitText || "Set Address"}
+                  {submitting || isSubmitting ? <CircularProgress /> : submitText || "Set Address"}
                 </Button>
               </>
             </Box>
