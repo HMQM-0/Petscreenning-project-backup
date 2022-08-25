@@ -163,4 +163,5 @@ export enum DataErrorCheckoutTypes {
   "COMPLETE_CHECKOUT",
   "GET_CHECKOUT",
   "GET_PAYMENT_GATEWAYS",
+  "USER_CHECKOUT_DOES_NOT_EXIST",
 }
