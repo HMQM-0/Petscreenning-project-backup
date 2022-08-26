@@ -49,7 +49,7 @@ export const useSelectedVariant = (product: Pick<ProductDetailsFragment, "varian
     return product.variants?.find((productVariant) =>
       productVariant.attributes.every((productVariantAttribute) => {
         const slug = productVariantAttribute.attribute.slug;
-        // We expect that there will always be an attribute value (in case DB is consistent)
+        // There exists the possibility that the DB will not be consistent, and that we won't necessarily have an attribute value.
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value ?? "";
 
         return productVariantAttributeValue === searchQueryAttributes[slug];
