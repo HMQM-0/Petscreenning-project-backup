@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { AddressForm } from "components/atoms/AddressForm";
+import { AddressForm, AddressFormFields, AddressFormSubmitButton } from "components/atoms/AddressForm";
 import { Modal } from "components/organisms/Modal";
 import {
   useCreateUserAddressMutation,
@@ -91,8 +91,6 @@ export const AddressFormModal = ({
     >
       <AddressForm
         values={values}
-        errorMessage={errorMessage}
-        submitText={submitBtnText}
         onSubmit={async (values) => {
           const country = countries.find((country) => country.code === values.country)?.code ?? "";
           if (userId) {
@@ -116,7 +114,14 @@ export const AddressFormModal = ({
             });
           }
         }}
-      />
+      >
+        {({ isSubmitting, touched, errors }) => (
+          <>
+            <AddressFormFields errorMessage={errorMessage} touched={touched} errors={errors} />
+            <AddressFormSubmitButton isSubmitting={isSubmitting} buttonText={submitBtnText} />
+          </>
+        )}
+      </AddressForm>
     </Modal>
   );
 };
