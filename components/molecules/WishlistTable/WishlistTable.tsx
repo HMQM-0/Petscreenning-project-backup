@@ -17,7 +17,6 @@ const useStyles = makeStyles(() =>
       paddingRight: "1.5rem",
     },
     title: {
-      paddingLeft: "16px",
       paddingTop: "16px",
       marginBottom: "32px",
       fontWeight: 700,
