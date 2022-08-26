@@ -21,7 +21,6 @@ let stripe: Stripe | null = null;
  */
 const StripePaymentGateway: React.FC<IProps> = ({
   config,
-  processPayment,
   formRef,
   formId,
   total,
@@ -43,13 +42,15 @@ const StripePaymentGateway: React.FC<IProps> = ({
     const load = async (key: string) => {
       stripe = await loadStripe(key);
       setInitialized(true);
-      const stripeApiKeyErrors = [
-        {
-          message: "Stripe gateway misconfigured. Api key not provided.",
-        },
-      ];
-      setSubmitErrors(stripeApiKeyErrors);
-      onError(stripeApiKeyErrors);
+      if (!stripe) {
+        const stripeApiKeyErrors = [
+          {
+            message: "Stripe gateway misconfigured. Api key not provided.",
+          },
+        ];
+        setSubmitErrors(stripeApiKeyErrors);
+        onError(stripeApiKeyErrors);
+      }
     };
 
     if (apiKey && !hasLoadedStripe.current) {

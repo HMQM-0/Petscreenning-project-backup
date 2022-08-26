@@ -1,11 +1,12 @@
 import { BuilderContent } from "@builder.io/sdk";
 import React from "react";
 
+import { useProductsQuery } from "components/templates/ProductsList/queries.graphql.generated";
 import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { useProductListVariables } from "components/templates/ProductsList/View";
 
-import { ProductsPageQueryResult, useProductsQuery } from "./queries.graphql.generated";
+import { ProductsPageQueryResult } from "./queries.graphql.generated";
 
 type ProductsProps = {
   builderContent: BuilderContent | null;
