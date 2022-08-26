@@ -1,235 +1,214 @@
-import { Theme } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { SxProps } from "@mui/material";
 
-// TODO: THIS NEEDS TO BE REPLACED: https://nauticalcommerce.atlassian.net/browse/PROD-1755
-export const useStyles = makeStyles((theme: Theme) => ({
-  backdropWhite: {
-    backgroundColor: "#FFF",
-    minWidth: 800,
-    // padding: theme.spacing(6),
-    // [theme.breakpoints.down("sm")]: {
-    //   padding: theme.spacing(2),
-    //   minWidth: "auto",
-    //   borderTop: `1px solid ${theme.palette.divider}`,
-    // },
-  },
-  breadcrumb: {
-    "& .MuiBreadcrumbs-ol": {
-      justifyContent: "center",
-    },
-  },
-  button: {
-    borderRadius: 2,
-    "& .MuiButton-label": {
-      fontSize: "1.0rem",
-      fontWeight: 400,
-    },
-    // [theme.breakpoints.down("md")]: {
-    //   marginBottom: 84,
-    // },
-  },
-  buttonGroupButton: {
-    borderWidth: "1px important",
-    // borderColor: `${theme.palette.divider}`,
-    fontSize: "1rem",
-  },
-  buttonPopover: {
-    borderRadius: 8,
-    minWidth: 180,
-    fontSize: "0.8rem",
-    // paddingBottom: theme.spacing(1),
-    // paddingTop: theme.spacing(1),
-    minHeight: 43,
-    marginLeft: "0 !important",
-  },
-  buttonText: {
-    borderRadius: 2,
-    "& .MuiButton-label": {
-      // color: theme.palette.text.disabled,
-      fontSize: "1.0rem",
-      fontWeight: 400,
-      justifyContent: "start",
-      marginLeft: 12,
-    },
-  },
-  cardButtonActive: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 4,
-    height: 84,
-    width: 128,
-    alignItems: "center",
+export const buttonPopover: SxProps = {
+  borderRadius: "8px",
+  minWidth: "180px",
+  fontSize: "0.8rem",
+  paddingBottom: 1,
+  paddingTop: 1,
+  minHeight: "43px",
+  marginLeft: "0 !important",
+};
+
+export const breadcrumb: SxProps = {
+  "& .MuiBreadcrumbs-ol": {
     justifyContent: "center",
-    // backgroundColor: `${theme.palette.primary.main}`,
-    // color: `${theme.palette.getContrastText(theme.palette.primary.main)}`,
-    fontSize: "0.9rem",
   },
-  cardButton: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 4,
-    height: 84,
-    width: 128,
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "0.9rem",
+};
+
+export const button: SxProps = {
+  borderRadius: "2px",
+  "& .MuiButton-label": {
+    fontSize: "1.0rem",
+    fontWeight: 400,
   },
-  cardGroup: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-around",
-    flexFlow: "wrap",
-    gap: 16,
+  marginBottom: {
+    xs: 1,
+    sm: 0,
   },
-  cartSummary: {
-    backgroundColor: "#F8FAFB",
-    // borderLeft: `1px solid ${theme.palette.divider}`,
-    // padding: theme.spacing(4),
-    // [theme.breakpoints.down("sm")]: {
-    //   padding: theme.spacing(0),
-    //   borderLeft: "none",
-    // },
+};
+
+export const buttonGroupButton: SxProps = {
+  borderWidth: "1px important",
+  borderColor: "divider",
+  fontSize: "1rem",
+};
+
+export const buttonText: SxProps = {
+  borderRadius: "2px",
+  "& .MuiButton-label": {
+    color: "text.disabled",
+    fontSize: "1.0rem",
+    fontWeight: 400,
+    justifyContent: "start",
+    marginLeft: "12px",
   },
-  checkoutBanner: {
-    placeContent: "center",
-    backgroundColor: "#FFF",
-    display: "flex",
-    // borderBottom: `1px solid ${theme.palette.divider}`,
-    height: 96,
-    width: "100vw",
+};
+
+export const cardButtonActive: SxProps = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "4px",
+  height: "84px",
+  width: "128px",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "primary.main",
+  color: `getContrastText(theme.palette.primary.main)`,
+  fontSize: "0.9rem",
+};
+
+export const cardButton: SxProps = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "4px",
+  height: "84px",
+  width: "128px",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "0.9rem",
+};
+export const cardGroup: SxProps = {
+  display: "flex",
+  flexDirection: "row",
+  width: "100%",
+  justifyContent: "space-around",
+  flexFlow: "wrap",
+  gap: "16px",
+};
+export const cartSummary: SxProps = {
+  backgroundColor: "#F8FAFB",
+  maxWidth: "410px",
+  borderColor: "divider",
+  padding: {
+    xs: 0,
+    sm: 4,
   },
-  checkoutWrapper: {
-    background: "linear-gradient(90deg, #FFF 50%, #F8FAFB 50%)",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    height: "100%",
-    // [theme.breakpoints.down("sm")]: {
-    //   flexDirection: "column-reverse",
-    // },
+};
+
+export const checkoutGrid: SxProps = {
+  backgroundColor: "transparent",
+  border: 1,
+  borderColor: "divider",
+  display: "grid",
+  gridTemplateColumns: "1fr 40%",
+  height: "100%",
+};
+export const fieldsGrid: SxProps = {
+  display: {
+    xs: "flex",
+    sm: "grid",
   },
-  checkoutGrid: {
-    // backgroundColor: 'transparent',
-    // border: `1px solid ${theme.palette.divider}`,
-    // display: 'grid',
-    // gridTemplateColumns: '1fr 40%',
-    // height: '100%',
+  flexDirection: {
+    xs: "unset",
+    sm: "column",
   },
-  fieldsGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 16,
-    marginBottom: 16,
-    // [theme.breakpoints.down("sm")]: {
-    //   display: "flex",
-    //   flexDirection: "column",
-    // },
+  gridTemplateColumns: "1fr 1fr",
+  gap: "16px",
+  marginBottom: "16px",
+};
+export const buttonsGrid: SxProps = {
+  display: {
+    xs: "flex",
+    sm: "grid",
   },
-  buttonsGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 16,
-    // [theme.breakpoints.down("sm")]: {
-    //   display: "flex",
-    //   flexDirection: "column-reverse",
-    // },
+  gridTemplateColumns: "1fr 1fr",
+  gap: "16px",
+  flexDirection: "column-reverse",
+  borderTop: 1,
+  borderColor: "divider",
+  pt: 1,
+};
+export const gridspan: SxProps = {
+  gridColumn: "1 / span 2",
+};
+export const marginBottomDivider: SxProps = {
+  marginBottom: "12px",
+};
+export const productShippingRow: SxProps = {
+  display: "grid",
+  marginTop: "16px",
+  gridRowGap: "6px",
+  gridColumnGap: "20px",
+  gridTemplateColumns: "72px auto 50px",
+  "& img": {
+    maxHeight: "72px",
+    maxWidth: "72px",
   },
-  gridspan: {
-    gridColumn: "1 / span 2",
+};
+export const quantityText: SxProps = {
+  marginTop: "auto",
+  marginBottom: "auto",
+};
+export const sellerName: SxProps = {
+  fontSize: {
+    xs: "1rem",
+    sm: "unset",
   },
-  marginBottomDivider: {
-    marginBottom: "12px",
+  fontWeight: {
+    xs: 600,
+    sm: "unset",
   },
-  productShippingRow: {
-    display: "grid",
-    marginTop: "16px",
-    gridRowGap: "6px",
-    gridColumnGap: "20px",
-    gridTemplateColumns: "72px auto 50px",
-    "& img": {
-      maxHeight: 72,
-      maxWidth: 72,
+};
+export const sellerShippingMethodSelect: SxProps = {
+  display: "grid",
+  gridTemplateColumns: "auto 200px",
+};
+export const shippingCard: SxProps = {
+  alignItems: "center",
+  border: 1,
+  borderColor: "divider",
+  borderRadius: 8,
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  padding: "8px 16px",
+};
+export const shippingMethodSelectMenuName: SxProps = {
+  width: "100%",
+};
+export const shippingMethodSelectMenuOption: SxProps = {
+  display: "inline-flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  gridTemplateColumns: "1fr 1fr",
+  gridColumnGap: "0.2fr",
+  width: "100%",
+  overflow: "hidden",
+};
+export const shippingMethodSelectMenuPrice: SxProps = {
+  width: "100%",
+  alignContent: "flex-end",
+};
+export const stackedText: SxProps = {
+  display: "grid",
+  marginTop: "auto",
+  marginBottom: "auto",
+  gridTemplateColumns: "auto",
+};
+export const tabs: SxProps = {
+  borderBottom: "1px solid #ddd",
+  marginBottom: "16px",
+  "& .MuiTab-wrapper": {
+    fontWeight: 600,
+  },
+};
+export const textfield: SxProps = {
+  marginTop: "8px",
+  "& .MuiFormLabel-root": {
+    left: "-12px",
+    marginBottom: 0,
+    textTransform: "uppercase",
+    top: "-8px",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    height: 56,
+    top: 0,
+    "& legend": {
+      display: "none",
     },
   },
-  popoverActions: {
-    justifyContent: "space-around",
-    display: "flex",
-    // flex-direction: column;
-    gap: 4,
-    // [theme.breakpoints.down("sm")]: {
-    //   flexDirection: "column",
-    //   gap: theme.spacing(1),
-    //   marginBottom: theme.spacing(2),
-    // },
-  },
-  quantityText: {
-    marginTop: "auto",
-    marginBottom: "auto",
-  },
-  sellerName: {
-    // [theme.breakpoints.down("sm")]: {
-    //   fontSize: "1rem",
-    //   fontWeight: 600,
-    // },
-  },
-  sellerShippingMethodSelect: {
-    display: "grid",
-    gridTemplateColumns: "auto 200px",
-  },
-  shippingCard: {
-    alignItems: "center",
-    // border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 8,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: "8px 16px",
-  },
-  shippingMethodSelectMenuName: {
-    width: "100%",
-  },
-  shippingMethodSelectMenuOption: {
-    display: "inline-flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    // gridTemplateColumns: "1fr 1fr",
-    // gridColumnGap: "0.2fr"
-  },
-  shippingMethodSelectMenuPrice: {
-    width: "100%",
-    alignContent: "flex-end",
-  },
-  stackedText: {
-    display: "grid",
-    marginTop: "auto",
-    marginBottom: "auto",
-    gridTemplateColumns: "auto",
-  },
-  tabs: {
-    borderBottom: "1px solid #ddd",
-    marginBottom: 16,
-    "& .MuiTab-wrapper": {
-      fontWeight: 600,
-    },
-  },
-  textfield: {
-    marginTop: 8,
-    "& .MuiFormLabel-root": {
-      left: -12,
-      marginBottom: 0,
-      textTransform: "uppercase",
-      top: -8,
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      height: 56,
-      top: 0,
-      "& legend": {
-        display: "none",
-      },
-    },
-  },
-  title: {
-    marginBottom: 16,
-  },
-}));
+};
+export const title: SxProps = {
+  marginBottom: "16px",
+};

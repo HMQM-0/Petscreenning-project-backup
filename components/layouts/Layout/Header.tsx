@@ -9,7 +9,10 @@ type HeaderProps = {
 };
 
 const Header = ({ logo }: HeaderProps) => {
-  const trigger = useScrollTrigger();
+  const trigger = useScrollTrigger({
+    // The header should always be visible on the mobile device
+    disableHysteresis: window.innerWidth <= 768,
+  });
   const stickyStyle: React.CSSProperties = {
     position: "fixed",
     top: 0,
@@ -25,7 +28,7 @@ const Header = ({ logo }: HeaderProps) => {
         <PromoBanner />
         <TopNav logo={logo} />
       </header>
-      {trigger && <div style={{ marginBottom: "104px" }} />}
+      {trigger && <div style={{ marginBottom: "72px" }} />}
     </>
   );
 };

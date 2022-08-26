@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 const PmMastercardDark: FunctionComponent = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="14">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 14" width="24" height="14">
       <path
         fill="currentColor"
         fillRule="evenodd"

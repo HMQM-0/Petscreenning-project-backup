@@ -10,7 +10,6 @@ type WrapperProps = {
 export const Form = styled.form`
   padding-top: 1rem;
 `;
-// padding: 2rem 0;
 
 export const Card = styled.div<WrapperProps>`
   display: grid;
@@ -27,10 +26,12 @@ export const Card = styled.div<WrapperProps>`
     font-size: ${(props) => props.theme.typography.baseFontSize};
     outline: none;
     background-color: transparent;
+
     ::placeholder {
       font-size: 0;
       visibility: hidden;
     }
+
     &--empty {
       font-size: 0;
     }

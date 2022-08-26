@@ -16,17 +16,20 @@ PaymentInput.displayName = "S.PaymentInput";
 export const Grid = styled.div`
   display: flex;
   justify-content: space-between;
+
   ${media.smallScreen`
      flex-direction: column;
   `}
+
   & > div {
     padding-right: ${(props: any) => props.theme.spacing.spacer};
+
     &:last-child {
       padding-right: 0;
     }
+
     ${media.smallScreen`
       padding-right:  0;
-      
     `}
   }
 `;

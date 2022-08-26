@@ -17,7 +17,6 @@
       align-items: center;
       display: flex;
       flex-direction: column;
-      // height: calc(100vh - 56px);
       justify-content: space-between;
       padding: $spacer;
 
@@ -33,9 +32,7 @@
     }
 
     &__title {
-      // background-color: $white;
       display: inline-block;
-      // transform: skew(45deg);
       padding: $spacer $spacer * 3;
       margin-bottom: $spacer / 2;
 
@@ -47,14 +44,13 @@
       &__block {
         display: grid;
         grid-template-rows: "1fr 1fr 1fr";
+
         h1 {
           display: inline-block;
-          // transform: skew(-45deg);
-          font-weight: $bold-font-weight;
           text-transform: uppercase;
           color: $white;
           font-size: $h1-font-size;
-          font-weight: 900;
+          font-weight: $extra-bold-font-weight;
           padding: 0 24px;
 
           @media (max-width: $small-screen) {
@@ -71,14 +67,14 @@
       &__leftline {
         width: 100%;
         height: 2px;
-        background: linear-gradient(90deg, #fff, transparent 66%);
+        background: linear-gradient(90deg, $white, transparent 66%);
         margin-bottom: 16px;
       }
 
       &__rightline {
         width: 100%;
         height: 2px;
-        background: linear-gradient(90deg, transparent 45%, #fff);
+        background: linear-gradient(90deg, transparent 45%, $white);
         margin-top: 16px;
       }
     }
@@ -138,7 +134,6 @@
           font-weight: $bold-font-weight;
 
           &:after {
-            // content: url("../../../images/carousel-arrow.svg");
             display: inline-block;
             transform: rotate(180deg);
             margin-left: 1rem;

@@ -1,4 +1,4 @@
-import { styled } from "@styles";
+import { styled } from "styles";
 
 export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.colors.light};
@@ -18,7 +18,6 @@ export const Overlay = styled.div`
   width: 100%;
   padding: 1.25rem;
   height: auto;
-  /* height: 350px; */
   overflow: visible;
   z-index: 10;
   background-color: white;
@@ -36,8 +35,7 @@ export const MenuItem = styled.div<{
   display: flex;
   justify-content: space-between;
   padding-bottom: 1.5rem;
-  color: ${(props) =>
-    props.active ? props.theme.colors.activeMenuOption : ""};
+  color: ${(props) => (props.active ? props.theme.colors.activeMenuOption : "")};
 
   svg {
     transform: rotate(-90deg);

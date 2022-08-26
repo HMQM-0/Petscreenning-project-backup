@@ -10,12 +10,7 @@ interface CookieBarProps {
   action?: React.ReactNode;
 }
 
-const CookieBar = ({
-  title,
-  description,
-  action,
-  hide,
-}: CookieBarProps) => {
+const CookieBar = ({ title, description, action, hide }: CookieBarProps) => {
   return (
     <Box className={hide ? classes["cookie-hide"] : classes["cookie-root"]}>
       <span>{title}</span>
@@ -33,7 +28,7 @@ const CookieBar = ({
           About Cookies
         </a>
       </span>
-      {action && action}
+      {action && (<div className={classes["cookie-action"]}>{action}</div>)}
     </Box>
   );
 };

@@ -2,14 +2,12 @@
 
 .button {
   background-color: $primary;
-  // transform: $button-transform;
   padding: $button-padding;
   border: none;
   border-radius: 50px;
   box-shadow: $button-box-shadow;
   transition: $button-transition;
   outline: none;
-  // font-family: $base-font-family;
   cursor: pointer;
 
   @media (max-width: $small-screen) {
@@ -25,7 +23,6 @@
     text-transform: $button-text-transform;
     font-weight: $button-font-weight;
     line-height: $button-line-height;
-    // transform: $button-content-transform;
   }
 
   &:hover {

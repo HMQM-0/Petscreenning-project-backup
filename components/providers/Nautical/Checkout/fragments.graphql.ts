@@ -140,13 +140,23 @@ export const checkoutLineFragment = gql`
   }
 `;
 
-export const availableShippingMethodsBySellerFragment = gql`
-  fragment MultiSellerShippingMethod on ShippingMethod {
+export const shippingMethodFragment = gql`
+  fragment ShippingMethod on ShippingMethod {
     id
     name
     price {
       currency
       amount
+    }
+  }
+`;
+
+export const multiSellerShippingMethodFragment = gql`
+  ${shippingMethodFragment}
+  fragment MultiSellerShippingMethod on MultiSellerShippingMethod {
+    seller
+    value {
+      ...ShippingMethod
     }
   }
 `;
@@ -157,7 +167,7 @@ export const checkoutFragment = gql`
   ${checkoutPriceFragment}
   ${checkoutShippingMethodFragment}
   ${paymentGatewayFragment}
-  ${availableShippingMethodsBySellerFragment}
+  ${multiSellerShippingMethodFragment}
   fragment Checkout on Checkout {
     token
     id
@@ -178,10 +188,7 @@ export const checkoutFragment = gql`
       ...ShippingMethod
     }
     availableShippingMethodsBySeller {
-      seller
-      value {
-        ...MultiSellerShippingMethod
-      }
+      ...MultiSellerShippingMethod
     }
     applicableVolumeDiscounts {
       amount

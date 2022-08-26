@@ -15,8 +15,8 @@
 }
 
 .cookie-root {
-  color: #fff;
-  background-color: #000;
+  color: $white;
+  background-color: $black;
   height: 64px;
   padding: 16px;
   transition-timing-function: ease-out;
@@ -37,5 +37,11 @@
     height: 176px;
     padding: 24px;
     flex-direction: column;
+  }
+}
+
+.cookie-action {
+  @media (max-width: $small-screen) {
+    width: 100%;
   }
 }

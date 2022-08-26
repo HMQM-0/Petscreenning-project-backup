@@ -1,4 +1,5 @@
 import "@builder.io/widgets";
+import { Base64 } from "js-base64";
 import * as React from "react";
 import { useTheme } from "@mui/material";
 import { useAlert } from "react-alert";
@@ -7,14 +8,13 @@ import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { MicrositesQueryResult } from "components/templates/VendorsPage/queries.graphql.generated";
-import { generateUrlByGraphqlId, getDBIdFromGraphqlId } from "core/utils";
-import { FilterQuerySet } from "components/organisms";
+import { getDBIdFromGraphqlId, slugify } from "core/utils";
+import { FilterQuerySet, useAddOrRemoveToWishlist, useIsAddedToWishlist } from "components/organisms";
 import { useHandleAddToCart } from "components/templates/ProductPage/Page";
 import {
   useAddWishlistProductMutation,
   useRemoveWishlistProductMutation,
 } from "components/providers/Nautical/Wishlist/mutations.graphql.generated";
-import { WishlistDocument } from "components/providers/Nautical/Wishlist/queries.graphql.generated";
 import { useAuth, useWishlist, useCart } from "nautical-api";
 
 interface IStorePage {
@@ -69,6 +69,9 @@ const useBuilderStateData = ({
   const intl = useIntl();
   const addToCartHandler = useHandleAddToCart();
 
+  const addOrRemoveFromWishlist = useAddOrRemoveToWishlist();
+  const isAddedToWishlist = useIsAddedToWishlist();
+
   const [, setAttributeFilters] = useQueryParam("filters", FilterQuerySet);
 
   const { wishlist: wishlistContext } = useWishlist();
@@ -91,79 +94,17 @@ const useBuilderStateData = ({
       });
     }
 
-    function handleNavigateById(id: string, name: string) {
-      router.push(generateUrlByGraphqlId(id, name));
+    function handleNavigateById(graphqlId: string, name: string) {
+      const rawId = Base64.decode(graphqlId).split(":");
+      // entity name equals route, except for microsite
+      const schema = rawId[0] === "Microsite" ? "site" : rawId[0];
+      const id = rawId[1];
+      router.push(`/${schema.toLowerCase()}/${slugify(name)}/${id}/`);
     }
 
     function handleNavigateByItem(item: { id: string; name: string }) {
       return handleNavigateById(item.id, item.name);
     }
-
-    const isAddedToWishlist = async (productId: string) => {
-      return !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
-    };
-
-    // TODO: make it DRY and re-use AddToWishlist component logic instead
-    const addOrRemoveFromWishlist = async (productId: string) => {
-      const addedToWishlist = !!wishlistContext && wishlistContext.some(({ product }) => product.id === productId);
-
-      if (!user) {
-        alert.show(
-          {
-            content: `Please log in to add the product to your wishlist`,
-            title: intl.formatMessage({
-              defaultMessage: "Login required",
-            }),
-          },
-          {
-            timeout: 7500,
-            type: "error",
-          }
-        );
-      }
-      if (addedToWishlist && user) {
-        await setRemoveWishlistProduct({
-          variables: { productId },
-          refetchQueries: [
-            WishlistDocument, // DocumentNode object parsed with gql
-            "Wishlist", // Query name
-          ],
-        });
-        // update();
-        alert.show(
-          {
-            content: `Removed product from your wishlist`,
-            title: intl.formatMessage({
-              defaultMessage: "Product removed",
-            }),
-          },
-          {
-            timeout: 7500,
-            type: "success",
-          }
-        );
-      } else if (!addedToWishlist && user) {
-        await setAddWishlistProduct({
-          variables: { productId },
-          refetchQueries: [
-            WishlistDocument, // DocumentNode object parsed with gql
-            "Wishlist", // Query name
-          ],
-        });
-        alert.show(
-          {
-            content: `Added product to your wishlist`,
-            title: intl.formatMessage({
-              defaultMessage: "Product added",
-            }),
-          },
-          {
-            timeout: 7500,
-            type: "success",
-          }
-        );
-      }
-    };
 
     return {
       category: sanitizeModel(category),
@@ -184,6 +125,7 @@ const useBuilderStateData = ({
       cart: items,
       addToCart: handleAddToCart,
       searchFor: handleSetSearch,
+      searchVendor: handleSetSearch,
       navigate: (to: string, replace: boolean) => (replace ? router.replace(to) : router.push(to)),
       navigateById: handleNavigateById,
       navigateByItem: handleNavigateByItem,

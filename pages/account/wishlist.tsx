@@ -1,14 +1,12 @@
+import { GetServerSidePropsContext } from "next";
 import type { NextPage, InferGetServerSidePropsType } from "next";
 
 import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
+import { getSsrApolloClient } from "apollo-client";
 import { WishlistPage } from "components/templates/WishlistPage";
 import { AccountSettingsLayout } from "components/layouts/AccountSettingsLayout";
-import {
-  WishlistPageDocument,
-  WishlistPageQuery,
-} from "components/templates/WishlistPage/queries.graphql.generated";
+import { WishlistPageDocument, WishlistPageQuery } from "components/templates/WishlistPage/queries.graphql.generated";
 
 const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
   const description = "Wishlist";
@@ -31,8 +29,8 @@ const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   );
 };
 
-export async function getServerSideProps() {
-  const client = getApolloClient();
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const client = getSsrApolloClient(context);
 
   const { data } = await client.query<WishlistPageQuery>({
     query: WishlistPageDocument,
