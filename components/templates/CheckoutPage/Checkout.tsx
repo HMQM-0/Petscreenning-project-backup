@@ -562,7 +562,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
               <AddressForm
                 values={{
-                  email: email ?? "",
+                  email: email || "",
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
