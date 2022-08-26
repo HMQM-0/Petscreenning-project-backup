@@ -32,7 +32,7 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IItems } from "components/providers/Nautical/Cart/types";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
-import { AddressForm, AddressFormValues } from "components/atoms";
+import { AddressForm, AddressFormFields, AddressFormSubmitButton, AddressFormValues } from "components/atoms";
 
 import Payment from "./Payment";
 import { IProduct } from "./types";
@@ -221,6 +221,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     return yotpoLoyaltyAndReferralsPluginActive;
   }, [activePlugins]);
 
+  const handleErrors = React.useCallback(
+    (errors: IFormError[]) => {
+      const messages = maybe(() => errors.flatMap((error) => error.message), []);
+      setErrorMessage(messages.join(" \n"));
+      invalidate();
+    },
+    [invalidate]
+  );
+
   const onCompleteCheckout = React.useCallback(async () => {
     setCompleteCheckoutRunning(true);
     const response = await completeCheckout();
@@ -253,6 +262,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     awardCustomerLoyaltyPoints,
     checkIfLoyaltyAndReferralsActive,
     completeCheckout,
+    handleErrors,
     loyaltyPointsToBeEarnedOnOrderComplete,
     router,
     user,
@@ -286,7 +296,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         setSubmittingPayment(false);
       }
     },
-    [onCompleteCheckout, createPayment]
+    [createPayment, onCompleteCheckout, handleErrors]
   );
 
   React.useEffect(() => {
@@ -381,12 +391,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const handleBreadcrumb = (nextTab: CheckoutTabs) => {
     setCurrentTab(nextTab);
-  };
-
-  const handleErrors = (errors: IFormError[]) => {
-    const messages = maybe(() => errors.flatMap((error) => error.message), []);
-    setErrorMessage(messages.join(" \n"));
-    invalidate();
   };
 
   const parseErrors = (errors: IFormError[]) => {
@@ -567,8 +571,14 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   country: shippingAddress?.country.code,
                 }}
                 onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING)}
-                errorMessage={shippingAddressError}
-              />
+              >
+                {({ touched, errors, isSubmitting }) => (
+                  <>
+                    <AddressFormFields errorMessage={shippingAddressError} hasEmail touched={touched} errors={errors} />
+                    <AddressFormSubmitButton isSubmitting={isSubmitting} />
+                  </>
+                )}
+              </AddressForm>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.SHIPPING}>
               <Box mb={2}>
@@ -647,16 +657,28 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   }
                   await confirmAndPurchase();
                 }}
-                errorMessage={errorMessage || billingAddressError}
-                submitText={"Confirm Payment"}
-                secondaryButton={
-                  <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
-                    <KeyboardBackspaceIcon /> Back to shipping
-                  </Button>
-                }
-                hideFields={billingAsShipping}
-                submitting={submittingPayment}
-              />
+                noValidate={billingAsShipping}
+              >
+                {({ isSubmitting, touched, errors }) => (
+                  <>
+                    {!billingAsShipping && (
+                      <AddressFormFields
+                        errorMessage={errorMessage || billingAddressError}
+                        touched={touched}
+                        errors={errors}
+                      />
+                    )}
+
+                    <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
+                      <KeyboardBackspaceIcon /> Back to shipping
+                    </Button>
+                    <AddressFormSubmitButton
+                      isSubmitting={isSubmitting || submittingPayment}
+                      buttonText="Confirm Payment"
+                    />
+                  </>
+                )}
+              </AddressForm>
             </TabPanel>
           </Box>
           <Box sx={cartSummary}>
