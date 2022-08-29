@@ -122,6 +122,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
+  const submitBillingAddressRef = React.useRef(() => {});
 
   const { countries, activePlugins, minCheckoutAmount } = useShopContext();
 
@@ -652,33 +653,45 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   country: billingAddress?.country.code,
                 }}
                 onSubmit={async (values) => {
-                  if (!billingAsShipping) {
-                    handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
-                  }
-                  await confirmAndPurchase();
+                  handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
                 }}
                 noValidate={billingAsShipping}
               >
-                {({ isSubmitting, touched, errors }) => (
-                  <>
-                    {!billingAsShipping && (
-                      <AddressFormFields
-                        errorMessage={errorMessage || billingAddressError}
-                        touched={touched}
-                        errors={errors}
-                      />
-                    )}
-
-                    <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
-                      <KeyboardBackspaceIcon /> Back to shipping
-                    </Button>
-                    <AddressFormSubmitButton
-                      isSubmitting={isSubmitting || submittingPayment}
-                      buttonText="Confirm Payment"
-                    />
-                  </>
-                )}
+                {({ touched, errors, submitForm }) => {
+                  submitBillingAddressRef.current = submitForm;
+                  return (
+                    <>
+                      {!billingAsShipping && (
+                        <AddressFormFields
+                          errorMessage={errorMessage || billingAddressError}
+                          touched={touched}
+                          errors={errors}
+                        />
+                      )}
+                    </>
+                  );
+                }}
               </AddressForm>
+              <Box sx={buttonsGrid}>
+                <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
+                  <KeyboardBackspaceIcon /> Back to shipping
+                </Button>
+                <Button
+                  color="primary"
+                  disableElevation
+                  sx={button}
+                  variant="contained"
+                  disabled={submittingPayment}
+                  onClick={async () => {
+                    if (!billingAsShipping) {
+                      submitBillingAddressRef.current();
+                    }
+                    await confirmAndPurchase();
+                  }}
+                >
+                  {submittingPayment ? <CircularProgress /> : "Confirm Payment"}
+                </Button>
+              </Box>
             </TabPanel>
           </Box>
           <Box sx={cartSummary}>
