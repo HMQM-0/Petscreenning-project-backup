@@ -5,32 +5,34 @@ import { getCheckout, setCheckout, getPayment, setPayment } from "utils";
 import { CheckoutActionCreators, CheckoutActions } from "./actions";
 import { useGetUserCheckout } from "./helpers/useGetUserCheckout";
 import { ICheckoutStateContext } from "./context";
+import { DataErrorCheckoutTypes } from "./types";
 
 import { useAuth } from "../Auth";
 
 type useInitializeCheckoutProps = {
   dispatch: React.Dispatch<CheckoutActions>;
+  invalidator: {};
 };
 
-const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
-  const { authenticated } = useAuth();
+const useInitializeCheckout = ({ dispatch, invalidator }: useInitializeCheckoutProps) => {
+  const { authenticated, signedOut } = useAuth();
   const getUserCheckout = useGetUserCheckout();
 
   useEffect(() => {
     const init = async () => {
+      if (signedOut) {
+        return;
+      }
       const checkout = getCheckout();
       const payment = getPayment();
 
       const { data, error } = await getUserCheckout(Boolean(authenticated), checkout?.token);
 
       if (error) {
-        // TODO: What sort of error handling is appropriate here?
-        // return {
-        //   dataError: {
-        //     error,
-        //     type: DataErrorCheckoutTypes.GET_CHECKOUT,
-        //   },
-        // };
+        if (error.type === DataErrorCheckoutTypes.USER_CHECKOUT_DOES_NOT_EXIST && checkout?.token) {
+          dispatch(CheckoutActionCreators.clearCheckout());
+          return;
+        }
       }
 
       const newCheckout = data || checkout;
@@ -53,7 +55,7 @@ const useInitializeCheckout = ({ dispatch }: useInitializeCheckoutProps) => {
     };
 
     init();
-  }, [authenticated, dispatch, getUserCheckout]);
+  }, [authenticated, dispatch, getUserCheckout, invalidator, signedOut]);
 };
 
 export { useInitializeCheckout };

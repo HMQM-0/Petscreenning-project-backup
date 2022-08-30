@@ -90,7 +90,7 @@ export interface ICheckoutModelLineVariant {
   quantityAvailable?: number;
   id: string;
   name?: string;
-  sku?: string;
+  sku?: string | null;
   pricing?: ProductVariantFragment["pricing"] | null;
   product?: ProductVariantFragment["product"];
   isAvailable?: boolean | null;
@@ -163,4 +163,5 @@ export enum DataErrorCheckoutTypes {
   "COMPLETE_CHECKOUT",
   "GET_CHECKOUT",
   "GET_PAYMENT_GATEWAYS",
+  "USER_CHECKOUT_DOES_NOT_EXIST",
 }
