@@ -46,9 +46,9 @@ const handleDataErrors = <T extends QueryShape, TData>(
   const errors =
     apolloErrors || userInputErrors
       ? new ApolloError({
-          extraInfo: userInputErrors,
-          graphQLErrors: apolloErrors,
-        })
+        extraInfo: userInputErrors,
+        graphQLErrors: apolloErrors,
+      })
       : null;
 
   if (errors && isDataEmpty(data)) {
@@ -92,13 +92,9 @@ class APIProxy {
   );
 
   getOrderDetails = (
-    variables: InferOptions<
-      QUERIES["OrderDetails"] | QUERIES["OrderDetailsByUser"]
-    >["variables"],
-    options: Omit<
-      InferOptions<QUERIES["OrderDetails"] | QUERIES["OrderDetailsByUser"]>,
-      "variables"
-    > & {
+    variables: InferOptions<QUERIES["OrderDetails"] | QUERIES["OrderDetailsByUser"]>["variables"],
+    options: Omit<InferOptions<QUERIES["OrderDetails"] | QUERIES["OrderDetailsByUser"]>,
+      "variables"> & {
       onUpdate: (
         data:
           | OrderByToken["orderByToken"]
@@ -120,15 +116,9 @@ class APIProxy {
   };
 
   getNauticalOrderDetails = (
-    variables: InferOptions<
-      QUERIES["NauticalOrderDetails"] | QUERIES["NauticalOrderDetailsByUser"]
-    >["variables"],
-    options: Omit<
-      InferOptions<
-        QUERIES["NauticalOrderDetails"] | QUERIES["NauticalOrderDetailsByUser"]
-      >,
-      "variables"
-    > & {
+    variables: InferOptions<QUERIES["NauticalOrderDetails"] | QUERIES["NauticalOrderDetailsByUser"]>["variables"],
+    options: Omit<InferOptions<QUERIES["NauticalOrderDetails"] | QUERIES["NauticalOrderDetailsByUser"]>,
+      "variables"> & {
       onUpdate: (
         data:
           | NauticalOrderByToken["nauticalOrderByToken"]
@@ -153,8 +143,6 @@ class APIProxy {
     QUERIES.VariantsProducts,
     (data) => data.productVariants
   );
-
-  getShopDetails = this.watchQuery(QUERIES.GetShopDetails, (data) => data);
 
   getLoyaltyAndReferralsInfo = this.watchQuery(
     QUERIES.GetLoyaltyAndReferralsInfo,
@@ -292,15 +280,9 @@ class APIProxy {
   };
 
   setYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord = async (
-    variables: InferOptions<
-      MUTATIONS["YotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord"]
-    >["variables"],
-    options?: Omit<
-      InferOptions<
-        MUTATIONS["YotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord"]
-      >,
-      "variables"
-    >
+    variables: InferOptions<MUTATIONS["YotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord"]>["variables"],
+    options?: Omit<InferOptions<MUTATIONS["YotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord"]>,
+      "variables">
   ) => {
     const result = await this.fireQuery(
       MUTATIONS.YotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecord,
@@ -314,15 +296,9 @@ class APIProxy {
   };
 
   setYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints = async (
-    variables: InferOptions<
-      MUTATIONS["YotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints"]
-    >["variables"],
-    options?: Omit<
-      InferOptions<
-        MUTATIONS["YotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints"]
-      >,
-      "variables"
-    >
+    variables: InferOptions<MUTATIONS["YotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints"]>["variables"],
+    options?: Omit<InferOptions<MUTATIONS["YotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints"]>,
+      "variables">
   ) => {
     const result = await this.fireQuery(
       MUTATIONS.YotpoLoyaltyAndReferralsAwardCustomerLoyaltyPoints,
@@ -355,13 +331,9 @@ class APIProxy {
     query: T,
     mapFn: WatchMapFn<T, TResult>
   ) {
-    return <
-      TVariables extends InferOptions<T>["variables"],
-      TOptions extends Omit<
-        InferOptions<T> | WatchQueryOptions<InferOptions<T>>,
-        "variables"
-      >
-    >(
+    return <TVariables extends InferOptions<T>["variables"],
+      TOptions extends Omit<InferOptions<T> | WatchQueryOptions<InferOptions<T>>,
+        "variables">>(
       variables: TVariables,
       options: TOptions & {
         skip?: boolean;
