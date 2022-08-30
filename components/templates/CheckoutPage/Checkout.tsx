@@ -122,6 +122,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
+  const submitShippingAddressRef = React.useRef(() => {});
+  const [isSubmittingShippingAddress, setIsSubmittingShippingAddress] = React.useState(false);
   const submitBillingAddressRef = React.useRef(() => {});
 
   const { countries, activePlugins, minCheckoutAmount } = useShopContext();
@@ -316,7 +318,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     (
       checkoutMethod: typeof setShippingAddress | typeof setBillingAddress,
       errorHandler: React.Dispatch<string>,
-      nextStep?: CheckoutTabs
+      nextStep?: CheckoutTabs,
+      onComplete?: () => void
     ) =>
     async (values: AddressFormValues) => {
       const country = countries.find((country) => country.code === values.country)?.country ?? "";
@@ -351,6 +354,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           setCurrentTab(nextStep);
         }
       }
+      onComplete?.();
     };
 
   const confirmAndPurchase = async () => {
@@ -571,15 +575,32 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
-                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING)}
-              >
-                {({ touched, errors, isSubmitting }) => (
-                  <>
-                    <AddressFormFields errorMessage={shippingAddressError} hasEmail touched={touched} errors={errors} />
-                    <AddressFormSubmitButton isSubmitting={isSubmitting} />
-                  </>
+                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
+                  setIsSubmittingShippingAddress(false)
                 )}
+              >
+                {({ touched, errors, submitForm }) => {
+                  submitShippingAddressRef.current = submitForm;
+                  return (
+                    <AddressFormFields errorMessage={shippingAddressError} hasEmail touched={touched} errors={errors} />
+                  );
+                }}
               </AddressForm>
+              <Box sx={buttonsGrid}>
+                <Button
+                  color="primary"
+                  disableElevation
+                  sx={button}
+                  variant="contained"
+                  disabled={isSubmittingShippingAddress}
+                  onClick={async () => {
+                    setIsSubmittingShippingAddress(true);
+                    submitShippingAddressRef.current();
+                  }}
+                >
+                  {isSubmittingShippingAddress ? <CircularProgress /> : "Set Address"}
+                </Button>
+              </Box>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.SHIPPING}>
               <Box mb={2}>
