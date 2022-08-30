@@ -18,6 +18,7 @@ export const defaultContext: GetShopQuery["shop"] = {
   displayGrossPrices: true,
   loginForPrice: false,
   loginForProducts: false,
+  minCheckoutAmount: 0,
   geolocalization: { __typename: "Geolocalization", country: defaultCountry },
   activePlugins: [],
 };
