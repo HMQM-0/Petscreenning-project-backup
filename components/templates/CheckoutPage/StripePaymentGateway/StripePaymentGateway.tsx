@@ -152,6 +152,7 @@ const StripePaymentGateway: React.FC<IProps> = ({
             field: error.code,
           },
         ]);
+        onError([]);
       }
     }
   };

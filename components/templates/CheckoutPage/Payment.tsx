@@ -1,8 +1,4 @@
-import {
-  Alert,
-  Box,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import * as React from "react";
 import { useIntl } from "react-intl";
 
@@ -12,30 +8,24 @@ import { maybe } from "@utils/misc";
 
 import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
-import {
-  gridspan,
-  title,
-} from "./styles";
+import { gridspan, title } from "./styles";
 
 import { ICheckoutModelLine } from "../../providers/Nautical/Checkout/types";
 
 interface PaymentProps {
   handleCreatePayment: (gateway: string, token?: string, creditCardData?: ICardData) => void;
+  submittingPayment: boolean;
+  setSubmittingPayment: React.Dispatch<boolean>;
 }
 
-const Payment = ({ handleCreatePayment }: PaymentProps) => {
+const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment }: PaymentProps) => {
   const { totalPrice } = useCart();
 
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
   const [paymentAlreadySubmitted, setPaymentAlreadySubmitted] = React.useState<boolean>(false);
 
-  const {
-    availablePaymentGateways,
-    lines,
-    payment,
-  } = useCheckout();
+  const { availablePaymentGateways, lines, payment } = useCheckout();
 
   const intl = useIntl();
 
@@ -56,6 +46,7 @@ const Payment = ({ handleCreatePayment }: PaymentProps) => {
   const handleErrors = (errors: IFormError[]) => {
     const messages = maybe(() => errors.flatMap((error) => error.message), []);
     setErrorMessage(messages.join(" \n"));
+    setSubmittingPayment(false);
   };
 
   const authNetResponseHandler = (response: any, gateway: string, creditCardData: ICardData) => {
@@ -113,7 +104,6 @@ const Payment = ({ handleCreatePayment }: PaymentProps) => {
       setSubmittingPayment(false);
     }
   };
-
 
   const showPaymentAlreadySubmittedNotification = paymentAlreadySubmitted && !payment?.token && !submittingPayment;
   const showPaymentForm = showPaymentAlreadySubmittedNotification || Number(totalPrice?.gross.amount) > 0;

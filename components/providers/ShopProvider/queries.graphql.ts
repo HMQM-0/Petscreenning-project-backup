@@ -7,6 +7,7 @@ export const getShop = gql`
       loginForPrice
       loginForProducts
       builderKey
+      minCheckoutAmount
       activePlugins {
         identifier
         name

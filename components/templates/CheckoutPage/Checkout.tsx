@@ -32,7 +32,7 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IItems } from "components/providers/Nautical/Cart/types";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
-import { AddressForm, AddressFormValues } from "components/atoms";
+import { AddressForm, AddressFormFields, AddressFormSubmitButton, AddressFormValues } from "components/atoms";
 
 import Payment from "./Payment";
 import { IProduct } from "./types";
@@ -122,6 +122,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
+  const submitShippingAddressRef = React.useRef(() => {});
+  const [isSubmittingShippingAddress, setIsSubmittingShippingAddress] = React.useState(false);
+  const submitBillingAddressRef = React.useRef(() => {});
 
   const { countries, activePlugins, minCheckoutAmount } = useShopContext();
 
@@ -147,6 +150,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     email,
     payment,
     loaded: checkoutLoaded,
+    invalidate,
   } = useCheckout();
 
   const products: IProduct[] | null =
@@ -220,6 +224,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     return yotpoLoyaltyAndReferralsPluginActive;
   }, [activePlugins]);
 
+  const handleErrors = React.useCallback(
+    (errors: IFormError[]) => {
+      const messages = maybe(() => errors.flatMap((error) => error.message), []);
+      setErrorMessage(messages.join(" \n"));
+      invalidate();
+    },
+    [invalidate]
+  );
+
   const onCompleteCheckout = React.useCallback(async () => {
     setCompleteCheckoutRunning(true);
     const response = await completeCheckout();
@@ -252,6 +265,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     awardCustomerLoyaltyPoints,
     checkIfLoyaltyAndReferralsActive,
     completeCheckout,
+    handleErrors,
     loyaltyPointsToBeEarnedOnOrderComplete,
     router,
     user,
@@ -277,14 +291,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         }
 
         if (!errors || errors.length === 0) {
-          onCompleteCheckout();
+          await onCompleteCheckout();
         } else {
           handleErrors(errors);
         }
         creatingPayment.current = false;
+        setSubmittingPayment(false);
       }
     },
-    [onCompleteCheckout, createPayment]
+    [createPayment, onCompleteCheckout, handleErrors]
   );
 
   React.useEffect(() => {
@@ -303,7 +318,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     (
       checkoutMethod: typeof setShippingAddress | typeof setBillingAddress,
       errorHandler: React.Dispatch<string>,
-      nextStep?: CheckoutTabs
+      nextStep?: CheckoutTabs,
+      onComplete?: () => void
     ) =>
     async (values: AddressFormValues) => {
       const country = countries.find((country) => country.code === values.country)?.country ?? "";
@@ -329,6 +345,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         if (isArray(submission.dataError.error)) {
           const error = parseErrors(submission.dataError.error);
           errorHandler(error);
+          invalidate();
         }
         return;
       } else {
@@ -337,15 +354,16 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           setCurrentTab(nextStep);
         }
       }
+      onComplete?.();
     };
 
   const confirmAndPurchase = async () => {
+    setSubmittingPayment(true);
     const orderTotal = Number(total?.gross.amount);
     const minOrderTotal = Number(minCheckoutAmount);
 
     if (orderTotal === 0) {
-      setSubmittingPayment(true);
-      onCompleteCheckout();
+      await onCompleteCheckout();
       return;
     }
 
@@ -355,10 +373,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           Minimum order is <Money money={{ amount: minOrderTotal, currency: total?.gross.currency || "" }} />
         </>
       );
+      setSubmittingPayment(false);
       return;
     }
 
-    setSubmittingPayment(true);
     if (typeof document !== "undefined") {
       document.getElementById("gatewayButton")?.click();
     }
@@ -378,11 +396,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const handleBreadcrumb = (nextTab: CheckoutTabs) => {
     setCurrentTab(nextTab);
-  };
-
-  const handleErrors = (errors: IFormError[]) => {
-    const messages = maybe(() => errors.flatMap((error) => error.message), []);
-    setErrorMessage(messages.join(" \n"));
   };
 
   const parseErrors = (errors: IFormError[]) => {
@@ -558,13 +571,36 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
               <AddressForm
                 values={{
-                  email,
+                  email: email || "",
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
-                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING)}
-                errorMessage={shippingAddressError}
-              />
+                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
+                  setIsSubmittingShippingAddress(false)
+                )}
+              >
+                {({ touched, errors, submitForm }) => {
+                  submitShippingAddressRef.current = submitForm;
+                  return (
+                    <AddressFormFields errorMessage={shippingAddressError} hasEmail touched={touched} errors={errors} />
+                  );
+                }}
+              </AddressForm>
+              <Box sx={buttonsGrid}>
+                <Button
+                  color="primary"
+                  disableElevation
+                  sx={button}
+                  variant="contained"
+                  disabled={isSubmittingShippingAddress}
+                  onClick={async () => {
+                    setIsSubmittingShippingAddress(true);
+                    submitShippingAddressRef.current();
+                  }}
+                >
+                  {isSubmittingShippingAddress ? <CircularProgress /> : "Set Address"}
+                </Button>
+              </Box>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.SHIPPING}>
               <Box mb={2}>
@@ -611,7 +647,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.PAYMENT}>
-              <Payment handleCreatePayment={handleCreatePayment} />
+              <Payment
+                handleCreatePayment={handleCreatePayment}
+                submittingPayment={submittingPayment}
+                setSubmittingPayment={setSubmittingPayment}
+              />
               <Box mb={2}>
                 <Typography sx={title} variant="h6">
                   Billing Address
@@ -634,20 +674,45 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   country: billingAddress?.country.code,
                 }}
                 onSubmit={async (values) => {
-                  if (!billingAsShipping) {
-                    handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
-                  }
-                  confirmAndPurchase();
+                  handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
                 }}
-                errorMessage={errorMessage || billingAddressError}
-                submitText={submittingPayment ? <CircularProgress /> : "Confirm Payment"}
-                secondaryButton={
-                  <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
-                    <KeyboardBackspaceIcon /> Back to shipping
-                  </Button>
-                }
-                hideFields={billingAsShipping}
-              />
+                noValidate={billingAsShipping}
+              >
+                {({ touched, errors, submitForm }) => {
+                  submitBillingAddressRef.current = submitForm;
+                  return (
+                    <>
+                      {!billingAsShipping && (
+                        <AddressFormFields
+                          errorMessage={errorMessage || billingAddressError}
+                          touched={touched}
+                          errors={errors}
+                        />
+                      )}
+                    </>
+                  );
+                }}
+              </AddressForm>
+              <Box sx={buttonsGrid}>
+                <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
+                  <KeyboardBackspaceIcon /> Back to shipping
+                </Button>
+                <Button
+                  color="primary"
+                  disableElevation
+                  sx={button}
+                  variant="contained"
+                  disabled={submittingPayment}
+                  onClick={async () => {
+                    if (!billingAsShipping) {
+                      submitBillingAddressRef.current();
+                    }
+                    await confirmAndPurchase();
+                  }}
+                >
+                  {submittingPayment ? <CircularProgress /> : "Confirm Payment"}
+                </Button>
+              </Box>
             </TabPanel>
           </Box>
           <Box sx={cartSummary}>

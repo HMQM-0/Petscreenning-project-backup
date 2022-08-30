@@ -9,6 +9,7 @@ import {
   UserCheckoutDetailsQuery,
 } from "../queries.graphql.generated";
 import { constructCheckoutModel } from "../../utils/constructCheckoutModel";
+import { DataErrorCheckoutTypes } from "../types";
 
 const useGetUserCheckout = () => {
   const client = useApolloClient();
@@ -17,46 +18,30 @@ const useGetUserCheckout = () => {
     async (isUserSignedIn: boolean, checkoutToken: string | null) => {
       let checkout: CheckoutFragment | null;
       try {
-        checkout = await new Promise((resolve, reject) => {
+        checkout = await new Promise(async (resolve, reject) => {
           if (isUserSignedIn) {
-            const observable = client.watchQuery<UserCheckoutDetailsQuery, any>({
+            const { data, errors } = await client.query<UserCheckoutDetailsQuery, any>({
               fetchPolicy: "network-only",
               query: UserCheckoutDetailsDocument,
             });
-            observable.subscribe(
-              (result) => {
-                const { data, errors } = result;
-                if (errors?.length) {
-                  reject(errors);
-                } else {
-                  resolve(data.me?.checkout ?? null);
-                }
-              },
-              (error) => {
-                reject(error);
-              }
-            );
+            if (errors?.length) {
+              reject(errors);
+            } else {
+              resolve(data.me?.checkout ?? null);
+            }
           } else if (checkoutToken) {
-            const observable = client.watchQuery<CheckoutDetailsQuery, any>({
+            const { data, errors } = await client.query<CheckoutDetailsQuery, any>({
               fetchPolicy: "network-only",
               query: CheckoutDetailsDocument,
               variables: {
                 token: checkoutToken,
               },
             });
-            observable.subscribe(
-              (result) => {
-                const { data, errors } = result;
-                if (errors?.length) {
-                  reject(errors);
-                } else {
-                  resolve(data.checkout ?? null);
-                }
-              },
-              (error) => {
-                reject(error);
-              }
-            );
+            if (errors?.length) {
+              reject(errors);
+            } else {
+              resolve(data.checkout ?? null);
+            }
           } else {
             resolve(null);
           }
@@ -67,9 +52,19 @@ const useGetUserCheckout = () => {
             data: constructCheckoutModel(checkout),
           };
         }
+
+        if (!checkout && isUserSignedIn) {
+          return {
+            error: {
+              type: DataErrorCheckoutTypes.USER_CHECKOUT_DOES_NOT_EXIST,
+            },
+          };
+        }
       } catch (error) {
         return {
-          error,
+          error: {
+            type: DataErrorCheckoutTypes.GET_CHECKOUT,
+          },
         };
       }
       return {};
