@@ -5,6 +5,10 @@
     margin: $spacer 0 $spacer * 2;
   }
 
+  &__text {
+    margin-bottom: $spacer;
+  }
+
   &__button {
     text-align: center;
     margin: $spacer * 2 0 $spacer * 2 $spacer * 2;
