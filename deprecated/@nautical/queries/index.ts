@@ -9,7 +9,6 @@ import * as Category from "./category";
 import * as Collections from "./collections";
 import * as Orders from "./orders";
 import * as Product from "./products";
-import * as Shop from "./shop";
 import * as User from "./user";
 import * as PluginInfo from "./pluginInfo";
 import {
@@ -32,7 +31,6 @@ import {
   CategoryDetails,
   CategoryDetailsVariables,
 } from "./gqlTypes/CategoryDetails";
-import { GetShop } from "./gqlTypes/GetShop";
 import { GetProductRatingsAndReviews } from "./gqlTypes/GetProductRatingsAndReviews";
 import {
   NauticalOrdersByUser,
@@ -80,14 +78,6 @@ export const QUERIES = {
   ): ObservableQuery<CollectionList, any> =>
     client.watchQuery({
       query: Collections.collections,
-      ...options,
-    }),
-  GetShopDetails: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: QueryOptions<null>
-  ): ObservableQuery<GetShop, any> =>
-    client.watchQuery({
-      query: Shop.getShop,
       ...options,
     }),
   GetLoyaltyAndReferralsInfo: <TCacheShape>(
@@ -168,14 +158,6 @@ export const QUERIES = {
   ): ObservableQuery<VariantsProducts, any> =>
     client.watchQuery({
       query: Product.variantsProducts,
-      ...options,
-    }),
-  GetProductRatingsAndReviews: <TCacheShape>(
-    client: ApolloClient<TCacheShape>,
-    options: QueryOptions<null>
-  ): ObservableQuery<GetProductRatingsAndReviews, any> =>
-    client.watchQuery({
-      query: Product.getProductRatingsAndReviews,
       ...options,
     }),
   GetYotpoLoyaltyAndReferralsCustomerDetails: <TCacheShape>(

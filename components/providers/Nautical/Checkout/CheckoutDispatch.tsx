@@ -16,9 +16,10 @@ import { useUpdateLines } from "./useUpdateLines";
 type CheckoutDispatchProps = {
   children: React.ReactNode;
   dispatch: React.Dispatch<CheckoutActions>;
+  invalidate: () => void;
 };
 
-const CheckoutDispatch = ({ dispatch, children }: CheckoutDispatchProps) => {
+const CheckoutDispatch = ({ dispatch, children, invalidate }: CheckoutDispatchProps) => {
   const setShippingAddress = useSetShippingAddress({ dispatch });
   const setBillingAddress = useSetBillingAddress({ dispatch });
   const setBillingAsShippingAddress = useSetBillingAsShippingAddress({ dispatch });
@@ -41,6 +42,7 @@ const CheckoutDispatch = ({ dispatch, children }: CheckoutDispatchProps) => {
     createPayment,
     completeCheckout,
     updateLines,
+    invalidate,
   };
 
   return <CheckoutDispatchContext.Provider value={value}>{children}</CheckoutDispatchContext.Provider>;

@@ -1,12 +1,15 @@
 import * as Yup from "yup";
 
-export const addressValidationSchema = Yup.object().shape({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
-  streetAddress1: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
-});
+export const addressValidationSchema = (email?: string) =>
+  Yup.object().shape({
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+    streetAddress1: Yup.string().required("Required"),
+    city: Yup.string().required("Required"),
+    email: email ? Yup.string().email("Invalid email").required("Required") : Yup.string(),
+  });
+
+export const noValidationSchema = Yup.object().shape({});
 
 export const validateEmail = (value: string) => {
   let error;

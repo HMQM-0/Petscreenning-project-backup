@@ -24,6 +24,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.shippingMethod = action.payload.checkout.shippingMethod;
       draft.lines = action.payload.checkout.lines;
       draft.sellerShippingMethods = action.payload.checkout.sellerShippingMethods;
+      draft.token = action.payload.checkout.token;
       break;
     case CheckoutActionTypes.UPDATE_SHIPPING_ADDRESS:
       draft.availableShippingMethods = action.payload.availableShippingMethods;
@@ -51,6 +52,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.shippingMethod = action.payload.shippingMethod;
       draft.lines = action.payload.lines;
       draft.sellerShippingMethods = action.payload.sellerShippingMethods;
+      draft.token = action.payload.token;
       break;
     case CheckoutActionTypes.SET_BILLING_ADDRESS:
       draft.availablePaymentGateways = action.payload.availablePaymentGateways;
@@ -101,6 +103,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.shippingMethod = undefined;
       draft.lines = undefined;
       draft.sellerShippingMethods = undefined;
+      draft.token = undefined;
       break;
     case CheckoutActionTypes.UPDATE_LINES:
       draft.lines = action.payload.lines;

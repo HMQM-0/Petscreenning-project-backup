@@ -4,16 +4,19 @@ import * as React from "react";
 import { StringParam, useQueryParams } from "next-query-params";
 
 import { MicrositePageQueryResult } from "components/templates/MicrositePage/queries.graphql.generated";
-import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
 import { SearchPageQueryResult } from "components/templates/SearchPage/queries.graphql.generated";
 import { CollectionPageQueryResult } from "components/templates/CollectionPage/queries.graphql.generated";
 import { CategoryPageQueryResult } from "components/templates/CategoryPage/queries.graphql.generated";
 import useBuilderStateData from "components/hooks/useBuilderStateData";
 import {
-  ProductsPageQueryResult,
-  ProductsQueryResult
+  ProductsPageQueryResult
 } from "components/templates/ProductsPage/queries.graphql.generated";
 import builderConfig from "config/builder";
+
+import {
+  ProductsPageAttributeFragment,
+  ProductsQueryResult
+} from "./queries.graphql.generated";
 
 interface ProductsPageBuilderProps {
   type: "products";

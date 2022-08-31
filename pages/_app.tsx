@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { __APOLLO__, data } = pageProps;
   return (
     <ThemeProvider theme={defaultTheme}>
-      <MaterialUIProvider>
+      <MaterialUIProvider branding={data.branding}>
         <GlobalStyles styles={(theme) => nprogress(theme.palette.secondary.main)} />
         <div id="root">
           <AlertProvider template={NotificationTemplate as any} {...notificationOptions}>

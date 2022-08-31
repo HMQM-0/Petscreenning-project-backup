@@ -21,8 +21,8 @@ import * as React from "react";
 import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 import { isArray } from "lodash";
-import { useIntl } from "react-intl";
 
+import { Money } from "components/atoms/Money";
 import { useAuth, useCheckout } from "nautical-api";
 import { ICardData, IFormError } from "types";
 import { maybe } from "@utils/misc";
@@ -31,14 +31,10 @@ import { Plugins } from "deprecated/@nautical";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IItems } from "components/providers/Nautical/Cart/types";
-import {
-  useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation,
-  useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecordsMutation,
-} from "components/providers/Nautical/Auth/mutations.graphql.generated";
-import { AddressForm, AddressFormValues } from "components/atoms";
+import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
+import { AddressForm, AddressFormFields, AddressFormSubmitButton, AddressFormValues } from "components/atoms";
 
-import { StripePaymentGateway } from "./StripePaymentGateway";
-import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
+import Payment from "./Payment";
 import { IProduct } from "./types";
 import { CartSummary } from "./CartSummary";
 import { SellerMethod } from "./SellerMethod";
@@ -49,7 +45,6 @@ import {
   buttonsGrid,
   buttonText,
   cartSummary,
-  fieldsGrid,
   gridspan,
   tabs,
   title,
@@ -77,6 +72,13 @@ const TabPanel: React.FunctionComponent<TabPanelProps> = (props) => {
     </Box>
   );
 };
+
+const Errors = ({ errorMessage }: { errorMessage?: React.ReactNode | undefined }) =>
+  errorMessage ? (
+    <Alert sx={{ marginTop: "8px" }} severity="error">
+      {errorMessage}
+    </Alert>
+  ) : null;
 
 enum CheckoutTabs {
   CUSTOMER = "customer",
@@ -111,9 +113,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const [currentTab, setCurrentTab] = React.useState<CheckoutTabs>(CheckoutTabs.CUSTOMER);
   const [completeCheckoutRunnning, setCompleteCheckoutRunning] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState<React.ReactNode | string>("");
 
-  const [paymentFormError, setPaymentFormError] = React.useState(false);
   const [shippingFormError, setShippingFormError] = React.useState(false);
 
   const [shippingAddressError, setShippingAddressError] = React.useState<string>("");
@@ -121,9 +122,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
-  const [paymentAlreadySubmitted, setPaymentAlreadySubmitted] = React.useState<boolean>(false);
+  const submitShippingAddressRef = React.useRef(() => {});
+  const [isSubmittingShippingAddress, setIsSubmittingShippingAddress] = React.useState(false);
+  const submitBillingAddressRef = React.useRef(() => {});
 
-  const { countries, activePlugins } = useShopContext();
+  const { countries, activePlugins, minCheckoutAmount } = useShopContext();
 
   const [loyaltyPointsToBeEarnedOnOrderComplete, setLoyaltyPointsToBeEarnedOnOrderComplete] = usePersistedState(
     "loyaltyPoints",
@@ -147,9 +150,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     email,
     payment,
     loaded: checkoutLoaded,
+    invalidate,
   } = useCheckout();
-
-  const intl = useIntl();
 
   const products: IProduct[] | null =
     items?.map(({ id, variant, totalPrice, quantity }) => ({
@@ -186,7 +188,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     })) ?? [];
   // Other
   const { user } = useAuth();
-  const checkoutGatewayFormId = "gateway-form";
   const [{ payment_intent, payment_intent_client_secret }] = useQueryParams({
     payment_intent: StringParam,
     payment_intent_client_secret: StringParam,
@@ -212,11 +213,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         })?.shippingMethod?.id || [])
   );
 
-  const checkoutGatewayFormRef = React.useRef<HTMLFormElement>(null);
-
-  const [createOrUpdateCustomerRecord /*, { data, loading, error }*/] =
-    useYotpoLoyaltyAndReferralsCreateOrUpdateCustomerRecordsMutation();
-
   const [awardCustomerLoyaltyPoints /*, { data, loading, error }*/] =
     useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation();
 
@@ -227,6 +223,53 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     setLoyaltyAndReferralsActive(yotpoLoyaltyAndReferralsPluginActive);
     return yotpoLoyaltyAndReferralsPluginActive;
   }, [activePlugins]);
+
+  const handleErrors = React.useCallback(
+    (errors: IFormError[]) => {
+      const messages = maybe(() => errors.flatMap((error) => error.message), []);
+      setErrorMessage(messages.join(" \n"));
+      invalidate();
+    },
+    [invalidate]
+  );
+
+  const onCompleteCheckout = React.useCallback(async () => {
+    setCompleteCheckoutRunning(true);
+    const response = await completeCheckout();
+
+    if (!response.dataError?.error) {
+      if (checkIfLoyaltyAndReferralsActive() && user) {
+        awardCustomerLoyaltyPoints({
+          variables: {
+            input: {
+              customerEmail: user.email,
+              pointAdjustmentAmount: Number(loyaltyPointsToBeEarnedOnOrderComplete),
+              applyAdjustmentToPointsEarned: true,
+            },
+          },
+        });
+      }
+      const token = response.data?.order?.token;
+      const orderNumber = response.data?.order?.number;
+
+      if (token && orderNumber) {
+        router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
+      }
+    } else {
+      if (isArray(response.dataError.error)) {
+        handleErrors(response.dataError.error);
+      }
+    }
+    setCompleteCheckoutRunning(false);
+  }, [
+    awardCustomerLoyaltyPoints,
+    checkIfLoyaltyAndReferralsActive,
+    completeCheckout,
+    handleErrors,
+    loyaltyPointsToBeEarnedOnOrderComplete,
+    router,
+    user,
+  ]);
 
   const handleCreatePayment = React.useCallback(
     async (gateway: string, token?: string, creditCardData?: ICardData) => {
@@ -248,51 +291,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         }
 
         if (!errors || errors.length === 0) {
-          setCompleteCheckoutRunning(true);
-          const response = await completeCheckout();
-
-          if (!response.dataError?.error) {
-            if (checkIfLoyaltyAndReferralsActive() && user) {
-              awardCustomerLoyaltyPoints({
-                variables: {
-                  input: {
-                    customerEmail: user.email,
-                    pointAdjustmentAmount: Number(loyaltyPointsToBeEarnedOnOrderComplete),
-                    applyAdjustmentToPointsEarned: true,
-                  },
-                },
-              });
-            }
-            const token = response.data?.order?.token;
-            const orderNumber = response.data?.order?.number;
-
-            if (token && orderNumber) {
-              router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
-            }
-          } else {
-            if (isArray(response.dataError.error)) {
-              errors = response.dataError.error;
-            }
-            handleErrors(errors);
-            setPaymentFormError(errors.length > 0);
-          }
-          setCompleteCheckoutRunning(false);
+          await onCompleteCheckout();
         } else {
           handleErrors(errors);
-          setPaymentFormError(errors.length > 0);
         }
         creatingPayment.current = false;
+        setSubmittingPayment(false);
       }
     },
-    [
-      awardCustomerLoyaltyPoints,
-      checkIfLoyaltyAndReferralsActive,
-      completeCheckout,
-      createPayment,
-      loyaltyPointsToBeEarnedOnOrderComplete,
-      router,
-      user,
-    ]
+    [createPayment, onCompleteCheckout, handleErrors]
   );
 
   React.useEffect(() => {
@@ -311,7 +318,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     (
       checkoutMethod: typeof setShippingAddress | typeof setBillingAddress,
       errorHandler: React.Dispatch<string>,
-      nextStep?: CheckoutTabs
+      nextStep?: CheckoutTabs,
+      onComplete?: () => void
     ) =>
     async (values: AddressFormValues) => {
       const country = countries.find((country) => country.code === values.country)?.country ?? "";
@@ -337,6 +345,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         if (isArray(submission.dataError.error)) {
           const error = parseErrors(submission.dataError.error);
           errorHandler(error);
+          invalidate();
         }
         return;
       } else {
@@ -345,10 +354,29 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           setCurrentTab(nextStep);
         }
       }
+      onComplete?.();
     };
 
   const confirmAndPurchase = async () => {
     setSubmittingPayment(true);
+    const orderTotal = Number(total?.gross.amount);
+    const minOrderTotal = Number(minCheckoutAmount);
+
+    if (orderTotal === 0) {
+      await onCompleteCheckout();
+      return;
+    }
+
+    if (orderTotal < minOrderTotal) {
+      setErrorMessage(
+        <>
+          Minimum order is <Money money={{ amount: minOrderTotal, currency: total?.gross.currency || "" }} />
+        </>
+      );
+      setSubmittingPayment(false);
+      return;
+    }
+
     if (typeof document !== "undefined") {
       document.getElementById("gatewayButton")?.click();
     }
@@ -370,70 +398,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     setCurrentTab(nextTab);
   };
 
-  const handleErrors = (errors: IFormError[]) => {
-    const messages = maybe(() => errors.flatMap((error) => error.message), []);
-    setErrorMessage(messages.join(" \n"));
-  };
-
   const parseErrors = (errors: IFormError[]) => {
     const messages = errors?.flatMap((error) => error.message) ?? [];
     return messages.join(" \n");
-  };
-
-  const authNetResponseHandler = (response: any, gateway: string, creditCardData: ICardData) => {
-    if (response.messages.resultCode === "Error") {
-      let i = 0;
-      while (i < response.messages.message.length) {
-        console.error(response.messages.message[i].code + ": " + response.messages.message[i].text);
-        i = i + 1;
-      }
-    } else {
-      handleCreatePayment(gateway, response.opaqueData.dataValue, creditCardData);
-    }
-  };
-
-  const handleProcessPayment = async (gateway: string, token?: string, creditCardData?: ICardData) => {
-    if (gateway === "nautical.payments.authorize_net") {
-      const publicClientKey = creditCardData?.config?.find(
-        (comnfiguration) => comnfiguration.field === "client_key"
-      )?.value;
-      const apiLoginID = creditCardData?.config?.find(
-        (comnfiguration) => comnfiguration.field === "api_login_id"
-      )?.value;
-      const authData = {
-        clientKey: publicClientKey,
-        apiLoginID,
-      };
-      const cardData = {
-        cardNumber: creditCardData?.fullNumber && creditCardData.fullNumber.toString(),
-        month: creditCardData?.expMonth && creditCardData.expMonth.toString(),
-        year: creditCardData?.expYear && creditCardData.expYear.toString(),
-        cardCode: creditCardData?.cvv && creditCardData.cvv.toString(),
-      };
-      const secureData = {
-        authData,
-        cardData,
-      };
-
-      const sterilizedCreditCardData = {
-        brand: creditCardData?.brand ?? "",
-        expMonth: creditCardData?.expMonth ?? 0,
-        expYear: creditCardData?.expYear ?? 0,
-        firstDigits: creditCardData?.firstDigits ?? "",
-        lastDigits: creditCardData?.lastDigits ?? "",
-      };
-      // @ts-ignore
-      // Accept is a Javascript Library we imported via a script tag injected into the Head HTML Element of our
-      // App via the Helmet React Component.
-      // The Helmet component with this script can be found in the AuthorizeNetPaymentGateway(.tsx) component.
-      Accept.dispatchData(secureData, (res) => {
-        authNetResponseHandler(res, gateway, sterilizedCreditCardData);
-        setSubmittingPayment(false);
-      });
-    } else {
-      await handleCreatePayment(gateway, token, creditCardData);
-      setSubmittingPayment(false);
-    }
   };
 
   const handlePopover = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -604,13 +571,36 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
               <AddressForm
                 values={{
-                  email,
+                  email: email || "",
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
-                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING)}
-                errorMessage={shippingAddressError}
-              />
+                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
+                  setIsSubmittingShippingAddress(false)
+                )}
+              >
+                {({ touched, errors, submitForm }) => {
+                  submitShippingAddressRef.current = submitForm;
+                  return (
+                    <AddressFormFields errorMessage={shippingAddressError} hasEmail touched={touched} errors={errors} />
+                  );
+                }}
+              </AddressForm>
+              <Box sx={buttonsGrid}>
+                <Button
+                  color="primary"
+                  disableElevation
+                  sx={button}
+                  variant="contained"
+                  disabled={isSubmittingShippingAddress}
+                  onClick={async () => {
+                    setIsSubmittingShippingAddress(true);
+                    submitShippingAddressRef.current();
+                  }}
+                >
+                  {isSubmittingShippingAddress ? <CircularProgress /> : "Set Address"}
+                </Button>
+              </Box>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.SHIPPING}>
               <Box mb={2}>
@@ -627,14 +617,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   shippingMethod={initialSellerValues[Number(sellerMethod.seller)]}
                 />
               ))}
-              <Box
-                style={{
-                  display: shippingFormError ? "block" : "none",
-                }}
-                sx={gridspan}
-              >
-                <Alert severity="error">{errorMessage}</Alert>
-              </Box>
+              {shippingFormError && (
+                <Box style={{ display: "block" }} sx={gridspan}>
+                  <Errors errorMessage={errorMessage} />
+                </Box>
+              )}
               <Box sx={buttonsGrid}>
                 <Button
                   disableRipple
@@ -660,59 +647,11 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
               </Box>
             </TabPanel>
             <TabPanel value={currentTab} index={CheckoutTabs.PAYMENT}>
-              <Box mb={2}>
-                <Typography sx={title} variant="h6">
-                  Payment Information
-                </Typography>
-              </Box>
-              {paymentAlreadySubmitted && !payment?.token && !submittingPayment ? (
-                <Box mb={2}>
-                  <Typography>
-                    {intl.formatMessage({
-                      defaultMessage:
-                        "Your checkout was interrupted, however the payment method was already provided. We are attempting to finalize the previous payment...",
-                    })}
-                  </Typography>
-                </Box>
-              ) : (
-                <>
-                  {availablePaymentGateways?.map(({ id, name, config }) => {
-                    switch (name) {
-                      case "Stripe":
-                        return (
-                          <StripePaymentGateway
-                            config={config}
-                            formRef={checkoutGatewayFormRef}
-                            formId={checkoutGatewayFormId}
-                            processPayment={(token, cardData) => {
-                              handleProcessPayment(id, token, cardData);
-                            }}
-                            errors={[]}
-                            onError={(errors) => handleErrors(errors)}
-                            total={total}
-                            setPaymentAlreadySubmitted={setPaymentAlreadySubmitted}
-                          />
-                        );
-                      case "Authorize.Net":
-                        return (
-                          <AuthorizeNetPaymentGateway
-                            config={config}
-                            formRef={checkoutGatewayFormRef}
-                            formId={checkoutGatewayFormId}
-                            processPayment={(token, cardData) => handleProcessPayment(id, token, cardData)}
-                            errors={[]}
-                            onError={(errors) => handleErrors(errors)}
-                          />
-                        );
-                      default:
-                        return null;
-                    }
-                  })}
-                </>
-              )}
-              <Box mb={3} style={{ display: paymentFormError ? "block" : "none" }} sx={gridspan}>
-                <Alert severity="error">{errorMessage}</Alert>
-              </Box>
+              <Payment
+                handleCreatePayment={handleCreatePayment}
+                submittingPayment={submittingPayment}
+                setSubmittingPayment={setSubmittingPayment}
+              />
               <Box mb={2}>
                 <Typography sx={title} variant="h6">
                   Billing Address
@@ -728,35 +667,49 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 label="Same as shipping address"
                 style={{ marginBottom: "16px" }}
               />
-              {!billingAsShipping && (
-                <AddressForm
-                  values={{
-                    ...billingAddress,
-                    country: billingAddress?.country.code,
-                  }}
-                  onSubmit={handleSubmitAddress(setBillingAddress, setBillingAddressError)}
-                  errorMessage={billingAddressError}
-                />
-              )}
+
+              <AddressForm
+                values={{
+                  ...billingAddress,
+                  country: billingAddress?.country.code,
+                }}
+                onSubmit={async (values) => {
+                  handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
+                }}
+                noValidate={billingAsShipping}
+              >
+                {({ touched, errors, submitForm }) => {
+                  submitBillingAddressRef.current = submitForm;
+                  return (
+                    <>
+                      {!billingAsShipping && (
+                        <AddressFormFields
+                          errorMessage={errorMessage || billingAddressError}
+                          touched={touched}
+                          errors={errors}
+                        />
+                      )}
+                    </>
+                  );
+                }}
+              </AddressForm>
               <Box sx={buttonsGrid}>
-                <Button
-                  disableRipple
-                  disableElevation
-                  sx={buttonText}
-                  onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
-                >
+                <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
                   <KeyboardBackspaceIcon /> Back to shipping
                 </Button>
                 <Button
                   color="primary"
-                  type="button"
                   disableElevation
                   sx={button}
                   variant="contained"
-                  disabled={submittingPayment || !availablePaymentGateways}
-                  onClick={confirmAndPurchase}
+                  disabled={submittingPayment}
+                  onClick={async () => {
+                    if (!billingAsShipping) {
+                      submitBillingAddressRef.current();
+                    }
+                    await confirmAndPurchase();
+                  }}
                 >
-                  <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} />{" "}
                   {submittingPayment ? <CircularProgress /> : "Confirm Payment"}
                 </Button>
               </Box>
@@ -789,11 +742,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
             <Typography variant="h4">Confirming your payment...</Typography>
             {completeCheckoutRunnning && <CircularProgress />}
           </Box>
-          {errorMessage && (
-            <Alert sx={{ marginTop: "8px" }} severity="error">
-              {errorMessage}
-            </Alert>
-          )}
+          <Errors errorMessage={errorMessage} />
         </Box>
       )}
     </>

@@ -1,4 +1,4 @@
-import { styled } from "@styles";
+import { styled } from "styles";
 
 export const Wrapper = styled.div`
   position: relative;
@@ -16,23 +16,19 @@ export const Content = styled.div`
   ul {
     margin: 0;
     list-style-type: none;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     font-style: normal;
+    padding: 1rem;
     font-weight: normal;
-
+    gap: 8px;
     line-height: ${(props) => props.theme.typography.baseLineHeight};
     align-items: flex-start;
 
     li {
+      width: 100%;
       cursor: pointer;
-      padding-bottom: 1.25rem;
       white-space: nowrap;
-    }
-
-    :last-child {
-      padding-bottom: 0;
     }
   }
 `;

@@ -35,6 +35,7 @@ const useStyles = makeStyles(() =>
     },
     image: {
       gridColumn: "span 3 / span 3",
+      position: "relative",
     },
     details: {
       display: "flex",
@@ -162,8 +163,8 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
         {imageUrl && (
           <Image
             src={imageUrl}
-            width="100%"
-            height="auto"
+            layout="fill"
+            objectFit="contain"
             alt={product.countableImages?.edges?.[0]?.node.altText || "Product Image"}
           />
         )}
@@ -212,6 +213,7 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
         <Button
           aria-label="Add to Cart"
           type="button"
+          variant="contained"
           className={classes.addToCart}
           onClick={addToCart}
           disabled={!variant || loading || removing}

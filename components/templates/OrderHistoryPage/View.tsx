@@ -4,7 +4,11 @@ import { FormattedMessage } from "react-intl";
 
 import { styled } from "@styles";
 
-import { useNauticalOrdersByUserQuery } from "./queries.graphql.generated";
+import {
+  NauticalOrderByUserFragment,
+  NauticalOrdersByUserQuery,
+  useNauticalOrdersByUserQuery,
+} from "./queries.graphql.generated";
 
 import { OrderTable } from "../../molecules/OrderTable";
 
@@ -18,34 +22,49 @@ export const LoadMoreWrapper = styled.div`
 `;
 
 export const View = () => {
+  const [orders, setOrders] = React.useState<NauticalOrderByUserFragment[]>([]);
+  const [hasNextPage, setHasNextPage] = React.useState(false);
+  const [after, setAfter] = React.useState<string | null>("");
   const { data, loading, fetchMore } = useNauticalOrdersByUserQuery({
     variables: {
       perPage: ORDERS_PER_APICALL,
     },
   });
 
+  const resolveData = (data: NauticalOrdersByUserQuery | undefined) => {
+    const nextOrders = data?.me?.nauticalOrders?.edges.map(({ node }) => node) ?? [];
+    const hasNext = data?.me?.nauticalOrders?.pageInfo.hasNextPage ?? false;
+    const nextAfter = data?.me?.nauticalOrders?.pageInfo.endCursor ?? null;
+    setOrders((current) => [...current, ...nextOrders]);
+    setHasNextPage(hasNext);
+    setAfter(nextAfter);
+  };
+
+  React.useEffect(() => {
+    resolveData(data);
+  }, [data]);
+
+  const handleFetchMore = async () => {
+    const { data } = await fetchMore({
+      variables: {
+        after,
+        perPage: ORDERS_PER_APICALL,
+      },
+    });
+    resolveData(data);
+  };
+
   if (loading) {
     return <CircularProgress />;
   }
-
-  const orders = data?.me?.nauticalOrders?.edges.map(({ node }) => node) ?? [];
 
   return (
     <>
       <OrderTable orders={orders} />
 
-      {data?.me?.nauticalOrders?.pageInfo.hasNextPage && (
+      {hasNextPage && (
         <LoadMoreWrapper>
-          <Button
-            onClick={() => {
-              fetchMore({
-                variables: {
-                  after: data?.me?.nauticalOrders?.pageInfo.endCursor,
-                  perPage: ORDERS_PER_APICALL,
-                },
-              });
-            }}
-          >
+          <Button onClick={handleFetchMore}>
             <FormattedMessage defaultMessage="Load more" />
           </Button>
         </LoadMoreWrapper>

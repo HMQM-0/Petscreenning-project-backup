@@ -24,6 +24,11 @@ export const routes: Route[] = [
     intlKeyId: "orderHistory",
   },
   {
+    path: "/account/address-book",
+    label: "Address Book",
+    intlKeyId: "addressBook",
+  },
+  {
     path: "/account/wishlist",
     label: "Wishlist",
     intlKeyId: "wishlist",

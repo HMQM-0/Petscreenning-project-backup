@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 import Media from "react-media";
+import { useRouter } from "next/router";
 
-import { smallScreen } from "@styles/constants";
+import { smallScreen } from "styles/constants";
 import { AccountMenuSidebar } from "components/organisms/AccountMenuSidebar";
 import { AccountMenuMobile } from "components/organisms/AccountMenuMobile";
+import { useAuth } from "nautical-api";
 
 import classes from "./scss/index.module.scss";
 
@@ -13,6 +15,15 @@ type LayoutProps = {
 };
 
 const AccountSettingsLayout = ({ children }: LayoutProps) => {
+  const { signedOut } = useAuth();
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (signedOut) {
+      push("/");
+    }
+  }, [push, signedOut]);
+
   return (
     <div className="container">
       <div className={classes.account}>
