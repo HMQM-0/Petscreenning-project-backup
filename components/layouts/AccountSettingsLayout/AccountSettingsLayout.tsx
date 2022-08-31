@@ -7,6 +7,7 @@ import { smallScreen } from "styles/constants";
 import { AccountMenuSidebar } from "components/organisms/AccountMenuSidebar";
 import { AccountMenuMobile } from "components/organisms/AccountMenuMobile";
 import { useAuth } from "nautical-api";
+import { IS_SSR } from "utils";
 
 import classes from "./scss/index.module.scss";
 
@@ -19,7 +20,7 @@ const AccountSettingsLayout = ({ children }: LayoutProps) => {
   const { push } = useRouter();
 
   useEffect(() => {
-    if (signedOut) {
+    if (signedOut && !IS_SSR) {
       push("/");
     }
   }, [push, signedOut]);

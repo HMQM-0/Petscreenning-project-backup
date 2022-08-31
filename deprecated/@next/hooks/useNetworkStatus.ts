@@ -1,9 +1,14 @@
 import React from "react";
 
+import { IS_SSR } from "utils";
+
 export const useNetworkStatus = (callBack?: (online?: boolean) => void) => {
-  const [online, setOnline] = React.useState(
-    "onLine" in navigator ? navigator.onLine : true
-  );
+  const [online, setOnline] = React.useState(() => {
+    if (IS_SSR) {
+      return true;
+    }
+    return "onLine" in navigator ? navigator.onLine : true;
+  });
 
   const updateOnlineStatus = () => {
     const status = navigator.onLine;

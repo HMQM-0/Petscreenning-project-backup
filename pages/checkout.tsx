@@ -39,11 +39,13 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
   const isFinalizingPayment = (payment_intent && payment_intent_client_secret) || payment?.token;
   const redirectToCart = !isFinalizingPayment && loaded && (!lines || lines.length === 0);
-  if (redirectToCart) {
-    push("/cart");
-  }
-  if (!user && !guest && !isFinalizingPayment && !redirectToCart) {
-    push("/login");
+  if (!IS_SSR) {
+    if (redirectToCart) {
+      push("/cart");
+    }
+    if (!user && !guest && !isFinalizingPayment && !redirectToCart) {
+      push("/login");
+    }
   }
 
   const logo = <Logo {...data.branding} />;
