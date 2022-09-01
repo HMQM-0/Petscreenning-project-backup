@@ -8,6 +8,6 @@
         "ast": true
       }
     ],
-    "styled-components"
+    ["styled-components", { "ssr": true }]
   ]
 }
