@@ -10,7 +10,7 @@ export type DocumentHeadProps = {
   url: string;
   schema: string;
   type?: string;
-  branding: Omit<BrandingType, 'id'>;
+  branding: Omit<BrandingType, "id">;
   custom?: {
     property: string;
     content: string | undefined;
@@ -57,12 +57,7 @@ href="/icons/touch-icon-ipad-retina.png"
 /> */}
 
     <link rel="icon" type="image/png" sizes="32x32" href={branding.icon?.url} />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href={branding.favicon?.url}
-    />
+    <link rel="icon" type="image/png" sizes="16x16" href={branding.favicon?.url} />
 
     {/* <link
 rel="mask-icon"
@@ -74,18 +69,17 @@ color="#5bbad5"
     <meta name="twitter:url" content={url} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={branding.icon?.url} />
+    <meta name="twitter:image" content={image} />
     {/* <meta name="twitter:creator" content="@crushon" /> */}
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={title} />
     <meta property="og:url" content="https://yourdomain.com" />
-    <meta property="og:image" content={branding.icon?.url} />
+    <meta property="og:image" content={image || branding.icon?.url} />
     {custom.map(({ property, content }) => (
       <meta key={property} property={property} content={content} />
     ))}
-    <meta property="og:image" content={branding.icon?.url} />
     <script type="application/ld+json">{schema}</script>
   </Head>
 );
