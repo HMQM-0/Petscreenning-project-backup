@@ -8,7 +8,10 @@ import { LocalStorageItems } from "./constants";
  * @param item Object to be saved. If null, then object is completely removed from local storage.
  */
 export function saveObject<T extends object>(name: LocalStorageItems, object: T | null): void {
-  if (object && !IS_SSR) {
+  if (IS_SSR) {
+    return;
+  }
+  if (object) {
     localStorage.setItem(name, JSON.stringify(object));
   } else {
     localStorage.removeItem(name);

@@ -7,7 +7,10 @@ import { LocalStorageItems } from "./constants";
  * @param item String to be saved. If null, then item is completely removed from local storage.
  */
 export const saveItem = (name: LocalStorageItems, item: string | null): void => {
-  if (item && !IS_SSR) {
+  if (IS_SSR) {
+    return;
+  }
+  if (item) {
     localStorage.setItem(name, item);
   } else {
     localStorage.removeItem(name);
