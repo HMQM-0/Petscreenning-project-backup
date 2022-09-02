@@ -9,6 +9,7 @@ const nextConfig = {
     // 🚨🚨🚨🚨🚨!! WARN !!🚨🚨🚨🚨🚨
     ignoreBuildErrors: true,
   },
+  styledComponents: true,
   images: {
     domains: ["mediacdn.nauticalcommerce.app", "localhost"],
   },
@@ -22,19 +23,14 @@ module.exports = withPWA({
     disable: process.env.NODE_ENV === "development",
   },
   ...nextConfig,
-  compiler: {
-    styledComponents: true,
-  },
   webpack: (config, options) => {
     if (process.env.ANALYZE === "true") {
       try {
-        const {BundleAnalyzerPlugin} = require("webpack-bundle-analyzer");
+        const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
         config.plugins.push(
           new BundleAnalyzerPlugin({
             analyzerMode: "static",
-            reportFilename: options.isServer
-              ? "../analyze/server.html"
-              : "./analyze/client.html",
+            reportFilename: options.isServer ? "../analyze/server.html" : "./analyze/client.html",
           })
         );
       } catch (e) {

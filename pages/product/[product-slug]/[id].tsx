@@ -12,26 +12,53 @@ import NotFound from "components/molecules/NotFound";
 import View from "components/templates/ProductPage/View";
 import {
   ProductDetailsDocument,
-  ProductDetailsQuery
+  ProductDetailsQuery,
 } from "components/templates/ProductPage/queries.graphql.generated";
+import { getSeoURL } from "utils";
 
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  data: {
-    product,
-    branding,
-  },
+  data: { product },
+  documentHead,
   builderContent,
 }) => {
+  return (
+    <Layout documentHead={documentHead}>
+      {product ? <View product={product} builderContent={builderContent} /> : <NotFound />}
+    </Layout>
+  );
+};
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const client = getSsrApolloClient(context);
+
+  const productId = context.params!.id as string;
+
+  let content: BuilderContent | null = null;
+  if (builderConfig.apiKey) {
+    content = (await builder.get("store", { url: "/store/product" }).promise()) || null;
+  }
+
+  const { data } = await client.query<ProductDetailsQuery>({
+    query: ProductDetailsDocument,
+    variables: {
+      id: getGraphqlIdFromDBId(productId, "Product"),
+    },
+  });
+
+  const __APOLLO__: NormalizedCacheObject = client.extract();
+
+  const product = data.product;
+  const url = getSeoURL(context);
   const description = product?.seoDescription || product?.descriptionJson || "Product";
   const title = product?.seoTitle || product?.name || "Product";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, url);
   const documentHead = {
-    branding,
+    branding: data.branding,
     description,
     title,
     schema,
     image: product?.thumbnail?.url || undefined,
-    url: "",
+    url,
     type: "product.item",
     custom: [
       {
@@ -53,39 +80,10 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
     ],
   };
 
-  return (
-    <Layout documentHead={documentHead}>
-      {product ? (
-        <View product={product} builderContent={builderContent} />
-      ) : (
-        <NotFound />
-      )}
-    </Layout>
-  );
-};
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const client = getSsrApolloClient(context);
-
-  const productId = context.params!.id as string;
-
-  let content: BuilderContent | null = null;
-  if (builderConfig.apiKey) {
-    content = await builder.get("store", { url: "/store/product" }).promise() || null;
-  }
-
-  const { data } = await client.query<ProductDetailsQuery>({
-    query: ProductDetailsDocument,
-    variables: {
-      id: getGraphqlIdFromDBId(productId, "Product"),
-    },
-  });
-
-  const __APOLLO__: NormalizedCacheObject = client.extract();
-
   return {
     props: {
       data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },

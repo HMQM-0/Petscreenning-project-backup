@@ -8,19 +8,9 @@ import { AccountPage } from "components/templates/AccountPage";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { getSsrApolloClient } from "apollo-client";
+import { getSeoURL } from "utils";
 
-const Account: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
-  const description = "Account Page";
-  const title = "Account";
-  const schema = structuredData(description, title);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-  };
-
+const Account: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
@@ -39,9 +29,21 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = "Account Page";
+  const title = "Account";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+  };
+
   return {
     props: {
-      data,
+      documentHead,
       __APOLLO__,
     },
   };

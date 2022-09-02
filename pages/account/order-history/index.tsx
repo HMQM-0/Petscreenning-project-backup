@@ -11,19 +11,9 @@ import {
   OrderHistoryPageQuery,
 } from "components/templates/OrderHistoryPage/queries.graphql.generated";
 import { AccountSettingsLayout } from "@layouts/AccountSettingsLayout";
+import { getSeoURL } from "utils";
 
-const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
-  const description = "Order History";
-  const title = "Order History";
-  const schema = structuredData(description, title);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-  };
-
+const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
@@ -40,9 +30,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     query: OrderHistoryPageDocument,
   });
 
+  const url = getSeoURL(context);
+  const description = "Order History";
+  const title = "Order History";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+  };
+
   return {
     props: {
-      data,
+      documentHead,
     },
   };
 }

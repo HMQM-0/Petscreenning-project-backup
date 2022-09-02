@@ -1,7 +1,4 @@
-import type {
-  NextPage,
-  InferGetServerSidePropsType,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { CartPage } from "components/templates/CartPage/CartPage";
@@ -9,19 +6,10 @@ import { CartPageDocument, CartPageQuery } from "components/templates/CartPage/q
 import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
+import { getSeoURL } from "utils";
+import { DocumentHead } from "types";
 
-const Cart: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
-  const description = "Cart";
-  const title = "Cart";
-  const schema = structuredData(description, title);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-  };
-
+const Cart: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (
     <Layout documentHead={documentHead}>
       <CartPage />
@@ -29,7 +17,7 @@ const Cart: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = getApolloClient();
 
   const { data } = await client.query<CartPageQuery>({
@@ -39,9 +27,21 @@ export async function getServerSideProps() {
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = `Cart`;
+  const title = "Cart";
+  const schema = structuredData(description, title, url);
+  const documentHead: DocumentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+  };
+
   return {
     props: {
-      data,
+      documentHead,
       __APOLLO__,
     },
   };

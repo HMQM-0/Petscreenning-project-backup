@@ -7,22 +7,10 @@ import useBuilderStateData from "components/hooks/useBuilderStateData";
 
 import { HomeQuery } from "./queries.graphql.generated";
 
-const Builder = ({
-  content,
-  data,
-}: {
-  content: BuilderContent;
-  data: HomeQuery;
-}) => {
+const Builder = ({ content, data }: { content: BuilderContent; data: HomeQuery }) => {
   const stateData = useBuilderStateData({ landing: data });
 
-  return (
-    <BuilderComponent
-      model={builderConfig.storeModel}
-      content={content}
-      data={stateData}
-    />
-  );
+  return <BuilderComponent model={builderConfig.storeModel} content={content} data={stateData} />;
 };
 
-export { Builder };
+export default Builder;

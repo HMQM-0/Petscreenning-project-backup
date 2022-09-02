@@ -3,14 +3,16 @@ import { Box, Typography, Button } from "@mui/material";
 import { FormattedMessage, useIntl } from "react-intl";
 import Link from "next/link";
 import { BuilderContent } from "@builder.io/sdk";
+import dynamic from "next/dynamic";
 
 import CategoryBlock from "components/atoms/CategoryBlock";
 import ProductsFeatured from "components/organisms/ProductsFeatured";
 import { generateProductsUrl } from "core/utils";
 
 import classes from "./scss/index.module.scss";
-import { Builder } from "./Builder";
 import { HomeQuery } from "./queries.graphql.generated";
+
+const Builder = dynamic(() => import("./Builder"), { ssr: false });
 
 // Add typed-prop for json
 export const parseHomePageCollectionJson = (descriptionJson: any): string => {
@@ -30,8 +32,7 @@ type IndexPageProps = {
 
 const IndexPage = ({ data, builderContent }: IndexPageProps) => {
   const intl = useIntl();
-  const backgroundImage =
-    data?.shop.homepageCollection?.backgroundImage ?? null;
+  const backgroundImage = data?.shop.homepageCollection?.backgroundImage ?? null;
   const categories = data?.categoryList?.categories ?? [];
 
   return (
@@ -42,30 +43,17 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
         <>
           <Box
             className={classes["home-page__hero"]}
-            style={
-              backgroundImage
-                ? { backgroundImage: `url(${backgroundImage.url})` }
-                : undefined
-            }
+            style={backgroundImage ? { backgroundImage: `url(${backgroundImage.url})` } : undefined}
           >
             <Box className={classes["home-page__hero-text"]}>
               <Box>
-                <Box
-                  component="span"
-                  className={classes["home-page__hero__title"]}
-                >
+                <Box component="span" className={classes["home-page__hero__title"]}>
                   <Box className={classes["home-page__hero__title__block"]}>
-                    <Box
-                      className={classes["home-page__hero__title__leftline"]}
-                    />
+                    <Box className={classes["home-page__hero__title__leftline"]} />
                     <Typography variant="h1">
-                      {parseHomePageCollectionJson(
-                        data?.shop.homepageCollection?.descriptionJson
-                      )}
+                      {parseHomePageCollectionJson(data?.shop.homepageCollection?.descriptionJson)}
                     </Typography>
-                    <Box
-                      className={classes["home-page__hero__title__rightline"]}
-                    />
+                    <Box className={classes["home-page__hero__title__rightline"]} />
                   </Box>
                 </Box>
               </Box>
@@ -91,9 +79,7 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
                 <Typography variant="h3" sx={{ fontSize: "1.5rem" }}>
                   <FormattedMessage defaultMessage="Shop by category" />
                 </Typography>
-                <Box className={classes["caption"]}>
-                  Check out the hottest categories on the move now
-                </Box>
+                <Box className={classes["caption"]}>Check out the hottest categories on the move now</Box>
 
                 <Box className={classes["home-page-category-blocks"]}>
                   {categories.map(({ category }) => (

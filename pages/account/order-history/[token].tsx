@@ -4,7 +4,7 @@ import { NormalizedCacheObject } from "@apollo/client";
 
 import {
   OrderHistoryDetailsPageDocument,
-  OrderHistoryDetailsPageQuery
+  OrderHistoryDetailsPageQuery,
 } from "components/templates/OrderHistoryDetailsPage/queries.graphql.generated";
 import { OrderHistoryDetailsPage } from "components/templates/OrderHistoryDetailsPage";
 import NotFound from "components/molecules/NotFound";
@@ -12,19 +12,9 @@ import { AccountSettingsLayout } from "@layouts/AccountSettingsLayout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { getSsrApolloClient } from "apollo-client";
+import { getSeoURL } from "utils";
 
-const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ token, data }) => {
-  const description = "Order History Details";
-  const title = "Order";
-  const schema = structuredData(description, title);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-  };
-
+const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ token, documentHead }) => {
   if (!token) {
     return <NotFound />;
   }
@@ -49,10 +39,22 @@ export const getServerSideProps = async (context: GetServerSidePropsContext<{ to
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = "Order History Details";
+  const title = "Order";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+  };
+
   return {
     props: {
       token,
-      data,
+      documentHead,
       __APOLLO__,
     },
   };

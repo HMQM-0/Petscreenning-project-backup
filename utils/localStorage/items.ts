@@ -1,3 +1,5 @@
+import { IS_SSR } from "utils/isSSR";
+
 import { LocalStorageItems } from "./constants";
 /**
  * Save string item to local storage.
@@ -5,6 +7,9 @@ import { LocalStorageItems } from "./constants";
  * @param item String to be saved. If null, then item is completely removed from local storage.
  */
 export const saveItem = (name: LocalStorageItems, item: string | null): void => {
+  if (IS_SSR) {
+    return;
+  }
   if (item) {
     localStorage.setItem(name, item);
   } else {
@@ -17,5 +22,8 @@ export const saveItem = (name: LocalStorageItems, item: string | null): void => 
  * @param name Unique key by which item is identified.
  */
 export const retrieveItem = (name: LocalStorageItems): string | null => {
+  if (IS_SSR) {
+    return null;
+  }
   return localStorage.getItem(name);
 };

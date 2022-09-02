@@ -7,19 +7,9 @@ import { getSsrApolloClient } from "apollo-client";
 import { WishlistPage } from "components/templates/WishlistPage";
 import { AccountSettingsLayout } from "components/layouts/AccountSettingsLayout";
 import { WishlistPageDocument, WishlistPageQuery } from "components/templates/WishlistPage/queries.graphql.generated";
+import { getSeoURL } from "utils";
 
-const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data }) => {
-  const description = "Wishlist";
-  const title = "Wishlist";
-  const schema = structuredData(description, title);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-  };
-
+const Wishlist: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (
     <Layout documentHead={documentHead}>
       <AccountSettingsLayout>
@@ -36,9 +26,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     query: WishlistPageDocument,
   });
 
+  const url = getSeoURL(context);
+  const description = "Wishlist";
+  const title = "Wishlist";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+  };
+
   return {
     props: {
-      data,
+      documentHead,
     },
   };
 }

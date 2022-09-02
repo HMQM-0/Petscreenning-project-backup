@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useScrollTrigger } from "@mui/material";
 
 import { PromoBanner } from "components/molecules/PromoBanner";
@@ -9,9 +9,15 @@ type HeaderProps = {
 };
 
 const Header = ({ logo }: HeaderProps) => {
+  const [disableHysteresis, setDisableHysteresis] = useState(true);
+
+  useEffect(() => {
+    setDisableHysteresis(window.innerWidth <= 768);
+  }, []);
+
   const trigger = useScrollTrigger({
     // The header should always be visible on the mobile device
-    disableHysteresis: window.innerWidth <= 768,
+    disableHysteresis,
   });
   const stickyStyle: React.CSSProperties = {
     position: "fixed",

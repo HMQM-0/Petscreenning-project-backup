@@ -1,8 +1,4 @@
-import type {
-  NextPage,
-  InferGetServerSidePropsType,
-  GetServerSidePropsContext,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { structuredData } from "components/templates/IndexPage/structuredData";
@@ -13,24 +9,12 @@ import {
   OrderFinalizedPageQuery,
   OrderFinalizedPageQueryVariables,
 } from "components/templates/OrderFinalized/queries.graphql.generated";
+import { getSeoURL } from "utils";
+import { DocumentHead } from "types";
 
 import { getApolloClient } from "../apollo-client";
 
-const Checkout: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ data }) => {
-  const description = data?.shop.description ?? "";
-  const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    image: data.branding?.logo ?? "",
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
-  };
-
+const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, documentHead }) => {
   return (
     <Layout documentHead={documentHead}>
       <OrderFinalized nauticalOrderByToken={data.nauticalOrderByToken} />
@@ -38,9 +22,7 @@ const Checkout: NextPage<
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const client = getApolloClient();
 
   const token = context.query?.token ?? "";
@@ -55,9 +37,23 @@ export const getServerSideProps = async (
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = data?.shop.description ?? "";
+  const title = data?.shop.name ?? "";
+  const schema = structuredData(description, title, url);
+  const documentHead: DocumentHead = {
+    branding: data.branding,
+    description,
+    title: `${title} Order Finalized`,
+    schema,
+    image: data.branding?.logo?.url ?? "",
+    url,
+  };
+
   return {
     props: {
       data,
+      documentHead,
       __APOLLO__,
     },
   };

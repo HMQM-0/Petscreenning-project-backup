@@ -8,6 +8,7 @@ import { Error } from "components/templates/Error";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { ErrorPageDocument, ErrorPageQuery } from "components/templates/Error/queries.graphql.generated";
+import { IS_SSR } from "utils";
 
 import { getApolloClient } from "../apollo-client";
 
@@ -16,9 +17,10 @@ const ErrorPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
   builderContent,
   is404,
 }) => {
+  const URL = IS_SSR ? "" : location.href;
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title);
+  const schema = structuredData(description, title, URL);
   const documentHead = {
     branding: data.branding,
     description,
