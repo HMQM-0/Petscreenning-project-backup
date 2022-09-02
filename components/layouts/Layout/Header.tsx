@@ -3,7 +3,6 @@ import { useScrollTrigger } from "@mui/material";
 
 import { PromoBanner } from "components/molecules/PromoBanner";
 import TopNav from "components/layouts/MainMenu/TopNav";
-import { IS_SSR } from "utils";
 
 type HeaderProps = {
   logo: React.ReactNode;
