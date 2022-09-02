@@ -14,44 +14,13 @@ import {
   ProductDetailsDocument,
   ProductDetailsQuery,
 } from "components/templates/ProductPage/queries.graphql.generated";
-import { IS_SSR } from "utils";
+import { getSeoURL } from "utils";
 
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  data: { product, branding },
+  data: { product },
+  documentHead,
   builderContent,
 }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = product?.seoDescription || product?.descriptionJson || "Product";
-  const title = product?.seoTitle || product?.name || "Product";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding,
-    description,
-    title,
-    schema,
-    image: product?.thumbnail?.url || undefined,
-    url: "",
-    type: "product.item",
-    custom: [
-      {
-        content: product?.pricing?.priceRange?.start?.gross.amount.toString(),
-        property: "product:price:amount",
-      },
-      {
-        content: product?.pricing?.priceRange?.start?.gross.currency,
-        property: "product:price:currency",
-      },
-      {
-        content: product?.isAvailable ? "in stock" : "out off stock",
-        property: "product:isAvailable",
-      },
-      {
-        content: product?.category?.name,
-        property: "product:category",
-      },
-    ],
-  };
-
   return (
     <Layout documentHead={documentHead}>
       {product ? <View product={product} builderContent={builderContent} /> : <NotFound />}
@@ -78,9 +47,43 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const product = data.product;
+  const url = getSeoURL(context);
+  const description = product?.seoDescription || product?.descriptionJson || "Product";
+  const title = product?.seoTitle || product?.name || "Product";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    image: product?.thumbnail?.url || undefined,
+    url,
+    type: "product.item",
+    custom: [
+      {
+        content: product?.pricing?.priceRange?.start?.gross.amount.toString(),
+        property: "product:price:amount",
+      },
+      {
+        content: product?.pricing?.priceRange?.start?.gross.currency,
+        property: "product:price:currency",
+      },
+      {
+        content: product?.isAvailable ? "in stock" : "out off stock",
+        property: "product:isAvailable",
+      },
+      {
+        content: product?.category?.name,
+        property: "product:category",
+      },
+    ],
+  };
+
   return {
     props: {
       data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },
