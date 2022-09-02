@@ -37,17 +37,17 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
-  const URL = getSeoURL(context);
+  const url = getSeoURL(context);
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title, URL);
+  const schema = structuredData(description, title, url);
   const documentHead: DocumentHead = {
     branding: data.branding,
     description,
     title: `${title} Login`,
     schema,
     image: data.branding?.logo?.url ?? "",
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
+    url,
   };
 
   return {
