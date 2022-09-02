@@ -3,6 +3,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import Link from "next/link";
 import { Box, TextField } from "@mui/material";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { Money } from "components/atoms/Money";
 import { useCart } from "nautical-api";
 import { IconButton } from "components/molecules/IconButton";
@@ -142,6 +143,16 @@ export const CartRow = ({ item }: CartRowProps) => {
           <Money money={variant?.pricing?.price?.net} />
         </p>
       </S.UnitPrice>
+      <S.TaxPrice>
+        <S.PriceLabel>
+          <S.LightFont>
+            <FormattedMessage defaultMessage="Taxes" description="taxes" />:
+          </S.LightFont>
+        </S.PriceLabel>
+        <p>
+          <Money money={calculateTax(totalPrice)} />
+        </p>
+      </S.TaxPrice>
     </S.Wrapper>
   );
 };

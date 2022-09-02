@@ -6,6 +6,7 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import _sumBy from "lodash/sumBy";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { Money } from "components/atoms/Money";
 import { useCart, useCheckout, useAuth } from "nautical-api";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
@@ -102,6 +103,15 @@ const Cart = ({ overlay }: CartProps) => {
                       </Box>
                     </Box>
                   )}
+
+                  <Box className={classes["cart__footer__price"]}>
+                    <Box component="span">
+                      <FormattedMessage defaultMessage="Taxes" description="taxes" />
+                    </Box>
+                    <Box component="span">
+                      <Money money={calculateTax(totalPrice)} />
+                    </Box>
+                  </Box>
 
                   <Box className={classes["cart__footer__price"]}>
                     <Box component="span">

@@ -4,6 +4,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { useIntl } from "react-intl";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import { commonMessages } from "core/intl";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
@@ -24,34 +25,6 @@ interface ICostLineProps {
   volumeDiscount?: ICheckoutModelPriceValue | undefined;
   last?: boolean;
   negative?: boolean;
-}
-
-function calculateTax(value: ITaxedMoney | null | undefined) {
-  let taxes: ITaxedMoney = {
-    gross: {
-      amount: 0,
-      currency: "USD",
-    },
-    net: {
-      amount: 0,
-      currency: "USD",
-    },
-  };
-  if (value === null || value === undefined) {
-    return taxes;
-  } else {
-    taxes = {
-      gross: {
-        amount: value.gross.amount - value.net.amount,
-        currency: value.gross.currency,
-      },
-      net: {
-        amount: value.gross.amount - value.net.amount,
-        currency: value.net.currency,
-      },
-    };
-    return taxes;
-  }
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -154,12 +127,12 @@ const CartSummaryFooter = ({ subtotal, promoCode, shipping, total, volumeDiscoun
         />
       )}
       {total && (
-        <TaxedMoneyCostLine
+        <MoneyCostLine
           name={intl.formatMessage({
             defaultMessage: "Taxes",
             description: "taxes",
           })}
-          taxedMoney={calculateTax(total)}
+          money={calculateTax(total)}
         />
       )}
       {total && <MoneyCostLine name={intl.formatMessage(commonMessages.total)} money={total.gross} last />}

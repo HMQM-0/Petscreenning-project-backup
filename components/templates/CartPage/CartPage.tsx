@@ -3,6 +3,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { Money } from "components/atoms/Money";
 import { Loader } from "components/atoms/Loader";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
@@ -58,6 +59,9 @@ export const CartPage = () => {
                 <FormattedMessage {...commonMessages.quantity} />
               </S.Column>
               <S.Column>
+                <FormattedMessage defaultMessage="Taxes" description="taxes" />
+              </S.Column>
+              <S.Column>
                 <FormattedMessage {...commonMessages.totalPrice} />
               </S.Column>
             </S.HeaderWrapper>
@@ -95,6 +99,12 @@ export const CartPage = () => {
                   </S.DiscountPrice>
                 </>
               )}
+              <S.TaxText>
+                <FormattedMessage defaultMessage="Taxes" description="taxes" />
+              </S.TaxText>
+              <S.TaxPrice>
+                <Money money={calculateTax(totalPrice)} />
+              </S.TaxPrice>
               <S.TotalText>
                 <FormattedMessage {...commonMessages.total} />
               </S.TotalText>
