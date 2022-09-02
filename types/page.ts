@@ -5,6 +5,6 @@ export type DocumentHead = {
   description: string;
   title: string;
   schema: string;
-  image: string;
+  image?: string;
   url: string;
 };
