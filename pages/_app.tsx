@@ -9,12 +9,12 @@ import { GlobalStyles } from "@mui/material";
 import nProgress from "nprogress";
 
 import builderConfig from "config/builder";
-import { defaultTheme, GlobalStyle } from "@styles";
+import { defaultTheme, GlobalStyle } from "styles";
 import { ShopProvider, OverlayProvider, MaterialUIProvider } from "@providers";
 builderConfig.apiKey && builder.init(builderConfig.apiKey);
 import "components/templates/Builder/mui";
 import "components/templates/Builder/nautical";
-import "deprecated/globalStyles/scss/index.scss";
+import "globalStyles/scss/index.scss";
 import { nprogress } from "styles/nprogress";
 import NotificationTemplate from "components/atoms/NotificationTemplate/NotificationTemplate";
 import NauticalProvider from "components/providers/Nautical/NauticalProvider";

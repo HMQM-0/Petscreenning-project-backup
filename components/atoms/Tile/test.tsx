@@ -1,5 +1,5 @@
 // // @ts-nocheck
-// import { defaultTheme } from "@styles";
+// import { defaultTheme } from "styles";
 // import { mount, shallow } from "enzyme";
 // import "jest-styled-components";
 // import React from "react";

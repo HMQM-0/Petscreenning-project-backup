@@ -6,8 +6,8 @@ import { FormattedMessage } from "react-intl";
 
 import { FilterQuerySet } from "components/organisms/FilterSidebar";
 import { commonMessages } from "core/intl";
-import { smallScreen } from "@styles/constants";
-import { Filter } from 'components/icons/filter';
+import { smallScreen } from "styles/constants";
+import { Filter } from "components/icons/filter";
 
 import * as S from "../styles";
 

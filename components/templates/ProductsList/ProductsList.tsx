@@ -8,23 +8,21 @@ import { commonMessages } from "core/intl";
 import ProductsFeatured from "components/organisms/ProductsFeatured";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import NotFound from "components/molecules/NotFound";
-import { useNetworkStatus } from "@hooks";
+import { useNetworkStatus } from "components/hooks";
 import Breadcrumbs, { Breadcrumb } from "components/atoms/Breadcrumbs";
 import { ProductSideNavbar } from "components/organisms/ProductSideNavbar";
 import { FilterSidebar } from "components/organisms/FilterSidebar";
 import { ProductListHeader } from "components/organisms/ProductListHeader";
 import { ProductList } from "components/organisms/ProductList";
-import { xLargeScreen } from "@styles/constants";
+import { xLargeScreen } from "styles/constants";
 import { ProductSideNavbarGrid } from "components/organisms/ProductSideNavbarGrid";
 import ProductListBanner from "components/atoms/ProductListBanner/ProductListBanner";
-import {
-  ProductsPageQuery,
-} from "components/templates/ProductsPage/queries.graphql.generated";
+import { ProductsPageQuery } from "components/templates/ProductsPage/queries.graphql.generated";
 
 import {
   ProductsPageAttributeFragment,
   ProductsQueryResult,
-  ProductsQueryVariables
+  ProductsQueryVariables,
 } from "./queries.graphql.generated";
 import classes from "./scss/index.module.scss";
 import Search from "./Search";
@@ -88,12 +86,11 @@ const ProductsList = ({
 
   const products = data?.productList;
 
-  const showFeatured =
-    showNoResultFeaturedProducts && !products?.totalCount && !loading;
+  const showFeatured = showNoResultFeaturedProducts && !products?.totalCount && !loading;
 
   const productsListComponents = (
     <Box className={classes.category}>
-      {showSearch && (<Search />)}
+      {showSearch && <Search />}
       <Box className="container">
         <Breadcrumbs breadcrumbs={breadcrumbs ?? []} />
         <ProductSideNavbar
@@ -103,11 +100,7 @@ const ProductsList = ({
           // @ts-ignore
           items={menuResult?.items ?? []}
         />
-        <FilterSidebar
-          show={showFilters}
-          hide={() => setShowFilters(false)}
-          attributes={attributes}
-        />
+        <FilterSidebar show={showFilters} hide={() => setShowFilters(false)} attributes={attributes} />
         {backgroundImageUrl && <ProductListBanner image={backgroundImageUrl} />}
         <ProductListHeader
           attributes={attributes}
@@ -122,11 +115,7 @@ const ProductsList = ({
           onLoadMore={handleLoadMore}
         />
       </Box>
-      {showFeatured && (
-        <ProductsFeatured
-          title={intl.formatMessage(commonMessages.youMightLike)}
-        />
-      )}
+      {showFeatured && <ProductsFeatured title={intl.formatMessage(commonMessages.youMightLike)} />}
     </Box>
   );
 

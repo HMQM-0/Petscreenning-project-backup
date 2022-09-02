@@ -7,7 +7,7 @@ import LoginForm from "components/molecules/LoginForm";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import { OverlayContextInterface, OverlayTheme, OverlayType } from "components/providers/Overlay/context";
 import { X as CloseImg } from "components/icons/x";
-import { useNetworkStatus } from "@hooks";
+import { useNetworkStatus } from "components/hooks";
 
 import classes from "./scss/index.module.scss";
 import ForgottenPassword from "./ForgottenPassword";
@@ -15,7 +15,6 @@ import RegisterForm from "./RegisterForm";
 
 import overlayClasses from "../Overlay/scss/index.module.scss";
 import Overlay from "../Overlay/Overlay";
-
 
 interface LoginProps {
   overlay: OverlayContextInterface;
@@ -32,7 +31,7 @@ const Login = ({ active: initialActiveState, overlay }: LoginProps) => {
 
   const { show, hide } = overlay;
 
-  const isLogin = active === 'login';
+  const isLogin = active === "login";
 
   return (
     <Overlay testingContext="loginOverlay" context={overlay}>

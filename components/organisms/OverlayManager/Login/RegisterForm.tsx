@@ -5,14 +5,11 @@ import { useIntl, IntlShape } from "react-intl";
 
 import { commonMessages } from "core/intl";
 import Button from "components/atoms/Button";
-import Form from "deprecated/components/Form";
-import { FormError } from "deprecated/components/Form/types";
+import Form from "components/molecules/Form";
 import TextField from "components/atoms/TextField";
+import { IFormError } from "types";
 
-import {
-  RegisterAccountMutation,
-  useRegisterAccountMutation,
-} from "./mutations.graphql.generated";
+import { RegisterAccountMutation, useRegisterAccountMutation } from "./mutations.graphql.generated";
 import classes from "./scss/index.module.scss";
 
 const showSuccessNotification = (
@@ -31,9 +28,8 @@ const showSuccessNotification = (
     {
       title: data.accountRegister?.requiresConfirmation
         ? intl.formatMessage({
-          defaultMessage:
-            "Please check your e-mail for further instructions",
-        })
+            defaultMessage: "Please check your e-mail for further instructions",
+          })
         : intl.formatMessage({ defaultMessage: "New user has been created" }),
     },
     { type: "success", timeout: 5000 }
@@ -45,17 +41,16 @@ interface RegisterFormProps {
 }
 
 const RegisterForm = ({ hide }: RegisterFormProps) => {
-  const [registerAccountMutation, { data, loading }] =
-    useRegisterAccountMutation({
-      onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
-    });
+  const [registerAccountMutation, { data, loading }] = useRegisterAccountMutation({
+    onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
+  });
   const alert = useAlert();
   const intl = useIntl();
 
   return (
-    <Form<{ email: string; password: string; companyName: string; }>
+    <Form<{ email: string; password: string; companyName: string }>
       // BE issue. errors should not contain null
-      errors={(data?.accountRegister?.errors as FormError[]) ?? []}
+      errors={(data?.accountRegister?.errors as IFormError[]) ?? []}
       onSubmit={(event, { email, password, companyName }) => {
         event.preventDefault();
         const redirectUrl = `${window.location.origin}/account-confirm/`;
@@ -90,14 +85,8 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
         type="text"
       />
       <Box className={classes.login__content__button}>
-        <Button
-          testingContext="submitRegisterFormButton"
-          type="submit"
-          disabled={loading}
-        >
-          {loading
-            ? intl.formatMessage(commonMessages.loading)
-            : intl.formatMessage({ defaultMessage: "Register" })}
+        <Button testingContext="submitRegisterFormButton" type="submit" disabled={loading}>
+          {loading ? intl.formatMessage(commonMessages.loading) : intl.formatMessage({ defaultMessage: "Register" })}
         </Button>
       </Box>
     </Form>

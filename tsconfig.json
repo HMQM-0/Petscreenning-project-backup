@@ -29,29 +29,6 @@
       "@mutations": ["./_mutations/index.ts"],
       "@layouts/*": ["./components/layouts/*"],
 
-      // Deprecated
-      "@components/*": ["./deprecated/@next/components/*"],
-      "@components/atoms": ["./deprecated/@next/components/atoms/index.ts"],
-      "@components/molecules": [
-        "./deprecated/@next/components/molecules/index.ts"
-      ],
-      "@components/organisms": [
-        "./deprecated/@next/components/organisms/index.ts"
-      ],
-      "@components/templates": [
-        "./deprecated/@next/components/templates/index.ts"
-      ],
-      "@pages": ["./deprecated/@next/pages/index.ts"],
-      "@styles": ["./deprecated/@next/globalStyles/index.ts"],
-      "@styles/*": ["./deprecated/@next/globalStyles/*"],
-      "images/*": ["./deprecated/images/*"],
-      "@utils/*": ["./deprecated/@next/utils/*"],
-      "@hooks": ["./deprecated/@next/hooks/index.ts"],
-      "@hooks/*": ["./deprecated/@next/hooks/*"],
-      "@types": ["./deprecated/@next/types/index.ts"],
-      "@types/*": ["./deprecated/@next/types/*"],
-      "@app/*": ["./deprecated/@next/*"],
-      "@nautical/*": ["./deprecated/@nautical/*"],
       "nautical-api": ["./components/providers/Nautical/index.ts"]
     }
   }

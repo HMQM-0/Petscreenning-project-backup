@@ -1,4 +1,4 @@
-import { IFormError } from "@types";
+import { IFormError } from "types";
 
 export interface IProps {
   errors?: IFormError[];

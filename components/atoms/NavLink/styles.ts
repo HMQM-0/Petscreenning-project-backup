@@ -1,8 +1,8 @@
 import { default as _Link } from "next/link";
 
-import { styled } from "@styles";
+import { styled } from "styles";
 
-export const Link = styled(_Link)<{ fullWidth: boolean; activeClassName: string; }>`
+export const Link = styled(_Link)<{ fullWidth: boolean; activeClassName: string }>`
   position: relative;
   font-weight: ${({ theme }) => theme.typography.boldFontWeight};
   text-transform: uppercase;
@@ -10,8 +10,8 @@ export const Link = styled(_Link)<{ fullWidth: boolean; activeClassName: string;
   z-index: 0;
 
   ${({ fullWidth }) =>
-  fullWidth &&
-  `
+    fullWidth &&
+    `
       display: block;
       width: 100%;
   `}
@@ -22,7 +22,9 @@ export const Link = styled(_Link)<{ fullWidth: boolean; activeClassName: string;
   }
 
   /* Active URL styles
-  &.${({ activeClassName }) => activeClassName && `
+  &.${({ activeClassName }) =>
+    activeClassName &&
+    `
   {
     color: ${({ theme }: any) => theme.colors.primary};
   }

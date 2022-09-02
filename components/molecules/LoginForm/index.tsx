@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import { Box } from "@mui/material";
 
+import Form from "components/molecules/Form";
 import { AccountError } from "@generated";
 import { useAuth } from "nautical-api";
 import { commonMessages } from "core/intl";
 import Button from "components/atoms/Button";
-import { Form } from "deprecated/components";
-import { FormError } from "deprecated/components/Form/types";
 import TextField from "components/atoms/TextField";
+import { IFormError } from "types";
 
 import classes from "./scss/index.module.scss";
 
@@ -19,7 +19,7 @@ interface ILoginForm {
 const LoginForm = ({ hide }: ILoginForm) => {
   const { signIn } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<FormError[]>([]);
+  const [errors, setErrors] = useState<IFormError[]>([]);
 
   const handleOnSubmit = async (evt: React.FormEvent, { email, password }: { email: string; password: string }) => {
     evt.preventDefault();
@@ -27,11 +27,11 @@ const LoginForm = ({ hide }: ILoginForm) => {
     try {
       const { errors } = await signIn(email.toLowerCase(), password);
       if (errors) {
-        const formErrors: FormError[] = errors.map((error) => ({
+        const IFormErrors: IFormError[] = errors.map((error) => ({
           field: (error as AccountError).field || undefined,
           message: error.message,
         }));
-        setErrors(formErrors);
+        setErrors(IFormErrors);
       } else if (hide) {
         setErrors([]);
         hide();

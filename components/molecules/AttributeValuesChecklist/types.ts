@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ISingleFilterAttribute } from "@types";
+import { ISingleFilterAttribute } from "types";
 
 export interface IProps {
   title?: React.ReactNode;

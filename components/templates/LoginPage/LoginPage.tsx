@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
-import { useNetworkStatus } from "@hooks";
+import { useNetworkStatus } from "components/hooks";
 import { useAuth } from "nautical-api";
 
 import classes from "./scss/index.module.scss";

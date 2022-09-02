@@ -3,7 +3,7 @@ import Media from "react-media";
 
 import { IconButton } from "components/molecules/IconButton";
 import { Overlay } from "components/atoms/Overlay";
-import { xLargeScreen } from "@styles/constants";
+import { xLargeScreen } from "styles/constants";
 
 import * as S from "./styles";
 import { DirectoryItem, IProps } from "./types";
@@ -53,23 +53,11 @@ export const ProductSideNavbar = ({ show, onHide, items, target }: IProps) => {
 
   return (
     <Media query={{ maxWidth: xLargeScreen }}>
-      <Overlay
-        duration={0}
-        position="left"
-        show={!!show}
-        hide={handleHide}
-        target={target}
-      >
+      <Overlay duration={0} position="left" show={!!show} hide={handleHide} target={target}>
         <S.Wrapper>
           <S.Header>
             <span>DIRECTORY</span>
-            <IconButton
-              onClick={() => onHide?.(false)}
-              name="x"
-              size={18}
-              color="000"
-              testingContext="sideNavButton"
-            />
+            <IconButton onClick={() => onHide?.(false)} name="x" size={18} color="000" testingContext="sideNavButton" />
           </S.Header>
           <S.ListWrapper>
             <S.ListBottomBorder />

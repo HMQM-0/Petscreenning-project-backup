@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Message from "deprecated/components/Message/index";
+import { Message } from "components/atoms/Message";
 import { OverlayContextInterface } from "components/providers/Overlay/context";
 
 interface NotificationOverlayProps {
@@ -12,7 +12,7 @@ export const NotificationOverlay = ({ overlay: { hide, context } }: Notification
     return null;
   }
   return (
-    <Message title={context.title || ""} status={context.status} onClose={hide}>
+    <Message title={context.title || ""} status={context.status} onClick={hide}>
       {context.content}
     </Message>
   );
