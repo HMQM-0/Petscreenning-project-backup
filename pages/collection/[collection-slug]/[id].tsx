@@ -16,22 +16,13 @@ import {
   CollectionPageQuery,
   CollectionPageQueryVariables,
 } from "components/templates/CollectionPage/queries.graphql.generated";
-import { IS_SSR } from "utils";
+import { getSeoURL } from "utils";
 
-const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = data.collection?.seoDescription || "Collection";
-  const title = data.collection?.seoTitle || data.collection?.name || "Collection";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-    type: "product.collection",
-  };
-
+const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  documentHead,
+  builderContent,
+}) => {
   const collection = data.collection;
 
   return (
@@ -68,9 +59,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext<{ id
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = data.collection?.seoDescription || "Collection";
+  const title = data.collection?.seoTitle || data.collection?.name || "Collection";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+    type: "product.collection",
+  };
+
   return {
     props: {
       data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },
