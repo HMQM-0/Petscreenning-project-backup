@@ -7,25 +7,9 @@ import { Layout } from "@layouts/Layout";
 import AccountConfirm from "components/templates/AccountConfirmPage";
 import { getApolloClient } from "apollo-client";
 import NotFound from "components/molecules/NotFound";
-import { IS_SSR } from "utils";
+import { getSeoURL } from "utils";
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ email, token }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = "Account Confirmation";
-  const title = "Account Confirmation";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: {
-      footerText: "",
-      jsonContent: "{}",
-    },
-    description,
-    title,
-    schema,
-    image: "",
-    url: "",
-  };
-
+const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ email, token, documentHead }) => {
   const showAccountConfirm = email && token && typeof email === "string" && typeof token === "string";
 
   return (
@@ -41,10 +25,27 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const { email = null, token = null } = context.query;
 
+  const url = getSeoURL(context);
+  const description = "Account Confirmation";
+  const title = "Account Confirmation";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: {
+      footerText: "",
+      jsonContent: "{}",
+    },
+    description,
+    title,
+    schema,
+    image: "",
+    url,
+  };
+
   return {
     props: {
       email,
       token,
+      documentHead,
       __APOLLO__,
     },
   };
