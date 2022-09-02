@@ -13,25 +13,16 @@ import { Layout } from "components/layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
-import { IS_SSR } from "utils";
+import { getSeoURL, IS_SSR } from "utils";
 
 import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";
 import NotFound from "../../../components/molecules/NotFound";
 
-const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = data.category?.seoDescription || "Category";
-  const title = data.category?.seoTitle || data.category?.name || "Category";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-    type: "product.category",
-  };
-
+const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  documentHead,
+  builderContent,
+}) => {
   const category = data.category;
 
   return (
@@ -68,9 +59,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext<{ id
 
   const __APOLLO__ = client.extract();
 
+  const url = getSeoURL(context);
+  const description = data.category?.seoDescription || "Category";
+  const title = data.category?.seoTitle || data.category?.name || "Category";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+    type: "product.category",
+  };
+
   return {
     props: {
       data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },
