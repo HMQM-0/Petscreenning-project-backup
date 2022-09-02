@@ -9,6 +9,7 @@ const nextConfig = {
     // 🚨🚨🚨🚨🚨!! WARN !!🚨🚨🚨🚨🚨
     ignoreBuildErrors: true,
   },
+  styledComponents: true,
   images: {
     domains: ["mediacdn.nauticalcommerce.app", "localhost"],
   },
