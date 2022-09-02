@@ -1,6 +1,6 @@
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
-import type { NextPage, InferGetServerSidePropsType } from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import builderConfig from "config/builder";
@@ -10,22 +10,13 @@ import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 import SearchProducts from "components/templates/SearchPage/SearchProducts";
 import { SearchPageDocument, SearchPageQuery } from "components/templates/SearchPage/queries.graphql.generated";
-import { IS_SSR } from "utils";
+import { getSeoURL, IS_SSR } from "utils";
 
-const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = "Search Products";
-  const title = "Search Products";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-    type: "product.search",
-  };
-
+const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  documentHead,
+  builderContent,
+}) => {
   return (
     <Layout documentHead={documentHead}>
       <ProductsListView>
@@ -35,7 +26,7 @@ const Search: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> =
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = getApolloClient();
 
   let content: BuilderContent | null = null;
@@ -50,9 +41,23 @@ export async function getServerSideProps() {
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = "Search Products";
+  const title = "Search Products";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+    type: "product.search",
+  };
+
   return {
     props: {
       data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },
