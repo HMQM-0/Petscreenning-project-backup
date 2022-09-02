@@ -15,22 +15,13 @@ import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
 import { ProductsListView } from "components/templates/ProductsList/View";
 import NotFound from "components/molecules/NotFound";
-import { IS_SSR } from "utils";
+import { getSeoURL } from "utils";
 
-const Microsite: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = data.microsite?.seoDescription || "Microsite";
-  const title = data.microsite?.seoTitle || data.microsite?.name || "Microsite";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-    type: "microsites.microsite",
-  };
-
+const Microsite: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  documentHead,
+  builderContent,
+}) => {
   const microsite = data.microsite;
 
   return (
@@ -65,9 +56,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext<{ id
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = data.microsite?.seoDescription || "Microsite";
+  const title = data.microsite?.seoTitle || data.microsite?.name || "Microsite";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+    type: "microsites.microsite",
+  };
+
   return {
     props: {
       data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },
