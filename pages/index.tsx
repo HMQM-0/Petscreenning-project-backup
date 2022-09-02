@@ -10,22 +10,13 @@ import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { HomeDocument, HomeQuery } from "components/templates/IndexPage/queries.graphql.generated";
 import { getSsrApolloClient } from "apollo-client";
-import { IS_SSR } from "utils";
+import { DocumentHead } from "types";
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = data?.shop.description ?? "";
-  const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    image: data.shop.homepageCollection?.backgroundImage?.url ?? "",
-    url: "",
-  };
-
+const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  data,
+  builderContent,
+  documentHead,
+}) => {
   return (
     <Layout documentHead={documentHead}>
       <IndexPage data={data} builderContent={builderContent} />
@@ -42,13 +33,28 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const { data } = await client.query<HomeQuery>({
     query: HomeDocument,
+    errorPolicy: "all",
   });
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = context.resolvedUrl;
+  const description = data?.shop.description ?? "";
+  const title = data?.shop.name ?? "";
+  const schema = structuredData(description, title, url);
+  const documentHead: DocumentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    image: data.shop.homepageCollection?.backgroundImage?.url ?? "",
+    url,
+  };
+
   return {
     props: {
       data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },
