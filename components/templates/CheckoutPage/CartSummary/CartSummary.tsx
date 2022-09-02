@@ -14,10 +14,10 @@ import {
 } from "@mui/material";
 import { useAlert } from "react-alert";
 
-import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import { useCheckout } from "nautical-api";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
+import { ICheckoutModelPriceValue } from "components/providers/Nautical/Checkout/types";
 
 import CartSummaryFooter from "./CartSummaryFooter";
 import CartSummaryRow from "./CartSummaryRow";

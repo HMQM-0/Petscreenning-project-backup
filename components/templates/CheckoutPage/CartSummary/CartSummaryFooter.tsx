@@ -4,11 +4,11 @@ import clsx from "clsx";
 import * as React from "react";
 import { useIntl } from "react-intl";
 
-import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import { commonMessages } from "core/intl";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { Money } from "components/atoms/Money";
+import { ICheckoutModelPriceValue } from "components/providers/Nautical/Checkout/types";
 
 interface ICartSummaryFooterProps {
   subtotal?: ITaxedMoney;
@@ -87,24 +87,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 //   return value.gross.currency;
 // }
 
-const CostLine = ({
-  name,
-  cost,
-  volumeDiscount,
-  last = false,
-  negative = false,
-}: ICostLineProps) => {
+const CostLine = ({ name, cost, volumeDiscount, last = false, negative = false }: ICostLineProps) => {
   const classes = useStyles({});
 
   return (
     <>
       {last ? <Divider /> : ""}
-      <Box
-        className={clsx(
-          last ? classes.lastFont : classes.otherFont,
-          classes.footerFlex
-        )}
-      >
+      <Box className={clsx(last ? classes.lastFont : classes.otherFont, classes.footerFlex)}>
         <Box component="span">{name}</Box>
         <Box
           component="span"
@@ -117,46 +106,22 @@ const CostLine = ({
             ""
           )} */}
           {negative && "- "}
-          {cost ? (
-            <TaxedMoney taxedMoney={cost} />
-          ) : (
-            <Money money={volumeDiscount} />
-          )}
+          {cost ? <TaxedMoney taxedMoney={cost} /> : <Money money={volumeDiscount} />}
         </Box>
       </Box>
     </>
   );
 };
 
-const CartSummaryFooter = ({
-  subtotal,
-  promoCode,
-  shipping,
-  total,
-  volumeDiscount,
-}: ICartSummaryFooterProps) => {
+const CartSummaryFooter = ({ subtotal, promoCode, shipping, total, volumeDiscount }: ICartSummaryFooterProps) => {
   const intl = useIntl();
 
   return (
     <Box>
-      {subtotal && (
-        <CostLine
-          name={intl.formatMessage(commonMessages.subtotal)}
-          cost={subtotal}
-        />
-      )}
-      {shipping && (
-        <CostLine
-          name={intl.formatMessage(commonMessages.shipping)}
-          cost={shipping}
-        />
-      )}
+      {subtotal && <CostLine name={intl.formatMessage(commonMessages.subtotal)} cost={subtotal} />}
+      {shipping && <CostLine name={intl.formatMessage(commonMessages.shipping)} cost={shipping} />}
       {promoCode && promoCode.gross.amount > 0 && (
-        <CostLine
-          name={intl.formatMessage(commonMessages.promoCode)}
-          cost={promoCode}
-          negative
-        />
+        <CostLine name={intl.formatMessage(commonMessages.promoCode)} cost={promoCode} negative />
       )}
       {volumeDiscount && volumeDiscount.amount > 0 && (
         <CostLine
@@ -177,13 +142,7 @@ const CartSummaryFooter = ({
           cost={calculateTax(total)}
         />
       )}
-      {total && (
-        <CostLine
-          name={intl.formatMessage(commonMessages.total)}
-          cost={total}
-          last
-        />
-      )}
+      {total && <CostLine name={intl.formatMessage(commonMessages.total)} cost={total} last />}
     </Box>
   );
 };

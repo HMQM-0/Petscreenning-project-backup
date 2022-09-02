@@ -18,12 +18,10 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      // "@components": ["./components/index.ts"],
       "@generated": ["./graphql/generated.ts"],
       "@locale-json/*": ["./config/locale/*"],
       "@locale": ["./components/providers/Locale/index.ts"],
       "@providers": ["./components/providers/index.ts"],
-      // "@utils/*": ["./utils/*"],
       "@fragments": ["./_fragments/index.ts"],
       "@queries": ["./_queries/index.ts"],
       "@mutations": ["./_mutations/index.ts"],

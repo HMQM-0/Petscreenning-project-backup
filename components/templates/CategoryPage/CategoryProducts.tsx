@@ -5,7 +5,7 @@ import { useProductsQuery } from "components/templates/ProductsList/queries.grap
 import { useProductListVariables } from "components/templates/ProductsList/View";
 import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
-import { slugify } from "@utils/core";
+import { slugify } from "core/utils";
 
 import { BasicCategoryFragment, CategoryPageQueryResult } from "./queries.graphql.generated";
 

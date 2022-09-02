@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { ButtonLink } from "components/atoms/ButtonLink";
 import { commonMessages } from "core/intl";
 import TextField from "components/atoms/TextField";
-import { IFormError } from "@types";
+import { IFormError } from "types";
 
 import * as S from "./styles";
 

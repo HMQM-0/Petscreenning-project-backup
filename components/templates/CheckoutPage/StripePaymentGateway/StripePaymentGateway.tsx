@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js/pure";
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
-import { IFormError } from "@types";
+import { IFormError } from "types";
 import { useCheckout, useAuth } from "nautical-api";
 import { Loader } from "components/atoms/Loader";
 import { useGetClientSecretQuery } from "queries/clientSecret.graphql.generated";

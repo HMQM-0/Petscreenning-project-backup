@@ -4,7 +4,6 @@ import { useIntl } from "react-intl";
 
 import { useCart, useCheckout } from "nautical-api";
 import { ICardData, IFormError } from "types";
-import { maybe } from "@utils/misc";
 
 import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
@@ -44,7 +43,7 @@ const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment 
   const checkoutGatewayFormRef = React.useRef<HTMLFormElement>(null);
 
   const handleErrors = (errors: IFormError[]) => {
-    const messages = maybe(() => errors.flatMap((error) => error.message), []);
+    const messages = errors?.flatMap((error) => error.message) ?? [];
     setErrorMessage(messages.join(" \n"));
     setSubmittingPayment(false);
   };
