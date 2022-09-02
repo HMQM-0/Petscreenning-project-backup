@@ -27,15 +27,15 @@ interface FormState<Values> {
 function groupErrorsByFields(errors: IFormError[]): {
   [key: string]: IFormError[];
 } {
-  return errors.reduce((o, error) => {
+  return errors.reduce((o: any, error) => {
     const key = error.field || NON_FIELD_ERROR;
     (o[key] = o[key] || []).push(error);
     return o;
   }, {});
 }
 
-function removeDuplicatedErrors(errors) {
-  const keys = [];
+function removeDuplicatedErrors(errors: any[]) {
+  const keys: string[] = [];
   return errors.filter((error) => {
     const key = error.message + error.field || "";
     const filter = !keys.includes(key);
@@ -45,13 +45,13 @@ function removeDuplicatedErrors(errors) {
 }
 
 class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>> {
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: any, state: any) {
     const propsKey = (props.errors || [])
-      .map((error) => error.field || NON_FIELD_ERROR)
+      .map((error: any) => error.field || NON_FIELD_ERROR)
       .sort()
       .join();
     const stateKey = (state.errors || [])
-      .map((error) => error.field || NON_FIELD_ERROR)
+      .map((error: any) => error.field || NON_FIELD_ERROR)
       .sort()
       .join();
     if (propsKey !== stateKey) {
@@ -65,7 +65,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
 
   ref: React.RefObject<HTMLFormElement> = React.createRef();
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     const errors = props.errors || [];
     const data = props.data || {};
@@ -75,7 +75,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     if (JSON.stringify(prevProps.errors) !== JSON.stringify(this.props.errors)) {
       this.setState({
         errors: this.props.errors || [],
@@ -83,14 +83,14 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
     }
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = (event: any) => {
     const { onSubmit } = this.props;
     if (onSubmit !== undefined) {
       onSubmit(event, this.state.data);
     }
   };
 
-  handleInputError = (event) => {
+  handleInputError = (event: any) => {
     const { target: input } = event;
 
     this.setState((state) => {
@@ -102,7 +102,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
     });
   };
 
-  handleFieldChange = (event) => {
+  handleFieldChange = (event: any) => {
     const fieldName = event.target.name;
     const { value } = event.target;
 
@@ -112,7 +112,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
     });
   };
 
-  renderWrappedChildren(children) {
+  renderWrappedChildren(children: any): any {
     // Traverse through all children
     return React.Children.map(children, (child: React.ReactElement<any>) => {
       // This is support for non-node elements (eg. pure text), they have no props
@@ -127,6 +127,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
         });
       }
       if (child.type === TextField || child.type === NumberFormat) {
+        // @ts-ignore
         const defaultValue = this.state.data[child.props.name];
         const groupedErrors = groupErrorsByFields(this.state.errors);
         const errors = groupedErrors[child.props.name] || [];
@@ -134,14 +135,14 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
         return React.cloneElement(child, {
           defaultValue,
           errors,
-          onBlur: (event) => {
+          onBlur: (event: any) => {
             this.handleInputError(event);
 
             if (child.props.onBlur) {
               child.props.onBlur(event);
             }
           },
-          onChange: (event) => {
+          onChange: (event: any) => {
             this.handleFieldChange(event);
 
             this.handleInputError(event);
@@ -150,7 +151,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
               child.props.onChange(event);
             }
           },
-          onInvalid: (event) => {
+          onInvalid: (event: any) => {
             if (child.props.onInvalid) {
               child.props.onInvalid(event);
             }
@@ -161,19 +162,23 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
       }
       if (child.type === SelectField || child.type === Select) {
         let defaultValue;
+        // @ts-ignore
         if (child.props.name === "country" && this.state.data[child.props.name]) {
           defaultValue = {
+            // @ts-ignore
             label: this.state.data[child.props.name].country,
+            // @ts-ignore
             value: this.state.data[child.props.name].code,
           };
         } else {
+          // @ts-ignore
           defaultValue = this.state.data[child.props.name];
         }
 
         return React.cloneElement(child, {
           defaultValue,
 
-          onChange: (value) => {
+          onChange: (value: any) => {
             this.setState((state) => {
               const data = { ...state.data, [child.props.name]: value };
               return { data };
@@ -182,6 +187,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
         });
       }
       if (child.props.type === "checkbox") {
+        // @ts-ignore
         const defaultValue = this.state.data[child.props.name] || false;
         return React.cloneElement(child, {
           defaultValue,
@@ -190,6 +196,7 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
             this.setState((state) => {
               const data = {
                 ...state.data,
+                // @ts-ignore
                 [child.props.name]: !state.data[child.props.name],
               };
               return { data };
