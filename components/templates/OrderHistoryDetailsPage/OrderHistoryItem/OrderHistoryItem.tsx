@@ -47,7 +47,8 @@ export const OrderHistoryItem = ({ order, invoices }: IOrderHistoryItemProps) =>
   const invInvoices =
     invoices &&
     invoices.filter((invoice) => {
-      // FIXME What INV means and rename this variable to something more appropriate
+      // Invoice entity itself can be invoice, packing, purchase order.
+      // To make sure that it's "INV" only, this filter is used
       return invoice?.number?.includes("INV");
     }).length > 0;
 
