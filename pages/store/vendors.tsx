@@ -1,6 +1,6 @@
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
-import type { NextPage, InferGetServerSidePropsType } from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import NotFound from "components/molecules/NotFound";
@@ -10,21 +10,12 @@ import { VendorsPageDocument, VendorsPageQuery } from "components/templates/Vend
 import { Layout } from "@layouts/Layout";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { getApolloClient } from "apollo-client";
-import { IS_SSR } from "utils";
+import { getSeoURL, IS_SSR } from "utils";
 
-const Vendors: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, builderContent }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = "All Vendors";
-  const title = "All Vendors";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    url: "",
-  };
-
+const Vendors: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  documentHead,
+  builderContent,
+}) => {
   return (
     <Layout documentHead={documentHead}>
       {builderContent ? <VendorsList builderContent={builderContent} /> : <NotFound />}
@@ -32,7 +23,7 @@ const Vendors: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const client = getApolloClient();
 
   let content: BuilderContent | null = null;
@@ -49,9 +40,21 @@ export async function getServerSideProps() {
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
+  const url = getSeoURL(context);
+  const description = "All Vendors";
+  const title = "All Vendors";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+  };
+
   return {
     props: {
-      data,
+      documentHead,
       builderContent: content,
       __APOLLO__,
     },
