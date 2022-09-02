@@ -119,13 +119,7 @@ export const CartRow = ({ item }: CartRowProps) => {
         />
       </S.Quantity>
       <S.Trash>
-        <IconButton
-          testingContext="removeButton"
-          testingContextId={variant.sku}
-          size={22}
-          name="trash"
-          onClick={() => removeItem(variant.id)}
-        />
+        <IconButton testingContext="removeButton" size={22} name="trash" onClick={() => removeItem(variant.id)} />
       </S.Trash>
 
       <S.TotalPrice>
