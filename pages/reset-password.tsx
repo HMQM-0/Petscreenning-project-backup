@@ -11,22 +11,13 @@ import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { getApolloClient } from "apollo-client";
 import NotFound from "components/molecules/NotFound";
-import { IS_SSR } from "utils";
+import { getSeoURL, IS_SSR } from "utils";
 
-const ResetPassword: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ email, token, data }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = "Reset Password";
-  const title = "Reset Password";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    image: data.branding?.logo?.url ?? "",
-    url: "",
-  };
-
+const ResetPassword: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  email,
+  token,
+  documentHead,
+}) => {
   const showResetPassword = email && token && typeof email === "string" && typeof token === "string";
 
   return (
@@ -46,10 +37,22 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
   const { email = null, token = null } = context.query;
+  const url = getSeoURL(context);
+  const description = "Reset Password";
+  const title = "Reset Password";
+  const schema = structuredData(description, title, url);
+  const documentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    image: data.branding?.logo?.url ?? "",
+    url,
+  };
 
   return {
     props: {
-      data,
+      documentHead,
       email,
       token,
       __APOLLO__,
