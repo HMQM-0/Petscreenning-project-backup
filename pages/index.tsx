@@ -11,6 +11,7 @@ import { Layout } from "@layouts/Layout";
 import { HomeDocument, HomeQuery } from "components/templates/IndexPage/queries.graphql.generated";
 import { getSsrApolloClient } from "apollo-client";
 import { DocumentHead } from "types";
+import { getSeoURL } from "utils";
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,
@@ -38,7 +39,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
-  const url = context.resolvedUrl;
+  const url = getSeoURL(context);
   const description = data?.shop.description ?? "";
   const title = data?.shop.name ?? "";
   const schema = structuredData(description, title, url);
