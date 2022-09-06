@@ -3,11 +3,7 @@ import * as React from "react";
 
 import { IProps } from "./types";
 
-const NotificationTemplate: React.FC<IProps> = ({
-  message,
-  options,
-  close,
-}) => {
+const NotificationTemplate: React.FC<IProps> = ({ message, options, close }) => {
   return (
     <>
       <Alert
@@ -18,7 +14,6 @@ const NotificationTemplate: React.FC<IProps> = ({
           bottom: 16,
           right: 16,
         }}
-        // @ts-ignore
         severity={options.type}
         onClick={close}
       >

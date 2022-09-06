@@ -94,11 +94,7 @@ export const ProductGallery = ({ images }: IProps) => {
           <ul>
             {images.map((image, index) => {
               return (
-                <li
-                  key={index}
-                  data-test="galleryThumbnail"
-                  data-test-id={index}
-                >
+                <li key={index} data-test="galleryThumbnail" data-test-id={index}>
                   <S.Thumbnail
                     ref={setIntersectionObserver(index, images.length)}
                     onClick={() => setImageIndex(index)}
@@ -116,12 +112,7 @@ export const ProductGallery = ({ images }: IProps) => {
 
       <S.Preview data-test="imagePreview">
         {images && images.length > 0 && imageIndex < images.length && (
-          <CachedImage
-            alt={images[imageIndex].alt}
-            url={images[imageIndex].url}
-            // @ts-ignore
-            style={{ maxHeight: 560 }}
-          />
+          <CachedImage alt={images[imageIndex].alt} url={images[imageIndex].url} style={{ maxHeight: 560 }} />
         )}
         {images.length === 0 && <CachedImage />}
       </S.Preview>
