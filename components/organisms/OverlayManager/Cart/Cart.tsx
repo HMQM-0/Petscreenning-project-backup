@@ -6,6 +6,8 @@ import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import _sumBy from "lodash/sumBy";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
+import { Money } from "components/atoms/Money";
 import { useCart, useCheckout, useAuth } from "nautical-api";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { commonMessages } from "core/intl";
@@ -76,17 +78,17 @@ const Cart = ({ overlay }: CartProps) => {
                       <FormattedMessage {...commonMessages.subtotal} />
                     </Box>
                     <Box component="span">
-                      <TaxedMoney data-test="subtotalPrice" taxedMoney={subtotalPrice} />
+                      <Money data-test="subtotalPrice" money={subtotalPrice?.net} />
                     </Box>
                   </Box>
 
-                  {shippingTaxedPrice && shippingTaxedPrice.gross.amount !== 0 && (
+                  {shippingTaxedPrice && shippingTaxedPrice.net.amount !== 0 && (
                     <Box className={classes["cart__footer__price"]}>
                       <Box component="span">
                         <FormattedMessage {...commonMessages.shipping} />
                       </Box>
                       <Box component="span">
-                        <TaxedMoney data-test="shippingPrice" taxedMoney={shippingTaxedPrice} />
+                        <Money data-test="shippingPrice" money={shippingTaxedPrice.net} />
                       </Box>
                     </Box>
                   )}
@@ -104,10 +106,19 @@ const Cart = ({ overlay }: CartProps) => {
 
                   <Box className={classes["cart__footer__price"]}>
                     <Box component="span">
+                      <FormattedMessage defaultMessage="Taxes" description="taxes" />
+                    </Box>
+                    <Box component="span">
+                      <Money money={calculateTax(totalPrice)} />
+                    </Box>
+                  </Box>
+
+                  <Box className={classes["cart__footer__price"]}>
+                    <Box component="span">
                       <FormattedMessage {...commonMessages.total} />
                     </Box>
                     <Box component="span">
-                      <TaxedMoney data-test="totalPrice" taxedMoney={totalPrice} />
+                      <Money data-test="totalPrice" money={totalPrice?.gross} />
                     </Box>
                   </Box>
 

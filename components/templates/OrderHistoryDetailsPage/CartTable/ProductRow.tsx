@@ -3,9 +3,11 @@ import * as React from "react";
 import Link from "next/link";
 import { Box } from "@mui/material";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
+import { Money } from "components/atoms/Money";
 import {
   NauticalOrderDetailFragment,
-  ProductVariantFragment
+  ProductVariantFragment,
 } from "components/providers/Nautical/Checkout/fragments.graphql.generated";
 import { Thumbnail } from "components/molecules/Thumbnail";
 import { generateProductUrl } from "core/utils";
@@ -33,14 +35,10 @@ export interface EditableProductRowProps {
   processing?: boolean;
 }
 
-const ProductRow: React.FC<ReadProductRowProps & EditableProductRowProps> = ({
-  mediumScreen,
-  processing,
-  line,
-}) => {
+const ProductRow: React.FC<ReadProductRowProps & EditableProductRowProps> = ({ mediumScreen, processing, line }) => {
   const variant = line.variant;
   const product = variant?.product;
-  const productUrl = product && generateProductUrl(product.id, product.name) || "";
+  const productUrl = (product && generateProductUrl(product.id, product.name)) || "";
 
   return (
     <tr
@@ -50,11 +48,7 @@ const ProductRow: React.FC<ReadProductRowProps & EditableProductRowProps> = ({
     >
       <td className="cart-table__thumbnail">
         <Box>
-          {mediumScreen && (
-            <Link href={productUrl}>
-              {product && (<Thumbnail source={product} />)}
-            </Link>
-          )}
+          {mediumScreen && <Link href={productUrl}>{product && <Thumbnail source={product} />}</Link>}
           <Link href={productUrl}>{product?.name}</Link>
         </Box>
       </td>
@@ -77,8 +71,14 @@ const ProductRow: React.FC<ReadProductRowProps & EditableProductRowProps> = ({
         <p>{line.quantity}</p>
       </td>
 
+      {mediumScreen && (
+        <td>
+          <Money money={calculateTax(line.totalPrice)} />
+        </td>
+      )}
+
       <td colSpan={2}>
-        <TaxedMoney taxedMoney={line.totalPrice} />
+        <Money money={line.totalPrice?.gross} />
       </td>
     </tr>
   );
