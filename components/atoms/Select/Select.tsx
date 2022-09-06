@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import clsx from "clsx";
 import { filter, find } from "lodash";
@@ -8,6 +7,7 @@ import * as React from "react";
 
 import { useClickedOutside } from "components/hooks";
 
+import classes from "./scss/index.module.scss";
 import { IFilteredListArgs, ISelectChange, ISelectItem, ISelectProps } from "./customTypes";
 import SelectOptionsList from "./SelectOptionsList";
 
@@ -47,7 +47,7 @@ export const Select = (props: ISelectProps) => {
   const shouldOpen = clickedOutside ? false : open;
   const shouldSearch = defaultValue.label !== searchPhrase;
 
-  const renderLabel = (label?: string) => label && <label className="input__label">{label}</label>;
+  const renderLabel = (label?: string) => label && <label className={classes["input__label"]}>{label}</label>;
 
   const changeSelectionRange = (e: React.ChangeEvent<any>) =>
     inputRef.current?.setSelectionRange(0, e.target.value.length);
@@ -55,16 +55,21 @@ export const Select = (props: ISelectProps) => {
   return (
     <Box
       ref={setElementRef()}
-      className={clsx("react-select select", {
-        "select--open": shouldOpen,
+      className={clsx("react-select", classes.select, {
+        [classes["select--open"]]: shouldOpen,
       })}
     >
-      <input className="select__hidden" autoComplete={autoComplete} name={name} defaultValue={defaultValue.value} />
-      <Box className="select__container">
-        <Box className="select__title">
+      <input
+        className={classes["select__hidden"]}
+        autoComplete={autoComplete}
+        name={name}
+        defaultValue={defaultValue.value}
+      />
+      <Box className={classes["select__container"]}>
+        <Box className={classes["select__title"]}>
           <input
             ref={inputRef}
-            className="input__field"
+            className={classes["input__field"]}
             value={searchPhrase}
             onChange={(e) => {
               const { value } = e.target;
@@ -86,8 +91,8 @@ export const Select = (props: ISelectProps) => {
         </Box>
 
         <Box
-          className={clsx("select__options", {
-            "select__options--open": shouldOpen,
+          className={clsx(classes["select__options"], {
+            [classes["select__options--open"]]: shouldOpen,
           })}
         >
           <SelectOptionsList

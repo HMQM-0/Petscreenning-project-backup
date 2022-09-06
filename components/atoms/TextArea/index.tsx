@@ -1,8 +1,9 @@
 import * as React from "react";
+import clsx from "clsx";
 
 import { IFormError } from "types";
 
-import "./scss/index.module.scss";
+import classes from "./scss/index.module.scss";
 
 type Style = "white" | "grey";
 
@@ -22,13 +23,20 @@ export interface TextAreaFieldProps extends React.TextareaHTMLAttributes<HTMLTex
 }
 
 const generateClassName = ({ errors, iconLeft, styleType }: IClassNameArgs) => {
-  const baseClass = "input__field";
-  const errorsClass = errors && errors.length ? " input__field--error" : "";
-  const iconLeftClass = iconLeft ? " input__field--left-icon" : "";
-  const styleTypeClass = styleType === "grey" ? " input__field--grey" : "";
-
-  return baseClass.concat(errorsClass, iconLeftClass, styleTypeClass);
+  return clsx(
+    classes["input__field"],
+    {
+      [classes["input__field--error"]]: errors && errors.length,
+    },
+    {
+      [classes["input__field--left-icon"]]: iconLeft,
+    },
+    {
+      [classes["input__field--grey"]]: styleType === "grey",
+    }
+  );
 };
+
 const TextArea: React.FC<TextAreaFieldProps> = ({
   label = "",
   iconLeft,
@@ -39,10 +47,10 @@ const TextArea: React.FC<TextAreaFieldProps> = ({
   value,
   ...rest
 }) => (
-  <div className="input">
-    {iconLeft ? <span className="input__icon-left">{iconLeft}</span> : null}
-    {iconRight ? <span className="input__icon-right">{iconRight}</span> : null}
-    <div className="input__content">
+  <div className={classes["input"]}>
+    {iconLeft ? <span className={classes["input__icon-left"]}>{iconLeft}</span> : null}
+    {iconRight ? <span className={classes["input__icon-right"]}>{iconRight}</span> : null}
+    <div className={classes["input__content"]}>
       <textarea
         {...rest}
         className={generateClassName({ errors, iconLeft, styleType })}
@@ -50,10 +58,10 @@ const TextArea: React.FC<TextAreaFieldProps> = ({
         value={value}
         style={{ resize: "vertical" }}
       />
-      {label ? <span className="input__label">{label}</span> : null}
+      {label ? <span className={classes["input__label"]}>{label}</span> : null}
     </div>
-    {errors && <span className="input__error">{errors.map((error) => error.message).join(" ")}</span>}
-    {helpText && <span className="input__help-text">{helpText}</span>}
+    {errors && <span className={classes["input__error"]}>{errors.map((error) => error.message).join(" ")}</span>}
+    {helpText && <span className={classes["input__help-text"]}>{helpText}</span>}
   </div>
 );
 

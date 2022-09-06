@@ -2,12 +2,13 @@ import clsx from "clsx";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 
+import classes from "./scss/index.module.scss";
 import { ISelectOptionsList } from "./customTypes";
 
 type Ref = HTMLParagraphElement;
 
 const renderNoOptions = () => (
-  <p className="select__option select__option--disabled" key="no-option">
+  <p className={clsx(classes["select__option"], classes["select__option--disabled"])} key="no-option">
     <FormattedMessage defaultMessage="No Options" />
   </p>
 );
@@ -23,8 +24,8 @@ const SelectOptionsList = React.forwardRef<Ref, ISelectOptionsList>(
             return (
               <p
                 {...getRef(isSelected, ref)}
-                className={clsx("select__option", {
-                  "select__option--selected": isSelected,
+                className={clsx(classes["select__option"], {
+                  [classes["select__option--selected"]]: isSelected,
                 })}
                 key={value}
                 onClick={() => {

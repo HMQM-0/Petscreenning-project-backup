@@ -6,8 +6,7 @@ import { commonMessages } from "core/intl";
 
 import CostRow from "./CostRow";
 import ProductRow, { EditableProductRowProps, ILine } from "./ProductRow";
-
-import "./scss/index.module.scss";
+import classes from "./scss/index.module.scss";
 
 interface TableProps extends EditableProductRowProps {
   lines: ILine[];
@@ -35,96 +34,88 @@ const Table: React.FC<TableProps> = ({
   return (
     <Media query={{ minWidth: "540px" }}>
       {(mediumScreen) => (
-        <table className="cart-table">
+        <table className={classes["cart-table"]}>
           <thead>
-          <tr>
-            <th>
-              <FormattedMessage {...commonMessages.products} />
-            </th>
-            {mediumScreen && (
+            <tr>
               <th>
-                <FormattedMessage {...commonMessages.price} />
+                <FormattedMessage {...commonMessages.products} />
               </th>
-            )}
-            <th>
-              <FormattedMessage {...commonMessages.variant} />
-            </th>
-            <th className="cart-table__quantity-header">
-              <FormattedMessage {...commonMessages.qty} />
-            </th>
-            <th colSpan={2}>
-              {mediumScreen ? (
-                <FormattedMessage {...commonMessages.totalPrice} />
-              ) : (
-                <FormattedMessage {...commonMessages.price} />
+              {mediumScreen && (
+                <th>
+                  <FormattedMessage {...commonMessages.price} />
+                </th>
               )}
-            </th>
-          </tr>
+              <th>
+                <FormattedMessage {...commonMessages.variant} />
+              </th>
+              <th className={classes["cart-table__quantity-header"]}>
+                <FormattedMessage {...commonMessages.qty} />
+              </th>
+              <th colSpan={2}>
+                {mediumScreen ? (
+                  <FormattedMessage {...commonMessages.totalPrice} />
+                ) : (
+                  <FormattedMessage {...commonMessages.price} />
+                )}
+              </th>
+            </tr>
           </thead>
           <tbody>
-          {lines.map((line) => (
-            <ProductRow
-              key={line.variant?.product.id}
-              line={line}
-              mediumScreen={mediumScreen}
-              {...rowProps}
-            />
-          ))}
+            {lines.map((line) => (
+              <ProductRow key={line.variant?.product.id} line={line} mediumScreen={mediumScreen} {...rowProps} />
+            ))}
           </tbody>
           <tfoot>
-          <CostRow
-            mediumScreen={mediumScreen}
-            heading={intl.formatMessage(commonMessages.subtotal)}
-            cost={subtotal}
-          />
-          {taxes && (
             <CostRow
               mediumScreen={mediumScreen}
-              heading={intl.formatMessage({
-                defaultMessage: "Taxes",
-              })}
-              cost={taxes}
+              heading={intl.formatMessage(commonMessages.subtotal)}
+              cost={subtotal}
             />
-          )}
-          {discount && (
-            <CostRow
-              mediumScreen={mediumScreen}
-              heading={
-                discountName
-                  ? intl.formatMessage(
-                    { defaultMessage: "Discount: {discountName}" },
-                    { discountName }
-                  )
-                  : "Promo Code Discount"
-              }
-              cost={discount}
-            />
-          )}
-          {volumeDiscount && (
-            <CostRow
-              mediumScreen={mediumScreen}
-              heading={intl.formatMessage({
-                defaultMessage: "Volume Discount",
-              })}
-              cost={volumeDiscount}
-            />
-          )}
-          {deliveryCost && (
-            <CostRow
-              mediumScreen={mediumScreen}
-              heading={intl.formatMessage({
-                defaultMessage: "Delivery Cost",
-              })}
-              cost={deliveryCost}
-            />
-          )}
-          {totalCost && (
-            <CostRow
-              mediumScreen={mediumScreen}
-              heading={intl.formatMessage({ defaultMessage: "Total Cost" })}
-              cost={totalCost}
-            />
-          )}
+            {taxes && (
+              <CostRow
+                mediumScreen={mediumScreen}
+                heading={intl.formatMessage({
+                  defaultMessage: "Taxes",
+                })}
+                cost={taxes}
+              />
+            )}
+            {discount && (
+              <CostRow
+                mediumScreen={mediumScreen}
+                heading={
+                  discountName
+                    ? intl.formatMessage({ defaultMessage: "Discount: {discountName}" }, { discountName })
+                    : "Promo Code Discount"
+                }
+                cost={discount}
+              />
+            )}
+            {volumeDiscount && (
+              <CostRow
+                mediumScreen={mediumScreen}
+                heading={intl.formatMessage({
+                  defaultMessage: "Volume Discount",
+                })}
+                cost={volumeDiscount}
+              />
+            )}
+            {deliveryCost && (
+              <CostRow
+                mediumScreen={mediumScreen}
+                heading={intl.formatMessage({
+                  defaultMessage: "Delivery Cost",
+                })}
+                cost={deliveryCost}
+              />
+            )}
+            {totalCost && (
+              <CostRow
+                mediumScreen={mediumScreen}
+                heading={intl.formatMessage({ defaultMessage: "Total Cost" })}
+                cost={totalCost}
+              />
+            )}
           </tfoot>
         </table>
       )}

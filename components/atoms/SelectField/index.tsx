@@ -1,8 +1,9 @@
-import "./scss/index.module.scss";
 import { Box } from "@mui/material";
 import clsx from "clsx";
 import * as React from "react";
 import Select, { Props as SelectProps } from "react-select";
+
+import classes from "./scss/index.module.scss";
 
 type Style = "white" | "grey";
 
@@ -16,26 +17,20 @@ export interface SelectFieldProps<TValue> extends SelectProps<TValue> {
   styleType?: Style;
 }
 
-type GenericSelectField<TValue> = React.FunctionComponent<
-  SelectFieldProps<TValue>
->;
+type GenericSelectField<TValue> = React.FunctionComponent<SelectFieldProps<TValue>>;
 
-const SelectField: GenericSelectField<SelectValue> = ({
-  label = "",
-  styleType = "white",
-  ...rest
-}) => (
+const SelectField: GenericSelectField<SelectValue> = ({ label = "", styleType = "white", ...rest }) => (
   <Box
-    className={clsx("react-select-wrapper", {
-      "react-select-wrapper--grey": styleType === "grey",
+    className={clsx(classes["react-select-wrapper"], {
+      [classes["react-select-wrapper--grey"]]: styleType === "grey",
     })}
   >
     {label ? (
-      <Box component="span" className="input__label">
+      <Box component="span" className={classes["input__label"]}>
         {label}
       </Box>
     ) : null}
-    <Select classNamePrefix="react-select" {...rest} />
+    <Select classNamePrefix={classes["react-select"]} {...rest} />
   </Box>
 );
 
