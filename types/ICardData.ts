@@ -1,4 +1,4 @@
-import { IPaymentGatewayConfig } from "@types";
+import { GatewayConfigLine } from "@generated";
 
 export interface ICardData {
   /**
@@ -21,7 +21,7 @@ export interface ICardData {
    * Four-digit number representing the card’s expiration year.
    */
   expYear: number | null;
-  config?: IPaymentGatewayConfig[];
+  config?: GatewayConfigLine[];
   cvv?: number | null;
   fullNumber?: number | null;
 }

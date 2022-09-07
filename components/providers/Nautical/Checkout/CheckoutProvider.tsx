@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useImmerReducer } from "use-immer";
 
 import { CheckoutDispatch } from "./CheckoutDispatch";
@@ -14,8 +14,11 @@ type CheckoutProps = {
 
 const CheckoutProvider = ({ children }: CheckoutProps) => {
   const [checkout, dispatch] = useImmerReducer(reducer, CHECKOUT_STATE_CONTEXT_INITIAL_STATE);
+  const [invalidator, setInvalidator] = useState({});
 
-  useInitializeCheckout({ dispatch });
+  const invalidate = () => setInvalidator({});
+
+  useInitializeCheckout({ dispatch, invalidator });
   useOnSignOut({ dispatch });
   useSyncLocalStorage({ checkout });
 
@@ -25,7 +28,9 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
 
   return (
     <CheckoutStateContext.Provider value={value}>
-      <CheckoutDispatch dispatch={dispatch}>{children}</CheckoutDispatch>
+      <CheckoutDispatch dispatch={dispatch} invalidate={invalidate}>
+        {children}
+      </CheckoutDispatch>
     </CheckoutStateContext.Provider>
   );
 };
