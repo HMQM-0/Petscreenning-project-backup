@@ -5,8 +5,8 @@ export const Wrapper = styled.div`
   min-height: 140px;
   max-height: min-content;
   width: 100%;
-  grid-template-areas: "photo description unitPrice quantity totalPrice trash";
-  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 0.5fr;
+  grid-template-areas: "photo description unitPrice quantity taxPrice totalPrice trash";
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 0.5fr;
   align-items: center;
   border-bottom: 1px solid rgba(50, 50, 50, 0.1);
   padding: 0.8rem 0.5rem;
@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
     grid-template-areas: "photo description description"
     "trash description description"
     "trash unitPrice quantity"
-    ". . totalPrice";
+    ". taxPrice totalPrice";
     padding: 1rem 0rem;
   `};
 `;
@@ -145,6 +145,10 @@ export const Trash = styled.div`
 
 export const UnitPrice = styled(Price)`
   grid-area: unitPrice;
+`;
+
+export const TaxPrice = styled(Price)`
+  grid-area: taxPrice;
 `;
 
 export const Quantity = styled.div`

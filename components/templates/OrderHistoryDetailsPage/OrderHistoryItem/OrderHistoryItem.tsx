@@ -8,13 +8,10 @@ import AddressSummary from "components/atoms/AddressSummary";
 import { DropdownMenu } from "components/atoms/DropdownMenu";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { IconButton } from "components/molecules/IconButton";
-import {
-  checkoutMessages,
-  translateOrderStatus,
-  translatePaymentStatus,
-} from "core/intl";
+import { checkoutMessages, translateOrderStatus, translatePaymentStatus } from "core/intl";
+import { Money } from "components/atoms/Money";
 
-import styles from './scss/index.module.scss';
+import styles from "./scss/index.module.scss";
 
 import { CartTable } from "../CartTable";
 
@@ -23,10 +20,7 @@ interface IOrderHistoryItemProps {
   invoices?: InvoiceFragmentFragment[] | null;
 }
 
-export const OrderHistoryItem = ({
-  order,
-  invoices,
-}: IOrderHistoryItemProps) => {
+export const OrderHistoryItem = ({ order, invoices }: IOrderHistoryItemProps) => {
   const intl = useIntl();
 
   if (!order) {
@@ -50,50 +44,41 @@ export const OrderHistoryItem = ({
     }
   };
 
-  const invInvoices = invoices && invoices.filter((invoice) => {
-    // FIXME What INV means and rename this variable to something more appropriate
-    return invoice?.number?.includes("INV");
-  }).length > 0;
+  const invInvoices =
+    invoices &&
+    invoices.filter((invoice) => {
+      // Invoice entity itself can be invoice, packing, purchase order.
+      // To make sure that it's "INV" only, this filter is used
+      return invoice?.number?.includes("INV");
+    }).length > 0;
 
   return (
     <>
-      <Box className={styles['order-details__header']}>
+      <Box className={styles["order-details__header"]}>
         <Box>
           <h3>
-            <FormattedMessage
-              defaultMessage="Order Number: {orderNum}"
-              values={{ orderNum: order.number }}
-            />
+            <FormattedMessage defaultMessage="Order Number: {orderNum}" values={{ orderNum: order.number }} />
           </h3>
           <p className={styles["order-details__status"]}>
-            {order.paymentStatusDisplay &&
-            translatePaymentStatus(order.paymentStatusDisplay, intl)}{" "}
-            /{" "}
-            {order.statusDisplay &&
-            translateOrderStatus(order.statusDisplay, intl)}
+            {order.paymentStatusDisplay && translatePaymentStatus(order.paymentStatusDisplay, intl)} /{" "}
+            {order.statusDisplay && translateOrderStatus(order.statusDisplay, intl)}
           </p>
         </Box>
         {invInvoices && (
-          <Box className={styles['order-details__header-menu']}>
+          <Box className={styles["order-details__header-menu"]}>
             <DropdownMenu
               type="clickable"
-              header={
-                <IconButton
-                  testingContext="expandButton"
-                  name="expand"
-                  size={28}
-                />
-              }
+              header={<IconButton testingContext="expandButton" name="expand" size={28} />}
               items={[
                 {
                   onClick: handleDownloadInvoice,
                   content: (
                     <span>
-                        <FormattedMessage
-                          defaultMessage="Download invoice"
-                          description="action in popup menu in order view"
-                        />
-                      </span>
+                      <FormattedMessage
+                        defaultMessage="Download invoice"
+                        description="action in popup menu in order view"
+                      />
+                    </span>
                   ),
                 },
               ]}
@@ -103,9 +88,12 @@ export const OrderHistoryItem = ({
       </Box>
       <CartTable
         lines={order.lines}
-        totalCost={<TaxedMoney taxedMoney={order.total} />}
-        deliveryCost={<TaxedMoney taxedMoney={order.shippingPrice} />}
-        subtotal={<TaxedMoney taxedMoney={order.subtotal} />}
+        // Showing Subtotal With taxes always
+        totalCost={<Money money={order.total?.gross} />}
+        // Showing Shipping without taxes always (since taxes are shown separately below)
+        deliveryCost={<Money money={order.shippingPrice?.net} />}
+        // Showing Subtotal without taxes always (since taxes are shown separately below)
+        subtotal={<Money money={order.subtotal?.net} />}
         volumeDiscount={<TaxedMoney taxedMoney={order.volumeDiscount} />}
         discount={
           order.discount && (
@@ -119,19 +107,14 @@ export const OrderHistoryItem = ({
         }
         discountName={order?.discountName || undefined}
         taxes={
-          !!order.total &&
-          <TaxedMoney
-            taxedMoney={{
-              gross: {
+          !!order.total && (
+            <Money
+              money={{
                 amount: order.total.gross.amount - order.total.net.amount,
                 currency: order.total.gross.currency,
-              },
-              net: {
-                amount: order.total.gross.amount - order.total.net.amount,
-                currency: order.total.gross.currency,
-              },
-            }}
-          />
+              }}
+            />
+          )
         }
       />
       <Box className={styles["order-details__summary"]}>
@@ -140,10 +123,7 @@ export const OrderHistoryItem = ({
             <FormattedMessage {...checkoutMessages.shippingAddress} />
           </h4>
           {order.shippingAddress && (
-            <AddressSummary
-              address={order.shippingAddress}
-              email={order?.userEmail || undefined}
-            />
+            <AddressSummary address={order.shippingAddress} email={order?.userEmail || undefined} />
           )}
         </Box>
       </Box>

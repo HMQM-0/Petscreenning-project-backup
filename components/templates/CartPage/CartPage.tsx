@@ -3,6 +3,8 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Button } from "@mui/material";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
+import { Money } from "components/atoms/Money";
 import { Loader } from "components/atoms/Loader";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { useAuth, useCart, useCheckout } from "nautical-api";
@@ -57,6 +59,9 @@ export const CartPage = () => {
                 <FormattedMessage {...commonMessages.quantity} />
               </S.Column>
               <S.Column>
+                <FormattedMessage defaultMessage="Taxes" description="taxes" />
+              </S.Column>
+              <S.Column>
                 <FormattedMessage {...commonMessages.totalPrice} />
               </S.Column>
             </S.HeaderWrapper>
@@ -72,7 +77,7 @@ export const CartPage = () => {
                 <FormattedMessage {...commonMessages.subtotal} />
               </S.SubtotalText>
               <S.SubtotalPrice>
-                <TaxedMoney data-test="subtotalPrice" taxedMoney={subtotalPrice} />
+                <Money data-test="subtotalPrice" money={subtotalPrice?.net} />
               </S.SubtotalPrice>
               {showShipping && (
                 <>
@@ -80,7 +85,7 @@ export const CartPage = () => {
                     <FormattedMessage {...commonMessages.shipping} />
                   </S.ShippingText>
                   <S.ShippingPrice>
-                    <TaxedMoney data-test="shippingPrice" taxedMoney={shippingTaxedPrice} />
+                    <Money data-test="shippingPrice" money={shippingTaxedPrice?.net} />
                   </S.ShippingPrice>
                 </>
               )}
@@ -94,11 +99,17 @@ export const CartPage = () => {
                   </S.DiscountPrice>
                 </>
               )}
+              <S.TaxText>
+                <FormattedMessage defaultMessage="Taxes" description="taxes" />
+              </S.TaxText>
+              <S.TaxPrice>
+                <Money money={calculateTax(totalPrice)} />
+              </S.TaxPrice>
               <S.TotalText>
                 <FormattedMessage {...commonMessages.total} />
               </S.TotalText>
               <S.TotalPrice>
-                <TaxedMoney data-test="totalPrice" taxedMoney={totalPrice} />
+                <Money data-test="totalPrice" money={totalPrice?.gross} />
               </S.TotalPrice>
             </S.FooterWrapper>
           </S.CartFooter>

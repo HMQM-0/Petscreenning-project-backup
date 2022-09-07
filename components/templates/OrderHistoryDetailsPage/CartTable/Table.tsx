@@ -51,6 +51,11 @@ const Table: React.FC<TableProps> = ({
               <th className={classes["cart-table__quantity-header"]}>
                 <FormattedMessage {...commonMessages.qty} />
               </th>
+              {mediumScreen && (
+                <th>
+                  <FormattedMessage defaultMessage="Taxes" description="taxes" />
+                </th>
+              )}
               <th colSpan={2}>
                 {mediumScreen ? (
                   <FormattedMessage {...commonMessages.totalPrice} />

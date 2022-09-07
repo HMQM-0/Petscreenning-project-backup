@@ -42,8 +42,8 @@ export const HeaderWrapper = styled.div`
   min-height: 60px;
   max-height: min-content;
   width: 100%;
-  grid-template-areas: "products price quantity totalPrice";
-  grid-template-columns: 2.5fr 1.1fr 1.1fr 1.3fr;
+  grid-template-areas: "products price quantity taxPrice totalPrice";
+  grid-template-columns: 2.5fr 1.1fr 1.1fr 1.1fr 1.3fr;
   align-items: center;
   font-size: ${(props) => props.theme.typography.smallFontSize};
   color: rgba(40, 35, 74, 0.6);
@@ -63,6 +63,7 @@ export const FooterWrapper = styled.div<{
     ". subtotalText subtotalPrice ."
     ${(props) => props.showShipping && `". shippingText shippingPrice ."`}
     ${(props) => props.showDiscount && `". discountText discountPrice ."`}
+    ". taxText taxPrice ."
     ". totalText totalPrice .";
   grid-template-columns: 4fr 1.1fr 0.9fr 0.5fr;
   grid-gap: 2rem;
@@ -72,6 +73,7 @@ export const FooterWrapper = styled.div<{
       ". subtotalText subtotalPrice"
       ${props.showShipping && `". shippingText shippingPrice"`}
       ${props.showDiscount && `". discountText discountPrice"`}
+      ". taxText taxPrice"
       ". totalText totalPrice";
     grid-template-columns: 0.5fr 3.5fr 2fr;
   `}
@@ -118,6 +120,19 @@ export const TotalText = styled.div`
 
 export const TotalPrice = styled.div`
   grid-area: totalPrice;
+  font-weight: bold;
+  ${media.mediumScreen`
+    text-align: right;
+  `}
+`;
+
+export const TaxText = styled.div`
+  grid-area: taxText;
+  font-weight: bold;
+`;
+
+export const TaxPrice = styled.div`
+  grid-area: taxPrice;
   font-weight: bold;
   ${media.mediumScreen`
     text-align: right;

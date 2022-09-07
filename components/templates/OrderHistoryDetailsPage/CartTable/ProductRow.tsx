@@ -3,6 +3,8 @@ import * as React from "react";
 import Link from "next/link";
 import { Box } from "@mui/material";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
+import { Money } from "components/atoms/Money";
 import {
   NauticalOrderDetailFragment,
   ProductVariantFragment,
@@ -71,8 +73,14 @@ const ProductRow: React.FC<ReadProductRowProps & EditableProductRowProps> = ({ m
         <p>{line.quantity}</p>
       </td>
 
+      {mediumScreen && (
+        <td>
+          <Money money={calculateTax(line.totalPrice)} />
+        </td>
+      )}
+
       <td colSpan={2}>
-        <TaxedMoney taxedMoney={line.totalPrice} />
+        <Money money={line.totalPrice?.gross} />
       </td>
     </tr>
   );

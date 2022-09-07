@@ -3,7 +3,9 @@ import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import * as React from "react";
 import { useIntl } from "react-intl";
+import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 
+import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { commonMessages } from "core/intl";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
@@ -20,38 +22,10 @@ interface ICartSummaryFooterProps {
 
 interface ICostLineProps {
   name: string;
-  cost?: ITaxedMoney;
+  children?: React.ReactNode;
   volumeDiscount?: ICheckoutModelPriceValue | undefined;
   last?: boolean;
   negative?: boolean;
-}
-
-function calculateTax(value: ITaxedMoney | null | undefined) {
-  let taxes: ITaxedMoney = {
-    gross: {
-      amount: 0,
-      currency: "USD",
-    },
-    net: {
-      amount: 0,
-      currency: "USD",
-    },
-  };
-  if (value === null || value === undefined) {
-    return taxes;
-  } else {
-    taxes = {
-      gross: {
-        amount: value.gross.amount - value.net.amount,
-        currency: value.gross.currency,
-      },
-      net: {
-        amount: value.gross.amount - value.net.amount,
-        currency: value.net.currency,
-      },
-    };
-    return taxes;
-  }
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -72,7 +46,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.95rem",
   },
   otherFont: {
-    // color: theme.palette.grey[600],
     fontSize: "0.875rem",
   },
   footerFlex: {
@@ -83,11 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-// function getCurrency(value: ITaxedMoney) {
-//   return value.gross.currency;
-// }
-
-const CostLine = ({ name, cost, volumeDiscount, last = false, negative = false }: ICostLineProps) => {
+const CostLine = ({ name, children, last = false, negative = false }: ICostLineProps) => {
   const classes = useStyles({});
 
   return (
@@ -100,49 +69,74 @@ const CostLine = ({ name, cost, volumeDiscount, last = false, negative = false }
           data-test={`cartSummaryCost${name.replace(/\s/g, "")}`}
           className={last ? classes.bigStyle : classes.numberStyle}
         >
-          {/* {last ? (
-            <span className={classes.currencyStyle}>{getCurrency(cost)}</span>
-          ) : (
-            ""
-          )} */}
           {negative && "- "}
-          {cost ? <TaxedMoney taxedMoney={cost} /> : <Money money={volumeDiscount} />}
+          {children}
         </Box>
       </Box>
     </>
   );
 };
 
+const TaxedMoneyCostLine = ({
+  taxedMoney,
+  ...otherProps
+}: Omit<ICostLineProps, "children"> & { taxedMoney: React.ComponentProps<typeof TaxedMoney>["taxedMoney"] }) => (
+  <CostLine {...otherProps}>
+    <TaxedMoney taxedMoney={taxedMoney} />
+  </CostLine>
+);
+
+const MoneyCostLine = ({
+  money,
+  ...otherProps
+}: Omit<ICostLineProps, "children"> & { money: React.ComponentProps<typeof Money>["money"] }) => (
+  <CostLine {...otherProps}>
+    <Money money={money} />
+  </CostLine>
+);
+
 const CartSummaryFooter = ({ subtotal, promoCode, shipping, total, volumeDiscount }: ICartSummaryFooterProps) => {
   const intl = useIntl();
 
   return (
     <Box>
-      {subtotal && <CostLine name={intl.formatMessage(commonMessages.subtotal)} cost={subtotal} />}
-      {shipping && <CostLine name={intl.formatMessage(commonMessages.shipping)} cost={shipping} />}
+      {subtotal && (
+        <MoneyCostLine
+          name={intl.formatMessage(commonMessages.subtotal)}
+          // Showing subtotal without taxes always (since taxes are shown separately below)
+          money={subtotal.net}
+        />
+      )}
+      {shipping && (
+        <MoneyCostLine
+          name={intl.formatMessage(commonMessages.shipping)}
+          // Showing Shipping without taxes always (since taxes are shown separately below)
+          money={shipping.net}
+        />
+      )}
       {promoCode && promoCode.gross.amount > 0 && (
-        <CostLine name={intl.formatMessage(commonMessages.promoCode)} cost={promoCode} negative />
+        <TaxedMoneyCostLine name={intl.formatMessage(commonMessages.promoCode)} taxedMoney={promoCode} negative />
       )}
       {volumeDiscount && volumeDiscount.amount > 0 && (
-        <CostLine
+        <MoneyCostLine
           name={intl.formatMessage({
             defaultMessage: "Volume Discount",
             description: "volume discount",
           })}
-          volumeDiscount={volumeDiscount}
+          money={volumeDiscount}
           negative
         />
       )}
       {total && (
-        <CostLine
+        <MoneyCostLine
           name={intl.formatMessage({
             defaultMessage: "Taxes",
             description: "taxes",
           })}
-          cost={calculateTax(total)}
+          money={calculateTax(total)}
         />
       )}
-      {total && <CostLine name={intl.formatMessage(commonMessages.total)} cost={total} last />}
+      {total && <MoneyCostLine name={intl.formatMessage(commonMessages.total)} money={total.gross} last />}
     </Box>
   );
 };

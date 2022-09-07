@@ -1,19 +1,22 @@
 import React from "react";
 
-import { useShopContext } from "components/providers/ShopProvider";
+// import { useShopContext } from "components/providers/ShopProvider";
 import { Money } from "components/atoms/Money";
 
 import { IProps } from "./types";
 
-
 export const TaxedMoney = ({ taxedMoney, defaultValue, ...props }: IProps) => {
-  const { displayGrossPrices } = useShopContext();
-  const money = taxedMoney
-    ? displayGrossPrices
-      ? taxedMoney.gross
-      : taxedMoney.net
-    : undefined;
-  return (<Money {...props} money={money} defaultValue={defaultValue} />);
+  // For now, we always show Net prices
+  // (except for the Total field in Checkout/Order, which will be handled manually via `Money` component)
+  const money = taxedMoney?.net;
+  // Previous implementation (to be re-used in some other way later):
+  // const { displayGrossPrices } = useShopContext();
+  // const money = taxedMoney
+  //   ? displayGrossPrices
+  //     ? taxedMoney.gross
+  //     : taxedMoney.net
+  //   : undefined;
+  return <Money {...props} money={money} defaultValue={defaultValue} />;
 };
 
 TaxedMoney.displayName = "TaxedMoney";
