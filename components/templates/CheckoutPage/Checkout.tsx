@@ -320,41 +320,42 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       nextStep?: CheckoutTabs,
       onComplete?: () => void
     ) =>
-      async (values: AddressFormValues) => {
-        const country = countries.find((country) => country.code === values.country)?.country ?? "";
-        const submission = await checkoutMethod(
-          {
-            firstName: values.firstName,
-            lastName: values.lastName,
-            companyName: values.companyName,
-            streetAddress1: values.streetAddress1,
-            streetAddress2: values.streetAddress2,
-            city: values.city,
-            postalCode: values.postalCode,
-            countryArea: values.countryArea,
-            phone: values.phone,
-            country: {
-              code: values.country,
-              country,
-            },
+    async (values: AddressFormValues) => {
+      const country = countries.find((country) => country.code === values.country)?.country ?? "";
+      const submission = await checkoutMethod(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          companyName: values.companyName,
+          streetAddress1: values.streetAddress1,
+          streetAddress2: values.streetAddress2,
+          city: values.city,
+          postalCode: values.postalCode,
+          countryArea: values.countryArea,
+          phone: values.phone,
+          country: {
+            code: values.country,
+            country,
           },
-          values?.email ?? (email || "")
-        );
-        if (submission.dataError?.error) {
-          if (isArray(submission.dataError.error)) {
-            const error = parseErrors(submission.dataError.error);
-            errorHandler(error);
-            invalidate();
-          }
-          return;
-        } else {
-          errorHandler("");
-          if (nextStep) {
-            setCurrentTab(nextStep);
-          }
+        },
+        values?.email ?? (email || "")
+      );
+      if (submission.dataError?.error) {
+        if (isArray(submission.dataError.error)) {
+          const error = parseErrors(submission.dataError.error);
+          errorHandler(error);
+          invalidate();
         }
         onComplete?.();
-      };
+        return;
+      } else {
+        errorHandler("");
+        if (nextStep) {
+          setCurrentTab(nextStep);
+        }
+      }
+      onComplete?.();
+    };
 
   const confirmAndPurchase = async () => {
     setSubmittingPayment(true);
@@ -682,11 +683,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   return (
                     <>
                       {!billingAsShipping && (
-                        <AddressFormFields
-                          errorMessage={billingAddressError}
-                          touched={touched}
-                          errors={errors}
-                        />
+                        <AddressFormFields errorMessage={billingAddressError} touched={touched} errors={errors} />
                       )}
                     </>
                   );
