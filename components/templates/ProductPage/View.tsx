@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { useShopContext } from "components/providers/ShopProvider";
 import { Builder } from "components/templates/ProductPage/Builder";
 import { useAuth } from "nautical-api";
-import { useNetworkStatus } from "@hooks";
+import { useNetworkStatus } from "components/hooks";
 import NotFound from "components/molecules/NotFound";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";

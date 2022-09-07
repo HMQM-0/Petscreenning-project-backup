@@ -1,9 +1,8 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Link from "next/link";
 
-import { Container } from "@components/templates/Container";
 import { checkoutMessages } from "core/intl";
 
 import * as S from "./styles";
@@ -14,7 +13,7 @@ import { IProps } from "./types";
  */
 const ThankYou = ({ orderEmail, orderNumber, token }: IProps) => {
   return (
-    <Container data-test="thankYouView">
+    <Box className="container">
       <S.Wrapper>
         <S.ThankYouHeader>
           <FormattedMessage defaultMessage="Thank you" />
@@ -64,7 +63,7 @@ const ThankYou = ({ orderEmail, orderNumber, token }: IProps) => {
           </Link>
         </S.Buttons>
       </S.Wrapper>
-    </Container>
+    </Box>
   );
 };
 

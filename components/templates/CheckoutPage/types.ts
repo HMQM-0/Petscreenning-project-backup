@@ -1,4 +1,4 @@
-import { IImage } from "@types";
+import { IImage } from "types";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { ICheckoutModelPriceValue } from "components/providers/Nautical/Checkout/types";
 

@@ -1,4 +1,4 @@
-import { styled } from "@styles";
+import { styled } from "styles";
 
 export const Wrapper = styled.div`
   width: auto;
@@ -25,6 +25,5 @@ export const Value = styled.div`
 export const Indicator = styled.div<{ rotate: string }>`
   right: 1rem;
   transition-duration: 0.3s;
-  transform: ${(props) =>
-    props.rotate === "true" ? "rotate(180deg)" : "rotate(0deg)"};
+  transform: ${(props) => (props.rotate === "true" ? "rotate(180deg)" : "rotate(0deg)")};
 `;

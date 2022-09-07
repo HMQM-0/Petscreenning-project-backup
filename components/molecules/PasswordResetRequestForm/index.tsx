@@ -5,8 +5,8 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { commonMessages } from "core/intl";
 import Button from "components/atoms/Button";
 import TextField from "components/atoms/TextField";
-import Form from "deprecated/components/Form";
-import { FormError } from "deprecated/components/Form/types";
+import Form from "components/molecules/Form";
+import { IFormError } from "types";
 
 import classes from "./scss/index.module.scss";
 import { useResetPasswordRequestMutation } from "./queries.graphql.generated";
@@ -28,7 +28,7 @@ const PasswordResetRequestForm = () => {
         <FormattedMessage defaultMessage="Please provide us your email address so we can share you a link to reset your password" />
       </p>
       <Form<{ email: string }>
-        errors={(data?.requestPasswordReset?.errors as FormError[]) ?? []}
+        errors={(data?.requestPasswordReset?.errors as IFormError[]) ?? []}
         onSubmit={(event, { email }) => {
           event.preventDefault();
           passwordReset({

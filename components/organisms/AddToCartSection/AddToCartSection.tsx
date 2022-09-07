@@ -19,6 +19,8 @@ import {
 import { getAvailableQuantity, getProductPrice, canAddToCart } from "./stockHelpers";
 import * as S from "./styles";
 
+import classes from "../LoginToViewProducts/scss/index.module.scss";
+
 export const useAddToCart = (
   product: Pick<ProductDetailsFragment, "isAvailableForPurchase" | "availableForPurchase">,
   selectedVariant: ProductVariantFieldsFragment | undefined
@@ -119,13 +121,13 @@ const AddToCartSection = ({
               {(overlayContext) => (
                 <Box style={{ marginBottom: "20px" }}>
                   <button
-                    className="products-login-button"
+                    className={classes["products-login-button"]}
                     onClick={() => overlayContext.show(OverlayType.login, OverlayTheme.right)}
                   >
-                    <Box component="span" className="text">
+                    <Box component="span" className={classes.text}>
                       Login for price
                     </Box>
-                    <Box component="span" className="icon">
+                    <Box component="span" className={classes.icon}>
                       <svg
                         aria-hidden="true"
                         data-prefix="far"

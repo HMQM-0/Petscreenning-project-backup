@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import * as Yup from "yup";
 
-import { BASE_URL } from "deprecated/core/config";
 import { setSignInToken } from "utils";
 import { useSetPasswordMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
+import { BASE_URL } from "core/config";
 
 import { ResetPasswordForm } from "./ResetPasswordForm";
 import * as S from "./styles";

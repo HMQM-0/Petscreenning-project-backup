@@ -1,4 +1,4 @@
-import { IAddressWithAddressType } from "@types";
+import { IAddressWithAddressType } from "types";
 
 declare type Address = {
   id: string;

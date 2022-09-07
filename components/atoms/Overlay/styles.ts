@@ -1,6 +1,6 @@
 import { css, keyframes } from "styled-components";
 
-import { styled } from "@styles";
+import { styled } from "styles";
 
 import { Position, TransitionState } from "./types";
 

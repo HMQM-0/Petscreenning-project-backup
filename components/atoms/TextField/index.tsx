@@ -1,21 +1,20 @@
 import * as React from "react";
 import { Box } from "@mui/material";
 
-import { FormError } from "deprecated/components/Form/types";
+import { IFormError } from "types";
 
 import classes from "./scss/index.module.scss";
 
 type Style = "white" | "grey";
 
 interface IClassNameArgs {
-  errors?: FormError[];
+  errors?: IFormError[];
   iconLeft?: React.ReactNode;
   styleType?: Style;
 }
 
-export interface TextFieldProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  errors?: FormError[];
+export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  errors?: IFormError[];
   helpText?: string;
   label?: string;
   labelColor?: string;
@@ -26,10 +25,10 @@ export interface TextFieldProps
 }
 
 const generateClassName = ({ errors, iconLeft, styleType }: IClassNameArgs) => {
-  const baseClass = classes['input__field'];
-  const errorsClass = errors && errors.length ? ` ${classes['input__field--error']}` : "";
-  const iconLeftClass = iconLeft ? ` ${classes['input__field--left-icon']}` : "";
-  const styleTypeClass = styleType === "grey" ? ` ${classes['input__field--grey']}` : "";
+  const baseClass = classes["input__field"];
+  const errorsClass = errors && errors.length ? ` ${classes["input__field--error"]}` : "";
+  const iconLeftClass = iconLeft ? ` ${classes["input__field--left-icon"]}` : "";
+  const styleTypeClass = styleType === "grey" ? ` ${classes["input__field--grey"]}` : "";
 
   return baseClass.concat(errorsClass, iconLeftClass, styleTypeClass);
 };
@@ -49,33 +48,30 @@ const TextField: React.FC<TextFieldProps> = ({
   return (
     <Box className={classes.input}>
       {iconLeft ? (
-        <Box component="span" className={classes['input__icon-left']}>
+        <Box component="span" className={classes["input__icon-left"]}>
           {iconLeft}
         </Box>
       ) : null}
       {iconRight ? (
-        <Box component="span" className={classes['input__icon-right']}>
+        <Box component="span" className={classes["input__icon-right"]}>
           {iconRight}
         </Box>
       ) : null}
-      <Box className={classes['input__content']}>
-        <input
-          {...rest}
-          className={generateClassName({ errors, iconLeft, styleType })}
-        />
+      <Box className={classes["input__content"]}>
+        <input {...rest} className={generateClassName({ errors, iconLeft, styleType })} />
         {label ? (
-          <Box component="span" className={classes['input__label']} style={labelStyle}>
+          <Box component="span" className={classes["input__label"]} style={labelStyle}>
             {label}
           </Box>
         ) : null}
       </Box>
       {errors && (
-        <Box component="span" className={classes['input__error']}>
+        <Box component="span" className={classes["input__error"]}>
           {errors.map((error) => error.message).join(" ")}
         </Box>
       )}
       {helpText && (
-        <Box component="span" className={classes['input__help-text']}>
+        <Box component="span" className={classes["input__help-text"]}>
           {helpText}
         </Box>
       )}

@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 
-import { DefaultTheme, styled } from "@styles";
+import { DefaultTheme, styled } from "styles";
 
 import { activeLabelStyles } from "../../atoms/InputLabel";
 
@@ -11,10 +11,7 @@ type WrapperProps = {
   theme: DefaultTheme;
 };
 
-const getEdgeColor = (
-  { active, error, disabled, theme }: WrapperProps,
-  hovered = false
-) => {
+const getEdgeColor = ({ active, error, disabled, theme }: WrapperProps, hovered = false) => {
   if (disabled) {
     return theme.colors.disabled;
   }
@@ -34,8 +31,7 @@ export const Wrapper = styled.div<WrapperProps>`
   display: flex;
   border: 1px solid ${(props) => getEdgeColor(props)};
   color: ${(props) => getEdgeColor(props)};
-  outline: ${(props) =>
-    props.active ? `1px solid ${getEdgeColor(props)};` : "none"};
+  outline: ${(props) => (props.active ? `1px solid ${getEdgeColor(props)};` : "none")};
   transition: all 0.3s ease;
 
   &:hover {
@@ -95,10 +91,7 @@ export const getBackgroundColor = (ref: any): string => {
     if (el.nodeName === "BODY") {
       return DEFAULT_BACKGROUND_COLOR;
     }
-    const bgColor = window.getComputedStyle(
-      el.parentElement,
-      null
-    ).backgroundColor;
+    const bgColor = window.getComputedStyle(el.parentElement, null).backgroundColor;
 
     if (bgColor && bgColor !== "rgba(0, 0, 0, 0)") {
       return bgColor;
