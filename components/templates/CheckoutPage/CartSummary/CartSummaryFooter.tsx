@@ -3,7 +3,6 @@ import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import * as React from "react";
 import { useIntl } from "react-intl";
-import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 
 import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { commonMessages } from "core/intl";
