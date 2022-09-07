@@ -3,19 +3,16 @@ import { useAlert, AlertContainer } from "react-alert";
 import { useIntl, IntlShape } from "react-intl";
 import Rating from "@mui/material/Rating";
 
+import TextArea from "components/atoms/TextArea";
 import { commonMessages } from "core/intl";
 import { maybe } from "core/utils";
-import TextArea from "deprecated/components/TextArea";
 import Button from "components/atoms/Button";
-import Form from "deprecated/components/Form/index";
+import Form from "components/molecules/Form/index";
 import TextField from "components/atoms/TextField";
 import { OverlayContext } from "components/providers/Overlay/context";
-import { FormError } from "deprecated/components/Form/types";
+import { IFormError } from "types";
 
-import {
-  useSubmitRatingAndReviewMutation,
-  SubmitRatingAndReviewMutation,
-} from "./mutations.graphql.generated";
+import { useSubmitRatingAndReviewMutation, SubmitRatingAndReviewMutation } from "./mutations.graphql.generated";
 import classes from "./scss/index.module.scss";
 
 const showSuccessNotification = (
@@ -43,26 +40,21 @@ interface RatingAndReviewFormProps {
 }
 
 const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
-  const [submitRatingAndReview, { loading, data }] =
-    useSubmitRatingAndReviewMutation({
-      onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
-    });
+  const [submitRatingAndReview, { loading, data }] = useSubmitRatingAndReviewMutation({
+    onCompleted: (data) => showSuccessNotification(data, hide, alert, intl),
+  });
   const alert = useAlert();
   const intl = useIntl();
   const { hide } = React.useContext(OverlayContext);
 
   const [review, setReview] = useState("");
   const [rating, setRating] = useState<number | null>(null);
-  const [noRatingSelected, setNoRatingSelected] = useState<boolean | null>(
-    null
-  );
+  const [noRatingSelected, setNoRatingSelected] = useState<boolean | null>(null);
 
   return (
     <div style={{ padding: "25px" }}>
-      <Form<{ headline: string; publicName: string; emailAddress: string; }>
-        errors={
-          maybe(() => data?.submitRatingAndReview?.errors, []) as FormError[]
-        }
+      <Form<{ headline: string; publicName: string; emailAddress: string }>
+        errors={maybe(() => data?.submitRatingAndReview?.errors, []) as IFormError[]}
         onSubmit={(event, data) => {
           const { headline, publicName, emailAddress } = data;
           event.preventDefault();
@@ -94,11 +86,7 @@ const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
             Overall rating
           </div>
           <div style={{ display: "flex", alignContent: "center" }}>
-            <Rating
-              name="simple-controlled"
-              value={rating}
-              onChange={(e, value) => setRating(value)}
-            />
+            <Rating name="simple-controlled" value={rating} onChange={(e, value) => setRating(value)} />
             {noRatingSelected && (
               <span
                 style={{
@@ -142,14 +130,8 @@ const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
           onChange={(e) => setReview(e.target.value)}
         />
         <div className={classes.login__content__button}>
-          <Button
-            testingContext="submitRegisterFormButton"
-            type="submit"
-            {...(loading && { disabled: true })}
-          >
-            {loading
-              ? intl.formatMessage(commonMessages.loading)
-              : intl.formatMessage({ defaultMessage: "Submit" })}
+          <Button testingContext="submitRegisterFormButton" type="submit" {...(loading && { disabled: true })}>
+            {loading ? intl.formatMessage(commonMessages.loading) : intl.formatMessage({ defaultMessage: "Submit" })}
           </Button>
         </div>
       </Form>

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button, CircularProgress } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
-import { styled } from "@styles";
+import { styled } from "styles";
 
 import {
   NauticalOrderByUserFragment,

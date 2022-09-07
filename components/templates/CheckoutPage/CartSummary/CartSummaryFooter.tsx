@@ -5,11 +5,11 @@ import * as React from "react";
 import { useIntl } from "react-intl";
 
 import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
-import { ICheckoutModelPriceValue } from "deprecated/@nautical/helpers";
 import { commonMessages } from "core/intl";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { Money } from "components/atoms/Money";
+import { ICheckoutModelPriceValue } from "components/providers/Nautical/Checkout/types";
 
 interface ICartSummaryFooterProps {
   subtotal?: ITaxedMoney;

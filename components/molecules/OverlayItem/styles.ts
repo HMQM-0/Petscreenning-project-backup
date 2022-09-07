@@ -1,4 +1,4 @@
-import { styled } from "@styles";
+import { styled } from "styles";
 
 export const Wrapper = styled.div<{ selected: boolean; disabled: boolean }>`
   display: flex;
@@ -6,8 +6,7 @@ export const Wrapper = styled.div<{ selected: boolean; disabled: boolean }>`
   align-items: center;
   padding: ${(props) => `1.1rem ${props.theme.spacing.gutter}`};
   border-bottom: 1px solid ${(props) => props.theme.colors.light};
-  ${({ selected, theme }) =>
-    selected && `font-weight: ${theme.typography.boldFontWeight};`}
+  ${({ selected, theme }) => selected && `font-weight: ${theme.typography.boldFontWeight};`}
   color: ${(props) => (props.disabled ? props.theme.colors.disabled : `unset`)};
 
   ${(props) =>

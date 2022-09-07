@@ -13,6 +13,8 @@ import { Thumbnail } from "components/molecules/Thumbnail";
 import { generateProductUrl } from "core/utils";
 import { TaxedMoney, IProps as TaxedMoneyProps } from "components/molecules/TaxedMoney";
 
+import classes from "./scss/index.module.scss";
+
 export type ILine = {
   variant?: {
     product: ProductVariantFragment["product"];
@@ -43,10 +45,10 @@ const ProductRow: React.FC<ReadProductRowProps & EditableProductRowProps> = ({ m
   return (
     <tr
       className={classNames({
-        "cart-table-row--processing": processing,
+        [classes["cart-table-row--processing"]]: processing,
       })}
     >
-      <td className="cart-table__thumbnail">
+      <td className={classes["cart-table__thumbnail"]}>
         <Box>
           {mediumScreen && <Link href={productUrl}>{product && <Thumbnail source={product} />}</Link>}
           <Link href={productUrl}>{product?.name}</Link>
@@ -67,7 +69,7 @@ const ProductRow: React.FC<ReadProductRowProps & EditableProductRowProps> = ({ m
         ))}
       </td>
 
-      <td className="cart-table__quantity-cell">
+      <td className={classes["cart-table__quantity-cell"]}>
         <p>{line.quantity}</p>
       </td>
 

@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import Link from "next/link";
 import { Button } from "@mui/material";
 
-import { useVisibility } from "deprecated/_nautical/hooks/useVisibility";
+import { useVisibility } from "components/hooks";
 import { Loader } from "components/atoms/Loader";
 import ProductListItem from "components/organisms/ProductListItem";
 import { useAuth } from "nautical-api";
@@ -46,11 +46,7 @@ export const ProductList = ({
             name && (
               <Link href={generateProductUrl(id, name)} key={id} passHref>
                 <a>
-                  <ProductListItem
-                    wide
-                    product={product}
-                    loginForPrice={Boolean(loginForPrice && !user)}
-                  />
+                  <ProductListItem wide product={product} loginForPrice={Boolean(loginForPrice && !user)} />
                 </a>
               </Link>
             )

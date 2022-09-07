@@ -1,18 +1,10 @@
 import React from "react";
 
 import { PlaceholderImage } from "components/atoms/PlaceholderImage";
-import { useNetworkStatus } from "@hooks";
-import { IImage } from "@types";
+import { useNetworkStatus } from "components/hooks";
+import { IImage } from "types";
 
-export const CachedImage = ({
-  url,
-  url2x,
-  alt,
-  children,
-  height,
-  width,
-  ...props
-}: IImage) => {
+export const CachedImage = ({ url, url2x, alt, children, height, width, ...props }: IImage) => {
   const [isUnavailable, setUnavailable] = React.useState(false);
   const { online } = useNetworkStatus();
 
@@ -42,7 +34,7 @@ export const CachedImage = ({
   }, [isUnavailable, online, url, url2x]);
 
   if (!url || isUnavailable) {
-    return children || (<PlaceholderImage alt={alt} />);
+    return children || <PlaceholderImage alt={alt} />;
   }
 
   return (

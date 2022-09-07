@@ -2,7 +2,6 @@ import React from "react";
 import { Box, IconButton, Skeleton } from "@mui/material";
 
 import { NavLink } from "components/atoms/NavLink";
-import { Spacer } from "@components/molecules/ProductTile/styles";
 import { FbIcon } from "components/icons/fbIcon";
 import { IgIcon } from "components/icons/igIcon";
 import { YtIcon } from "components/icons/ytIcon";
@@ -11,6 +10,8 @@ import { TwIcon } from "components/icons/twIcon";
 
 import classes from "./scss/index.module.scss";
 import { useSecondaryMenuQuery } from "./queries.graphql.generated";
+
+import { Spacer } from "../ProductDescription/styles";
 
 interface INavProps {
   footerText?: string;

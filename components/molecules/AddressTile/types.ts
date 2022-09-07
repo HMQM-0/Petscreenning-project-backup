@@ -1,4 +1,4 @@
-import { IAddressWithAddressType } from "@types";
+import { IAddressWithAddressType } from "types";
 
 export interface IProps {
   onEdit: () => void;

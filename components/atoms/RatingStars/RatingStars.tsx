@@ -1,8 +1,9 @@
 import * as React from "react";
 import Rating from "@mui/material/Rating";
 
-import "./scss/index.module.scss";
 import { useGetProductRatingsAndReviewsQuery } from "components/templates/ProductPage/queries.graphql.generated";
+
+import classes from "./scss/index.module.scss";
 
 interface IRatingStarsProps {
   productId: string;
@@ -24,7 +25,7 @@ const RatingStars: React.FC<IRatingStarsProps> = (props) => {
 
   return (
     <div
-      className="rating-stars-wrapper"
+      className={classes["rating-stars-wrapper"]}
       style={{
         display: "flex",
         alignItems: "center",

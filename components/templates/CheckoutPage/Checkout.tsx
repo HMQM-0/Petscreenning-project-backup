@@ -25,9 +25,7 @@ import { isArray } from "lodash";
 import { Money } from "components/atoms/Money";
 import { useAuth, useCheckout } from "nautical-api";
 import { ICardData, IFormError } from "types";
-import { maybe } from "@utils/misc";
 import { LoyaltyPoints } from "components/atoms/LoyaltyPoints";
-import { Plugins } from "deprecated/@nautical";
 import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IItems } from "components/providers/Nautical/Cart/types";
@@ -49,6 +47,7 @@ import {
   tabs,
   title,
 } from "./styles";
+import { Plugins } from "./constants";
 
 import { ICheckoutModelLine, ICheckoutModelPriceValue } from "../../providers/Nautical/Checkout/types";
 
@@ -226,7 +225,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const handleErrors = React.useCallback(
     (errors: IFormError[]) => {
-      const messages = maybe(() => errors.flatMap((error) => error.message), []);
+      const messages = errors?.flatMap((error) => error.message) ?? [];
       setErrorMessage(messages.join(" \n"));
       invalidate();
     },

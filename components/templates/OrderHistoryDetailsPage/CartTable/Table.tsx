@@ -6,8 +6,7 @@ import { commonMessages } from "core/intl";
 
 import CostRow from "./CostRow";
 import ProductRow, { EditableProductRowProps, ILine } from "./ProductRow";
-
-import "./scss/index.module.scss";
+import classes from "./scss/index.module.scss";
 
 interface TableProps extends EditableProductRowProps {
   lines: ILine[];
@@ -35,7 +34,7 @@ const Table: React.FC<TableProps> = ({
   return (
     <Media query={{ minWidth: "540px" }}>
       {(mediumScreen) => (
-        <table className="cart-table">
+        <table className={classes["cart-table"]}>
           <thead>
             <tr>
               <th>
@@ -49,7 +48,7 @@ const Table: React.FC<TableProps> = ({
               <th>
                 <FormattedMessage {...commonMessages.variant} />
               </th>
-              <th className="cart-table__quantity-header">
+              <th className={classes["cart-table__quantity-header"]}>
                 <FormattedMessage {...commonMessages.qty} />
               </th>
               {mediumScreen && (

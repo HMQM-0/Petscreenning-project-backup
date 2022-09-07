@@ -1,4 +1,4 @@
-import { media, styled } from "@styles";
+import { media, styled } from "styles";
 
 export const Container = styled.div`
   width: ${(props) => `${props.theme.container.width}px`};

@@ -1,4 +1,4 @@
-import { styled } from "@styles";
+import { styled } from "styles";
 
 export const ErrorMessage = styled.div`
   color: ${(props) => props.theme.colors.error};

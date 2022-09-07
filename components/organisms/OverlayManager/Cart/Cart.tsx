@@ -13,7 +13,7 @@ import { TaxedMoney } from "components/molecules/TaxedMoney";
 import { commonMessages } from "core/intl";
 import { OverlayContextInterface } from "components/providers/Overlay/context";
 import OfflinePlaceholder from "components/atoms/OfflinePlaceholder";
-import { useNetworkStatus } from "@hooks";
+import { useNetworkStatus } from "components/hooks";
 
 import ProductList from "./ProductList";
 import Empty from "./Empty";
