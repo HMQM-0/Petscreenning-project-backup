@@ -27,7 +27,7 @@ export const Message: React.FC<IProps> = ({ title, status = "neutral", children,
     <>
       <Card>
         <CardHeader>
-          <Alert severity={mapStatusToMaterial()}></Alert>
+          <Alert severity={status === "neutral" ? "info" : status}></Alert>
         </CardHeader>
       </Card>
       <S.Wrapper status={status} data-test="alert">
