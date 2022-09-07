@@ -30,10 +30,10 @@ const notificationOptions = {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { __APOLLO__, data } = pageProps;
+  const { __APOLLO__, documentHead } = pageProps;
   return (
     <ThemeProvider theme={defaultTheme}>
-      <MaterialUIProvider branding={data.branding}>
+      <MaterialUIProvider branding={documentHead.branding}>
         <GlobalStyles styles={(theme) => nprogress(theme.palette.secondary.main)} />
         <div id="root">
           <AlertProvider template={NotificationTemplate as any} {...notificationOptions}>
