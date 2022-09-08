@@ -437,7 +437,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     />
   );
 
-  const canSetShipping = shippingAddress;
+  const canSetShipping = !!shippingAddress;
   const canSetPayment = !!shippingAddress && allShippingMethodsSelected;
 
   return (
