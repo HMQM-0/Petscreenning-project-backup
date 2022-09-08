@@ -152,6 +152,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     invalidate,
   } = useCheckout();
 
+  const parsedSellerShippingMethods = JSON.parse(sellerShippingMethods || "[]");
+  const allShippingMethodsSelected = parsedSellerShippingMethods.length === availableShippingMethodsBySeller?.length;
+
   const products: IProduct[] | null =
     items?.map(({ id, variant, totalPrice, quantity }) => ({
       id: id || "",
@@ -434,6 +437,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     />
   );
 
+  const canSetShipping = shippingAddress;
+  const canSetPayment = shippingAddress && allShippingMethodsSelected;
+
   return (
     <>
       <Box
@@ -557,9 +563,26 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 </Box>
               </Breadcrumbs>
               <Tabs variant="fullWidth" sx={tabs} value={currentTab}>
-                <Tab value={CheckoutTabs.CUSTOMER} label="Customer" disableRipple />
-                <Tab value={CheckoutTabs.SHIPPING} label="Shipping" disableRipple />
-                <Tab value={CheckoutTabs.PAYMENT} label="Payment" disableRipple />
+                <Tab
+                  value={CheckoutTabs.CUSTOMER}
+                  label="Customer"
+                  disableRipple
+                  onClick={() => setCurrentTab(CheckoutTabs.CUSTOMER)}
+                />
+                <Tab
+                  value={CheckoutTabs.SHIPPING}
+                  label="Shipping"
+                  disableRipple
+                  onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
+                  disabled={!canSetShipping}
+                />
+                <Tab
+                  value={CheckoutTabs.PAYMENT}
+                  label="Payment"
+                  disableRipple
+                  disabled={!canSetPayment}
+                  onClick={() => setCurrentTab(CheckoutTabs.PAYMENT)}
+                />
               </Tabs>
             </Box>
 
@@ -634,6 +657,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 <Button
                   color="primary"
                   disableElevation
+                  disabled={!canSetPayment}
                   sx={button}
                   variant="contained"
                   onClick={() => {
