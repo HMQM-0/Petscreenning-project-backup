@@ -152,8 +152,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     invalidate,
   } = useCheckout();
 
-  const parsedSellerShippingMethods = JSON.parse(sellerShippingMethods || "[]");
-  const allShippingMethodsSelected = parsedSellerShippingMethods.length === availableShippingMethodsBySeller?.length;
+  const allShippingMethodsSelected = sellerShippingMethods?.length === availableShippingMethodsBySeller?.length;
 
   const products: IProduct[] | null =
     items?.map(({ id, variant, totalPrice, quantity }) => ({
@@ -201,7 +200,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const mappingDict: Record<string, ICheckoutModelLine[]> = {};
   const onPaymentStep = currentTab === CheckoutTabs.PAYMENT;
   const initialSellerValues: Record<string, string> = {};
-  const parsedInitialSellerMethods = JSON.parse(sellerShippingMethods || "[]");
   for (const seller of sellerSet) {
     if (seller) {
       mappingDict[seller] = lines?.filter((line) => line.seller === seller) ?? [];
@@ -210,7 +208,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   availableShippingMethodsBySeller?.forEach(
     (data) =>
       (initialSellerValues[data.seller ?? ""] =
-        parsedInitialSellerMethods.find((sellerAndMethod: { seller: number }) => {
+        sellerShippingMethods.find((sellerAndMethod: { seller: number }) => {
           return +sellerAndMethod.seller === data.seller;
         })?.shippingMethod?.id || [])
   );
