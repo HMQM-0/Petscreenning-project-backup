@@ -1,9 +1,6 @@
 import * as React from "react";
 
-import {
-  OverlayContext,
-  OverlayType,
-} from "components/providers/Overlay/context";
+import { OverlayContext, OverlayType } from "components/providers/Overlay/context";
 
 import Cart from "./Cart/Cart";
 import Overlay from "./Overlay/Overlay";
@@ -18,16 +15,31 @@ const OverlayManager = () => (
     {(overlay) => {
       switch (overlay.type) {
         case OverlayType.modal:
-          return <Modal testingContext="modal" overlay={overlay} />;
+          return (
+            <Modal
+              testingContext="modal"
+              overlay={overlay}
+            />
+          );
 
         case OverlayType.message:
           return <Notification overlay={overlay} />;
 
         case OverlayType.login:
-          return <Login overlay={overlay} active="login" />;
+          return (
+            <Login
+              overlay={overlay}
+              active="login"
+            />
+          );
 
         case OverlayType.register:
-          return <Login overlay={overlay} active="register" />;
+          return (
+            <Login
+              overlay={overlay}
+              active="register"
+            />
+          );
 
         case OverlayType.password:
           return <Password overlay={overlay} />;
@@ -36,7 +48,12 @@ const OverlayManager = () => (
           return <MobileNav overlay={overlay} />;
 
         case OverlayType.mainMenuNav:
-          return <Overlay testingContext="mainMenuOverlay" context={overlay} />;
+          return (
+            <Overlay
+              testingContext="mainMenuOverlay"
+              context={overlay}
+            />
+          );
 
         case OverlayType.cart:
           return <Cart overlay={overlay} />;

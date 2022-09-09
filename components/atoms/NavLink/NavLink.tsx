@@ -1,19 +1,11 @@
 import React from "react";
 
-import {
-  generateCategoryUrl,
-  generateCollectionUrl,
-  generatePageUrl,
-} from "core/utils";
+import { generateCategoryUrl, generateCollectionUrl, generatePageUrl } from "core/utils";
 
 import * as S from "./styles";
 import { IProps } from "./types";
 
-const getLinkUrl = ({
-  category,
-  collection,
-  page,
-}: IProps["item"]) => {
+const getLinkUrl = ({ category, collection, page }: IProps["item"]) => {
   if (category) {
     return generateCategoryUrl(category.id, category.name);
   }
@@ -27,24 +19,22 @@ const getLinkUrl = ({
   return null;
 };
 
-export const NavLink = ({
-  item,
-  fullWidth = false,
-  ...props
-}: IProps) => {
+export const NavLink = ({ item, fullWidth = false, ...props }: IProps) => {
   const { name, url } = item;
 
   if (url) {
-    const className = typeof props.className === 'function'
-      // Props are based on NavLink props - so showing `non-active` one
-      // in case className was passed as a function
-      ? props.className({ isActive: false })
-      : props.className;
-    const style = typeof props.style === 'function'
-      // Props are based on NavLink props - so showing `non-active` styles
-      // in case style was passed as a function
-      ? props.style({ isActive: false })
-      : props.style;
+    const className =
+      typeof props.className === "function"
+        ? // Props are based on NavLink props - so showing `non-active` one
+          // in case className was passed as a function
+          props.className({ isActive: false })
+        : props.className;
+    const style =
+      typeof props.style === "function"
+        ? // Props are based on NavLink props - so showing `non-active` styles
+          // in case style was passed as a function
+          props.style({ isActive: false })
+        : props.style;
     return (
       <a
         href={url}
@@ -57,7 +47,7 @@ export const NavLink = ({
     );
   }
 
-  const linkUrl = getLinkUrl(item) || '';
+  const linkUrl = getLinkUrl(item) || "";
 
   return (
     <>

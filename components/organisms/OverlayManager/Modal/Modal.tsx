@@ -13,7 +13,10 @@ export interface IModal {
 }
 
 const Modal = ({ overlay, testingContext }: IModal) => (
-  <Overlay testingContext={testingContext} context={overlay}>
+  <Overlay
+    testingContext={testingContext}
+    context={overlay}
+  >
     {overlay.context?.content}
   </Overlay>
 );

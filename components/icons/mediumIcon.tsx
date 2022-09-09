@@ -18,7 +18,13 @@ const MediumIcon: FunctionComponent = () => {
     >
       <g transform="matrix(1,0,0,1,-86,0)">
         <clipPath id="_clip1">
-          <rect id="Artboard21" x="86" y="0" width="36" height="36" />
+          <rect
+            id="Artboard21"
+            x="86"
+            y="0"
+            width="36"
+            height="36"
+          />
         </clipPath>
         <g clipPath="url(#_clip1)">
           <path

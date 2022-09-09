@@ -34,7 +34,7 @@ const useRemovePromoCode = ({ dispatch }: useRemovePromoCodeProps) => {
         pending: false,
       };
     },
-    [checkoutId, removePromoCodeJob]
+    [checkoutId, removePromoCodeJob],
   );
 };
 

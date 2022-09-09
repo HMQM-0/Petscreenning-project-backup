@@ -9,7 +9,10 @@ const arrow: FunctionComponent = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M5 8L0.669873 0.5L9.33013 0.5L5 8Z" fill="#21125E" />
+      <path
+        d="M5 8L0.669873 0.5L9.33013 0.5L5 8Z"
+        fill="#21125E"
+      />
     </svg>
   );
 };

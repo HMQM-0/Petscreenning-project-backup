@@ -34,7 +34,7 @@ const useAddPromoCode = ({ dispatch }: useAddPromoCodeProps) => {
         };
       }
     },
-    [addPromoCode, checkoutId]
+    [addPromoCode, checkoutId],
   );
 };
 

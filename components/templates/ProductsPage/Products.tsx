@@ -23,14 +23,16 @@ const Products = ({ pageData, builderContent }: ProductsProps) => {
   const attributes = pageData?.attributes?.edges.map(({ node }) => node) ?? [];
 
   if (builderContent) {
-    return <Builder
-      type="products"
-      pageData={pageData}
-      productsData={data}
-      attributes={attributes}
-      loading={loading}
-      content={builderContent}
-    />;
+    return (
+      <Builder
+        type="products"
+        pageData={pageData}
+        productsData={data}
+        attributes={attributes}
+        loading={loading}
+        content={builderContent}
+      />
+    );
   }
 
   return (

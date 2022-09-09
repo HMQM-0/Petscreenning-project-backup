@@ -59,14 +59,14 @@ const CartSummary = ({
         {
           title: "Could not add promo code",
         },
-        { type: "error" }
+        { type: "error" },
       );
     } else {
       alert.show(
         {
           title: "Added promo code",
         },
-        { type: "success" }
+        { type: "success" },
       );
     }
   };
@@ -80,14 +80,14 @@ const CartSummary = ({
         {
           title: "Could not remove promo code",
         },
-        { type: "error" }
+        { type: "error" },
       );
     } else {
       alert.show(
         {
           title: "Removed promo code",
         },
-        { type: "success" }
+        { type: "success" },
       );
     }
   };
@@ -99,9 +99,16 @@ const CartSummary = ({
           <Fragment>
             {matches.small ? (
               <>
-                <Accordion elevation={0} disableGutters sx={accordion}>
+                <Accordion
+                  elevation={0}
+                  disableGutters
+                  sx={accordion}
+                >
                   <AccordionSummary sx={accordionSummary}>
-                    <Typography sx={title} variant="h6">
+                    <Typography
+                      sx={title}
+                      variant="h6"
+                    >
                       Shopping Cart
                     </Typography>
                     <Button
@@ -172,7 +179,10 @@ const CartSummary = ({
               </>
             ) : (
               <>
-                <Typography sx={title} variant="h6">
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
                   Shopping Cart
                 </Typography>
                 <Divider />

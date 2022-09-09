@@ -53,7 +53,10 @@ const Table: React.FC<TableProps> = ({
               </th>
               {mediumScreen && (
                 <th>
-                  <FormattedMessage defaultMessage="Taxes" description="taxes" />
+                  <FormattedMessage
+                    defaultMessage="Taxes"
+                    description="taxes"
+                  />
                 </th>
               )}
               <th colSpan={2}>
@@ -67,7 +70,12 @@ const Table: React.FC<TableProps> = ({
           </thead>
           <tbody>
             {lines.map((line) => (
-              <ProductRow key={line.variant?.product.id} line={line} mediumScreen={mediumScreen} {...rowProps} />
+              <ProductRow
+                key={line.variant?.product.id}
+                line={line}
+                mediumScreen={mediumScreen}
+                {...rowProps}
+              />
             ))}
           </tbody>
           <tfoot>

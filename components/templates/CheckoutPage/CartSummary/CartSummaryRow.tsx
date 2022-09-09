@@ -70,16 +70,24 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const CartSummaryRow: React.FunctionComponent<ICartSummaryRowProps> = (
-  props
-) => {
-  const { sku, name, variant, price, priceUndiscounted, quantity, thumbnail } =
-    props;
+const CartSummaryRow: React.FunctionComponent<ICartSummaryRowProps> = (props) => {
+  const { sku, name, variant, price, priceUndiscounted, quantity, thumbnail } = props;
   const classes = useStyles(props);
   return (
-    <Box key={sku} className={classes.root}>
-      <Card elevation={0} variant="outlined" square className={classes.card}>
-        <CachedImage data-test="image" {...thumbnail} />
+    <Box
+      key={sku}
+      className={classes.root}
+    >
+      <Card
+        elevation={0}
+        variant="outlined"
+        square
+        className={classes.card}
+      >
+        <CachedImage
+          data-test="image"
+          {...thumbnail}
+        />
       </Card>
       <Box className={classes.info}>
         <Box>
@@ -91,7 +99,10 @@ const CartSummaryRow: React.FunctionComponent<ICartSummaryRowProps> = (
         <Box className={classes.caption}>
           <FormattedMessage {...commonMessages.quantity} />
           {": "}
-          <Box component="span" data-test="quantity">
+          <Box
+            component="span"
+            data-test="quantity"
+          >
             {quantity}
           </Box>
         </Box>

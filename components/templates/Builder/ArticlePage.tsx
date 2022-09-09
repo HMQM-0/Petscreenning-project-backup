@@ -55,13 +55,14 @@ const ArticlePage: React.FunctionComponent = (props) => {
   }, [isEditingOrPreviewing]);
 
   if (!pageJson && !isEditingOrPreviewing) {
-    return isLoading ? (
-      <CircularProgress sx={{ placeSelf: "center" }} />
-    ) : (
-      <NoComponent />
-    );
+    return isLoading ? <CircularProgress sx={{ placeSelf: "center" }} /> : <NoComponent />;
   } else {
-    return <BuilderComponent model={model} content={pageJson} />;
+    return (
+      <BuilderComponent
+        model={model}
+        content={pageJson}
+      />
+    );
   }
 };
 

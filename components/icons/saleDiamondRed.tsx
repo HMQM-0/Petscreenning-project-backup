@@ -10,7 +10,10 @@ const SaleDiamondRed: FunctionComponent = () => {
       strokeLinejoin="round"
       strokeMiterlimit="2"
     >
-      <path fill="none" d="M0 0h512v512H0z" />
+      <path
+        fill="none"
+        d="M0 0h512v512H0z"
+      />
       <path
         d="M717.488 1131.67L566.491 980.669c-3.431-3.43-3.431-8.993 0-12.424l150.997-150.996c3.43-3.431 8.992-3.431 12.423 0l150.997 150.996c3.431 3.431 3.431 8.994 0 12.424L729.911 1131.67c-3.431 3.43-8.993 3.43-12.423 0z"
         fill="url(#_Linear1)"
@@ -33,13 +36,34 @@ const SaleDiamondRed: FunctionComponent = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="rotate(45 -741.010914 1183.577928) scale(366.843)"
         >
-          <stop offset="0" stopColor="#820000" />
-          <stop offset=".1" stopColor="#c00" />
-          <stop offset=".2" stopColor="#f00000" />
-          <stop offset=".5" stopColor="#e00000" />
-          <stop offset=".7" stopColor="#ad0000" />
-          <stop offset=".8" stopColor="#a50000" />
-          <stop offset="1" stopColor="#f70000" />
+          <stop
+            offset="0"
+            stopColor="#820000"
+          />
+          <stop
+            offset=".1"
+            stopColor="#c00"
+          />
+          <stop
+            offset=".2"
+            stopColor="#f00000"
+          />
+          <stop
+            offset=".5"
+            stopColor="#e00000"
+          />
+          <stop
+            offset=".7"
+            stopColor="#ad0000"
+          />
+          <stop
+            offset=".8"
+            stopColor="#a50000"
+          />
+          <stop
+            offset="1"
+            stopColor="#f70000"
+          />
         </linearGradient>
       </defs>
     </svg>

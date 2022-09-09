@@ -10,7 +10,10 @@ const SaleBadgeRed: FunctionComponent = () => {
       strokeLinejoin="round"
       strokeMiterlimit="2"
     >
-      <path fill="none" d="M0 0h512v512H0z" />
+      <path
+        fill="none"
+        d="M0 0h512v512H0z"
+      />
       <path
         d="M395.845 173.818l20.552 12.598-13.81 19.759 16.774 17.314-18.29 15.703 11.941 20.941-21.621 10.661 6.358 23.253-23.593 4.949.376 24.104-24.083-1.073-5.63 23.439-23.059-7.028-11.283 21.302-20.587-12.542-16.226 17.828-16.82-17.268-20.151 13.232-11.997-20.908-22.808 7.805-6.421-23.235-24.033 1.888-.441-24.102-23.747-4.148 5.567-23.455-21.97-9.923 11.226-21.333-18.812-15.075 16.178-17.872-14.471-19.279 20.113-13.287-9.222-22.273 22.787-7.867-3.394-23.867 24.027-1.953 2.649-23.96 23.758 4.082 8.524-22.548 21.996 9.863 13.864-19.721 18.852 15.024 18.333-15.653 14.524 19.239 21.649-10.602 9.283 22.247 23.606-4.885 3.458 23.857 24.08 1.138-2.583 23.968 23.039 7.091-8.462 22.572z"
         fill="url(#_Linear1)"
@@ -33,13 +36,34 @@ const SaleBadgeRed: FunctionComponent = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="rotate(52.547 -2.325626 217.950643) scale(375.132)"
         >
-          <stop offset="0" stopColor="#820000" />
-          <stop offset=".1" stopColor="#c00" />
-          <stop offset=".2" stopColor="#f00000" />
-          <stop offset=".5" stopColor="#e00000" />
-          <stop offset=".7" stopColor="#ad0000" />
-          <stop offset=".8" stopColor="#a50000" />
-          <stop offset="1" stopColor="#f70000" />
+          <stop
+            offset="0"
+            stopColor="#820000"
+          />
+          <stop
+            offset=".1"
+            stopColor="#c00"
+          />
+          <stop
+            offset=".2"
+            stopColor="#f00000"
+          />
+          <stop
+            offset=".5"
+            stopColor="#e00000"
+          />
+          <stop
+            offset=".7"
+            stopColor="#ad0000"
+          />
+          <stop
+            offset=".8"
+            stopColor="#a50000"
+          />
+          <stop
+            offset="1"
+            stopColor="#f70000"
+          />
         </linearGradient>
       </defs>
     </svg>

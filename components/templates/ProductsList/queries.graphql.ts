@@ -89,12 +89,11 @@ export const productsListProduct = gql`
           extra: value
         }
       }
-      quantityAvailable,
+      quantityAvailable
       ...ProductVariantPricingField
     }
   }
 `;
-
 
 export const productList = gql`
   ${productsListProduct}

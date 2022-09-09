@@ -23,7 +23,7 @@ import classes from "../LoginToViewProducts/scss/index.module.scss";
 
 export const useAddToCart = (
   product: Pick<ProductDetailsFragment, "isAvailableForPurchase" | "availableForPurchase">,
-  selectedVariant: ProductVariantFieldsFragment | undefined
+  selectedVariant: ProductVariantFieldsFragment | undefined,
 ) => {
   const { user } = useAuth();
   const { loginForPrice } = useShopContext();
@@ -85,7 +85,7 @@ const AddToCartSection = ({
   const productVariants = product.variants;
 
   const sizeGuideUrl = product.images?.find((image) =>
-    image.url.substring(image.url.lastIndexOf("/") + 1).includes("sizeguide-")
+    image.url.substring(image.url.lastIndexOf("/") + 1).includes("sizeguide-"),
   )?.url;
 
   const {
@@ -110,7 +110,10 @@ const AddToCartSection = ({
     <S.AddToCartSelection>
       <S.RatingsWrapper>
         <S.ProductNameHeader data-test="productName">{name}</S.ProductNameHeader>
-        <RatingStars productId={productId} scrollToRatingsAndReviewsSection={scrollToRatingsAndReviewsSection} />
+        <RatingStars
+          productId={productId}
+          scrollToRatingsAndReviewsSection={scrollToRatingsAndReviewsSection}
+        />
       </S.RatingsWrapper>
       {isOutOfStock ? (
         renderErrorMessage(intl.formatMessage(commonMessages.outOfStock), "outOfStock")
@@ -124,10 +127,16 @@ const AddToCartSection = ({
                     className={classes["products-login-button"]}
                     onClick={() => overlayContext.show(OverlayType.login, OverlayTheme.right)}
                   >
-                    <Box component="span" className={classes.text}>
+                    <Box
+                      component="span"
+                      className={classes.text}
+                    >
                       Login for price
                     </Box>
-                    <Box component="span" className={classes.icon}>
+                    <Box
+                      component="span"
+                      className={classes.icon}
+                    >
                       <svg
                         aria-hidden="true"
                         data-prefix="far"
@@ -168,14 +177,17 @@ const AddToCartSection = ({
               minute: "numeric",
             }).format(purchaseAvailableDate),
           }),
-          "timeRestrictedAvailability"
+          "timeRestrictedAvailability",
         )}
       {isLowStock && renderErrorMessage(intl.formatMessage(commonMessages.lowStock), "lowStockWarning")}
       {isNoItemsAvailable &&
         renderErrorMessage(intl.formatMessage(commonMessages.noItemsAvailable), "noItemsAvailable")}
       {!!productVariants?.length && (
         <S.VariantPicker>
-          <ProductVariantPicker productVariants={productVariants} onVariantChangeHandler={onVariantChangeHandler} />
+          <ProductVariantPicker
+            productVariants={productVariants}
+            onVariantChangeHandler={onVariantChangeHandler}
+          />
         </S.VariantPicker>
       )}
       <S.QuantityInput>
@@ -202,7 +214,10 @@ const AddToCartSection = ({
         <FormattedMessage defaultMessage="Add to cart" />
       </Button>
       <S.WishlistButton>
-        <AddToWishlist productId={productId} showButtonText={true} />
+        <AddToWishlist
+          productId={productId}
+          showButtonText={true}
+        />
       </S.WishlistButton>
       {sizeGuideUrl && (
         <S.WishlistButton>

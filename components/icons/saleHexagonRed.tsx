@@ -10,7 +10,10 @@ const SaleHexagonRed: FunctionComponent = () => {
       strokeLinejoin="round"
       strokeMiterlimit="2"
     >
-      <path fill="none" d="M0 0h512v512H0z" />
+      <path
+        fill="none"
+        d="M0 0h512v512H0z"
+      />
       <path
         d="M1861.48 658.164V528.761c0-5.77-3.07-11.102-8.07-13.987l-112.07-64.701c-4.99-2.885-11.15-2.885-16.15 0l-112.06 64.701c-5 2.885-8.08 8.217-8.08 13.987v129.403c0 5.77 3.08 11.101 8.08 13.987l112.06 64.701c5 2.885 11.16 2.885 16.15 0l112.07-64.701c5-2.886 8.07-8.217 8.07-13.987z"
         fill="url(#_Linear1)"
@@ -33,13 +36,34 @@ const SaleHexagonRed: FunctionComponent = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="scale(416.178) rotate(55.654 .916498 4.30773)"
         >
-          <stop offset="0" stopColor="#820000" />
-          <stop offset=".1" stopColor="#c00" />
-          <stop offset=".2" stopColor="#f00000" />
-          <stop offset=".5" stopColor="#e00000" />
-          <stop offset=".7" stopColor="#ad0000" />
-          <stop offset=".8" stopColor="#a50000" />
-          <stop offset="1" stopColor="#f70000" />
+          <stop
+            offset="0"
+            stopColor="#820000"
+          />
+          <stop
+            offset=".1"
+            stopColor="#c00"
+          />
+          <stop
+            offset=".2"
+            stopColor="#f00000"
+          />
+          <stop
+            offset=".5"
+            stopColor="#e00000"
+          />
+          <stop
+            offset=".7"
+            stopColor="#ad0000"
+          />
+          <stop
+            offset=".8"
+            stopColor="#a50000"
+          />
+          <stop
+            offset="1"
+            stopColor="#f70000"
+          />
         </linearGradient>
       </defs>
     </svg>

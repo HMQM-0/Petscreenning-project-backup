@@ -26,7 +26,10 @@ export const ProductFiltersButton = ({ openFiltersMenu }: ProductFiltersButtonPr
 
   return (
     <>
-      <S.FiltersButton onClick={openFiltersMenu} data-cy="filters__button">
+      <S.FiltersButton
+        onClick={openFiltersMenu}
+        data-cy="filters__button"
+      >
         <Filter />
         <Media query={{ minWidth: smallScreen }}>
           <S.Filters>
@@ -40,7 +43,10 @@ export const ProductFiltersButton = ({ openFiltersMenu }: ProductFiltersButtonPr
         </Media>
       </S.FiltersButton>
       {activeFilters > 0 && (
-        <S.Clear onClick={clearFilters} data-test="clearFiltersButton">
+        <S.Clear
+          onClick={clearFilters}
+          data-test="clearFiltersButton"
+        >
           <FormattedMessage {...commonMessages.clearFilterHeader} />
         </S.Clear>
       )}

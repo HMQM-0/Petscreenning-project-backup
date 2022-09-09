@@ -46,7 +46,7 @@ const ProductListItem = ({ loginForPrice, product, wide }: ProductListItemProps)
       {
         title: "Added " + quantity + "x " + product.name,
       },
-      { type: "success" }
+      { type: "success" },
     );
   };
 
@@ -58,7 +58,7 @@ const ProductListItem = ({ loginForPrice, product, wide }: ProductListItemProps)
 
   const defaultVariant = useMemo(
     () => product.variants?.find((productVariant) => product.defaultVariant?.id === productVariant.id),
-    [product.defaultVariant?.id, product.variants]
+    [product.defaultVariant?.id, product.variants],
   );
 
   const getProductPrice = () => {
@@ -66,7 +66,10 @@ const ProductListItem = ({ loginForPrice, product, wide }: ProductListItemProps)
       return (
         <>
           <Box className={classes["product-list-priceblock"]}>Login for price</Box>
-          <Box className={classes["product-list-cart"]} style={pricecap}>
+          <Box
+            className={classes["product-list-cart"]}
+            style={pricecap}
+          >
             <AddCircleIcon />
           </Box>
         </>
@@ -75,7 +78,11 @@ const ProductListItem = ({ loginForPrice, product, wide }: ProductListItemProps)
 
     return (
       <>
-        <Box className={classes["product-list-priceblock"]} mt={1} style={{ textAlign: "left" }}>
+        <Box
+          className={classes["product-list-priceblock"]}
+          mt={1}
+          style={{ textAlign: "left" }}
+        >
           <ProductVariantPrice pricing={defaultVariant?.pricing} />
         </Box>
         <Box>
@@ -100,10 +107,17 @@ const ProductListItem = ({ loginForPrice, product, wide }: ProductListItemProps)
       <Card variant="outlined">
         <Box className={wide ? classes["product-list-wrapper-wide"] : classes["product-list-wrapper"]}>
           <Box style={{ position: "absolute" }}>
-            <AddToWishlist productId={product.id} showButtonText={false} />
+            <AddToWishlist
+              productId={product.id}
+              showButtonText={false}
+            />
           </Box>
           <Box className={wide ? classes["product-list-image-wide"] : classes["product-list-image"]}>
-            <Thumbnail source={product} height="255" width="255" />
+            <Thumbnail
+              source={product}
+              height="255"
+              width="255"
+            />
           </Box>
           <h4 className={classes["product-list-title"]}>{product.name}</h4>
           <p className={classes["product-list-seller"]}>{seller}</p>

@@ -36,7 +36,7 @@ const useAddItem = () => {
       // 3. save online if possible (if checkout id available)
       updateCheckout(newLines);
     },
-    [lines, refreshCheckoutLines, updateCheckout]
+    [lines, refreshCheckoutLines, updateCheckout],
   );
 };
 

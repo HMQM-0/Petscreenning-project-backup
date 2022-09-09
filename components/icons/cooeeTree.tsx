@@ -11,7 +11,10 @@ const CooeeTree: FunctionComponent = () => {
       clipRule="evenodd"
       viewBox="0 0 160 160"
     >
-      <path fill="none" d="M0 0h160v160H0z" />
+      <path
+        fill="none"
+        d="M0 0h160v160H0z"
+      />
       <ellipse
         cx="39.175"
         cy="34.131"

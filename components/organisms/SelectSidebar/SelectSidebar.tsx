@@ -38,7 +38,10 @@ export const SelectSidebar = ({
       testingContextId={testingContextId}
     >
       <S.Wrapper ref={setElementRef()}>
-        <CardHeader divider onHide={hide}>
+        <CardHeader
+          divider
+          onHide={hide}
+        >
           <span>{title}</span>
         </CardHeader>
         <S.Content>
@@ -47,7 +50,10 @@ export const SelectSidebar = ({
             const isDisabled = disabledOptions.some((value) => value === option.value);
 
             return (
-              <S.Option key={option.value} disabled={isDisabled}>
+              <S.Option
+                key={option.value}
+                disabled={isDisabled}
+              >
                 <OverlayItem
                   testingContextId={option.value}
                   selected={isSelected}
@@ -62,7 +68,10 @@ export const SelectSidebar = ({
         </S.Content>
         {footerTitle && (
           <S.Footer onClick={onClickFooter}>
-            <ButtonLink testingContext="footerActionButton" color="secondary">
+            <ButtonLink
+              testingContext="footerActionButton"
+              color="secondary"
+            >
               {footerTitle}
             </ButtonLink>
           </S.Footer>

@@ -10,7 +10,10 @@ const SaleBannerRed: FunctionComponent = () => {
       strokeLinejoin="round"
       strokeMiterlimit="2"
     >
-      <path fill="none" d="M0 0h512v512H0z" />
+      <path
+        fill="none"
+        d="M0 0h512v512H0z"
+      />
       <path
         d="M758.146 351.047L654.091 272.19l-104.056 78.857V69.193h208.111v281.854z"
         fill="url(#_Linear1)"
@@ -33,13 +36,34 @@ const SaleBannerRed: FunctionComponent = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="scale(466.427) rotate(45 .360436 1.427813)"
         >
-          <stop offset="0" stopColor="#820000" />
-          <stop offset=".1" stopColor="#c00" />
-          <stop offset=".2" stopColor="#f00000" />
-          <stop offset=".5" stopColor="#e00000" />
-          <stop offset=".7" stopColor="#ad0000" />
-          <stop offset=".8" stopColor="#a50000" />
-          <stop offset="1" stopColor="#f70000" />
+          <stop
+            offset="0"
+            stopColor="#820000"
+          />
+          <stop
+            offset=".1"
+            stopColor="#c00"
+          />
+          <stop
+            offset=".2"
+            stopColor="#f00000"
+          />
+          <stop
+            offset=".5"
+            stopColor="#e00000"
+          />
+          <stop
+            offset=".7"
+            stopColor="#ad0000"
+          />
+          <stop
+            offset=".8"
+            stopColor="#a50000"
+          />
+          <stop
+            offset="1"
+            stopColor="#f70000"
+          />
         </linearGradient>
       </defs>
     </svg>

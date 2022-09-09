@@ -12,10 +12,7 @@ export const searchPageQuery = gql`
     branding {
       ...Branding
     }
-    attributes(
-      filter: { filterableInStorefront: true }
-      first: 100
-    ) {
+    attributes(filter: { filterableInStorefront: true }, first: 100) {
       attributes: edges {
         attribute: node {
           ...ProductsPageAttribute

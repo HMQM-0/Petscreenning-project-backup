@@ -6,11 +6,7 @@ import { ProductFiltersButton } from "components/organisms/ProductListHeader/com
 import { ProductsPageAttributeFragment } from "components/templates/ProductsList/queries.graphql.generated";
 import { FilterSidebar } from "components/organisms";
 
-export const ProductFilters = ({
-  attributes,
-}: {
-  attributes?: ProductsPageAttributeFragment[];
-}) => {
+export const ProductFilters = ({ attributes }: { attributes?: ProductsPageAttributeFragment[] }) => {
   const [showFilters, setShowFilters] = React.useState(false);
 
   const isEditingOrPreviewing = Builder.isEditing || Builder.isPreviewing;

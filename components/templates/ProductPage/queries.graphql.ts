@@ -226,12 +226,11 @@ export const productDetailsQuery = gql`
       ...Branding
     }
     product(id: $id) {
-      ...ProductDetails,
+      ...ProductDetails
       ...ProductSeo
     }
   }
 `;
-
 
 export const productRatingsAndReviewsFragment = gql`
   fragment ProductRatingsAndReviews on ProductRatingsAndReviews {
@@ -250,7 +249,6 @@ export const productRatingsAndReviewsFragment = gql`
     }
   }
 `;
-
 
 export const GetProductRatingsAndReviewsQuery = gql`
   ${productRatingsAndReviewsFragment}

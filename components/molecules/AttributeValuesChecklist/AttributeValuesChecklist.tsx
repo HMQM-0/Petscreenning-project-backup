@@ -45,7 +45,12 @@ export const AttributeValuesChecklist = ({
             return <></>;
           }
           return (
-            <Checkbox name={name} checked={!!value.selected} onChange={() => onValueClick(value)} key={value.id}>
+            <Checkbox
+              name={name}
+              checked={!!value.selected}
+              onChange={() => onValueClick(value)}
+              key={value.id}
+            >
               {value && value.name}
             </Checkbox>
           );

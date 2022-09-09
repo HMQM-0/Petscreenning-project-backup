@@ -53,11 +53,17 @@ export const OrderTable = ({ orders }: IProps) => {
         {(matches) => {
           return (
             <>
-              <S.Row><Header matches={matches} /></S.Row>
+              <S.Row>
+                <Header matches={matches} />
+              </S.Row>
               {orders?.map((order) => {
                 const date = new Date(order.created);
                 return (
-                  <Link key={order.number} href={`/account/order-history/${order.token}/`} passHref>
+                  <Link
+                    key={order.number}
+                    href={`/account/order-history/${order.token}/`}
+                    passHref
+                  >
                     <S.Row
                       data-test="orderEntry"
                       data-test-id={order.number}
@@ -67,10 +73,11 @@ export const OrderTable = ({ orders }: IProps) => {
                         <>
                           <S.ProductsOrdered>
                             {order.lines.slice(0, 5).map((product: any) => (
-                              <Link key={product?.variant?.product?.id} href={generateProductUrl(
-                                product.variant.product.id,
-                                product.variant.product.name
-                              )} passHref>
+                              <Link
+                                key={product?.variant?.product?.id}
+                                href={generateProductUrl(product.variant.product.id, product.variant.product.name)}
+                                passHref
+                              >
                                 <Box component="a">
                                   <Thumbnail source={product} />
                                 </Box>
@@ -85,12 +92,7 @@ export const OrderTable = ({ orders }: IProps) => {
                           </S.Value>
                         </>
                       )}
-                      <S.Status>
-                        {
-                          order.statusDisplay &&
-                          translateOrderStatus(order.statusDisplay, intl)
-                        }
-                      </S.Status>
+                      <S.Status>{order.statusDisplay && translateOrderStatus(order.statusDisplay, intl)}</S.Status>
                     </S.Row>
                   </Link>
                 );

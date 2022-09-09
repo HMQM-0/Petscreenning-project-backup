@@ -121,7 +121,12 @@ export const BuilderAutoComplete = (props: {
     id="combo-box-demo"
     options={props.options ? props.options : []}
     sx={{ width: props.width ? props.width : 300 }}
-    renderInput={(params) => <TextField {...params} label={props.label ? props.label : "Label"} />}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label={props.label ? props.label : "Label"}
+      />
+    )}
   />
 );
 
@@ -227,8 +232,15 @@ export const BuilderSlider = (props: { label: string; value: number; showValue: 
     setValue(newValue as number);
   };
   return (
-    <Stack spacing={2} direction="row">
-      <Slider aria-label={props.label ? props.label : "label"} value={value} onChange={handleChange} />
+    <Stack
+      spacing={2}
+      direction="row"
+    >
+      <Slider
+        aria-label={props.label ? props.label : "label"}
+        value={value}
+        onChange={handleChange}
+      />
       <Typography sx={{ display: props.showValue ? "block" : "none" }}>{value}</Typography>
     </Stack>
   );
@@ -357,9 +369,18 @@ export const BuilderAppBar = (props: {
   // Important! Builder.io must add a couple classes and attributes via props.attributes
   // Important! If you add your own classes do it after ...props.attributes
   <Box sx={{ flexGrow: 1 }}>
-    <AppBar position={props.position ? props.position : "static"} color={props.color ? props.color : "primary"}>
+    <AppBar
+      position={props.position ? props.position : "static"}
+      color={props.color ? props.color : "primary"}
+    >
       <Toolbar>
-        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
           <MenuIcon />
         </IconButton>
         <Typography>LOGO</Typography>

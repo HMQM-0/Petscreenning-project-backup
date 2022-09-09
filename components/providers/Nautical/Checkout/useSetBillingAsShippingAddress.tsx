@@ -51,7 +51,7 @@ const useSetBillingAsShippingAddress = ({ dispatch }: useSetBillingAsShippingAdd
         pending: false,
       };
     },
-    [billingAddress, id, setBillingAddress, shippingAddress]
+    [billingAddress, id, setBillingAddress, shippingAddress],
   );
 };
 

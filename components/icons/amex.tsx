@@ -9,7 +9,12 @@ const Amex: FunctionComponent = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="54" height="35" rx="3" fill="#21125E" />
+      <rect
+        width="54"
+        height="35"
+        rx="3"
+        fill="#21125E"
+      />
       <path
         fillRule="evenodd"
         clipRule="evenodd"

@@ -42,7 +42,11 @@ export const AccountMenuSidebar = () => {
   return (
     <AccountMenu>
       {routes.map((route) => (
-        <Link href={route.path} key={route.path} passHref>
+        <Link
+          href={route.path}
+          key={route.path}
+          passHref
+        >
           <AccountMenuItem active={router.pathname === route.path}>
             {intl.formatMessage(commonMessages[route.intlKeyId])}
           </AccountMenuItem>

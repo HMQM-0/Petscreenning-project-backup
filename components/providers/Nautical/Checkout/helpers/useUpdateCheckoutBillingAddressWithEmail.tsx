@@ -59,7 +59,7 @@ const useSetBillingAddressWithEmail = () => {
         };
       }
     },
-    [updateCheckoutBillingAddressWithEmailMutation]
+    [updateCheckoutBillingAddressWithEmailMutation],
   );
 };
 
@@ -101,7 +101,7 @@ const useUpdateCheckoutBillingAddressWithEmail = ({ dispatch }: useUpdateCheckou
 
       return { data };
     },
-    [dispatch, setBillingAddressWithEmail]
+    [dispatch, setBillingAddressWithEmail],
   );
 };
 

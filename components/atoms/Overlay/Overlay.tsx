@@ -29,7 +29,11 @@ export const Overlay: React.FC<IProps> = ({
   return (
     target &&
     ReactDOM.createPortal(
-      <Transition in={show} timeout={duration} unmountOnExit>
+      <Transition
+        in={show}
+        timeout={duration}
+        unmountOnExit
+      >
         {(state) => (
           <S.Overlay
             {...animationProps}
@@ -49,7 +53,7 @@ export const Overlay: React.FC<IProps> = ({
           </S.Overlay>
         )}
       </Transition>,
-      target
+      target,
     )
   );
 };

@@ -11,7 +11,10 @@ const StripeCreditCardForm = ({ formRef, formId, errors = [], onSubmit }: IProps
   const stripe = useStripe();
   const elements = useElements();
   return (
-    <S.Form id={formId} ref={formRef}>
+    <S.Form
+      id={formId}
+      ref={formRef}
+    >
       <PaymentElement />
       <button
         id="gatewayButton"

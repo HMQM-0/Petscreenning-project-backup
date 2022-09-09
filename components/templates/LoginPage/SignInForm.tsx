@@ -3,11 +3,7 @@ import { FormattedMessage } from "react-intl";
 
 import ForgottenPassword from "components/organisms/OverlayManager/Login/ForgottenPassword";
 import LoginForm from "components/molecules/LoginForm";
-import {
-  OverlayTheme,
-  OverlayType,
-  useOverlayContext,
-} from "components/providers/Overlay";
+import { OverlayTheme, OverlayType, useOverlayContext } from "components/providers/Overlay";
 
 import classes from "./scss/index.module.scss";
 

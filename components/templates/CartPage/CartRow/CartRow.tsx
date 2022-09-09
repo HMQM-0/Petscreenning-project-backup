@@ -69,11 +69,17 @@ export const CartRow = ({ item }: CartRowProps) => {
   const productUrl = generateProductUrl(id, name);
 
   return (
-    <S.Wrapper data-test="cartRow" data-test-id={variant.sku}>
+    <S.Wrapper
+      data-test="cartRow"
+      data-test-id={variant.sku}
+    >
       <S.Photo>
         <Link href={productUrl}>
           <a>
-            <CachedImage data-test="itemImage" {...thumbnail} />
+            <CachedImage
+              data-test="itemImage"
+              {...thumbnail}
+            />
           </a>
         </Link>
       </S.Photo>
@@ -91,7 +97,10 @@ export const CartRow = ({ item }: CartRowProps) => {
         <S.Attributes data-test="itemAttributes">
           {variant.attributes?.map(({ attribute, values }, attributeIndex) => (
             <S.SingleAttribute key={attribute.id}>
-              <span data-test="itemSingleAttribute" data-test-id={attributeIndex}>
+              <span
+                data-test="itemSingleAttribute"
+                data-test-id={attributeIndex}
+              >
                 <S.LightFont>{attribute.name}:</S.LightFont> {values.map((value) => value?.name || "").join(", ")}
               </span>
             </S.SingleAttribute>
@@ -108,11 +117,25 @@ export const CartRow = ({ item }: CartRowProps) => {
           InputProps={{
             endAdornment: (
               <S.QuantityButtons data-test="quantityControls">
-                <Box mr={1} onClick={subtract} data-test="subtractButton">
-                  <Icon size={16} name="horizontal_line" />
+                <Box
+                  mr={1}
+                  onClick={subtract}
+                  data-test="subtractButton"
+                >
+                  <Icon
+                    size={16}
+                    name="horizontal_line"
+                  />
                 </Box>
-                <Box ml={1} onClick={add} data-test="increaseButton">
-                  <Icon size={16} name="plus" />
+                <Box
+                  ml={1}
+                  onClick={add}
+                  data-test="increaseButton"
+                >
+                  <Icon
+                    size={16}
+                    name="plus"
+                  />
                 </Box>
               </S.QuantityButtons>
             ),
@@ -120,7 +143,12 @@ export const CartRow = ({ item }: CartRowProps) => {
         />
       </S.Quantity>
       <S.Trash>
-        <IconButton testingContext="removeButton" size={22} name="trash" onClick={() => removeItem(variant.id)} />
+        <IconButton
+          testingContext="removeButton"
+          size={22}
+          name="trash"
+          onClick={() => removeItem(variant.id)}
+        />
       </S.Trash>
 
       <S.TotalPrice>
@@ -146,7 +174,11 @@ export const CartRow = ({ item }: CartRowProps) => {
       <S.TaxPrice>
         <S.PriceLabel>
           <S.LightFont>
-            <FormattedMessage defaultMessage="Taxes" description="taxes" />:
+            <FormattedMessage
+              defaultMessage="Taxes"
+              description="taxes"
+            />
+            :
           </S.LightFont>
         </S.PriceLabel>
         <p>

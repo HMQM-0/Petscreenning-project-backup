@@ -16,16 +16,12 @@ export const AccountMenu = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const AccountMenuItem = ({
-  children,
-  active,
-  ...rest
-}: {
-  children: React.ReactNode;
-  active: boolean;
-}) => {
+export const AccountMenuItem = ({ children, active, ...rest }: { children: React.ReactNode; active: boolean }) => {
   return (
-    <S.MenuItem active={active} {...rest}>
+    <S.MenuItem
+      active={active}
+      {...rest}
+    >
       {children}
     </S.MenuItem>
   );

@@ -6,10 +6,9 @@ import { ButtonLink } from "components/atoms/ButtonLink";
 import * as S from "./styles";
 import { IButtonProps, IProps } from "./types";
 
-const LoadingText = () => (<>Loading</>);
+const LoadingText = () => <>Loading</>;
 
-const getBtnAction = (btn: IButtonProps) =>
-  btn.action && { onClick: btn.action };
+const getBtnAction = (btn: IButtonProps) => btn.action && { onClick: btn.action };
 
 const renderCancelBtn = (cancelBtn?: IButtonProps) =>
   cancelBtn && (
@@ -23,11 +22,7 @@ const renderCancelBtn = (cancelBtn?: IButtonProps) =>
     </ButtonLink>
   );
 
-const renderSubmitBtn = (
-  submitBtn: IButtonProps,
-  disabled: boolean,
-  formId?: string
-) =>
+const renderSubmitBtn = (submitBtn: IButtonProps, disabled: boolean, formId?: string) =>
   submitBtn && (
     <Button
       {...getBtnAction(submitBtn)}

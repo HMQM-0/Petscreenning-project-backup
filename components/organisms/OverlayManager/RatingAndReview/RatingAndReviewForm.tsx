@@ -19,7 +19,7 @@ const showSuccessNotification = (
   data: SubmitRatingAndReviewMutation,
   hide: () => void,
   alert: AlertContainer,
-  intl: IntlShape
+  intl: IntlShape,
 ) => {
   const successful = maybe(() => !data.submitRatingAndReview?.errors.length);
   if (successful) {
@@ -30,7 +30,7 @@ const showSuccessNotification = (
           defaultMessage: "Your Rating and Review has been submitted.",
         }),
       },
-      { type: "success", timeout: 5000 }
+      { type: "success", timeout: 5000 },
     );
   }
 };
@@ -86,7 +86,11 @@ const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
             Overall rating
           </div>
           <div style={{ display: "flex", alignContent: "center" }}>
-            <Rating name="simple-controlled" value={rating} onChange={(e, value) => setRating(value)} />
+            <Rating
+              name="simple-controlled"
+              value={rating}
+              onChange={(e, value) => setRating(value)}
+            />
             {noRatingSelected && (
               <span
                 style={{
@@ -130,7 +134,11 @@ const RatingAndReviewForm = ({ productId }: RatingAndReviewFormProps) => {
           onChange={(e) => setReview(e.target.value)}
         />
         <div className={classes.login__content__button}>
-          <Button testingContext="submitRegisterFormButton" type="submit" {...(loading && { disabled: true })}>
+          <Button
+            testingContext="submitRegisterFormButton"
+            type="submit"
+            {...(loading && { disabled: true })}
+          >
             {loading ? intl.formatMessage(commonMessages.loading) : intl.formatMessage({ defaultMessage: "Submit" })}
           </Button>
         </div>

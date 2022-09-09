@@ -34,7 +34,10 @@ export const AccountUpdateForm: React.FC<{
       >
         {({ handleChange, handleSubmit, handleBlur, values, isSubmitting, isValid }) => {
           return (
-            <S.Form onSubmit={handleSubmit} data-test="accountUpdateForm">
+            <S.Form
+              onSubmit={handleSubmit}
+              data-test="accountUpdateForm"
+            >
               <S.ContentEditOneLine>
                 <S.ContentExtendInput>
                   <TextField
@@ -68,7 +71,12 @@ export const AccountUpdateForm: React.FC<{
                 </S.ContentExtendInput>
               </S.ContentEditOneLine>
               <S.FormButtons>
-                <ButtonLink testingContext="cancelButton" type="button" color="secondary" onClick={hide}>
+                <ButtonLink
+                  testingContext="cancelButton"
+                  type="button"
+                  color="secondary"
+                  onClick={hide}
+                >
                   <FormattedMessage {...commonMessages.cancel} />
                 </ButtonLink>
                 <Button

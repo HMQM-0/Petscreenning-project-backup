@@ -79,7 +79,7 @@ const useCreateCheckoutPaymentMutationHandler = () => {
         };
       }
     },
-    [createCheckoutPaymentMutation]
+    [createCheckoutPaymentMutation],
   );
 };
 
@@ -143,7 +143,7 @@ const useCreatePaymentJob = ({ dispatch }: useCreatePaymentJobProps) => {
 
       return { data };
     },
-    [createCheckoutPaymentMutationHandler, dispatch]
+    [createCheckoutPaymentMutationHandler, dispatch],
   );
 };
 

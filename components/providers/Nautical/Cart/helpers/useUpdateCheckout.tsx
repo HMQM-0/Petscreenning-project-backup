@@ -58,7 +58,7 @@ const useUpdateCheckout = () => {
         }
       }
     },
-    [id, updateCheckoutLine, updateLines]
+    [id, updateCheckoutLine, updateLines],
   );
 };
 

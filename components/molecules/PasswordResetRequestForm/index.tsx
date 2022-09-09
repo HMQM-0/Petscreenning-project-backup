@@ -47,7 +47,11 @@ const PasswordResetRequestForm = () => {
           required
         />
         <Box className={classes["password-reset-form__button"]}>
-          <Button testingContext="submit" type="submit" disabled={isDisabled}>
+          <Button
+            testingContext="submit"
+            type="submit"
+            disabled={isDisabled}
+          >
             {loading ? <FormattedMessage {...commonMessages.loading} /> : buttonMessage}
           </Button>
         </Box>

@@ -54,7 +54,7 @@ const useCompleteCheckout = ({ dispatch }: useCompleteCheckoutProps) => {
         pending: false,
       };
     },
-    [checkoutId, completeCheckoutJob, volumeDiscount, volumeDiscountsBySeller]
+    [checkoutId, completeCheckoutJob, volumeDiscount, volumeDiscountsBySeller],
   );
 };
 

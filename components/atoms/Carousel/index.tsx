@@ -67,13 +67,9 @@ const Carousel = ({ children, ...rest }: CarouselType) => {
               style={{ transform: "scaleX(-1)" }}
             />
           </IconButton>
-        ) : null}
-      renderCenterRightControls={({
-        nextSlide,
-        currentSlide,
-        slideCount,
-        slidesToShow,
-      }) =>
+        ) : null
+      }
+      renderCenterRightControls={({ nextSlide, currentSlide, slideCount, slidesToShow }) =>
         slideCount - slidesToShow !== currentSlide ? (
           <IconButton
             onClick={nextSlide}
@@ -82,7 +78,8 @@ const Carousel = ({ children, ...rest }: CarouselType) => {
           >
             <ArrowForwardIosIcon className={classes.iconStyle} />
           </IconButton>
-        ) : null}
+        ) : null
+      }
       {...rest}
     >
       {children}
@@ -92,13 +89,7 @@ const Carousel = ({ children, ...rest }: CarouselType) => {
   return (
     <Media query={{ maxWidth: 540 }}>
       {(matches) =>
-        matches ? (
-          carousel(1)
-        ) : (
-          <Media query={{ maxWidth: 992 }}>
-            {(matches) => carousel(matches ? 2 : 4)}
-          </Media>
-        )
+        matches ? carousel(1) : <Media query={{ maxWidth: 992 }}>{(matches) => carousel(matches ? 2 : 4)}</Media>
       }
     </Media>
   );

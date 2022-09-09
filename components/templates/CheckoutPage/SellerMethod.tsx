@@ -45,7 +45,10 @@ const SellerMethod = ({
     <Box>
       <Box mb={2}>
         <Box sx={sellerShippingMethodSelect}>
-          <Typography variant="h4" sx={sellerName}>
+          <Typography
+            variant="h4"
+            sx={sellerName}
+          >
             {data?.sellerName?.companyName}
           </Typography>
           <Formik
@@ -88,7 +91,10 @@ const SellerMethod = ({
           </Formik>
         </Box>
         {mappingDict[Number(sellerMethod.seller)]?.map((sellerMapping) => (
-          <Box key={sellerMapping.id} sx={productShippingRow}>
+          <Box
+            key={sellerMapping.id}
+            sx={productShippingRow}
+          >
             {/* @ts-ignore TODO: Checkout_lines_variant_product_thumbnail canot be null */}
             <CachedImage {...sellerMapping.variant?.product?.thumbnail} />
             <Box sx={stackedText}>

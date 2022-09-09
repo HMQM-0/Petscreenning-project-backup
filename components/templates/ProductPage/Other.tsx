@@ -17,9 +17,9 @@ const OtherProducts = ({ products }: OtherProductsProps) => {
   }
 
   return (
-    <Box className={classes['product-page__other-products']}>
+    <Box className={classes["product-page__other-products"]}>
       <Box className="container">
-        <h4 className={classes['product-page__other-products__title']}>
+        <h4 className={classes["product-page__other-products__title"]}>
           <FormattedMessage defaultMessage="Other products in this category" />
         </h4>
         <ProductList products={products} />

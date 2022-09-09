@@ -30,7 +30,7 @@ export const ProductList = ({
         }
       }
     },
-    [loading, canLoadMore, products]
+    [loading, canLoadMore, products],
   );
 
   const { loginForPrice } = useShopContext();
@@ -38,15 +38,26 @@ export const ProductList = ({
 
   return (
     <>
-      <S.List data-test="productList" data-test-id={testingContextId}>
+      <S.List
+        data-test="productList"
+        data-test-id={testingContextId}
+      >
         {products.map((product) => {
           const { id, name } = product;
           return (
             id &&
             name && (
-              <Link href={generateProductUrl(id, name)} key={id} passHref>
+              <Link
+                href={generateProductUrl(id, name)}
+                key={id}
+                passHref
+              >
                 <a>
-                  <ProductListItem wide product={product} loginForPrice={Boolean(loginForPrice && !user)} />
+                  <ProductListItem
+                    wide
+                    product={product}
+                    loginForPrice={Boolean(loginForPrice && !user)}
+                  />
                 </a>
               </Link>
             )

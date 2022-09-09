@@ -34,7 +34,7 @@ const useSetSellerShippingMethods = ({ dispatch }: useSetSellerShippingMethodsPr
         pending: false,
       };
     },
-    [id, setSellerShippingMethods]
+    [id, setSellerShippingMethods],
   );
 };
 

@@ -96,7 +96,7 @@ const useStyles = makeStyles(() =>
       display: "flex",
       justifyContent: "flex-end",
     },
-  })
+  }),
 );
 
 interface WhishlistCardProps {
@@ -145,7 +145,7 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
         {
           title: "Added 1x " + product.name,
         },
-        { type: "success" }
+        { type: "success" },
       );
       setLoading(false);
     } catch (err) {
@@ -171,7 +171,10 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
       </Box>
 
       <Box className={classes.details}>
-        <Link href={generateProductUrl(item.product.id, item.product.name)} passHref>
+        <Link
+          href={generateProductUrl(item.product.id, item.product.name)}
+          passHref
+        >
           <a>
             <h3 className={classes.productName}>{product.name}</h3>
           </a>
@@ -179,7 +182,10 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
         <Box className={classes.productDescription} />
         {showVariants && (
           <>
-            <InputLabel htmlFor={`variant${product.id}`} className={classes.selectLabel}>
+            <InputLabel
+              htmlFor={`variant${product.id}`}
+              className={classes.selectLabel}
+            >
               {variant ? "Variant" : "Choose Variant"}
             </InputLabel>
             <Select
@@ -202,7 +208,10 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
             >
               {product.variants?.map((variant) => {
                 return (
-                  <MenuItem key={variant.id} value={variant.id}>
+                  <MenuItem
+                    key={variant.id}
+                    value={variant.id}
+                  >
                     {variant.name}
                   </MenuItem>
                 );
@@ -226,7 +235,10 @@ const WishlistCard = ({ item }: WhishlistCardProps) => {
           {variant ? <ProductVariantPrice pricing={variant.pricing} /> : <ProductPrice pricing={product.pricing} />}
         </Box>
         <Box className={classes.pricing_trash}>
-          <button onClick={handleRemove} className={classes.trash}>
+          <button
+            onClick={handleRemove}
+            className={classes.trash}
+          >
             <Trash />
           </button>
         </Box>

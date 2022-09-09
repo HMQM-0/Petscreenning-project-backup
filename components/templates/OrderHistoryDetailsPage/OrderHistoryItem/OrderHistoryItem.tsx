@@ -57,7 +57,10 @@ export const OrderHistoryItem = ({ order, invoices }: IOrderHistoryItemProps) =>
       <Box className={styles["order-details__header"]}>
         <Box>
           <h3>
-            <FormattedMessage defaultMessage="Order Number: {orderNum}" values={{ orderNum: order.number }} />
+            <FormattedMessage
+              defaultMessage="Order Number: {orderNum}"
+              values={{ orderNum: order.number }}
+            />
           </h3>
           <p className={styles["order-details__status"]}>
             {order.paymentStatusDisplay && translatePaymentStatus(order.paymentStatusDisplay, intl)} /{" "}
@@ -68,7 +71,13 @@ export const OrderHistoryItem = ({ order, invoices }: IOrderHistoryItemProps) =>
           <Box className={styles["order-details__header-menu"]}>
             <DropdownMenu
               type="clickable"
-              header={<IconButton testingContext="expandButton" name="expand" size={28} />}
+              header={
+                <IconButton
+                  testingContext="expandButton"
+                  name="expand"
+                  size={28}
+                />
+              }
               items={[
                 {
                   onClick: handleDownloadInvoice,
@@ -123,7 +132,10 @@ export const OrderHistoryItem = ({ order, invoices }: IOrderHistoryItemProps) =>
             <FormattedMessage {...checkoutMessages.shippingAddress} />
           </h4>
           {order.shippingAddress && (
-            <AddressSummary address={order.shippingAddress} email={order?.userEmail || undefined} />
+            <AddressSummary
+              address={order.shippingAddress}
+              email={order?.userEmail || undefined}
+            />
           )}
         </Box>
       </Box>

@@ -23,12 +23,18 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
       const key = line.id ? `id-${line.id}` : `idx-${index}`;
 
       return (
-        <li key={key} className={classes.cart__list__item} data-test="cartRow" data-test-id={line.variant.sku}>
+        <li
+          key={key}
+          className={classes.cart__list__item}
+          data-test="cartRow"
+          data-test-id={line.variant.sku}
+        >
           <Link href={productUrl}>
             <a>
               <Thumbnail
                 className={classes.cart__list__item__img}
-                source={line.variant.product ?? {}} />
+                source={line.variant.product ?? {}}
+              />
             </a>
           </Link>
           <Box className={classes.cart__list__item__details}>
@@ -40,13 +46,26 @@ const ProductList = ({ lines, remove }: ProductListProps) => (
                 <p data-test="name">{line.variant.product?.name}</p>
               </a>
             </Link>
-            <Box component="span" className={classes.cart__list__item__details__variant}>
+            <Box
+              component="span"
+              className={classes.cart__list__item__details__variant}
+            >
               <Box component="span">{line.variant.name}</Box>
-              <Box component="span" data-test="quantity">
-                <FormattedMessage defaultMessage="Qty: {quantity}" values={{ quantity: line.quantity }} />
+              <Box
+                component="span"
+                data-test="quantity"
+              >
+                <FormattedMessage
+                  defaultMessage="Qty: {quantity}"
+                  values={{ quantity: line.quantity }}
+                />
               </Box>
             </Box>
-            <IconButton style={{ marginTop: 4 }} size="small" onClick={() => remove(line.variant.id)}>
+            <IconButton
+              style={{ marginTop: 4 }}
+              size="small"
+              onClick={() => remove(line.variant.id)}
+            >
               <DeleteForeverOutlinedIcon />
             </IconButton>
           </Box>

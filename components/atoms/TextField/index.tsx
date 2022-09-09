@@ -48,30 +48,49 @@ const TextField: React.FC<TextFieldProps> = ({
   return (
     <Box className={classes.input}>
       {iconLeft ? (
-        <Box component="span" className={classes["input__icon-left"]}>
+        <Box
+          component="span"
+          className={classes["input__icon-left"]}
+        >
           {iconLeft}
         </Box>
       ) : null}
       {iconRight ? (
-        <Box component="span" className={classes["input__icon-right"]}>
+        <Box
+          component="span"
+          className={classes["input__icon-right"]}
+        >
           {iconRight}
         </Box>
       ) : null}
       <Box className={classes["input__content"]}>
-        <input {...rest} className={generateClassName({ errors, iconLeft, styleType })} />
+        <input
+          {...rest}
+          className={generateClassName({ errors, iconLeft, styleType })}
+        />
         {label ? (
-          <Box component="span" className={classes["input__label"]} style={labelStyle}>
+          <Box
+            component="span"
+            className={classes["input__label"]}
+            style={labelStyle}
+          >
             {label}
           </Box>
         ) : null}
       </Box>
       {errors && (
-        <Box component="span" className={classes["input__error"]}>
+        <Box
+          component="span"
+          className={classes["input__error"]}
+        >
           {errors.map((error) => error.message).join(" ")}
         </Box>
       )}
       {helpText && (
-        <Box component="span" className={classes["input__help-text"]}>
+        <Box
+          component="span"
+          className={classes["input__help-text"]}
+        >
           {helpText}
         </Box>
       )}

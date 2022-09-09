@@ -34,7 +34,11 @@ const RatingStars: React.FC<IRatingStarsProps> = (props) => {
       }}
       onClick={scrollToRatingsAndReviewsSection}
     >
-      <Rating name="read-only" value={stars} readOnly />
+      <Rating
+        name="read-only"
+        value={stars}
+        readOnly
+      />
       <span style={{ marginLeft: "5px", fontWeight: "bold" }}>
         {totalReviews} {totalReviews === 1 ? "Review" : "Reviews"}
       </span>

@@ -68,7 +68,7 @@ const useSetShippingAddress = ({ dispatch }: SetShippingAddressProps) => {
         pending: false,
       };
     },
-    [alteredLines, billingAsShipping, checkoutId, createCheckout, updateCheckoutShippingAddress]
+    [alteredLines, billingAsShipping, checkoutId, createCheckout, updateCheckoutShippingAddress],
   );
 };
 

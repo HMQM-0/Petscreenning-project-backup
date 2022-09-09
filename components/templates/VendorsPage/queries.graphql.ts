@@ -35,14 +35,10 @@ export const micrositesFragment = gql`
   }
 `;
 
-
 export const micrositesQuery = gql`
   ${micrositesFragment}
   query Microsites($first: Int, $search: String) {
-    microsites(
-      first: $first
-      filter: { published: PUBLISHED, search: $search }
-    ) {
+    microsites(first: $first, filter: { published: PUBLISHED, search: $search }) {
       edges {
         node {
           ...Microsite

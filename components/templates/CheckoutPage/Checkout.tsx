@@ -74,7 +74,10 @@ const TabPanel: React.FunctionComponent<TabPanelProps> = (props) => {
 
 const Errors = ({ errorMessage }: { errorMessage?: React.ReactNode | undefined }) =>
   errorMessage ? (
-    <Alert sx={{ marginTop: "8px" }} severity="error">
+    <Alert
+      sx={{ marginTop: "8px" }}
+      severity="error"
+    >
       {errorMessage}
     </Alert>
   ) : null;
@@ -129,7 +132,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const [loyaltyPointsToBeEarnedOnOrderComplete, setLoyaltyPointsToBeEarnedOnOrderComplete] = usePersistedState(
     "loyaltyPoints",
-    0
+    0,
   );
 
   const {
@@ -209,7 +212,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       (initialSellerValues[data.seller ?? ""] =
         parsedInitialSellerMethods.find((sellerAndMethod: { seller: number }) => {
           return +sellerAndMethod.seller === data.seller;
-        })?.shippingMethod?.id || [])
+        })?.shippingMethod?.id || []),
   );
 
   const [awardCustomerLoyaltyPoints /*, { data, loading, error }*/] =
@@ -217,7 +220,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
 
   const checkIfLoyaltyAndReferralsActive = React.useCallback(() => {
     const yotpoLoyaltyAndReferralsPluginActive = Boolean(
-      activePlugins?.find((plugin) => plugin?.identifier === Plugins.YOTPO_LOYALTY)
+      activePlugins?.find((plugin) => plugin?.identifier === Plugins.YOTPO_LOYALTY),
     );
     setLoyaltyAndReferralsActive(yotpoLoyaltyAndReferralsPluginActive);
     return yotpoLoyaltyAndReferralsPluginActive;
@@ -229,7 +232,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       setErrorMessage(messages.join(" \n"));
       invalidate();
     },
-    [invalidate]
+    [invalidate],
   );
 
   const onCompleteCheckout = React.useCallback(async () => {
@@ -298,7 +301,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         setSubmittingPayment(false);
       }
     },
-    [createPayment, onCompleteCheckout, handleErrors]
+    [createPayment, onCompleteCheckout, handleErrors],
   );
 
   React.useEffect(() => {
@@ -318,7 +321,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       checkoutMethod: typeof setShippingAddress | typeof setBillingAddress,
       errorHandler: React.Dispatch<string>,
       nextStep?: CheckoutTabs,
-      onComplete?: () => void
+      onComplete?: () => void,
     ) =>
     async (values: AddressFormValues) => {
       const country = countries.find((country) => country.code === values.country)?.country ?? "";
@@ -338,7 +341,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
             country,
           },
         },
-        values?.email ?? (email || "")
+        values?.email ?? (email || ""),
       );
       if (submission.dataError?.error) {
         if (isArray(submission.dataError.error)) {
@@ -347,6 +350,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           invalidate();
         }
         onComplete?.();
+
         return;
       } else {
         errorHandler("");
@@ -371,7 +375,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       setErrorMessage(
         <>
           Minimum order is <Money money={{ amount: minOrderTotal, currency: total?.gross.currency || "" }} />
-        </>
+        </>,
       );
       setSubmittingPayment(false);
       return;
@@ -447,7 +451,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           width: "100vw",
         }}
       >
-        <Link style={{ alignItems: "center", display: "flex" }} onClick={handlePopover}>
+        <Link
+          style={{ alignItems: "center", display: "flex" }}
+          onClick={handlePopover}
+        >
           {logo}
         </Link>
         <Popover
@@ -484,7 +491,12 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 },
               }}
             >
-              <Button sx={buttonPopover} size="small" variant="outlined" onClick={() => handleDismiss()}>
+              <Button
+                sx={buttonPopover}
+                size="small"
+                variant="outlined"
+                onClick={() => handleDismiss()}
+              >
                 Stay in Checkout
               </Button>
               <Button
@@ -536,7 +548,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
             }}
           >
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Breadcrumbs sx={breadcrumb} style={{ display: "none" }}>
+              <Breadcrumbs
+                sx={breadcrumb}
+                style={{ display: "none" }}
+              >
                 <Box
                   color={currentTab === CheckoutTabs.CUSTOMER ? "secondary" : "inherit"}
                   onClick={() => handleBreadcrumb(CheckoutTabs.CUSTOMER)}
@@ -556,16 +571,38 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   Payment
                 </Box>
               </Breadcrumbs>
-              <Tabs variant="fullWidth" sx={tabs} value={currentTab}>
-                <Tab value={CheckoutTabs.CUSTOMER} label="Customer" disableRipple />
-                <Tab value={CheckoutTabs.SHIPPING} label="Shipping" disableRipple />
-                <Tab value={CheckoutTabs.PAYMENT} label="Payment" disableRipple />
+              <Tabs
+                variant="fullWidth"
+                sx={tabs}
+                value={currentTab}
+              >
+                <Tab
+                  value={CheckoutTabs.CUSTOMER}
+                  label="Customer"
+                  disableRipple
+                />
+                <Tab
+                  value={CheckoutTabs.SHIPPING}
+                  label="Shipping"
+                  disableRipple
+                />
+                <Tab
+                  value={CheckoutTabs.PAYMENT}
+                  label="Payment"
+                  disableRipple
+                />
               </Tabs>
             </Box>
 
-            <TabPanel value={currentTab} index={CheckoutTabs.CUSTOMER}>
+            <TabPanel
+              value={currentTab}
+              index={CheckoutTabs.CUSTOMER}
+            >
               <Box mb={2}>
-                <Typography sx={title} variant="h6">
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
                   Customer Information
                 </Typography>
               </Box>
@@ -576,13 +613,18 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   country: shippingAddress?.country.code,
                 }}
                 onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
-                  setIsSubmittingShippingAddress(false)
+                  setIsSubmittingShippingAddress(false),
                 )}
               >
                 {({ touched, errors, submitForm }) => {
                   submitShippingAddressRef.current = submitForm;
                   return (
-                    <AddressFormFields errorMessage={shippingAddressError} hasEmail touched={touched} errors={errors} />
+                    <AddressFormFields
+                      errorMessage={shippingAddressError}
+                      hasEmail
+                      touched={touched}
+                      errors={errors}
+                    />
                   );
                 }}
               </AddressForm>
@@ -602,9 +644,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 </Button>
               </Box>
             </TabPanel>
-            <TabPanel value={currentTab} index={CheckoutTabs.SHIPPING}>
+            <TabPanel
+              value={currentTab}
+              index={CheckoutTabs.SHIPPING}
+            >
               <Box mb={2}>
-                <Typography sx={title} variant="h6">
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
                   Shipping Information
                 </Typography>
               </Box>
@@ -618,7 +666,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 />
               ))}
               {shippingFormError && (
-                <Box style={{ display: "block" }} sx={gridspan}>
+                <Box
+                  style={{ display: "block" }}
+                  sx={gridspan}
+                >
                   <Errors errorMessage={errorMessage} />
                 </Box>
               )}
@@ -646,14 +697,20 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 </Button>
               </Box>
             </TabPanel>
-            <TabPanel value={currentTab} index={CheckoutTabs.PAYMENT}>
+            <TabPanel
+              value={currentTab}
+              index={CheckoutTabs.PAYMENT}
+            >
               <Payment
                 handleCreatePayment={handleCreatePayment}
                 submittingPayment={submittingPayment}
                 setSubmittingPayment={setSubmittingPayment}
               />
               <Box mb={2}>
-                <Typography sx={title} variant="h6">
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
                   Billing Address
                 </Typography>
               </Box>
@@ -683,19 +740,30 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   return (
                     <>
                       {!billingAsShipping && (
-                        <AddressFormFields errorMessage={billingAddressError} touched={touched} errors={errors} />
+                        <AddressFormFields
+                          errorMessage={billingAddressError}
+                          touched={touched}
+                          errors={errors}
+                        />
                       )}
                     </>
                   );
                 }}
               </AddressForm>
               {!!errorMessage && (
-                <Box style={{ display: "block" }} sx={gridspan}>
+                <Box
+                  style={{ display: "block" }}
+                  sx={gridspan}
+                >
                   <Errors errorMessage={errorMessage} />
                 </Box>
               )}
               <Box sx={buttonsGrid}>
-                <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
+                <Button
+                  disableRipple
+                  disableElevation
+                  onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
+                >
                   <KeyboardBackspaceIcon /> Back to shipping
                 </Button>
                 <Button

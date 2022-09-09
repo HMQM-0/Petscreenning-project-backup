@@ -5,13 +5,7 @@ import { Icon } from "components/atoms/Icon";
 import * as S from "./styles";
 import { IProps } from "./types";
 
-export const OverlayItem = ({
-  children,
-  selected,
-  testingContextId,
-  disabled,
-  onClick,
-}: IProps) => {
+export const OverlayItem = ({ children, selected, testingContextId, disabled, onClick }: IProps) => {
   return (
     <S.Wrapper
       selected={!!selected}
@@ -21,7 +15,13 @@ export const OverlayItem = ({
       data-test-id={testingContextId}
     >
       {children}
-      {selected && <Icon name="tick" size={16} data-test="chosenIcon" />}
+      {selected && (
+        <Icon
+          name="tick"
+          size={16}
+          data-test="chosenIcon"
+        />
+      )}
     </S.Wrapper>
   );
 };

@@ -72,7 +72,10 @@ const AddressBookPage = () => {
   if (!user && loaded) {
     return (
       <Box sx={notAuthenticatedWrapper}>
-        <Typography variant="h1" sx={notAuthenticatedHeader}>
+        <Typography
+          variant="h1"
+          sx={notAuthenticatedHeader}
+        >
           Not Authenticated
         </Typography>
         <Typography variant="body1">Please login to access your address book</Typography>

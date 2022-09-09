@@ -7,7 +7,7 @@ import { useAuth } from "nautical-api";
 
 import { OrderHistoryItem } from "./OrderHistoryItem";
 import { useNauticalOrderByTokenQuery } from "./queries.graphql.generated";
-import styles from './scss/index.module.scss';
+import styles from "./scss/index.module.scss";
 
 import NotFound from "../../molecules/NotFound";
 
@@ -46,7 +46,10 @@ export const View = ({ token }: ViewProps) => {
         </Link>
       )}
 
-      <OrderHistoryItem order={order} invoices={invoices} />
+      <OrderHistoryItem
+        order={order}
+        invoices={invoices}
+      />
     </>
   );
 };

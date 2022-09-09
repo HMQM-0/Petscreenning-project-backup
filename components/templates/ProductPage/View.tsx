@@ -31,15 +31,15 @@ export const useSelectedVariant = (product: Pick<ProductDetailsFragment, "varian
             ...router.query,
             ..._mapValues(
               _keyBy(selectedVariant?.attributes, "attribute.slug"),
-              (attributeItem) => attributeItem.values[0]?.value
+              (attributeItem) => attributeItem.values[0]?.value,
             ),
           },
         },
         undefined,
-        { shallow: true }
+        { shallow: true },
       );
     },
-    [product.variants, router]
+    [product.variants, router],
   );
 
   const selectedVariant = useMemo(() => {
@@ -53,7 +53,7 @@ export const useSelectedVariant = (product: Pick<ProductDetailsFragment, "varian
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value ?? "";
 
         return productVariantAttributeValue === searchQueryAttributes[slug];
-      })
+      }),
     );
   }, [product.variants, router.query]);
 
@@ -116,7 +116,13 @@ const View = ({ product, builderContent }: ViewProps) => {
     );
   }
 
-  return <Page product={product} selectedVariant={selectedVariant} onVariantChange={onVariantChangeHandler} />;
+  return (
+    <Page
+      product={product}
+      selectedVariant={selectedVariant}
+      onVariantChange={onVariantChangeHandler}
+    />
+  );
 };
 
 export default View;

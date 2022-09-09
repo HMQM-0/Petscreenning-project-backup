@@ -9,13 +9,22 @@ import { IProps } from "./types";
 
 export const AddNewTile: React.FC<IProps> = ({ type, ...props }: IProps) => {
   return (
-    <Tile tileType="addNew" {...props}>
+    <Tile
+      tileType="addNew"
+      {...props}
+    >
       <S.Content>
         <p>
-          <Icon size={24} name="plus" />
+          <Icon
+            size={24}
+            name="plus"
+          />
         </p>
         <p>
-          <FormattedMessage defaultMessage="Add new {type}" values={{ type }} />
+          <FormattedMessage
+            defaultMessage="Add new {type}"
+            values={{ type }}
+          />
         </p>
       </S.Content>
     </Tile>

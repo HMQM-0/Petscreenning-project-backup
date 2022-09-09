@@ -31,19 +31,21 @@ export type IAuthContext = {
   signIn: (
     email: string,
     password: string,
-    autoSignIn?: boolean
-  ) => Promise<| {
-    errors: readonly GraphQLError[];
-  }
+    autoSignIn?: boolean,
+  ) => Promise<
     | {
-    errors: ApolloError[];
-  }
+        errors: readonly GraphQLError[];
+      }
     | {
-    errors: AccountError[];
-  }
+        errors: ApolloError[];
+      }
     | {
-    errors: null;
-  }>;
+        errors: AccountError[];
+      }
+    | {
+        errors: null;
+      }
+  >;
   signOut: () => void;
 };
 

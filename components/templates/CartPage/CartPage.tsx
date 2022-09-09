@@ -59,7 +59,10 @@ export const CartPage = () => {
                 <FormattedMessage {...commonMessages.quantity} />
               </S.Column>
               <S.Column>
-                <FormattedMessage defaultMessage="Taxes" description="taxes" />
+                <FormattedMessage
+                  defaultMessage="Taxes"
+                  description="taxes"
+                />
               </S.Column>
               <S.Column>
                 <FormattedMessage {...commonMessages.totalPrice} />
@@ -68,16 +71,25 @@ export const CartPage = () => {
           </S.CartHeader>
           <S.Cart>
             {items.map((item, index) => (
-              <CartRow key={item.id || index} item={item} />
+              <CartRow
+                key={item.id || index}
+                item={item}
+              />
             ))}
           </S.Cart>
           <S.CartFooter>
-            <S.FooterWrapper showShipping={showShipping} showDiscount={showDiscount}>
+            <S.FooterWrapper
+              showShipping={showShipping}
+              showDiscount={showDiscount}
+            >
               <S.SubtotalText>
                 <FormattedMessage {...commonMessages.subtotal} />
               </S.SubtotalText>
               <S.SubtotalPrice>
-                <Money data-test="subtotalPrice" money={subtotalPrice?.net} />
+                <Money
+                  data-test="subtotalPrice"
+                  money={subtotalPrice?.net}
+                />
               </S.SubtotalPrice>
               {showShipping && (
                 <>
@@ -85,7 +97,10 @@ export const CartPage = () => {
                     <FormattedMessage {...commonMessages.shipping} />
                   </S.ShippingText>
                   <S.ShippingPrice>
-                    <Money data-test="shippingPrice" money={shippingTaxedPrice?.net} />
+                    <Money
+                      data-test="shippingPrice"
+                      money={shippingTaxedPrice?.net}
+                    />
                   </S.ShippingPrice>
                 </>
               )}
@@ -95,12 +110,18 @@ export const CartPage = () => {
                     <FormattedMessage {...commonMessages.promoCode} />
                   </S.DiscountText>
                   <S.DiscountPrice>
-                    <TaxedMoney data-test="discountPrice" taxedMoney={promoTaxedPrice} />
+                    <TaxedMoney
+                      data-test="discountPrice"
+                      taxedMoney={promoTaxedPrice}
+                    />
                   </S.DiscountPrice>
                 </>
               )}
               <S.TaxText>
-                <FormattedMessage defaultMessage="Taxes" description="taxes" />
+                <FormattedMessage
+                  defaultMessage="Taxes"
+                  description="taxes"
+                />
               </S.TaxText>
               <S.TaxPrice>
                 <Money money={calculateTax(totalPrice)} />
@@ -109,12 +130,19 @@ export const CartPage = () => {
                 <FormattedMessage {...commonMessages.total} />
               </S.TotalText>
               <S.TotalPrice>
-                <Money data-test="totalPrice" money={totalPrice?.gross} />
+                <Money
+                  data-test="totalPrice"
+                  money={totalPrice?.gross}
+                />
               </S.TotalPrice>
             </S.FooterWrapper>
           </S.CartFooter>
           <S.ProceedButton>
-            <Button variant="contained" color="secondary" onClick={() => router.push(user ? `/checkout/` : `/login/`)}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => router.push(user ? `/checkout/` : `/login/`)}
+            >
               <FormattedMessage defaultMessage="PROCEED TO CHECKOUT" />
             </Button>
           </S.ProceedButton>

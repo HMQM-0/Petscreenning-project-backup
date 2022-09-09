@@ -50,9 +50,7 @@ export const ProductVariantAttributeButtons = ({
                 color={attribute.extra}
                 highlight={selectedValue === attribute.value}
                 key={index}
-                onClick={() =>
-                  onChangeSelection(attribute.value)
-                }
+                onClick={() => onChangeSelection(attribute.value)}
               />
             );
           }
@@ -62,9 +60,7 @@ export const ProductVariantAttributeButtons = ({
               available={!attribute.disabled}
               highlight={selectedValue === attribute.value}
               key={index}
-              onClick={() =>
-                onChangeSelection(attribute.value)
-              }
+              onClick={() => onChangeSelection(attribute.value)}
             >
               {attribute.label}
             </S.Button>

@@ -23,8 +23,7 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
     setDisplayedItems(item?.children ?? []);
   };
 
-  const findItemById = (id: string) =>
-    items.find((item) => item?.id === id) || null;
+  const findItemById = (id: string) => items.find((item) => item?.id === id) || null;
 
   const handleGoBack = () => {
     const grandparent = parent?.parent ?? null;
@@ -43,7 +42,10 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
     <ul>
       {parent ? (
         <li className={`${classes["side-nav__menu-item"]} ${classes["side-nav__menu-item-back"]}`}>
-          <Box component="span" onClick={handleGoBack}>
+          <Box
+            component="span"
+            onClick={handleGoBack}
+          >
             <KeyboardBackspaceIcon />
             {parent?.name}
           </Box>

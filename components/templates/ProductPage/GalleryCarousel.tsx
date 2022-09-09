@@ -16,7 +16,7 @@ type GalleryCarouselProps = {
 };
 
 const GalleryCarousel = ({ images }: GalleryCarouselProps) => (
-  <Box className={classes['product-page__product__gallery']}>
+  <Box className={classes["product-page__product__gallery"]}>
     <Carousel
       renderCenterLeftControls={() => null}
       renderCenterRightControls={() => null}
@@ -28,7 +28,7 @@ const GalleryCarousel = ({ images }: GalleryCarouselProps) => (
         }
 
         return (
-          <ul className={classes['product-page__product__gallery__nav']}>
+          <ul className={classes["product-page__product__gallery__nav"]}>
             {indexes.map((index) => (
               <li
                 key={index}
@@ -43,7 +43,10 @@ const GalleryCarousel = ({ images }: GalleryCarouselProps) => (
       }}
     >
       {images.map((image) => (
-        <CachedImage url={image.url} key={image.id}>
+        <CachedImage
+          url={image.url}
+          key={image.id}
+        >
           <NoPhoto title={image.alt} />
         </CachedImage>
       ))}

@@ -64,7 +64,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
     useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation();
 
   const pointsGainedPerDollarSpent = Number(
-    loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent
+    loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsGainedPerDollarSpent,
   );
   const pointsUsedPerDollarSaved = Number(loyaltyAndReferralsData?.loyaltyAndReferralsInfo?.pointsUsedPerDollarSaved);
   const pointsBalance = Number(customerPointsData?.customerLoyaltyAndReferralsDetails?.pointsBalance);
@@ -78,7 +78,7 @@ const LoyaltyPoints: React.FC<LoyaltyPointsProps> = ({
 
   React.useEffect(() => {
     const updatedPointsToRedeem = parseInt(
-      promoCodeDiscount?.voucherCode?.split("|")[5].split(":")[1] || pointsToRedeem.toString()
+      promoCodeDiscount?.voucherCode?.split("|")[5].split(":")[1] || pointsToRedeem.toString(),
     );
     if (updatedPointsToRedeem !== pointsToRedeem) {
       setPointsToRedeem(updatedPointsToRedeem);

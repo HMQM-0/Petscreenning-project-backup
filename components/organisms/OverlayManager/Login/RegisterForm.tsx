@@ -16,7 +16,7 @@ const showSuccessNotification = (
   data: RegisterAccountMutation,
   hide: () => void,
   alert: AlertContainer,
-  intl: IntlShape
+  intl: IntlShape,
 ) => {
   const successful = !data.accountRegister?.errors.length;
 
@@ -32,7 +32,7 @@ const showSuccessNotification = (
           })
         : intl.formatMessage({ defaultMessage: "New user has been created" }),
     },
-    { type: "success", timeout: 5000 }
+    { type: "success", timeout: 5000 },
   );
 };
 
@@ -85,7 +85,11 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
         type="text"
       />
       <Box className={classes.login__content__button}>
-        <Button testingContext="submitRegisterFormButton" type="submit" disabled={loading}>
+        <Button
+          testingContext="submitRegisterFormButton"
+          type="submit"
+          disabled={loading}
+        >
           {loading ? intl.formatMessage(commonMessages.loading) : intl.formatMessage({ defaultMessage: "Register" })}
         </Button>
       </Box>

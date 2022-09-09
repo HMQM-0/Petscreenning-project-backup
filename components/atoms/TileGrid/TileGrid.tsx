@@ -8,7 +8,10 @@ export const TileGrid: React.FC<IProps> = ({ elements, columns = 3 }: IProps) =>
   return (
     <Box sx={wrapper}>
       {elements.map((element: React.ReactNode, index) => (
-        <Box key={index} sx={tile(columns)}>
+        <Box
+          key={index}
+          sx={tile(columns)}
+        >
           {element}
         </Box>
       ))}

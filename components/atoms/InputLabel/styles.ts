@@ -1,9 +1,6 @@
 import { styled, DefaultTheme } from "styles";
 
-export const activeLabelStyles = (
-  theme: DefaultTheme,
-  labelBackground: string | null
-) => `
+export const activeLabelStyles = (theme: DefaultTheme, labelBackground: string | null) => `
   left: 0.5rem;
   padding: 0 0.5rem;
   background-color: ${labelBackground};
@@ -24,10 +21,7 @@ export const Label = styled.label<{
   labelBackground: string | null;
 }>`
   position: absolute;
-  ${(props) =>
-    props.active
-      ? activeLabelStyles(props.theme, props.labelBackground)
-      : labelStyles(props.theme)};
+  ${(props) => (props.active ? activeLabelStyles(props.theme, props.labelBackground) : labelStyles(props.theme))};
   transform: translateY(-50%);
   transition: all 0.3s ease, color 0s;
   pointer-events: none;

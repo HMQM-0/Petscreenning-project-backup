@@ -23,7 +23,7 @@ const useAutoSignIn = ({ signIn, autoSignIn = true }: useAutoSignInProps) => {
           credentials.id,
           // @ts-ignore
           credentials.password,
-          true
+          true,
         );
       }
     } catch (credentialsError) {

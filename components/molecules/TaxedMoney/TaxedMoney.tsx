@@ -16,7 +16,13 @@ export const TaxedMoney = ({ taxedMoney, defaultValue, ...props }: IProps) => {
   //     ? taxedMoney.gross
   //     : taxedMoney.net
   //   : undefined;
-  return <Money {...props} money={money} defaultValue={defaultValue} />;
+  return (
+    <Money
+      {...props}
+      money={money}
+      defaultValue={defaultValue}
+    />
+  );
 };
 
 TaxedMoney.displayName = "TaxedMoney";

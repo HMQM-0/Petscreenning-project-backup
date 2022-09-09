@@ -49,7 +49,7 @@ const useCreatePayment = ({ dispatch }: useCreatePaymentProps) => {
         pending: false,
       };
     },
-    [amount, applicableVolumeDiscounts, billingAddress, checkoutId, createPaymentJob]
+    [amount, applicableVolumeDiscounts, billingAddress, checkoutId, createPaymentJob],
   );
 };
 

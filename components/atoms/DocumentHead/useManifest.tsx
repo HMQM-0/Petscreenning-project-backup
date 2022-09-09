@@ -31,8 +31,7 @@ export default function useManifest(branding: DocumentHeadProps["branding"]) {
       });
       manifestElement?.setAttribute(
         "href",
-        "data:application/json;charset=utf-8," +
-        encodeURIComponent(manifestString)
+        "data:application/json;charset=utf-8," + encodeURIComponent(manifestString),
       );
     }
   }, [branding]);
