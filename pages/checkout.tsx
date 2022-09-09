@@ -44,7 +44,10 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
   return (
     <Layout documentHead={documentHead}>
-      <CheckoutPage logo={logo} setHasTriedFinalizingPayment={setHasTriedFinalizingPayment} />
+      <CheckoutPage
+        logo={logo}
+        setHasTriedFinalizingPayment={setHasTriedFinalizingPayment}
+      />
     </Layout>
   );
 };
