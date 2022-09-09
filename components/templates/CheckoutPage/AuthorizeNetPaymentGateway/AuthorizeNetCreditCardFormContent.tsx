@@ -31,7 +31,7 @@ export const AuthorizeNetCreditCardFormContent: React.FC<PropsWithFormik> = ({
       onChange: handleChange,
       value,
     }),
-    [disabled, handleChange]
+    [disabled, handleChange],
   );
 
   return (
@@ -69,11 +69,7 @@ export const AuthorizeNetCreditCardFormContent: React.FC<PropsWithFormik> = ({
             autoComplete="cc-exp"
             format="## / ##"
             name="ccExp"
-            {...basicInputProps(
-              ccExpText,
-              [expirationMonthError, expirationYearError],
-              values.ccExp
-            )}
+            {...basicInputProps(ccExpText, [expirationMonthError, expirationYearError], values.ccExp)}
           />
         </S.PaymentInput>
       </S.Grid>

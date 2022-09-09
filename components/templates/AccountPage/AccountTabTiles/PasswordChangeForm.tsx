@@ -75,7 +75,10 @@ export const PasswordChangeForm: React.FC<{
       >
         {({ handleChange, handleSubmit, handleBlur, values, errors, touched, isSubmitting, isValid }) => {
           return (
-            <S.Form onSubmit={handleSubmit} data-test="changePasswordForm">
+            <S.Form
+              onSubmit={handleSubmit}
+              data-test="changePasswordForm"
+            >
               <TextField
                 name="oldPassword"
                 label={intl.formatMessage({ defaultMessage: "Old Password" })}
@@ -118,7 +121,12 @@ export const PasswordChangeForm: React.FC<{
                 }
               />
               <S.FormButtons>
-                <ButtonLink testingContext="cancelButton" type="button" color="secondary" onClick={hide}>
+                <ButtonLink
+                  testingContext="cancelButton"
+                  type="button"
+                  color="secondary"
+                  onClick={hide}
+                >
                   <FormattedMessage {...commonMessages.cancel} />
                 </ButtonLink>
                 <Button

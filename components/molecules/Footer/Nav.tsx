@@ -61,7 +61,10 @@ const socialLinksProps: Record<
 const SocialIcon = ({ socialIconKey }: { socialIconKey: SocialIconsKeys }) => {
   const Icon = socialLinksProps[socialIconKey].icon;
   return (
-    <IconButton className={classes["footer-social-icon"]} {...socialLinksProps[socialIconKey]}>
+    <IconButton
+      className={classes["footer-social-icon"]}
+      {...socialLinksProps[socialIconKey]}
+    >
       <Icon />
     </IconButton>
   );
@@ -85,7 +88,10 @@ const Nav = ({ footerText, icon }: INavProps) => {
     <footer className={classes["footer-nav"]}>
       <Box className={classes["social-icons"]}>
         {socialIconsFirstHalf.map((socialIconKey) => (
-          <SocialIcon socialIconKey={socialIconKey} key={socialIconKey} />
+          <SocialIcon
+            socialIconKey={socialIconKey}
+            key={socialIconKey}
+          />
         ))}
         <IconButton
           sx={{
@@ -104,14 +110,20 @@ const Nav = ({ footerText, icon }: INavProps) => {
           {icon ? icon : <Skeleton />}
         </IconButton>
         {socialIconsSecondHalf.map((socialIconKey) => (
-          <SocialIcon socialIconKey={socialIconKey} key={socialIconKey} />
+          <SocialIcon
+            socialIconKey={socialIconKey}
+            key={socialIconKey}
+          />
         ))}
         {showEmptyIcon && <div style={{ width: 32, backgroundColor: "transparent" }} />}
       </Box>
       <Box className="container">
         <Box style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "3rem" }}>
           {secondaryMenuItems?.map((item) => (
-            <Box className={classes["footer-nav__section"]} key={item.id}>
+            <Box
+              className={classes["footer-nav__section"]}
+              key={item.id}
+            >
               <h4 className={classes["footer-nav__section-header"]}>
                 <NavLink item={item} />
               </h4>

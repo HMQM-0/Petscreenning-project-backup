@@ -35,9 +35,9 @@ export const ProductVariantAttributeSelect = ({
     setShowSelectSidebar(false);
   };
 
-  const disabledOptions = useMemo(() =>
-      attributeOptions.filter(({ disabled }) => disabled).map(({ value }) => value),
-    [attributeOptions]
+  const disabledOptions = useMemo(
+    () => attributeOptions.filter(({ disabled }) => disabled).map(({ value }) => value),
+    [attributeOptions],
   );
 
   return (
@@ -50,9 +50,12 @@ export const ProductVariantAttributeSelect = ({
         InputProps={{
           endAdornment: (
             <S.SelectIndicator onClick={() => setShowSelectSidebar(true)}>
-              <Icon name="subcategories" size={10} />
+              <Icon
+                name="subcategories"
+                size={10}
+              />
             </S.SelectIndicator>
-          )
+          ),
         }}
         name={attribute.slug}
         data-test="variantPicker"
@@ -65,7 +68,7 @@ export const ProductVariantAttributeSelect = ({
           {
             defaultMessage: "Please select {selectLabel}",
           },
-          { selectLabel }
+          { selectLabel },
         )}
         show={showSelectSidebar}
         hide={() => setShowSelectSidebar(false)}

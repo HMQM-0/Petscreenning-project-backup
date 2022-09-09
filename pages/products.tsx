@@ -20,7 +20,10 @@ const Products: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   return (
     <Layout documentHead={documentHead}>
       <ProductsListView>
-        <ProductsPage pageData={data} builderContent={builderContent} />
+        <ProductsPage
+          pageData={data}
+          builderContent={builderContent}
+        />
       </ProductsListView>
     </Layout>
   );

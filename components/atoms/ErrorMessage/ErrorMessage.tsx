@@ -7,7 +7,10 @@ export const ErrorMessage = ({ errors }: IProps) =>
   errors && errors.length ? (
     <S.ErrorMessage data-test="errorMessage">
       {errors.map((error, index) => (
-        <S.ErrorParagraph key={index} data-test-id={index}>
+        <S.ErrorParagraph
+          key={index}
+          data-test-id={index}
+        >
           {error.message}
         </S.ErrorParagraph>
       ))}

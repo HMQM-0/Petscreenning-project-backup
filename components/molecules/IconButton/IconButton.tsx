@@ -5,15 +5,7 @@ import { Icon } from "components/atoms/Icon";
 import * as S from "./styles";
 import { IProps } from "./types";
 
-export const IconButton = ({
-  name,
-  color,
-  size = 36,
-  onClick,
-  testingContext,
-  testingContextId,
-  ...props
-}: IProps) => {
+export const IconButton = ({ name, color, size = 36, onClick, testingContext, testingContextId, ...props }: IProps) => {
   return (
     <S.Wrapper
       data-test={testingContext}
@@ -21,7 +13,11 @@ export const IconButton = ({
       onClick={onClick}
       {...props}
     >
-      <Icon name={name} size={size} color={color} />
+      <Icon
+        name={name}
+        size={size}
+        color={color}
+      />
     </S.Wrapper>
   );
 };

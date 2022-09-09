@@ -8,7 +8,7 @@ interface ISource {
   thumbnail2x?: BasicProductFieldsFragment["thumbnail2x"] | null;
 }
 
-export interface IProps extends Omit<ImageProps, 'src'> {
+export interface IProps extends Omit<ImageProps, "src"> {
   source: ISource;
   noPhotoDefault?: boolean;
   children?: any;

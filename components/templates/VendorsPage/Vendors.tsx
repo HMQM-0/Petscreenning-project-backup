@@ -10,7 +10,7 @@ type ProductsProps = {
 };
 
 const Vendors = ({ builderContent }: ProductsProps) => {
-  const [search] = useQueryParam('q', StringParam);
+  const [search] = useQueryParam("q", StringParam);
 
   const { data: builderMicrositesData } = useMicrositesQuery({
     fetchPolicy: "cache-and-network",
@@ -19,10 +19,12 @@ const Vendors = ({ builderContent }: ProductsProps) => {
       search,
     },
   });
-  return <Builder
-    vendorsData={builderMicrositesData}
-    content={builderContent}
-  />;
+  return (
+    <Builder
+      vendorsData={builderMicrositesData}
+      content={builderContent}
+    />
+  );
 };
 
 export default Vendors;

@@ -14,11 +14,7 @@ type CollectionProductsProps = {
   pageData: MicrositePageQueryResult["data"];
 };
 
-const MicrositeProducts = ({
-  microsite,
-  builderContent,
-  pageData,
-}: CollectionProductsProps) => {
+const MicrositeProducts = ({ microsite, builderContent, pageData }: CollectionProductsProps) => {
   const variables = useProductListVariables();
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
@@ -31,14 +27,16 @@ const MicrositeProducts = ({
   const attributes = pageData?.attributes?.attributes.map(({ attribute }) => attribute) ?? [];
 
   if (builderContent) {
-    return <Builder
-      type="microsite"
-      pageData={pageData}
-      productsData={data}
-      loading={loading}
-      attributes={attributes}
-      content={builderContent}
-    />;
+    return (
+      <Builder
+        type="microsite"
+        pageData={pageData}
+        productsData={data}
+        loading={loading}
+        attributes={attributes}
+        content={builderContent}
+      />
+    );
   }
 
   return (

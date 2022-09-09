@@ -2,7 +2,7 @@ import classNames from "clsx";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import Media from "react-media";
-import Link from 'next/link';
+import Link from "next/link";
 import { Box } from "@mui/material";
 
 import { commonMessages } from "core/intl";
@@ -18,8 +18,8 @@ const getBackLink = (breadcrumbs: Breadcrumb[]) =>
   breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 2].link : "/";
 
 type BreadcrumbsProps = {
-  breadcrumbs: Breadcrumb[]
-}
+  breadcrumbs: Breadcrumb[];
+};
 
 const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => (
   <Media
@@ -41,7 +41,7 @@ const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => (
             <li
               key={breadcrumb.value}
               className={classNames({
-                [classes['breadcrumbs__active']]: index === breadcrumbs.length - 1,
+                [classes["breadcrumbs__active"]]: index === breadcrumbs.length - 1,
               })}
             >
               <Link href={breadcrumb.link}>{breadcrumb.value}</Link>

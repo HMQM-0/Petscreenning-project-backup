@@ -15,19 +15,19 @@ export const AccountMenuMobile = () => {
   const router = useRouter();
   const intl = useIntl();
 
-  const currentRouteKeyId = routes.find(
-    (route) => router.pathname === route.path
-  )?.intlKeyId;
+  const currentRouteKeyId = routes.find((route) => router.pathname === route.path)?.intlKeyId;
   const currentPageTitle = currentRouteKeyId && intl.formatMessage(commonMessages[currentRouteKeyId]);
 
   return (
     <AccountMenuMobileWrapper currentPageTitle={currentPageTitle}>
       {routes.map((route) => (
-        <Link href={route.path} key={route.path} passHref>
+        <Link
+          href={route.path}
+          key={route.path}
+          passHref
+        >
           <AccountMenuMobileItem active={router.pathname === route.path}>
-            {
-              intl.formatMessage(commonMessages[route.intlKeyId])
-            }
+            {intl.formatMessage(commonMessages[route.intlKeyId])}
           </AccountMenuMobileItem>
         </Link>
       ))}

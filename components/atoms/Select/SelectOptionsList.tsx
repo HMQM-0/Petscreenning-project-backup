@@ -8,7 +8,10 @@ import { ISelectOptionsList } from "./customTypes";
 type Ref = HTMLParagraphElement;
 
 const renderNoOptions = () => (
-  <p className={clsx(classes["select__option"], classes["select__option--disabled"])} key="no-option">
+  <p
+    className={clsx(classes["select__option"], classes["select__option--disabled"])}
+    key="no-option"
+  >
     <FormattedMessage defaultMessage="No Options" />
   </p>
 );
@@ -39,7 +42,7 @@ const SelectOptionsList = React.forwardRef<Ref, ISelectOptionsList>(
           })
         : renderNoOptions()}
     </>
-  )
+  ),
 );
 
 SelectOptionsList.displayName = "SelectOptionsList";

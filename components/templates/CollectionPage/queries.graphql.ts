@@ -24,19 +24,14 @@ export const collectionPageQuery = gql`
   ${productsPageAttribute}
   ${brandingFragment}
   ${menuTree}
-  query CollectionPage(
-    $id: ID!
-  ) {
+  query CollectionPage($id: ID!) {
     branding {
       ...Branding
     }
     collection(id: $id) {
       ...BasicCollection
     }
-    attributes(
-      filter: { inCollection: $id, filterableInStorefront: true }
-      first: 100
-    ) {
+    attributes(filter: { inCollection: $id, filterableInStorefront: true }, first: 100) {
       attributes: edges {
         attribute: node {
           ...ProductsPageAttribute

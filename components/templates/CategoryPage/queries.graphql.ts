@@ -31,19 +31,14 @@ export const categoryPageQuery = gql`
   ${productsPageAttribute}
   ${brandingFragment}
   ${menuTree}
-  query CategoryPage(
-    $id: ID!
-  ) {
+  query CategoryPage($id: ID!) {
     branding {
       ...Branding
     }
     category(id: $id) {
       ...BasicCategory
     }
-    attributes(
-      filter: { inCategory: $id, filterableInStorefront: true }
-      first: 100
-    ) {
+    attributes(filter: { inCategory: $id, filterableInStorefront: true }, first: 100) {
       attributes: edges {
         attribute: node {
           ...ProductsPageAttribute

@@ -14,7 +14,14 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   return (
     <Layout documentHead={documentHead}>
-      {showAccountConfirm ? <AccountConfirm email={email} token={token} /> : <NotFound />}
+      {showAccountConfirm ? (
+        <AccountConfirm
+          email={email}
+          token={token}
+        />
+      ) : (
+        <NotFound />
+      )}
     </Layout>
   );
 };

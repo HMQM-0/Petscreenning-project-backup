@@ -11,7 +11,13 @@ const Builder = ({ content, data, is404 }: { content: BuilderContent; data: Erro
   const builderProps = is404 ? { notFound: data } : { error: data };
   const stateData = useBuilderStateData(builderProps);
 
-  return <BuilderComponent model={builderConfig.storeModel} content={content} data={stateData} />;
+  return (
+    <BuilderComponent
+      model={builderConfig.storeModel}
+      content={content}
+      data={stateData}
+    />
+  );
 };
 
 export { Builder };

@@ -28,17 +28,14 @@ export const PromoBanner = () => {
     },
   });
 
-  const json: Record<string, string> | undefined =
-    data && JSON.parse(data?.designerdata?.jsonContent);
+  const json: Record<string, string> | undefined = data && JSON.parse(data?.designerdata?.jsonContent);
 
   const promo: PromoBannerData = {
     ...(json || {}),
     // Convert `active` to boolean
     active: Boolean(json?.active),
     // Assuming that if promotions is an array, then it contains proper array items
-    promotions: Array.isArray(json?.promotions)
-      ? (json!.promotions as PromoBannerPromotionsData[])
-      : [],
+    promotions: Array.isArray(json?.promotions) ? (json!.promotions as PromoBannerPromotionsData[]) : [],
     // Speed is hardcoded to 5 sec on Dashboard side for now
     speed: 5000,
   };

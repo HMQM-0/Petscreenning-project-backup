@@ -10,10 +10,7 @@ const INITIAL_CARD_VALUES_STATE = {
   ccNumber: "",
 };
 
-export const AuthorizeNetCreditCardForm: React.FC<IProps> = ({
-  handleSubmit,
-  ...props
-}: IProps) => {
+export const AuthorizeNetCreditCardForm: React.FC<IProps> = ({ handleSubmit, ...props }: IProps) => {
   return (
     <Formik
       initialValues={INITIAL_CARD_VALUES_STATE}

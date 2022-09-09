@@ -12,7 +12,7 @@ const useUpdateLines = ({ dispatch }: useUpdateLinesProps) => {
     (lines: ICheckoutStateContext["lines"]) => {
       dispatch(CheckoutActionCreators.updateLines(lines));
     },
-    [dispatch]
+    [dispatch],
   );
 };
 

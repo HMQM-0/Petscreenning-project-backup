@@ -69,7 +69,7 @@ type GetNewTokenPayload = {
 
 const getNewToken = async (
   client: ApolloClient<NormalizedCacheObject>,
-  refreshToken?: string
+  refreshToken?: string,
 ): Promise<GetNewTokenPayload> => {
   const csrfToken = getCsrfToken();
 
@@ -117,7 +117,7 @@ export const getErrorLink = (client: ApolloClient<NormalizedCacheObject>) =>
               },
             };
             return getNewTokenPayload;
-          })
+          }),
         )
           .filter((value) => Boolean(value))
           .flatMap(({ data }) => {

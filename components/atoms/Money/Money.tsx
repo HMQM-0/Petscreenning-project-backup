@@ -3,25 +3,27 @@ import { Box } from "@mui/material";
 
 import { IProps } from "./types";
 
-export const Money = ({
-  money,
-  defaultValue,
-  ...props
-}: IProps) => {
+export const Money = ({ money, defaultValue, ...props }: IProps) => {
   if (!money) {
     return (
-      <Box component="span" {...props}>
+      <Box
+        component="span"
+        {...props}
+      >
         {defaultValue}
       </Box>
     );
   }
   return (
-    <Box component="span" {...props}>
+    <Box
+      component="span"
+      {...props}
+    >
       {money.currency && money.currency !== ""
         ? money.amount.toLocaleString(undefined, {
-          currency: money.currency,
-          style: "currency",
-        })
+            currency: money.currency,
+            style: "currency",
+          })
         : money.amount.toString()}
     </Box>
   );

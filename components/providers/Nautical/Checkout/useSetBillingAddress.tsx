@@ -82,7 +82,7 @@ const useSetBillingAddress = ({ dispatch }: useSetBillingAddressProps) => {
         return {
           functionError: {
             error: new Error(
-              "You need to provide email when products do not require shipping before setting billing address."
+              "You need to provide email when products do not require shipping before setting billing address.",
             ),
             type: FunctionErrorCheckoutTypes.EMAIL_NOT_SET,
           },
@@ -105,7 +105,7 @@ const useSetBillingAddress = ({ dispatch }: useSetBillingAddressProps) => {
       setBillingAddress,
       setBillingAddressWithEmail,
       shippingAddress,
-    ]
+    ],
   );
 };
 

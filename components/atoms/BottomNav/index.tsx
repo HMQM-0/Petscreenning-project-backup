@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  BottomNavigation,
-  BottomNavigationAction,
-  Fab,
-  Box,
-} from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, Fab, Box } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
@@ -69,7 +64,11 @@ const BottomNav = () => {
       </BottomNavigation>
       <Link href="/search/?q=search">
         <a>
-          <Fab color="primary" style={fabStyle} aria-label="Search">
+          <Fab
+            color="primary"
+            style={fabStyle}
+            aria-label="Search"
+          >
             <SearchIcon fontSize="large" />
           </Fab>
         </a>

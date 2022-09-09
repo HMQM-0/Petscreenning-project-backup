@@ -13,14 +13,11 @@ type BuilderVendorsProps = {
 };
 
 const BuilderVendors = ({ vendorsData, content }: BuilderVendorsProps) => {
-  const stateData =
-    useBuilderStateData({
-      vendors: vendorsData,
-    });
+  const stateData = useBuilderStateData({
+    vendors: vendorsData,
+  });
 
-  const vendorsList = vendorsData?.microsites?.edges.map(
-    (edge) => edge.node
-  ) ?? [];
+  const vendorsList = vendorsData?.microsites?.edges.map((edge) => edge.node) ?? [];
 
   return (
     <BuilderComponent

@@ -49,15 +49,24 @@ const Cart = ({ overlay }: CartProps) => {
   const itemsQuantity = items ? _sumBy(items, "quantity") : 0;
 
   return (
-    <Overlay testingContext="cartOverlay" context={overlay}>
+    <Overlay
+      testingContext="cartOverlay"
+      context={overlay}
+    >
       <Box className={classes.cart}>
         {isOnline ? (
           <>
             <Box className={overlayClasses.overlay__header}>
-              <LocalMallIcon className={overlayClasses["overlay__header__cart-icon"]} color="secondary" />
+              <LocalMallIcon
+                className={overlayClasses["overlay__header__cart-icon"]}
+                color="secondary"
+              />
               <Box className={overlayClasses["overlay__header-text"]}>
                 <FormattedMessage defaultMessage="My cart," />{" "}
-                <Box component="span" className={overlayClasses["overlay__header-text-items"]}>
+                <Box
+                  component="span"
+                  className={overlayClasses["overlay__header-text-items"]}
+                >
                   <FormattedMessage
                     defaultMessage="{itemsQuantity,plural,one{{itemsQuantity} item} other{{itemsQuantity} items}}"
                     description="items quantity in cart"
@@ -67,18 +76,27 @@ const Cart = ({ overlay }: CartProps) => {
                   />
                 </Box>
               </Box>
-              <CloseIcon onClick={hide} className={overlayClasses["overlay__header__close-icon"]} />
+              <CloseIcon
+                onClick={hide}
+                className={overlayClasses["overlay__header__close-icon"]}
+              />
             </Box>
             {items?.length ? (
               <>
-                <ProductList lines={items} remove={removeItem} />
+                <ProductList
+                  lines={items}
+                  remove={removeItem}
+                />
                 <Box className={classes["cart__footer"]}>
                   <Box className={classes["cart__footer__price"]}>
                     <Box component="span">
                       <FormattedMessage {...commonMessages.subtotal} />
                     </Box>
                     <Box component="span">
-                      <Money data-test="subtotalPrice" money={subtotalPrice?.net} />
+                      <Money
+                        data-test="subtotalPrice"
+                        money={subtotalPrice?.net}
+                      />
                     </Box>
                   </Box>
 
@@ -88,7 +106,10 @@ const Cart = ({ overlay }: CartProps) => {
                         <FormattedMessage {...commonMessages.shipping} />
                       </Box>
                       <Box component="span">
-                        <Money data-test="shippingPrice" money={shippingTaxedPrice.net} />
+                        <Money
+                          data-test="shippingPrice"
+                          money={shippingTaxedPrice.net}
+                        />
                       </Box>
                     </Box>
                   )}
@@ -99,14 +120,20 @@ const Cart = ({ overlay }: CartProps) => {
                         <FormattedMessage {...commonMessages.promoCode} />
                       </Box>
                       <Box component="span">
-                        <TaxedMoney data-test="promoCodePrice" taxedMoney={promoTaxedPrice} />
+                        <TaxedMoney
+                          data-test="promoCodePrice"
+                          taxedMoney={promoTaxedPrice}
+                        />
                       </Box>
                     </Box>
                   )}
 
                   <Box className={classes["cart__footer__price"]}>
                     <Box component="span">
-                      <FormattedMessage defaultMessage="Taxes" description="taxes" />
+                      <FormattedMessage
+                        defaultMessage="Taxes"
+                        description="taxes"
+                      />
                     </Box>
                     <Box component="span">
                       <Money money={calculateTax(totalPrice)} />
@@ -118,14 +145,21 @@ const Cart = ({ overlay }: CartProps) => {
                       <FormattedMessage {...commonMessages.total} />
                     </Box>
                     <Box component="span">
-                      <Money data-test="totalPrice" money={totalPrice?.gross} />
+                      <Money
+                        data-test="totalPrice"
+                        money={totalPrice?.gross}
+                      />
                     </Box>
                   </Box>
 
                   <Box className={classes["cart__footer__button"]}>
                     <Link href="/cart">
                       <a>
-                        <Button variant="outlined" color="secondary" onClick={hide}>
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          onClick={hide}
+                        >
                           <FormattedMessage defaultMessage="Go to my cart" />
                         </Button>
                       </a>
@@ -134,7 +168,11 @@ const Cart = ({ overlay }: CartProps) => {
                   <Box className={classes["cart__footer__button"]}>
                     <Link href={user ? "/checkout" : "/login"}>
                       <a>
-                        <Button variant="contained" color="secondary" onClick={hide}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={hide}
+                        >
                           <FormattedMessage {...commonMessages.checkout} />
                         </Button>
                       </a>

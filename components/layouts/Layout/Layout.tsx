@@ -23,9 +23,20 @@ const Layout = ({ children, documentHead }: LayoutProps) => {
 
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies();
 
-  const icon = branding?.icon ? <Image src={branding.icon.url} height="64" width="64" alt="Icon" /> : null;
+  const icon = branding?.icon ? (
+    <Image
+      src={branding.icon.url}
+      height="64"
+      width="64"
+      alt="Icon"
+    />
+  ) : null;
   const headerLogo = (
-    <Logo logo={branding.logo} logoHeight={branding.logoHeight ?? 50} logoWidth={branding.logoWidth ?? 100} />
+    <Logo
+      logo={branding.logo}
+      logoHeight={branding.logoHeight ?? 50}
+      logoWidth={branding.logoWidth ?? 100}
+    />
   );
 
   return (
@@ -35,13 +46,20 @@ const Layout = ({ children, documentHead }: LayoutProps) => {
       <Header logo={headerLogo} />
       {children}
       <BottomNav />
-      <Footer footerText={branding.footerText} icon={icon} />
+      <Footer
+        footerText={branding.footerText}
+        icon={icon}
+      />
       <CookieBar
         title=""
         description="This website uses cookies to ensure you get the best experience. By continuing to use this site, you consent to cookies being used."
         hide={acceptedCookies}
         action={
-          <Button color="secondary" variant="contained" onClick={() => onAcceptCookies()}>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => onAcceptCookies()}
+          >
             Got it!
           </Button>
         }

@@ -23,7 +23,7 @@ const useHandleCreateCheckoutMutation = () => {
       email: string,
       lines: Array<{ variantId: string; quantity: number }>,
       shippingAddress?: ICheckoutAddress,
-      billingAddress?: ICheckoutAddress
+      billingAddress?: ICheckoutAddress,
     ) => {
       try {
         const variables = {
@@ -82,7 +82,7 @@ const useHandleCreateCheckoutMutation = () => {
       }
       return {};
     },
-    [createCheckoutMutation]
+    [createCheckoutMutation],
   );
 };
 
@@ -129,7 +129,7 @@ const useCreateCheckout = ({ dispatch }: UseCreateCheckoutProps) => {
         data,
       };
     },
-    [createCheckout, dispatch]
+    [createCheckout, dispatch],
   );
 };
 

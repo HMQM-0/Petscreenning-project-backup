@@ -1,10 +1,7 @@
 import * as React from "react";
 
 export interface DebounceChangeProps<TValue> {
-  children: (props: {
-    change: (event: React.ChangeEvent<any>) => void;
-    value: TValue;
-  }) => React.ReactElement<any>;
+  children: (props: { change: (event: React.ChangeEvent<any>) => void; value: TValue }) => React.ReactElement<any>;
   debounce: (event: React.ChangeEvent<any>) => void;
   time?: number;
   value: TValue;
@@ -16,14 +13,8 @@ export interface DebounceChangeState<TValue> {
   value: TValue;
 }
 
-export class DebounceChange<TValue> extends React.Component<
-  DebounceChangeProps<TValue>,
-  DebounceChangeState<TValue>
-> {
-  static getDerivedStateFromProps(
-    props: DebounceChangeProps<any>,
-    state: DebounceChangeState<any>
-  ) {
+export class DebounceChange<TValue> extends React.Component<DebounceChangeProps<TValue>, DebounceChangeState<TValue>> {
+  static getDerivedStateFromProps(props: DebounceChangeProps<any>, state: DebounceChangeState<any>) {
     const { resetValue, value: propsValue } = props;
     const { timer, value: stateValue } = state;
 
@@ -52,10 +43,7 @@ export class DebounceChange<TValue> extends React.Component<
     }
 
     this.setState({
-      timer: setTimeout(
-        () => this.props.debounce(event),
-        this.props.time || 200
-      ),
+      timer: setTimeout(() => this.props.debounce(event), this.props.time || 200),
       value: event.target.value,
     });
   };

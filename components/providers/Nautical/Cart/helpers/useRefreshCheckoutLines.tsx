@@ -40,7 +40,7 @@ const useRefreshCheckoutLines = () => {
               },
               (error) => {
                 reject(error);
-              }
+              },
             );
           });
         } catch (error) {
@@ -114,7 +114,7 @@ const useRefreshCheckoutLines = () => {
         data: [...linesWithMissingVariantUpdated, ...linesWithProperVariantUpdated],
       };
     },
-    [client]
+    [client],
   );
 
   return useCallback(
@@ -134,7 +134,7 @@ const useRefreshCheckoutLines = () => {
       updateLines(newLines);
       return newLines;
     },
-    [getRefreshedCheckoutLines, updateLines]
+    [getRefreshedCheckoutLines, updateLines],
   );
 };
 

@@ -9,11 +9,7 @@ type ShopProviderProps = {
 
 const ShopProvider = ({ children }: ShopProviderProps) => {
   const { data } = useGetShopQuery();
-  return (
-    <ShopContext.Provider value={data?.shop ?? defaultContext}>
-      {children}
-    </ShopContext.Provider>
-  );
+  return <ShopContext.Provider value={data?.shop ?? defaultContext}>{children}</ShopContext.Provider>;
 };
 
 export { ShopProvider };

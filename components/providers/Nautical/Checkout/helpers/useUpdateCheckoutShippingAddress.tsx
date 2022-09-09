@@ -68,7 +68,7 @@ const useSetShippingAddressMutation = () => {
         };
       }
     },
-    [updateCheckoutShippingAddressMutation]
+    [updateCheckoutShippingAddressMutation],
   );
 };
 
@@ -111,7 +111,7 @@ const useUpdateCheckoutShippingAddress = ({ dispatch }: UseUpdateCheckoutShippin
 
       return { data };
     },
-    [dispatch, setShippingAddressMutation]
+    [dispatch, setShippingAddressMutation],
   );
 };
 

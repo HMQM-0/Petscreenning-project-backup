@@ -38,10 +38,19 @@ export const AddToCart = (props: {
 
   const action = (
     <React.Fragment>
-      <Button color="secondary" size="small" onClick={async () => await removeItem(props.variantId!)}>
+      <Button
+        color="secondary"
+        size="small"
+        onClick={async () => await removeItem(props.variantId!)}
+      >
         UNDO
       </Button>
-      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
@@ -61,7 +70,13 @@ export const AddToCart = (props: {
       >
         Add to Cart
       </Button>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} message="Added to cart" action={action} />
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Added to cart"
+        action={action}
+      />
     </>
   );
 };

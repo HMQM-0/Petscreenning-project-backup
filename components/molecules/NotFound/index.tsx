@@ -1,15 +1,10 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
-import Link from 'next/link';
+import Link from "next/link";
 
 import { BASE_URL } from "core/config";
-import {
-  generateMicrositeUrl,
-  getMicrositeId,
-  getMicrositeSlug,
-  isMicrosite,
-} from "core/utils";
+import { generateMicrositeUrl, getMicrositeId, getMicrositeSlug, isMicrosite } from "core/utils";
 import Button from "components/atoms/Button";
 
 import classes from "./scss/index.module.scss";
@@ -33,14 +28,13 @@ const NotFound = () => (
     </Box>
     <Box className={classes["not-found-page__button"]}>
       <Link
-        href={
-          isMicrosite()
-            ? generateMicrositeUrl(getMicrositeId()!, getMicrositeSlug())
-            : BASE_URL
-        }
+        href={isMicrosite() ? generateMicrositeUrl(getMicrositeId()!, getMicrositeSlug()) : BASE_URL}
         passHref
       >
-        <Button testingContext="404pageGotoHomeButton" secondary>
+        <Button
+          testingContext="404pageGotoHomeButton"
+          secondary
+        >
           <FormattedMessage defaultMessage="Back to home" />
         </Button>
       </Link>

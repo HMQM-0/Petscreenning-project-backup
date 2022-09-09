@@ -13,7 +13,10 @@ export const ViewSizeGuideButton = ({ sizeGuideUrl }: IProps) => {
 
   return (
     <S.Wrapper onClick={() => setModalOpen(true)}>
-      <Icon name="ruler" size={32} />
+      <Icon
+        name="ruler"
+        size={32}
+      />
       <Box
         component="span"
         onClick={() => setModalOpen(true)}
@@ -33,7 +36,11 @@ export const ViewSizeGuideButton = ({ sizeGuideUrl }: IProps) => {
         submitBtnText="Close"
         onSubmit={() => setModalOpen(false)}
       >
-        <Image src={sizeGuideUrl} width="100%" alt="Size Guide" />
+        <Image
+          src={sizeGuideUrl}
+          width="100%"
+          alt="Size Guide"
+        />
       </Modal>
     </S.Wrapper>
   );

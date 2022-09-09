@@ -27,7 +27,10 @@ export const AccountMenuMobile = ({
       ref={setElementRef()}
     >
       {currentPageTitle}
-      <Icon name="select_arrow" size={8} />
+      <Icon
+        name="select_arrow"
+        size={8}
+      />
       {showMenu && (
         <S.Overlay>
           <S.MenuHeader>
@@ -61,9 +64,15 @@ export const AccountMenuMobileItem = ({
   active: boolean;
 }) => {
   return (
-    <S.MenuItem active={active} {...rest}>
+    <S.MenuItem
+      active={active}
+      {...rest}
+    >
       {children}
-      <Icon name="select_arrow" size={8} />
+      <Icon
+        name="select_arrow"
+        size={8}
+      />
     </S.MenuItem>
   );
 };

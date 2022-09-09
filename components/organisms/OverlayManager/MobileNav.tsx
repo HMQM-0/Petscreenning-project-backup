@@ -9,7 +9,6 @@ import MobileNavList from "components/layouts/MainMenu/MobileNav/NavList";
 
 import Overlay from "./Overlay/Overlay";
 
-
 interface MobileNavProps {
   overlay: OverlayContextInterface;
 }
@@ -23,10 +22,20 @@ const MobileNav = ({ overlay }: MobileNavProps) => {
   }
 
   return (
-    <Overlay testingContext="mobileNavigationOverlay" context={overlay}>
-      <Box className={mobileNavClasses["side-nav"]} onClick={(evt) => evt.stopPropagation()}>
+    <Overlay
+      testingContext="mobileNavigationOverlay"
+      context={overlay}
+    >
+      <Box
+        className={mobileNavClasses["side-nav"]}
+        onClick={(evt) => evt.stopPropagation()}
+      >
         {!loading && (
-          <MobileNavList items={items} hideOverlay={overlay.hide} logo={overlay.context.logo} />
+          <MobileNavList
+            items={items}
+            hideOverlay={overlay.hide}
+            logo={overlay.context.logo}
+          />
         )}
       </Box>
     </Overlay>

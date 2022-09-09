@@ -13,10 +13,7 @@ type SearchProductsProps = {
   pageData: SearchPageQueryResult["data"];
 };
 
-const SearchProducts = ({
-  pageData,
-  builderContent,
-}: SearchProductsProps) => {
+const SearchProducts = ({ pageData, builderContent }: SearchProductsProps) => {
   const [search] = useQueryParam("q", StringParam);
   const variables = useProductListVariables();
   const { loading, data, fetchMore } = useProductsQuery({
@@ -30,14 +27,16 @@ const SearchProducts = ({
   const attributes = pageData?.attributes?.attributes.map(({ attribute }) => attribute) ?? [];
 
   if (builderContent) {
-    return <Builder
-      type="search"
-      pageData={pageData}
-      productsData={data}
-      attributes={attributes}
-      loading={loading}
-      content={builderContent}
-    />;
+    return (
+      <Builder
+        type="search"
+        pageData={pageData}
+        productsData={data}
+        attributes={attributes}
+        loading={loading}
+        content={builderContent}
+      />
+    );
   }
 
   return (

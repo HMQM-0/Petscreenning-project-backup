@@ -40,7 +40,7 @@ const useSetSellerShippingMethodsMutation = () => {
         };
       }
     },
-    [updateCheckoutSellerShippingMethodsMutation]
+    [updateCheckoutSellerShippingMethodsMutation],
   );
 };
 
@@ -79,7 +79,7 @@ const useUpdateSellerShippingMethods = ({ dispatch }: useUpdateSellerShippingMet
 
       return { data };
     },
-    [dispatch, setSellerShippingMethods]
+    [dispatch, setSellerShippingMethods],
   );
 };
 

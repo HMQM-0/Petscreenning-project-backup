@@ -26,11 +26,17 @@ const SelectField: GenericSelectField<SelectValue> = ({ label = "", styleType = 
     })}
   >
     {label ? (
-      <Box component="span" className={classes["input__label"]}>
+      <Box
+        component="span"
+        className={classes["input__label"]}
+      >
         {label}
       </Box>
     ) : null}
-    <Select classNamePrefix={classes["react-select"]} {...rest} />
+    <Select
+      classNamePrefix={classes["react-select"]}
+      {...rest}
+    />
   </Box>
 );
 

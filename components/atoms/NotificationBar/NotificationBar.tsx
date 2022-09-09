@@ -28,13 +28,7 @@ export interface NotificationProps {
   sliderSettings: ReactSlickSettings;
 }
 
-const NotificationBar = ({
-  backgroundColor,
-  fontColor,
-  fontSize,
-  messages,
-  sliderSettings,
-}: NotificationProps) => {
+const NotificationBar = ({ backgroundColor, fontColor, fontSize, messages, sliderSettings }: NotificationProps) => {
   const classes = useStyles({ fontSize, fontColor });
 
   return (
@@ -46,7 +40,10 @@ const NotificationBar = ({
     >
       <Slider {...sliderSettings}>
         {messages.map(({ content, link }, index) => (
-          <Box className={classes.message} key={index}>
+          <Box
+            className={classes.message}
+            key={index}
+          >
             {link ? <a href={link}>{content}</a> : <span>{content}</span>}
           </Box>
         ))}

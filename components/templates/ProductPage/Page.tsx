@@ -17,7 +17,7 @@ import { ProductDetailsFragment, ProductVariantFieldsFragment } from "./queries.
 
 export const useVariantImages = (
   product: ProductDetailsFragment,
-  selectedVariant: ProductVariantFieldsFragment | undefined
+  selectedVariant: ProductVariantFieldsFragment | undefined,
 ) => {
   const getVariantImages = (variantId: string) => {
     const variant = product.variants?.find((variant) => variant.id === variantId);
@@ -44,7 +44,7 @@ export const useHandleAddToCart = (product?: Pick<ProductDetailsFragment, "name"
       {
         title: `Added ${quantity} x ${name || product?.name || "product(s)"}`,
       },
-      { type: "success" }
+      { type: "success" },
     );
   };
 };
@@ -109,7 +109,10 @@ const Page = ({ product, selectedVariant, onVariantChange }: PageProps) => {
                 </>
               ) : (
                 <>
-                  <Box className={classes["product-page__product__gallery"]} ref={productGallery}>
+                  <Box
+                    className={classes["product-page__product__gallery"]}
+                    ref={productGallery}
+                  >
                     <ProductGallery images={filteredImages} />
                   </Box>
                   <Box className={classes["product-page__product__info"]}>

@@ -70,7 +70,7 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
         errors: null,
       };
     },
-    [dispatch, signInMutation, userDetailsQuery]
+    [dispatch, signInMutation, userDetailsQuery],
   );
 };
 

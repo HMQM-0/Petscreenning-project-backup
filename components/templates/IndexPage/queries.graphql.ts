@@ -2,10 +2,7 @@ import { gql } from "@apollo/client";
 
 import { brandingFragment } from "queries/branding.graphql";
 
-import {
-  basicProductFragment,
-  productPricingFragment,
-} from "../ProductPage/queries.graphql";
+import { basicProductFragment, productPricingFragment } from "../ProductPage/queries.graphql";
 
 export const homePageQuery = gql`
   ${brandingFragment}

@@ -54,13 +54,16 @@ const AddressFormFields = ({ touched, errors, hasEmail, errorMessage }: AddressF
               select
             >
               {countries?.map((option) => (
-                <MenuItem key={option.code} value={option.code}>
+                <MenuItem
+                  key={option.code}
+                  value={option.code}
+                >
                   {option.country}
                 </MenuItem>
               ))}
             </Field>
           </>
-        )
+        ),
       )}
       {hasEmail && (
         <>

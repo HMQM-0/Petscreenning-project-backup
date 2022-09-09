@@ -1,7 +1,4 @@
-import {
-  Button as MuiButton,
-  ButtonProps as MuiButtonProps,
-} from "@mui/material";
+import { Button as MuiButton, ButtonProps as MuiButtonProps } from "@mui/material";
 import React from "react";
 import clsx from "clsx";
 
@@ -33,17 +30,9 @@ const Button = ({
 }: ButtonProps) => {
   type ColorType = "inherit" | "default" | "primary" | "secondary";
 
-  const color: ColorType = primary
-    ? "primary"
-    : secondary
-    ? "secondary"
-    : "secondary";
+  const color: ColorType = primary ? "primary" : secondary ? "secondary" : "secondary";
 
-  const cl = clsx(
-    classes.button,
-    { [classes.secondary]: secondary },
-    { [className]: className }
-  );
+  const cl = clsx(classes.button, { [classes.secondary]: secondary }, { [className]: className });
 
   return (
     <MuiButton

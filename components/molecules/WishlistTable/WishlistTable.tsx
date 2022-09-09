@@ -61,7 +61,7 @@ const useStyles = makeStyles(() =>
       color: "blue",
       cursor: "pointer",
     },
-  })
+  }),
 );
 
 export const WishlistTable = ({ wishlist }: IProps) => {
@@ -73,16 +73,25 @@ export const WishlistTable = ({ wishlist }: IProps) => {
         <Box className={classes.container}>
           <h3 className={classes.title}>My Wishlist</h3>
           {wishlist?.map((item) => (
-            <WishlistCard key={item.id} item={item} />
+            <WishlistCard
+              key={item.id}
+              item={item}
+            />
           ))}
           {(!wishlist || wishlist.length === 0) && (
             <Box className={classes.emptyContainer}>
-              <Box component="span" className={classes.heartWrapper}>
+              <Box
+                component="span"
+                className={classes.heartWrapper}
+              >
                 <Heart className={classes.heartIcon} />
               </Box>
               <h2 className={classes.emptyMessage}>Your wishlist is empty</h2>
               {user ? (
-                <Link href="/products/" passHref>
+                <Link
+                  href="/products/"
+                  passHref
+                >
                   <a>
                     <p className={classes.clickMessage}>Browse to start adding products to your wishlist</p>
                   </a>

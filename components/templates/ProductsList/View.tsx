@@ -1,8 +1,5 @@
 import * as React from "react";
-import {
-  useQueryParam,
-  StringParam,
-} from "next-query-params";
+import { useQueryParam, StringParam } from "next-query-params";
 
 import { FilterQuerySet } from "components/organisms";
 import LoginToViewProducts from "components/organisms/LoginToViewProducts/LoginToViewProducts";
@@ -28,12 +25,10 @@ export const useProductListVariables = (): ProductsQueryVariables => {
     // Prevent sending both `after` and `before` at the same time
     before: !afterFilters ? beforeFilters : undefined,
     // For `after` we use `first` (or when there no `after` and no `before`)
-    first: (afterFilters || !beforeFilters) ? PRODUCTS_PER_PAGE : undefined,
+    first: afterFilters || !beforeFilters ? PRODUCTS_PER_PAGE : undefined,
     // For `before` we use `last`
-    last: (!afterFilters && beforeFilters) ? PRODUCTS_PER_PAGE : undefined,
-    attributes: attributeFilters
-      ? convertToAttributeScalar(attributeFilters)
-      : {},
+    last: !afterFilters && beforeFilters ? PRODUCTS_PER_PAGE : undefined,
+    attributes: attributeFilters ? convertToAttributeScalar(attributeFilters) : {},
     sortBy: convertSortByFromString(sort),
   };
 };
@@ -47,9 +42,7 @@ export const ProductsListView = ({ children }: ProductsListViewProps) => {
     return <LoginToViewProducts />;
   }
 
-  return (
-    <>{children}</>
-  );
+  return <>{children}</>;
 };
 
 export default ProductsListViewProps;

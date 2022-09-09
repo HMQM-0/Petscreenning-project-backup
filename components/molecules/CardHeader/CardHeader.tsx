@@ -17,11 +17,7 @@ export const CardHeader: React.FC<IProps> = ({
 
   return (
     <S.Header divider={divider}>
-      {textStyle === "title" ? (
-        <S.Title size={titleSize}>{children}</S.Title>
-      ) : (
-        <S.Paragraph>{children}</S.Paragraph>
-      )}
+      {textStyle === "title" ? <S.Title size={titleSize}>{children}</S.Title> : <S.Paragraph>{children}</S.Paragraph>}
       {withCloseIcon && (
         <IconButton
           name="x"

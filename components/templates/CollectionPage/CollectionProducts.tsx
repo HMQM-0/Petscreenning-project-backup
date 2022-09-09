@@ -6,9 +6,7 @@ import Builder from "components/templates/ProductsList/Builder";
 import ProductsList from "components/templates/ProductsList/ProductsList";
 import { useProductListVariables } from "components/templates/ProductsList/View";
 
-import {
-  BasicCollectionFragment, CollectionPageQueryResult,
-} from "./queries.graphql.generated";
+import { BasicCollectionFragment, CollectionPageQueryResult } from "./queries.graphql.generated";
 
 type CollectionProductsProps = {
   collection: BasicCollectionFragment;
@@ -16,11 +14,7 @@ type CollectionProductsProps = {
   pageData: CollectionPageQueryResult["data"];
 };
 
-const CollectionProducts = ({
-  collection,
-  builderContent,
-  pageData,
-}: CollectionProductsProps) => {
+const CollectionProducts = ({ collection, builderContent, pageData }: CollectionProductsProps) => {
   const variables = useProductListVariables();
   const { loading, data, fetchMore } = useProductsQuery({
     variables: {
@@ -33,14 +27,16 @@ const CollectionProducts = ({
   const attributes = pageData?.attributes?.attributes.map(({ attribute }) => attribute) ?? [];
 
   if (builderContent) {
-    return <Builder
-      type="collection"
-      pageData={pageData}
-      productsData={data}
-      loading={loading}
-      attributes={attributes}
-      content={builderContent}
-    />;
+    return (
+      <Builder
+        type="collection"
+        pageData={pageData}
+        productsData={data}
+        loading={loading}
+        attributes={attributes}
+        content={builderContent}
+      />
+    );
   }
 
   return (

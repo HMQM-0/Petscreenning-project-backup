@@ -8,11 +8,14 @@ import { generateCategoryUrl } from "core/utils";
 import classes from "./scss/index.module.scss";
 
 interface ICategoryBlockProps {
-  category: Pick<BasicCategoryFragment, 'id' | 'name' | 'backgroundImage'>;
+  category: Pick<BasicCategoryFragment, "id" | "name" | "backgroundImage">;
 }
 
 const CategoryBlock = ({ category }: ICategoryBlockProps) => (
-  <Box key={category.id} className={classes["category-block-item"]}>
+  <Box
+    key={category.id}
+    className={classes["category-block-item"]}
+  >
     <Link
       href={generateCategoryUrl(category.id, category.name)}
       key={category.id}
@@ -24,8 +27,8 @@ const CategoryBlock = ({ category }: ICategoryBlockProps) => (
             backgroundImage: `url(${
               category.backgroundImage
                 ? category.backgroundImage.url
-                // Using SVG copy from public folder until refactored
-                : '/images/no-photo.svg'
+                : // Using SVG copy from public folder until refactored
+                  "/images/no-photo.svg"
             })`,
           }}
         >

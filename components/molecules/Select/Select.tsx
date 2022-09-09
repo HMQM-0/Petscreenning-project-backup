@@ -15,7 +15,7 @@ const optionStyle = (customTheme: any) => ({
       isFocused: boolean;
       customTheme: any;
       isDisabled: boolean;
-    }
+    },
   ) => {
     return {
       ...provided,
@@ -25,9 +25,7 @@ const optionStyle = (customTheme: any) => ({
         : state.isFocused
         ? customTheme.colors.primaryTransparent
         : "white",
-      color: state.isDisabled
-        ? customTheme.colors.lightFont
-        : customTheme.colors.dark,
+      color: state.isDisabled ? customTheme.colors.lightFont : customTheme.colors.dark,
       display: "flex",
       fontWeight: state.isSelected && customTheme.typography.boldFontWeight,
       margin: "0 auto",

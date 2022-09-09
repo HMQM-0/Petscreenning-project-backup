@@ -19,12 +19,13 @@ const Search = () => {
 
   return (
     <Box className={classes["search-page"]}>
-      <Box className={classes["search-page__header"]} style={backgroundStyle}>
+      <Box
+        className={classes["search-page__header"]}
+        style={backgroundStyle}
+      >
         <Box className={`${classes["search-page__header__input"]} container`}>
           <DebounceChange<string>
-            debounce={(evt) =>
-              setSearch((evt.target.value as string).toLowerCase())
-            }
+            debounce={(evt) => setSearch((evt.target.value as string).toLowerCase())}
             value={search || ""}
             time={1000}
           >

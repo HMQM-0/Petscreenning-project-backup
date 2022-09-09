@@ -20,7 +20,10 @@ const Logo = ({ logo, logoWidth, logoHeight }: LogoProps) => {
       alt="Logo"
     />
   ) : (
-    <Skeleton width={logoWidth ?? 188} height={logoHeight ?? 28} />
+    <Skeleton
+      width={logoWidth ?? 188}
+      height={logoHeight ?? 28}
+    />
   );
 };
 

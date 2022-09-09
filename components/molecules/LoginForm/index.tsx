@@ -71,7 +71,11 @@ const LoginForm = ({ hide }: ILoginForm) => {
           required
         />
         <Box className={classes["login-form__button"]}>
-          <Button testingContext="submit" type="submit" {...(loading && { disabled: true })}>
+          <Button
+            testingContext="submit"
+            type="submit"
+            {...(loading && { disabled: true })}
+          >
             {loading ? intl.formatMessage(commonMessages.loading) : intl.formatMessage({ defaultMessage: "Sign in" })}
           </Button>
         </Box>

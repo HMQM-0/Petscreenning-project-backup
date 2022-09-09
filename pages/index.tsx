@@ -20,7 +20,10 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 }) => {
   return (
     <Layout documentHead={documentHead}>
-      <IndexPage data={data} builderContent={builderContent} />
+      <IndexPage
+        data={data}
+        builderContent={builderContent}
+      />
     </Layout>
   );
 };

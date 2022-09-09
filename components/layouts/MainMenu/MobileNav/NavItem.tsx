@@ -16,11 +16,7 @@ interface NavItemProps {
   item: MainMenuItemsFragment;
 }
 
-const NavItem = ({
-  hideOverlay,
-  showSubItems,
-  item,
-}: NavItemProps) => {
+const NavItem = ({ hideOverlay, showSubItems, item }: NavItemProps) => {
   const [hover, setHover] = useState(false);
   const hasSubNavigation = item?.children && !!item.children.length;
   const theme = useTheme();
@@ -49,7 +45,10 @@ const NavItem = ({
         style={hover ? hoverStyle : { color: "inherit" }}
       />
       {hasSubNavigation && (
-        <IconButton color={"primary"} onClick={() => showSubItems(item)}>
+        <IconButton
+          color={"primary"}
+          onClick={() => showSubItems(item)}
+        >
           <ArrowRightIcon fontSize="large" />
         </IconButton>
       )}

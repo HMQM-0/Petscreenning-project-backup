@@ -13,8 +13,11 @@ interface FooterProps {
 
 const Footer = ({ footerText, icon }: FooterProps) => {
   return (
-    <Box className={classes.footer} id="footer">
-      <Box className={`${classes['footer__favicons']} ${classes.container}`}>
+    <Box
+      className={classes.footer}
+      id="footer"
+    >
+      <Box className={`${classes["footer__favicons"]} ${classes.container}`}>
         {SOCIAL_MEDIA.map((medium) => (
           <Box
             className={classes["social-icons"]}
@@ -23,7 +26,10 @@ const Footer = ({ footerText, icon }: FooterProps) => {
           />
         ))}
       </Box>
-      <Nav footerText={footerText} icon={icon} />
+      <Nav
+        footerText={footerText}
+        icon={icon}
+      />
     </Box>
   );
 };

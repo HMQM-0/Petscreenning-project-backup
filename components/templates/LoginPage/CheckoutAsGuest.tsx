@@ -3,11 +3,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import Link from "next/link";
 
-import {
-  OverlayTheme,
-  OverlayType,
-  useOverlayContext,
-} from "components/providers/Overlay";
+import { OverlayTheme, OverlayType, useOverlayContext } from "components/providers/Overlay";
 
 import classes from "./scss/index.module.scss";
 
@@ -23,7 +19,11 @@ const CheckoutAsGuest = () => {
       </p>
       <Link href={"/checkout?guest=1"}>
         <a>
-          <Button variant="contained" fullWidth color="secondary">
+          <Button
+            variant="contained"
+            fullWidth
+            color="secondary"
+          >
             <FormattedMessage defaultMessage="Continue as a guest" />
           </Button>
         </a>

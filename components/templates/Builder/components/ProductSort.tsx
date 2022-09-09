@@ -7,5 +7,5 @@ interface ProductSortProps {
 }
 
 export const ProductSort = ({ defaultSort }: ProductSortProps) => {
-  return (<Sort defaultSort={defaultSort} />);
+  return <Sort defaultSort={defaultSort} />;
 };

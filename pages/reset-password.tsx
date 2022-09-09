@@ -22,7 +22,14 @@ const ResetPassword: NextPage<InferGetServerSidePropsType<typeof getServerSidePr
 
   return (
     <Layout documentHead={documentHead}>
-      {showResetPassword ? <ResetPasswordPage email={email} token={token} /> : <NotFound />}
+      {showResetPassword ? (
+        <ResetPasswordPage
+          email={email}
+          token={token}
+        />
+      ) : (
+        <NotFound />
+      )}
     </Layout>
   );
 };

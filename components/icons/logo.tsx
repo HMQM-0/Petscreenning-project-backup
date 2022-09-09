@@ -30,7 +30,10 @@ const Logo: FunctionComponent = () => {
         d="M121.947 20.877C126.748 10.062 124.899.07 116.6.385c3.491 2.296 7.914 10.883 5.347 20.492Z"
         clipRule="evenodd"
       />
-      <path fill="url(#a)" d="M0 0h.017v.017H0z" />
+      <path
+        fill="url(#a)"
+        d="M0 0h.017v.017H0z"
+      />
       <defs>
         <pattern
           id="a"
@@ -38,7 +41,10 @@ const Logo: FunctionComponent = () => {
           height="1"
           patternContentUnits="objectBoundingBox"
         >
-          <use xlinkHref="#b" transform="scale(.0005 .0021)" />
+          <use
+            xlinkHref="#b"
+            transform="scale(.0005 .0021)"
+          />
         </pattern>
       </defs>
     </svg>

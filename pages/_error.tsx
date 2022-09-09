@@ -32,7 +32,11 @@ const ErrorPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
 
   return (
     <Layout documentHead={documentHead}>
-      <Error builderContent={builderContent} data={data} is404={is404} />
+      <Error
+        builderContent={builderContent}
+        data={data}
+        is404={is404}
+      />
     </Layout>
   );
 };

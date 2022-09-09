@@ -68,8 +68,8 @@ export const braintreePayment = (paymentClientToken: string, creditCard: any) =>
               const token = response.creditCards[0].nonce;
               resolve({ lastDigits, ccType, token });
             }
-          }
+          },
         );
-      }
+      },
     );
   });

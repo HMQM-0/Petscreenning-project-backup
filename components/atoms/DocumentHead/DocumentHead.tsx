@@ -3,9 +3,7 @@ import React, { useMemo } from "react";
 import { META_DEFAULTS } from "core/config";
 
 import useManifest from "./useManifest";
-import MemoizedDocumentHead, {
-  DocumentHeadProps,
-} from "./MemoizedDocumentHead";
+import MemoizedDocumentHead, { DocumentHeadProps } from "./MemoizedDocumentHead";
 
 export const DocumentHead = ({ branding, ...seo }: DocumentHeadProps) => {
   useManifest(branding);
@@ -14,8 +12,13 @@ export const DocumentHead = ({ branding, ...seo }: DocumentHeadProps) => {
       ...META_DEFAULTS,
       ...seo,
     }),
-    [seo]
+    [seo],
   );
 
-  return <MemoizedDocumentHead branding={branding} {...mergedSeo} />;
+  return (
+    <MemoizedDocumentHead
+      branding={branding}
+      {...mergedSeo}
+    />
+  );
 };

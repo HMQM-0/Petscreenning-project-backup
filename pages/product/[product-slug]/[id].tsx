@@ -23,7 +23,14 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 }) => {
   return (
     <Layout documentHead={documentHead}>
-      {product ? <View product={product} builderContent={builderContent} /> : <NotFound />}
+      {product ? (
+        <View
+          product={product}
+          builderContent={builderContent}
+        />
+      ) : (
+        <NotFound />
+      )}
     </Layout>
   );
 };

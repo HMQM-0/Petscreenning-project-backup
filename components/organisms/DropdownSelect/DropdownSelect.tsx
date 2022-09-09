@@ -25,7 +25,10 @@ export const DropdownSelect = ({ options, name, value, onChange, isLastFormField
         </Label>
         <S.Value>{` ${value ? value.label : ""}`}</S.Value>
         <S.Indicator rotate={String(menuIsOpen)}>
-          <Icon name="select_arrow" size={10} />
+          <Icon
+            name="select_arrow"
+            size={10}
+          />
         </S.Indicator>
       </S.SortLine>
     ),
@@ -38,7 +41,10 @@ export const DropdownSelect = ({ options, name, value, onChange, isLastFormField
   };
 
   return (
-    <S.Wrapper data-test="sortingDropdown" ref={setElementRef()}>
+    <S.Wrapper
+      data-test="sortingDropdown"
+      ref={setElementRef()}
+    >
       <Select
         options={options}
         value={value}
