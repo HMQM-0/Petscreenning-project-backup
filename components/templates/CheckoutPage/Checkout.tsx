@@ -94,7 +94,7 @@ interface ICheckoutProps {
   products?: IProduct[] | null;
   items?: IItems | null;
   logo?: React.ReactNode;
-
+  setHasTriedFinalizingPayment: React.Dispatch<boolean>;
   close(): void;
 }
 
@@ -106,7 +106,17 @@ function usePersistedState(key: string, defaultValue: unknown): [string, React.D
   return [state, setState];
 }
 
-const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volumeDiscount, close }: ICheckoutProps) => {
+const MuiCheckout = ({
+  items,
+  subtotal,
+  promoCode,
+  shipping,
+  total,
+  logo,
+  volumeDiscount,
+  setHasTriedFinalizingPayment,
+  close,
+}: ICheckoutProps) => {
   const creatingPayment = React.useRef(false);
   const [popover, setPopover] = React.useState(false);
 
@@ -194,6 +204,13 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     payment_intent: StringParam,
     payment_intent_client_secret: StringParam,
   });
+
+  React.useEffect(() => {
+    if (!payment_intent) {
+      invalidate();
+    }
+  }, [currentTab, invalidate, payment_intent]);
+
   const router = useRouter();
 
   const sellers = lines?.map((line) => line.seller);
@@ -261,13 +278,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       if (isArray(response.dataError.error)) {
         handleErrors(response.dataError.error);
       }
+      invalidate();
+      setCompleteCheckoutRunning(false);
     }
-    setCompleteCheckoutRunning(false);
   }, [
     awardCustomerLoyaltyPoints,
     checkIfLoyaltyAndReferralsActive,
     completeCheckout,
     handleErrors,
+    invalidate,
     loyaltyPointsToBeEarnedOnOrderComplete,
     router,
     user,
@@ -299,9 +318,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         }
         creatingPayment.current = false;
         setSubmittingPayment(false);
+        setHasTriedFinalizingPayment(true);
       }
     },
-    [createPayment, onCompleteCheckout, handleErrors]
+    [createPayment, setHasTriedFinalizingPayment, onCompleteCheckout, handleErrors]
   );
 
   React.useEffect(() => {
