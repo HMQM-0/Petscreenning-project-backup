@@ -2,6 +2,7 @@ import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext }
 import { NormalizedCacheObject } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useQueryParams, BooleanParam, StringParam } from "next-query-params";
+import { useState } from "react";
 
 import { useAuth, useCheckout } from "nautical-api";
 import { structuredData } from "components/templates/IndexPage/structuredData";
@@ -19,6 +20,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   const { user } = useAuth();
   const { loaded, lines } = useCheckout();
   const payment = getPayment();
+  const [hasTriedFinalizingPayment, setHasTriedFinalizingPayment] = useState(false);
 
   const [{ payment_intent, payment_intent_client_secret, guest }] = useQueryParams({
     payment_intent: StringParam,
@@ -26,7 +28,8 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     guest: BooleanParam,
   });
 
-  const isFinalizingPayment = (payment_intent && payment_intent_client_secret) || payment?.token;
+  const isFinalizingPayment =
+    !hasTriedFinalizingPayment && ((payment_intent && payment_intent_client_secret) || payment?.token);
   const redirectToCart = !isFinalizingPayment && loaded && (!lines || lines.length === 0);
   if (!IS_SSR) {
     if (redirectToCart) {
@@ -41,7 +44,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
 
   return (
     <Layout documentHead={documentHead}>
-      <CheckoutPage logo={logo} />
+      <CheckoutPage logo={logo} setHasTriedFinalizingPayment={setHasTriedFinalizingPayment} />
     </Layout>
   );
 };
