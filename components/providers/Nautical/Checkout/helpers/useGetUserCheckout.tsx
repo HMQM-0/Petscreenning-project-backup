@@ -69,7 +69,7 @@ const useGetUserCheckout = () => {
       }
       return {};
     },
-    [client]
+    [client],
   );
 };
 

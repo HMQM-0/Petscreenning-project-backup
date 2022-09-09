@@ -11,5 +11,10 @@ export const AddToWishlist = (props: { productId?: string }) => {
     return isEditingOrPreviewing ? <Typography>MISSING PRODUCT ID BINDING</Typography> : null;
   }
 
-  return <AddToWishlistButton productId={props.productId} showButtonText={false} />;
+  return (
+    <AddToWishlistButton
+      productId={props.productId}
+      showButtonText={false}
+    />
+  );
 };

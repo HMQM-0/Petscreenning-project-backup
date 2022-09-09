@@ -30,20 +30,29 @@ export const Message: React.FC<IProps> = ({ title, status = "neutral", children,
           <Alert severity={status === "neutral" ? "info" : status}></Alert>
         </CardHeader>
       </Card>
-      <S.Wrapper status={status} data-test="alert">
+      <S.Wrapper
+        status={status}
+        data-test="alert"
+      >
         <S.TopWrapper>
           <S.Title>{title}</S.Title>
           {isAction ? (
             !children && <S.ActionButton onClick={onClick}>{actionText}</S.ActionButton>
           ) : (
             <S.CloseButton onClick={onClick}>
-              <Icon name="x" size={15} />
+              <Icon
+                name="x"
+                size={15}
+              />
             </S.CloseButton>
           )}
         </S.TopWrapper>
         {children && <S.Content>{children}</S.Content>}
         {children && isAction && (
-          <S.ActionButton onClick={onClick} style={{ marginTop: "1rem" }}>
+          <S.ActionButton
+            onClick={onClick}
+            style={{ marginTop: "1rem" }}
+          >
             {actionText}
           </S.ActionButton>
         )}
@@ -51,4 +60,3 @@ export const Message: React.FC<IProps> = ({ title, status = "neutral", children,
     </>
   );
 };
-

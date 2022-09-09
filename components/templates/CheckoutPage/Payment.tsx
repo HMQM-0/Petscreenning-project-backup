@@ -63,10 +63,10 @@ const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment 
   const handleProcessPayment = async (gateway: string, token?: string, creditCardData?: ICardData) => {
     if (gateway === "nautical.payments.authorize_net") {
       const publicClientKey = creditCardData?.config?.find(
-        (comnfiguration) => comnfiguration.field === "client_key"
+        (comnfiguration) => comnfiguration.field === "client_key",
       )?.value;
       const apiLoginID = creditCardData?.config?.find(
-        (comnfiguration) => comnfiguration.field === "api_login_id"
+        (comnfiguration) => comnfiguration.field === "api_login_id",
       )?.value;
       const authData = {
         clientKey: publicClientKey,
@@ -114,7 +114,10 @@ const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment 
   return (
     <>
       <Box mb={2}>
-        <Typography sx={title} variant="h6">
+        <Typography
+          sx={title}
+          variant="h6"
+        >
           Payment Information
         </Typography>
       </Box>
@@ -161,7 +164,11 @@ const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment 
         </>
       )}
       {errorMessage && (
-        <Box mb={3} style={{ display: "block" }} sx={gridspan}>
+        <Box
+          mb={3}
+          style={{ display: "block" }}
+          sx={gridspan}
+        >
           <Alert severity="error">{errorMessage}</Alert>
         </Box>
       )}

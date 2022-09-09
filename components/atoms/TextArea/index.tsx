@@ -33,7 +33,7 @@ const generateClassName = ({ errors, iconLeft, styleType }: IClassNameArgs) => {
     },
     {
       [classes["input__field--grey"]]: styleType === "grey",
-    }
+    },
   );
 };
 

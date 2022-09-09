@@ -5,11 +5,7 @@ import { Icon } from "components/atoms/Icon";
 import * as S from "./styles";
 import { IProps } from "./types";
 
-export const AddToWishlistButton = ({
-  added,
-  showText = true,
-  onClick = (evt) => null,
-}: IProps) => {
+export const AddToWishlistButton = ({ added, showText = true, onClick = (evt) => null }: IProps) => {
   const [hover, setHover] = useState(false);
 
   const handleMouseEnter = () => {
@@ -27,11 +23,17 @@ export const AddToWishlistButton = ({
     >
       {added || hover ? (
         <S.WishlistIcon addRightMargin={showText}>
-          <Icon name="heart_filled" size={28} />
+          <Icon
+            name="heart_filled"
+            size={28}
+          />
         </S.WishlistIcon>
       ) : (
         <S.WishlistIcon addRightMargin={showText}>
-          <Icon name="heart" size={38} />
+          <Icon
+            name="heart"
+            size={38}
+          />
         </S.WishlistIcon>
       )}
       {showText ? (added ? `Remove from wishlist` : `Add to wishlist`) : ``}

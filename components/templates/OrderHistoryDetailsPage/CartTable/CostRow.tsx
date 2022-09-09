@@ -8,7 +8,10 @@ const CostRow: React.FC<{
   cost: React.ReactNode;
 }> = ({ mediumScreen, heading, cost }) => (
   <tr>
-    <td colSpan={mediumScreen ? 4 : 3} className={classes["cart-table__cost"]}>
+    <td
+      colSpan={mediumScreen ? 4 : 3}
+      className={classes["cart-table__cost"]}
+    >
       {heading}
     </td>
     <td colSpan={2}>{cost}</td>

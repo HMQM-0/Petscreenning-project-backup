@@ -11,7 +11,10 @@ const SaleCornerRed: FunctionComponent = () => {
       strokeLinejoin="round"
       strokeMiterlimit="2"
     >
-      <path fill="none" d="M0 .192045h512v512H0z" />
+      <path
+        fill="none"
+        d="M0 .192045h512v512H0z"
+      />
       <path
         d="M0-21.328V0h-30.589L0-21.328z"
         fill="url(#_Linear1)"
@@ -58,9 +61,18 @@ const SaleCornerRed: FunctionComponent = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="matrix(-19.0349 -15.8894 11.0788 -13.272 .0002 0)"
         >
-          <stop offset="0" stopColor="#d81f1f" />
-          <stop offset=".42" stopColor="#aa1515" />
-          <stop offset="1" stopColor="#400" />
+          <stop
+            offset="0"
+            stopColor="#d81f1f"
+          />
+          <stop
+            offset=".42"
+            stopColor="#aa1515"
+          />
+          <stop
+            offset="1"
+            stopColor="#400"
+          />
         </linearGradient>
         <linearGradient
           id="_Linear2"
@@ -68,9 +80,18 @@ const SaleCornerRed: FunctionComponent = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="matrix(-19.0349 -15.8894 11.0788 -13.272 .0002 0)"
         >
-          <stop offset="0" stopColor="#d81f1f" />
-          <stop offset=".42" stopColor="#aa1515" />
-          <stop offset="1" stopColor="#400" />
+          <stop
+            offset="0"
+            stopColor="#d81f1f"
+          />
+          <stop
+            offset=".42"
+            stopColor="#aa1515"
+          />
+          <stop
+            offset="1"
+            stopColor="#400"
+          />
         </linearGradient>
         <image
           id="_Image4"

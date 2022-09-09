@@ -9,7 +9,10 @@ const Subcategories: FunctionComponent = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M8 5L0.5 9.33013L0.5 0.669873L8 5Z" fill="#949494" />
+      <path
+        d="M8 5L0.5 9.33013L0.5 0.669873L8 5Z"
+        fill="#949494"
+      />
     </svg>
   );
 };

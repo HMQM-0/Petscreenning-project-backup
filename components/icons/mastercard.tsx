@@ -9,9 +9,24 @@ const Mastercard: FunctionComponent = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="54" height="35" rx="3" fill="#21125E" />
-      <circle cx="20.5" cy="17.5" r="9.5" fill="#EB001B" />
-      <circle cx="33.5" cy="17.5" r="9.5" fill="#F79E1B" />
+      <rect
+        width="54"
+        height="35"
+        rx="3"
+        fill="#21125E"
+      />
+      <circle
+        cx="20.5"
+        cy="17.5"
+        r="9.5"
+        fill="#EB001B"
+      />
+      <circle
+        cx="33.5"
+        cy="17.5"
+        r="9.5"
+        fill="#F79E1B"
+      />
       <path
         fillRule="evenodd"
         clipRule="evenodd"

@@ -34,7 +34,7 @@ const useSetShippingMethod = ({ dispatch }: useSetShippingMethodProps) => {
         pending: false,
       };
     },
-    [checkoutId, updateShippingMethod]
+    [checkoutId, updateShippingMethod],
   );
 };
 

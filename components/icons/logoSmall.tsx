@@ -23,7 +23,10 @@ const LogoSmall: FunctionComponent = () => {
         fill="#26b2e3"
       />
       <g>
-        <path fill="none" d="M0 0h511.999v512h-512z" />
+        <path
+          fill="none"
+          d="M0 0h511.999v512h-512z"
+        />
       </g>
     </svg>
   );

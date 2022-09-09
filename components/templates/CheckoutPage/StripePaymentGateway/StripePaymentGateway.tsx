@@ -166,8 +166,16 @@ const StripePaymentGateway: React.FC<IProps> = ({
   return (
     <div data-test="stripeGateway">
       {stripeOptions.clientSecret ? (
-        <Elements stripe={stripe} options={stripeOptions}>
-          <StripeCreditCardForm formId={formId} formRef={formRef} errors={allErrors} onSubmit={handleFormSubmit} />
+        <Elements
+          stripe={stripe}
+          options={stripeOptions}
+        >
+          <StripeCreditCardForm
+            formId={formId}
+            formRef={formRef}
+            errors={allErrors}
+            onSubmit={handleFormSubmit}
+          />
         </Elements>
       ) : (
         <Loader />

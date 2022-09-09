@@ -214,9 +214,17 @@ class Form<Values> extends React.Component<FormProps<Values>, FormState<Values>>
     const nonFieldErrors = groupErrorsByFields(errors)[NON_FIELD_ERROR];
 
     return (
-      <form ref={formRef} {...otherProps} onSubmit={this.handleSubmit} className={className}>
+      <form
+        ref={formRef}
+        {...otherProps}
+        onSubmit={this.handleSubmit}
+        className={className}
+      >
         {nonFieldErrors ? (
-          <Box component="span" className="form-error">
+          <Box
+            component="span"
+            className="form-error"
+          >
             {nonFieldErrors.map((error) => error.message).join(" ")}
           </Box>
         ) : null}

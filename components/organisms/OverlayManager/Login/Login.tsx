@@ -34,7 +34,10 @@ const Login = ({ active: initialActiveState, overlay }: LoginProps) => {
   const isLogin = active === "login";
 
   return (
-    <Overlay testingContext="loginOverlay" context={overlay}>
+    <Overlay
+      testingContext="loginOverlay"
+      context={overlay}
+    >
       <Box className={classes.login}>
         {isOnline ? (
           <>
@@ -42,7 +45,10 @@ const Login = ({ active: initialActiveState, overlay }: LoginProps) => {
               <p className={overlayClasses["overlay__header-text"]}>
                 <FormattedMessage defaultMessage="my account" />
               </p>
-              <button onClick={hide} className={overlayClasses["overlay__header__close-icon"]}>
+              <button
+                onClick={hide}
+                className={overlayClasses["overlay__header__close-icon"]}
+              >
                 <CloseImg />
               </button>
             </Box>

@@ -19,7 +19,10 @@ export const ProductListHeader = ({ attributes, numberOfProducts = 0, openDirect
         <S.LeftSide>
           {!isMicrosite() && (
             <Media query={{ maxWidth: xLargeScreen }}>
-              <S.IconButton onClick={openDirectoryMenu} data-cy="directory__button">
+              <S.IconButton
+                onClick={openDirectoryMenu}
+                data-cy="directory__button"
+              >
                 <Directory />
                 <Media query={{ minWidth: smallScreen }}>
                   <S.Filters>DIRECTORY</S.Filters>

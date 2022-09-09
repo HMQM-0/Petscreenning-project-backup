@@ -252,10 +252,7 @@ export const orderStatusMessages = defineMessages({
   },
 });
 
-export function translatePaymentStatus(
-  status: string,
-  intl: IntlShape
-): string {
+export function translatePaymentStatus(status: string, intl: IntlShape): string {
   switch (status) {
     case "Not charged":
       return intl.formatMessage(paymentStatusMessages.notCharged);

@@ -29,26 +29,24 @@ export const Input: React.FC<IProps> = ({
     }
   }, []);
 
-  const handleFocus: React.FocusEventHandler<HTMLInputElement> =
-    React.useCallback(
-      (e) => {
-        setActive(true);
-        if (onFocus) {
-          onFocus(e);
-        }
-      },
-      [setActive, onFocus]
-    );
-  const handleBlur: React.FocusEventHandler<HTMLInputElement> =
-    React.useCallback(
-      (e) => {
-        setActive(false);
-        if (onBlur) {
-          onBlur(e);
-        }
-      },
-      [setActive, onBlur]
-    );
+  const handleFocus: React.FocusEventHandler<HTMLInputElement> = React.useCallback(
+    (e) => {
+      setActive(true);
+      if (onFocus) {
+        onFocus(e);
+      }
+    },
+    [setActive, onFocus],
+  );
+  const handleBlur: React.FocusEventHandler<HTMLInputElement> = React.useCallback(
+    (e) => {
+      setActive(false);
+      if (onBlur) {
+        onBlur(e);
+      }
+    },
+    [setActive, onBlur],
+  );
 
   return (
     <S.Wrapper

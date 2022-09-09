@@ -41,9 +41,18 @@ export const Modal = ({
   title,
 }: IProps) => {
   return (
-    <Overlay testingContext={testingContext} position="center" show={show} hide={hide} target={target}>
+    <Overlay
+      testingContext={testingContext}
+      position="center"
+      show={show}
+      hide={hide}
+      target={target}
+    >
       <S.Modal>
-        <CardHeader divider onHide={hide}>
+        <CardHeader
+          divider
+          onHide={hide}
+        >
           {title}
         </CardHeader>
         <S.Content>{children}</S.Content>

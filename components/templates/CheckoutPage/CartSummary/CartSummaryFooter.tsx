@@ -114,7 +114,11 @@ const CartSummaryFooter = ({ subtotal, promoCode, shipping, total, volumeDiscoun
         />
       )}
       {promoCode && promoCode.gross.amount > 0 && (
-        <TaxedMoneyCostLine name={intl.formatMessage(commonMessages.promoCode)} taxedMoney={promoCode} negative />
+        <TaxedMoneyCostLine
+          name={intl.formatMessage(commonMessages.promoCode)}
+          taxedMoney={promoCode}
+          negative
+        />
       )}
       {volumeDiscount && volumeDiscount.amount > 0 && (
         <MoneyCostLine
@@ -135,7 +139,13 @@ const CartSummaryFooter = ({ subtotal, promoCode, shipping, total, volumeDiscoun
           money={calculateTax(total)}
         />
       )}
-      {total && <MoneyCostLine name={intl.formatMessage(commonMessages.total)} money={total.gross} last />}
+      {total && (
+        <MoneyCostLine
+          name={intl.formatMessage(commonMessages.total)}
+          money={total.gross}
+          last
+        />
+      )}
     </Box>
   );
 };

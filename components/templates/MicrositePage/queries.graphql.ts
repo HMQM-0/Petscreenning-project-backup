@@ -27,19 +27,14 @@ export const micrositePageQuery = gql`
   ${productsPageAttribute}
   ${brandingFragment}
   ${menuTree}
-  query MicrositePage(
-    $id: ID!
-  ) {
+  query MicrositePage($id: ID!) {
     branding {
       ...Branding
     }
     microsite(id: $id) {
       ...BasicMicrosite
     }
-    attributes(
-      filter: { inMicrosite: $id, filterableInStorefront: true }
-      first: 100
-    ) {
+    attributes(filter: { inMicrosite: $id, filterableInStorefront: true }, first: 100) {
       attributes: edges {
         attribute: node {
           ...ProductsPageAttribute

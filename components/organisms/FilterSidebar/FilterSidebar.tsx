@@ -79,13 +79,29 @@ export const FilterSidebar = ({ hide, show, attributes, target }: IProps) => {
   };
 
   return (
-    <Overlay duration={0} position="left" show={show} hide={hide} transparent target={target}>
-      <S.Wrapper ref={setElementRef()} data-test="filterSidebar">
+    <Overlay
+      duration={0}
+      position="left"
+      show={show}
+      hide={hide}
+      transparent
+      target={target}
+    >
+      <S.Wrapper
+        ref={setElementRef()}
+        data-test="filterSidebar"
+      >
         <S.Header>
           <span ref={topEl}>
             <FormattedMessage {...commonMessages.filterHeader} />
           </span>
-          <IconButton testingContext="hideFilters" onClick={hide} name="x" size={18} color="000" />
+          <IconButton
+            testingContext="hideFilters"
+            onClick={hide}
+            name="x"
+            size={18}
+            color="000"
+          />
         </S.Header>
         {attributes
           .sort((a, b) => a.name.localeCompare(b.name))

@@ -2,12 +2,11 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:import/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
   ],
   "plugins": ["import"],
-  "ignorePatterns": [
-    "*.graphql.generated.tsx"
-  ],
+  "ignorePatterns": ["*.graphql.generated.tsx"],
   "rules": {
     "import/no-unresolved": "error",
     // "import/no-relative-parent-imports": "error", // TODO: Determine how to enable this without breaking pages
@@ -15,14 +14,7 @@
       1,
       {
         "newlines-between": "always",
-        "groups": [
-          "external",
-          "builtin",
-          "internal",
-          "sibling",
-          "parent",
-          "index"
-        ]
+        "groups": ["external", "builtin", "internal", "sibling", "parent", "index"]
       }
     ]
   },

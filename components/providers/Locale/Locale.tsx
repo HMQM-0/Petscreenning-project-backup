@@ -104,9 +104,7 @@ export const localeNames: Record<Locale, string> = {
 const dotSeparator = "_dot_";
 const sepRegExp = new RegExp(dotSeparator, "g");
 
-async function getKeyValueJson(
-  locale: Locale
-): Promise<Record<string, string>> {
+async function getKeyValueJson(locale: Locale): Promise<Record<string, string>> {
   let messages: LocaleMessages = {};
   try {
     messages = await import(`../../../config/locale/${locale}.json`);
@@ -127,10 +125,7 @@ interface LocaleProviderProps {
   changeLocale?(lang: Locale): void;
 }
 
-const LocaleProvider: React.FC<LocaleProviderProps> = ({
-  children,
-  changeLocale,
-}) => {
+const LocaleProvider: React.FC<LocaleProviderProps> = ({ children, changeLocale }) => {
   const [locale] = React.useState<Locale>(Locale.EN);
   const [messages, setMessages] = React.useState({});
 

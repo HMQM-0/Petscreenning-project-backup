@@ -18,37 +18,36 @@ export const ProductDescription = ({
 }: IProps) => {
   const { activePlugins } = useShopContext();
   const yotpoRatingsAndReviewsPluginActive = !!activePlugins?.some(
-    (plugin) => plugin?.identifier === "nautical.reviews.yotpo"
+    (plugin) => plugin?.identifier === "nautical.reviews.yotpo",
   );
 
   const filteredAttributes = attributes?.filter((attribute) => attribute.values == []) ?? [];
 
   return (
     <Box>
-      <Typography color="primary" variant="h6">
+      <Typography
+        color="primary"
+        variant="h6"
+      >
         DESCRIPTION
       </Typography>
       <Divider />
-      <Box pt={1}>
-        {descriptionJson ? (
-          <RichTextContent descriptionJson={descriptionJson} />
-        ) : (
-          <p>{description}</p>
-        )}
-      </Box>
+      <Box pt={1}>{descriptionJson ? <RichTextContent descriptionJson={descriptionJson} /> : <p>{description}</p>}</Box>
       {!!filteredAttributes.length && (
         <>
           <Box pb={2} />
-          <Typography color="primary" variant="h6" style={{ display: "none" }}>
+          <Typography
+            color="primary"
+            variant="h6"
+            style={{ display: "none" }}
+          >
             ATTRIBUTES
           </Typography>
           <Box pt={1}>
             <S.AttributeList>
               {filteredAttributes.map((attribute, index) => (
                 <li key={index}>
-                  <S.AttributeName>
-                    {attribute.attribute.name}:{" "}
-                  </S.AttributeName>{" "}
+                  <S.AttributeName>{attribute.attribute.name}: </S.AttributeName>{" "}
                   {attribute.values.map((value) => value.name).join(", ")}
                 </li>
               ))}
@@ -59,7 +58,10 @@ export const ProductDescription = ({
       {!!features?.length && (
         <>
           <Box pb={2} />
-          <Typography color="primary" variant="h6">
+          <Typography
+            color="primary"
+            variant="h6"
+          >
             FEATURES
           </Typography>
           <Divider />
@@ -67,8 +69,7 @@ export const ProductDescription = ({
             <S.AttributeList>
               {features.map((feature, index) => (
                 <li key={index}>
-                  <S.AttributeName>{feature.name}</S.AttributeName>{" "}
-                  <Box pt={1}>{feature.description}</Box>
+                  <S.AttributeName>{feature.name}</S.AttributeName> <Box pt={1}>{feature.description}</Box>
                 </li>
               ))}
             </S.AttributeList>

@@ -14,15 +14,19 @@ const getPathColor = (color: string | string[], index: number) => {
 export const Icon = ({ size = 32, color, name }: IProps) => {
   const icon = icons[name];
   return (
-    <svg height={size} viewBox="0 0 32 32" width={size}>
+    <svg
+      height={size}
+      viewBox="0 0 32 32"
+      width={size}
+    >
       {icon &&
-      icon.map((path, index) => (
-        <path
-          d={path.d}
-          fill={color ? getPathColor(color, index) : path.fill}
-          key={index}
-        />
-      ))}
+        icon.map((path, index) => (
+          <path
+            d={path.d}
+            fill={color ? getPathColor(color, index) : path.fill}
+            key={index}
+          />
+        ))}
     </svg>
   );
 };

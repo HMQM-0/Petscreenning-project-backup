@@ -19,9 +19,7 @@ const OverlayProvider = ({ children }: OverlayProviderProps) => {
   const router = useRouter();
   const [type, setType] = useState<OverlayContextInterface["type"]>(null);
   const [theme, setTheme] = useState<OverlayContextInterface["theme"]>(null);
-  const [context, setContext] = useState<OverlayContextInterface["context"]>(
-    {}
-  );
+  const [context, setContext] = useState<OverlayContextInterface["context"]>({});
 
   const hide = useCallback(() => {
     setType(null);
@@ -29,23 +27,18 @@ const OverlayProvider = ({ children }: OverlayProviderProps) => {
   }, []);
 
   const show = useCallback(
-    (
-      type: OverlayType,
-      theme?: OverlayTheme,
-      context?: InnerOverlayContextInterface
-    ) => {
+    (type: OverlayType, theme?: OverlayTheme, context?: InnerOverlayContextInterface) => {
       type && setType(type);
       theme && setTheme(theme);
       context && setContext(context);
 
-      document.body.style.overflow =
-        type !== OverlayType.message ? "hidden" : "";
+      document.body.style.overflow = type !== OverlayType.message ? "hidden" : "";
 
       if (type === OverlayType.message) {
         setTimeout(hide, CLOSE_DELAY);
       }
     },
-    [hide]
+    [hide],
   );
 
   useEffect(() => {
@@ -68,12 +61,10 @@ const OverlayProvider = ({ children }: OverlayProviderProps) => {
       theme,
       type,
     }),
-    [context, hide, show, theme, type]
+    [context, hide, show, theme, type],
   );
 
-  return (
-    <OverlayContext.Provider value={value}>{children}</OverlayContext.Provider>
-  );
+  return <OverlayContext.Provider value={value}>{children}</OverlayContext.Provider>;
 };
 
 export { OverlayProvider };

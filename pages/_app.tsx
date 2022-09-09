@@ -36,7 +36,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <MaterialUIProvider branding={documentHead.branding}>
         <GlobalStyles styles={(theme) => nprogress(theme.palette.secondary.main)} />
         <div id="root">
-          <AlertProvider template={NotificationTemplate as any} {...notificationOptions}>
+          <AlertProvider
+            template={NotificationTemplate as any}
+            {...notificationOptions}
+          >
             <LocaleProvider>
               <NextQueryParamProvider>
                 <NauticalProvider initialState={__APOLLO__}>

@@ -38,7 +38,10 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
   return (
     <Box className={classes["home-page"]}>
       {builderContent ? (
-        <Builder content={builderContent} data={data} />
+        <Builder
+          content={builderContent}
+          data={data}
+        />
       ) : (
         <>
           <Box
@@ -47,7 +50,10 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
           >
             <Box className={classes["home-page__hero-text"]}>
               <Box>
-                <Box component="span" className={classes["home-page__hero__title"]}>
+                <Box
+                  component="span"
+                  className={classes["home-page__hero__title"]}
+                >
                   <Box className={classes["home-page__hero__title__block"]}>
                     <Box className={classes["home-page__hero__title__leftline"]} />
                     <Typography variant="h1">
@@ -61,7 +67,10 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
             <Box className={classes["home-page__hero-action"]}>
               <Link href={generateProductsUrl()}>
                 <a>
-                  <Button color="secondary" variant="contained">
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                  >
                     Explore Products
                   </Button>
                 </a>
@@ -76,14 +85,20 @@ const IndexPage = ({ data, builderContent }: IndexPageProps) => {
           {categories.length > 0 && (
             <Box className={classes["home-page__categories"]}>
               <Box className={"container"}>
-                <Typography variant="h3" sx={{ fontSize: "1.5rem" }}>
+                <Typography
+                  variant="h3"
+                  sx={{ fontSize: "1.5rem" }}
+                >
                   <FormattedMessage defaultMessage="Shop by category" />
                 </Typography>
                 <Box className={classes["caption"]}>Check out the hottest categories on the move now</Box>
 
                 <Box className={classes["home-page-category-blocks"]}>
                   {categories.map(({ category }) => (
-                    <CategoryBlock key={category.id} category={category} />
+                    <CategoryBlock
+                      key={category.id}
+                      category={category}
+                    />
                   ))}
                 </Box>
               </Box>

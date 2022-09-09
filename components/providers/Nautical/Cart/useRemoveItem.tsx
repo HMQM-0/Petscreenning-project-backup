@@ -28,7 +28,7 @@ const useRemoveItem = () => {
       }
       updateCheckout(newLines);
     },
-    [lines, refreshCheckoutLines, updateCheckout]
+    [lines, refreshCheckoutLines, updateCheckout],
   );
 };
 

@@ -79,7 +79,7 @@ const useCompleteCheckoutMutationHandler = () => {
         };
       }
     },
-    [completeCheckoutMutation]
+    [completeCheckoutMutation],
   );
 };
 
@@ -140,7 +140,7 @@ const useCompleteCheckoutJob = ({ dispatch }: useCompleteCheckoutJobProps) => {
 
       return { data };
     },
-    [completeCheckoutMutationHandler, dispatch]
+    [completeCheckoutMutationHandler, dispatch],
   );
 };
 

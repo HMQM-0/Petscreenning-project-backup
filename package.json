@@ -12,10 +12,13 @@
     "prebuild": "yarn generate",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
-    "lint": "next lint",
     "generate": "graphql-codegen",
     "type-check": "tsc-files --noEmit --pretty $(git diff --staged --name-only) *.d.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "------------- FORMATTING": "-------------",
+    "prettier": "prettier --write \"./**/*.{ts,tsx}\"",
+    "lint": "next lint",
+    "format": "yarn prettier && yarn lint --fix"
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
@@ -99,8 +102,10 @@
     "dotenv-load": "^2.0.1",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "husky": "^7.0.0",
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",

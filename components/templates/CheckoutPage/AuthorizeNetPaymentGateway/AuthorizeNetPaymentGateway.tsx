@@ -69,13 +69,9 @@ const AuthorizeNetPaymentGateway: React.FC<IProps> = ({
     }[]
   >([]);
 
-  const [cardErrors, setCardErrors] = React.useState<ErrorData>(
-    INITIAL_CARD_ERROR_STATE
-  );
+  const [cardErrors, setCardErrors] = React.useState<ErrorData>(INITIAL_CARD_ERROR_STATE);
 
-  const sandboxEnabled =
-    config.filter((configuration) => configuration.field === "use_sandbox")[0]
-      .value === "true";
+  const sandboxEnabled = config.filter((configuration) => configuration.field === "use_sandbox")[0].value === "true";
 
   const tokenizeCcCard = async (creditCard: ICardPaymentInput) => {
     setCardErrors(INITIAL_CARD_ERROR_STATE);
@@ -115,8 +111,7 @@ const AuthorizeNetPaymentGateway: React.FC<IProps> = ({
     } else {
       const errors = [
         {
-          message:
-            "Payment submission error. Credit card gateway returned no token in payload.",
+          message: "Payment submission error. Credit card gateway returned no token in payload.",
         },
       ];
       setSubmitErrors(errors);

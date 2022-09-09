@@ -34,7 +34,7 @@ const useStyles = makeStyles(() =>
       zIndex: 1,
       transform: "translateY(-150%)",
     },
-  })
+  }),
 );
 
 // HELPER FUNCTIONS
@@ -45,12 +45,12 @@ const formatFloatToPercentage = (float: number) => {
 const getStarReviews = (
   reviews: ProductRatingsAndReviewsFragment["reviews"],
   totalReviews: number | null | undefined,
-  star: number
+  star: number,
 ) => {
   if (!reviews || !totalReviews) {
     return 0;
   }
-  return (reviews.filter((review) => review.score === star).length / totalReviews);
+  return reviews.filter((review) => review.score === star).length / totalReviews;
 };
 
 type ReviewBarsProps = {
@@ -86,10 +86,11 @@ export const ReviewBars = ({ reviewsData }: ReviewBarsProps) => {
   return (
     <>
       {stars.map((star) => (
-        <div key={star} className={classes.outerRatingContainer}>
-          <div className={classes.innerRatingContainer}>
-            {renderStar(star)}
-          </div>
+        <div
+          key={star}
+          className={classes.outerRatingContainer}
+        >
+          <div className={classes.innerRatingContainer}>{renderStar(star)}</div>
         </div>
       ))}
     </>

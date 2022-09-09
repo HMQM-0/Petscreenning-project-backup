@@ -39,7 +39,7 @@ const useSetShippingMethodMutation = () => {
         };
       }
     },
-    [updateCheckoutShippingMethodMutation]
+    [updateCheckoutShippingMethodMutation],
   );
 };
 
@@ -76,7 +76,7 @@ const useUpdateShippingMethod = ({ dispatch }: useUpdateShippingMethodProps) => 
 
       return { data };
     },
-    [dispatch, setShippingMethod]
+    [dispatch, setShippingMethod],
   );
 };
 

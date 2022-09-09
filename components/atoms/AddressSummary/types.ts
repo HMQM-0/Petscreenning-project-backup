@@ -2,7 +2,7 @@ import { NauticalOrderDetailFragment } from "components/providers/Nautical/Check
 
 export type AddressType = Partial<NauticalOrderDetailFragment["shippingAddress"]> & {
   email?: string;
-}
+};
 
 export interface FormAddressType extends Omit<AddressType, "country"> {
   asBilling?: boolean;

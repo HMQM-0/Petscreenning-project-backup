@@ -14,7 +14,7 @@ import * as S from "./styles";
  */
 export const getProductPrice = (
   productPricingRange: ProductPricingFieldFragment["pricing"],
-  variantPricing: ProductVariantPricingFieldFragment["pricing"]
+  variantPricing: ProductVariantPricingFieldFragment["pricing"],
 ) => {
   if (variantPricing) {
     if (isEqual(variantPricing.priceUndiscounted, variantPricing.price)) {
@@ -51,7 +51,7 @@ export const canAddToCart = (
   isAvailableForPurchase: boolean,
   variantId: string | undefined,
   variantStock: number,
-  quantity: number
+  quantity: number,
 ): boolean => {
   const cartItem = items?.find((item) => item.variant.id === variantId);
   const syncedQuantityWithCart = cartItem ? quantity + (cartItem?.quantity || 0) : quantity;

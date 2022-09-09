@@ -71,7 +71,7 @@ const ProductsList = ({
     fetchMore(
       {
         variables: { after: data?.productList?.pageInfo.endCursor },
-      }
+      },
       // Refactor loadMore into the new fetchMore structure.
       //  We need to specify field policy here somehow to merge paginated results
       // (prev, next) => ({
@@ -100,7 +100,11 @@ const ProductsList = ({
           // @ts-ignore
           items={menuResult?.items ?? []}
         />
-        <FilterSidebar show={showFilters} hide={() => setShowFilters(false)} attributes={attributes} />
+        <FilterSidebar
+          show={showFilters}
+          hide={() => setShowFilters(false)}
+          attributes={attributes}
+        />
         {backgroundImageUrl && <ProductListBanner image={backgroundImageUrl} />}
         <ProductListHeader
           attributes={attributes}
@@ -131,7 +135,10 @@ const ProductsList = ({
     >
       {(matches: boolean) => {
         return (
-          <ProductSideNavbarGrid matches={matches} menu={menuResult}>
+          <ProductSideNavbarGrid
+            matches={matches}
+            menu={menuResult}
+          >
             {productsListComponents}
           </ProductSideNavbarGrid>
         );

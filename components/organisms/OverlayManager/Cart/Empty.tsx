@@ -6,8 +6,6 @@ import Button from "components/atoms/Button";
 
 import classes from "./scss/index.module.scss";
 
-
-
 interface EmptyProps {
   overlayHide: VoidFunction;
 }

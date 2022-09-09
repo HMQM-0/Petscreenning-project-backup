@@ -4,20 +4,14 @@ import TextField, { TextFieldProps } from "components/atoms/TextField";
 
 import { DebounceChange } from "./DebounceChange";
 
-interface DebouncedTextFieldProps extends Omit<TextFieldProps, 'onChange'> {
+interface DebouncedTextFieldProps extends Omit<TextFieldProps, "onChange"> {
   time?: number;
   resetValue?: boolean;
   onChange: (event: React.ChangeEvent<any>) => void;
 }
 
 const DebouncedTextField = (props: DebouncedTextFieldProps) => {
-  const {
-    time,
-    resetValue,
-    value: originalValue,
-    onChange,
-    ...textFieldProps
-  } = props;
+  const { time, resetValue, value: originalValue, onChange, ...textFieldProps } = props;
   return (
     <DebounceChange
       resetValue={resetValue}
@@ -26,7 +20,11 @@ const DebouncedTextField = (props: DebouncedTextFieldProps) => {
       value={originalValue}
     >
       {({ change, value }) => (
-        <TextField {...textFieldProps} value={value} onChange={change} />
+        <TextField
+          {...textFieldProps}
+          value={value}
+          onChange={change}
+        />
       )}
     </DebounceChange>
   );

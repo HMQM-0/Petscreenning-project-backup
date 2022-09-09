@@ -14,45 +14,31 @@ import * as S from "../styles";
  */
 export const getSortOptions = (intl?: IntlShape): { label: string; value: string | null }[] => [
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsClear)
-      : "Clear...",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsClear) : "Clear...",
     value: null,
   },
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsCreatedAtDsc)
-      : "Newest",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsCreatedAtDsc) : "Newest",
     value: "-created_at",
   },
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsCreatedAt)
-      : "Oldest",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsCreatedAt) : "Oldest",
     value: "created_at",
   },
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPrice)
-      : "Price Low-High",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPrice) : "Price Low-High",
     value: "price",
   },
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPriceDsc)
-      : "Price High-Low",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsPriceDsc) : "Price High-Low",
     value: "-price",
   },
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsName)
-      : "Name Increasing",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsName) : "Name Increasing",
     value: "name",
   },
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsNameDsc)
-      : "Name Decreasing",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsNameDsc) : "Name Decreasing",
     value: "-name",
   },
   {
@@ -62,9 +48,7 @@ export const getSortOptions = (intl?: IntlShape): { label: string; value: string
     value: "Last updated Ascending",
   },
   {
-    label: intl
-      ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc)
-      : "Last updated Descending",
+    label: intl ? intl.formatMessage(prodListHeaderCommonMsg.sortOptionsUpdatedAtDsc) : "Last updated Descending",
     value: "-updated_at",
   },
 ];
@@ -85,31 +69,29 @@ export const Sort = ({ defaultSort }: SortProps) => {
 
   const { sortBy: sort } = queryParams;
 
-  const handleSortChange = useCallback((value: any) => {
-    setQueryParams({
-      sortBy: value.value,
-      after: null,
-      before: null,
-    });
-  }, [setQueryParams]);
-
-  useEffect(
-    () => {
-      if (typeof sort === 'undefined' && defaultSort) {
-        handleSortChange({ value: defaultSort });
-      }
+  const handleSortChange = useCallback(
+    (value: any) => {
+      setQueryParams({
+        sortBy: value.value,
+        after: null,
+        before: null,
+      });
     },
-    [sort, defaultSort, handleSortChange]
+    [setQueryParams],
   );
+
+  useEffect(() => {
+    if (typeof sort === "undefined" && defaultSort) {
+      handleSortChange({ value: defaultSort });
+    }
+  }, [sort, defaultSort, handleSortChange]);
 
   return (
     <S.Sort>
       <DropdownSelect
         onChange={handleSortChange}
         options={sortOptions}
-        value={sortOptions.find(
-          (option) => option.value === sort
-        )}
+        value={sortOptions.find((option) => option.value === sort)}
         isLastFormField={false}
       />
     </S.Sort>

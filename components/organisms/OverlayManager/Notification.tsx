@@ -12,7 +12,11 @@ export const NotificationOverlay = ({ overlay: { hide, context } }: Notification
     return null;
   }
   return (
-    <Message title={context.title || ""} status={context.status} onClick={hide}>
+    <Message
+      title={context.title || ""}
+      status={context.status}
+      onClick={hide}
+    >
       {context.content}
     </Message>
   );

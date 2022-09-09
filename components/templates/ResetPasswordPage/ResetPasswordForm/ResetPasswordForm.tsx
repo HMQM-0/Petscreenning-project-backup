@@ -44,11 +44,11 @@ export const ResetPasswordForm: React.FC<IProps> = ({
             errors={
               errors.password || passwordError
                 ? [
-                  {
-                    field: "password",
-                    message: errors.password || passwordError,
-                  },
-                ]
+                    {
+                      field: "password",
+                      message: errors.password || passwordError,
+                    },
+                  ]
                 : undefined
             }
           />
@@ -62,11 +62,11 @@ export const ResetPasswordForm: React.FC<IProps> = ({
             errors={
               errors.retypedPassword
                 ? [
-                  {
-                    field: "retypedPassword",
-                    message: errors.retypedPassword,
-                  },
-                ]
+                    {
+                      field: "retypedPassword",
+                      message: errors.retypedPassword,
+                    },
+                  ]
                 : undefined
             }
           />

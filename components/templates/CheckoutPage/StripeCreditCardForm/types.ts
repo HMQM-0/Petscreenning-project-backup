@@ -18,8 +18,5 @@ export interface IProps {
   /**
    * Called when values provided in Stripe elements are submitted.
    */
-  onSubmit: (
-    stripe: Stripe | null,
-    elements: StripeElements | null
-  ) => Promise<void>;
+  onSubmit: (stripe: Stripe | null, elements: StripeElements | null) => Promise<void>;
 }

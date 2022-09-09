@@ -12,19 +12,19 @@ interface PriceItemProps {
   priceUndiscounted?: TaxedMoneyProps["taxedMoney"] | null;
 }
 
-const Price = ({
-  price,
-  priceUndiscounted,
-}: PriceItemProps) => {
+const Price = ({ price, priceUndiscounted }: PriceItemProps) => {
   if (isEqual(price, priceUndiscounted)) {
-    return (<TaxedMoney taxedMoney={price} />);
+    return <TaxedMoney taxedMoney={price} />;
   }
 
   return (
     <>
       <TaxedMoney taxedMoney={price} />
       &nbsp;&nbsp;
-      <Box component="span" className={classes['product-list-price-undiscounted']}>
+      <Box
+        component="span"
+        className={classes["product-list-price-undiscounted"]}
+      >
         <TaxedMoney taxedMoney={priceUndiscounted} />
       </Box>
     </>

@@ -2,6 +2,14 @@ import { Reducer } from "use-immer";
 
 import { CheckoutActions, CheckoutActionTypes } from "./actions";
 import { ICheckoutStateContext } from "./context";
+import { CheckoutFragment } from "./fragments.graphql.generated";
+
+const parseSellerShippingMethods = (sellerShippingMethods: CheckoutFragment["sellerShippingMethods"]) => {
+  if (typeof sellerShippingMethods === "string") {
+    return JSON.parse(sellerShippingMethods);
+  }
+  return sellerShippingMethods;
+};
 
 export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, action) => {
   switch (action.type) {
@@ -23,7 +31,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.email = action.payload.checkout?.email;
       draft.shippingMethod = action.payload.checkout.shippingMethod;
       draft.lines = action.payload.checkout.lines;
-      draft.sellerShippingMethods = action.payload.checkout.sellerShippingMethods;
+      draft.sellerShippingMethods = parseSellerShippingMethods(action.payload.checkout.sellerShippingMethods);
       draft.token = action.payload.checkout.token;
       break;
     case CheckoutActionTypes.UPDATE_SHIPPING_ADDRESS:
@@ -51,7 +59,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.email = action.payload.email;
       draft.shippingMethod = action.payload.shippingMethod;
       draft.lines = action.payload.lines;
-      draft.sellerShippingMethods = action.payload.sellerShippingMethods;
+      draft.sellerShippingMethods = parseSellerShippingMethods(action.payload.sellerShippingMethods);
       draft.token = action.payload.token;
       break;
     case CheckoutActionTypes.SET_BILLING_ADDRESS:
@@ -74,7 +82,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
     case CheckoutActionTypes.SET_SELLER_SHIPPING_METHODS:
       draft.lines = action.payload.lines;
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;
-      draft.sellerShippingMethods = action.payload.sellerShippingMethods;
+      draft.sellerShippingMethods = parseSellerShippingMethods(action.payload.sellerShippingMethods);
       break;
     case CheckoutActionTypes.ADD_PROMO_CODE:
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;

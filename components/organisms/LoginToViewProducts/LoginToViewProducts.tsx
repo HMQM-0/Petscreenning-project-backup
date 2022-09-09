@@ -10,16 +10,12 @@ const LoginToViewProducts = () => {
     <>
       <OverlayContext.Consumer>
         {(overlayContext) => (
-          <Box className={classes['products-hidden-state']}>
-            <Box className={classes['products-hidden-text']}>
-              Login required to view products
-            </Box>
+          <Box className={classes["products-hidden-state"]}>
+            <Box className={classes["products-hidden-text"]}>Login required to view products</Box>
             <Box>
               <button
-                className={classes['products-login-button']}
-                onClick={() =>
-                  overlayContext.show(OverlayType.login, OverlayTheme.right)
-                }
+                className={classes["products-login-button"]}
+                onClick={() => overlayContext.show(OverlayType.login, OverlayTheme.right)}
               >
                 <span className={classes.text}>Login</span>
                 <span className={classes.icon}>

@@ -7,7 +7,7 @@ import { addressValidationSchema, noValidationSchema } from "./validators";
 
 type AddressFormProps = {
   values: AddressFormValues;
-  onSubmit: (values: AddressFormValues, actions: FormikHelpers<any>) => Promise<void>;
+  onSubmit: (values: AddressFormValues, actions: FormikHelpers<any>) => Promise<unknown>;
   submitText?: string | React.ReactNode;
   children: (props: FormikProps<AddressFormValues>) => React.ReactNode;
   noValidate?: boolean;

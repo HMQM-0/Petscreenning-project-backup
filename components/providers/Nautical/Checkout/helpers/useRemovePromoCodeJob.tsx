@@ -36,7 +36,7 @@ const useRemovePromoCodeMutationHandler = () => {
         };
       }
     },
-    [removeCheckoutPromoCodeMutation]
+    [removeCheckoutPromoCodeMutation],
   );
 };
 
@@ -72,7 +72,7 @@ const useRemovePromoCodeJob = ({ dispatch }: useRemovePromoCodeJobProps) => {
 
       return { data };
     },
-    [dispatch, removePromoCodeMutation]
+    [dispatch, removePromoCodeMutation],
   );
 };
 

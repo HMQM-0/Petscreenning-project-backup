@@ -29,7 +29,11 @@ const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps
     <Layout documentHead={documentHead}>
       {collection ? (
         <ProductsListView>
-          <CollectionProducts collection={collection} pageData={data} builderContent={builderContent} />
+          <CollectionProducts
+            collection={collection}
+            pageData={data}
+            builderContent={builderContent}
+          />
         </ProductsListView>
       ) : (
         <NotFound />

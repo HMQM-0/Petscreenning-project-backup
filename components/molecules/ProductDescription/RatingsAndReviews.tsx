@@ -112,7 +112,7 @@ const useStyles = makeStyles(() =>
       marginTop: "20px",
       fontWeight: "bold",
     },
-  })
+  }),
 );
 
 export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
@@ -159,9 +159,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
         >
           <div className={classes.reviewSummaryContainer}>
             <div className={classes.flexContainer}>
-              <div className={classes.averageScore}>
-                {averageScore.toFixed(1)}
-              </div>
+              <div className={classes.averageScore}>{averageScore.toFixed(1)}</div>
               <div>
                 <Rating
                   name="read-only"
@@ -169,8 +167,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
                   readOnly
                 />
                 <div className={classes.totalReviews}>
-                  {totalReview}{" "}
-                  {totalReview === 1 ? "Review" : "Reviews"}
+                  {totalReview} {totalReview === 1 ? "Review" : "Reviews"}
                 </div>
               </div>
             </div>
@@ -208,11 +205,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
               >
                 {reviews.map((review, index) => (
                   <div
-                    className={
-                      index === 0
-                        ? classes.topReviewContainer
-                        : classes.reviewContainer
-                    }
+                    className={index === 0 ? classes.topReviewContainer : classes.reviewContainer}
                     key={index}
                   >
                     <div className={classes.flexContainer}>
@@ -226,9 +219,7 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
                         }
                         alt="user avatar"
                       />
-                      <div className={classes.reviewUserName}>
-                        {decodeEntities(review.user?.displayName)}
-                      </div>
+                      <div className={classes.reviewUserName}>{decodeEntities(review.user?.displayName)}</div>
                     </div>
                     <div className={classes.flexContainer}>
                       <div className={classes.reviewStars}>
@@ -238,24 +229,16 @@ export const RatingsAndReviews = ({ productId }: RatingsAndReviewProps) => {
                           readOnly
                         />
                       </div>
-                      <div className={classes.reviewTitle}>
-                        {decodeEntities(review.title)}
-                      </div>
+                      <div className={classes.reviewTitle}>{decodeEntities(review.title)}</div>
                     </div>
-                    <div className={classes.reviewDate}>
-                      {formatDate(review.createdAt)}
-                    </div>
-                    <div className={classes.reviewBody}>
-                      {decodeEntities(review.content)}
-                    </div>
+                    <div className={classes.reviewDate}>{formatDate(review.createdAt)}</div>
+                    <div className={classes.reviewBody}>{decodeEntities(review.content)}</div>
                   </div>
                 ))}
               </InfiniteScroll>
             ) : (
               <div>
-                <div className={classes.noReviewsText}>
-                  Be the first to leave a review!
-                </div>
+                <div className={classes.noReviewsText}>Be the first to leave a review!</div>
               </div>
             )}
           </div>

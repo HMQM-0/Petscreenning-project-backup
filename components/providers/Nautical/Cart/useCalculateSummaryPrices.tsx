@@ -15,10 +15,7 @@ export function calculateSummaryPrices(checkout: ICheckoutStateContext): INautic
 
   const sellerShippingMethods = checkout?.sellerShippingMethods;
 
-  const sellerMethods = sellerShippingMethods
-    ? // @ts-ignore
-      JSON.parse(sellerShippingMethods)
-    : null;
+  const sellerMethods = sellerShippingMethods ? sellerShippingMethods : null;
   let totalShippingPrice = 0.0;
   if (sellerMethods) {
     totalShippingPrice = sellerMethods
@@ -40,11 +37,11 @@ export function calculateSummaryPrices(checkout: ICheckoutStateContext): INautic
 
       const itemsNetPrice = items.reduce(
         (accumulatorPrice, line) => accumulatorPrice + (line.totalPrice?.net.amount || 0),
-        0
+        0,
       );
       const itemsGrossPrice = items.reduce(
         (accumulatorPrice, line) => accumulatorPrice + (line.totalPrice?.gross?.amount || 0),
-        0
+        0,
       );
 
       const subtotalPrice = {
@@ -74,7 +71,7 @@ export function calculateSummaryPrices(checkout: ICheckoutStateContext): INautic
           amount: round(
             // itemsGrossPrice + shippingPrice.amount - discount.amount,
             itemsGrossPrice + totalShippingPrice - discount.amount - volDiscount,
-            2
+            2,
           ),
         },
         net: {
@@ -82,7 +79,7 @@ export function calculateSummaryPrices(checkout: ICheckoutStateContext): INautic
           amount: round(
             // itemsNetPrice + shippingPrice.amount - discount.amount,
             itemsNetPrice + totalShippingPrice - discount.amount - volDiscount,
-            2
+            2,
           ),
         },
       };

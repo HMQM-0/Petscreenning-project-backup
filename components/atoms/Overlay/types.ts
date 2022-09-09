@@ -21,9 +21,4 @@ export interface IProps {
   testingContextId?: string;
 }
 
-export type TransitionState =
-  | "unmounted"
-  | "entering"
-  | "entered"
-  | "exiting"
-  | "exited";
+export type TransitionState = "unmounted" | "entering" | "entered" | "exiting" | "exited";

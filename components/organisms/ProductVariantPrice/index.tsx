@@ -10,13 +10,16 @@ interface ProductVariantPriceItemProps {
   } | null;
 }
 
-const ProductVariantPrice = ({
-  pricing,
-}: ProductVariantPriceItemProps) => {
+const ProductVariantPrice = ({ pricing }: ProductVariantPriceItemProps) => {
   const price = pricing?.price;
   const priceUndiscounted = pricing?.priceUndiscounted;
 
-  return <Price price={price} priceUndiscounted={priceUndiscounted} />;
+  return (
+    <Price
+      price={price}
+      priceUndiscounted={priceUndiscounted}
+    />
+  );
 };
 
 export default ProductVariantPrice;

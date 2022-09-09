@@ -8,15 +8,10 @@ import { SearchPageQueryResult } from "components/templates/SearchPage/queries.g
 import { CollectionPageQueryResult } from "components/templates/CollectionPage/queries.graphql.generated";
 import { CategoryPageQueryResult } from "components/templates/CategoryPage/queries.graphql.generated";
 import useBuilderStateData from "components/hooks/useBuilderStateData";
-import {
-  ProductsPageQueryResult
-} from "components/templates/ProductsPage/queries.graphql.generated";
+import { ProductsPageQueryResult } from "components/templates/ProductsPage/queries.graphql.generated";
 import builderConfig from "config/builder";
 
-import {
-  ProductsPageAttributeFragment,
-  ProductsQueryResult
-} from "./queries.graphql.generated";
+import { ProductsPageAttributeFragment, ProductsQueryResult } from "./queries.graphql.generated";
 
 interface ProductsPageBuilderProps {
   type: "products";
@@ -44,20 +39,20 @@ interface MicrositePageBuilderProps {
 }
 
 type BuilderProductsProps = (
-  ProductsPageBuilderProps
+  | ProductsPageBuilderProps
   | CategoryPageBuilderProps
   | CollectionPageBuilderProps
   | SearchPageBuilderProps
   | MicrositePageBuilderProps
-  ) & {
+) & {
   content: BuilderContent;
   productsData: ProductsQueryResult["data"];
   attributes: ProductsPageAttributeFragment[];
   loading: boolean;
-}
+};
 
 const BuilderProducts = ({ type, pageData, productsData, content, attributes, loading }: BuilderProductsProps) => {
-  const category = type === 'category' && {
+  const category = type === "category" && {
     category: pageData?.category,
     // TODO: how to deprecate these ones and force using them directly from state root?
     productList: productsData?.productList,
@@ -65,7 +60,7 @@ const BuilderProducts = ({ type, pageData, productsData, content, attributes, lo
     menu: pageData?.menu,
   };
 
-  const collection = type === 'collection' && {
+  const collection = type === "collection" && {
     collection: {
       ...pageData?.collection,
       // TODO: how to deprecate these ones and force using them directly from state root?
@@ -76,21 +71,21 @@ const BuilderProducts = ({ type, pageData, productsData, content, attributes, lo
     menu: pageData?.menu,
   };
 
-  const search = type === 'search' && {
+  const search = type === "search" && {
     // TODO: how to deprecate these ones and force using them directly from state root?
     productList: productsData?.productList,
     attributeList: pageData?.attributes,
     menu: pageData?.menu,
   };
 
-  const products = type === 'products' && {
+  const products = type === "products" && {
     // TODO: how to deprecate these ones and force using them directly from state root?
     productList: productsData?.productList,
     attributes: pageData?.attributes,
     menu: pageData?.menu,
   };
 
-  const microsite = type === 'microsite' && {
+  const microsite = type === "microsite" && {
     microsite: {
       ...pageData?.microsite,
       // TODO: how to deprecate these ones and force using them directly from state root?
@@ -101,18 +96,17 @@ const BuilderProducts = ({ type, pageData, productsData, content, attributes, lo
     menu: pageData?.menu,
   };
 
-  const stateData =
-    useBuilderStateData({
-      products,
-      category,
-      collection,
-      search,
-      microsite,
-    });
+  const stateData = useBuilderStateData({
+    products,
+    category,
+    collection,
+    search,
+    microsite,
+  });
 
   const [, setQueryParams] = useQueryParams({
-    'after': StringParam,
-    'before': StringParam,
+    after: StringParam,
+    before: StringParam,
   });
 
   const loadNextPage = () => {
@@ -142,7 +136,7 @@ const BuilderProducts = ({ type, pageData, productsData, content, attributes, lo
         menu: pageData?.menu ?? [],
         loadNextPage,
         loadPrevPage,
-        loading
+        loading,
       }}
     />
   );

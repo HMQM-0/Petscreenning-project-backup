@@ -35,7 +35,7 @@ export const ProductGallery = ({ images }: IProps) => {
       bottomImageRef.current = node;
       bottomImageIntersectionObserver(node);
     },
-    [bottomImageIntersectionObserver]
+    [bottomImageIntersectionObserver],
   );
 
   const setTopRef = React.useCallback(
@@ -43,7 +43,7 @@ export const ProductGallery = ({ images }: IProps) => {
       topImageRef.current = node;
       topImageIntersectionObserver(node);
     },
-    [topImageIntersectionObserver]
+    [topImageIntersectionObserver],
   );
 
   const setIntersectionObserver = (index: number, lengthOfArray: number) => {
@@ -72,7 +72,10 @@ export const ProductGallery = ({ images }: IProps) => {
               }
             }}
           >
-            <Icon name="select_arrow" size={10} />
+            <Icon
+              name="select_arrow"
+              size={10}
+            />
           </S.TopButton>
         )}
         {!bottomImageInView && displayButtons && (
@@ -87,21 +90,31 @@ export const ProductGallery = ({ images }: IProps) => {
               }
             }}
           >
-            <Icon name="select_arrow" size={10} />
+            <Icon
+              name="select_arrow"
+              size={10}
+            />
           </S.BottomButton>
         )}
         <S.ThumbnailList>
           <ul>
             {images.map((image, index) => {
               return (
-                <li key={index} data-test="galleryThumbnail" data-test-id={index}>
+                <li
+                  key={index}
+                  data-test="galleryThumbnail"
+                  data-test-id={index}
+                >
                   <S.Thumbnail
                     ref={setIntersectionObserver(index, images.length)}
                     onClick={() => setImageIndex(index)}
                     onMouseEnter={() => setImageIndex(index)}
                     activeThumbnail={Boolean(index === imageIndex)}
                   >
-                    <CachedImage alt={image.alt} url={image.url} />
+                    <CachedImage
+                      alt={image.alt}
+                      url={image.url}
+                    />
                   </S.Thumbnail>
                 </li>
               );
@@ -112,7 +125,11 @@ export const ProductGallery = ({ images }: IProps) => {
 
       <S.Preview data-test="imagePreview">
         {images && images.length > 0 && imageIndex < images.length && (
-          <CachedImage alt={images[imageIndex].alt} url={images[imageIndex].url} style={{ maxHeight: 560 }} />
+          <CachedImage
+            alt={images[imageIndex].alt}
+            url={images[imageIndex].url}
+            style={{ maxHeight: 560 }}
+          />
         )}
         {images.length === 0 && <CachedImage />}
       </S.Preview>

@@ -1,9 +1,6 @@
 import { gql } from "@apollo/client";
 
-import {
-  basicProductFragment,
-  productPricingFragment
-} from "components/templates/ProductPage/queries.graphql";
+import { basicProductFragment, productPricingFragment } from "components/templates/ProductPage/queries.graphql";
 import { basicVariant } from "components/templates/ProductsList/queries.graphql";
 
 export const featuredProducts = gql`

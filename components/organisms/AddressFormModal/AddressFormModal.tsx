@@ -117,8 +117,15 @@ export const AddressFormModal = ({
       >
         {({ isSubmitting, touched, errors }) => (
           <>
-            <AddressFormFields errorMessage={errorMessage} touched={touched} errors={errors} />
-            <AddressFormSubmitButton isSubmitting={isSubmitting} buttonText={submitBtnText} />
+            <AddressFormFields
+              errorMessage={errorMessage}
+              touched={touched}
+              errors={errors}
+            />
+            <AddressFormSubmitButton
+              isSubmitting={isSubmitting}
+              buttonText={submitBtnText}
+            />
           </>
         )}
       </AddressForm>

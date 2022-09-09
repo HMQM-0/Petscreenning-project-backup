@@ -47,8 +47,9 @@ const TopNav = (props: ITopNavProps) => {
   const overlayContext = useOverlayContext();
   const [search] = useQueryParam("q", StringParam);
   const [term, setTerm] = React.useState<string>(search || "");
-  const [anchorEl, setAnchorEl] = React.useState<(EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null>(
-    null);
+  const [anchorEl, setAnchorEl] = React.useState<
+    (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
+  >(null);
   const accountMenuOpen = Boolean(anchorEl);
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const TopNav = (props: ITopNavProps) => {
           content: "Minimum of three letters required",
           title: "Search",
         },
-        { type: "info", timeout: 3000 }
+        { type: "info", timeout: 3000 },
       );
     }
   };
@@ -92,7 +93,10 @@ const TopNav = (props: ITopNavProps) => {
 
   return (
     <>
-      <AppBar position="relative" sx={{ backgroundColor: "#fff", minHeight: 72 }}>
+      <AppBar
+        position="relative"
+        sx={{ backgroundColor: "#fff", minHeight: 72 }}
+      >
         <Toolbar
           sx={{
             display: "flex",
@@ -147,7 +151,10 @@ const TopNav = (props: ITopNavProps) => {
                 borderRadius: 25,
               }}
             >
-              <IconButton sx={{ p: "10px" }} aria-label="Search">
+              <IconButton
+                sx={{ p: "10px" }}
+                aria-label="Search"
+              >
                 <SearchIcon htmlColor="#777" />
               </IconButton>
               <InputBase
@@ -158,8 +165,16 @@ const TopNav = (props: ITopNavProps) => {
                 placeholder="Search Products"
                 inputProps={{ "aria-label": "search" }}
               />
-              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-              <IconButton color="primary" sx={{ p: "10px" }} onClick={() => handleSearch()} aria-label="Search">
+              <Divider
+                sx={{ height: 28, m: 0.5 }}
+                orientation="vertical"
+              />
+              <IconButton
+                color="primary"
+                sx={{ p: "10px" }}
+                onClick={() => handleSearch()}
+                aria-label="Search"
+              >
                 <RocketLaunchIcon />
               </IconButton>
             </Paper>
@@ -266,8 +281,15 @@ const TopNav = (props: ITopNavProps) => {
                 Logout
               </MenuItem>
             </Menu>
-            <Badge badgeContent={cartItemsQuantity} color="secondary">
-              <IconButton sx={{ backgroundColor: "#F3F5F9" }} onClick={() => handleCart()} aria-label="Cart">
+            <Badge
+              badgeContent={cartItemsQuantity}
+              color="secondary"
+            >
+              <IconButton
+                sx={{ backgroundColor: "#F3F5F9" }}
+                onClick={() => handleCart()}
+                aria-label="Cart"
+              >
                 <ShoppingBagOutlinedIcon htmlColor="#777" />
               </IconButton>
             </Badge>

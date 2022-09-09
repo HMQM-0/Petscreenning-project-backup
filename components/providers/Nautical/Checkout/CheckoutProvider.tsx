@@ -28,7 +28,10 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
 
   return (
     <CheckoutStateContext.Provider value={value}>
-      <CheckoutDispatch dispatch={dispatch} invalidate={invalidate}>
+      <CheckoutDispatch
+        dispatch={dispatch}
+        invalidate={invalidate}
+      >
         {children}
       </CheckoutDispatch>
     </CheckoutStateContext.Provider>

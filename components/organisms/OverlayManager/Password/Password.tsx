@@ -23,7 +23,10 @@ const Password = ({ overlay }: PasswordProps) => {
   const overlayContext = useOverlayContext();
   const { online: isOnline } = useNetworkStatus();
   return (
-    <Overlay testingContext="passwordOverlay" context={overlay}>
+    <Overlay
+      testingContext="passwordOverlay"
+      context={overlay}
+    >
       <Box className={classes["password-reset"]}>
         {isOnline ? (
           <>
@@ -31,7 +34,10 @@ const Password = ({ overlay }: PasswordProps) => {
               <p className={overlayClasses["overlay__header-text"]}>
                 <FormattedMessage defaultMessage="Reset your password" />
               </p>
-              <button onClick={overlay.hide} className={overlayClasses["overlay__header__close-icon"]}>
+              <button
+                onClick={overlay.hide}
+                className={overlayClasses["overlay__header__close-icon"]}
+              >
                 <CloseImg />
               </button>
             </Box>

@@ -13,8 +13,7 @@ export const ThemeFont: React.FC<IThemeFontProps> = () => {
 
   function generateLinkUrl(name: string) {
     const fontNameString = name.replace(" ", "+");
-    const fontString =
-      "https://fonts.googleapis.com/css?family=FONTNAME:400,600,700,900&display=swap";
+    const fontString = "https://fonts.googleapis.com/css?family=FONTNAME:400,600,700,900&display=swap";
     return fontString.replace("FONTNAME", fontNameString);
   }
 

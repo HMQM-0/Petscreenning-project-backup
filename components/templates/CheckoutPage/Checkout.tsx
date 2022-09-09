@@ -74,7 +74,10 @@ const TabPanel: React.FunctionComponent<TabPanelProps> = (props) => {
 
 const Errors = ({ errorMessage }: { errorMessage?: React.ReactNode | undefined }) =>
   errorMessage ? (
-    <Alert sx={{ marginTop: "8px" }} severity="error">
+    <Alert
+      sx={{ marginTop: "8px" }}
+      severity="error"
+    >
       {errorMessage}
     </Alert>
   ) : null;
@@ -138,7 +141,7 @@ const MuiCheckout = ({
 
   const [loyaltyPointsToBeEarnedOnOrderComplete, setLoyaltyPointsToBeEarnedOnOrderComplete] = usePersistedState(
     "loyaltyPoints",
-    0
+    0,
   );
 
   const {
@@ -161,8 +164,7 @@ const MuiCheckout = ({
     invalidate,
   } = useCheckout();
 
-  const parsedSellerShippingMethods = JSON.parse(sellerShippingMethods || "[]");
-  const allShippingMethodsSelected = parsedSellerShippingMethods.length === availableShippingMethodsBySeller?.length;
+  const allShippingMethodsSelected = sellerShippingMethods?.length === availableShippingMethodsBySeller?.length;
 
   const products: IProduct[] | null =
     items?.map(({ id, variant, totalPrice, quantity }) => ({
@@ -217,7 +219,6 @@ const MuiCheckout = ({
   const mappingDict: Record<string, ICheckoutModelLine[]> = {};
   const onPaymentStep = currentTab === CheckoutTabs.PAYMENT;
   const initialSellerValues: Record<string, string> = {};
-  const parsedInitialSellerMethods = JSON.parse(sellerShippingMethods || "[]");
   for (const seller of sellerSet) {
     if (seller) {
       mappingDict[seller] = lines?.filter((line) => line.seller === seller) ?? [];
@@ -226,9 +227,9 @@ const MuiCheckout = ({
   availableShippingMethodsBySeller?.forEach(
     (data) =>
       (initialSellerValues[data.seller ?? ""] =
-        parsedInitialSellerMethods.find((sellerAndMethod: { seller: number }) => {
+        sellerShippingMethods.find((sellerAndMethod: { seller: number }) => {
           return +sellerAndMethod.seller === data.seller;
-        })?.shippingMethod?.id || [])
+        })?.shippingMethod?.id || []),
   );
 
   const [awardCustomerLoyaltyPoints /*, { data, loading, error }*/] =
@@ -236,7 +237,7 @@ const MuiCheckout = ({
 
   const checkIfLoyaltyAndReferralsActive = React.useCallback(() => {
     const yotpoLoyaltyAndReferralsPluginActive = Boolean(
-      activePlugins?.find((plugin) => plugin?.identifier === Plugins.YOTPO_LOYALTY)
+      activePlugins?.find((plugin) => plugin?.identifier === Plugins.YOTPO_LOYALTY),
     );
     setLoyaltyAndReferralsActive(yotpoLoyaltyAndReferralsPluginActive);
     return yotpoLoyaltyAndReferralsPluginActive;
@@ -248,7 +249,7 @@ const MuiCheckout = ({
       setErrorMessage(messages.join(" \n"));
       invalidate();
     },
-    [invalidate]
+    [invalidate],
   );
 
   const onCompleteCheckout = React.useCallback(async () => {
@@ -320,7 +321,7 @@ const MuiCheckout = ({
         setHasTriedFinalizingPayment(true);
       }
     },
-    [createPayment, setHasTriedFinalizingPayment, onCompleteCheckout, handleErrors]
+    [createPayment, setHasTriedFinalizingPayment, onCompleteCheckout, handleErrors],
   );
 
   React.useEffect(() => {
@@ -340,7 +341,7 @@ const MuiCheckout = ({
       checkoutMethod: typeof setShippingAddress | typeof setBillingAddress,
       errorHandler: React.Dispatch<string>,
       nextStep?: CheckoutTabs,
-      onComplete?: () => void
+      onComplete?: () => void,
     ) =>
     async (values: AddressFormValues) => {
       const country = countries.find((country) => country.code === values.country)?.country ?? "";
@@ -360,7 +361,7 @@ const MuiCheckout = ({
             country,
           },
         },
-        values?.email ?? (email || "")
+        values?.email ?? (email || ""),
       );
       if (submission.dataError?.error) {
         if (isArray(submission.dataError.error)) {
@@ -397,7 +398,7 @@ const MuiCheckout = ({
       setErrorMessage(
         <>
           Minimum order is <Money money={{ amount: minOrderTotal, currency: total?.gross.currency || "" }} />
-        </>
+        </>,
       );
       setSubmittingPayment(false);
       return;
@@ -460,8 +461,8 @@ const MuiCheckout = ({
     />
   );
 
-  const canSetShipping = shippingAddress;
-  const canSetPayment = shippingAddress && allShippingMethodsSelected;
+  const shippingStepDisabled = !shippingAddress;
+  const paymentStepDisabled = !shippingAddress || !allShippingMethodsSelected;
 
   return (
     <>
@@ -476,7 +477,10 @@ const MuiCheckout = ({
           width: "100vw",
         }}
       >
-        <Link style={{ alignItems: "center", display: "flex" }} onClick={handlePopover}>
+        <Link
+          style={{ alignItems: "center", display: "flex" }}
+          onClick={handlePopover}
+        >
           {logo}
         </Link>
         <Popover
@@ -513,7 +517,12 @@ const MuiCheckout = ({
                 },
               }}
             >
-              <Button sx={buttonPopover} size="small" variant="outlined" onClick={() => handleDismiss()}>
+              <Button
+                sx={buttonPopover}
+                size="small"
+                variant="outlined"
+                onClick={() => handleDismiss()}
+              >
                 Stay in Checkout
               </Button>
               <Button
@@ -565,7 +574,10 @@ const MuiCheckout = ({
             }}
           >
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Breadcrumbs sx={breadcrumb} style={{ display: "none" }}>
+              <Breadcrumbs
+                sx={breadcrumb}
+                style={{ display: "none" }}
+              >
                 <Box
                   color={currentTab === CheckoutTabs.CUSTOMER ? "secondary" : "inherit"}
                   onClick={() => handleBreadcrumb(CheckoutTabs.CUSTOMER)}
@@ -585,7 +597,11 @@ const MuiCheckout = ({
                   Payment
                 </Box>
               </Breadcrumbs>
-              <Tabs variant="fullWidth" sx={tabs} value={currentTab}>
+              <Tabs
+                variant="fullWidth"
+                sx={tabs}
+                value={currentTab}
+              >
                 <Tab
                   value={CheckoutTabs.CUSTOMER}
                   label="Customer"
@@ -597,21 +613,27 @@ const MuiCheckout = ({
                   label="Shipping"
                   disableRipple
                   onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
-                  disabled={!canSetShipping}
+                  disabled={shippingStepDisabled}
                 />
                 <Tab
                   value={CheckoutTabs.PAYMENT}
                   label="Payment"
                   disableRipple
-                  disabled={!canSetPayment}
+                  disabled={paymentStepDisabled}
                   onClick={() => setCurrentTab(CheckoutTabs.PAYMENT)}
                 />
               </Tabs>
             </Box>
 
-            <TabPanel value={currentTab} index={CheckoutTabs.CUSTOMER}>
+            <TabPanel
+              value={currentTab}
+              index={CheckoutTabs.CUSTOMER}
+            >
               <Box mb={2}>
-                <Typography sx={title} variant="h6">
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
                   Customer Information
                 </Typography>
               </Box>
@@ -622,13 +644,18 @@ const MuiCheckout = ({
                   country: shippingAddress?.country.code,
                 }}
                 onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
-                  setIsSubmittingShippingAddress(false)
+                  setIsSubmittingShippingAddress(false),
                 )}
               >
                 {({ touched, errors, submitForm }) => {
                   submitShippingAddressRef.current = submitForm;
                   return (
-                    <AddressFormFields errorMessage={shippingAddressError} hasEmail touched={touched} errors={errors} />
+                    <AddressFormFields
+                      errorMessage={shippingAddressError}
+                      hasEmail
+                      touched={touched}
+                      errors={errors}
+                    />
                   );
                 }}
               </AddressForm>
@@ -648,9 +675,15 @@ const MuiCheckout = ({
                 </Button>
               </Box>
             </TabPanel>
-            <TabPanel value={currentTab} index={CheckoutTabs.SHIPPING}>
+            <TabPanel
+              value={currentTab}
+              index={CheckoutTabs.SHIPPING}
+            >
               <Box mb={2}>
-                <Typography sx={title} variant="h6">
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
                   Shipping Information
                 </Typography>
               </Box>
@@ -664,7 +697,10 @@ const MuiCheckout = ({
                 />
               ))}
               {shippingFormError && (
-                <Box style={{ display: "block" }} sx={gridspan}>
+                <Box
+                  style={{ display: "block" }}
+                  sx={gridspan}
+                >
                   <Errors errorMessage={errorMessage} />
                 </Box>
               )}
@@ -680,7 +716,7 @@ const MuiCheckout = ({
                 <Button
                   color="primary"
                   disableElevation
-                  disabled={!canSetPayment}
+                  disabled={paymentStepDisabled}
                   sx={button}
                   variant="contained"
                   onClick={() => {
@@ -693,14 +729,20 @@ const MuiCheckout = ({
                 </Button>
               </Box>
             </TabPanel>
-            <TabPanel value={currentTab} index={CheckoutTabs.PAYMENT}>
+            <TabPanel
+              value={currentTab}
+              index={CheckoutTabs.PAYMENT}
+            >
               <Payment
                 handleCreatePayment={handleCreatePayment}
                 submittingPayment={submittingPayment}
                 setSubmittingPayment={setSubmittingPayment}
               />
               <Box mb={2}>
-                <Typography sx={title} variant="h6">
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
                   Billing Address
                 </Typography>
               </Box>
@@ -730,19 +772,30 @@ const MuiCheckout = ({
                   return (
                     <>
                       {!billingAsShipping && (
-                        <AddressFormFields errorMessage={billingAddressError} touched={touched} errors={errors} />
+                        <AddressFormFields
+                          errorMessage={billingAddressError}
+                          touched={touched}
+                          errors={errors}
+                        />
                       )}
                     </>
                   );
                 }}
               </AddressForm>
               {!!errorMessage && (
-                <Box style={{ display: "block" }} sx={gridspan}>
+                <Box
+                  style={{ display: "block" }}
+                  sx={gridspan}
+                >
                   <Errors errorMessage={errorMessage} />
                 </Box>
               )}
               <Box sx={buttonsGrid}>
-                <Button disableRipple disableElevation onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}>
+                <Button
+                  disableRipple
+                  disableElevation
+                  onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
+                >
                   <KeyboardBackspaceIcon /> Back to shipping
                 </Button>
                 <Button

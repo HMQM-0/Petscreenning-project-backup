@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { AttributeValue } from "@generated";
 import {
   ProductVariantFieldsFragment,
-  VariantAttributeFragment
+  VariantAttributeFragment,
 } from "components/templates/ProductPage/queries.graphql.generated";
 
 import * as S from "./styles";
@@ -22,17 +22,13 @@ export interface IProductVariantPickerProps {
 
 type AttributesById = Record<VariantAttributeFragment["attribute"]["id"], VariantAttributeFragment>;
 
-const getAttributesByIdFromVariants = (variants: ProductVariantFieldsFragment[]): AttributesById => _mapValues(
-  _groupBy(
-    _flatMap(variants, 'attributes'),
-    'attribute.id'
-  ), (attributeGroup) => ({
+const getAttributesByIdFromVariants = (variants: ProductVariantFieldsFragment[]): AttributesById =>
+  _mapValues(_groupBy(_flatMap(variants, "attributes"), "attribute.id"), (attributeGroup) => ({
     // All the attributes will be the same since those are grouped by ID, so using [0]
     ...attributeGroup[0],
     // And combining all values (unique)
-    values: _uniqBy<AttributeValue>(_flatMap(attributeGroup, 'values').filter(Boolean), 'id'),
-  })
-);
+    values: _uniqBy<AttributeValue>(_flatMap(attributeGroup, "values").filter(Boolean), "id"),
+  }));
 
 export const useProductVariantAttributes = (productVariants: ProductVariantFieldsFragment[]) => {
   const router = useRouter();
@@ -40,17 +36,19 @@ export const useProductVariantAttributes = (productVariants: ProductVariantField
 
   const allAttributesById = useMemo<AttributesById>(
     () => getAttributesByIdFromVariants(productVariants),
-    [productVariants]
+    [productVariants],
   );
 
-  const selectedAttributeValues = useMemo(() => (
-    _mapValues(allAttributesById, (attributeData) => {
-      const slug = attributeData.attribute.slug.toLowerCase();
-      // Attribute should not contain multiple values.
-      // So string[] is not used as default value
-      return queryAttributes[slug]?.toString();
-    }) ?? []
-  ), [queryAttributes, allAttributesById]);
+  const selectedAttributeValues = useMemo(
+    () =>
+      _mapValues(allAttributesById, (attributeData) => {
+        const slug = attributeData.attribute.slug.toLowerCase();
+        // Attribute should not contain multiple values.
+        // So string[] is not used as default value
+        return queryAttributes[slug]?.toString();
+      }) ?? [],
+    [queryAttributes, allAttributesById],
+  );
 
   return {
     allAttributesById,
@@ -58,14 +56,8 @@ export const useProductVariantAttributes = (productVariants: ProductVariantField
   };
 };
 
-const ProductVariantPicker = ({
-  productVariants = [],
-  onVariantChangeHandler,
-}: IProductVariantPickerProps) => {
-  const {
-    allAttributesById,
-    selectedAttributeValues,
-  } = useProductVariantAttributes(productVariants);
+const ProductVariantPicker = ({ productVariants = [], onVariantChangeHandler }: IProductVariantPickerProps) => {
+  const { allAttributesById, selectedAttributeValues } = useProductVariantAttributes(productVariants);
 
   const onAttributeChange = (attributeId: string, value: string | null | undefined, slug: string) => {
     let selectedVariant = productVariants.find((productVariant) =>
@@ -73,12 +65,12 @@ const ProductVariantPicker = ({
         const productVariantAttributeId = productVariantAttribute.attribute.id;
         // We expect that there will always be an attribute value (in case DB is consistent)
         const productVariantAttributeValue = productVariantAttribute.values[0]?.value;
-        return (productVariantAttributeId === attributeId) ?
-          // For the attribute that is changing - check new value
-          productVariantAttributeValue === value
-          // For all other attributes - check selected values
-          : productVariantAttributeValue === selectedAttributeValues[attributeId];
-      })
+        return productVariantAttributeId === attributeId
+          ? // For the attribute that is changing - check new value
+            productVariantAttributeValue === value
+          : // For all other attributes - check selected values
+            productVariantAttributeValue === selectedAttributeValues[attributeId];
+      }),
     );
 
     if (!selectedVariant) {
@@ -88,10 +80,10 @@ const ProductVariantPicker = ({
         productVariant.attributes.some(
           (attributeItem) =>
             // Find proper attribute
-            attributeItem.attribute.id === attributeId
+            attributeItem.attribute.id === attributeId &&
             // With the same value as selected
-            && attributeItem.values[0]?.value === value
-        )
+            attributeItem.values[0]?.value === value,
+        ),
       );
     }
 

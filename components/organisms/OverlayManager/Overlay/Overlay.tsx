@@ -16,12 +16,7 @@ interface OverlayProps {
   children?: React.ReactNode;
 }
 
-const Overlay = ({
-  children,
-  className,
-  context: { type, theme, hide },
-  testingContext,
-}: OverlayProps) => (
+const Overlay = ({ children, className, context: { type, theme, hide }, testingContext }: OverlayProps) => (
   <Box
     className={clsx(classes.overlay, {
       [classes[`overlay--${type}`]]: !!type,

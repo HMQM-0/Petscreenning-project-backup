@@ -9,10 +9,7 @@ interface NetworkStatusState {
   online: boolean;
 }
 
-class NetworkStatus extends React.Component<
-  NetworkStatusProps,
-  NetworkStatusState
-> {
+class NetworkStatus extends React.Component<NetworkStatusProps, NetworkStatusState> {
   state: NetworkStatusState = {
     online: "onLine" in navigator ? navigator.onLine : true,
   };

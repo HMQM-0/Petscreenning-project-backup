@@ -5,11 +5,7 @@ import { ProductSideNavbarList } from "components/organisms/ProductSideNavbar/Pr
 import * as S from "./styles";
 import { IProps } from "./types";
 
-export const ProductSideNavbarGrid = ({
-  children,
-  menu,
-  matches,
-}: IProps) => {
+export const ProductSideNavbarGrid = ({ children, menu, matches }: IProps) => {
   return (
     <>
       {matches ? (

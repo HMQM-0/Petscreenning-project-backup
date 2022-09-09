@@ -40,10 +40,10 @@ export const ResetPasswordPage = ({ email, token }: ResetPasswordPageProps) => {
   const [setPassword, { data, error: graphqlErrors }] = useSetPasswordMutation();
 
   const tokenError = graphqlErrors?.extraInfo?.userInputErrors?.some(
-    (error: UserInputError) => error?.field === "token"
+    (error: UserInputError) => error?.field === "token",
   );
   const passwordError = graphqlErrors?.extraInfo?.userInputErrors?.find(
-    (error: UserInputError) => error?.field === "password"
+    (error: UserInputError) => error?.field === "password",
   )?.message;
 
   React.useEffect(() => {

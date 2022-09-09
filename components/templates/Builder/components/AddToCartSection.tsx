@@ -8,7 +8,10 @@ import { useSelectedVariant } from "components/templates/ProductPage/View";
 import { ProductDetailsFragment } from "components/templates/ProductPage/queries.graphql.generated";
 import { TaxedMoney } from "components/molecules/TaxedMoney";
 
-type Product = Pick<ProductDetailsFragment, 'variants' | 'pricing' | 'name' | 'isAvailableForPurchase' | 'availableForPurchase'>;
+type Product = Pick<
+  ProductDetailsFragment,
+  "variants" | "pricing" | "name" | "isAvailableForPurchase" | "availableForPurchase"
+>;
 
 export const AddToCartSection = ({ product }: { product?: Product }) => {
   if (!product || (product.variants?.length ?? 0) === 0) {
@@ -36,7 +39,10 @@ const AddToCartSectionValidated = ({ product }: { product: Product }) => {
         onChange={(event) => redirectToVariant(event.target.value as string)}
       >
         {variants.map(({ id, name }) => (
-          <MenuItem key={id} value={id}>
+          <MenuItem
+            key={id}
+            value={id}
+          >
             {name}
           </MenuItem>
         ))}

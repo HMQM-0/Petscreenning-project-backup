@@ -28,7 +28,11 @@ const Microsite: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
     <Layout documentHead={documentHead}>
       {microsite ? (
         <ProductsListView>
-          <MicrositeProducts microsite={microsite} pageData={data} builderContent={builderContent} />
+          <MicrositeProducts
+            microsite={microsite}
+            pageData={data}
+            builderContent={builderContent}
+          />
         </ProductsListView>
       ) : (
         <NotFound />
