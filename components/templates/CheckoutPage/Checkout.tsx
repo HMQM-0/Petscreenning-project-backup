@@ -155,6 +155,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     invalidate,
   } = useCheckout();
 
+  const allShippingMethodsSelected = sellerShippingMethods?.length === availableShippingMethodsBySeller?.length;
+
   const products: IProduct[] | null =
     items?.map(({ id, variant, totalPrice, quantity }) => ({
       id: id || "",
@@ -201,7 +203,6 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const mappingDict: Record<string, ICheckoutModelLine[]> = {};
   const onPaymentStep = currentTab === CheckoutTabs.PAYMENT;
   const initialSellerValues: Record<string, string> = {};
-  const parsedInitialSellerMethods = JSON.parse(sellerShippingMethods || "[]");
   for (const seller of sellerSet) {
     if (seller) {
       mappingDict[seller] = lines?.filter((line) => line.seller === seller) ?? [];
@@ -210,7 +211,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   availableShippingMethodsBySeller?.forEach(
     (data) =>
       (initialSellerValues[data.seller ?? ""] =
-        parsedInitialSellerMethods.find((sellerAndMethod: { seller: number }) => {
+        sellerShippingMethods.find((sellerAndMethod: { seller: number }) => {
           return +sellerAndMethod.seller === data.seller;
         })?.shippingMethod?.id || []),
   );
@@ -438,6 +439,9 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     />
   );
 
+  const shippingStepDisabled = !shippingAddress;
+  const paymentStepDisabled = !shippingAddress || !allShippingMethodsSelected;
+
   return (
     <>
       <Box
@@ -580,16 +584,21 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   value={CheckoutTabs.CUSTOMER}
                   label="Customer"
                   disableRipple
+                  onClick={() => setCurrentTab(CheckoutTabs.CUSTOMER)}
                 />
                 <Tab
                   value={CheckoutTabs.SHIPPING}
                   label="Shipping"
                   disableRipple
+                  onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
+                  disabled={shippingStepDisabled}
                 />
                 <Tab
                   value={CheckoutTabs.PAYMENT}
                   label="Payment"
                   disableRipple
+                  disabled={paymentStepDisabled}
+                  onClick={() => setCurrentTab(CheckoutTabs.PAYMENT)}
                 />
               </Tabs>
             </Box>
@@ -685,6 +694,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 <Button
                   color="primary"
                   disableElevation
+                  disabled={paymentStepDisabled}
                   sx={button}
                   variant="contained"
                   onClick={() => {

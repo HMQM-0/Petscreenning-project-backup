@@ -15,10 +15,7 @@ export function calculateSummaryPrices(checkout: ICheckoutStateContext): INautic
 
   const sellerShippingMethods = checkout?.sellerShippingMethods;
 
-  const sellerMethods = sellerShippingMethods
-    ? // @ts-ignore
-      JSON.parse(sellerShippingMethods)
-    : null;
+  const sellerMethods = sellerShippingMethods ? sellerShippingMethods : null;
   let totalShippingPrice = 0.0;
   if (sellerMethods) {
     totalShippingPrice = sellerMethods
