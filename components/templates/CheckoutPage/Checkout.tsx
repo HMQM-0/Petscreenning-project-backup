@@ -30,7 +30,7 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IItems } from "components/providers/Nautical/Cart/types";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
-import { AddressForm, AddressFormFields, AddressFormSubmitButton, AddressFormValues } from "components/atoms";
+import { AddressForm, AddressFormFields, AddressFormValues } from "components/atoms";
 
 import Payment from "./Payment";
 import { IProduct } from "./types";
@@ -131,9 +131,8 @@ const MuiCheckout = ({
   const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
-  const submitShippingAddressRef = React.useRef(() => {});
+
   const [isSubmittingShippingAddress, setIsSubmittingShippingAddress] = React.useState(false);
-  const submitBillingAddressRef = React.useRef(() => {});
 
   const { countries, activePlugins, minCheckoutAmount } = useShopContext();
 
@@ -370,7 +369,7 @@ const MuiCheckout = ({
           invalidate();
         }
         onComplete?.();
-        return;
+        return submission;
       } else {
         errorHandler("");
         if (nextStep) {
@@ -378,7 +377,11 @@ const MuiCheckout = ({
         }
       }
       onComplete?.();
+      return submission;
     };
+
+  const submitShippingAddressRef = React.useRef<() => Promise<ReturnType<typeof setShippingAddress>>>();
+  const submitBillingAddressRef = React.useRef<() => Promise<ReturnType<typeof setBillingAddress>>>();
 
   const confirmAndPurchase = async () => {
     setSubmittingPayment(true);
@@ -638,7 +641,7 @@ const MuiCheckout = ({
                   disabled={isSubmittingShippingAddress}
                   onClick={async () => {
                     setIsSubmittingShippingAddress(true);
-                    submitShippingAddressRef.current();
+                    submitShippingAddressRef.current?.();
                   }}
                 >
                   {isSubmittingShippingAddress ? <CircularProgress /> : "Set Address"}
@@ -718,7 +721,7 @@ const MuiCheckout = ({
                   country: billingAddress?.country.code,
                 }}
                 onSubmit={async (values) => {
-                  handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
+                  return handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
                 }}
                 noValidate={billingAsShipping}
               >
@@ -750,7 +753,10 @@ const MuiCheckout = ({
                   disabled={submittingPayment}
                   onClick={async () => {
                     if (!billingAsShipping) {
-                      submitBillingAddressRef.current();
+                      const result = await submitBillingAddressRef.current?.();
+                      if (!result || result.dataError?.error) {
+                        return;
+                      }
                     }
                     await confirmAndPurchase();
                   }}
