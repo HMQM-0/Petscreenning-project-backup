@@ -1,56 +1,36 @@
 import React, { useEffect } from "react";
-import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 
-import { AccountMenuSidebar } from "components/organisms/AccountMenuSidebar";
-import { AccountMenuMobile } from "components/organisms/AccountMenuMobile";
 import { useAuth } from "nautical-api";
 import { IS_SSR } from "utils";
 
-import classes from "./scss/index.module.scss";
+import { Authenticated } from "./Authenticated";
+import { Unathenticated } from "./Unathenticated";
 
 type LayoutProps = {
   children: React.ReactNode;
+  allowAnonymousUser?: boolean;
 };
 
-const AccountSettingsLayout = ({ children }: LayoutProps) => {
-  const { signedOut } = useAuth();
+const AccountSettingsLayout = ({ children, allowAnonymousUser }: LayoutProps) => {
+  const { loaded, authenticated } = useAuth();
   const { push } = useRouter();
 
-  useEffect(() => {
-    if (signedOut && !IS_SSR) {
-      push("/");
-    }
-  }, [push, signedOut]);
+  const permissionToViewPage = allowAnonymousUser || (loaded && authenticated);
 
-  return (
-    <div className="container">
-      <div className={classes.account}>
-        <Box
-          className={classes.account__menu}
-          sx={{
-            display: {
-              xs: "none",
-              sm: "initial",
-            },
-          }}
-        >
-          <AccountMenuSidebar />
-        </Box>
-        <Box
-          sx={{
-            display: {
-              xs: "initial",
-              sm: "none",
-            },
-          }}
-        >
-          <AccountMenuMobile />{" "}
-        </Box>
-        <Box className={classes.account__content}>{children}</Box>
-      </div>
-    </div>
-  );
+  useEffect(() => {
+    if (!IS_SSR) {
+      if (!permissionToViewPage) {
+        push("/");
+      }
+    }
+  }, [push, allowAnonymousUser, loaded, authenticated]);
+
+  if (!permissionToViewPage) {
+    return <Unathenticated />;
+  }
+
+  return <Authenticated anonymous={!authenticated}>{children}</Authenticated>;
 };
 
 export { AccountSettingsLayout };

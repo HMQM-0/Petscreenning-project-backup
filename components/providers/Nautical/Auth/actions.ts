@@ -4,6 +4,7 @@ export const AuthActionTypes = {
   SIGN_IN: "SIGN_IN",
   SIGN_OUT: "SIGN_OUT",
   UPDATE: "UPDATE",
+  INITIALIZE: "INITIALIZE",
 } as const;
 
 export const AuthActionCreators = {
@@ -23,6 +24,10 @@ export const AuthActionCreators = {
     payload: {
       user,
     },
+  }),
+  initialize: () => ({
+    type: AuthActionTypes.INITIALIZE,
+    payload: null,
   }),
 } as const;
 

@@ -21,6 +21,10 @@ export const reducer: Reducer<IAuthContext, AuthActions> = (draft, action) => {
       break;
     case AuthActionTypes.UPDATE:
       draft.user = action.payload.user;
+      draft.loaded = true;
+      break;
+    case AuthActionTypes.INITIALIZE:
+      draft.loaded = true;
       break;
     default:
       // @ts-ignore - this will never happen, but is useful when adding a new action and debugging

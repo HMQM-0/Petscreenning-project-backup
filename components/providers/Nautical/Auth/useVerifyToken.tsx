@@ -41,6 +41,7 @@ const useVerifyToken = ({ signOut, dispatch }: useVerifyTokenProps) => {
         dispatch(AuthActionCreators.signIn(token, user));
       }
     }
+    dispatch(AuthActionCreators.initialize());
   }, [dispatch, signOut, token, verifyTokenMutation]);
 
   useEffect(() => {
