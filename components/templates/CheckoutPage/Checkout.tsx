@@ -435,8 +435,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     />
   );
 
-  const canSetShipping = !!shippingAddress;
-  const canSetPayment = !!shippingAddress && allShippingMethodsSelected;
+  const shippingStepDisabled = !shippingAddress;
+  const paymentStepDisabled = !shippingAddress || !allShippingMethodsSelected;
 
   return (
     <>
@@ -572,13 +572,13 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   label="Shipping"
                   disableRipple
                   onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
-                  disabled={!canSetShipping}
+                  disabled={shippingStepDisabled}
                 />
                 <Tab
                   value={CheckoutTabs.PAYMENT}
                   label="Payment"
                   disableRipple
-                  disabled={!canSetPayment}
+                  disabled={paymentStepDisabled}
                   onClick={() => setCurrentTab(CheckoutTabs.PAYMENT)}
                 />
               </Tabs>
@@ -655,7 +655,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                 <Button
                   color="primary"
                   disableElevation
-                  disabled={!canSetPayment}
+                  disabled={paymentStepDisabled}
                   sx={button}
                   variant="contained"
                   onClick={() => {
