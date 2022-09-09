@@ -644,9 +644,11 @@ const MuiCheckout = ({
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
-                onSubmit={handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
-                  setIsSubmittingShippingAddress(false),
-                )}
+                onSubmit={async (values) =>
+                  handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
+                    setIsSubmittingShippingAddress(false),
+                  )(values)
+                }
               >
                 {({ touched, errors, submitForm }) => {
                   submitShippingAddressRef.current = submitForm;
@@ -669,7 +671,8 @@ const MuiCheckout = ({
                   disabled={isSubmittingShippingAddress}
                   onClick={async () => {
                     setIsSubmittingShippingAddress(true);
-                    submitShippingAddressRef.current?.();
+                    await submitShippingAddressRef.current?.();
+                    setIsSubmittingShippingAddress(false);
                   }}
                 >
                   {isSubmittingShippingAddress ? <CircularProgress /> : "Set Address"}
