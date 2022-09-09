@@ -381,6 +381,7 @@ const MuiCheckout = ({
       return submission;
     };
 
+  // these refs will be used to store the onSubmit prop passed to the AddressForm respective to each address type
   const submitShippingAddressRef = React.useRef<() => Promise<ReturnType<typeof setShippingAddress>>>();
   const submitBillingAddressRef = React.useRef<() => Promise<ReturnType<typeof setBillingAddress>>>();
 
