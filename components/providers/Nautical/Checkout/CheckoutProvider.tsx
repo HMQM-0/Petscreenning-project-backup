@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useImmerReducer } from "use-immer";
 
 import { CheckoutDispatch } from "./CheckoutDispatch";
@@ -16,7 +16,7 @@ const CheckoutProvider = ({ children }: CheckoutProps) => {
   const [checkout, dispatch] = useImmerReducer(reducer, CHECKOUT_STATE_CONTEXT_INITIAL_STATE);
   const [invalidator, setInvalidator] = useState({});
 
-  const invalidate = () => setInvalidator({});
+  const invalidate = useCallback(() => setInvalidator({}), []);
 
   useInitializeCheckout({ dispatch, invalidator });
   useOnSignOut({ dispatch });

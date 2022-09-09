@@ -30,7 +30,7 @@ import { useShopContext } from "components/providers/ShopProvider";
 import { ITaxedMoney } from "components/molecules/TaxedMoney/types";
 import { IItems } from "components/providers/Nautical/Cart/types";
 import { useYotpoLoyaltyAndReferralsAwardCustomerLoyaltyPointsMutation } from "components/providers/Nautical/Auth/mutations.graphql.generated";
-import { AddressForm, AddressFormFields, AddressFormSubmitButton, AddressFormValues } from "components/atoms";
+import { AddressForm, AddressFormFields, AddressFormValues } from "components/atoms";
 
 import Payment from "./Payment";
 import { IProduct } from "./types";
@@ -97,7 +97,7 @@ interface ICheckoutProps {
   products?: IProduct[] | null;
   items?: IItems | null;
   logo?: React.ReactNode;
-
+  setHasTriedFinalizingPayment: React.Dispatch<boolean>;
   close(): void;
 }
 
@@ -109,7 +109,17 @@ function usePersistedState(key: string, defaultValue: unknown): [string, React.D
   return [state, setState];
 }
 
-const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volumeDiscount, close }: ICheckoutProps) => {
+const MuiCheckout = ({
+  items,
+  subtotal,
+  promoCode,
+  shipping,
+  total,
+  logo,
+  volumeDiscount,
+  setHasTriedFinalizingPayment,
+  close,
+}: ICheckoutProps) => {
   const creatingPayment = React.useRef(false);
   const [popover, setPopover] = React.useState(false);
 
@@ -124,9 +134,8 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
   const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLAnchorElement | null>(null);
   const [loyaltyAndReferralsActive, setLoyaltyAndReferralsActive] = React.useState(false);
-  const submitShippingAddressRef = React.useRef(() => {});
+
   const [isSubmittingShippingAddress, setIsSubmittingShippingAddress] = React.useState(false);
-  const submitBillingAddressRef = React.useRef(() => {});
 
   const { countries, activePlugins, minCheckoutAmount } = useShopContext();
 
@@ -196,6 +205,13 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
     payment_intent: StringParam,
     payment_intent_client_secret: StringParam,
   });
+
+  React.useEffect(() => {
+    if (!payment_intent) {
+      invalidate();
+    }
+  }, [currentTab, invalidate, payment_intent]);
+
   const router = useRouter();
 
   const sellers = lines?.map((line) => line.seller);
@@ -262,13 +278,15 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
       if (isArray(response.dataError.error)) {
         handleErrors(response.dataError.error);
       }
+      invalidate();
+      setCompleteCheckoutRunning(false);
     }
-    setCompleteCheckoutRunning(false);
   }, [
     awardCustomerLoyaltyPoints,
     checkIfLoyaltyAndReferralsActive,
     completeCheckout,
     handleErrors,
+    invalidate,
     loyaltyPointsToBeEarnedOnOrderComplete,
     router,
     user,
@@ -300,9 +318,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         }
         creatingPayment.current = false;
         setSubmittingPayment(false);
+        setHasTriedFinalizingPayment(true);
       }
     },
-    [createPayment, onCompleteCheckout, handleErrors],
+    [createPayment, setHasTriedFinalizingPayment, onCompleteCheckout, handleErrors],
   );
 
   React.useEffect(() => {
@@ -351,8 +370,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
           invalidate();
         }
         onComplete?.();
-
-        return;
+        return submission;
       } else {
         errorHandler("");
         if (nextStep) {
@@ -360,7 +378,12 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
         }
       }
       onComplete?.();
+      return submission;
     };
+
+  // these refs will be used to store the onSubmit prop passed to the AddressForm respective to each address type
+  const submitShippingAddressRef = React.useRef<() => Promise<ReturnType<typeof setShippingAddress>>>();
+  const submitBillingAddressRef = React.useRef<() => Promise<ReturnType<typeof setBillingAddress>>>();
 
   const confirmAndPurchase = async () => {
     setSubmittingPayment(true);
@@ -646,7 +669,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   disabled={isSubmittingShippingAddress}
                   onClick={async () => {
                     setIsSubmittingShippingAddress(true);
-                    submitShippingAddressRef.current();
+                    submitShippingAddressRef.current?.();
                   }}
                 >
                   {isSubmittingShippingAddress ? <CircularProgress /> : "Set Address"}
@@ -741,7 +764,7 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   country: billingAddress?.country.code,
                 }}
                 onSubmit={async (values) => {
-                  handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
+                  return handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
                 }}
                 noValidate={billingAsShipping}
               >
@@ -784,7 +807,10 @@ const MuiCheckout = ({ items, subtotal, promoCode, shipping, total, logo, volume
                   disabled={submittingPayment}
                   onClick={async () => {
                     if (!billingAsShipping) {
-                      submitBillingAddressRef.current();
+                      const result = await submitBillingAddressRef.current?.();
+                      if (!result || result.dataError?.error) {
+                        return;
+                      }
                     }
                     await confirmAndPurchase();
                   }}
