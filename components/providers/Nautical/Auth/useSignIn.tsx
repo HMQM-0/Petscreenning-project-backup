@@ -1,11 +1,10 @@
 import React, { useCallback } from "react";
-import { useLazyQuery } from "@apollo/client";
 
 import { setCsrfToken, setSignInToken } from "utils";
 import { IS_SSR } from "utils/isSSR";
 
 import { useSignInMutation } from "./mutations.graphql.generated";
-import { UserDetailsDocument } from "./queries.graphql.generated";
+import { useUserDetailsLazyQuery } from "./queries.graphql.generated";
 import { AuthActionCreators, AuthActions } from "./actions";
 import { BROWSER_NO_CREDENTIAL_API_MESSAGE } from "./constants";
 
@@ -15,7 +14,7 @@ type useSignInProps = {
 
 const useSignIn = ({ dispatch }: useSignInProps) => {
   const [signInMutation] = useSignInMutation({ fetchPolicy: "no-cache" });
-  const [userDetailsQuery] = useLazyQuery(UserDetailsDocument, {
+  const [userDetailsQuery] = useUserDetailsLazyQuery({
     fetchPolicy: "network-only",
     errorPolicy: "all",
   });
