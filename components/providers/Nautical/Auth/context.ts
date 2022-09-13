@@ -1,9 +1,5 @@
-import { ApolloError } from "@apollo/client";
-import { GraphQLError } from "graphql";
 import { noop } from "lodash";
 import { createContext } from "react";
-
-import { AccountError } from "@generated";
 
 import { UserDetailsQuery } from "./queries.graphql.generated";
 
@@ -12,6 +8,10 @@ export type IAuthContext = {
    * Indicates if data is initialized, initially retrieved from cache or initially fetched.
    */
   loaded: boolean;
+  /**
+   * Indicates if data is currently being fetched.
+   */
+  fetching: boolean;
   /**
    * User object with currently signed in user data.
    */
@@ -28,33 +28,20 @@ export type IAuthContext = {
    * Indicates if a user was authenticated, but has signed out
    */
   signedOut: boolean;
-  signIn: (
-    email: string,
-    password: string,
-    autoSignIn?: boolean,
-  ) => Promise<
-    | {
-        errors: readonly GraphQLError[];
-      }
-    | {
-        errors: ApolloError[];
-      }
-    | {
-        errors: AccountError[];
-      }
-    | {
-        errors: null;
-      }
-  >;
+  /**
+   * Any errors from the server related to sign in
+   */
+  errors: { message: string; field?: string }[];
+  signIn: (email: string, password: string, autoSignIn?: boolean) => void;
   signOut: () => void;
 };
 
 export const INITIAL_STATE: IAuthContext = {
   loaded: false,
   signedOut: false,
-  signIn: async (email: string, password: string, autoSignIn?: boolean) => ({
-    errors: null,
-  }),
+  fetching: false,
+  errors: [],
+  signIn: async (email: string, password: string, autoSignIn?: boolean) => {},
   signOut: noop,
 };
 
