@@ -462,6 +462,15 @@ const MuiCheckout = ({
     />
   );
 
+  const submitShippingAddress = handleSubmitAddress(
+    setShippingAddress,
+    setShippingAddressError,
+    CheckoutTabs.SHIPPING,
+    () => setIsSubmittingShippingAddress(false),
+  );
+
+  const submitBillingAddress = handleSubmitAddress(setBillingAddress, setBillingAddressError);
+
   const shippingStepDisabled = !shippingAddress;
   const paymentStepDisabled = !shippingAddress || !allShippingMethodsSelected;
 
@@ -644,11 +653,7 @@ const MuiCheckout = ({
                   ...shippingAddress,
                   country: shippingAddress?.country.code,
                 }}
-                onSubmit={async (values) =>
-                  handleSubmitAddress(setShippingAddress, setShippingAddressError, CheckoutTabs.SHIPPING, () =>
-                    setIsSubmittingShippingAddress(false),
-                  )(values)
-                }
+                onSubmit={async (values) => submitShippingAddress(values)}
               >
                 {({ touched, errors, submitForm }) => {
                   submitShippingAddressRef.current = submitForm;
@@ -766,9 +771,7 @@ const MuiCheckout = ({
                   ...billingAddress,
                   country: billingAddress?.country.code,
                 }}
-                onSubmit={async (values) => {
-                  return handleSubmitAddress(setBillingAddress, setBillingAddressError)(values);
-                }}
+                onSubmit={async (values) => submitBillingAddress(values)}
                 noValidate={billingAsShipping}
               >
                 {({ touched, errors, submitForm }) => {
