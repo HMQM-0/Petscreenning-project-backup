@@ -18,7 +18,7 @@ const useAutoSignIn = ({ signIn, autoSignIn = true }: useAutoSignInProps) => {
       credentials = await navigator.credentials.get({ password: true });
       // @ts-ignore
       if (credentials && "password" in credentials && credentials.password) {
-        const { errors } = await signIn(
+        await signIn(
           // @ts-ignore
           credentials.id,
           // @ts-ignore
