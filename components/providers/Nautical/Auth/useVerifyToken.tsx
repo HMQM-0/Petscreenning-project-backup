@@ -14,12 +14,12 @@ type useVerifyTokenProps = {
 
 const useVerifyToken = ({ signOut, dispatch }: useVerifyTokenProps) => {
   const hasVerifiedRef = useRef(false);
-  const token = getSignInToken();
   const [verifyTokenMutation] = useVerifyTokenMutation({
     fetchPolicy: "no-cache",
   });
 
   const verify = useCallback(async () => {
+    const token = getSignInToken();
     if (token) {
       const { errors, data } = await verifyTokenMutation({
         variables: {
@@ -42,7 +42,7 @@ const useVerifyToken = ({ signOut, dispatch }: useVerifyTokenProps) => {
       }
     }
     dispatch(AuthActionCreators.initialize());
-  }, [dispatch, signOut, token, verifyTokenMutation]);
+  }, [dispatch, signOut, verifyTokenMutation]);
 
   useEffect(() => {
     if (!hasVerifiedRef.current) {
