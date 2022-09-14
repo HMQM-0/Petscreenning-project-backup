@@ -82,6 +82,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.shippingMethod = action.payload.shippingMethod;
       break;
     case CheckoutActionTypes.SET_SELLER_SHIPPING_METHODS:
+      setNauticalPaymentId(null);
       draft.lines = action.payload.lines;
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;
       draft.sellerShippingMethods = parseSellerShippingMethods(action.payload.sellerShippingMethods);
