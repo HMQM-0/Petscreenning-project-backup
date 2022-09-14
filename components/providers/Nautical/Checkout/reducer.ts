@@ -1,5 +1,7 @@
 import { Reducer } from "use-immer";
 
+import { setNauticalClientSecret, setNauticalPaymentId } from "utils";
+
 import { CheckoutActions, CheckoutActionTypes } from "./actions";
 import { ICheckoutStateContext } from "./context";
 import { CheckoutFragment } from "./fragments.graphql.generated";
@@ -80,6 +82,7 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.shippingMethod = action.payload.shippingMethod;
       break;
     case CheckoutActionTypes.SET_SELLER_SHIPPING_METHODS:
+      setNauticalPaymentId(null);
       draft.lines = action.payload.lines;
       draft.promoCodeDiscount = action.payload.promoCodeDiscount;
       draft.sellerShippingMethods = parseSellerShippingMethods(action.payload.sellerShippingMethods);
@@ -94,6 +97,8 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.payment = action.payload.payment;
       break;
     case CheckoutActionTypes.CLEAR_CHECKOUT:
+      setNauticalPaymentId(null);
+      setNauticalClientSecret(null);
       draft.id = undefined;
       draft.email = undefined;
       draft.promoCodeDiscount = undefined;
@@ -114,7 +119,26 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.token = undefined;
       break;
     case CheckoutActionTypes.UPDATE_LINES:
+      setNauticalPaymentId(null);
+      setNauticalClientSecret(null);
       draft.lines = action.payload.lines;
+      draft.billingAsShipping = undefined;
+      draft.shippingAddress = undefined;
+      draft.billingAddress = undefined;
+      draft.selectedShippingAddressId = undefined;
+      draft.selectedBillingAddressId = undefined;
+      draft.availableShippingMethods = undefined;
+      draft.availableShippingMethodsBySeller = undefined;
+      draft.applicableVolumeDiscounts = undefined;
+      draft.applicableVolumeDiscountsBySeller = undefined;
+      draft.availablePaymentGateways = undefined;
+      draft.payment = undefined;
+      draft.shippingMethod = undefined;
+      draft.sellerShippingMethods = undefined;
+      draft.token = undefined;
+      draft.id = undefined;
+      draft.email = undefined;
+      draft.promoCodeDiscount = undefined;
       break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);

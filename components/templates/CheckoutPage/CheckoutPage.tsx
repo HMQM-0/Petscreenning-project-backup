@@ -15,10 +15,10 @@ const convertToTaxedMoney = (value?: ITaxedMoney) => {
 
 interface ICheckoutProps {
   logo: React.ReactNode;
-  setHasTriedFinalizingPayment: React.Dispatch<boolean>;
+  setHasFailedFinalizingPayment: React.Dispatch<boolean>;
 }
 
-const CheckoutPage = ({ logo, setHasTriedFinalizingPayment }: ICheckoutProps) => {
+const CheckoutPage = ({ logo, setHasFailedFinalizingPayment }: ICheckoutProps) => {
   const [modal, setModal] = React.useState(true);
 
   const { loaded: cartLoaded, shippingPrice, discount, subtotalPrice, totalPrice, items } = useCart();
@@ -74,7 +74,7 @@ const CheckoutPage = ({ logo, setHasTriedFinalizingPayment }: ICheckoutProps) =>
               volumeDiscount={applicableVolumeDiscounts ?? undefined}
               total={convertToTaxedMoney(totalPrice ?? undefined)}
               close={() => setModal(false)}
-              setHasTriedFinalizingPayment={setHasTriedFinalizingPayment}
+              setHasFailedFinalizingPayment={setHasFailedFinalizingPayment}
             />
           )}
         </Box>

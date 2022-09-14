@@ -97,7 +97,7 @@ interface ICheckoutProps {
   products?: IProduct[] | null;
   items?: IItems | null;
   logo?: React.ReactNode;
-  setHasTriedFinalizingPayment: React.Dispatch<boolean>;
+  setHasFailedFinalizingPayment: React.Dispatch<boolean>;
   close(): void;
 }
 
@@ -117,7 +117,7 @@ const MuiCheckout = ({
   total,
   logo,
   volumeDiscount,
-  setHasTriedFinalizingPayment,
+  setHasFailedFinalizingPayment,
   close,
 }: ICheckoutProps) => {
   const creatingPayment = React.useRef(false);
@@ -315,13 +315,13 @@ const MuiCheckout = ({
           await onCompleteCheckout();
         } else {
           handleErrors(errors);
+          setHasFailedFinalizingPayment(true);
         }
         creatingPayment.current = false;
         setSubmittingPayment(false);
-        setHasTriedFinalizingPayment(true);
       }
     },
-    [createPayment, setHasTriedFinalizingPayment, onCompleteCheckout, handleErrors],
+    [createPayment, setHasFailedFinalizingPayment, onCompleteCheckout, handleErrors],
   );
 
   React.useEffect(() => {

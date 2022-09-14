@@ -20,7 +20,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   const { user } = useAuth();
   const { loaded, lines } = useCheckout();
   const payment = getPayment();
-  const [hasTriedFinalizingPayment, setHasTriedFinalizingPayment] = useState(false);
+  const [hasFailedFinalizingPayment, setHasFailedFinalizingPayment] = useState(false);
 
   const [{ payment_intent, payment_intent_client_secret, guest }] = useQueryParams({
     payment_intent: StringParam,
@@ -29,7 +29,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   });
 
   const isFinalizingPayment =
-    !hasTriedFinalizingPayment && ((payment_intent && payment_intent_client_secret) || payment?.token);
+    !hasFailedFinalizingPayment && ((payment_intent && payment_intent_client_secret) || payment?.token);
   const redirectToCart = !isFinalizingPayment && loaded && (!lines || lines.length === 0);
   if (!IS_SSR) {
     if (redirectToCart) {
@@ -46,7 +46,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
     <Layout documentHead={documentHead}>
       <CheckoutPage
         logo={logo}
-        setHasTriedFinalizingPayment={setHasTriedFinalizingPayment}
+        setHasFailedFinalizingPayment={setHasFailedFinalizingPayment}
       />
     </Layout>
   );
