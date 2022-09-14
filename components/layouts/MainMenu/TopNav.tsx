@@ -37,7 +37,7 @@ interface ITopNavProps {
 const TopNav = (props: ITopNavProps) => {
   const { logo } = props;
 
-  const { user, signOut } = useAuth();
+  const { authenticated, signOut } = useAuth();
   const { items } = useCart();
   const router = useRouter();
   const handleSignOut = async () => {
@@ -188,7 +188,7 @@ const TopNav = (props: ITopNavProps) => {
               aria-haspopup="true"
               aria-expanded={accountMenuOpen ? "true" : undefined}
               onClick={(event) => {
-                if (!user) {
+                if (!authenticated) {
                   overlayContext.show(OverlayType.login, OverlayTheme.right);
                   return;
                 }
@@ -196,7 +196,7 @@ const TopNav = (props: ITopNavProps) => {
                 setAnchorEl(accountMenuOpen ? null : event.currentTarget);
               }}
             >
-              {user ? <PersonIcon color="primary" /> : <PersonOutlineOutlinedIcon color="action" />}
+              {authenticated ? <PersonIcon color="primary" /> : <PersonOutlineOutlinedIcon color="action" />}
             </IconButton>
             <Menu
               anchorEl={anchorEl}
