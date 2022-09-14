@@ -18,6 +18,7 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
     fetchPolicy: "network-only",
     errorPolicy: "all",
   });
+
   return useCallback(
     /**
      * Tries to authenticate user with given email and password.
@@ -56,17 +57,15 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
         setSignInToken(data?.tokenCreate?.token || null);
         setCsrfToken(data?.tokenCreate?.csrfToken || null);
 
-        const { data: userData, error: userDataError } = await userDetailsQuery({
-          onCompleted: () => {
-            if (userDataError) {
-              dispatch(AuthActionCreators.errors([userDataError]));
-              return;
+        const token = data?.tokenCreate?.token ?? undefined;
+
+        await userDetailsQuery({
+          onCompleted: (data) => {
+            const user = data?.me;
+
+            if (user) {
+              dispatch(AuthActionCreators.signIn(token, user));
             }
-
-            const token = data?.tokenCreate?.token ?? undefined;
-            const user = userData?.me;
-
-            dispatch(AuthActionCreators.signIn(token, user));
           },
           onError: (apolloError) => {
             dispatch(AuthActionCreators.errors([apolloError]));
