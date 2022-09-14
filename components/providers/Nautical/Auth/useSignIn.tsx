@@ -18,7 +18,6 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
     fetchPolicy: "network-only",
     errorPolicy: "all",
   });
-
   return useCallback(
     /**
      * Tries to authenticate user with given email and password.
