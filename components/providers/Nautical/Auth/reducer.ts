@@ -25,8 +25,12 @@ export const reducer: Reducer<IAuthContext, AuthActions> = (draft, action) => {
       break;
     case AuthActionTypes.UPDATE:
       draft.user = action.payload.user;
+      draft.loaded = true;
       draft.fetching = false;
       draft.errors = [];
+      break;
+    case AuthActionTypes.INITIALIZE:
+      draft.loaded = true;
       break;
     case AuthActionTypes.ERROR:
       draft.errors = action.payload.errors;

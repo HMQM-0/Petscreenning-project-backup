@@ -21,7 +21,7 @@ const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSidePro
 
   return (
     <Layout documentHead={documentHead}>
-      <AccountSettingsLayout>
+      <AccountSettingsLayout allowAnonymousUser>
         <OrderHistoryDetailsPage token={token} />
       </AccountSettingsLayout>
     </Layout>

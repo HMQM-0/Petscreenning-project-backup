@@ -4,6 +4,7 @@ export const AuthActionTypes = {
   SIGN_IN: "SIGN_IN",
   SIGN_OUT: "SIGN_OUT",
   UPDATE: "UPDATE",
+  INITIALIZE: "INITIALIZE",
   ERROR: "ERROR",
   FETCHING: "FETCHING",
 } as const;
@@ -34,6 +35,10 @@ export const AuthActionCreators = {
   }),
   fetching: () => ({
     type: AuthActionTypes.FETCHING,
+    payload: null,
+  }),
+  initialize: () => ({
+    type: AuthActionTypes.INITIALIZE,
     payload: null,
   }),
 } as const;
