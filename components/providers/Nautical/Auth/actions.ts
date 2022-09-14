@@ -5,6 +5,8 @@ export const AuthActionTypes = {
   SIGN_OUT: "SIGN_OUT",
   UPDATE: "UPDATE",
   INITIALIZE: "INITIALIZE",
+  ERROR: "ERROR",
+  FETCHING: "FETCHING",
 } as const;
 
 export const AuthActionCreators = {
@@ -24,6 +26,16 @@ export const AuthActionCreators = {
     payload: {
       user,
     },
+  }),
+  errors: (errors: IAuthContext["errors"]) => ({
+    type: AuthActionTypes.ERROR,
+    payload: {
+      errors,
+    },
+  }),
+  fetching: () => ({
+    type: AuthActionTypes.FETCHING,
+    payload: null,
   }),
   initialize: () => ({
     type: AuthActionTypes.INITIALIZE,

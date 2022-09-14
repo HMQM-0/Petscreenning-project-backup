@@ -11,6 +11,8 @@ export const reducer: Reducer<IAuthContext, AuthActions> = (draft, action) => {
       draft.authenticated = true;
       draft.loaded = true;
       draft.signedOut = false;
+      draft.fetching = false;
+      draft.errors = [];
       break;
     case AuthActionTypes.SIGN_OUT:
       draft.user = undefined;
@@ -18,13 +20,25 @@ export const reducer: Reducer<IAuthContext, AuthActions> = (draft, action) => {
       draft.authenticated = false;
       draft.loaded = true;
       draft.signedOut = true;
+      draft.fetching = false;
+      draft.errors = [];
       break;
     case AuthActionTypes.UPDATE:
       draft.user = action.payload.user;
       draft.loaded = true;
+      draft.fetching = false;
+      draft.errors = [];
       break;
     case AuthActionTypes.INITIALIZE:
       draft.loaded = true;
+      break;
+    case AuthActionTypes.ERROR:
+      draft.errors = action.payload.errors;
+      draft.fetching = false;
+      break;
+    case AuthActionTypes.FETCHING:
+      draft.fetching = true;
+      draft.errors = [];
       break;
     default:
       // @ts-ignore - this will never happen, but is useful when adding a new action and debugging
