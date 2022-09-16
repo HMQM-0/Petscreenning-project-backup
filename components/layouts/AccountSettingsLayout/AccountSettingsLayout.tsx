@@ -16,17 +16,17 @@ const AccountSettingsLayout = ({ children, allowAnonymousUser }: LayoutProps) =>
   const { loaded, authenticated } = useAuth();
   const { push } = useRouter();
 
-  const isAllowedToViewPage = allowAnonymousUser || (loaded && authenticated);
+  const isAllowedToViewPage = authenticated || allowAnonymousUser;
 
   useEffect(() => {
-    if (!IS_SSR) {
+    if (!IS_SSR && loaded) {
       if (!isAllowedToViewPage) {
         push("/");
       }
     }
   }, [push, allowAnonymousUser, loaded, authenticated, isAllowedToViewPage]);
 
-  if (!isAllowedToViewPage) {
+  if (loaded && !isAllowedToViewPage) {
     return <Unathenticated />;
   }
 
