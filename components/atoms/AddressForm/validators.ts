@@ -6,6 +6,7 @@ export const addressValidationSchema = (email?: string) =>
     lastName: Yup.string().required("Required"),
     streetAddress1: Yup.string().required("Required"),
     city: Yup.string().required("Required"),
+    phone: Yup.string().required("Required"),
     email: email ? Yup.string().email("Invalid email").required("Required") : Yup.string(),
   });
 
