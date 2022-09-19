@@ -23,20 +23,11 @@ export const Wrapper = styled.div`
 `;
 
 export const QuantityButtons = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
   justify-content: space-between;
   padding: 0;
-  margin: 0 15px 0 0;
-  width: 50px;
-
-  > div {
-    display: flex;
-  }
-
-  svg {
-    cursor: pointer;
-    justify-self: center;
-  }
+  width: 66%;
 `;
 
 export const Photo = styled.div`
