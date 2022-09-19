@@ -16,8 +16,8 @@ const useInitializeCart = ({ items, loaded, setLoaded }: useInitializeCartProps)
     const init = async () => {
       if (items) {
         await refreshCheckoutLines(items);
+        setLoaded(true);
       }
-      setLoaded(true);
     };
 
     if (!loaded) {
