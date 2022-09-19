@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Link from "next/link";
-import { Box, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { Money } from "components/atoms/Money";
@@ -77,6 +77,8 @@ export const CartRow = ({ item }: CartRowProps) => {
 
   const productUrl = generateProductUrl(id, name);
 
+  const addDisabled = Number(displayQuantity) >= maxQuantity;
+
   return (
     <S.Wrapper
       data-test="cartRow"
@@ -126,8 +128,8 @@ export const CartRow = ({ item }: CartRowProps) => {
           InputProps={{
             endAdornment: (
               <S.QuantityButtons data-test="quantityControls">
-                <Box
-                  mr={1}
+                <Button
+                  sx={{ padding: 1, margin: 0, minWidth: "unset" }}
                   onClick={subtract}
                   data-test="subtractButton"
                 >
@@ -135,17 +137,18 @@ export const CartRow = ({ item }: CartRowProps) => {
                     size={16}
                     name="horizontal_line"
                   />
-                </Box>
-                <Box
-                  ml={1}
+                </Button>
+                <Button
+                  sx={{ padding: 1, margin: 0, minWidth: "unset" }}
                   onClick={add}
                   data-test="increaseButton"
+                  disabled={addDisabled}
                 >
                   <Icon
                     size={16}
                     name="plus"
                   />
-                </Box>
+                </Button>
               </S.QuantityButtons>
             ),
           }}
