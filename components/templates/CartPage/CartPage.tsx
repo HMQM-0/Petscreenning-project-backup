@@ -72,7 +72,7 @@ export const CartPage = () => {
           <S.Cart>
             {items.map((item, index) => (
               <CartRow
-                key={item.id || index}
+                key={item.variant.id}
                 item={item}
               />
             ))}
