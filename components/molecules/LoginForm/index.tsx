@@ -21,7 +21,7 @@ const LoginForm = ({ hide }: ILoginForm) => {
     if (user && !fetching) {
       hide?.();
     }
-  }, [user, fetching]);
+  }, [user, fetching, hide]);
 
   const handleOnSubmit = async (evt: React.FormEvent, { email, password }: { email: string; password: string }) => {
     evt.preventDefault();

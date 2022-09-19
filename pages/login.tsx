@@ -14,10 +14,10 @@ import { getApolloClient } from "../apollo-client";
 
 const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   const { push } = useRouter();
-  const { user } = useAuth();
+  const { authenticated } = useAuth();
 
   // TODO: Determine if this can be done Server-Side to improve UX
-  if (user) {
+  if (authenticated) {
     push("/checkout");
   }
 

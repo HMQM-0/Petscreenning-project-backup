@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
+import { useApolloClient } from "@apollo/client";
 
 import { setCsrfToken, setSignInToken } from "utils";
 import { IS_SSR } from "utils/isSSR";
 
 import { useSignInMutation } from "./mutations.graphql.generated";
-import { useUserDetailsLazyQuery } from "./queries.graphql.generated";
+import { UserDetailsDocument, UserDetailsQuery, useUserDetailsLazyQuery } from "./queries.graphql.generated";
 import { AuthActionCreators, AuthActions } from "./actions";
 import { BROWSER_NO_CREDENTIAL_API_MESSAGE } from "./constants";
 
@@ -14,10 +15,16 @@ type useSignInProps = {
 
 const useSignIn = ({ dispatch }: useSignInProps) => {
   const [signInMutation] = useSignInMutation({ fetchPolicy: "no-cache" });
-  const [userDetailsQuery] = useUserDetailsLazyQuery({
-    fetchPolicy: "network-only",
-    errorPolicy: "all",
-  });
+  const client = useApolloClient();
+
+  const userDetailsQuery = useCallback(async () => {
+    return client.query<UserDetailsQuery>({
+      query: UserDetailsDocument,
+      fetchPolicy: "network-only",
+      errorPolicy: "all",
+    });
+  }, [client]);
+
   return useCallback(
     /**
      * Tries to authenticate user with given email and password.
@@ -58,18 +65,17 @@ const useSignIn = ({ dispatch }: useSignInProps) => {
 
         const token = data?.tokenCreate?.token ?? undefined;
 
-        await userDetailsQuery({
-          onCompleted: (data) => {
-            const user = data?.me;
+        const { data: userDetailsData, error } = await userDetailsQuery();
 
-            if (user) {
-              dispatch(AuthActionCreators.signIn(token, user));
-            }
-          },
-          onError: (apolloError) => {
-            dispatch(AuthActionCreators.errors([apolloError]));
-          },
-        });
+        if (error) {
+          dispatch(AuthActionCreators.errors([error]));
+          return;
+        }
+        const user = userDetailsData?.me;
+
+        if (user) {
+          dispatch(AuthActionCreators.signIn(token, user));
+        }
       } catch {
         const errors = [{ message: "There was an unexpected error. Please try again", field: "password" }];
         dispatch(AuthActionCreators.errors(errors));
