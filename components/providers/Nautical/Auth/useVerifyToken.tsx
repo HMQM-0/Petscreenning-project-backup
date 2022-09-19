@@ -39,6 +39,7 @@ const useVerifyToken = ({ signOut, dispatch }: useVerifyTokenProps) => {
         }
       } else {
         dispatch(AuthActionCreators.signIn(token, user));
+        return;
       }
     }
     dispatch(AuthActionCreators.initialize());

@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { __APOLLO__, documentHead } = pageProps;
   return (
     <ThemeProvider theme={defaultTheme}>
-      <MaterialUIProvider branding={documentHead.branding}>
+      <MaterialUIProvider branding={documentHead?.branding}>
         <GlobalStyles styles={(theme) => nprogress(theme.palette.secondary.main)} />
         <div id="root">
           <AlertProvider
