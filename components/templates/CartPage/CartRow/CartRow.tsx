@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Link from "next/link";
-import { Button, TextField } from "@mui/material";
+import { Button, SxProps, TextField } from "@mui/material";
 
 import { calculateTax } from "components/molecules/TaxedMoney/calculateTax";
 import { Money } from "components/atoms/Money";
@@ -14,6 +14,16 @@ import { generateProductUrl } from "core/utils";
 import { ICheckoutModelLine } from "components/providers/Nautical/Checkout/types";
 
 import * as S from "./styles";
+
+const updateButton: SxProps = {
+  padding: 1,
+  margin: 0,
+  minWidth: "unset",
+  "&:disabled": {
+    opacity: 0.5,
+    cursor: "not-allowed",
+  },
+};
 
 interface CartRowProps {
   item: ICheckoutModelLine;
@@ -129,7 +139,7 @@ export const CartRow = ({ item }: CartRowProps) => {
             endAdornment: (
               <S.QuantityButtons data-test="quantityControls">
                 <Button
-                  sx={{ padding: 1, margin: 0, minWidth: "unset" }}
+                  sx={updateButton}
                   onClick={subtract}
                   data-test="subtractButton"
                 >
@@ -139,7 +149,7 @@ export const CartRow = ({ item }: CartRowProps) => {
                   />
                 </Button>
                 <Button
-                  sx={{ padding: 1, margin: 0, minWidth: "unset" }}
+                  sx={updateButton}
                   onClick={add}
                   data-test="increaseButton"
                   disabled={addDisabled}
