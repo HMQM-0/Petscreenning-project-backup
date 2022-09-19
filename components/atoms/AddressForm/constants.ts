@@ -16,6 +16,6 @@ export const fields: {
   { name: "city", label: "city", required: true, autoComplete: "address-level2", span: false },
   { name: "countryArea", label: "state/province/area", required: false, autoComplete: "address-level1", span: false },
   { name: "postalCode", label: "zip/postal code", required: true, autoComplete: "postal-code", span: false },
-  { name: "phone", label: "phone", autoComplete: "shipping tel-national", required: false, span: false, type: "tel" },
+  { name: "phone", label: "phone", autoComplete: "shipping tel-national", required: true, span: false, type: "tel" },
   { name: "country", label: "country", required: true, autoComplete: "country", span: false },
 ];
