@@ -33,37 +33,46 @@ export const CartRow = ({ item }: CartRowProps) => {
     ...variant?.product?.thumbnail,
     alt: variant?.product?.thumbnail?.alt || "",
   };
-
-  const [tempQuantity, setTempQuantity] = useState<string>(quantity.toString());
   const intl = useIntl();
 
-  const handleBlurQuantityInput = () => {
-    let newQuantity = parseInt(tempQuantity, 10);
+  const [displayQuantity, setDisplayQuantity] = useState(() => String(quantity));
 
-    if (isNaN(newQuantity) || newQuantity <= 0) {
-      newQuantity = quantity;
+  useEffect(() => {
+    const numericalDisplayQuantity = Number(displayQuantity);
+    if (quantity !== numericalDisplayQuantity && !isNaN(numericalDisplayQuantity)) {
+      updateItem(variant.id, numericalDisplayQuantity);
+    }
+  }, [displayQuantity, quantity, updateItem, variant.id]);
+
+  const add = () => {
+    setDisplayQuantity((previousDisplayQuantity) => {
+      const numericalDisplayQuantity = Number(previousDisplayQuantity);
+      const next = numericalDisplayQuantity < maxQuantity ? numericalDisplayQuantity + 1 : numericalDisplayQuantity;
+      return String(next);
+    });
+  };
+  const subtract = () => {
+    setDisplayQuantity((previousDisplayQuantity) => {
+      const numericalDisplayQuantity = Number(previousDisplayQuantity);
+      const next = numericalDisplayQuantity > 1 ? numericalDisplayQuantity - 1 : numericalDisplayQuantity;
+      return String(next);
+    });
+  };
+
+  const handleBlur = () => {
+    let newQuantity = Number(displayQuantity);
+
+    if (newQuantity <= 0 || isNaN(newQuantity)) {
+      newQuantity = 1;
     } else if (newQuantity > maxQuantity) {
       newQuantity = maxQuantity;
     }
 
-    if (quantity !== newQuantity) {
-      updateItem(variant.id, newQuantity);
-    }
-
-    const newTempQuantity = newQuantity.toString();
-    if (tempQuantity !== newTempQuantity) {
-      setTempQuantity(newTempQuantity);
-    }
+    setDisplayQuantity(String(newQuantity));
   };
 
-  useEffect(() => {
-    setTempQuantity(quantity.toString());
-  }, [quantity]);
-
-  const add = () => quantity < maxQuantity && updateItem(variant.id, quantity + 1);
-  const subtract = () => quantity > 1 && updateItem(variant.id, quantity - 1);
   const handleQuantityChange = (evt: React.ChangeEvent<any>) => {
-    setTempQuantity(evt.target.value);
+    setDisplayQuantity(evt.target.value);
   };
 
   const productUrl = generateProductUrl(id, name);
@@ -111,8 +120,8 @@ export const CartRow = ({ item }: CartRowProps) => {
         <TextField
           name="quantity"
           label={intl.formatMessage(commonMessages.qty)}
-          value={tempQuantity}
-          onBlur={handleBlurQuantityInput}
+          value={displayQuantity}
+          onBlur={handleBlur}
           onChange={handleQuantityChange}
           InputProps={{
             endAdornment: (
