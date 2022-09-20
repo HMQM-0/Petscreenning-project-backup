@@ -121,7 +121,14 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
     case CheckoutActionTypes.UPDATE_LINES:
       setNauticalPaymentId(null);
       setNauticalClientSecret(null);
-      draft.lines = action.payload.lines;
+      draft.lines = draft.lines?.map((line) => {
+        const newQuantity =
+          action.payload.lines?.find((newLine) => newLine.variant.id === line.variant.id)?.quantity ?? 0;
+        return {
+          ...line,
+          quantity: newQuantity,
+        };
+      });
       draft.billingAsShipping = undefined;
       draft.shippingAddress = undefined;
       draft.billingAddress = undefined;
