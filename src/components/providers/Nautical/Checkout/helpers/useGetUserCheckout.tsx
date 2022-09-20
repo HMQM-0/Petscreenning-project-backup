@@ -19,7 +19,7 @@ const useGetUserCheckout = () => {
       let checkout: CheckoutFragment | null;
       try {
         checkout = await new Promise(async (resolve, reject) => {
-          if (isUserSignedIn) {
+          if (isUserSignedIn && checkoutToken) {
             const { data, errors } = await client.query<UserCheckoutDetailsQuery, any>({
               fetchPolicy: "network-only",
               query: UserCheckoutDetailsDocument,
