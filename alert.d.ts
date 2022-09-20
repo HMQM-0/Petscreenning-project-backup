@@ -1,6 +1,6 @@
 import { AlertContainer, AlertCustomOptions } from "react-alert";
 
-import { IProps } from "components/atoms/NotificationTemplate/types";
+import { IProps } from "src/components/atoms/NotificationTemplate/types";
 
 declare module "react-alert" {
   export interface AlertContainerFactory<T> {

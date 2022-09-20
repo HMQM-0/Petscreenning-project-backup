@@ -1,18 +1,17 @@
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { OrderFinalized } from "components/templates/OrderFinalized";
+import { OrderFinalized } from "src/components/templates/OrderFinalized";
 import {
   OrderFinalizedPageDocument,
   OrderFinalizedPageQuery,
   OrderFinalizedPageQueryVariables,
-} from "components/templates/OrderFinalized/queries.graphql.generated";
-import { getSeoURL } from "utils";
-import { DocumentHead } from "types";
-
-import { getApolloClient } from "../apollo-client";
+} from "src/components/templates/OrderFinalized/queries.graphql.generated";
+import { getSeoURL } from "src/utils";
+import { DocumentHead } from "src/types";
+import { getApolloClient } from "src/apollo-client";
 
 const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, documentHead }) => {
   return (

@@ -2,12 +2,12 @@ import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 import { GetServerSidePropsContext } from "next";
 
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import { getApolloClient } from "src/apollo-client";
+import { getSeoURL } from "src/utils";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import AccountConfirm from "components/templates/AccountConfirmPage";
-import { getApolloClient } from "apollo-client";
-import NotFound from "components/molecules/NotFound";
-import { getSeoURL } from "utils";
+import AccountConfirm from "src/components/templates/AccountConfirmPage";
+import NotFound from "src/components/molecules/NotFound";
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ email, token, documentHead }) => {
   const showAccountConfirm = email && token && typeof email === "string" && typeof token === "string";

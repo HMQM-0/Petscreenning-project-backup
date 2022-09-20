@@ -8,17 +8,18 @@ import Router from "next/router";
 import { GlobalStyles } from "@mui/material";
 import nProgress from "nprogress";
 
-import builderConfig from "config/builder";
-import { defaultTheme, GlobalStyle } from "styles";
+import builderConfig from "src/config/builder";
+import { defaultTheme, GlobalStyle } from "src/styles";
 import { ShopProvider, OverlayProvider, MaterialUIProvider } from "@providers";
+
 builderConfig.apiKey && builder.init(builderConfig.apiKey);
-import "components/templates/Builder/mui";
-import "components/templates/Builder/nautical";
-import "globalStyles/scss/index.scss";
-import { nprogress } from "styles/nprogress";
-import NotificationTemplate from "components/atoms/NotificationTemplate/NotificationTemplate";
-import NauticalProvider from "components/providers/Nautical/NauticalProvider";
-import { LocaleProvider } from "components/providers/Locale/Locale";
+import "src/components/templates/Builder/mui";
+import "src/components/templates/Builder/nautical";
+import "src/globalStyles/scss/index.scss";
+import { nprogress } from "src/styles/nprogress";
+import NotificationTemplate from "src/components/atoms/NotificationTemplate/NotificationTemplate";
+import NauticalProvider from "src/components/providers/Nautical/NauticalProvider";
+import { LocaleProvider } from "src/components/providers/Locale/Locale";
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);

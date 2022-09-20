@@ -2,13 +2,13 @@ import { GetServerSidePropsContext } from "next";
 import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
+import { getSsrApolloClient } from "src/apollo-client";
+import { getSeoURL } from "src/utils";
 import { AccountSettingsLayout } from "@layouts/AccountSettingsLayout";
-import { AccountPageDocument, AccountPageQuery } from "components/templates/AccountPage/queries.graphql.generated";
-import { AccountPage } from "components/templates/AccountPage";
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import { AccountPageDocument, AccountPageQuery } from "src/components/templates/AccountPage/queries.graphql.generated";
+import { AccountPage } from "src/components/templates/AccountPage";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { getSsrApolloClient } from "apollo-client";
-import { getSeoURL } from "utils";
 
 const Account: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (

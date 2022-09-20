@@ -1,0 +1,7 @@
+@import "src/globalStyles/scss/variables.scss";
+
+.product-list-price-undiscounted {
+  text-decoration: line-through;
+  font-size: 0.8rem;
+  font-weight: 300;
+}

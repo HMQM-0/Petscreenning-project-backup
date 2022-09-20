@@ -1,13 +1,13 @@
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import { CartPage } from "components/templates/CartPage/CartPage";
-import { CartPageDocument, CartPageQuery } from "components/templates/CartPage/queries.graphql.generated";
+import { DocumentHead } from "src/types";
+import { getApolloClient } from "src/apollo-client";
+import { getSeoURL } from "src/utils";
+import { CartPage } from "src/components/templates/CartPage/CartPage";
+import { CartPageDocument, CartPageQuery } from "src/components/templates/CartPage/queries.graphql.generated";
 import { Layout } from "@layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
-import { getSeoURL } from "utils";
-import { DocumentHead } from "types";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 
 const Cart: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (

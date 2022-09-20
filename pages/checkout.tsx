@@ -5,15 +5,17 @@ import { useQueryParams, BooleanParam, StringParam } from "next-query-params";
 import { useState } from "react";
 
 import { useAuth, useCheckout } from "nautical-api";
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { CheckoutPageDocument, CheckoutPageQuery } from "components/templates/CheckoutPage/queries.graphql.generated";
-import { CheckoutPage } from "components/templates/CheckoutPage";
-import { Logo } from "components/atoms/Logo";
-import { getPayment, getSeoURL, IS_SSR } from "utils";
-import { DocumentHead } from "types";
-
-import { getApolloClient } from "../apollo-client";
+import {
+  CheckoutPageDocument,
+  CheckoutPageQuery,
+} from "src/components/templates/CheckoutPage/queries.graphql.generated";
+import { CheckoutPage } from "src/components/templates/CheckoutPage";
+import { Logo } from "src/components/atoms/Logo";
+import { getPayment, getSeoURL, IS_SSR } from "src/utils";
+import { DocumentHead } from "src/types";
+import { getApolloClient } from "src/apollo-client";
 
 const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ data, documentHead }) => {
   const { push } = useRouter();

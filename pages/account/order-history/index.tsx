@@ -2,16 +2,16 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import type { NextPage } from "next";
 import * as React from "react";
 
-import { Layout } from "components/layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { OrderHistoryPage } from "components/templates/OrderHistoryPage";
-import { getSsrApolloClient } from "apollo-client";
+import { getSsrApolloClient } from "src/apollo-client";
+import { getSeoURL } from "src/utils";
+import { Layout } from "src/components/layouts/Layout";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
+import { OrderHistoryPage } from "src/components/templates/OrderHistoryPage";
 import {
   OrderHistoryPageDocument,
   OrderHistoryPageQuery,
-} from "components/templates/OrderHistoryPage/queries.graphql.generated";
+} from "src/components/templates/OrderHistoryPage/queries.graphql.generated";
 import { AccountSettingsLayout } from "@layouts/AccountSettingsLayout";
-import { getSeoURL } from "utils";
 
 const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (

@@ -3,20 +3,20 @@ import { BuilderContent } from "@builder.io/sdk";
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import { getGraphqlIdFromDBId } from "core/utils";
-import builderConfig from "config/builder";
-import { Layout } from "components/layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
-import { ProductsListView } from "components/templates/ProductsList/View";
-import NotFound from "components/molecules/NotFound";
-import { default as CollectionProducts } from "components/templates/CollectionPage/CollectionProducts";
+import builderConfig from "src/config/builder";
+import { getGraphqlIdFromDBId } from "src/core/utils";
+import { Layout } from "src/components/layouts/Layout";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
+import { getApolloClient } from "src/apollo-client";
+import { ProductsListView } from "src/components/templates/ProductsList/View";
+import NotFound from "src/components/molecules/NotFound";
+import { default as CollectionProducts } from "src/components/templates/CollectionPage/CollectionProducts";
 import {
   CollectionPageDocument,
   CollectionPageQuery,
   CollectionPageQueryVariables,
-} from "components/templates/CollectionPage/queries.graphql.generated";
-import { getSeoURL } from "utils";
+} from "src/components/templates/CollectionPage/queries.graphql.generated";
+import { getSeoURL } from "src/utils";
 
 const Collection: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,

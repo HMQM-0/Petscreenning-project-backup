@@ -2,16 +2,16 @@ import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 import { GetServerSidePropsContext } from "next";
 
+import { getApolloClient } from "src/apollo-client";
+import { getSeoURL, IS_SSR } from "src/utils";
 import {
   ResetPasswordPageDocument,
   ResetPasswordPageQuery,
-} from "components/templates/ResetPasswordPage/queries.graphql.generated";
-import { ResetPasswordPage } from "components/templates/ResetPasswordPage";
-import { structuredData } from "components/templates/IndexPage/structuredData";
+} from "src/components/templates/ResetPasswordPage/queries.graphql.generated";
+import { ResetPasswordPage } from "src/components/templates/ResetPasswordPage";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { getApolloClient } from "apollo-client";
-import NotFound from "components/molecules/NotFound";
-import { getSeoURL, IS_SSR } from "utils";
+import NotFound from "src/components/molecules/NotFound";
 
 const ResetPassword: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   email,

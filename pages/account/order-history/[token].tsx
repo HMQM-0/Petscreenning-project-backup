@@ -2,17 +2,17 @@ import { GetServerSidePropsContext } from "next";
 import type { NextPage, InferGetServerSidePropsType } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
+import { getSsrApolloClient } from "src/apollo-client";
+import { getSeoURL } from "src/utils";
 import {
   OrderHistoryDetailsPageDocument,
   OrderHistoryDetailsPageQuery,
-} from "components/templates/OrderHistoryDetailsPage/queries.graphql.generated";
-import { OrderHistoryDetailsPage } from "components/templates/OrderHistoryDetailsPage";
-import NotFound from "components/molecules/NotFound";
+} from "src/components/templates/OrderHistoryDetailsPage/queries.graphql.generated";
+import { OrderHistoryDetailsPage } from "src/components/templates/OrderHistoryDetailsPage";
+import NotFound from "src/components/molecules/NotFound";
 import { AccountSettingsLayout } from "@layouts/AccountSettingsLayout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { getSsrApolloClient } from "apollo-client";
-import { getSeoURL } from "utils";
 
 const OrderHistory: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ token, documentHead }) => {
   if (!token) {

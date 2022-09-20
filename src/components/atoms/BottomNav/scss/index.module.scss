@@ -1,0 +1,9 @@
+@import "src/globalStyles/scss/variables.scss";
+
+.bottom-nav {
+  display: none;
+  @media (max-width: $small-screen) {
+    display: block;
+    z-index: 2;
+  }
+}
