@@ -1,4 +1,4 @@
-import type { NextPage, InferGetServerSidePropsType, GetServerSideProps } from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
@@ -8,28 +8,17 @@ import { Error } from "components/templates/Error";
 import { structuredData } from "components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
 import { ErrorPageDocument, ErrorPageQuery } from "components/templates/Error/queries.graphql.generated";
-import { IS_SSR } from "utils";
+import { getSeoURL } from "utils";
+import { DocumentHead } from "types";
 
 import { getApolloClient } from "../apollo-client";
 
 const ErrorPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  documentHead,
   data,
   builderContent,
   is404,
 }) => {
-  const URL = IS_SSR ? "" : location.href;
-  const description = data?.shop.description ?? "";
-  const title = data?.shop.name ?? "";
-  const schema = structuredData(description, title, URL);
-  const documentHead = {
-    branding: data.branding,
-    description,
-    title,
-    schema,
-    image: data.branding?.logo ?? "",
-    url: "", // TODO: Store the canonical URL either as env or in dasboard
-  };
-
   return (
     <Layout documentHead={documentHead}>
       <Error
@@ -41,7 +30,8 @@ const ErrorPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const { res } = context;
   const is404 = res.statusCode === 404;
   const client = getApolloClient();
   let content: BuilderContent | null = null;
@@ -73,10 +63,23 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     console.error("GraphQL Error (ErrorPageQuery):", e);
   }
 
+  const url = getSeoURL(context);
+  const description = is404 ? "404 not found" : "Error page";
+  const title = is404 ? "Not Found" : "Error";
+  const schema = structuredData(description, title, url);
+  const documentHead: DocumentHead = {
+    branding: data.branding,
+    description,
+    title,
+    schema,
+    url,
+  };
+
   const __APOLLO__: NormalizedCacheObject = client.extract();
 
   return {
     props: {
+      documentHead,
       data,
       builderContent: content,
       is404,
