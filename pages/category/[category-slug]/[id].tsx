@@ -2,21 +2,20 @@ import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 
-import { getGraphqlIdFromDBId } from "core/utils";
-import builderConfig from "config/builder";
+import { getGraphqlIdFromDBId } from "src/core/utils";
+import builderConfig from "src/config/builder";
 import {
   CategoryPageDocument,
   CategoryPageQuery,
   CategoryPageQueryVariables,
-} from "components/templates/CategoryPage/queries.graphql.generated";
-import { Layout } from "components/layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
-import { ProductsListView } from "components/templates/ProductsList/View";
-import { getSeoURL, IS_SSR } from "utils";
-
-import { default as CategoryProducts } from "../../../components/templates/CategoryPage/CategoryProducts";
-import NotFound from "../../../components/molecules/NotFound";
+} from "src/components/templates/CategoryPage/queries.graphql.generated";
+import { Layout } from "src/components/layouts/Layout";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
+import { getApolloClient } from "src/apollo-client";
+import { ProductsListView } from "src/components/templates/ProductsList/View";
+import { getSeoURL, IS_SSR } from "src/utils";
+import { default as CategoryProducts } from "src/components/templates/CategoryPage/CategoryProducts";
+import NotFound from "src/components/molecules/NotFound";
 
 const Category: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,

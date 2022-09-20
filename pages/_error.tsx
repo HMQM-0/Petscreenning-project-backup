@@ -3,14 +3,13 @@ import { NormalizedCacheObject } from "@apollo/client";
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 
-import builderConfig from "config/builder";
-import { Error } from "components/templates/Error";
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import builderConfig from "src/config/builder";
+import { IS_SSR } from "src/utils";
+import { Error } from "src/components/templates/Error";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { ErrorPageDocument, ErrorPageQuery } from "components/templates/Error/queries.graphql.generated";
-import { IS_SSR } from "utils";
-
-import { getApolloClient } from "../apollo-client";
+import { ErrorPageDocument, ErrorPageQuery } from "src/components/templates/Error/queries.graphql.generated";
+import { getApolloClient } from "src/apollo-client";
 
 const ErrorPage: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,

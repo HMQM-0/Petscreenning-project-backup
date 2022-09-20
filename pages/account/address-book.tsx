@@ -1,15 +1,15 @@
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 
-import { Layout } from "components/layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
-import { AddressBookPage } from "components/templates/AddressBookPage";
-import { AccountSettingsLayout } from "components/layouts/AccountSettingsLayout";
+import { getApolloClient } from "src/apollo-client";
+import { getSeoURL } from "src/utils";
+import { Layout } from "src/components/layouts/Layout";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
+import { AddressBookPage } from "src/components/templates/AddressBookPage";
+import { AccountSettingsLayout } from "src/components/layouts/AccountSettingsLayout";
 import {
   AddressBookPageDocument,
   AddressBookPageQuery,
-} from "components/templates/AddressBookPage/queries.graphql.generated";
-import { getSeoURL } from "utils";
+} from "src/components/templates/AddressBookPage/queries.graphql.generated";
 
 const AddressBook: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   return (

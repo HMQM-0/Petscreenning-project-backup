@@ -3,14 +3,14 @@ import { BuilderContent } from "@builder.io/sdk";
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import NotFound from "components/molecules/NotFound";
-import VendorsList from "components/templates/VendorsPage/Vendors";
-import builderConfig from "config/builder";
-import { VendorsPageDocument, VendorsPageQuery } from "components/templates/VendorsPage/queries.graphql.generated";
+import { getApolloClient } from "src/apollo-client";
+import NotFound from "src/components/molecules/NotFound";
+import VendorsList from "src/components/templates/VendorsPage/Vendors";
+import builderConfig from "src/config/builder";
+import { VendorsPageDocument, VendorsPageQuery } from "src/components/templates/VendorsPage/queries.graphql.generated";
 import { Layout } from "@layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
-import { getSeoURL, IS_SSR } from "utils";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
+import { getSeoURL } from "src/utils";
 
 const Vendors: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   documentHead,

@@ -4,14 +4,14 @@ import { NormalizedCacheObject } from "@apollo/client";
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 
-import builderConfig from "config/builder";
-import { IndexPage } from "components/templates/IndexPage";
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import { DocumentHead } from "src/types";
+import { getSsrApolloClient } from "src/apollo-client";
+import builderConfig from "src/config/builder";
+import { getSeoURL } from "src/utils";
+import { IndexPage } from "src/components/templates/IndexPage";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { HomeDocument, HomeQuery } from "components/templates/IndexPage/queries.graphql.generated";
-import { getSsrApolloClient } from "apollo-client";
-import { DocumentHead } from "types";
-import { getSeoURL } from "utils";
+import { HomeDocument, HomeQuery } from "src/components/templates/IndexPage/queries.graphql.generated";
 
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,

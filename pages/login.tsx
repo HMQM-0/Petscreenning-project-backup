@@ -3,14 +3,13 @@ import { NormalizedCacheObject } from "@apollo/client";
 import { useRouter } from "next/router";
 
 import { useAuth } from "nautical-api";
-import { structuredData } from "components/templates/IndexPage/structuredData";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { Layout } from "@layouts/Layout";
-import { LoginPage } from "components/templates/LoginPage/LoginPage";
-import { LoginPageDocument, LoginPageQuery } from "components/templates/LoginPage/queries.graphql.generated";
-import { getSeoURL } from "utils";
-import { DocumentHead } from "types";
-
-import { getApolloClient } from "../apollo-client";
+import { LoginPage } from "src/components/templates/LoginPage/LoginPage";
+import { LoginPageDocument, LoginPageQuery } from "src/components/templates/LoginPage/queries.graphql.generated";
+import { getSeoURL } from "src/utils";
+import { DocumentHead } from "src/types";
+import { getApolloClient } from "src/apollo-client";
 
 const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ documentHead }) => {
   const { push } = useRouter();

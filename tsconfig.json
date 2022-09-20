@@ -19,15 +19,11 @@
     "incremental": true,
     "paths": {
       "@generated": ["./graphql/generated.ts"],
-      "@locale-json/*": ["./config/locale/*"],
-      "@locale": ["./components/providers/Locale/index.ts"],
-      "@providers": ["./components/providers/index.ts"],
-      "@fragments": ["./_fragments/index.ts"],
-      "@queries": ["./_queries/index.ts"],
-      "@mutations": ["./_mutations/index.ts"],
-      "@layouts/*": ["./components/layouts/*"],
-
-      "nautical-api": ["./components/providers/Nautical/index.ts"]
+      "@locale-json/*": ["./src/config/locale/*"],
+      "@locale": ["./src/components/providers/Locale/index.ts"],
+      "@providers": ["./src/components/providers/index.ts"],
+      "@layouts/*": ["./src/components/layouts/*"],
+      "nautical-api": ["./src/components/providers/Nautical/index.ts"]
     }
   }
 }

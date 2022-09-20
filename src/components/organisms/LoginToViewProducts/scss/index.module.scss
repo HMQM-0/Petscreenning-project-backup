@@ -1,0 +1,94 @@
+@import "src/globalStyles/scss/variables.scss";
+
+$productColorPrimary: #ffae00;
+$productColorSecondary: #ffc600;
+$productTextHidden: #555;
+
+.products-hidden-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  height: 1000px;
+}
+
+.products-hidden-text {
+  color: $productTextHidden;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.products-login-button {
+  border-radius: 32px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 1.125rem;
+  line-height: 1.3125rem;
+  font-weight: 700;
+  padding: 1.125rem 5.5rem 1.125rem 1.75rem;
+  color: $white;
+  background: $productColorPrimary;
+}
+
+.products-login-button:hover,
+.products-login-button:focus {
+  color: $white;
+  text-decoration: none;
+
+  span.icon {
+    width: 120%;
+  }
+}
+
+.products-login-button > .text {
+  pointer-events: none;
+  position: relative;
+  z-index: 2;
+  color: $white;
+}
+
+.products-login-button > .icon {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  width: 70px;
+  height: 100%;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  transition: all 0.2s ease-in-out;
+}
+
+.products-login-button > .icon > svg {
+  position: absolute;
+  z-index: 2;
+  left: auto;
+  right: 25px;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.1s ease-in-out;
+}
+
+.products-login-button > .icon::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, $productColorSecondary, $productColorPrimary);
+}

@@ -3,18 +3,18 @@ import { BuilderContent } from "@builder.io/sdk";
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import { getGraphqlIdFromDBId } from "core/utils";
-import builderConfig from "config/builder";
-import { Layout } from "components/layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getSsrApolloClient } from "apollo-client";
-import NotFound from "components/molecules/NotFound";
-import View from "components/templates/ProductPage/View";
+import { getGraphqlIdFromDBId } from "src/core/utils";
+import builderConfig from "src/config/builder";
+import { Layout } from "src/components/layouts/Layout";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
+import { getSsrApolloClient } from "src/apollo-client";
+import NotFound from "src/components/molecules/NotFound";
+import View from "src/components/templates/ProductPage/View";
 import {
   ProductDetailsDocument,
   ProductDetailsQuery,
-} from "components/templates/ProductPage/queries.graphql.generated";
-import { getSeoURL } from "utils";
+} from "src/components/templates/ProductPage/queries.graphql.generated";
+import { getSeoURL } from "src/utils";
 
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data: { product },

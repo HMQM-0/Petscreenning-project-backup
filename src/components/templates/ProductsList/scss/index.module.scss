@@ -1,0 +1,65 @@
+@import "src/globalStyles/scss/variables.scss";
+
+.category {
+  &__header {
+    text-align: center;
+    padding-top: $spacer * 4.5;
+    padding-bottom: $spacer * 4.5;
+    background-size: cover;
+    background-color: $blue-overlay;
+    background-blend-mode: multiply;
+
+    &__title {
+      background-color: $white;
+      display: inline-block;
+      transform: skew(-45deg);
+      padding: 1.5vw 9vw;
+
+      h1 {
+        display: inline-block;
+        transform: skew(45deg);
+        text-transform: uppercase;
+        color: $blue;
+        font-size: 8vw;
+        font-weight: $extra-bold-font-weight;
+
+        @media (min-width: $small-screen) {
+          font-size: 4vw;
+        }
+      }
+    }
+  }
+}
+
+.search-page {
+  &__header {
+    padding: $spacer * 2 0;
+
+    &__input {
+      .input {
+        &__label {
+          text-transform: uppercase;
+          font-size: $h3-font-size;
+          font-weight: $extra-bold-font-weight;
+          color: $secondary-dark;
+        }
+
+        &__field {
+          border: none;
+          box-shadow: none;
+          border-bottom: 1px solid $white;
+          font-size: $h1-font-size;
+          padding: $spacer / 2 0;
+          color: $white;
+          text-transform: uppercase;
+          font-weight: $extra-bold-font-weight;
+
+          &:focus {
+            box-shadow: none;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}

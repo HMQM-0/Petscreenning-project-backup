@@ -1,0 +1,13 @@
+@import "src/globalStyles/scss/variables.scss";
+
+.link {
+  text-decoration: underline;
+  font-size: $small-font-size;
+  color: $gray-dark;
+  margin-top: 2rem;
+  display: inline-block;
+
+  @media (min-width: $small-screen) {
+    margin-top: 2.5rem;
+  }
+}

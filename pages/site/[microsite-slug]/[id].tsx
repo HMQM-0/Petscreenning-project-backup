@@ -3,19 +3,19 @@ import { BuilderContent } from "@builder.io/sdk";
 import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
-import { getGraphqlIdFromDBId } from "core/utils";
-import MicrositeProducts from "components/templates/MicrositePage/MicrositeProducts";
+import { getGraphqlIdFromDBId } from "src/core/utils";
+import MicrositeProducts from "src/components/templates/MicrositePage/MicrositeProducts";
 import {
   MicrositePageDocument,
   MicrositePageQuery,
-} from "components/templates/MicrositePage/queries.graphql.generated";
-import builderConfig from "config/builder";
-import { Layout } from "components/layouts/Layout";
-import { structuredData } from "components/templates/IndexPage/structuredData";
-import { getApolloClient } from "apollo-client";
-import { ProductsListView } from "components/templates/ProductsList/View";
-import NotFound from "components/molecules/NotFound";
-import { getSeoURL } from "utils";
+} from "src/components/templates/MicrositePage/queries.graphql.generated";
+import builderConfig from "src/config/builder";
+import { Layout } from "src/components/layouts/Layout";
+import { structuredData } from "src/components/templates/IndexPage/structuredData";
+import { getApolloClient } from "src/apollo-client";
+import { ProductsListView } from "src/components/templates/ProductsList/View";
+import NotFound from "src/components/molecules/NotFound";
+import { getSeoURL } from "src/utils";
 
 const Microsite: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data,
