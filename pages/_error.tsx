@@ -1,4 +1,4 @@
-import type { NextPage, InferGetServerSidePropsType, GetServerSideProps, GetServerSidePropsContext } from "next";
+import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
@@ -64,8 +64,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   }
 
   const url = getSeoURL(context);
-  const description = `Cart`;
-  const title = "Cart";
+  const description = is404 ? "404 not found" : "Error page";
+  const title = is404 ? "Not Found" : "Error";
   const schema = structuredData(description, title, url);
   const documentHead: DocumentHead = {
     branding: data.branding,
