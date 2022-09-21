@@ -121,14 +121,30 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
     case CheckoutActionTypes.UPDATE_LINES:
       setNauticalPaymentId(null);
       setNauticalClientSecret(null);
-      draft.lines = draft.lines?.map((line) => {
-        const newQuantity =
-          action.payload.lines?.find((newLine) => newLine.variant.id === line.variant.id)?.quantity ?? 0;
-        return {
-          ...line,
-          quantity: newQuantity,
-        };
+      action.payload.lines?.forEach((updatedLine) => {
+        if (draft.lines) {
+          const existingLine = draft.lines?.find((line) => updatedLine.variant.id === line.variant.id);
+          if (existingLine) {
+            // Update existing lines
+            existingLine.id = updatedLine.id;
+            existingLine.quantity = updatedLine.quantity;
+            existingLine.seller = updatedLine.seller;
+            existingLine.totalPrice = updatedLine.totalPrice;
+            existingLine.undiscountedPrice = updatedLine.undiscountedPrice;
+            existingLine.variant = updatedLine.variant;
+          } else {
+            // add new line to lines
+            draft.lines.push(updatedLine);
+          }
+        } else {
+          // initiate lines with item
+          draft.lines = [updatedLine];
+        }
       });
+      // Remove any lines not in the payload
+      draft.lines = draft.lines?.filter((existingLine) =>
+        action.payload.lines?.find((line) => line.variant.id === existingLine.variant.id),
+      );
       draft.billingAsShipping = undefined;
       draft.shippingAddress = undefined;
       draft.billingAddress = undefined;
