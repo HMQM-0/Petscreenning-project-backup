@@ -72,17 +72,22 @@ export const OrderTable = ({ orders }: IProps) => {
                       {matches && (
                         <>
                           <S.ProductsOrdered>
-                            {order.lines.slice(0, 5).map((product: any) => (
-                              <Link
-                                key={product?.variant?.product?.id}
-                                href={generateProductUrl(product.variant.product.id, product.variant.product.name)}
-                                passHref
-                              >
-                                <Box component="a">
-                                  <Thumbnail source={product} />
-                                </Box>
-                              </Link>
-                            ))}
+                            {order.lines.slice(0, 5).map((product: any) =>
+                              product.variant ? (
+                                <Link
+                                  key={product?.variant?.product?.id}
+                                  href={generateProductUrl(
+                                    product.variant.product.id ?? "",
+                                    product.variant.product.name ?? "",
+                                  )}
+                                  passHref
+                                >
+                                  <Box component="a">
+                                    <Thumbnail source={product} />
+                                  </Box>
+                                </Link>
+                              ) : null,
+                            )}
                           </S.ProductsOrdered>
                           <S.DateOfOrder>
                             <FormattedDate value={date} />

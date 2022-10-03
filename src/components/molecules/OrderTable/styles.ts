@@ -32,7 +32,8 @@ export const ProductsOrdered = styled.div`
   flex-wrap: nowrap;
   justify-content: center;
 
-  img {
+  img,
+  svg {
     max-width: 50px;
     height: auto;
   }
