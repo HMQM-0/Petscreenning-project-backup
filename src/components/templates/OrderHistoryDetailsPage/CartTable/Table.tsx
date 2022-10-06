@@ -69,14 +69,18 @@ const Table: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {lines.map((line) => (
-              <ProductRow
-                key={line.variant?.product.id}
-                line={line}
-                mediumScreen={mediumScreen}
-                {...rowProps}
-              />
-            ))}
+            {lines.map((line) =>
+              line.variant ? (
+                <ProductRow
+                  key={line.variant?.product.id}
+                  line={line}
+                  mediumScreen={mediumScreen}
+                  {...rowProps}
+                />
+              ) : (
+                <span />
+              ),
+            )}
           </tbody>
           <tfoot>
             <CostRow
