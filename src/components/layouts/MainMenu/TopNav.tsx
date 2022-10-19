@@ -19,7 +19,7 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+//import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Logout, ImportContacts } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
@@ -146,9 +146,9 @@ const TopNav = (props: ITopNavProps) => {
                 padding: "2px 4px",
                 display: "flex",
                 alignItems: "center",
-                width: 400,
+                width: 515,
                 border: (theme) => `1px solid ${theme.palette.divider}`,
-                borderRadius: 25,
+                borderRadius: "10px",
               }}
             >
               <IconButton
@@ -166,7 +166,7 @@ const TopNav = (props: ITopNavProps) => {
                 inputProps={{ "aria-label": "search" }}
               />
               <Divider
-                sx={{ height: 28, m: 0.5 }}
+                sx={{ height: 41, m: 0.5 }}
                 orientation="vertical"
               />
               <IconButton
@@ -175,7 +175,7 @@ const TopNav = (props: ITopNavProps) => {
                 onClick={() => handleSearch()}
                 aria-label="Search"
               >
-                <RocketLaunchIcon />
+                <SearchIcon />
               </IconButton>
             </Paper>
           </Box>

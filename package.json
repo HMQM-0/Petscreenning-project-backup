@@ -6,7 +6,6 @@
     "node": ">=16 <17"
   },
   "scripts": {
-    "predev": "dotenv-load 'if [ \"$SKIP_GRAPHQL_CODEGEN_ON_PREDEV\" != true ]; then yarn generate; fi'",
     "dev": "next dev",
     "build": "next build",
     "prebuild": "yarn generate",
@@ -43,6 +42,7 @@
     "draftjs-to-html": "^0.9.1",
     "formik": "^2.2.9",
     "formik-mui": "^4.0.0-alpha.3",
+    "generate": "^0.14.0",
     "graphql": "^16.3.0",
     "immer": "^9.0.15",
     "isomorphic-fetch": "^3.0.0",
@@ -82,7 +82,7 @@
   "devDependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/cli": "^2.13.7",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-react-apollo": "^3.2.11",
