@@ -29,6 +29,10 @@ import Link from "next/link";
 
 import { useCart, useAuth } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/providers/Overlay";
+import { isMobileView, maybe } from "src/core/utils";
+
+import MenuListComposition from "./MenuListComposition";
+import { useMainMenuQuery } from "./queries.graphql.generated";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
@@ -91,6 +95,8 @@ const TopNav = (props: ITopNavProps) => {
 
   const cartItemsQuantity = (items && items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) || 0;
 
+  const { data, loading } = useMainMenuQuery();
+  const menuItems = data?.shop.navigation?.main?.items ?? [];
   return (
     <>
       <AppBar
@@ -296,6 +302,27 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </Toolbar>
       </AppBar>
+      {true && (
+        <Box
+          sx={{
+            width: "100%",
+            minWidth: "1440px",
+            minHeight: "35px",
+            background: "#2483BF",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {menuItems?.map((item: any, index: React.Key | null | undefined) => (
+            <MenuListComposition
+              option={item}
+              optionsPlacement="bottom-start"
+              isNavOption
+              key={index}
+            />
+          ))}
+        </Box>
+      )}
     </>
   );
 };
