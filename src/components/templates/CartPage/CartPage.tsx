@@ -166,6 +166,13 @@ export const CartPage = () => {
                 >
                   <FormattedMessage defaultMessage="PROCEED TO CHECKOUT" />
                 </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => router.push(`/`)}
+                >
+                  <FormattedMessage defaultMessage="continue shopping" />
+                </Button>
               </S.ProceedButton>
             </S.Right>
           </S.Wrapper>

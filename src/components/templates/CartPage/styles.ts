@@ -30,7 +30,8 @@ export const Left = styled.div`
   border-radius: 10px;   
   padding:25px; 
   ${media.largeScreen`
-    width: 100%;      
+    width: 100%;  
+    margin-bottom:20px;    
   `}
 `;
 
@@ -63,6 +64,28 @@ export const Cart = styled.div`
 export const ProceedButton = styled.div`
   text-align: right;
   margin-top: 40px;
+  button{
+    width:100%;
+    margin-bottom:12px;
+    border-radius:50px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.03em;    
+    box-shadow: none;
+    line-height: 1.5;
+  }
+  .MuiButton-containedPrimary:hover,
+  .MuiButton-containedSecondary{
+    background-color:#0E6EFF;
+    color:#fff;
+    border:1px solid #FFF;
+  }
+  .MuiButton-containedSecondary:hover,
+  .MuiButton-containedPrimary{
+    color:#0E6EFF;
+    border:1px solid #0E6EFF;
+    background-color:#FFF;
+  }
 `;
 
 export const HeaderWrapper = styled.div`
@@ -149,6 +172,7 @@ export const TotalText = styled.div`
 export const TotalPrice = styled.div`
   grid-area: totalPrice;
   font-weight: bold;
+  justify-content:right;
   ${media.mediumScreen`
     text-align: right;
   `}

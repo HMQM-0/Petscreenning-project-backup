@@ -7,14 +7,14 @@ export const Wrapper = styled.div`
   width: 100%;
  /*grid-template-areas: "photo description unitPrice quantity taxPrice totalPrice trash";
   grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 0.5fr;*/
-  grid-template-columns: 1fr 2fr 2fr;
-  grid-template-areas: "photo description unitPrice"
-    "photo description trash"
-    "photo quantity trash"
-    ". taxPrice totalPrice";
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-areas: "photo description totalPrice"
+  "photo description trash"
+  "photo quantity trash"
+  ". taxPrice unitPrice";
   align-items: center;
   border-bottom: 1px solid rgba(50, 50, 50, 0.1);
-  padding: 0.8rem 0.5rem;
+  padding: 2rem 0.5rem;
   ${media.mediumScreen`
     grid-template-columns: 1fr 2fr 2fr;
     grid-row-gap: 15px;
@@ -32,7 +32,23 @@ export const QuantityButtons = styled.div`
   grid-template-columns: repeat(2, 50%);
   justify-content: space-between;
   padding: 0;
-  width: 66%;
+  width: 100%;
+  [data-test="subtractButton"]{
+    position:absolute;
+    left:0;
+    top: 2px;
+  }
+  [data-test="increaseButton"]{
+    position:absolute;
+    right:0;
+    top: 2px;
+  }
+  svg{
+    width: 14px;
+    path{
+      fill: #828282;
+    }
+  }
 `;
 
 export const Photo = styled.div`
@@ -86,6 +102,7 @@ export const SingleAttribute = styled.p`
   white-space: nowrap;
   background-color: white;
   padding: 0px 15px;
+  color: #828282;
 `;
 
 export const Name = styled.p`
@@ -95,11 +112,15 @@ export const Name = styled.p`
   text-transform: Capitalize;
   margin-bottom: 6px;
   color: #001A5D;
+  letter-spacing: 0.03em;
 `;
 
 export const LightFont = styled.span`
-  font-size: ${(props) => props.theme.typography.smallFontSize};
+  font-size: calc(${(props) => props.theme.typography.smallFontSize} + 2px);
   color: rgba(125, 125, 125, 0.6);
+  text-transform: uppercase;
+  color: #828282;
+  letter-spacing: 0.08em;
 `;
 
 export const Price = styled.div`
@@ -136,8 +157,15 @@ export const TotalPrice = styled(Price)`
 export const Trash = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: right;
   grid-area: trash;
+  color: #828282;
+  font-weight:500;
+  svg{
+    path{
+      fill:#828282;
+    }
+  }
 `;
 
 export const UnitPrice = styled(Price)`
@@ -153,5 +181,21 @@ export const TaxPrice = styled(Price)`
 export const Quantity = styled.div`
   grid-area: quantity;
   min-width: 120px;
-  margin: 0 15px;
+  margin: 12px 15px 0;
+  .MuiOutlinedInput-root{
+    max-width: 120px;
+    padding:0 30px;
+    border: 1px solid #CFCDCD;
+    border-radius: 10px;
+  }
+  label{
+    display:none;
+  }
+  fieldset{
+    border:0;
+  }
+  input{
+    padding:6px 14px;
+    color:#828282;
+  }
 `;
