@@ -1,0 +1,34 @@
+.menuOption {
+  font-family: "Rubik", sans-serif;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  text-transform: capitalize !important;
+  width: 300px !important;
+  text-align: left;
+  justify-content: flex-start !important;
+  letter-spacing: 0.03em;
+}
+
+.menuOption.navOption {
+  height: 100% !important;
+  width: auto !important;
+  line-height: 15px !important;
+  color: #001a5d !important;
+  padding: 10px 20px !important;
+  font-size: 11px !important;
+  border-bottom: none;
+  border-radius: 0;
+}
+
+.menu {
+  display: flex;
+}
+
+div.menu div {
+  border-right: 0.25px solid #828282;
+}
+
+div.menu div:last-child {
+  border-right: none;
+}

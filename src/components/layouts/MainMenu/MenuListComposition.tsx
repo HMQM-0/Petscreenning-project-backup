@@ -12,6 +12,8 @@ import Link from "next/link";
 
 import { generateCategoryUrl } from "src/core/utils";
 
+import classes from "./index.module.scss";
+
 // import "src/globalStyles/scss/index.scss";
 
 interface IMenuOption {
@@ -31,6 +33,7 @@ export interface IMenuListCompositionProps {
 
 export default function MenuListComposition(props: IMenuListCompositionProps) {
   const { option, optionsPlacement, isNavOption } = props;
+
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
@@ -80,7 +83,7 @@ export default function MenuListComposition(props: IMenuListCompositionProps) {
         }
       >
         <Button
-          className={isNavOption ? "menu-option nav-option" : "menu-option"}
+          className={isNavOption ? `${classes.menuOption} ${classes.navOption}` : classes.menuOption}
           ref={anchorRef}
           id="composition-button"
           aria-controls={open ? "composition-menu" : undefined}
@@ -104,6 +107,7 @@ export default function MenuListComposition(props: IMenuListCompositionProps) {
             {...TransitionProps}
             style={{
               transformOrigin: placement === "bottom-start" ? "left top" : "left bottom",
+              zIndex: 5000,
             }}
           >
             <Paper>

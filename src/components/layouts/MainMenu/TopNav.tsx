@@ -33,6 +33,7 @@ import { isMobileView, maybe } from "src/core/utils";
 
 import MenuListComposition from "./MenuListComposition";
 import { useMainMenuQuery } from "./queries.graphql.generated";
+import classes from "./index.module.scss";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
@@ -101,7 +102,7 @@ const TopNav = (props: ITopNavProps) => {
     <>
       <AppBar
         position="relative"
-        sx={{ backgroundColor: "#fff", minHeight: 72 }}
+        sx={{ backgroundColor: "#fff", minHeight: 72, boxShadow: "none" }}
       >
         <Toolbar
           sx={{
@@ -308,19 +309,23 @@ const TopNav = (props: ITopNavProps) => {
             width: "100%",
             minWidth: "1440px",
             minHeight: "35px",
-            background: "#2483BF",
+            background: "#FFFFFF",
             display: "flex",
             justifyContent: "center",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
+            borderTop: "0.25px solid #828282",
           }}
         >
-          {menuItems?.map((item: any, index: React.Key | null | undefined) => (
-            <MenuListComposition
-              option={item}
-              optionsPlacement="bottom-start"
-              isNavOption
-              key={index}
-            />
-          ))}
+          <div className={classes.menu}>
+            {menuItems?.map((item: any, index) => (
+              <MenuListComposition
+                option={item}
+                optionsPlacement="bottom-start"
+                isNavOption
+                key={index}
+              />
+            ))}
+          </div>
         </Box>
       )}
     </>
