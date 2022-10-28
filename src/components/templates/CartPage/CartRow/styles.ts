@@ -5,8 +5,13 @@ export const Wrapper = styled.div`
   min-height: 140px;
   max-height: min-content;
   width: 100%;
-  grid-template-areas: "photo description unitPrice quantity taxPrice totalPrice trash";
-  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 0.5fr;
+ /*grid-template-areas: "photo description unitPrice quantity taxPrice totalPrice trash";
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 0.5fr;*/
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-areas: "photo description unitPrice"
+    "photo description trash"
+    "photo quantity trash"
+    ". taxPrice totalPrice";
   align-items: center;
   border-bottom: 1px solid rgba(50, 50, 50, 0.1);
   padding: 0.8rem 0.5rem;
@@ -33,12 +38,12 @@ export const QuantityButtons = styled.div`
 export const Photo = styled.div`
   grid-area: photo;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   align-self: top;
   width: 70px;
   height: 90px;
 
-  background-color: #f1f5f5;
+  background-color: transparent;
 
   img {
     width: 100%;
@@ -85,10 +90,11 @@ export const SingleAttribute = styled.p`
 
 export const Name = styled.p`
   font-weight: ${(props) => props.theme.typography.boldFontWeight};
-  font-size: ${(props) => props.theme.typography.h4FontSize};
+  font-size: calc(${(props) => props.theme.typography.h4FontSize} + 2px);
   text-align: left;
-  text-transform: uppercase;
+  text-transform: Capitalize;
   margin-bottom: 6px;
+  color: #001A5D;
 `;
 
 export const LightFont = styled.span`
@@ -135,11 +141,13 @@ export const Trash = styled.div`
 `;
 
 export const UnitPrice = styled(Price)`
-  grid-area: unitPrice;
+  grid-area: unitPrice;  
+  display:none;
 `;
 
 export const TaxPrice = styled(Price)`
   grid-area: taxPrice;
+  display:none;
 `;
 
 export const Quantity = styled.div`

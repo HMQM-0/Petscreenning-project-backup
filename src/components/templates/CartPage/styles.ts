@@ -1,4 +1,9 @@
-import { media, styled } from "src/styles";
+import { media, styled } from "src/styles"
+import { SxProps } from "@mui/material";;
+
+export const mainWrapper = styled.div`
+  background-color:#CFCDCD;
+`;
 
 export const Container = styled.div`
   width: ${(props) => `${props.theme.container.width}px`};
@@ -12,18 +17,41 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  margin: 30px 0 100px 0;
+  margin: 60px 0 100px 0;
+  display:flex;
+  flex-wrap:wrap;
+  column-gap: 2%;
+`;
+
+export const Left = styled.div`
+  background: #fff;
+  width: 60%;   
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;   
+  padding:25px; 
+  ${media.largeScreen`
+    width: 100%;      
+  `}
+`;
+
+export const Right = styled.div`
+  background: #fff; 
+  width: 38%;   
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;  
+  padding:25px;
+  ${media.largeScreen`
+    width: 100%;      
+  `}
 `;
 
 export const Title = styled.div`
-  margin-top: 80px;
-  margin-bottom: 60px;
+  margin-top: 0;
+  margin-bottom: 20px;
 `;
 
 export const CartHeader = styled.div`
-  ${media.mediumScreen`
-    display: none;
-  `};
+  display: none;
 `;
 
 export const CartFooter = styled.div``;
@@ -188,3 +216,10 @@ export const Subtitle = styled.p`
 `;
 
 export const ContinueButton = styled.div``;
+
+export const title: SxProps = {
+  fontSize: "1.3rem",
+  fontWeight: "700",
+  color: "#001A5D",
+
+};
