@@ -7,7 +7,7 @@ import { ICardData, IFormError } from "src/types";
 
 import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
-import { gridspan, title } from "./styles";
+import { gridspan, title, paymentWrapper } from "./styles";
 
 import { ICheckoutModelLine } from "../../providers/Nautical/Checkout/types";
 
@@ -132,6 +132,7 @@ const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment 
         </Box>
       ) : (
         <>
+          <Box sx={paymentWrapper}>
           {availablePaymentGateways?.map(({ id, name, config }) => {
             switch (name) {
               case "Stripe":
@@ -161,6 +162,7 @@ const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment 
                 return null;
             }
           })}
+          </Box>
         </>
       )}
       {errorMessage && (

@@ -167,7 +167,7 @@ export const checkoutMessages = defineMessages({
     defaultMessage: "Add new address",
   },
   shippingMethod: {
-    defaultMessage: "SHIPPING METHOD",
+    defaultMessage: "Shipping Method",
   },
   billingAddress: {
     defaultMessage: "BILLING ADDRESS",

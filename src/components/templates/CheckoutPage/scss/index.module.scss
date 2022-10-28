@@ -1,0 +1,17 @@
+@import "src/globalStyles/scss/variables.scss";
+
+.checkout-page{
+  height: auto;
+  *{
+    font-family: $redhat-font-family;
+  }
+  .MuiTabs-indicator{
+    height: 1px;
+  }
+  .checkout-summary{
+
+  }
+  .MuiInputLabel-formControl{
+    text-transform: capitalize;
+  }
+}
