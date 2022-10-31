@@ -19,8 +19,9 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
 import { Logout, ImportContacts } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -154,17 +155,11 @@ const TopNav = (props: ITopNavProps) => {
                 padding: "2px 4px",
                 display: "flex",
                 alignItems: "center",
-                width: 400,
+                width: 515,
                 border: (theme) => `1px solid ${theme.palette.divider}`,
-                borderRadius: 25,
+                borderRadius: "10px",
               }}
             >
-              <IconButton
-                sx={{ p: "10px" }}
-                aria-label="Search"
-              >
-                <SearchIcon htmlColor="#777" />
-              </IconButton>
               <InputBase
                 value={term}
                 onChange={handleChange}
@@ -183,14 +178,13 @@ const TopNav = (props: ITopNavProps) => {
                 onClick={() => handleSearch()}
                 aria-label="Search"
               >
-                <RocketLaunchIcon />
+                <SearchIcon htmlColor="#777" />
               </IconButton>
             </Paper>
           </Box>
 
           <Box sx={{ display: "flex", flexBasis: 200, justifyContent: "flex-end" }}>
             <IconButton
-              color="inherit"
               aria-label="account"
               aria-controls={accountMenuOpen ? "account-menu" : undefined}
               aria-haspopup="true"
@@ -204,7 +198,26 @@ const TopNav = (props: ITopNavProps) => {
                 setAnchorEl(accountMenuOpen ? null : event.currentTarget);
               }}
             >
-              {authenticated ? <PersonIcon color="primary" /> : <PersonOutlineOutlinedIcon color="action" />}
+              {authenticated ? (
+                <PersonIcon color="primary" />
+              ) : (
+                <div className={classes.headerOption}>
+                  <MeetingRoomOutlinedIcon htmlColor="#21BC99" />
+                  <div className={classes.headerOptionLabel}>My Account</div>
+                </div>
+              )}
+            </IconButton>
+
+            <IconButton
+              aria-label="Paw It Forward"
+              aria-controls={accountMenuOpen ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={accountMenuOpen ? "true" : undefined}
+            >
+              <div className={classes.headerOption}>
+                <PetsOutlinedIcon htmlColor="#21BC99" />
+                <div className={classes.headerOptionLabel}>Paw It Forward</div>
+              </div>
             </IconButton>
             <Menu
               anchorEl={anchorEl}
@@ -294,11 +307,10 @@ const TopNav = (props: ITopNavProps) => {
               color="secondary"
             >
               <IconButton
-                sx={{ backgroundColor: "#F3F5F9" }}
                 onClick={() => handleCart()}
                 aria-label="Cart"
               >
-                <ShoppingBagOutlinedIcon htmlColor="#777" />
+                <ShoppingCartOutlinedIcon htmlColor="#21BC99" />
               </IconButton>
             </Badge>
           </Box>

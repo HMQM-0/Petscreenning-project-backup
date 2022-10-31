@@ -49,3 +49,24 @@ div.menu div:last-child .menuOption.navOption {
     display: block;
   }
 }
+
+.headerOption {
+  display: flex;
+  align-items: center;
+  width: 120px;
+  justify-content: space-evenly;
+
+  .headerOptionLabel {
+    height: 17px;
+
+    font-family: "Red Hat Display";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+
+    color: #828282;
+  }
+}
