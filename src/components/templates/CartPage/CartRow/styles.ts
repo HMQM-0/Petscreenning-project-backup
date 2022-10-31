@@ -5,16 +5,20 @@ export const Wrapper = styled.div`
   min-height: 140px;
   max-height: min-content;
   width: 100%;
- /*grid-template-areas: "photo description unitPrice quantity taxPrice totalPrice trash";
+  /*grid-template-areas: "photo description unitPrice quantity taxPrice totalPrice trash";
   grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 0.5fr;*/
   grid-template-columns: 1fr 3fr 1fr;
-  grid-template-areas: "photo description totalPrice"
-  "photo description trash"
-  "photo quantity trash"
-  ". taxPrice unitPrice";
+  grid-template-areas:
+    "photo description totalPrice"
+    "photo description trash"
+    "photo quantity trash"
+    ". taxPrice unitPrice";
   align-items: center;
   border-bottom: 1px solid rgba(50, 50, 50, 0.1);
   padding: 2rem 0.5rem;
+  &:last-child {
+    border-bottom: none;
+  }
   ${media.mediumScreen`
     grid-template-columns: 1fr 2fr 2fr;
     grid-row-gap: 15px;
@@ -32,20 +36,20 @@ export const QuantityButtons = styled.div`
   grid-template-columns: repeat(2, 50%);
   justify-content: space-between;
   padding: 0;
-  width: 100%;
-  [data-test="subtractButton"]{
-    position:absolute;
-    left:0;
+  width: auto;
+  [data-test="subtractButton"] {
+    position: absolute;
+    left: 0;
     top: 2px;
   }
-  [data-test="increaseButton"]{
-    position:absolute;
-    right:0;
+  [data-test="increaseButton"] {
+    position: absolute;
+    right: 0;
     top: 2px;
   }
-  svg{
+  svg {
     width: 14px;
-    path{
+    path {
       fill: #828282;
     }
   }
@@ -56,8 +60,8 @@ export const Photo = styled.div`
   display: flex;
   align-items: center;
   align-self: top;
-  width: 70px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
 
   background-color: transparent;
 
@@ -111,7 +115,7 @@ export const Name = styled.p`
   text-align: left;
   text-transform: Capitalize;
   margin-bottom: 6px;
-  color: #001A5D;
+  color: #001a5d;
   letter-spacing: 0.03em;
 `;
 
@@ -147,6 +151,8 @@ export const PriceLabel = styled.p`
 
 export const TotalPrice = styled(Price)`
   grid-area: totalPrice;
+  justify-content: flex-end;
+  margin-top: 20px;
   ${media.mediumScreen`
     p {
       text-align: right;
@@ -160,42 +166,50 @@ export const Trash = styled.div`
   justify-content: right;
   grid-area: trash;
   color: #828282;
-  font-weight:500;
-  svg{
-    path{
-      fill:#828282;
+  font-weight: 500;
+  svg {
+    path {
+      fill: #828282;
     }
   }
+  ${media.mediumScreen`
+    margin: 12px 0 0 0;
+  `}
 `;
 
 export const UnitPrice = styled(Price)`
-  grid-area: unitPrice;  
-  display:none;
+  grid-area: unitPrice;
+  display: none;
 `;
 
 export const TaxPrice = styled(Price)`
   grid-area: taxPrice;
-  display:none;
+  display: none;
 `;
 
 export const Quantity = styled.div`
   grid-area: quantity;
   min-width: 120px;
   margin: 12px 15px 0;
-  .MuiOutlinedInput-root{
+  .MuiOutlinedInput-root {
     max-width: 120px;
-    padding:0 30px;
-    border: 1px solid #CFCDCD;
+    padding: 0 30px;
+    border: 1px solid #cfcdcd;
     border-radius: 10px;
   }
-  label{
-    display:none;
+  label {
+    display: none;
   }
-  fieldset{
-    border:0;
+  fieldset {
+    border: 0;
   }
-  input{
-    padding:6px 14px;
-    color:#828282;
+  input {
+    padding: 6px 14px;
+    color: #828282;
+    text-align: center;
   }
+  ${media.mediumScreen`
+    text-align: right;
+    margin-right: 0;
+  `}
 `;

@@ -1,8 +1,9 @@
-import { media, styled } from "src/styles"
-import { SxProps } from "@mui/material";;
+import { SxProps } from "@mui/material";
+
+import { media, styled } from "src/styles";
 
 export const mainWrapper = styled.div`
-  background-color:#CFCDCD;
+  background-color: #cfcdcd;
 `;
 
 export const Container = styled.div`
@@ -18,17 +19,17 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   margin: 60px 0 100px 0;
-  display:flex;
-  flex-wrap:wrap;
+  display: flex;
+  flex-wrap: wrap;
   column-gap: 2%;
 `;
 
 export const Left = styled.div`
   background: #fff;
-  width: 60%;   
+  width: 60%;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;   
-  padding:25px; 
+  border-radius: 10px;
+  padding: 25px;
   ${media.largeScreen`
     width: 100%;  
     margin-bottom:20px;    
@@ -36,11 +37,12 @@ export const Left = styled.div`
 `;
 
 export const Right = styled.div`
-  background: #fff; 
-  width: 38%;   
+  background: #fff;
+  width: 38%;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;  
-  padding:25px;
+  border-radius: 10px;
+  padding: 25px;
+  place-self: flex-start;
   ${media.largeScreen`
     width: 100%;      
   `}
@@ -64,27 +66,27 @@ export const Cart = styled.div`
 export const ProceedButton = styled.div`
   text-align: right;
   margin-top: 40px;
-  button{
-    width:100%;
-    margin-bottom:12px;
-    border-radius:50px;
+  button {
+    width: 100%;
+    margin-bottom: 12px;
+    border-radius: 50px;
     font-weight: 700;
     font-size: 15px;
-    letter-spacing: 0.03em;    
+    letter-spacing: 0.03em;
     box-shadow: none;
     line-height: 1.5;
   }
   .MuiButton-containedPrimary:hover,
-  .MuiButton-containedSecondary{
-    background-color:#0E6EFF;
-    color:#fff;
-    border:1px solid #FFF;
+  .MuiButton-containedSecondary {
+    background-color: #0e6eff;
+    color: #fff;
+    border: 1px solid #fff;
   }
   .MuiButton-containedSecondary:hover,
-  .MuiButton-containedPrimary{
-    color:#0E6EFF;
-    border:1px solid #0E6EFF;
-    background-color:#FFF;
+  .MuiButton-containedPrimary {
+    color: #0e6eff;
+    border: 1px solid #0e6eff;
+    background-color: #fff;
   }
 `;
 
@@ -111,32 +113,42 @@ export const FooterWrapper = styled.div<{
   display: grid;
   font-size: ${(props) => props.theme.typography.h4FontSize};
   grid-template-areas:
-    ". subtotalText subtotalPrice ."
-    ${(props) => props.showShipping && `". shippingText shippingPrice ."`}
-    ${(props) => props.showDiscount && `". discountText discountPrice ."`}
-    ". taxText taxPrice ."
-    ". totalText totalPrice .";
-  grid-template-columns: 4fr 1.1fr 0.9fr 0.5fr;
-  grid-gap: 2rem;
-  padding: 2rem 0;
+    "subtotalText subtotalPrice"
+    ${(props) => props.showShipping && `"shippingText shippingPrice"`}
+    ${(props) => props.showDiscount && `"discountText discountPrice"`}
+    "taxText taxPrice"
+    "totalText totalPrice";
+  grid-template-rows: auto auto auto;
+  grid-row-gap: 1rem;
+  padding: 2rem 0 0 0;
   ${(props) => media.mediumScreen`
     grid-template-areas:
-      ". subtotalText subtotalPrice"
-      ${props.showShipping && `". shippingText shippingPrice"`}
-      ${props.showDiscount && `". discountText discountPrice"`}
-      ". taxText taxPrice"
-      ". totalText totalPrice";
-    grid-template-columns: 0.5fr 3.5fr 2fr;
+      "subtotalText subtotalPrice"
+      ${props.showShipping && `"shippingText shippingPrice"`}
+      ${props.showDiscount && `"discountText discountPrice"`}
+      "taxText taxPrice"
+      "totalText totalPrice";
+    grid-template-rows: auto auto auto;
   `}
-  border-bottom: 1px solid rgba(50, 50, 50, 0.1);
 `;
 
 export const SubtotalText = styled.div`
   grid-area: subtotalText;
+  padding-right: 10px;
+  color: #828282;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
 `;
 
 export const SubtotalPrice = styled.div`
   grid-area: subtotalPrice;
+  color: #828282;
+  padding-left: 10px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  text-align: right;
   ${media.mediumScreen`
     text-align: right;
   `}
@@ -144,10 +156,13 @@ export const SubtotalPrice = styled.div`
 
 export const ShippingText = styled.div`
   grid-area: shippingText;
+  padding-right: 10px;
 `;
 
 export const ShippingPrice = styled.div`
   grid-area: shippingPrice;
+  text-align: right;
+  padding-left: 10px;
   ${media.mediumScreen`
     text-align: right;
   `}
@@ -155,10 +170,13 @@ export const ShippingPrice = styled.div`
 
 export const DiscountText = styled.div`
   grid-area: discountText;
+  padding-right: 10px;
 `;
 
 export const DiscountPrice = styled.div`
   grid-area: discountPrice;
+  text-align: right;
+  padding-left: 10px;
   ${media.mediumScreen`
     text-align: right;
   `}
@@ -166,13 +184,24 @@ export const DiscountPrice = styled.div`
 
 export const TotalText = styled.div`
   grid-area: totalText;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #001a5d;
+  line-height: 1.3;
+  padding: 30px 10px 0 0;
+  border-top: 1px solid rgba(50, 50, 50, 0.1);
 `;
 
 export const TotalPrice = styled.div`
   grid-area: totalPrice;
-  font-weight: bold;
-  justify-content:right;
+  font-size: 20px;
+  font-weight: 700;
+  color: #001a5d;
+  text-align: right;
+  line-height: 1.3;
+  border-top: 1px solid rgba(50, 50, 50, 0.1);
+  padding: 30px 0 0 10px;
   ${media.mediumScreen`
     text-align: right;
   `}
@@ -181,11 +210,21 @@ export const TotalPrice = styled.div`
 export const TaxText = styled.div`
   grid-area: taxText;
   font-weight: bold;
+  color: #828282;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  padding-right: 10px;
 `;
 
 export const TaxPrice = styled.div`
   grid-area: taxPrice;
-  font-weight: bold;
+  color: #828282;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  text-align: right;
+  padding-left: 10px;
   ${media.mediumScreen`
     text-align: right;
   `}
@@ -245,5 +284,69 @@ export const title: SxProps = {
   fontSize: "1.3rem",
   fontWeight: "700",
   color: "#001A5D",
-
 };
+
+export const ImageWithTextWrapper = styled.div`
+  background-color: #fff;
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F10ffae0af6434eefb21fbcf97b9bdea5");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  padding: 80px 0;
+`;
+
+export const ImageWithTextContainer = styled.div`
+  display: flex;
+  align-items: center;
+  ${media.mediumScreen`
+    flex-direction: column-reverse;
+    gap: 20px;
+  `}
+`;
+
+export const ImageText = styled.div`
+  flex-basis: 50%;
+  max-width: 50%;
+  width: 100%;
+  p {
+    color: #000000;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  p:nth-child(2) {
+    margin-bottom: 45px;
+  }
+  p:first-child,
+  p:nth-child(2) {
+    font-weight: 700;
+    font-size: 30px;
+    color: #001a5d;
+    line-height: 1.33;
+  }
+  p.MuiTypography-body2 {
+    margin-bottom: 60px;
+  }
+  button {
+    height: 46px;
+    padding: 12px 30px;
+  }
+  ${media.mediumScreen`
+    flex-basis: 100%;
+    max-width:100%;
+  `}
+`;
+
+export const ImageBanner = styled.div`
+  flex-basis: 50%;
+  max-width: 50%;
+  width: 100%;
+  img {
+    width: 100%;
+    height: auto;
+  }
+  ${media.mediumScreen`
+    flex-basis: 100%;
+    max-width: 100%;
+  `}
+`;
