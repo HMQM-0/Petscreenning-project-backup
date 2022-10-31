@@ -29,7 +29,6 @@ import Link from "next/link";
 
 import { useCart, useAuth } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/providers/Overlay";
-import { isMobileView, maybe } from "src/core/utils";
 
 import MenuListComposition from "./MenuListComposition";
 import { useMainMenuQuery } from "./queries.graphql.generated";
