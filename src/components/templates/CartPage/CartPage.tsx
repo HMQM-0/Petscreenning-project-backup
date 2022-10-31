@@ -228,6 +228,33 @@ export const CartPage = () => {
           </S.ContinueButton>
         </S.EmptyWrapper>
       </S.Container>
+      <S.ImageWithTextWrapper>
+        <S.Container>
+          <S.ImageWithTextContainer>
+            <S.ImageText>
+              <Typography variant="body1">Paw it Forward!</Typography>
+              <Typography variant="body1">buy a t-shirt for $25 and get your FidoAlert t-shirt</Typography>
+              <Typography variant="body2">
+                Since the beginning of FidoTabby, our loyal pet loving base has helped over 90,000 people keep their
+                pets safe and FidoTabby Alert free to everyone
+              </Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => router.push(`/`)}
+              >
+                <FormattedMessage defaultMessage="SHOP NOW" />
+              </Button>
+            </S.ImageText>
+            <S.ImageBanner>
+              <img
+                src={imageBannerURL}
+                alt="T-shirt banner"
+              />
+            </S.ImageBanner>
+          </S.ImageWithTextContainer>
+        </S.Container>
+      </S.ImageWithTextWrapper>
     </S.mainWrapper>
   );
 };
