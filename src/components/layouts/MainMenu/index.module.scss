@@ -1,13 +1,16 @@
+@import "~@fontsource/red-hat-display/700.css"; // Weight 400.
+
 .menuOption {
-  font-family: "Rubik", sans-serif;
+  font-family: "Red Hat Display";
   font-style: normal !important;
-  font-weight: 700 !important;
-  font-size: 11px !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
   text-transform: capitalize !important;
   width: 300px !important;
   text-align: left;
   justify-content: flex-start !important;
   letter-spacing: 0.03em;
+  border-radius: 0;
 }
 
 .menuOption.navOption {
@@ -16,9 +19,9 @@
   line-height: 15px !important;
   color: #001a5d !important;
   padding: 10px 20px !important;
-  font-size: 11px !important;
+  font-size: 12px !important;
   border-bottom: none;
-  border-radius: 0;
+  font-weight: 700 !important;
 }
 
 .menu {
@@ -27,9 +30,22 @@
 }
 
 div.menu div .menuOption.navOption {
-  border-right: 0.25px solid #828282;
+  border-right: 0.25px solid #dadada;
 }
 
 div.menu div:last-child .menuOption.navOption {
   border-right: none;
+}
+
+.mobileNav {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktopNav {
+    display: none;
+  }
+  .mobileNav {
+    display: block;
+  }
 }

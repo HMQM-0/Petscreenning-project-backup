@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Link from "next/link";
+import { Divider } from "@mui/material";
 
 import { generateCategoryUrl } from "src/core/utils";
 
@@ -119,12 +120,14 @@ export default function MenuListComposition(props: IMenuListCompositionProps) {
                   onKeyDown={handleListKeyDown}
                 >
                   {option.children.map((children, index) => (
-                    <MenuListComposition
-                      option={children}
-                      optionsPlacement="right-start"
-                      isNavOption={false}
-                      key={index}
-                    />
+                    <div key={index}>
+                      <MenuListComposition
+                        option={children}
+                        optionsPlacement="right-start"
+                        isNavOption={false}
+                      />
+                      {index !== option.children.length - 1 && <Divider />}
+                    </div>
                   ))}
                 </MenuList>
               </ClickAwayListener>

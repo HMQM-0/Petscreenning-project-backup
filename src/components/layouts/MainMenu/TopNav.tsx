@@ -131,19 +131,21 @@ const TopNav = (props: ITopNavProps) => {
 
           <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
             <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
-            <Button
-              sx={{
-                display: { xs: "none", sm: "flex" },
-                borderRadius: "12px",
-                marginLeft: "8px",
-                minWidth: 32,
-                padding: "8px",
-              }}
-              onClick={handleMenu}
-              aria-label="Menu"
-            >
-              <MenuOpenIcon htmlColor="#777" />
-            </Button>
+            <div className={classes.mobileNav}>
+              <Button
+                sx={{
+                  display: { xs: "none", sm: "flex" },
+                  borderRadius: "12px",
+                  marginLeft: "8px",
+                  minWidth: 32,
+                  padding: "8px",
+                }}
+                onClick={handleMenu}
+                aria-label="Menu"
+              >
+                <MenuOpenIcon htmlColor="#777" />
+              </Button>
+            </div>
           </Box>
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
@@ -303,7 +305,7 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </Toolbar>
       </AppBar>
-      {true && (
+      <div className={classes.desktopNav}>
         <Box
           sx={{
             width: "100%",
@@ -313,7 +315,7 @@ const TopNav = (props: ITopNavProps) => {
             display: "flex",
             justifyContent: "center",
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
-            borderTop: "0.25px solid #828282",
+            borderTop: "0.25px solid #dadada",
           }}
         >
           <div className={classes.menu}>
@@ -327,7 +329,7 @@ const TopNav = (props: ITopNavProps) => {
             ))}
           </div>
         </Box>
-      )}
+      </div>
     </>
   );
 };

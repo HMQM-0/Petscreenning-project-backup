@@ -20,6 +20,7 @@ import { nprogress } from "src/styles/nprogress";
 import NotificationTemplate from "src/components/atoms/NotificationTemplate/NotificationTemplate";
 import NauticalProvider from "src/components/providers/Nautical/NauticalProvider";
 import { LocaleProvider } from "src/components/providers/Locale/Locale";
+import "@fontsource/red-hat-display";
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
