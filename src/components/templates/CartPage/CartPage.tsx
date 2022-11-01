@@ -10,6 +10,7 @@ import { TaxedMoney } from "src/components/molecules/TaxedMoney";
 import { useAuth, useCart, useCheckout } from "nautical-api";
 import { checkoutMessages, commonMessages } from "src/core/intl";
 
+import classes from "./scss/index.module.scss";
 import { CartRow } from "./CartRow";
 import * as S from "./styles";
 import { title } from "./styles";
@@ -43,7 +44,7 @@ export const CartPage = () => {
 
   if (items?.length) {
     return (
-      <S.mainWrapper>
+      <S.mainWrapper className={classes["cart-page"]}>
         <S.Container>
           <S.Wrapper>
             <S.Left>
@@ -208,7 +209,7 @@ export const CartPage = () => {
     );
   }
   return (
-    <S.mainWrapper>
+    <S.mainWrapper className={classes["cart-page"]}>
       <S.Container>
         <S.EmptyWrapper>
           <S.TitleFirstLine>
