@@ -46,10 +46,10 @@ const Layout = ({ children, documentHead }: LayoutProps) => {
       <Header logo={headerLogo} />
       {children}
       <BottomNav />
-      <Footer
+      {/*  <Footer
         footerText={branding.footerText}
         icon={icon}
-      />
+      /> */}
       <CookieBar
         title=""
         description="This website uses cookies to ensure you get the best experience. By continuing to use this site, you consent to cookies being used."
