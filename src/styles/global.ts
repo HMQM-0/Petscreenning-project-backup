@@ -4,13 +4,6 @@ import { DefaultTheme, media } from ".";
 
 export const GlobalStyle = createGlobalStyle<{ theme: DefaultTheme }>`
 
-  @font-face {
-    font-family: "RedHatDisplay";
-    src: url('../fonts/RedHatDisplay.woff2');
-    font-weight: normal;
-    font-style: normal;
-  }
-
   html {
     box-sizing: border-box;
   }
