@@ -58,6 +58,7 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
             paddingTop: "16px",
             paddingLeft: "16px",
             paddingRight: "16px",
+            paddingBottom: "30px",
           }}
         >
           {logo}
@@ -68,6 +69,7 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
               marginTop: "auto",
               marginBottom: "auto",
               marginRight: 0,
+              color: "#001a5d",
             }}
           >
             {" "}
