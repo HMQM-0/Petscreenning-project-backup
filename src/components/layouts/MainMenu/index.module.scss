@@ -41,15 +41,6 @@ div.menu div:last-child .menuOption.navOption {
   display: none;
 }
 
-@media (max-width: 767px) {
-  .desktopNav {
-    display: none;
-  }
-  .mobileNav {
-    display: block;
-  }
-}
-
 .headerOption {
   display: flex;
   align-items: center;
@@ -68,5 +59,20 @@ div.menu div:last-child .menuOption.navOption {
     text-transform: capitalize;
 
     color: #828282;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktopNav {
+    display: none;
+  }
+  .mobileNav {
+    display: block;
+  }
+  .headerOption {
+    width: 20px;
+    .headerOptionLabel {
+      display: none;
+    }
   }
 }

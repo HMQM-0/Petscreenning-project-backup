@@ -21,6 +21,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
 import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
 import { Logout, ImportContacts } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
@@ -115,19 +116,31 @@ const TopNav = (props: ITopNavProps) => {
             width: "100%",
           }}
         >
-          <Button
-            sx={{
-              display: { xs: "flex", sm: "none" },
-              borderRadius: "12px",
-              marginLeft: "8px",
-              minWidth: 32,
-              padding: "8px",
-            }}
-            onClick={handleMenu}
-            aria-label="Menu"
-          >
-            <MenuOpenIcon htmlColor="#777" />
-          </Button>
+          <div className={classes.mobileNav}>
+            <Button
+              sx={{
+                display: { xs: "flex", sm: "none" },
+                borderRadius: "12px",
+                marginLeft: "8px",
+                minWidth: 32,
+                padding: "8px",
+              }}
+              onClick={handleMenu}
+              aria-label="Menu"
+            >
+              <MenuIcon htmlColor="#777" />
+            </Button>
+          </div>
+          <div className={classes.mobileNav}>
+            <IconButton
+              color="primary"
+              sx={{ p: "10px" }}
+              onClick={() => handleSearch()}
+              aria-label="Search"
+            >
+              <SearchIcon htmlColor="#777" />
+            </IconButton>
+          </div>
 
           <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
             <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
@@ -143,7 +156,7 @@ const TopNav = (props: ITopNavProps) => {
                 onClick={handleMenu}
                 aria-label="Menu"
               >
-                <MenuOpenIcon htmlColor="#777" />
+                <MenuIcon htmlColor="#777" />
               </Button>
             </div>
           </Box>
@@ -183,7 +196,7 @@ const TopNav = (props: ITopNavProps) => {
             </Paper>
           </Box>
 
-          <Box sx={{ display: "flex", flexBasis: 200, justifyContent: "flex-end" }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <IconButton
               aria-label="account"
               aria-controls={accountMenuOpen ? "account-menu" : undefined}
