@@ -62,6 +62,10 @@ div.menu div:last-child .menuOption.navOption {
   }
 }
 
+.desktopFiddoTobbyAlert {
+  cursor: pointer;
+}
+
 @media (max-width: 767px) {
   .desktopNav {
     display: none;
@@ -74,5 +78,8 @@ div.menu div:last-child .menuOption.navOption {
     .headerOptionLabel {
       display: none;
     }
+  }
+  .desktopFiddoTobbyAlert {
+    display: none;
   }
 }

@@ -27,6 +27,7 @@ import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 import { useCart, useAuth } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/providers/Overlay";
@@ -34,6 +35,7 @@ import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/pro
 import MenuListComposition from "./MenuListComposition";
 import { useMainMenuQuery } from "./queries.graphql.generated";
 import classes from "./index.module.scss";
+import FiddoTobbyAlert from "./FidoTobbyAlert.png";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
@@ -139,6 +141,19 @@ const TopNav = (props: ITopNavProps) => {
             >
               <SearchIcon htmlColor="#777" />
             </IconButton>
+          </div>
+
+          <div
+            onClick={() => router.push("https://www.fidoalert.com/")}
+            className={classes.desktopFiddoTobbyAlert}
+          >
+            <Image
+              src={FiddoTobbyAlert}
+              width={63}
+              height={20}
+              objectFit="contain"
+              alt="FiddoTobbyAlert"
+            />
           </div>
 
           <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
