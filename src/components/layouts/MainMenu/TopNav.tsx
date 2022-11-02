@@ -15,7 +15,6 @@ import {
 import { useQueryParam, StringParam } from "next-query-params";
 import React, { useEffect } from "react";
 import { useAlert } from "react-alert";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
@@ -182,7 +181,7 @@ const TopNav = (props: ITopNavProps) => {
                 inputProps={{ "aria-label": "search" }}
               />
               <Divider
-                sx={{ height: 28, m: 0.5 }}
+                sx={{ height: 41, m: 0.5 }}
                 orientation="vertical"
               />
               <IconButton
