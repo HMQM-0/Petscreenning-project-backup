@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, Divider, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useRouter } from "next/router";
@@ -11,6 +11,7 @@ import classes from "./scss/index.module.scss";
 import NavItem from "./NavItem";
 
 import FiddoTobbyAlert from "../FidoTobbyAlert.png";
+import PawItForwardIcon from "../PawItForwardIcon";
 
 type NavListProps = {
   logo?: React.ReactNode;
@@ -93,6 +94,12 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
           />
         );
       })}
+
+      <div className={classes.mobilePawItForward}>
+        <PawItForwardIcon />
+      </div>
+
+      <Divider light />
       <div
         onClick={() => router.push("https://www.fidoalert.com/")}
         className={classes.mobileFiddoTobbyAlert}

@@ -60,6 +60,20 @@ div.menu div:last-child .menuOption.navOption {
 
     color: #828282;
   }
+
+  .pawItForwardLabel {
+    height: 17px;
+
+    font-family: "Red Hat Display";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+
+    color: #828282;
+  }
 }
 
 .desktopFiddoTobbyAlert {
@@ -79,6 +93,10 @@ div.menu div:last-child .menuOption.navOption {
       display: none;
     }
   }
+  .headerOption.wide {
+    width: 120px;
+  }
+
   .desktopFiddoTobbyAlert {
     display: none;
   }

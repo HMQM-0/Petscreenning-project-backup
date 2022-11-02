@@ -33,6 +33,7 @@ import { useCart, useAuth } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/providers/Overlay";
 
 import MenuListComposition from "./MenuListComposition";
+import PawItForwardIcon from "./PawItForwardIcon";
 import { useMainMenuQuery } from "./queries.graphql.generated";
 import classes from "./index.module.scss";
 import FiddoTobbyAlert from "./FidoTobbyAlert.png";
@@ -235,17 +236,9 @@ const TopNav = (props: ITopNavProps) => {
               )}
             </IconButton>
 
-            <IconButton
-              aria-label="Paw It Forward"
-              aria-controls={accountMenuOpen ? "account-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={accountMenuOpen ? "true" : undefined}
-            >
-              <div className={classes.headerOption}>
-                <PetsOutlinedIcon htmlColor="#21BC99" />
-                <div className={classes.headerOptionLabel}>Paw It Forward</div>
-              </div>
-            </IconButton>
+            <div className={classes.desktopNav}>
+              <PawItForwardIcon />
+            </div>
             <Menu
               anchorEl={anchorEl}
               id="account-menu"
