@@ -129,6 +129,9 @@ export const productDetailsFragment = gql`
     category {
       id
       name
+      trailingBreadcrumbs {
+        name
+      }
       backgroundImage {
         url
         alt
