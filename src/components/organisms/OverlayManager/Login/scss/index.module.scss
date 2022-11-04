@@ -3,20 +3,24 @@
 .login {
   width: 25rem;
   max-width: 100vw;
+  margin: 27px;
 
   &__tabs {
     display: flex;
 
     span {
+      font-family: "Red Hat Display";
       flex-grow: 1;
       width: 100%;
-      background-color: $gray-light;
+      background-color: #ffffff;
       text-transform: uppercase;
-      font-weight: $bold-font-weight;
+      font-weight: 700;
       text-align: center;
       padding: $spacer;
       border-bottom: 1px solid $gray-light;
       cursor: pointer;
+      color: #858585;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
       &:first-of-type {
         border-right: 1px solid $white;
@@ -27,7 +31,9 @@
       }
 
       &.active-tab {
-        border-bottom: 1px solid $turquoise;
+        border-bottom: 3px solid #0e6eff;
+        color: #0e6eff;
+        background-color: #f9f9f9;
       }
     }
   }
@@ -51,4 +57,19 @@
       margin-top: $spacer * 2;
     }
   }
+}
+
+.login__content__password-reminder {
+  text-align: center;
+  font-family: "Red Hat Display";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  color: #858585;
+}
+
+.custom-u-link {
+  color: #0e6eff;
+  text-decoration: underline;
+  cursor: pointer;
 }
