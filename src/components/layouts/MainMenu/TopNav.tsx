@@ -57,43 +57,6 @@ const TopNav = (props: ITopNavProps) => {
     setTerm(search || "");
   }, [search]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (document) {
-        await new Promise<void>((resolve) =>
-          window.Rokt ? resolve() : document.getElementById("rokt-launcher")?.addEventListener("load", () => resolve()),
-        );
-
-        const launcher = await window.Rokt.createLauncher({
-          accountId: "3071804547766951791",
-          sandbox: true,
-        });
-
-        await launcher.selectPlacements({
-          attributes: {
-            //customer identifier - at least one required
-            email: "john.smith@gmail.com",
-            emailsha256: "",
-            passbackconversiontrackingid: "",
-
-            //recommended contextual attributes
-            firstname: "",
-            lastname: "",
-            conversiontype: "",
-            amount: "",
-            currency: "",
-            quantity: "",
-            paymenttype: "",
-            margin: "",
-            confirmationref: "",
-          },
-        });
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const handleCart = () => {
     overlayContext.show(OverlayType.cart, OverlayTheme.right);
   };
