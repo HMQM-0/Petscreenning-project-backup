@@ -22,6 +22,7 @@ import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 import { isArray } from "lodash";
 import { FormattedMessage } from "react-intl";
+import { useEffect } from "react";
 
 import { Money } from "src/components/atoms/Money";
 import { useAuth, useCheckout } from "nautical-api";
@@ -220,6 +221,20 @@ const MuiCheckout = ({
     }
   }, [currentTab, invalidate, payment_intent]);
 
+  useEffect(() => {
+    const initRoktObject = async () => {
+      if (document) {
+        await new Promise<void>((resolve) =>
+          (window as any).Rokt
+            ? resolve()
+            : document.getElementById("rokt-launcher")?.addEventListener("load", () => resolve()),
+        );
+      }
+    };
+
+    initRoktObject();
+  }, []);
+
   const router = useRouter();
 
   const sellers = lines?.map((line) => line.seller);
@@ -332,6 +347,18 @@ const MuiCheckout = ({
     [createPayment, setHasFailedFinalizingPayment, onCompleteCheckout, handleErrors],
   );
 
+  const mapItemsForRoktPlacement = (items?: IItems | null) => {
+    return items?.map((i) => {
+      return {
+        price: i.totalPrice?.net.amount,
+        quantity: i.quantity,
+        majorcat: "",
+        minorcat: "",
+        productname: i?.variant?.product?.name || "",
+        sku: i.variant.sku,
+      };
+    });
+  };
   React.useEffect(() => {
     const haveNeededPayment = (payment_intent && payment_intent_client_secret) || payment?.token;
     const paymentToken = payment_intent || payment?.token;
@@ -394,6 +421,36 @@ const MuiCheckout = ({
   const submitBillingAddressRef = React.useRef<() => Promise<ReturnType<typeof setBillingAddress>>>();
 
   const confirmAndPurchase = async () => {
+    const mappedItems = mapItemsForRoktPlacement(items);
+    let launcher = await (window as any).Rokt.__getActiveLauncher();
+
+    if (!launcher) {
+      launcher = await (window as any).Rokt.createLauncher({
+        accountId: "3071804547766951791",
+        sandbox: true,
+      });
+    }
+
+    await launcher.selectPlacements({
+      attributes: {
+        // customer identifier - at least one required
+        email,
+        // recommended contextual attributes
+        firstname: billingAddress?.firstName,
+        lastname: billingAddress?.lastName,
+        address1: billingAddress?.streetAddress1,
+        address2: billingAddress?.streetAddress2,
+        city: billingAddress?.city,
+        state: billingAddress?.countryArea,
+        country: billingAddress?.country.country,
+        zipcode: billingAddress?.postalCode,
+        amount: total?.gross.amount,
+        currency: "USD",
+        paymenttype: "Credit",
+        cartItems: JSON.stringify(mappedItems),
+      },
+    });
+
     setSubmittingPayment(true);
     const orderTotal = Number(total?.gross.amount);
     const minOrderTotal = Number(minCheckoutAmount);
