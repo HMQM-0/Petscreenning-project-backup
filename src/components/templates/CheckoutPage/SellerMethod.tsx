@@ -46,7 +46,7 @@ const SellerMethod = ({
       <Box mb={2}>
         <Box sx={sellerShippingMethodSelect}>
           <Typography
-            variant="h4"
+            variant="h6"
             sx={sellerName}
           >
             {data?.sellerName?.companyName}
@@ -68,7 +68,7 @@ const SellerMethod = ({
                 select
                 required
                 disabled={!sellerMethod?.value?.length}
-                helperText={!sellerMethod?.value?.length && "No available shipping methods. Please contact support."}
+                helperText={!sellerMethod?.value?.length && "No available Shipping Methods. Please contact support."}
               >
                 {sellerMethod?.value?.map((option) => (
                   <MenuItem

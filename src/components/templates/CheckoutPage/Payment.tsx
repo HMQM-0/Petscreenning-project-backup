@@ -7,7 +7,7 @@ import { ICardData, IFormError } from "src/types";
 
 import { StripePaymentGateway } from "./StripePaymentGateway";
 import { AuthorizeNetPaymentGateway } from "./AuthorizeNetPaymentGateway";
-import { gridspan, title } from "./styles";
+import { gridspan, title, paymentWrapper } from "./styles";
 
 import { ICheckoutModelLine } from "../../providers/Nautical/Checkout/types";
 
@@ -132,35 +132,37 @@ const Payment = ({ handleCreatePayment, submittingPayment, setSubmittingPayment 
         </Box>
       ) : (
         <>
-          {availablePaymentGateways?.map(({ id, name, config }) => {
-            switch (name) {
-              case "Stripe":
-                return (
-                  <StripePaymentGateway
-                    config={config}
-                    formRef={checkoutGatewayFormRef}
-                    formId={checkoutGatewayFormId}
-                    errors={[]}
-                    onError={(errors) => handleErrors(errors)}
-                    total={totalPrice || undefined}
-                    setPaymentAlreadySubmitted={setPaymentAlreadySubmitted}
-                  />
-                );
-              case "Authorize.Net":
-                return (
-                  <AuthorizeNetPaymentGateway
-                    config={config}
-                    formRef={checkoutGatewayFormRef}
-                    formId={checkoutGatewayFormId}
-                    processPayment={(token, cardData) => handleProcessPayment(id, token, cardData)}
-                    errors={[]}
-                    onError={(errors) => handleErrors(errors)}
-                  />
-                );
-              default:
-                return null;
-            }
-          })}
+          <Box sx={paymentWrapper}>
+            {availablePaymentGateways?.map(({ id, name, config }) => {
+              switch (name) {
+                case "Stripe":
+                  return (
+                    <StripePaymentGateway
+                      config={config}
+                      formRef={checkoutGatewayFormRef}
+                      formId={checkoutGatewayFormId}
+                      errors={[]}
+                      onError={(errors) => handleErrors(errors)}
+                      total={totalPrice || undefined}
+                      setPaymentAlreadySubmitted={setPaymentAlreadySubmitted}
+                    />
+                  );
+                case "Authorize.Net":
+                  return (
+                    <AuthorizeNetPaymentGateway
+                      config={config}
+                      formRef={checkoutGatewayFormRef}
+                      formId={checkoutGatewayFormId}
+                      processPayment={(token, cardData) => handleProcessPayment(id, token, cardData)}
+                      errors={[]}
+                      onError={(errors) => handleErrors(errors)}
+                    />
+                  );
+                default:
+                  return null;
+              }
+            })}
+          </Box>
         </>
       )}
       {errorMessage && (
