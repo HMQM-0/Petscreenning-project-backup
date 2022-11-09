@@ -9,7 +9,7 @@
     display: flex;
 
     span {
-      font-family: "Red Hat Display";
+      font-family: "Red Hat Display" !important;
       flex-grow: 1;
       width: 100%;
       background-color: #ffffff;
@@ -61,7 +61,7 @@
 
 .login__content__password-reminder {
   text-align: center;
-  font-family: "Red Hat Display";
+  font-family: "Red Hat Display" !important;
   font-style: normal;
   font-weight: 500;
   font-size: 13px;

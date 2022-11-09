@@ -1,7 +1,7 @@
 @import "~@fontsource/red-hat-display/700.css"; // Weight 400.
 
 .menuOption {
-  font-family: "Red Hat Display";
+  font-family: "Red Hat Display" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 12px !important;
@@ -51,7 +51,7 @@ div.menu div:last-child .menuOption.navOption {
   .headerOptionLabel {
     height: 17px;
 
-    font-family: "Red Hat Display";
+    font-family: "Red Hat Display" !important;
     font-style: normal;
     font-weight: 500;
     font-size: 13px;
@@ -65,7 +65,7 @@ div.menu div:last-child .menuOption.navOption {
   .pawItForwardLabel {
     height: 17px;
 
-    font-family: "Red Hat Display";
+    font-family: "Red Hat Display" !important;
     font-style: normal;
     font-weight: 500;
     font-size: 13px;
