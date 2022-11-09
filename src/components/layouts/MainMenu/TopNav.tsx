@@ -55,6 +55,7 @@ const TopNav = (props: ITopNavProps) => {
   const overlayContext = useOverlayContext();
   const [search] = useQueryParam("q", StringParam);
   const [term, setTerm] = React.useState<string>(search || "");
+  const [showHeader, setShowHeader] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<
     (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
   >(null);
@@ -64,6 +65,12 @@ const TopNav = (props: ITopNavProps) => {
     // Sync local state with query param, anytime it is changed
     setTerm(search || "");
   }, [search]);
+
+  useEffect(() => {
+    if (window) {
+      setShowHeader(!window.location.href.includes("checkout"));
+    }
+  }, []);
 
   const handleCart = () => {
     overlayContext.show(OverlayType.cart, OverlayTheme.right);
@@ -336,31 +343,33 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </Toolbar>
       </AppBar>
-      <div className={classes.desktopNav}>
-        <Box
-          sx={{
-            width: "100%",
-            minWidth: "1440px",
-            minHeight: "35px",
-            background: "#FFFFFF",
-            display: "flex",
-            justifyContent: "center",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
-            borderTop: "0.25px solid #dadada",
-          }}
-        >
-          <div className={classes.menu}>
-            {menuItems?.map((item: any, index) => (
-              <MenuListComposition
-                option={item}
-                optionsPlacement="bottom-start"
-                isNavOption
-                key={index}
-              />
-            ))}
-          </div>
-        </Box>
-      </div>
+      {showHeader && (
+        <div className={classes.desktopNav}>
+          <Box
+            sx={{
+              width: "100%",
+              minWidth: "1440px",
+              minHeight: "35px",
+              background: "#FFFFFF",
+              display: "flex",
+              justifyContent: "center",
+              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
+              borderTop: "0.25px solid #dadada",
+            }}
+          >
+            <div className={classes.menu}>
+              {menuItems?.map((item: any, index) => (
+                <MenuListComposition
+                  option={item}
+                  optionsPlacement="bottom-start"
+                  isNavOption
+                  key={index}
+                />
+              ))}
+            </div>
+          </Box>
+        </div>
+      )}
     </>
   );
 };
