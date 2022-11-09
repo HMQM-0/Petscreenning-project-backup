@@ -17,24 +17,15 @@ export const breadcrumb: SxProps = {
 };
 
 export const button: SxProps = {
-  borderRadius: "50px",
-  backgroundColor: "#0E6EFF",
-  fontWeight: 700,
-  fontSize: "15px",
-  lineHeight: "1.1",
+  borderRadius: "2px",
   "& .MuiButton-label": {
     fontSize: "1.0rem",
     fontWeight: 400,
-  },
-  "&:hover": {
-    backgroundColor: "#0E6EFF",
   },
   marginBottom: {
     xs: 1,
     sm: 0,
   },
-  padding: "15px 24px",
-  minWidth: "365px",
 };
 
 export const buttonGroupButton: SxProps = {
@@ -87,18 +78,11 @@ export const cardGroup: SxProps = {
 };
 export const cartSummary: SxProps = {
   backgroundColor: "#F8FAFB",
-  maxWidth: {
-    xs: "100%",
-    sm: "410px",
-  },
+  maxWidth: "410px",
   borderColor: "divider",
   padding: {
     xs: 0,
     sm: 4,
-  },
-  ".Savings": {
-    color: "#17A86B",
-    fontStyle: "italic",
   },
 };
 
@@ -131,24 +115,9 @@ export const buttonsGrid: SxProps = {
   gridTemplateColumns: "1fr 1fr",
   gap: "16px",
   flexDirection: "column-reverse",
-  borderTop: 0,
+  borderTop: 1,
   borderColor: "divider",
-  pt: 2,
-};
-export const buttonsGridAddress: SxProps = {
-  display: {
-    xs: "flex",
-    sm: "grid",
-  },
-  gridTemplateColumns: "auto",
-  gap: "16px",
-  flexDirection: "column-reverse",
-  borderTop: 0,
-  borderColor: "divider",
-  pt: 2,
-  justifyContent: {
-    sm: "end",
-  },
+  pt: 1,
 };
 export const gridspan: SxProps = {
   gridColumn: "1 / span 2",
@@ -174,19 +143,16 @@ export const quantityText: SxProps = {
 export const sellerName: SxProps = {
   fontSize: {
     xs: "1rem",
-    sm: "1.3rem",
+    sm: "unset",
   },
   fontWeight: {
     xs: 600,
-    sm: "700",
+    sm: "unset",
   },
-  color: "#001A5D",
 };
 export const sellerShippingMethodSelect: SxProps = {
   display: "grid",
   gridTemplateColumns: "auto 200px",
-  alignItems: "center",
-  padding: "25px 0",
 };
 export const shippingCard: SxProps = {
   alignItems: "center",
@@ -232,8 +198,8 @@ export const textfield: SxProps = {
   "& .MuiFormLabel-root": {
     left: "-12px",
     marginBottom: 0,
-    textTransform: "capitalize",
-    top: "-12px",
+    textTransform: "uppercase",
+    top: "-8px",
   },
   "& .MuiOutlinedInput-notchedOutline": {
     height: 56,
@@ -243,53 +209,6 @@ export const textfield: SxProps = {
     },
   },
 };
-export const or: SxProps = {
-  color: "#828282",
-  fontSize: "1rem",
-};
-
 export const title: SxProps = {
-  marginBottom: "30px",
-  color: "#001A5D",
-  fontSize: "1.3rem",
-  fontWeight: 700,
-};
-
-export const account_login: SxProps = {
-  fontSize: "1.3rem",
-  fontWeight: 700,
-  marginRight: "15px",
-  lineHeight: "1.2rem",
-  color: "#0E6EFF",
-  textDecoration: "none",
-};
-
-export const account_guest: SxProps = {
-  fontSize: "1.3rem",
-  fontWeight: 700,
-  marginLeft: "15px",
-  textDecoration: "none",
-  lineHeight: "1.2rem",
-};
-
-export const singleTab: SxProps = {
-  textTransform: "initial",
-  fontWeight: 600,
-  color: "#828282 !important",
-};
-
-export const returnCustomer: SxProps = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: {
-    sm: "right",
-  },
-  padding: 0,
-  background: "transparent !important",
-  color: "#828282",
-  fontSize: "15px",
-  textTransform: "initial",
-};
-export const paymentWrapper: SxProps = {
-  marginBottom: "20px",
+  marginBottom: "16px",
 };

@@ -8,10 +8,8 @@ export const textField: SxProps = {
   "& .MuiFormLabel-root": {
     left: "-12px",
     marginBottom: 0,
-    textTransform: "capitalize",
-    top: "-10px",
-    fontSize: "14px",
-    color: "#828282",
+    textTransform: "uppercase",
+    top: "-8px",
   },
   "& .MuiOutlinedInput-notchedOutline": {
     height: "56px",

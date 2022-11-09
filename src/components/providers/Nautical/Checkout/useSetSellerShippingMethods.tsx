@@ -28,7 +28,7 @@ const useSetSellerShippingMethods = ({ dispatch }: useSetSellerShippingMethodsPr
       }
       return {
         functionError: {
-          error: new Error("You need to set a shipping address before setting Shipping Method."),
+          error: new Error("You need to set a shipping address before setting shipping method."),
           type: FunctionErrorCheckoutTypes.SHIPPING_ADDRESS_NOT_SET,
         },
         pending: false,

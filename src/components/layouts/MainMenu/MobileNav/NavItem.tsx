@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 import { IconButton, useTheme } from "@mui/material";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import { NavLink } from "src/components/atoms/NavLink";
 import { MainMenuItemsFragment } from "src/components/layouts/MainMenu/queries.graphql.generated";
@@ -49,7 +49,7 @@ const NavItem = ({ hideOverlay, showSubItems, item }: NavItemProps) => {
           color={"primary"}
           onClick={() => showSubItems(item)}
         >
-          <ArrowRightIcon fontSize="large" />
+          <KeyboardArrowRightIcon fontSize="medium" />
         </IconButton>
       )}
     </li>

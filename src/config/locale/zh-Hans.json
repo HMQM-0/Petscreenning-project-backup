@@ -391,7 +391,7 @@
     "string": "配送地址"
   },
   "intl_dot_checkoutMessages_dot_shippingMethod": {
-    "string": "Shipping Method"
+    "string": "SHIPPING METHOD"
   },
   "intl_dot_checkoutMessages_dot_shippingNextActionName": {
     "string": "Continue to Payment"

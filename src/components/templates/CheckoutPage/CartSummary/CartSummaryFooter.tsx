@@ -29,9 +29,8 @@ interface ICostLineProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   bigStyle: {
-    fontSize: "1.125rem",
+    fontSize: "1.25rem",
     fontWeight: 600,
-    color: "#001A5D",
   },
   currencyStyle: {
     fontSize: "0.75rem !important",
@@ -43,10 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 600,
   },
   lastFont: {
-    fontSize: "1rem !important",
-    color: "#001A5D !important",
-    fontWeight: 700,
-    textTransform: "uppercase",
+    fontSize: "0.95rem",
   },
   otherFont: {
     fontSize: "0.875rem",
@@ -56,11 +52,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "space-between",
     marginTop: 16,
     marginBottom: 16,
-    color: "#828282",
-    fontSize: "14px",
-  },
-  Savings: {
-    color: "#17A86B",
   },
 }));
 
@@ -70,10 +61,7 @@ const CostLine = ({ name, children, last = false, negative = false }: ICostLineP
   return (
     <>
       {last ? <Divider /> : ""}
-      <Box
-        className={clsx(last ? classes.lastFont : classes.otherFont, classes.footerFlex, name.replace(/\s/g, ""))}
-        data-name={`cartSummary${name.replace(/\s/g, "")}`}
-      >
+      <Box className={clsx(last ? classes.lastFont : classes.otherFont, classes.footerFlex)}>
         <Box component="span">{name}</Box>
         <Box
           component="span"
@@ -132,6 +120,16 @@ const CartSummaryFooter = ({ subtotal, promoCode, shipping, total, volumeDiscoun
           negative
         />
       )}
+      {volumeDiscount && volumeDiscount.amount > 0 && (
+        <MoneyCostLine
+          name={intl.formatMessage({
+            defaultMessage: "Volume Discount",
+            description: "volume discount",
+          })}
+          money={volumeDiscount}
+          negative
+        />
+      )}
       {total && (
         <MoneyCostLine
           name={intl.formatMessage({
@@ -139,16 +137,6 @@ const CartSummaryFooter = ({ subtotal, promoCode, shipping, total, volumeDiscoun
             description: "taxes",
           })}
           money={calculateTax(total)}
-        />
-      )}
-      {volumeDiscount && volumeDiscount.amount > 0 && (
-        <MoneyCostLine
-          name={intl.formatMessage({
-            defaultMessage: "Savings",
-            description: "Savings",
-          })}
-          money={volumeDiscount}
-          negative
         />
       )}
       {total && (

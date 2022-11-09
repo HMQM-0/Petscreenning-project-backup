@@ -170,7 +170,7 @@ export const CartRow = ({ item }: CartRowProps) => {
           size={22}
           name="trash"
           onClick={() => removeItem(variant.id)}
-        /> Delete
+        />
       </S.Trash>
 
       <S.TotalPrice>

@@ -43,8 +43,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 6,
     width: 84,
     height: 84,
-    border: 0,
-    background: "transparent",
     "& img": {
       maxHeight: 72,
       maxWidth: 72,
@@ -52,22 +50,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   title: {
     fontSize: "0.875rem",
-    color: "#001A5D",
-    fontWeight: "700",
   },
   caption: {
     // color: theme.palette.grey[600],
-    fontSize: "0.750rem",
+    fontSize: "0.875rem",
     fontWeight: "lighter",
-    color: "#828282",
   },
   cost: {
     // color: theme.palette.grey[800],
-    fontSize: "1.125rem",
+    fontSize: "0.95rem",
+    fontWeight: 600,
     textAlign: "right",
     marginLeft: "auto",
-    color: "#001A5D",
-    fontWeight: "700",
   },
   info: {
     display: "flex",

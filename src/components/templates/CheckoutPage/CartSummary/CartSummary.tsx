@@ -21,18 +21,7 @@ import { ICheckoutModelPriceValue } from "src/components/providers/Nautical/Chec
 
 import CartSummaryFooter from "./CartSummaryFooter";
 import CartSummaryRow from "./CartSummaryRow";
-import {
-  accordion,
-  accordionSummary,
-  discountChip,
-  priceButton,
-  promoCodeContainer,
-  root,
-  title,
-  titleSummary,
-  orderSummary,
-  cartProducts,
-} from "./styles";
+import { accordion, accordionSummary, discountChip, priceButton, promoCodeContainer, root, title } from "./styles";
 
 import { IProduct } from "../types";
 
@@ -117,10 +106,10 @@ const CartSummary = ({
                 >
                   <AccordionSummary sx={accordionSummary}>
                     <Typography
-                      sx={titleSummary}
+                      sx={title}
                       variant="h6"
                     >
-                      Order Summary
+                      Shopping Cart
                     </Typography>
                     <Button
                       sx={priceButton}
@@ -131,49 +120,10 @@ const CartSummary = ({
                       <TaxedMoney taxedMoney={total} />
                     </Button>
                   </AccordionSummary>
-                  <AccordionDetails sx={{ padding: 0 }}>
+                  <AccordionDetails>
                     <Divider />
                     <Box>
-                      <Box sx={orderSummary}>
-                        {onPaymentStep &&
-                          (loyaltyPoints ? (
-                            <Box style={{ marginTop: "30px " }}>{loyaltyPoints}</Box>
-                          ) : (
-                            <Box>
-                              <Box sx={promoCodeContainer}>
-                                <TextField
-                                  onChange={(event) => setCode(event.target.value)}
-                                  placeholder="Apply Promo code"
-                                  value={code}
-                                />
-                                <Button onClick={handleAddPromoCode}>APPLY</Button>
-                              </Box>
-                              {promoCodeDiscount?.voucherCode && (
-                                <Chip
-                                  sx={discountChip}
-                                  label={promoCodeDiscount.discountName}
-                                  // onClick={handleClick}
-                                  onDelete={handleRemovePromoCode}
-                                />
-                              )}
-                              <Divider />
-                            </Box>
-                          ))}
-                        <CartSummaryFooter
-                          subtotal={subtotal}
-                          total={total}
-                          shipping={shipping}
-                          promoCode={promoCode}
-                          volumeDiscount={volumeDiscount}
-                        />
-                      </Box>
-                      <Box sx={cartProducts}>
-                        <Typography
-                          sx={titleSummary}
-                          variant="h6"
-                        >
-                          Shopping Cart
-                        </Typography>
+                      <Box>
                         {products?.map((product, index) => (
                           <Box key={product.sku}>
                             <Box>
@@ -192,59 +142,52 @@ const CartSummary = ({
                           </Box>
                         ))}
                       </Box>
+                      {onPaymentStep &&
+                        (loyaltyPoints ? (
+                          <Box style={{ marginTop: "30px " }}>{loyaltyPoints}</Box>
+                        ) : (
+                          <Box>
+                            <Box sx={promoCodeContainer}>
+                              <TextField
+                                onChange={(event) => setCode(event.target.value)}
+                                placeholder="Promo code"
+                                value={code}
+                              />
+                              <Button onClick={handleAddPromoCode}>APPLY</Button>
+                            </Box>
+                            {promoCodeDiscount?.voucherCode && (
+                              <Chip
+                                sx={discountChip}
+                                label={promoCodeDiscount.discountName}
+                                // onClick={handleClick}
+                                onDelete={handleRemovePromoCode}
+                              />
+                            )}
+                            <Divider />
+                          </Box>
+                        ))}
+                      <CartSummaryFooter
+                        subtotal={subtotal}
+                        total={total}
+                        shipping={shipping}
+                        promoCode={promoCode}
+                        volumeDiscount={volumeDiscount}
+                      />
                     </Box>
                   </AccordionDetails>
                 </Accordion>
               </>
             ) : (
               <>
+                <Typography
+                  sx={title}
+                  variant="h6"
+                >
+                  Shopping Cart
+                </Typography>
+                <Divider />
                 <Box>
-                  <Box sx={orderSummary}>
-                    <Typography
-                      sx={titleSummary}
-                      variant="h6"
-                    >
-                      Order Summary
-                    </Typography>
-                    {onPaymentStep &&
-                      (loyaltyPoints ? (
-                        <Box style={{ marginTop: "30px" }}>{loyaltyPoints}</Box>
-                      ) : (
-                        <Box>
-                          <Box sx={promoCodeContainer}>
-                            <TextField
-                              onChange={(event) => setCode(event.target.value)}
-                              placeholder="Apply Promo code"
-                              value={code}
-                            />
-                            <Button onClick={() => addPromoCode(code)}>APPLY</Button>
-                          </Box>
-                          {promoCodeDiscount?.voucherCode && (
-                            <Chip
-                              sx={discountChip}
-                              label={promoCodeDiscount.discountName}
-                              // onClick={handleClick}
-                              onDelete={() => removePromoCode(promoCodeDiscount?.voucherCode ?? "")}
-                            />
-                          )}
-                          <Divider />
-                        </Box>
-                      ))}
-                    <CartSummaryFooter
-                      subtotal={subtotal}
-                      total={total}
-                      shipping={shipping}
-                      promoCode={promoCode}
-                      volumeDiscount={volumeDiscount}
-                    />
-                  </Box>
-                  <Box sx={cartProducts}>
-                    <Typography
-                      sx={titleSummary}
-                      variant="h6"
-                    >
-                      Shopping Cart
-                    </Typography>
+                  <Box>
                     {products?.map((product, index) => (
                       <Box key={product.sku}>
                         <Box>
@@ -263,6 +206,37 @@ const CartSummary = ({
                       </Box>
                     ))}
                   </Box>
+                  {onPaymentStep &&
+                    (loyaltyPoints ? (
+                      <Box style={{ marginTop: "30px" }}>{loyaltyPoints}</Box>
+                    ) : (
+                      <Box>
+                        <Box sx={promoCodeContainer}>
+                          <TextField
+                            onChange={(event) => setCode(event.target.value)}
+                            placeholder="Promo code"
+                            value={code}
+                          />
+                          <Button onClick={() => addPromoCode(code)}>APPLY</Button>
+                        </Box>
+                        {promoCodeDiscount?.voucherCode && (
+                          <Chip
+                            sx={discountChip}
+                            label={promoCodeDiscount.discountName}
+                            // onClick={handleClick}
+                            onDelete={() => removePromoCode(promoCodeDiscount?.voucherCode ?? "")}
+                          />
+                        )}
+                        <Divider />
+                      </Box>
+                    ))}
+                  <CartSummaryFooter
+                    subtotal={subtotal}
+                    total={total}
+                    shipping={shipping}
+                    promoCode={promoCode}
+                    volumeDiscount={volumeDiscount}
+                  />
                 </Box>
               </>
             )}

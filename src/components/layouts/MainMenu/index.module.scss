@@ -1,0 +1,103 @@
+@import "~@fontsource/red-hat-display/700.css"; // Weight 400.
+
+.menuOption {
+  font-family: "Red Hat Display";
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+  width: 300px !important;
+  text-align: left;
+  justify-content: flex-start !important;
+  letter-spacing: 0.03em;
+  border-radius: 0;
+}
+
+.menuOption.navOption {
+  height: 100% !important;
+  width: auto !important;
+  line-height: 15px !important;
+  color: #001a5d !important;
+  padding: 10px 20px !important;
+  font-size: 12px !important;
+  border-bottom: none;
+  font-weight: 700 !important;
+}
+
+.menu {
+  display: flex;
+  z-index: 5001;
+}
+
+div.menu div .menuOption.navOption {
+  border-right: 0.25px solid #dadada;
+}
+
+div.menu div:last-child .menuOption.navOption {
+  border-right: none;
+}
+
+.mobileNav {
+  display: none;
+}
+
+.headerOption {
+  display: flex;
+  align-items: center;
+  width: 120px;
+  justify-content: space-evenly;
+
+  .headerOptionLabel {
+    height: 17px;
+
+    font-family: "Red Hat Display";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+
+    color: #828282;
+  }
+
+  .pawItForwardLabel {
+    height: 17px;
+
+    font-family: "Red Hat Display";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+
+    color: #828282;
+  }
+}
+
+.desktopFiddoTobbyAlert {
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .desktopNav {
+    display: none;
+  }
+  .mobileNav {
+    display: block;
+  }
+  .headerOption {
+    width: 20px;
+    .headerOptionLabel {
+      display: none;
+    }
+  }
+  .headerOption.wide {
+    width: 120px;
+  }
+
+  .desktopFiddoTobbyAlert {
+    display: none;
+  }
+}

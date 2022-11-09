@@ -15,7 +15,7 @@ const ForgottenPassword = ({ onClick }: ForgottenPasswordProps) => (
         <FormattedMessage defaultMessage="Have you forgotten your password?" />{" "}
         <Box
           component="span"
-          className="u-link"
+          className={classes["custom-u-link"]}
           onClick={onClick}
           data-test="accountOverlayForgottenPasswordLink"
         >
