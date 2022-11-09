@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { useAlert, AlertContainer } from "react-alert";
-import { useIntl, IntlShape } from "react-intl";
+import { AlertContainer, useAlert } from "react-alert";
+import { IntlShape, useIntl } from "react-intl";
 
 import { IFormError } from "src/types";
 import { commonMessages } from "src/core/intl";

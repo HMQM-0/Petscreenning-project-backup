@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 import { IconButton, useTheme } from "@mui/material";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import { NavLink } from "src/components/atoms/NavLink";

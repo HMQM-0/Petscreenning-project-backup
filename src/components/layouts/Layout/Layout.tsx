@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 
-import { Footer } from "src/components/molecules/Footer";
 import Button from "src/components/atoms/Button";
 import { MaterialUIProvider } from "@providers";
 import { DocumentHead, DocumentHeadProps, ThemeFont } from "src/components/atoms";

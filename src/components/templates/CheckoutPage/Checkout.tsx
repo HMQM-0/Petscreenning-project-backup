@@ -18,7 +18,7 @@ import {
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import LockIcon from "@mui/icons-material/Lock";
 import * as React from "react";
-import { useQueryParams, StringParam } from "next-query-params";
+import { StringParam, useQueryParams } from "next-query-params";
 import { useRouter } from "next/router";
 import { isArray } from "lodash";
 

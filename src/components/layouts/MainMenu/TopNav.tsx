@@ -1,18 +1,18 @@
 import {
   AppBar,
-  Button,
   Badge,
   Box,
+  Button,
   Divider,
-  InputBase,
   IconButton,
-  Paper,
-  Toolbar,
+  InputBase,
+  ListItemIcon,
   Menu,
   MenuItem,
-  ListItemIcon,
+  Paper,
+  Toolbar,
 } from "@mui/material";
-import { useQueryParam, StringParam } from "next-query-params";
+import { StringParam, useQueryParam } from "next-query-params";
 import React, { useEffect } from "react";
 import { useAlert } from "react-alert";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -21,15 +21,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
-import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
-import { Logout, ImportContacts } from "@mui/icons-material";
+import { ImportContacts, Logout } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 
-import { useCart, useAuth } from "nautical-api";
+import { useAuth, useCart } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/providers/Overlay";
 
 import MenuListComposition from "./MenuListComposition";
