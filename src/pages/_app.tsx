@@ -20,6 +20,7 @@ import { nprogress } from "src/styles/nprogress";
 import NotificationTemplate from "src/components/atoms/NotificationTemplate/NotificationTemplate";
 import NauticalProvider from "src/components/providers/Nautical/NauticalProvider";
 import { LocaleProvider } from "src/components/providers/Locale/Locale";
+import { RoktLauncherContextProvider } from "src/components/providers/Rokt/Rokt";
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
@@ -41,18 +42,20 @@ function MyApp({ Component, pageProps }: AppProps) {
             template={NotificationTemplate as any}
             {...notificationOptions}
           >
-            <LocaleProvider>
-              <NextQueryParamProvider>
-                <NauticalProvider initialState={__APOLLO__}>
-                  <ShopProvider>
-                    <OverlayProvider>
-                      <GlobalStyle />
-                      <Component {...pageProps} />
-                    </OverlayProvider>
-                  </ShopProvider>
-                </NauticalProvider>
-              </NextQueryParamProvider>
-            </LocaleProvider>
+            <RoktLauncherContextProvider>
+              <LocaleProvider>
+                <NextQueryParamProvider>
+                  <NauticalProvider initialState={__APOLLO__}>
+                    <ShopProvider>
+                      <OverlayProvider>
+                        <GlobalStyle />
+                        <Component {...pageProps} />
+                      </OverlayProvider>
+                    </ShopProvider>
+                  </NauticalProvider>
+                </NextQueryParamProvider>
+              </LocaleProvider>
+            </RoktLauncherContextProvider>
           </AlertProvider>
         </div>
         <div id="modal-root" />
