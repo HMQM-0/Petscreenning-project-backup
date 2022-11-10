@@ -8,6 +8,7 @@
     display: flex;
 
     span {
+      font-family: "Red Hat Display" !important;
       flex-grow: 1;
       width: 100%;
       background-color: $gray-light;
@@ -51,4 +52,19 @@
       margin-top: $spacer * 2;
     }
   }
+}
+
+.login__content__password-reminder {
+  text-align: center;
+  font-family: "Red Hat Display" !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  color: #858585;
+}
+
+.custom-u-link {
+  color: #0e6eff;
+  text-decoration: underline;
+  cursor: pointer;
 }

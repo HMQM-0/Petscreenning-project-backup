@@ -1,18 +1,18 @@
 import {
   AppBar,
-  Button,
   Badge,
   Box,
+  Button,
   Divider,
-  InputBase,
   IconButton,
-  Paper,
-  Toolbar,
+  InputBase,
+  ListItemIcon,
   Menu,
   MenuItem,
-  ListItemIcon,
+  Paper,
+  Toolbar,
 } from "@mui/material";
-import { useQueryParam, StringParam } from "next-query-params";
+import { StringParam, useQueryParam } from "next-query-params";
 import React, { useEffect } from "react";
 import { useAlert } from "react-alert";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
@@ -21,14 +21,18 @@ import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 //import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Logout, ImportContacts } from "@mui/icons-material";
+import { ImportContacts, Logout } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { useCart, useAuth } from "nautical-api";
+import { useAuth, useCart } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/providers/Overlay";
+
+import MenuListComposition from "./MenuListComposition";
+import { useMainMenuQuery } from "./queries.graphql.generated";
+import classes from "./index.module.scss";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
@@ -47,6 +51,7 @@ const TopNav = (props: ITopNavProps) => {
   const overlayContext = useOverlayContext();
   const [search] = useQueryParam("q", StringParam);
   const [term, setTerm] = React.useState<string>(search || "");
+  const [showHeader, setShowHeader] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<
     (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
   >(null);
@@ -56,6 +61,12 @@ const TopNav = (props: ITopNavProps) => {
     // Sync local state with query param, anytime it is changed
     setTerm(search || "");
   }, [search]);
+
+  useEffect(() => {
+    if (window) {
+      setShowHeader(!window.location.href.includes("checkout"));
+    }
+  }, []);
 
   const handleCart = () => {
     overlayContext.show(OverlayType.cart, OverlayTheme.right);
@@ -91,6 +102,8 @@ const TopNav = (props: ITopNavProps) => {
 
   const cartItemsQuantity = (items && items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) || 0;
 
+  const { data, loading } = useMainMenuQuery();
+  const menuItems = data?.shop.navigation?.main?.items ?? [];
   return (
     <>
       <AppBar
@@ -296,6 +309,33 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </Toolbar>
       </AppBar>
+      {showHeader && (
+        <div className={classes.desktopNav}>
+          <Box
+            sx={{
+              width: "100%",
+              minWidth: "1440px",
+              minHeight: "35px",
+              background: "#FFFFFF",
+              display: "flex",
+              justifyContent: "center",
+              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
+              borderTop: "0.25px solid #dadada",
+            }}
+          >
+            <div className={classes.menu}>
+              {menuItems?.map((item: any, index) => (
+                <MenuListComposition
+                  option={item}
+                  optionsPlacement="bottom-start"
+                  isNavOption
+                  key={index}
+                />
+              ))}
+            </div>
+          </Box>
+        </div>
+      )}
     </>
   );
 };

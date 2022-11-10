@@ -1,9 +1,11 @@
 @import "src/globalStyles/scss/variables.scss";
+@import "~@fontsource/red-hat-display/700.css"; // Weight 400.
 
 .side-nav {
   $item-height: 3.7rem;
   max-width: 100vw;
   width: 25rem;
+  font-family: "Red Hat Display" !important;
 
   &__menu-item {
     border-bottom: 1px solid $gray-light;
