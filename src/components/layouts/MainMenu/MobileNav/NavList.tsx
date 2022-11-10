@@ -1,17 +1,12 @@
 import * as React from "react";
-import { Box, Divider, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { useRouter } from "next/router";
-import Image from "next/image";
 
 import { MainMenuItemsFragment } from "@layouts/MainMenu/queries.graphql.generated";
 
 import classes from "./scss/index.module.scss";
 import NavItem from "./NavItem";
-
-import FiddoTobbyAlert from "../FidoTobbyAlert.png";
-import PawItForwardIcon from "../PawItForwardIcon";
 
 type NavListProps = {
   logo?: React.ReactNode;
@@ -22,7 +17,6 @@ type NavListProps = {
 const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
   const [displayedItems, setDisplayedItems] = React.useState(items);
   const [parent, setParent] = React.useState<typeof displayedItems[number] | null>(null);
-  const router = useRouter();
 
   const handleShowSubItems = (item: typeof parent) => {
     setParent(item);
@@ -64,7 +58,6 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
             paddingTop: "16px",
             paddingLeft: "16px",
             paddingRight: "16px",
-            paddingBottom: "30px",
           }}
         >
           {logo}
@@ -75,7 +68,6 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
               marginTop: "auto",
               marginBottom: "auto",
               marginRight: 0,
-              color: "#001a5d",
             }}
           >
             {" "}
@@ -94,24 +86,6 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
           />
         );
       })}
-
-      <div className={classes.mobilePawItForward}>
-        <PawItForwardIcon />
-      </div>
-
-      <Divider light />
-      <div
-        onClick={() => router.push("https://www.fidoalert.com/")}
-        className={classes.mobileFiddoTobbyAlert}
-      >
-        <Image
-          src={FiddoTobbyAlert}
-          width={83}
-          height={40}
-          objectFit="contain"
-          alt="FiddoTobbyAlert"
-        />
-      </div>
     </ul>
   );
 };

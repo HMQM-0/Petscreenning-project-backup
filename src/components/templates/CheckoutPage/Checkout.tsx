@@ -18,9 +18,11 @@ import {
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import LockIcon from "@mui/icons-material/Lock";
 import * as React from "react";
-import { StringParam, useQueryParams } from "next-query-params";
+import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 import { isArray } from "lodash";
+import { FormattedMessage } from "react-intl";
+import { useEffect } from "react";
 
 import { Money } from "src/components/atoms/Money";
 import { useAuth, useCheckout } from "nautical-api";
@@ -41,13 +43,20 @@ import {
   button,
   buttonPopover,
   buttonsGrid,
+  buttonsGridAddress,
   buttonText,
   cartSummary,
   gridspan,
   tabs,
   title,
+  or,
+  account_login,
+  account_guest,
+  singleTab,
+  returnCustomer,
 } from "./styles";
 import { Plugins } from "./constants";
+import classes from "./scss/index.module.scss";
 
 import { ICheckoutModelLine, ICheckoutModelPriceValue } from "../../providers/Nautical/Checkout/types";
 
@@ -212,6 +221,20 @@ const MuiCheckout = ({
     }
   }, [currentTab, invalidate, payment_intent]);
 
+  useEffect(() => {
+    const initRoktObject = async () => {
+      if (document) {
+        await new Promise<void>((resolve) =>
+          (window as any).Rokt
+            ? resolve()
+            : document.getElementById("rokt-launcher")?.addEventListener("load", () => resolve()),
+        );
+      }
+    };
+
+    initRoktObject();
+  }, []);
+
   const router = useRouter();
 
   const sellers = lines?.map((line) => line.seller);
@@ -324,6 +347,18 @@ const MuiCheckout = ({
     [createPayment, setHasFailedFinalizingPayment, onCompleteCheckout, handleErrors],
   );
 
+  const mapItemsForRoktPlacement = (items?: IItems | null) => {
+    return items?.map((i) => {
+      return {
+        price: i.totalPrice?.net.amount,
+        quantity: i.quantity,
+        majorcat: "",
+        minorcat: "",
+        productname: i?.variant?.product?.name || "",
+        sku: i.variant.sku,
+      };
+    });
+  };
   React.useEffect(() => {
     const haveNeededPayment = (payment_intent && payment_intent_client_secret) || payment?.token;
     const paymentToken = payment_intent || payment?.token;
@@ -386,6 +421,36 @@ const MuiCheckout = ({
   const submitBillingAddressRef = React.useRef<() => Promise<ReturnType<typeof setBillingAddress>>>();
 
   const confirmAndPurchase = async () => {
+    const mappedItems = mapItemsForRoktPlacement(items);
+    let launcher = await (window as any).Rokt.__getActiveLauncher();
+
+    if (!launcher) {
+      launcher = await (window as any).Rokt.createLauncher({
+        accountId: "3071804547766951791",
+        sandbox: true,
+      });
+    }
+
+    await launcher.selectPlacements({
+      attributes: {
+        // customer identifier - at least one required
+        email,
+        // recommended contextual attributes
+        firstname: billingAddress?.firstName,
+        lastname: billingAddress?.lastName,
+        address1: billingAddress?.streetAddress1,
+        address2: billingAddress?.streetAddress2,
+        city: billingAddress?.city,
+        state: billingAddress?.countryArea,
+        country: billingAddress?.country.country,
+        zipcode: billingAddress?.postalCode,
+        amount: total?.gross.amount,
+        currency: "USD",
+        paymenttype: "Credit",
+        cartItems: JSON.stringify(mappedItems),
+      },
+    });
+
     setSubmittingPayment(true);
     const orderTotal = Number(total?.gross.amount);
     const minOrderTotal = Number(minCheckoutAmount);
@@ -553,6 +618,7 @@ const MuiCheckout = ({
       </Box>
       {checkoutLoaded && !payment_intent && !payment_intent_client_secret ? (
         <Box
+          className={classes["checkout-page"]}
           sx={{
             background: "linear-gradient(90deg, #FFF 50%, #F8FAFB 50%)",
             display: {
@@ -616,12 +682,14 @@ const MuiCheckout = ({
                   value={CheckoutTabs.CUSTOMER}
                   label="Customer"
                   disableRipple
+                  sx={singleTab}
                   onClick={() => setCurrentTab(CheckoutTabs.CUSTOMER)}
                 />
                 <Tab
                   value={CheckoutTabs.SHIPPING}
                   label="Shipping"
                   disableRipple
+                  sx={singleTab}
                   onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
                   disabled={shippingStepDisabled}
                 />
@@ -629,6 +697,7 @@ const MuiCheckout = ({
                   value={CheckoutTabs.PAYMENT}
                   label="Payment"
                   disableRipple
+                  sx={singleTab}
                   disabled={paymentStepDisabled}
                   onClick={() => setCurrentTab(CheckoutTabs.PAYMENT)}
                 />
@@ -644,7 +713,26 @@ const MuiCheckout = ({
                   sx={title}
                   variant="h6"
                 >
-                  Customer Information
+                  <Link
+                    href={"/login"}
+                    className="account-login"
+                    sx={account_login}
+                  >
+                    <FormattedMessage defaultMessage="Login" />
+                  </Link>
+                  <Box
+                    sx={or}
+                    component="span"
+                  >
+                    or
+                  </Box>
+                  <Link
+                    href={"/checkout?guest=1"}
+                    className="account-guest"
+                    sx={account_guest}
+                  >
+                    <FormattedMessage defaultMessage="Continue As A Guest" />
+                  </Link>
                 </Typography>
               </Box>
               <AddressForm
@@ -667,7 +755,7 @@ const MuiCheckout = ({
                   );
                 }}
               </AddressForm>
-              <Box sx={buttonsGrid}>
+              <Box sx={buttonsGridAddress}>
                 <Button
                   color="primary"
                   disableElevation
@@ -680,7 +768,7 @@ const MuiCheckout = ({
                     setIsSubmittingShippingAddress(false);
                   }}
                 >
-                  {isSubmittingShippingAddress ? <CircularProgress /> : "Set Address"}
+                  {isSubmittingShippingAddress ? <CircularProgress /> : "continue to shipping"}
                 </Button>
               </Box>
             </TabPanel>
@@ -717,10 +805,10 @@ const MuiCheckout = ({
                 <Button
                   disableRipple
                   disableElevation
-                  sx={buttonText}
+                  sx={returnCustomer}
                   onClick={() => setCurrentTab(CheckoutTabs.CUSTOMER)}
                 >
-                  <KeyboardBackspaceIcon /> Back to customer information
+                  Return to Customer
                 </Button>
                 <Button
                   color="primary"
@@ -734,7 +822,7 @@ const MuiCheckout = ({
                     }
                   }}
                 >
-                  <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} /> Continue
+                  <LockIcon style={{ height: 16, width: 16, marginRight: 12 }} /> continue to payment
                 </Button>
               </Box>
             </TabPanel>
@@ -802,8 +890,9 @@ const MuiCheckout = ({
                   disableRipple
                   disableElevation
                   onClick={() => setCurrentTab(CheckoutTabs.SHIPPING)}
+                  sx={returnCustomer}
                 >
-                  <KeyboardBackspaceIcon /> Back to shipping
+                  Return to Shipping
                 </Button>
                 <Button
                   color="primary"
@@ -826,9 +915,12 @@ const MuiCheckout = ({
               </Box>
             </TabPanel>
           </Box>
-          <Box sx={cartSummary}>
+          <Box
+            sx={cartSummary}
+            className={classes["checkout-summary"]}
+            style={{ padding: 0 }}
+          >
             <CartSummary
-              products={products}
               total={total}
               promoCode={promoCode}
               subtotal={subtotal}
@@ -836,6 +928,7 @@ const MuiCheckout = ({
               volumeDiscount={volumeDiscount}
               onPaymentStep={onPaymentStep}
               loyaltyPoints={loyaltyPointsView}
+              products={products}
             />
           </Box>
         </Box>

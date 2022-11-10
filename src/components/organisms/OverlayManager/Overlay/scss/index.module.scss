@@ -10,7 +10,7 @@
   top: 0;
   transition: 300ms;
   width: 100%;
-  z-index: 5002;
+  z-index: 2;
 
   &--search,
   &--main-menu-nav {
@@ -206,10 +206,4 @@
       }
     }
   }
-}
-
-.overlay__header-text {
-  font-family: "Red Hat Display";
-  color: #001a5d;
-  font-weight: 700;
 }

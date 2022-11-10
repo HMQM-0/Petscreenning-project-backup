@@ -1,41 +1,34 @@
 import {
   AppBar,
+  Button,
   Badge,
   Box,
-  Button,
   Divider,
-  IconButton,
   InputBase,
-  ListItemIcon,
-  Menu,
-  MenuItem,
+  IconButton,
   Paper,
   Toolbar,
+  Menu,
+  MenuItem,
+  ListItemIcon,
 } from "@mui/material";
-import { StringParam, useQueryParam } from "next-query-params";
+import { useQueryParam, StringParam } from "next-query-params";
 import React, { useEffect } from "react";
 import { useAlert } from "react-alert";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import { ImportContacts, Logout } from "@mui/icons-material";
+//import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import { Logout, ImportContacts } from "@mui/icons-material";
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Image from "next/image";
 
-import { useAuth, useCart } from "nautical-api";
+import { useCart, useAuth } from "nautical-api";
 import { OverlayTheme, OverlayType, useOverlayContext } from "src/components/providers/Overlay";
-
-import MenuListComposition from "./MenuListComposition";
-import PawItForwardIcon from "./PawItForwardIcon";
-import { useMainMenuQuery } from "./queries.graphql.generated";
-import classes from "./index.module.scss";
-import FiddoTobbyAlert from "./FidoTobbyAlert.png";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
@@ -98,13 +91,11 @@ const TopNav = (props: ITopNavProps) => {
 
   const cartItemsQuantity = (items && items.reduce((prevVal, currVal) => prevVal + currVal.quantity, 0)) || 0;
 
-  const { data, loading } = useMainMenuQuery();
-  const menuItems = data?.shop.navigation?.main?.items ?? [];
   return (
     <>
       <AppBar
         position="relative"
-        sx={{ backgroundColor: "#fff", minHeight: 72, boxShadow: "none" }}
+        sx={{ backgroundColor: "#fff", minHeight: 72 }}
       >
         <Toolbar
           sx={{
@@ -117,10 +108,25 @@ const TopNav = (props: ITopNavProps) => {
             width: "100%",
           }}
         >
-          <div className={classes.mobileNav}>
+          <Button
+            sx={{
+              display: { xs: "flex", sm: "none" },
+              borderRadius: "12px",
+              marginLeft: "8px",
+              minWidth: 32,
+              padding: "8px",
+            }}
+            onClick={handleMenu}
+            aria-label="Menu"
+          >
+            <MenuOpenIcon htmlColor="#777" />
+          </Button>
+
+          <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
+            <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
             <Button
               sx={{
-                display: { xs: "flex", sm: "none" },
+                display: { xs: "none", sm: "flex" },
                 borderRadius: "12px",
                 marginLeft: "8px",
                 minWidth: 32,
@@ -129,50 +135,8 @@ const TopNav = (props: ITopNavProps) => {
               onClick={handleMenu}
               aria-label="Menu"
             >
-              <MenuIcon htmlColor="#777" />
+              <MenuOpenIcon htmlColor="#777" />
             </Button>
-          </div>
-          <div className={classes.mobileNav}>
-            <IconButton
-              color="primary"
-              sx={{ p: "10px" }}
-              onClick={() => handleSearch()}
-              aria-label="Search"
-            >
-              <SearchIcon htmlColor="#777" />
-            </IconButton>
-          </div>
-
-          <div
-            onClick={() => router.push("https://www.fidoalert.com/")}
-            className={classes.desktopFiddoTobbyAlert}
-          >
-            <Image
-              src={FiddoTobbyAlert}
-              width={63}
-              height={20}
-              objectFit="contain"
-              alt="FiddoTobbyAlert"
-            />
-          </div>
-
-          <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
-            <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
-            <div className={classes.mobileNav}>
-              <Button
-                sx={{
-                  display: { xs: "none", sm: "flex" },
-                  borderRadius: "12px",
-                  marginLeft: "8px",
-                  minWidth: 32,
-                  padding: "8px",
-                }}
-                onClick={handleMenu}
-                aria-label="Menu"
-              >
-                <MenuIcon htmlColor="#777" />
-              </Button>
-            </div>
           </Box>
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
@@ -187,6 +151,12 @@ const TopNav = (props: ITopNavProps) => {
                 borderRadius: "10px",
               }}
             >
+              <IconButton
+                sx={{ p: "10px" }}
+                aria-label="Search"
+              >
+                <SearchIcon htmlColor="#777" />
+              </IconButton>
               <InputBase
                 value={term}
                 onChange={handleChange}
@@ -205,13 +175,14 @@ const TopNav = (props: ITopNavProps) => {
                 onClick={() => handleSearch()}
                 aria-label="Search"
               >
-                <SearchIcon htmlColor="#777" />
+                <SearchIcon />
               </IconButton>
             </Paper>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Box sx={{ display: "flex", flexBasis: 200, justifyContent: "flex-end" }}>
             <IconButton
+              color="inherit"
               aria-label="account"
               aria-controls={accountMenuOpen ? "account-menu" : undefined}
               aria-haspopup="true"
@@ -225,19 +196,8 @@ const TopNav = (props: ITopNavProps) => {
                 setAnchorEl(accountMenuOpen ? null : event.currentTarget);
               }}
             >
-              {authenticated ? (
-                <PersonIcon color="primary" />
-              ) : (
-                <div className={classes.headerOption}>
-                  <MeetingRoomOutlinedIcon htmlColor="#21BC99" />
-                  <div className={classes.headerOptionLabel}>My Account</div>
-                </div>
-              )}
+              {authenticated ? <PersonIcon color="primary" /> : <PersonOutlineOutlinedIcon color="action" />}
             </IconButton>
-
-            <div className={classes.desktopNav}>
-              <PawItForwardIcon />
-            </div>
             <Menu
               anchorEl={anchorEl}
               id="account-menu"
@@ -326,40 +286,16 @@ const TopNav = (props: ITopNavProps) => {
               color="secondary"
             >
               <IconButton
+                sx={{ backgroundColor: "#F3F5F9" }}
                 onClick={() => handleCart()}
                 aria-label="Cart"
               >
-                <ShoppingCartOutlinedIcon htmlColor="#21BC99" />
+                <ShoppingBagOutlinedIcon htmlColor="#777" />
               </IconButton>
             </Badge>
           </Box>
         </Toolbar>
       </AppBar>
-      <div className={classes.desktopNav}>
-        <Box
-          sx={{
-            width: "100%",
-            minWidth: "1440px",
-            minHeight: "35px",
-            background: "#FFFFFF",
-            display: "flex",
-            justifyContent: "center",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
-            borderTop: "0.25px solid #dadada",
-          }}
-        >
-          <div className={classes.menu}>
-            {menuItems?.map((item: any, index) => (
-              <MenuListComposition
-                option={item}
-                optionsPlacement="bottom-start"
-                isNavOption
-                key={index}
-              />
-            ))}
-          </div>
-        </Box>
-      </div>
     </>
   );
 };

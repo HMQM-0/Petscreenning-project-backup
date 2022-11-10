@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { AlertContainer, useAlert } from "react-alert";
-import { IntlShape, useIntl } from "react-intl";
+import { useAlert, AlertContainer } from "react-alert";
+import { useIntl, IntlShape } from "react-intl";
 
 import { IFormError } from "src/types";
 import { commonMessages } from "src/core/intl";
@@ -65,7 +65,6 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
       }}
     >
       <TextField
-        labelColor="#858585"
         name="email"
         autoComplete="email"
         label={intl.formatMessage(commonMessages.eMail)}
@@ -73,7 +72,6 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
         required
       />
       <TextField
-        labelColor="#858585"
         name="password"
         autoComplete="password"
         label={intl.formatMessage(commonMessages.password)}
@@ -81,7 +79,6 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
         required
       />
       <TextField
-        labelColor="#858585"
         name="companyName"
         autoComplete="companyName"
         label={intl.formatMessage(commonMessages.companyName)}

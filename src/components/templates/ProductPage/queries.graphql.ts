@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+import { brandingFragment } from "../../../queries/branding.graphql";
+
 export const priceFragment = gql`
   fragment Price on TaxedMoney {
     gross {
@@ -127,6 +129,9 @@ export const productDetailsFragment = gql`
     category {
       id
       name
+      trailingBreadcrumbs {
+        name
+      }
       backgroundImage {
         url
         alt

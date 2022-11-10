@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
+import { Footer } from "src/components/molecules/Footer";
 import Button from "src/components/atoms/Button";
 import { MaterialUIProvider } from "@providers";
 import { DocumentHead, DocumentHeadProps, ThemeFont } from "src/components/atoms";
@@ -33,8 +34,8 @@ const Layout = ({ children, documentHead }: LayoutProps) => {
   const headerLogo = (
     <Logo
       logo={branding.logo}
-      logoHeight={branding.logoHeight ?? 47}
-      logoWidth={branding.logoWidth ?? 227}
+      logoHeight={branding.logoHeight ?? 50}
+      logoWidth={branding.logoWidth ?? 100}
     />
   );
 
