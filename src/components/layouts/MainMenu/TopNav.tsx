@@ -164,7 +164,11 @@ const TopNav = (props: ITopNavProps) => {
           </div>
 
           <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
-            <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
+            <Link href="/">
+              <a>
+                <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
+              </a>
+            </Link>
             <div className={classes.mobileNav}>
               <Button
                 sx={{
