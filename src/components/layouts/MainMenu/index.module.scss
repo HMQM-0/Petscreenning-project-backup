@@ -102,3 +102,11 @@ div.menu div:last-child .menuOption.navOption {
     display: none;
   }
 }
+
+.menu-option:hover {
+  background-color: rgba(0, 53, 99, 0.2) !important;
+}
+
+.menu-option .MuiTouchRipple-root {
+  display: none !important;
+}
