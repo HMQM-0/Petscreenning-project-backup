@@ -6,6 +6,7 @@ import { useAlert } from "react-alert";
 import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 import { MicrositesQueryResult } from "src/components/templates/VendorsPage/queries.graphql.generated";
 import { getDBIdFromGraphqlId, slugify } from "src/core/utils";
@@ -85,6 +86,14 @@ const useBuilderStateData = ({
     };
 
     function handleAddToCart(name: string, variantId: string, quantity: number) {
+      const petName = (document.getElementsByName("petName")?.[0] as HTMLInputElement)?.value;
+      const tagId = (document.getElementsByName("tagId")?.[0] as HTMLInputElement)?.value;
+
+      if (petName && tagId) {
+        Cookies.set("petName", petName, { expires: 1 });
+        Cookies.set("tagId", tagId, { expires: 1 });
+      }
+
       return addToCartHandler(variantId, quantity, name);
     }
 

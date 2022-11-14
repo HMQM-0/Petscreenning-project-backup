@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { isArray } from "lodash";
 import { FormattedMessage } from "react-intl";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 import { Money } from "src/components/atoms/Money";
 import { useAuth, useCheckout } from "nautical-api";
@@ -57,6 +58,7 @@ import {
 } from "./styles";
 import { Plugins } from "./constants";
 import classes from "./scss/index.module.scss";
+import sendFidoTabbyAlertTag from "./ZapierHook/FidoTabbyAlert";
 
 import { ICheckoutModelLine, ICheckoutModelPriceValue } from "../../providers/Nautical/Checkout/types";
 
@@ -421,7 +423,13 @@ const MuiCheckout = ({
   const submitBillingAddressRef = React.useRef<() => Promise<ReturnType<typeof setBillingAddress>>>();
 
   const confirmAndPurchase = async () => {
-    const mappedItems = mapItemsForRoktPlacement(items);
+    const petNameCookie = Cookies.get("petName");
+    const tagIdCookie = Cookies.get("tagId");
+
+    if (petNameCookie && tagIdCookie) {
+      sendFidoTabbyAlertTag();
+    }
+    /*const mappedItems = mapItemsForRoktPlacement(items);
     let launcher = await (window as any).Rokt.__getActiveLauncher();
 
     if (!launcher) {
@@ -449,7 +457,7 @@ const MuiCheckout = ({
         paymenttype: "Credit",
         cartItems: JSON.stringify(mappedItems),
       },
-    });
+    });*/
 
     setSubmittingPayment(true);
     const orderTotal = Number(total?.gross.amount);
@@ -764,6 +772,12 @@ const MuiCheckout = ({
                   disabled={isSubmittingShippingAddress}
                   onClick={async () => {
                     setIsSubmittingShippingAddress(true);
+                    const petNameCookie = Cookies.get("petName");
+                    const tagIdCookie = Cookies.get("tagId");
+
+                    if (petNameCookie && tagIdCookie) {
+                      sendFidoTabbyAlertTag();
+                    }
                     await submitShippingAddressRef.current?.();
                     setIsSubmittingShippingAddress(false);
                   }}
