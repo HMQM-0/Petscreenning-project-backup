@@ -93,6 +93,7 @@ const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
           fiddoTabyAlertTags.forEach(async (tag: IFidoTabbyAlertTag) => {
             await sendFidoTabbyAlertTag(tag, userEmail, orderNumber);
           });
+          Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
         }
       }
     };
