@@ -7,20 +7,27 @@ export interface IFidoTabbyAlertTag {
   name: string;
 }
 
-const ZAPIER_HOOK_ENDPOINT =
-  "https://cors-anywhere.herokuapp.com/https://hooks.zapier.com/hooks/catch/13667700/bpmf9jp/";
+const ZAPIER_HOOK_ENDPOINT = "https://hooks.zapier.com/hooks/catch/13667700/bpmf9jp/";
 const sendFidoTabbyAlertTag = async (
   tag: IFidoTabbyAlertTag,
   userEmail?: string | null,
   orderNumber?: string | null,
 ) => {
   try {
-    const response = await axios.post(ZAPIER_HOOK_ENDPOINT, {
+    const response = await axios
+      .create({ transformRequest: [(data, _headers) => JSON.stringify(data)] })
+      .post(ZAPIER_HOOK_ENDPOINT, {
+        pet_name: tag.petName.toUpperCase(),
+        tag_id: tag.tagId,
+        order_number: orderNumber,
+        email: userEmail,
+      });
+    /*const response = await axios.post(ZAPIER_HOOK_ENDPOINT, {
       pet_name: tag.petName.toUpperCase(),
       tag_id: tag.tagId,
       order_number: orderNumber,
       email: userEmail,
-    });
+    });*/
     return {
       error: "",
       data: response.data,
