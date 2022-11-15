@@ -660,7 +660,6 @@ const MuiCheckout = ({
                     className="account-login"
                     sx={account_login}
                   >
-                    \
                     <FormattedMessage defaultMessage="Login" />
                   </Link>
                   <Box
