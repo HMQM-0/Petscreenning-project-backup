@@ -22,12 +22,6 @@ const sendFidoTabbyAlertTag = async (
         order_number: orderNumber,
         email: userEmail,
       });
-    /*const response = await axios.post(ZAPIER_HOOK_ENDPOINT, {
-      pet_name: tag.petName.toUpperCase(),
-      tag_id: tag.tagId,
-      order_number: orderNumber,
-      email: userEmail,
-    });*/
     return {
       error: "",
       data: response.data,
