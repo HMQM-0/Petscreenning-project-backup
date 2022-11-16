@@ -38,6 +38,7 @@ const LoginForm = ({ hide }: ILoginForm) => {
         onSubmit={handleOnSubmit}
       >
         <TextField
+          labelColor="#858585"
           name="email"
           autoComplete="email"
           label={intl.formatMessage(commonMessages.eMail)}
@@ -45,6 +46,7 @@ const LoginForm = ({ hide }: ILoginForm) => {
           required
         />
         <TextField
+          labelColor="#858585"
           name="password"
           autoComplete="password"
           label={intl.formatMessage(commonMessages.password)}
