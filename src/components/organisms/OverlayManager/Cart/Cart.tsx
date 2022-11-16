@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as React from "react";
 import { FormattedMessage } from "react-intl";
 import _sumBy from "lodash/sumBy";
+import router from "next/router";
 
 import { calculateTax } from "src/components/molecules/TaxedMoney/calculateTax";
 import { Money } from "src/components/atoms/Money";
@@ -57,12 +58,12 @@ const Cart = ({ overlay }: CartProps) => {
         {isOnline ? (
           <>
             <Box className={overlayClasses.overlay__header}>
-              <LocalMallIcon
+              {/* <LocalMallIcon
                 className={overlayClasses["overlay__header__cart-icon"]}
                 color="secondary"
-              />
+              /> */}
               <Box className={overlayClasses["overlay__header-text"]}>
-                <FormattedMessage defaultMessage="My cart," />{" "}
+                <FormattedMessage defaultMessage="My cart" />{" "}
                 <Box
                   component="span"
                   className={overlayClasses["overlay__header-text-items"]}
@@ -141,10 +142,16 @@ const Cart = ({ overlay }: CartProps) => {
                   </Box>
 
                   <Box className={classes["cart__footer__price"]}>
-                    <Box component="span">
+                    <Box
+                      component="span"
+                      className={classes["cart__footer__total_price"]}
+                    >
                       <FormattedMessage {...commonMessages.total} />
                     </Box>
-                    <Box component="span">
+                    <Box
+                      component="span"
+                      className={classes["cart__footer__total_price"]}
+                    >
                       <Money
                         data-test="totalPrice"
                         money={totalPrice?.gross}
@@ -159,6 +166,7 @@ const Cart = ({ overlay }: CartProps) => {
                           variant="outlined"
                           color="secondary"
                           onClick={hide}
+                          className={classes["cart__footer__button__cart"]}
                         >
                           <FormattedMessage defaultMessage="Go to my cart" />
                         </Button>
@@ -172,6 +180,7 @@ const Cart = ({ overlay }: CartProps) => {
                           variant="contained"
                           color="secondary"
                           onClick={hide}
+                          className={classes["cart__footer__button__checkout"]}
                         >
                           <FormattedMessage {...commonMessages.checkout} />
                         </Button>

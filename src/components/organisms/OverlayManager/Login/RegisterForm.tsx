@@ -65,6 +65,7 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
       }}
     >
       <TextField
+        labelColor="#858585"
         name="email"
         autoComplete="email"
         label={intl.formatMessage(commonMessages.eMail)}
@@ -72,6 +73,7 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
         required
       />
       <TextField
+        labelColor="#858585"
         name="password"
         autoComplete="password"
         label={intl.formatMessage(commonMessages.password)}
@@ -79,6 +81,7 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
         required
       />
       <TextField
+        labelColor="#858585"
         name="companyName"
         autoComplete="companyName"
         label={intl.formatMessage(commonMessages.companyName)}
