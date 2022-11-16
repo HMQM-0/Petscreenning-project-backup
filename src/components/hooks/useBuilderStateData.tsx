@@ -6,6 +6,7 @@ import { useAlert } from "react-alert";
 import { StringParam, useQueryParam, useQueryParams } from "next-query-params";
 import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 import { MicrositesQueryResult } from "src/components/templates/VendorsPage/queries.graphql.generated";
 import { getDBIdFromGraphqlId, slugify } from "src/core/utils";
@@ -16,6 +17,8 @@ import {
   useRemoveWishlistProductMutation,
 } from "src/components/providers/Nautical/Wishlist/mutations.graphql.generated";
 import { useAuth, useWishlist, useCart } from "nautical-api";
+
+import { FIDO_TABBY_ALERT_TAGS_COOKIE } from "../templates/CheckoutPage/ZapierHook/FidoTabbyAlert";
 
 interface IStorePage {
   category?: any;
@@ -85,6 +88,36 @@ const useBuilderStateData = ({
     };
 
     function handleAddToCart(name: string, variantId: string, quantity: number) {
+      const petName = (document.getElementsByName("petName")?.[0] as HTMLInputElement)?.value;
+      const tagId = (document.getElementsByName("tagId")?.[0] as HTMLInputElement)?.value;
+      const fiddoTabyAlertTagsCookie = Cookies.get(FIDO_TABBY_ALERT_TAGS_COOKIE);
+
+      if (petName && tagId) {
+        if (fiddoTabyAlertTagsCookie) {
+          const currentCookie = JSON.parse(fiddoTabyAlertTagsCookie);
+          if (currentCookie) {
+            currentCookie.push({
+              name,
+              petName,
+              tagId,
+            });
+            Cookies.set(FIDO_TABBY_ALERT_TAGS_COOKIE, JSON.stringify(currentCookie), { expires: 1 });
+          }
+        } else {
+          Cookies.set(
+            FIDO_TABBY_ALERT_TAGS_COOKIE,
+            JSON.stringify([
+              {
+                name,
+                petName,
+                tagId,
+              },
+            ]),
+            { expires: 1 },
+          );
+        }
+      }
+
       return addToCartHandler(variantId, quantity, name);
     }
 

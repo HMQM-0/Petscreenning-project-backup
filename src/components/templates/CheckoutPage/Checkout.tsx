@@ -22,7 +22,6 @@ import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 import { isArray } from "lodash";
 import { FormattedMessage } from "react-intl";
-import { useEffect } from "react";
 
 import { Money } from "src/components/atoms/Money";
 import { useAuth, useCheckout } from "nautical-api";
@@ -44,7 +43,6 @@ import {
   buttonPopover,
   buttonsGrid,
   buttonsGridAddress,
-  buttonText,
   cartSummary,
   gridspan,
   tabs,
