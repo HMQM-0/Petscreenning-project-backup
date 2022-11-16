@@ -43,7 +43,7 @@ const Login = ({ active: initialActiveState, overlay }: LoginProps) => {
           <>
             <Box className={overlayClasses.overlay__header}>
               <p className={overlayClasses["overlay__header-text"]}>
-                <FormattedMessage defaultMessage="my account" />
+                <FormattedMessage defaultMessage="My Account" />
               </p>
               <button
                 onClick={hide}

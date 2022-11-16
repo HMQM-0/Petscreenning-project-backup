@@ -9,5 +9,14 @@
     margin-top: $spacer * 2;
     padding: 0 $spacer * 1.5;
     text-align: center;
+    button {
+      border: 1px solid #0e6eff;
+      background-color: #0e6eff !important;
+      color: #fff !important;
+    }
+    button:hover {
+      background-color: #fff !important;
+      color: #0e6eff !important;
+    }
   }
 }
