@@ -163,7 +163,7 @@ const Cart = ({ overlay }: CartProps) => {
                     <Link href="/cart">
                       <a>
                         <Button
-                          variant="outlined"
+                          variant="contained"
                           color="secondary"
                           onClick={hide}
                           className={classes["cart__footer__button__cart"]}
