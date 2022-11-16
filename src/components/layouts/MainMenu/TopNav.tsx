@@ -150,22 +150,7 @@ const TopNav = (props: ITopNavProps) => {
             </IconButton>
           </div>
 
-          <Link href="https://www.fidoalert.com/">
-            <a
-              className={classes.desktopFiddoTobbyAlert}
-              target="_blank"
-            >
-              <Image
-                src={FiddoTobbyAlert}
-                width={63}
-                height={20}
-                objectFit="contain"
-                alt="FiddoTobbyAlert"
-              />
-            </a>
-          </Link>
-
-          <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200 }}>
+          <Box sx={{ alignContent: "center", display: "flex", flexBasis: 200, justifyContent: "center" }}>
             <Link href="/">
               <a>
                 <Box sx={{ alignItems: "center", display: "flex" }}>{logo}</Box>
