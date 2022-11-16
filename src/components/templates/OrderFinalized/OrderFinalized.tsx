@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { useQueryParams, StringParam } from "next-query-params";
-
-import { IItems } from "src/components/providers/Nautical/Cart/types";
+import Cookies from "js-cookie";
 
 import { ThankYou } from "./ThankYou";
 import { OrderFinalizedPageQuery } from "./queries.graphql.generated";
 
 import { useNauticalOrderByTokenQuery } from "../OrderHistoryDetailsPage/queries.graphql.generated";
+import sendFidoTabbyAlertTag, {
+  FIDO_TABBY_ALERT_TAGS_COOKIE,
+  IFidoTabbyAlertTag,
+} from "../CheckoutPage/ZapierHook/FidoTabbyAlert";
 
 type OrderFinalizedProps = {
   nauticalOrderByToken: OrderFinalizedPageQuery["nauticalOrderByToken"];
@@ -76,6 +79,26 @@ const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
     };
 
     createRoktPlacement();
+  }, []);
+
+  useEffect(() => {
+    const userEmail = data?.nauticalOrderByToken?.userEmail;
+
+    const sendFidoTabbyAlertTags = async () => {
+      const fiddoTabyAlertTagsCookie = Cookies.get(FIDO_TABBY_ALERT_TAGS_COOKIE);
+
+      if (fiddoTabyAlertTagsCookie) {
+        const fiddoTabyAlertTags: IFidoTabbyAlertTag[] = JSON.parse(fiddoTabyAlertTagsCookie);
+        if (fiddoTabyAlertTags.length) {
+          fiddoTabyAlertTags.forEach(async (tag: IFidoTabbyAlertTag) => {
+            await sendFidoTabbyAlertTag(tag, userEmail, orderNumber);
+          });
+          Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
+        }
+      }
+    };
+
+    sendFidoTabbyAlertTags();
   }, []);
 
   return (
