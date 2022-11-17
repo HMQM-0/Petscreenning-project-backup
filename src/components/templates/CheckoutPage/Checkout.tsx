@@ -22,6 +22,7 @@ import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
 import { isArray } from "lodash";
 import { FormattedMessage } from "react-intl";
+import Cookies from "js-cookie";
 
 import { Money } from "src/components/atoms/Money";
 import { useAuth, useCheckout } from "nautical-api";
@@ -55,6 +56,7 @@ import {
 } from "./styles";
 import { Plugins } from "./constants";
 import classes from "./scss/index.module.scss";
+import sendFidoTabbyAlertTag, { FIDO_TABBY_ALERT_TAGS_COOKIE, IFidoTabbyAlertTag } from "./ZapierHook/FidoTabbyAlert";
 
 import { ICheckoutModelLine, ICheckoutModelPriceValue } from "../../providers/Nautical/Checkout/types";
 
@@ -277,6 +279,20 @@ const MuiCheckout = ({
       }
       const token = response.data?.order?.token;
       const orderNumber = response.data?.order?.number;
+      const orderId = response.data?.order?.id;
+
+      const fiddoTabyAlertTagsCookie = Cookies.get(FIDO_TABBY_ALERT_TAGS_COOKIE);
+
+      if (fiddoTabyAlertTagsCookie) {
+        const fiddoTabyAlertTags: IFidoTabbyAlertTag[] = JSON.parse(fiddoTabyAlertTagsCookie);
+        if (fiddoTabyAlertTags.length) {
+          fiddoTabyAlertTags.forEach(async (tag: IFidoTabbyAlertTag) => {
+            console.log("Sending tags");
+            await sendFidoTabbyAlertTag(tag, email, orderId);
+          });
+          Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
+        }
+      }
 
       if (token && orderNumber) {
         router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
@@ -304,7 +320,6 @@ const MuiCheckout = ({
       if (!creatingPayment.current) {
         creatingPayment.current = true;
         let errors: any[] = [];
-
         const { dataError } = await createPayment({
           gateway,
           token,
