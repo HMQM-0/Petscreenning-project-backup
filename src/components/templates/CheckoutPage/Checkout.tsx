@@ -262,7 +262,6 @@ const MuiCheckout = ({
   );
 
   const onCompleteCheckout = React.useCallback(async () => {
-    debugger;
     setCompleteCheckoutRunning(true);
     const response = await completeCheckout();
 
@@ -321,7 +320,6 @@ const MuiCheckout = ({
       if (!creatingPayment.current) {
         creatingPayment.current = true;
         let errors: any[] = [];
-        debugger;
         const { dataError } = await createPayment({
           gateway,
           token,
