@@ -88,7 +88,9 @@ const useBuilderStateData = ({
     };
 
     function handleAddToCart(name: string, variantId: string, quantity: number) {
-      const petName = (document.getElementsByName("Pet Name")?.[0] as HTMLInputElement)?.value;
+      const petName =
+        (document.getElementsByName("Pet Name")?.[0] as HTMLInputElement)?.value ||
+        (document.getElementsByName("petName")?.[0] as HTMLInputElement)?.value;
       const tagId = (document.getElementsByName("tagId")?.[0] as HTMLInputElement)?.value;
       const fiddoTabyAlertTagsCookie = Cookies.get(FIDO_TABBY_ALERT_TAGS_COOKIE);
 
