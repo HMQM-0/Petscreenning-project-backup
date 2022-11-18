@@ -23,7 +23,6 @@ export const getApolloClient = (initialState?: NormalizedCacheObject, headers?: 
 export const getSsrApolloClient = (context: GetServerSidePropsContext) => {
   // `host` is passed from the browser, so passing it to the api as `origin`
   const origin = context.req.headers.host;
-  const headers = origin ? { origin } : undefined;
-  console.log("headers", headers);
-  return getApolloClient(undefined, headers);
+
+  return getApolloClient(undefined, undefined);
 };
