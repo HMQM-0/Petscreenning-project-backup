@@ -99,7 +99,7 @@ const useBuilderStateData = ({
           const currentCookie = JSON.parse(fiddoTabyAlertTagsCookie);
           if (currentCookie) {
             currentCookie.push({
-              name,
+              variantId,
               petName,
               tagId,
             });
@@ -110,7 +110,7 @@ const useBuilderStateData = ({
             FIDO_TABBY_ALERT_TAGS_COOKIE,
             JSON.stringify([
               {
-                name,
+                variantId,
                 petName,
                 tagId,
               },
