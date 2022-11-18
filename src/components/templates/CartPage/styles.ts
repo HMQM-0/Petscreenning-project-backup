@@ -78,6 +78,7 @@ export const ProceedButton = styled.div`
   }
   .MuiButton-containedPrimary:hover,
   .MuiButton-containedSecondary {
+    font-family: "Red Hat Display";
     background-color: #0e6eff;
     color: #fff;
     border: 1px solid #fff;
@@ -281,6 +282,7 @@ export const Subtitle = styled.p`
 export const ContinueButton = styled.div``;
 
 export const title: SxProps = {
+  fontFamily: "Red Hat Display",
   fontSize: "1.3rem",
   fontWeight: "700",
   color: "#001A5D",
