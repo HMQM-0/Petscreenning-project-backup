@@ -82,6 +82,7 @@
     "url-join": "^4.0.1",
     "use-immer": "^0.7.0",
     "use-query-params": "^1.2.3",
+    "xss": "^1.0.14",
     "yup": "^0.32.11"
   },
   "devDependencies": {

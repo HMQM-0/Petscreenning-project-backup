@@ -13,13 +13,13 @@ type OtherProductsProps = {
 
 const OtherProducts = ({ products }: OtherProductsProps) => {
   if (!products.length) {
-    return null;
+    return <></>;
   }
 
   return (
-    <Box className={classes["product-page__other-products"]}>
+    <Box className={classes.productPage__otherProducts}>
       <Box className="container">
-        <h4 className={classes["product-page__other-products__title"]}>
+        <h4 className={classes.productPage__otherProducts__title}>
           <FormattedMessage defaultMessage="Other products in this category" />
         </h4>
         <ProductList products={products} />

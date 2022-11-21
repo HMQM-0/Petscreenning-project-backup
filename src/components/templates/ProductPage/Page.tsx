@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import Media from "react-media";
 import { Box } from "@mui/material";
 import { useAlert } from "react-alert";
 
@@ -11,7 +10,6 @@ import { generateCategoryUrl, generateProductUrl } from "src/core/utils";
 import Breadcrumbs from "src/components/atoms/Breadcrumbs";
 
 import classes from "./scss/index.module.scss";
-import GalleryCarousel from "./GalleryCarousel";
 import OtherProducts from "./Other";
 import { ProductDetailsFragment, ProductVariantFieldsFragment } from "./queries.graphql.generated";
 
@@ -100,28 +98,32 @@ const Page = ({ product, selectedVariant, onVariantChange }: PageProps) => {
       </Box>
       <Box className="container">
         <Box className={classes["product-page__product"]}>
-          <Media query={{ maxWidth: "540px" }}>
-            {(matches) =>
-              matches ? (
-                <>
-                  <GalleryCarousel images={filteredImages} />
-                  <Box className={classes["product-page__product__info"]}>{addToCartSection}</Box>
-                </>
-              ) : (
-                <>
-                  <Box
-                    className={classes["product-page__product__gallery"]}
-                    ref={productGallery}
-                  >
-                    <ProductGallery images={filteredImages} />
-                  </Box>
-                  <Box className={classes["product-page__product__info"]}>
-                    <Box className={classes["product-page__product__info--fixed"]}>{addToCartSection}</Box>
-                  </Box>
-                </>
-              )
-            }
-          </Media>
+          {/*<GalleryCarousel images={filteredImages} />*/}
+          {/*<Box className={classes["product-page__product__info"]}>{addToCartSection}</Box>*/}
+
+          <Box
+            className={classes["product-page__product__gallery"]}
+            ref={productGallery}
+          >
+            <ProductGallery images={filteredImages} />
+          </Box>
+          <Box className={classes["product-page__product__info"]}>
+            <Box className={classes["product-page__product__info--fixed"]}>{addToCartSection}</Box>
+          </Box>
+
+          {/*<Media query={{ maxWidth: "540px" }}>*/}
+          {/*  {(matches) =>*/}
+          {/*    matches ? (*/}
+          {/*      <>*/}
+          {/*        */}
+          {/*      </>*/}
+          {/*    ) : (*/}
+          {/*      <>*/}
+          {/*        */}
+          {/*      </>*/}
+          {/*    )*/}
+          {/*  }*/}
+          {/*</Media>*/}
         </Box>
       </Box>
       <Box className="container">
