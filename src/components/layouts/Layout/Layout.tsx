@@ -45,7 +45,6 @@ const Layout = ({ children, documentHead }: LayoutProps) => {
       <ThemeFont />
       <Header logo={headerLogo} />
       {children}
-      <BottomNav />
       {/*  <Footer
         footerText={branding.footerText}
         icon={icon}
