@@ -1,10 +1,10 @@
-import { builder } from "@builder.io/react";
-import { BuilderContent } from "@builder.io/sdk";
-import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
+// import { builder } from "@builder.io/react";
+// import { BuilderContent } from "@builder.io/sdk";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { getGraphqlIdFromDBId } from "src/core/utils";
-import builderConfig from "src/config/builder";
+// import builderConfig from "src/config/builder";
 import { Layout } from "src/components/layouts/Layout";
 import { structuredData } from "src/components/templates/IndexPage/structuredData";
 import { getSsrApolloClient } from "src/apollo-client";
@@ -19,14 +19,14 @@ import { getSeoURL } from "src/utils";
 const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   data: { product },
   documentHead,
-  builderContent,
+  // builderContent,
 }) => {
   return (
     <Layout documentHead={documentHead}>
       {product ? (
         <View
           product={product}
-          builderContent={builderContent}
+          builderContent={null}
         />
       ) : (
         <NotFound />
@@ -36,14 +36,16 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // fetch("https://webhook.site/daa08c40-1170-4d09-9375-5201bb656e76").then(() => {});
+
   const client = getSsrApolloClient(context);
 
   const productId = context.params!.id as string;
 
-  let content: BuilderContent | null = null;
-  if (builderConfig.apiKey) {
-    content = (await builder.get("store", { url: "/store/product" }).promise()) || null;
-  }
+  // let content: BuilderContent | null = null;
+  // if (builderConfig.apiKey) {
+  //   content = (await builder.get("store", { url: "/store/product" }).promise()) || null;
+  // }
 
   const { data } = await client.query<ProductDetailsQuery>({
     query: ProductDetailsDocument,
@@ -91,7 +93,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: {
       data,
       documentHead,
-      builderContent: content,
+      builderContent: null,
       __APOLLO__,
     },
   };
