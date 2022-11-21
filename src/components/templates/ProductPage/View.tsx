@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo } from "react";
 
 import { useShopContext } from "src/components/providers/ShopProvider";
+import { Builder } from "src/components/templates/ProductPage/Builder";
 import { useAuth } from "nautical-api";
 import { useNetworkStatus } from "src/components/hooks";
 import NotFound from "src/components/molecules/NotFound";
@@ -104,16 +105,16 @@ const View = ({ product, builderContent }: ViewProps) => {
     return redirectToVariant(selectedVariantId);
   };
 
-  // if (builderContent) {
-  //   return (
-  //     <Builder
-  //       product={product}
-  //       content={builderContent}
-  //       selectedVariant={selectedVariant}
-  //       onVariantChange={onVariantChangeHandler}
-  //     />
-  //   );
-  // }
+  if (builderContent) {
+    return (
+      <Builder
+        product={product}
+        content={builderContent}
+        selectedVariant={selectedVariant}
+        onVariantChange={onVariantChangeHandler}
+      />
+    );
+  }
 
   return (
     <Page
