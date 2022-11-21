@@ -1,9 +1,11 @@
 import { BuilderContent } from "@builder.io/sdk";
 import { StringParam, useQueryParam } from "next-query-params";
+import dynamic from "next/dynamic";
 import React from "react";
 
 import { useMicrositesQuery } from "./queries.graphql.generated";
-import Builder from "./Builder";
+
+const Builder = dynamic(() => import("./Builder"), { ssr: false });
 
 type ProductsProps = {
   builderContent: BuilderContent;
