@@ -59,6 +59,7 @@ import classes from "./scss/index.module.scss";
 import sendFidoTabbyAlertTag, { FIDO_TABBY_ALERT_TAGS_COOKIE, IFidoTabbyAlertTag } from "./ZapierHook/FidoTabbyAlert";
 
 import { ICheckoutModelLine, ICheckoutModelPriceValue } from "../../providers/Nautical/Checkout/types";
+import { mapItemsForRoktPlacement } from "../OrderFinalized";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -356,6 +357,74 @@ const MuiCheckout = ({
   React.useEffect(() => {
     checkIfLoyaltyAndReferralsActive();
   }, [checkIfLoyaltyAndReferralsActive]);
+
+  React.useEffect(() => {
+    const createRoktPlacement = async () => {
+      if (document) {
+        await new Promise<void>((resolve) =>
+          (window as any).Rokt
+            ? resolve()
+            : document.getElementById("rokt-launcher")?.addEventListener("load", () => resolve()),
+        );
+      }
+
+      const mappedItems = mapItemsForRoktPlacement(items);
+      let launcher = await (window as any).Rokt.createLauncher({
+        accountId: "3071804547766951791",
+        sandbox: true,
+      });
+
+      await launcher.selectPlacements({
+        identifier: "payment_page",
+        attributes: {
+          // Required
+          amount: total?.gross.amount,
+          siteCountry: "US",
+          siteLanguage: "en",
+          currency: "USD",
+          //Order Data
+          clientcustomerid: "",
+          cartId: "",
+          subtotal: "",
+          totalTax: "",
+          totalShipping: "",
+          margin: "",
+          paymenttype: "",
+          ccbin: "",
+          cartItems: JSON.stringify(mappedItems),
+          //Customer Data
+          customerType: "",
+          hasAccount: "",
+          isReturning: "",
+          lastVisited: "",
+          isLoyalty: "",
+          loyaltyTier: "",
+          email,
+          mobile: "",
+          title: "",
+          firstname: "",
+          lastname: "",
+          age: "",
+          gender: "",
+          dob: "",
+          billingAddress1: "",
+          billingAddress2: "",
+          billingCity: "",
+          billingState: "",
+          billingZipcode: "",
+          billingCountry: "",
+          shippingAddress1: "",
+          shippingAddress2: "",
+          shippingCity: "",
+          shippingState: "",
+          shippingZipcode: "",
+          shippingCountry: "",
+        },
+      });
+    };
+
+    createRoktPlacement();
+  }, []);
 
   const handleSubmitAddress =
     (
@@ -905,6 +974,7 @@ const MuiCheckout = ({
           <Errors errorMessage={errorMessage} />
         </Box>
       )}
+      <div id="rokt-placeholder"></div>
     </>
   );
 };
