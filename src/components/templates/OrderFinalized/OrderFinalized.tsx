@@ -11,7 +11,7 @@ type OrderFinalizedProps = {
   nauticalOrderByToken: OrderFinalizedPageQuery["nauticalOrderByToken"];
 };
 
-const mapItemsForRoktPlacement = (items?: any | null) => {
+export const mapItemsForRoktPlacement = (items?: any | null) => {
   return items?.map((i: any) => {
     return {
       price: i?.totalPrice?.net?.amount,
