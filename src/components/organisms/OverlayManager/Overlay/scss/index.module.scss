@@ -53,6 +53,7 @@
     height: 3.6rem;
     justify-content: space-between;
     text-transform: uppercase;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
 
     &-text {
       margin: 0 $spacer;
@@ -60,10 +61,17 @@
 
       &-items {
         color: $gray;
+        font-family: "Red Hat Display";
+        font-weight: 400;
+        font-size: 16px;
+        color: #828282;
+        letter-spacing: 0.03em;
+        margin-left: 20px;
       }
     }
 
     &__close-icon {
+      color: #666666;
       cursor: pointer;
       margin: 0 $spacer;
 
@@ -212,4 +220,7 @@
   font-family: "Red Hat Display" !important;
   color: #001a5d;
   font-weight: 700;
+  font-size: 20px;
+  line-height: 2.5;
+  text-transform: none;
 }

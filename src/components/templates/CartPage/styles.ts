@@ -78,6 +78,7 @@ export const ProceedButton = styled.div`
   }
   .MuiButton-containedPrimary:hover,
   .MuiButton-containedSecondary {
+    font-family: "Red Hat Display";
     background-color: #0e6eff;
     color: #fff;
     border: 1px solid #fff;
@@ -281,12 +282,14 @@ export const Subtitle = styled.p`
 export const ContinueButton = styled.div``;
 
 export const title: SxProps = {
+  fontFamily: "Red Hat Display",
   fontSize: "1.3rem",
   fontWeight: "700",
   color: "#001A5D",
 };
 
 export const ImageWithTextWrapper = styled.div`
+  display: none;
   background-color: #fff;
   background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F10ffae0af6434eefb21fbcf97b9bdea5");
   background-repeat: no-repeat;
@@ -328,6 +331,8 @@ export const ImageText = styled.div`
     margin-bottom: 60px;
   }
   button {
+    font-weight: 700;
+    font-size: 15px;
     height: 46px;
     padding: 12px 30px;
   }

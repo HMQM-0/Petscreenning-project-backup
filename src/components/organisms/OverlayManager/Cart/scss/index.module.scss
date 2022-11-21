@@ -5,6 +5,7 @@
   grid-template-areas:
     "header"
     "list"
+    "image-banner"
     "footer";
   grid-template-rows: min-content auto min-content;
   height: 100%;
@@ -22,12 +23,12 @@
 
   &__list {
     grid-area: list;
-    padding: 0 $spacer;
+    // padding: 0 $spacer;
     overflow: auto;
 
     &__item {
-      padding: $spacer 0;
-      border-bottom: 1px solid $gray-light;
+      padding: $spacer $spacer;
+      border-bottom: 0.3px solid #cfcdcd;
       display: flex;
       align-content: stretch;
 
@@ -40,10 +41,38 @@
         width: 100%;
         padding: 0 $spacer;
 
+        &__itemSKU {
+          font-family: "Red Hat Display" !important;
+          font-weight: 500 !important;
+          font-size: 14px !important;
+          line-height: 19px !important;
+          letter-spacing: 0.03em !important;
+          text-transform: capitalize !important;
+          color: #828282 !important;
+        }
+
+        &__deletebtn svg {
+          color: #828282;
+        }
+
+        &__variant span {
+          font-family: "Red Hat Display" !important;
+          font-weight: 500 !important;
+          font-size: 12px !important;
+          line-height: 1.36 !important;
+          letter-spacing: 0.08em !important;
+          text-transform: uppercase !important;
+          color: #828282 !important;
+        }
+
         p {
-          font-weight: $bold-font-weight;
-          text-transform: uppercase;
+          font-weight: 700;
+          text-transform: capitalize;
           line-height: 1.5;
+          color: #001a5d;
+          font-family: "Red Hat Display";
+          font-size: 16px;
+          letter-spacing: 0.03em;
         }
 
         &__variant {
@@ -77,33 +106,95 @@
             }
           }
         }
+
+        &__price__container {
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          justify-content: space-between;
+        }
       }
     }
   }
 
   &__footer {
     grid-area: footer;
-    background-color: $gray-light;
+    box-shadow: 0px -2px 9px rgba(0, 0, 0, 0.1);
     padding: $spacer;
     bottom: 0;
     max-width: 100vw;
 
+    &__total_price {
+      font-family: "Red Hat Display" !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      line-height: 1.625 !important;
+      letter-spacing: 0.01em !important;
+      color: #001a5d !important;
+      span {
+        font-family: "Red Hat Display" !important;
+        font-weight: 700 !important;
+        font-size: 16px !important;
+        line-height: 1.625 !important;
+        letter-spacing: 0.01em !important;
+        color: #001a5d !important;
+      }
+    }
+
     &__price {
       display: flex;
-      padding-bottom: $spacer;
       margin-bottom: $spacer;
       text-transform: uppercase;
       font-weight: $bold-font-weight;
       justify-content: space-between;
-      border-bottom: 1px solid $gray;
+      span {
+        width: 100%;
+        max-width: 50%;
+        flex-basis: 50%;
+        text-align: right;
+        color: #828282;
+        font-family: "Red Hat Display";
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.36;
+        letter-spacing: 0.03em;
+      }
     }
 
     &__button {
       margin: 1.3rem auto 1.3rem;
       text-align: center;
 
+      &__cart {
+        background: #fff;
+        color: #0e6eff !important;
+      }
+
+      &__cart:hover {
+        border: 1px solid #0e6eff;
+        background: #0e6eff;
+        color: #fff !important;
+      }
+
+      &__checkout {
+        background: #0e6eff;
+        color: #fff !important;
+      }
+
+      &__checkout:hover {
+        border: 1px solid #0e6eff;
+        background: #fff;
+        color: #0e6eff !important;
+      }
+
       button {
         width: 85%;
+        font-family: "Red Hat Display";
+        font-weight: $bold-font-weight;
+        font-size: 15px;
+        line-height: 1.33;
+        letter-spacing: 0.03em;
+        border: 1px solid #0e6eff;
       }
     }
   }
@@ -124,6 +215,56 @@
     &__action {
       text-align: center;
       margin-top: $spacer;
+    }
+  }
+}
+
+.cart__banner {
+  display: none;
+  // display: flex;
+  align-items: center;
+  grid-area: image-banner;
+  padding: 2.5 * $spacer 2 * $spacer 3 * $spacer;
+  background-color: #fafafa;
+  background: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F10ffae0af6434eefb21fbcf97b9bdea5");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  &__text {
+    flex-basis: 55%;
+    width: 100%;
+    max-width: 55%;
+    p {
+      font-family: "Red Hat Display";
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+      color: #001a5d;
+    }
+  }
+  &__text__info {
+    font-weight: 500 !important;
+    font-size: 10px !important;
+    line-height: 1.6 !important;
+    color: #828282 !important;
+    margin: 1.25 * $spacer 0;
+  }
+  &__shopbtn {
+    font-size: 10px !important;
+    line-height: 13px !important;
+    text-align: center !important;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    padding: 7px 20px;
+  }
+  &__image {
+    flex-basis: 45%;
+    width: 100%;
+    max-width: 45%;
+    img {
+      width: 100%;
     }
   }
 }
