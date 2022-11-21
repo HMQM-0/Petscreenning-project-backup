@@ -76,4 +76,4 @@ const Builder = ({
   );
 };
 
-export { Builder };
+export default Builder;

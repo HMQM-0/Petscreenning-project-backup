@@ -2,7 +2,6 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 import { positions, Provider as AlertProvider } from "react-alert";
 import { NextQueryParamProvider } from "next-query-params";
-import dynamic from "next/dynamic";
 import { builder } from "@builder.io/react";
 import Router from "next/router";
 import { GlobalStyles } from "@mui/material";

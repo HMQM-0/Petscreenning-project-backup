@@ -4,9 +4,9 @@ import _mapKeys from "lodash/mapKeys";
 import _mapValues from "lodash/mapValues";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
 
 import { useShopContext } from "src/components/providers/ShopProvider";
-import { Builder } from "src/components/templates/ProductPage/Builder";
 import { useAuth } from "nautical-api";
 import { useNetworkStatus } from "src/components/hooks";
 import NotFound from "src/components/molecules/NotFound";
@@ -15,6 +15,8 @@ import LoginToViewProducts from "src/components/organisms/LoginToViewProducts/Lo
 
 import Page from "./Page";
 import { ProductDetailsFragment } from "./queries.graphql.generated";
+
+const Builder = dynamic(() => import("src/components/templates/ProductPage/Builder"), { ssr: false });
 
 export const useSelectedVariant = (product: Pick<ProductDetailsFragment, "variants">) => {
   const router = useRouter();
