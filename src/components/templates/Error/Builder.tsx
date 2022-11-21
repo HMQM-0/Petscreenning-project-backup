@@ -20,4 +20,4 @@ const Builder = ({ content, data, is404 }: { content: BuilderContent; data: Erro
   );
 };
 
-export { Builder };
+export default Builder;
