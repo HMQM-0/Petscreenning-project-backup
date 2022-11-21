@@ -9,12 +9,15 @@ export const getAuthLink = (origin?: string) =>
       authToken = getSignInToken();
     }
 
+    const ORIGIN = origin || process.env.NEXT_PUBLIC_APOLLO_LINK_ORIGIN;
+
+    const HEADERS = {
+      ...headers,
+      ...(ORIGIN ? { origin: ORIGIN } : {}),
+      Authorization: authToken ? `JWT ${authToken}` : null,
+    };
     // return the headers to the context so httpLink can read them
     return {
-      headers: {
-        ...headers,
-        ...(origin ? { origin } : {}),
-        Authorization: authToken ? `JWT ${authToken}` : null,
-      },
+      headers: HEADERS,
     };
   });

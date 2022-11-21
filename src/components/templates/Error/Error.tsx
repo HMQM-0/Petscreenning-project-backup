@@ -1,10 +1,12 @@
 import { BuilderContent } from "@builder.io/sdk";
 import { Box, Typography } from "@mui/material";
 import { SxProps } from "@mui/system";
+import dynamic from "next/dynamic";
 import React from "react";
 
-import { Builder } from "./Builder";
 import { ErrorPageQuery } from "./queries.graphql.generated";
+
+const Builder = dynamic(() => import("./Builder"), { ssr: false });
 
 type ErrorProps = {
   builderContent: BuilderContent | null;
