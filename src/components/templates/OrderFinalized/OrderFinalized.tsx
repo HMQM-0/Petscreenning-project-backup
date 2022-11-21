@@ -6,10 +6,6 @@ import { ThankYou } from "./ThankYou";
 import { OrderFinalizedPageQuery } from "./queries.graphql.generated";
 
 import { useNauticalOrderByTokenQuery } from "../OrderHistoryDetailsPage/queries.graphql.generated";
-import sendFidoTabbyAlertTag, {
-  FIDO_TABBY_ALERT_TAGS_COOKIE,
-  IFidoTabbyAlertTag,
-} from "../CheckoutPage/ZapierHook/FidoTabbyAlert";
 
 type OrderFinalizedProps = {
   nauticalOrderByToken: OrderFinalizedPageQuery["nauticalOrderByToken"];
@@ -18,12 +14,12 @@ type OrderFinalizedProps = {
 const mapItemsForRoktPlacement = (items?: any | null) => {
   return items?.map((i: any) => {
     return {
-      price: i.totalPrice?.net.amount,
-      quantity: i.quantity,
+      price: i?.totalPrice?.net?.amount,
+      quantity: i?.quantity,
       majorcat: "",
       minorcat: "",
       productname: i?.variant?.product?.name || "",
-      sku: i.variant.sku,
+      sku: i?.variant?.sku,
     };
   });
 };
@@ -79,26 +75,6 @@ const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
     };
 
     createRoktPlacement();
-  }, []);
-
-  useEffect(() => {
-    const userEmail = data?.nauticalOrderByToken?.userEmail;
-
-    const sendFidoTabbyAlertTags = async () => {
-      const fiddoTabyAlertTagsCookie = Cookies.get(FIDO_TABBY_ALERT_TAGS_COOKIE);
-
-      if (fiddoTabyAlertTagsCookie) {
-        const fiddoTabyAlertTags: IFidoTabbyAlertTag[] = JSON.parse(fiddoTabyAlertTagsCookie);
-        if (fiddoTabyAlertTags.length) {
-          fiddoTabyAlertTags.forEach(async (tag: IFidoTabbyAlertTag) => {
-            await sendFidoTabbyAlertTag(tag, userEmail, orderNumber);
-          });
-          Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
-        }
-      }
-    };
-
-    sendFidoTabbyAlertTags();
   }, []);
 
   return (

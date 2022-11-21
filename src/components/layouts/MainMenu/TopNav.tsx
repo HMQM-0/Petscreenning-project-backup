@@ -35,7 +35,7 @@ import MenuListComposition from "./MenuListComposition";
 import PawItForwardIcon from "./PawItForwardIcon";
 import { useMainMenuQuery } from "./queries.graphql.generated";
 import classes from "./index.module.scss";
-import FiddoTobbyAlert from "./FidoTobbyAlert.png";
+import MobileSearchDrawer from "./MobileSearchDrawer";
 
 interface ITopNavProps {
   logo?: React.ReactNode;
@@ -55,6 +55,8 @@ const TopNav = (props: ITopNavProps) => {
   const [search] = useQueryParam("q", StringParam);
   const [term, setTerm] = React.useState<string>(search || "");
   const [showHeader, setShowHeader] = React.useState<boolean>(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = React.useState(false);
+
   const [anchorEl, setAnchorEl] = React.useState<
     (EventTarget & HTMLButtonElement) | (EventTarget & HTMLDivElement) | null
   >(null);
@@ -77,6 +79,10 @@ const TopNav = (props: ITopNavProps) => {
 
   const handleMenu = () => {
     overlayContext.show(OverlayType.sideNav, OverlayTheme.left, { logo });
+  };
+
+  const handleOpenMobileSearch = () => {
+    setMobileSearchOpen(true);
   };
 
   const handleSearch = () => {
@@ -143,7 +149,7 @@ const TopNav = (props: ITopNavProps) => {
             <IconButton
               color="primary"
               sx={{ p: "10px" }}
-              onClick={() => handleSearch()}
+              onClick={handleOpenMobileSearch}
               aria-label="Search"
             >
               <SearchIcon htmlColor="#777" />
@@ -360,6 +366,13 @@ const TopNav = (props: ITopNavProps) => {
           </Box>
         </div>
       )}
+      <MobileSearchDrawer
+        open={mobileSearchOpen}
+        close={() => setMobileSearchOpen(false)}
+        handleChange={handleChange}
+        handleKeyPress={handleKeyPress}
+        handleSearch={handleSearch}
+      />
     </>
   );
 };

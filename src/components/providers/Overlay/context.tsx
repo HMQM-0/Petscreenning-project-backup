@@ -9,12 +9,14 @@ export enum OverlayType {
   mainMenuNav = "main-menu-nav",
   modal = "modal",
   register = "register",
+  search = "search",
 }
 
 export enum OverlayTheme {
   left = "left",
   right = "right",
   modal = "modal",
+  top = "top",
 }
 
 export interface InnerOverlayContextInterface {
