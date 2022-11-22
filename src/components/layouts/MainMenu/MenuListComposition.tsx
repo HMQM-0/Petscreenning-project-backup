@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -60,14 +60,14 @@ export default function MenuListComposition(props: IMenuListCompositionProps) {
   }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(open);
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
+  // const prevOpen = useRef(open);
+  // useEffect(() => {
+  //   if (prevOpen.current === true && open === false) {
+  //     anchorRef.current!.focus();
+  //   }
+  //
+  //   prevOpen.current = open;
+  // }, [open]);
 
   return (
     <Stack

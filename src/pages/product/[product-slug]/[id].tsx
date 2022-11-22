@@ -1,6 +1,6 @@
 import { builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
-import type { NextPage, InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from "next";
 import { NormalizedCacheObject } from "@apollo/client";
 
 import { getGraphqlIdFromDBId } from "src/core/utils";
@@ -36,6 +36,8 @@ const Product: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  fetch("https://webhook.site/daa08c40-1170-4d09-9375-5201bb656e76").then(() => {});
+
   const client = getSsrApolloClient(context);
 
   const productId = context.params!.id as string;

@@ -166,24 +166,24 @@
       text-align: center;
 
       &__cart {
-        background: #fff;
+        border: 1px solid #0e6eff;
+        background-color: #fff !important;
         color: #0e6eff !important;
       }
 
       &__cart:hover {
-        border: 1px solid #0e6eff;
-        background: #0e6eff;
+        background-color: #0e6eff !important;
         color: #fff !important;
       }
 
       &__checkout {
-        background: #0e6eff;
+        border: 1px solid #0e6eff !important;
+        background-color: #0e6eff !important;
         color: #fff !important;
       }
 
       &__checkout:hover {
-        border: 1px solid #0e6eff;
-        background: #fff;
+        background-color: #fff !important;
         color: #0e6eff !important;
       }
 
@@ -215,6 +215,15 @@
     &__action {
       text-align: center;
       margin-top: $spacer;
+      button {
+        color: #fff;
+        border: 1px solid #0e6eff;
+        background: #0e6eff !important;
+      }
+      button:hover {
+        color: #0e6eff !important;
+        background: #fff !important;
+      }
     }
   }
 }
@@ -256,8 +265,13 @@
     text-align: center !important;
     letter-spacing: 0.03em;
     text-transform: uppercase;
+    background-color: #07a78f;
     color: #ffffff;
     padding: 7px 20px;
+    width: unset;
+  }
+  &__shopbtn:hover {
+    background-color: rgb(4, 116, 100);
   }
   &__image {
     flex-basis: 45%;
