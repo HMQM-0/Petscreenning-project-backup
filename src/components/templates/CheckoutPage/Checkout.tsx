@@ -139,6 +139,9 @@ const MuiCheckout = ({
 
   const [shippingFormError, setShippingFormError] = React.useState(false);
 
+  const [launcher, setLauncher] = React.useState<any>(null);
+  const [createdInstance, setCreatedIntance] = React.useState(false);
+
   const [shippingAddressError, setShippingAddressError] = React.useState<string>("");
   const [billingAddressError, setBillingAddressError] = React.useState<string>("");
   const [submittingPayment, setSubmittingPayment] = React.useState<boolean>(false);
@@ -221,6 +224,16 @@ const MuiCheckout = ({
       invalidate();
     }
   }, [currentTab, invalidate, payment_intent]);
+
+  React.useEffect(() => {
+    const createRoktPlacement = async () => {
+      if (currentTab === CheckoutTabs.PAYMENT) {
+        await selectPlacement();
+      }
+    };
+
+    createRoktPlacement();
+  }, [currentTab]);
 
   const router = useRouter();
 
@@ -368,59 +381,15 @@ const MuiCheckout = ({
         );
       }
 
-      const mappedItems = mapItemsForRoktPlacement(items);
-      let launcher = await (window as any).Rokt.createLauncher({
-        accountId: "3071804547766951791",
-        sandbox: true,
-      });
-
-      await launcher.selectPlacements({
-        identifier: "payment_page",
-        attributes: {
-          // Required
-          amount: total?.gross.amount,
-          siteCountry: "US",
-          siteLanguage: "en",
-          currency: "USD",
-          //Order Data
-          clientcustomerid: "",
-          cartId: "",
-          subtotal: "",
-          totalTax: "",
-          totalShipping: "",
-          margin: "",
-          paymenttype: "",
-          ccbin: "",
-          cartItems: JSON.stringify(mappedItems),
-          //Customer Data
-          customerType: "",
-          hasAccount: "",
-          isReturning: "",
-          lastVisited: "",
-          isLoyalty: "",
-          loyaltyTier: "",
-          email,
-          mobile: "",
-          title: "",
-          firstname: "",
-          lastname: "",
-          age: "",
-          gender: "",
-          dob: "",
-          billingAddress1: "",
-          billingAddress2: "",
-          billingCity: "",
-          billingState: "",
-          billingZipcode: "",
-          billingCountry: "",
-          shippingAddress1: "",
-          shippingAddress2: "",
-          shippingCity: "",
-          shippingState: "",
-          shippingZipcode: "",
-          shippingCountry: "",
-        },
-      });
+      if (!createdInstance) {
+        // const mappedItems = mapItemsForRoktPlacement(items);
+        const launcherInstance = await (window as any).Rokt.createLauncher({
+          accountId: "3071804547766951791",
+          sandbox: true,
+        });
+        setCreatedIntance(true);
+        setLauncher(launcherInstance);
+      }
     };
 
     createRoktPlacement();
@@ -563,6 +532,60 @@ const MuiCheckout = ({
 
   const shippingStepDisabled = !shippingAddress;
   const paymentStepDisabled = !shippingAddress || !allShippingMethodsSelected;
+
+  const selectPlacement = async () => {
+    console.log(launcher);
+    if (launcher) {
+      const mappedItems = mapItemsForRoktPlacement(items);
+      await launcher.selectPlacements({
+        identifier: "payment_page",
+        attributes: {
+          // Required
+          amount: total?.net.amount,
+          siteCountry: "US",
+          siteLanguage: "en",
+          currency: "USD",
+          //Order Data
+          clientcustomerid: "",
+          cartId: "",
+          subtotal,
+          totalTax: "",
+          totalShipping: shipping,
+          margin: "",
+          paymenttype: "",
+          ccbin: "",
+          cartItems: JSON.stringify(mappedItems),
+          //Customer Data
+          customerType: "",
+          hasAccount: "",
+          isReturning: "",
+          lastVisited: "",
+          isLoyalty: "",
+          loyaltyTier: "",
+          email,
+          mobile: billingAddress?.phone,
+          title: "",
+          firstname: billingAddress?.firstName,
+          lastname: billingAddress?.lastName,
+          age: "",
+          gender: "",
+          dob: "",
+          billingAddress1: billingAddress?.streetAddress1,
+          billingAddress2: billingAddress?.streetAddress2,
+          billingCity: billingAddress?.city,
+          billingState: billingAddress?.countryArea,
+          billingZipcode: billingAddress?.postalCode,
+          billingCountry: billingAddress?.country.country,
+          shippingAddress1: shippingAddress?.streetAddress1,
+          shippingAddress2: shippingAddress?.streetAddress2,
+          shippingCity: shippingAddress?.city,
+          shippingState: shippingAddress?.countryArea,
+          shippingZipcode: shippingAddress?.postalCode,
+          shippingCountry: shippingAddress?.country.country,
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -788,6 +811,7 @@ const MuiCheckout = ({
                   variant="contained"
                   disabled={isSubmittingShippingAddress}
                   onClick={async () => {
+                    await selectPlacement();
                     setIsSubmittingShippingAddress(true);
                     await submitShippingAddressRef.current?.();
                     setIsSubmittingShippingAddress(false);
