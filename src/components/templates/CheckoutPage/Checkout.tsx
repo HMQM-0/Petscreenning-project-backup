@@ -226,13 +226,13 @@ const MuiCheckout = ({
   }, [currentTab, invalidate, payment_intent]);
 
   React.useEffect(() => {
-    const createRoktPlacement = async () => {
+    const selectRoktPlacements = async () => {
       if (currentTab === CheckoutTabs.PAYMENT) {
-        await selectPlacement();
+        await selectPlacements();
       }
     };
 
-    createRoktPlacement();
+    selectRoktPlacements();
   }, [currentTab]);
 
   const router = useRouter();
@@ -372,7 +372,7 @@ const MuiCheckout = ({
   }, [checkIfLoyaltyAndReferralsActive]);
 
   React.useEffect(() => {
-    const createRoktPlacement = async () => {
+    const createRoktLauncher = async () => {
       if (document) {
         await new Promise<void>((resolve) =>
           (window as any).Rokt
@@ -382,7 +382,6 @@ const MuiCheckout = ({
       }
 
       if (!createdInstance) {
-        // const mappedItems = mapItemsForRoktPlacement(items);
         const launcherInstance = await (window as any).Rokt.createLauncher({
           accountId: "3071804547766951791",
           sandbox: true,
@@ -392,7 +391,7 @@ const MuiCheckout = ({
       }
     };
 
-    createRoktPlacement();
+    createRoktLauncher();
   }, []);
 
   const handleSubmitAddress =
@@ -533,8 +532,7 @@ const MuiCheckout = ({
   const shippingStepDisabled = !shippingAddress;
   const paymentStepDisabled = !shippingAddress || !allShippingMethodsSelected;
 
-  const selectPlacement = async () => {
-    console.log(launcher);
+  const selectPlacements = async () => {
     if (launcher) {
       const mappedItems = mapItemsForRoktPlacement(items);
       await launcher.selectPlacements({
@@ -811,7 +809,7 @@ const MuiCheckout = ({
                   variant="contained"
                   disabled={isSubmittingShippingAddress}
                   onClick={async () => {
-                    await selectPlacement();
+                    await selectPlacements();
                     setIsSubmittingShippingAddress(true);
                     await submitShippingAddressRef.current?.();
                     setIsSubmittingShippingAddress(false);
