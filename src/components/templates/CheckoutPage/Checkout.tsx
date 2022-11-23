@@ -293,6 +293,7 @@ const MuiCheckout = ({
       }
       const token = response.data?.order?.token;
       const orderNumber = response.data?.order?.number;
+      const orderId = response.data?.order?.id;
 
       const fiddoTabyAlertTagsCookie = Cookies.get(FIDO_TABBY_ALERT_TAGS_COOKIE);
 
@@ -301,7 +302,7 @@ const MuiCheckout = ({
         if (fiddoTabyAlertTags.length) {
           fiddoTabyAlertTags.forEach(async (tag: IFidoTabbyAlertTag) => {
             console.log("Sending tags");
-            await sendFidoTabbyAlertTag(tag, email);
+            await sendFidoTabbyAlertTag(tag, email, orderId);
           });
           Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
         }
