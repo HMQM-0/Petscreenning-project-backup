@@ -44,7 +44,18 @@ const NotificationBar = ({ backgroundColor, fontColor, fontSize, messages, slide
             className={classes.message}
             key={index}
           >
-            {link ? <a href={link}>{content}</a> : <span>{content}</span>}
+            {link ? (
+              <a
+                style={{ padding: "0 15px" }}
+                target="_blank"
+                href={link}
+                rel="noreferrer"
+              >
+                {content}
+              </a>
+            ) : (
+              <span>{content}</span>
+            )}
           </Box>
         ))}
       </Slider>
