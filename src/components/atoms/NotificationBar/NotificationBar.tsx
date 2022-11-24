@@ -46,7 +46,7 @@ const NotificationBar = ({ backgroundColor, fontColor, fontSize, messages, slide
           >
             {link ? (
               <a
-                style={{ padding: "0 15px" }}
+                style={{ padding: "0 15px", fontSize: "0.8em" }}
                 target="_blank"
                 href={link}
                 rel="noreferrer"

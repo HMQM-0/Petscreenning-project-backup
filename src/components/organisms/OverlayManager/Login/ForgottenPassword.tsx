@@ -15,11 +15,12 @@ const ForgottenPassword = ({ onClick }: ForgottenPasswordProps) => (
         <FormattedMessage defaultMessage="Have you forgotten your password?" />{" "}
         <Box
           component="span"
-          className="u-link"
           onClick={onClick}
           data-test="accountOverlayForgottenPasswordLink"
         >
-          <FormattedMessage defaultMessage="Click Here" />
+          <span style={{ color: "#0E6EFF", fontWeight: "bold", textDecoration: "none", cursor: "pointer" }}>
+            <FormattedMessage defaultMessage="Click Here" />
+          </span>
         </Box>
       </p>
     </Box>

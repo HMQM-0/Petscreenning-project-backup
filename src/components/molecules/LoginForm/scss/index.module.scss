@@ -1,8 +1,14 @@
 @import "src/globalStyles/scss/variables.scss";
 
+.input:-internal-autofill-selected {
+  background-color: #fff !important;
+}
 .login-form {
   .input {
     margin: $spacer 0;
+  }
+  @media (max-width: $small-screen) {
+    border-right: none;
   }
 
   &__button {

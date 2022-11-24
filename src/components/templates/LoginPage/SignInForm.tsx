@@ -15,7 +15,10 @@ const SignInForm = () => {
   };
   return (
     <>
-      <h3 className={classes["checkout__header"]}>
+      <h3
+        style={{ color: "#001A5D", fontSize: "30px", fontFamily: "Red Hat Display !important;", marginBottom: "1.5em" }}
+        className={classes["checkout__header"]}
+      >
         <FormattedMessage defaultMessage="Registered user" />
       </h3>
       <LoginForm />

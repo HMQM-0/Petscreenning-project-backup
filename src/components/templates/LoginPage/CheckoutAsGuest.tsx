@@ -10,11 +10,17 @@ import classes from "./scss/index.module.scss";
 const CheckoutAsGuest = () => {
   const { show } = useOverlayContext();
   return (
-    <Box className={classes["checkout-login__guest"]}>
-      <h3 className={classes["checkout__header"]}>
-        <FormattedMessage defaultMessage="Continue as a guest" />
+    <Box
+      sx={{ fontFamily: "Red Hat Display !important" }}
+      className={classes["checkout-login__guest"]}
+    >
+      <h3
+        style={{ color: "#001A5D", fontSize: "30px", fontFamily: "Red Hat Display !important;", marginBottom: "1em" }}
+        className={classes["checkout__header"]}
+      >
+        <FormattedMessage defaultMessage="Guest" />
       </h3>
-      <p>
+      <p style={{ fontFamily: "Red Hat Display !important", marginBottom: "4.5em" }}>
         <FormattedMessage defaultMessage="If you don’t wish to register an account, don’t worry. You can checkout as a guest. We care about you just as much as any registered user." />
       </p>
       <Link href={"/checkout?guest=1"}>
@@ -22,22 +28,36 @@ const CheckoutAsGuest = () => {
           <Button
             variant="contained"
             fullWidth
-            color="secondary"
+            sx={{
+              color: "#0E6EFF",
+              backgroundColor: "#fff !important",
+              border: "1px solid #0E6EFF",
+              marginBottom: "2rem !important",
+            }}
           >
             <FormattedMessage defaultMessage="Continue as a guest" />
           </Button>
         </a>
       </Link>
 
-      <p>
+      <p style={{ fontSize: "13px" }}>
         <FormattedMessage defaultMessage="or you can" />{" "}
         <Box
           component="span"
           data-test="showRegisterOverlay"
-          className="u-link"
           onClick={() => show(OverlayType.register, OverlayTheme.right)}
         >
-          <FormattedMessage defaultMessage="create an account" />
+          <span
+            style={{
+              color: "#0E6EFF",
+              fontWeight: "bold",
+              textDecoration: "none",
+              cursor: "pointer",
+              fontSize: "13px",
+            }}
+          >
+            <FormattedMessage defaultMessage="Create an account" />
+          </span>
         </Box>
       </p>
     </Box>
