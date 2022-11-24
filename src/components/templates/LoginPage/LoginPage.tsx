@@ -24,10 +24,10 @@ export const LoginPage = () => {
     <Box className="container">
       {isOnline ? (
         <Box className={classes["checkout-login"]}>
-          <CheckoutAsGuest />
           <Box className={classes["checkout-login__user"]}>
             <SignInForm />
           </Box>
+          <CheckoutAsGuest />
         </Box>
       ) : (
         <OfflinePlaceholder />
