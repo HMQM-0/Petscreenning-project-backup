@@ -85,6 +85,7 @@ export default function MenuListComposition(props: IMenuListCompositionProps) {
       >
         <Button
           className={isNavOption ? `${classes.menuOption} ${classes.navOption}` : classes.menuOption}
+          data-cat-icon={option.name.toString().replaceAll(" ", "-")}
           ref={anchorRef}
           id="composition-button"
           aria-controls={open ? "composition-menu" : undefined}
