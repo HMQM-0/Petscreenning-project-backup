@@ -111,3 +111,34 @@ div.menu div:last-child .menuOption.navOption {
 //.menuOption .MuiTouchRipple-root {
 //  display: none !important;
 //}
+
+[data-cat-icon].menuOption.navOption::before {
+  content: "";
+  display: block;
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 8px;
+}
+[data-cat-icon="FidoTabby-Alert-Exclusives"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F3a3c502544ac40a7926030ffcca0e698");
+}
+[data-cat-icon="Gifting"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F62253eaa30614f36a7dd2e5aae21e0c8");
+}
+[data-cat-icon="Toys-&-Treats"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F8aeb2fd7876643ddb108448ed5bae594");
+}
+[data-cat-icon="Collars-&-Apparel"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F36e0516d91be40fc997cdfc8671396be?format=webp&width=2000");
+}
+[data-cat-icon="Beds-&-Accessories"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Fd83a96a6bb89451a817b57eb75269bdd");
+}
+[data-cat-icon="Supplements-&-Hygiene"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Ffba84811be484a8199f4772f80175ed1");
+}
+[data-cat-icon="Shop-by-Seller"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F85da77048ee74bbfafbb0ad377a997e8");
+}
