@@ -8,6 +8,84 @@
   font-family: "Red Hat Display" !important;
 
   &__menu-item {
+    a {
+      display: flex;
+      &::before {
+        content: "";
+        display: block;
+        width: 25px;
+        height: 25px;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  &__menu-item[data-mobile-cat-icon="FidoTabby Alert Exclusives"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F3a3c502544ac40a7926030ffcca0e698");
+      }
+    }
+  }
+
+  &__menu-item[data-mobile-cat-icon="Gifting"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F62253eaa30614f36a7dd2e5aae21e0c8");
+      }
+    }
+  }
+
+  &__menu-item[data-mobile-cat-icon="Toys & Treats"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F8aeb2fd7876643ddb108448ed5bae594");
+      }
+    }
+  }
+
+  &__menu-item[data-mobile-cat-icon="FidoTabby Alert Exclusives"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F3a3c502544ac40a7926030ffcca0e698");
+      }
+    }
+  }
+
+  &__menu-item[data-mobile-cat-icon="Collars & Apparel"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F36e0516d91be40fc997cdfc8671396be?format=webp&width=2000");
+      }
+    }
+  }
+
+  &__menu-item[data-mobile-cat-icon="Beds & Accessories"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Fd83a96a6bb89451a817b57eb75269bdd");
+      }
+    }
+  }
+
+  &__menu-item[data-mobile-cat-icon="Supplements & Hygiene"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Ffba84811be484a8199f4772f80175ed1");
+      }
+    }
+  }
+  &__menu-item[data-mobile-cat-icon="Shop by Seller"] {
+    a {
+      &::before {
+        background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F85da77048ee74bbfafbb0ad377a997e8");
+      }
+    }
+  }
+
+  &__menu-item {
     border-bottom: 1px solid $gray-light;
     display: grid;
     height: $item-height;
