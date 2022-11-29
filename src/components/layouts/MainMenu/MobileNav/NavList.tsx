@@ -8,6 +8,8 @@ import { MainMenuItemsFragment } from "@layouts/MainMenu/queries.graphql.generat
 import classes from "./scss/index.module.scss";
 import NavItem from "./NavItem";
 
+import PawItForwardIcon from "../PawItForwardIcon";
+
 type NavListProps = {
   logo?: React.ReactNode;
   hideOverlay(): void;
@@ -86,6 +88,10 @@ const NavList = ({ logo, hideOverlay, items }: NavListProps) => {
           />
         );
       })}
+
+      <div className={classes.mobilePawItForward}>
+        <PawItForwardIcon />
+      </div>
     </ul>
   );
 };

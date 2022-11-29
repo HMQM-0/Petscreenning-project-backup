@@ -63,6 +63,9 @@ div.menu div:last-child .menuOption.navOption {
   }
 
   .pawItForwardLabel {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
     height: 17px;
 
     font-family: "Red Hat Display" !important;
@@ -74,6 +77,16 @@ div.menu div:last-child .menuOption.navOption {
     text-transform: capitalize;
 
     color: #828282;
+    &::before {
+      content: "";
+      display: block;
+      width: 25px;
+      height: 25px;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-right: 5px;
+      background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F881914f3e6cc4457a6ec26354f2902bd");
+    }
   }
 }
 

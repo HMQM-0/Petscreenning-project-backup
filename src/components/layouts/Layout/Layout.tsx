@@ -35,7 +35,7 @@ const Layout = ({ children, documentHead }: LayoutProps) => {
     <Logo
       logo={branding.logo}
       logoHeight={branding.logoHeight ?? 50}
-      logoWidth={branding.logoWidth ?? 100}
+      logoWidth={branding.logoWidth ?? 230}
     />
   );
 
