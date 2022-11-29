@@ -17,10 +17,11 @@ const PawItForwardIcon = () => {
       aria-controls={accountMenuOpen ? "account-menu" : undefined}
       aria-haspopup="true"
       aria-expanded={accountMenuOpen ? "true" : undefined}
-      onClick={() => router.push("https://store.fidotabby.com/product/pawitforward/1897/")}
+      onClick={() => router.push("https://store.fidotabby.com/product/paw-it-forward/2040?title-dropdown=%245.00")}
     >
       <div className={`${classes.headerOption} ${classes.wide}`}>
-        <PetsOutlinedIcon htmlColor="#21BC99" />
+        {/* <PetsOutlinedIcon htmlColor="#21BC99" /> */}
+
         <div className={classes.pawItForwardLabel}>Paw It Forward</div>
       </div>
     </IconButton>
