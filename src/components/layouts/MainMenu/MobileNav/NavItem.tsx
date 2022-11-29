@@ -35,6 +35,7 @@ const NavItem = ({ hideOverlay, showSubItems, item }: NavItemProps) => {
         [classes["side-nav__menu-item"]]: true,
         [classes["side-nav__menu-item--has-subnavigation"]]: hasSubNavigation,
       })}
+      data-mobile-cat-icon={item.name}
     >
       <NavLink
         item={item}
