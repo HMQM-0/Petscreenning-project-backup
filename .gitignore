@@ -48,3 +48,4 @@ yarn-error.log*
 
 graphql
 **/*.generated.tsx
+!/src/components/templates/CategoryPage/queries.graphql.generated.tsx
