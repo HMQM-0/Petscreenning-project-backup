@@ -12,6 +12,20 @@ export const basicCategory = gql`
     descriptionJson
     id
     name
+    level
+    children(first: 30) {
+      edges {
+        node {
+          id
+          slug
+          name
+          level
+          backgroundImage {
+            url
+          }
+        }
+      }
+    }
     backgroundImage {
       url
     }
