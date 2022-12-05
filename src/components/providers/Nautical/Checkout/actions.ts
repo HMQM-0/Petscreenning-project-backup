@@ -90,10 +90,11 @@ export const CheckoutActionCreators = {
     type: CheckoutActionTypes.CLEAR_CHECKOUT,
     payload: {},
   }),
-  updateLines: (lines: ICheckoutStateContext["lines"]) => ({
+  updateLines: (lines: ICheckoutStateContext["lines"], reset?: boolean) => ({
     type: CheckoutActionTypes.UPDATE_LINES,
     payload: {
       lines,
+      reset,
     },
   }),
 } as const;

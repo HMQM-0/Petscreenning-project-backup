@@ -127,11 +127,11 @@ const useRefreshCheckoutLines = () => {
           // this.fireError(error, ErrorCartTypes.SET_CART_ITEM);
         } else {
           newLines = data ?? [];
-          updateLines(newLines);
+          updateLines(newLines, false);
           return newLines;
         }
       }
-      updateLines(newLines);
+      updateLines(newLines, false);
       return newLines;
     },
     [getRefreshedCheckoutLines, updateLines],
