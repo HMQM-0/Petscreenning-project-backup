@@ -9,8 +9,8 @@ type useUpdateLinesProps = {
 
 const useUpdateLines = ({ dispatch }: useUpdateLinesProps) => {
   return useCallback(
-    (lines: ICheckoutStateContext["lines"]) => {
-      dispatch(CheckoutActionCreators.updateLines(lines));
+    (lines: ICheckoutStateContext["lines"], reset?: boolean) => {
+      dispatch(CheckoutActionCreators.updateLines(lines, Boolean(reset)));
     },
     [dispatch],
   );

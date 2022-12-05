@@ -145,23 +145,25 @@ export const reducer: Reducer<ICheckoutStateContext, CheckoutActions> = (draft, 
       draft.lines = draft.lines?.filter((existingLine) =>
         action.payload.lines?.find((line) => line.variant.id === existingLine.variant.id),
       );
-      draft.billingAsShipping = undefined;
-      draft.shippingAddress = undefined;
-      draft.billingAddress = undefined;
-      draft.selectedShippingAddressId = undefined;
-      draft.selectedBillingAddressId = undefined;
-      draft.availableShippingMethods = undefined;
-      draft.availableShippingMethodsBySeller = undefined;
-      draft.applicableVolumeDiscounts = undefined;
-      draft.applicableVolumeDiscountsBySeller = undefined;
-      draft.availablePaymentGateways = undefined;
-      draft.payment = undefined;
-      draft.shippingMethod = undefined;
-      draft.sellerShippingMethods = undefined;
-      draft.token = undefined;
-      draft.id = undefined;
-      draft.email = undefined;
-      draft.promoCodeDiscount = undefined;
+      if (action.payload.reset) {
+        draft.billingAsShipping = undefined;
+        draft.shippingAddress = undefined;
+        draft.billingAddress = undefined;
+        draft.selectedShippingAddressId = undefined;
+        draft.selectedBillingAddressId = undefined;
+        draft.availableShippingMethods = undefined;
+        draft.availableShippingMethodsBySeller = undefined;
+        draft.applicableVolumeDiscounts = undefined;
+        draft.applicableVolumeDiscountsBySeller = undefined;
+        draft.availablePaymentGateways = undefined;
+        draft.payment = undefined;
+        draft.shippingMethod = undefined;
+        draft.sellerShippingMethods = undefined;
+        draft.token = undefined;
+        draft.id = undefined;
+        draft.email = undefined;
+        draft.promoCodeDiscount = undefined;
+      }
       break;
     default:
       throw new Error(`Checkout Reducer had action type with no case ${action}`);
