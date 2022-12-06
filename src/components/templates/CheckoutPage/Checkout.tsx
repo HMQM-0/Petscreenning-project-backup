@@ -561,7 +561,7 @@ const MuiCheckout = ({
           lastVisited: "",
           isLoyalty: "",
           loyaltyTier: "",
-          email,
+          email: user?.email || email,
           mobile: billingAddress?.phone,
           title: "",
           firstname: billingAddress?.firstName,
@@ -810,7 +810,6 @@ const MuiCheckout = ({
                   variant="contained"
                   disabled={isSubmittingShippingAddress}
                   onClick={async () => {
-                    await selectPlacements();
                     setIsSubmittingShippingAddress(true);
                     await submitShippingAddressRef.current?.();
                     setIsSubmittingShippingAddress(false);
