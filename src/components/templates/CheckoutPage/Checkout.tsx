@@ -59,7 +59,7 @@ import classes from "./scss/index.module.scss";
 import sendFidoTabbyAlertTag, { FIDO_TABBY_ALERT_TAGS_COOKIE, IFidoTabbyAlertTag } from "./ZapierHook/FidoTabbyAlert";
 
 import { ICheckoutModelLine, ICheckoutModelPriceValue } from "../../providers/Nautical/Checkout/types";
-import { mapItemsForRoktPlacement } from "../OrderFinalized";
+import { mapItemsForRoktPlacement, PLACEMENT_DATA } from "../OrderFinalized";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -309,7 +309,7 @@ const MuiCheckout = ({
       }
 
       if (token && orderNumber) {
-        router.push(`/order-finalized?token=${token}&orderNumber=${orderNumber}`);
+        location.href = `/order-finalized?token=${token}&orderNumber=${orderNumber}`;
       }
     } else {
       if (isArray(response.dataError.error)) {
@@ -536,6 +536,23 @@ const MuiCheckout = ({
   const selectPlacements = async () => {
     if (launcher) {
       const mappedItems = mapItemsForRoktPlacement(items);
+
+      const attributes = {
+        email: user?.email || email,
+        firstname: shippingAddress?.firstName,
+        lastname: shippingAddress?.lastName,
+        address1: shippingAddress?.streetAddress1,
+        address2: shippingAddress?.streetAddress2,
+        city: shippingAddress?.city,
+        state: shippingAddress?.countryArea,
+        country: shippingAddress?.country.country,
+        zipcode: shippingAddress?.postalCode,
+        amount: total?.gross.amount,
+        cartItems: mappedItems,
+      };
+
+      Cookies.set(PLACEMENT_DATA, JSON.stringify(attributes), { expires: 1 });
+
       await launcher.selectPlacements({
         identifier: "payment_page",
         attributes: {

@@ -35,7 +35,7 @@ const Checkout: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>
   const redirectToCart = !isFinalizingPayment && loaded && (!lines || lines.length === 0);
   if (!IS_SSR) {
     if (redirectToCart) {
-      push("/cart");
+      // push("/cart");
     }
     if (!user && !guest && !isFinalizingPayment && !redirectToCart) {
       push("/login");
