@@ -53,7 +53,6 @@ const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
         });
 
         await launcher.selectPlacements({
-          identifier: "confirmation_page",
           attributes: {
             // customer identifier - at least one required
             userEmail,
