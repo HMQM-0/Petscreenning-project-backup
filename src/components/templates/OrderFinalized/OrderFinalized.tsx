@@ -5,8 +5,6 @@ import Cookies from "js-cookie";
 import { ThankYou } from "./ThankYou";
 import { OrderFinalizedPageQuery } from "./queries.graphql.generated";
 
-import { useNauticalOrderByTokenQuery } from "../OrderHistoryDetailsPage/queries.graphql.generated";
-
 type OrderFinalizedProps = {
   nauticalOrderByToken: OrderFinalizedPageQuery["nauticalOrderByToken"];
 };
@@ -24,14 +22,12 @@ export const mapItemsForRoktPlacement = (items?: any | null) => {
   });
 };
 
+export const PLACEMENT_DATA = "PLACEMENT_DATA";
+
 const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
   const [{ token, orderNumber }] = useQueryParams({
     token: StringParam,
     orderNumber: StringParam,
-  });
-
-  const { data } = useNauticalOrderByTokenQuery({
-    variables: { token: token },
   });
 
   useEffect(() => {
@@ -44,33 +40,35 @@ const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
         );
       }
 
-      if (data?.nauticalOrderByToken) {
-        const { lines, shippingAddress, userEmail, total } = data?.nauticalOrderByToken;
-        const mappedItems = mapItemsForRoktPlacement(lines);
-        let launcher = await (window as any).Rokt.createLauncher({
+      const placementData = Cookies.get(PLACEMENT_DATA);
+      if (placementData) {
+        const placementDataParsed = JSON.parse(placementData);
+        const placement = {
+          identifier: "confirmation_page",
+          attributes: {
+            // customer identifier - at least one required
+            userEmail: placementDataParsed.email,
+            // recommended contextual attributes
+            firstname: placementDataParsed?.firstname,
+            lastname: placementDataParsed?.lastname,
+            address1: placementDataParsed?.address1,
+            address2: placementDataParsed?.address2,
+            city: placementDataParsed?.city,
+            state: placementDataParsed?.state,
+            country: placementDataParsed?.country,
+            zipcode: placementDataParsed?.zipcode,
+            amount: placementDataParsed.amount,
+            cartItems: JSON.stringify(placementDataParsed.cartItems),
+          },
+        };
+
+        const launcherInstance = await (window as any).Rokt.createLauncher({
           accountId: "3071804547766951791",
           sandbox: true,
         });
+        await launcherInstance.selectPlacements(placement);
 
-        await launcher.selectPlacements({
-          attributes: {
-            // customer identifier - at least one required
-            userEmail,
-            // recommended contextual attributes
-            firstname: shippingAddress?.firstName,
-            lastname: shippingAddress?.lastName,
-            address1: shippingAddress?.streetAddress1,
-            address2: shippingAddress?.streetAddress2,
-            city: shippingAddress?.city,
-            state: shippingAddress?.countryArea,
-            country: shippingAddress?.country.country,
-            zipcode: shippingAddress?.postalCode,
-            amount: total?.gross.amount,
-            currency: "USD",
-            paymenttype: "Credit Card",
-            cartItems: JSON.stringify(mappedItems),
-          },
-        });
+        Cookies.remove(PLACEMENT_DATA);
       }
     };
 
