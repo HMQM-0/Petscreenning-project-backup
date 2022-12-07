@@ -80,13 +80,13 @@ const RegisterForm = ({ hide }: RegisterFormProps) => {
         type="password"
         required
       />
-      <TextField
+      {/* <TextField
         labelColor="#858585"
         name="companyName"
         autoComplete="companyName"
         label={intl.formatMessage(commonMessages.companyName)}
         type="text"
-      />
+      /> */}
       <Box className={classes.login__content__button}>
         <Button
           testingContext="submitRegisterFormButton"
