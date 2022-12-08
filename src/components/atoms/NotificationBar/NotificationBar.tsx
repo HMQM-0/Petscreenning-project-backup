@@ -46,6 +46,7 @@ const NotificationBar = ({ backgroundColor, fontColor, fontSize, messages, slide
           >
             {link ? (
               <a
+                className={slickClasses.marquee}
                 style={{ padding: "0 15px", fontSize: "0.8em" }}
                 target="_blank"
                 href={link}
