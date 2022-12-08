@@ -64,7 +64,7 @@ const OrderFinalized = ({ nauticalOrderByToken }: OrderFinalizedProps) => {
 
         const launcherInstance = await (window as any).Rokt.createLauncher({
           accountId: "3071804547766951791",
-          sandbox: true,
+          sandbox: false,
         });
         await launcherInstance.selectPlacements(placement);
 
