@@ -899,6 +899,10 @@ const MuiCheckout = ({
                 submittingPayment={submittingPayment}
                 setSubmittingPayment={setSubmittingPayment}
               />
+              <div
+                style={{ width: "100%", height: "190px" }}
+                id="rokt-placeholder"
+              ></div>
               <Box mb={2}>
                 <Typography
                   sx={title}
@@ -1013,7 +1017,6 @@ const MuiCheckout = ({
           <Errors errorMessage={errorMessage} />
         </Box>
       )}
-      <div id="rokt-placeholder"></div>
     </>
   );
 };
