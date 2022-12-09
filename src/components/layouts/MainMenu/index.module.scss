@@ -26,7 +26,7 @@
 
 .menu {
   display: flex;
-  z-index: 5001;
+  z-index: 1;
 }
 
 div.menu div .menuOption.navOption {
@@ -135,23 +135,26 @@ div.menu div:last-child .menuOption.navOption {
   margin-right: 8px;
 }
 [data-cat-icon="FidoTabby-Alert-Exclusives"].menuOption.navOption::before {
-  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F3a3c502544ac40a7926030ffcca0e698");
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F3955384e25934f47a69226217cae640f?width=2000");
 }
 [data-cat-icon="Gifting"].menuOption.navOption::before {
-  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F62253eaa30614f36a7dd2e5aae21e0c8");
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F42d2ac03595749079fc505aaf100fecb?width=2000");
 }
 [data-cat-icon="Toys-&-Treats"].menuOption.navOption::before {
-  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F8aeb2fd7876643ddb108448ed5bae594");
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Fa68dd08ce2d04834874cbc91a8d32f9e");
 }
 [data-cat-icon="Collars-&-Apparel"].menuOption.navOption::before {
-  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F36e0516d91be40fc997cdfc8671396be?format=webp&width=2000");
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Fadef6d78f02d4d7abf97bd60e5092cab");
 }
 [data-cat-icon="Beds-&-Accessories"].menuOption.navOption::before {
-  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Fd83a96a6bb89451a817b57eb75269bdd");
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Ffb47bbbb35854d3795712b35877be340?width=2000");
 }
 [data-cat-icon="Supplements-&-Hygiene"].menuOption.navOption::before {
-  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2Ffba84811be484a8199f4772f80175ed1");
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F3515077190884f91a889c1fe95366da7");
 }
 [data-cat-icon="Shop-by-Seller"].menuOption.navOption::before {
-  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F85da77048ee74bbfafbb0ad377a997e8");
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F876b5ad58b274b598a5534a216911365?width=2000");
+}
+[data-cat-icon="Personalization"].menuOption.navOption::before {
+  background-image: url("https://cdn.builder.io/api/v1/image/assets%2F77351f890251406eb2d564008d339e95%2F69a3d87d6983461391c49ddbf4966f86");
 }
