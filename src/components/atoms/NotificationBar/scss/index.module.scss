@@ -2,11 +2,11 @@
 .marquee {
   top: 0;
   left: 100%;
-  width: 100%;
+  width: fit-content;
   overflow: hidden;
   position: absolute;
   white-space: nowrap;
-  animation: marquee 30s linear infinite;
+  animation: marquee 60s linear infinite;
 }
 
 @keyframes marquee {
