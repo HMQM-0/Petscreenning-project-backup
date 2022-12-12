@@ -102,6 +102,7 @@ const useBuilderStateData = ({
               name,
               petName,
               tagId,
+              variantId,
             });
             Cookies.set(FIDO_TABBY_ALERT_TAGS_COOKIE, JSON.stringify(currentCookie), { expires: 1 });
           }
@@ -113,6 +114,7 @@ const useBuilderStateData = ({
                 name,
                 petName,
                 tagId,
+                variantId,
               },
             ]),
             { expires: 1 },
