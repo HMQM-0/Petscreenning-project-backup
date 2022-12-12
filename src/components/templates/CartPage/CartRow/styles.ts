@@ -19,6 +19,10 @@ export const Wrapper = styled.div`
   &:last-child {
     border-bottom: none;
   }
+  &[data-product-id="UHJvZHVjdDoxODk0"] [data-quantity-box],
+  &[data-product-id="UHJvZHVjdDoxODk1"] [data-quantity-box] {
+    display: none;
+  }
   ${media.mediumScreen`
     grid-template-columns: 1fr 2fr 2fr;
     grid-row-gap: 15px;

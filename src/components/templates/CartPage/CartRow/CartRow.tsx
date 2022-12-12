@@ -93,6 +93,7 @@ export const CartRow = ({ item }: CartRowProps) => {
     <S.Wrapper
       data-test="cartRow"
       data-test-id={variant.sku}
+      data-product-id={id}
     >
       <S.Photo>
         <Link href={productUrl}>
@@ -135,6 +136,7 @@ export const CartRow = ({ item }: CartRowProps) => {
           value={displayQuantity}
           onBlur={handleBlur}
           onChange={handleQuantityChange}
+          data-quantity-box
           InputProps={{
             endAdornment: (
               <S.QuantityButtons data-test="quantityControls">
@@ -170,7 +172,8 @@ export const CartRow = ({ item }: CartRowProps) => {
           size={22}
           name="trash"
           onClick={() => removeItem(variant.id)}
-        /> Delete
+        />{" "}
+        Delete
       </S.Trash>
 
       <S.TotalPrice>
