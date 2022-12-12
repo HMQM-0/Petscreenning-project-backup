@@ -900,7 +900,7 @@ const MuiCheckout = ({
                 setSubmittingPayment={setSubmittingPayment}
               />
               <div
-                style={{ width: "100%", height: "190px" }}
+                style={{ width: "100%" }}
                 id="rokt-placeholder"
               ></div>
               <Box mb={2}>
