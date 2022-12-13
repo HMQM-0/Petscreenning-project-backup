@@ -39,12 +39,14 @@ const LoginForm = ({ hide }: ILoginForm) => {
       >
         <TextField
           style={{ backgroundColor: "#fff !important", borderColor: "#858585", borderRadius: "3px" }}
+          name="email"
           autoComplete="email"
           type="email"
           required
         />
         <TextField
           style={{ backgroundColor: "#fff !important", borderColor: "#858585", borderRadius: "3px" }}
+          name="password"
           autoComplete="password"
           type="password"
           required
