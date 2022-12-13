@@ -5,6 +5,7 @@ export interface IFidoTabbyAlertTag {
   petName: string;
   tagId: string;
   name: string;
+  variantId: string;
 }
 
 const ZAPIER_HOOK_ENDPOINT = "https://hooks.zapier.com/hooks/catch/13667700/bpmf9jp/";
@@ -19,6 +20,7 @@ const sendFidoTabbyAlertTag = async (tag: IFidoTabbyAlertTag, userEmail?: string
         order_number: orderId,
         email: userEmail,
         tag_type: tag?.name,
+        line_id: tag?.variantId,
       });
     return {
       error: "",
