@@ -304,12 +304,12 @@ const MuiCheckout = ({
             console.log("Sending tags");
             await sendFidoTabbyAlertTag(tag, email, orderId);
           });
-          // Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
+          Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
         }
       }
 
       if (token && orderNumber) {
-        // location.href = `/order-finalized?token=${token}&orderNumber=${orderNumber}`;
+        location.href = `/order-finalized?token=${token}&orderNumber=${orderNumber}`;
       }
     } else {
       if (isArray(response.dataError.error)) {
