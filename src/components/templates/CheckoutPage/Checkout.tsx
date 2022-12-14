@@ -300,15 +300,19 @@ const MuiCheckout = ({
       if (fiddoTabyAlertTagsCookie) {
         const fiddoTabyAlertTags: IFidoTabbyAlertTag[] = JSON.parse(fiddoTabyAlertTagsCookie);
         if (fiddoTabyAlertTags.length) {
-          fiddoTabyAlertTags.forEach(async (tag: IFidoTabbyAlertTag) => {
-            console.log("Sending tags");
-            await sendFidoTabbyAlertTag(tag, email, orderId);
-          });
+          await Promise.all(
+            fiddoTabyAlertTags.map(async (tag: IFidoTabbyAlertTag) => {
+              console.log("Sending tags");
+              await sendFidoTabbyAlertTag(tag, email, orderId);
+            }),
+          );
+          console.log("Finish Sending tags");
           Cookies.remove(FIDO_TABBY_ALERT_TAGS_COOKIE);
         }
       }
 
       if (token && orderNumber) {
+        console.log("redirecting");
         location.href = `/order-finalized?token=${token}&orderNumber=${orderNumber}`;
       }
     } else {
