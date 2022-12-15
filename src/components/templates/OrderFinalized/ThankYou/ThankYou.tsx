@@ -4,14 +4,13 @@ import { Box, Button } from "@mui/material";
 import Link from "next/link";
 
 import { checkoutMessages } from "src/core/intl";
+import { useAuth } from "nautical-api";
 
 import * as S from "./styles";
 import { IProps } from "./types";
 
-/**
- * Thank you page after completing the checkout.
- */
 const ThankYou = ({ orderEmail, orderNumber, token }: IProps) => {
+  const { user } = useAuth();
   return (
     <Box className="container">
       <S.Wrapper>
@@ -49,7 +48,7 @@ const ThankYou = ({ orderEmail, orderNumber, token }: IProps) => {
               </Button>
             </a>
           </Link>
-          <Link href={`/account/order-history/${token}`}>
+          <Link href={user ? `/account/order-history/${token}` : "/login"}>
             <a>
               <Button
                 // testingContext="gotoOrderDetailsButton"
