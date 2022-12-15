@@ -157,6 +157,16 @@ const MuiCheckout = ({
     0,
   );
 
+  const validateAddressForm = async () => {
+    var requiredAlert = document.querySelector("#simple-tabpanel-customer .MuiAlert-standardError .MuiAlert-message");
+    console.log(requiredAlert?.innerHTML);
+    if (requiredAlert) {
+      if (requiredAlert?.innerHTML.indexOf("This field is required.") > -1) {
+        requiredAlert.innerHTML = "This field is required.";
+      }
+    }
+  };
+
   const {
     billingAddress,
     shippingAddress,
@@ -834,6 +844,7 @@ const MuiCheckout = ({
                     setIsSubmittingShippingAddress(true);
                     await submitShippingAddressRef.current?.();
                     setIsSubmittingShippingAddress(false);
+                    validateAddressForm();
                   }}
                 >
                   {isSubmittingShippingAddress ? <CircularProgress /> : "continue to shipping"}
