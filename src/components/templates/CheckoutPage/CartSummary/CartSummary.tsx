@@ -66,6 +66,20 @@ const CartSummary = ({
     const promoResult = await addPromoCode(code);
     console.info(promoResult);
     if (promoResult?.dataError?.error) {
+      var CouponCodemsg = document.querySelector("[data-alert-code-msg]");
+      if (CouponCodemsg) {
+        if (CouponCodemsg?.classList.contains("error-promo-code")) {
+          // CouponCodemsg?.removeChild(alertCode);
+          // CouponCodemsg.classList.remove("error-promo-code");
+        } else {
+          CouponCodemsg.classList.add("error-promo-code");
+          var alertCode = document.createElement("span");
+          alertCode.classList.add("alert-promo-code");
+          alertCode.innerHTML = "Promo code is not valid";
+          CouponCodemsg?.appendChild(alertCode);
+        }
+      }
+
       alert.show(
         {
           title: "Could not add promo code",
@@ -73,6 +87,14 @@ const CartSummary = ({
         { type: "error" },
       );
     } else {
+      var AlertPromoCode = document.querySelector(".error-promo-code .alert-promo-code");
+      if (AlertPromoCode) {
+        AlertPromoCode.remove();
+      }
+      var CouponCodemsg = document.querySelector("[data-alert-code-msg]");
+      if (CouponCodemsg) {
+        CouponCodemsg.classList.remove("error-promo-code");
+      }
       alert.show(
         {
           title: "Added promo code",
@@ -140,7 +162,10 @@ const CartSummary = ({
                             <Box style={{ marginTop: "30px " }}>{loyaltyPoints}</Box>
                           ) : (
                             <Box>
-                              <Box sx={promoCodeContainer}>
+                              <Box
+                                data-alert-code-msg
+                                sx={promoCodeContainer}
+                              >
                                 <TextField
                                   onChange={(event) => setCode(event.target.value)}
                                   placeholder="Apply Promo code"
@@ -211,13 +236,17 @@ const CartSummary = ({
                         <Box style={{ marginTop: "30px" }}>{loyaltyPoints}</Box>
                       ) : (
                         <Box>
-                          <Box sx={promoCodeContainer}>
+                          <Box
+                            data-alert-code-msg
+                            sx={promoCodeContainer}
+                          >
                             <TextField
                               onChange={(event) => setCode(event.target.value)}
                               placeholder="Apply Promo code"
                               value={code}
                             />
-                            <Button onClick={() => addPromoCode(code)}>APPLY</Button>
+                            {/* <Button onClick={() => addPromoCode(code)}>APPLY</Button> */}
+                            <Button onClick={handleAddPromoCode}>APPLY</Button>
                           </Box>
                           {promoCodeDiscount?.voucherCode && (
                             <Chip
